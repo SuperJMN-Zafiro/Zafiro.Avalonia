@@ -28,4 +28,11 @@ public class VideoHost : Control, IMediaPlayer
     {
         view.Play();
     }
+
+    public void SeekTo(TimeSpan beginning)
+    {
+        view.SeekTo(beginning);
+    }
+
+    public IObservable<TimeSpan> Position => view.PositionObs;
 }

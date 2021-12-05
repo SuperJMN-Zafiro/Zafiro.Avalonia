@@ -60,6 +60,8 @@ namespace Zafiro.Avalonia.LibVLCSharp
             set => this.SetValue(DurationProperty, value);
         }
 
+        public IObservable<TimeSpan> PositionObs => mediaPlayer.PositionChanged;
+
         /// <inheritdoc />
         protected override IPlatformHandle CreateNativeControlCore(IPlatformHandle parent)
         {
