@@ -33,7 +33,6 @@ namespace Zafiro.Avalonia.LibVLCSharp
             {
                 mediaPlayer.Media = value;
                 mediaPlayer.SeekTo(TimeSpan.Zero);
-                mediaPlayer.Play();
             }
         }
 
@@ -61,12 +60,16 @@ namespace Zafiro.Avalonia.LibVLCSharp
         public void SeekTo(TimeSpan pos)
         {
             mediaPlayer.SeekTo(pos);
-            mediaPlayer.Pause();
         }
 
         public void Pause()
         {
             mediaPlayer.Pause();
+        }
+
+        public void Stop()
+        {
+            mediaPlayer.Stop();
         }
     }
 }

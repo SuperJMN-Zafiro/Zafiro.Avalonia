@@ -60,7 +60,7 @@ namespace Zafiro.Avalonia.LibVLCSharp
             set => this.SetValue(DurationProperty, value);
         }
 
-        public IObservable<TimeSpan> PositionObs => mediaPlayer.PositionChanged;
+        public IObservable<TimeSpan> PositionChanged => mediaPlayer.PositionChanged;
 
         /// <inheritdoc />
         protected override IPlatformHandle CreateNativeControlCore(IPlatformHandle parent)
@@ -95,6 +95,11 @@ namespace Zafiro.Avalonia.LibVLCSharp
         public void Pause()
         {
             mediaPlayer.Pause();
+        }
+
+        public void Stop()
+        {
+            mediaPlayer.Stop();
         }
     }
 }
