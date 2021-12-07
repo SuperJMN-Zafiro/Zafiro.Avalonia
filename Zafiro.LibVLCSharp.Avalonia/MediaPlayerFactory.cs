@@ -23,6 +23,8 @@ namespace Zafiro.Avalonia.LibVLCSharp
 
         public IObservable<IMediaPlayer> Create(object viewModel)
         {
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
             var subject = new Subject<IMediaPlayer>();
             subjects[viewModel] = subject;
             return subject;

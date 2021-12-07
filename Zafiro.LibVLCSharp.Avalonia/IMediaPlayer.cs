@@ -6,5 +6,6 @@
         void SeekTo(TimeSpan beginning);
         IObservable<TimeSpan> Position { get; }
         void Stop();
+        void Pause();
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Avalonia.Controls;
 using ReactiveUI;
 
@@ -21,7 +22,15 @@ public class VideoHost : Control, IMediaPlayer
     private void ViewOnDataContextChanged(object? sender, EventArgs e)
     {
         view.DataContext = DataContext;
-        MessageBus.Current.SendMessage(new MediaPlayerCreated(this, DataContext));
+
+        if (DataContext is not null)
+        {
+            MessageBus.Current.SendMessage(new MediaPlayerCreated(this, DataContext));
+        }
+        else
+        {
+            Debug.WriteLine("DataContext is null in ViewViewAdvanced");
+        }
     }
 
     public void Play()
@@ -38,5 +47,10 @@ public class VideoHost : Control, IMediaPlayer
     public void Stop()
     {
         view.Stop();
+    }
+
+    public void Pause()
+    {
+        view.Pause();
     }
 }
