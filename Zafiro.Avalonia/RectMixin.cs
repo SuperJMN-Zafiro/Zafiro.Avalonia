@@ -5,10 +5,15 @@ namespace Zafiro.Avalonia;
 
 public static class RectMixin
 {
-    public static Rect Multiply(this Rect rect, Vector2 multiplier)
+    public static Rect Multiply(this Rect rect, Vector2 v)
     {
-        var position = new Point(rect.X * multiplier.X, rect.Y * multiplier.Y);
-        var size = new Size(rect.Width * multiplier.X, rect.Height * multiplier.Y);
+        var position = new Point(Coerce(rect.X * v.X), Coerce(rect.Y * v.Y));
+        var size = new Size(Coerce(rect.Width * v.X), Coerce(rect.Height * v.Y));
         return new Rect(position, size);
+    }
+
+    private static double Coerce(double value)
+    {
+        return double.IsNaN(value) ? 0d : value;
     }
 }
