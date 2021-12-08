@@ -8,19 +8,19 @@ namespace Zafiro.Avalonia;
 public class ProportionalCanvas : Panel
 {
     public static readonly AttachedProperty<double> LeftProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Left", 0, false,
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Left", 0D, false,
             BindingMode.TwoWay);
 
     public static readonly AttachedProperty<double> ProportionalWidthProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalWidth", 0, false,
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalWidth", 0D, false,
             BindingMode.TwoWay);
 
     public static readonly AttachedProperty<double> TopProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Top", 0, false,
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Top", 0D, false,
             BindingMode.TwoWay);
 
     public static readonly AttachedProperty<double> ProportionalHeightProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalHeight", 0, false,
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalHeight", 0D, false,
             BindingMode.TwoWay);
 
     protected override Size ArrangeOverride(Size finalSize)
