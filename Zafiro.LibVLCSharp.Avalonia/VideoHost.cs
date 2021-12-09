@@ -44,6 +44,9 @@ public class VideoHost : Control, IMediaPlayer
     }
 
     public IObservable<TimeSpan> Position => view.PositionChanged;
+    public TimeSpan Duration => view.Duration;
+    public IObservable<TimeSpan> LengthChanged => view.DurationChanged;
+
     public void Stop()
     {
         view.Stop();

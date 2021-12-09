@@ -61,6 +61,7 @@ namespace Zafiro.Avalonia.LibVLCSharp
         }
 
         public IObservable<TimeSpan> PositionChanged => mediaPlayer.PositionChanged;
+        public IObservable<TimeSpan> DurationChanged => mediaPlayer.LengthChanged;
 
         /// <inheritdoc />
         protected override IPlatformHandle CreateNativeControlCore(IPlatformHandle parent)
