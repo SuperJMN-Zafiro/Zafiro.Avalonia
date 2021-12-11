@@ -10,19 +10,19 @@ public class ProportionalCanvas : Panel
 {
     public static readonly AttachedProperty<double> LeftProperty =
         AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Left", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Min(0, val));
+            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
 
     public static readonly AttachedProperty<double> ProportionalWidthProperty =
         AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalWidth", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Min(0, val));
+            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
 
     public static readonly AttachedProperty<double> TopProperty =
         AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Top", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Min(0, val));
+            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
 
     public static readonly AttachedProperty<double> ProportionalHeightProperty =
         AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalHeight", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Min(0, val));
+            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
 
     protected override Size ArrangeOverride(Size finalSize)
     {
