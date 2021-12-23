@@ -36,12 +36,16 @@ namespace Zafiro.Avalonia.LibVLCSharp
             this.Bind(DurationProperty, lengthChanged, BindingPriority.Animation);
             this.Bind(PositionProperty, positionChanged, BindingPriority.Animation);
 
-            this.GetObservable(SourceProperty).Subscribe(source => LoadMedia(source));
+            this.GetObservable(SourceProperty).Subscribe(LoadMedia);
         }
 
         private void LoadMedia(Maybe<VideoSource> source)
         {
-            source.Execute(v => v.Setup(mediaPlayer));
+            source.Execute(v =>
+            {
+                v.Setup(mediaPlayer);
+                mediaPlayer.Play();
+            });
         }
 
         public Maybe<VideoSource> Source

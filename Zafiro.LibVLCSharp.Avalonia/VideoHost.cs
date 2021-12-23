@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Avalonia.Controls;
+using Avalonia.Metadata;
 using ReactiveUI;
 
 namespace Zafiro.Avalonia.LibVLCSharp;
@@ -8,6 +9,7 @@ public class VideoHost : Control, IMediaPlayer
 {
     private VideoViewAdvanced view;
 
+    [Content]
     public VideoViewAdvanced View
     {
         get => view;
