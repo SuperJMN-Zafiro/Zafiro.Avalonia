@@ -2,12 +2,12 @@ namespace Zafiro.Avalonia.LibVLCSharp;
 
 public class MediaPlayerCreated
 {
-    public IMediaPlayer MediaPlayer { get; }
+    public IMedia Media { get; }
     public object? ViewDataContext { get; }
 
-    public MediaPlayerCreated(IMediaPlayer mediaPlayer, object viewDataContext)
+    public MediaPlayerCreated(IMedia media, object viewDataContext)
     {
-        MediaPlayer = mediaPlayer;
+        Media = media;
         ViewDataContext = viewDataContext;
     }
 }

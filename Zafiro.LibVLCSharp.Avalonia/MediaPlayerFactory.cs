@@ -5,7 +5,7 @@ namespace Zafiro.Avalonia.LibVLCSharp
 {
     public class MediaPlayerFactory
     {
-        private Dictionary<object, ISubject<IMediaPlayer>> subjects = new();
+        private Dictionary<object, ISubject<IMedia>> subjects = new();
 
         public MediaPlayerFactory()
         {
@@ -17,15 +17,15 @@ namespace Zafiro.Avalonia.LibVLCSharp
                         return;
                     }
 
-                    subjects[created.ViewDataContext].OnNext(created.MediaPlayer);
+                    subjects[created.ViewDataContext].OnNext(created.Media);
                 });
         }
 
-        public IObservable<IMediaPlayer> Create(object viewModel)
+        public IObservable<IMedia> Create(object viewModel)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-            var subject = new Subject<IMediaPlayer>();
+            var subject = new Subject<IMedia>();
             subjects[viewModel] = subject;
             return subject;
         }
