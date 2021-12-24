@@ -1,23 +1,21 @@
 ﻿using System.Reactive.Subjects;
+using CSharpFunctionalExtensions;
 using ReactiveUI;
 
 namespace Zafiro.Avalonia.LibVLCSharp
 {
     public class MediaPlayerFactory
     {
-        private Dictionary<object, ISubject<IMedia>> subjects = new();
+        private Dictionary<object, ISubject<IMedia>> subjects = new Dictionary<object, ISubject<IMedia>>(ReferenceEqualityComparer.Instance);
 
         public MediaPlayerFactory()
         {
             MessageBus.Current.Listen<MediaPlayerCreated>()
                 .Subscribe(created =>
                 {
-                    if (!subjects.ContainsKey(created.ViewDataContext))
-                    {
-                        return;
-                    }
-
-                    subjects[created.ViewDataContext].OnNext(created.Media);
+                    var vm = created.ViewDataContext;
+                    var vmFound = subjects.TryFind(vm);
+                    vmFound.Execute(subject => subject.OnNext(created.Media));
                 });
         }
 
