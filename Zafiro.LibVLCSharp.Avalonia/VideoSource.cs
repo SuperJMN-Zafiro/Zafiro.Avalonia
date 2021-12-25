@@ -20,22 +20,21 @@ public class VideoSource
 
     public long Duration { get; private set; }
 
-    private sealed class StrEqualityComparer : IEqualityComparer<VideoSource>
+    protected bool Equals(VideoSource other)
     {
-        public bool Equals(VideoSource x, VideoSource y)
-        {
-            if (ReferenceEquals(x, y)) return true;
-            if (ReferenceEquals(x, null)) return false;
-            if (ReferenceEquals(y, null)) return false;
-            if (x.GetType() != y.GetType()) return false;
-            return x.str == y.str;
-        }
-
-        public int GetHashCode(VideoSource obj)
-        {
-            return obj.str.GetHashCode();
-        }
+        return str == other.str;
     }
 
-    public static IEqualityComparer<VideoSource> StrComparer { get; } = new StrEqualityComparer();
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((VideoSource) obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return str.GetHashCode();
+    }
 }
