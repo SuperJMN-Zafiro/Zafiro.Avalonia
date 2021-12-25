@@ -39,7 +39,6 @@ namespace Zafiro.Avalonia.LibVLCSharp
 
             this.Bind(DurationProperty, lengthChanged, BindingPriority.Animation);
             this.Bind(PositionProperty, positionChanged, BindingPriority.Animation);
-
             this.GetObservable(SourceProperty).Subscribe(LoadMedia);
         }
 
@@ -48,7 +47,7 @@ namespace Zafiro.Avalonia.LibVLCSharp
             source.Execute(v =>
             {
                 v.Setup(mediaPlayer);
-                if (AutoPlay)
+                if (AutoPlay || mediaPlayer.State == VLCState.Playing)
                 {
                     mediaPlayer.Play();
                 }
