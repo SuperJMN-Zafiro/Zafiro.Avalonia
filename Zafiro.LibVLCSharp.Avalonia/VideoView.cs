@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
@@ -28,15 +29,19 @@ namespace Zafiro.Avalonia.LibVLCSharp
                 nameof(AutoPlay), defaultBindingMode: BindingMode.OneWay);
 
         private readonly CompositeDisposable disposables = new();
-        private readonly MediaPlayer mediaPlayer = new(Vlc.Instance);
+        private readonly MediaPlayer mediaPlayer;
         private readonly IObservable<TimeSpan> positionChanged;
         private readonly IObservable<TimeSpan> lengthChanged;
 
         public VideoView()
         {
+            if (!Design.IsDesignMode)
+            {
+                mediaPlayer = new(Vlc.Instance);
+            }
+
             positionChanged = mediaPlayer.GetPositionChanged();
             lengthChanged = mediaPlayer.GetLengthChanged();
-
             this.Bind(DurationProperty, lengthChanged, BindingPriority.Animation);
             this.Bind(PositionProperty, positionChanged, BindingPriority.Animation);
             this.GetObservable(SourceProperty).Subscribe(maybe => LoadMedia(maybe));
