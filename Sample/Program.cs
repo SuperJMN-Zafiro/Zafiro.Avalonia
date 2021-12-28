@@ -1,8 +1,9 @@
-﻿using System;
 using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
+using System;
 
-namespace VideoTest
+namespace AvaloniaApplication1
 {
     internal class Program
     {
@@ -16,7 +17,6 @@ namespace VideoTest
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
-
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()

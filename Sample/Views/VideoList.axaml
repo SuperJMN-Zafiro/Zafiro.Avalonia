@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:libVlcSharp="clr-namespace:Zafiro.Avalonia.LibVLCSharp;assembly=Zafiro.Avalonia.LibVLCSharp"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:viewModels="clr-namespace:AvaloniaApplication1.ViewModels"
+             x:Class="AvaloniaApplication1.Views.VideoList">
+    <ListBox Items="{Binding Videos}">
+        <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="viewModels:VideoViewModel">
+                <StackPanel>
+                    <libVlcSharp:VideoView Height="200" Width="200"
+                                           Source="{Binding Source, Converter={StaticResource StringToVideoSourceConverter}}">
+                        <i:Interaction.Behaviors>
+                            <libVlcSharp:NotifyDataContextBehavior />
+                        </i:Interaction.Behaviors>
+                    </libVlcSharp:VideoView>
+                    <Button Command="{Binding Media.Play}">Play</Button>
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

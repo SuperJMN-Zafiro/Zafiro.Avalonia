@@ -4,28 +4,28 @@ using ReactiveUI;
 
 namespace Zafiro.Avalonia.LibVLCSharp
 {
-    public class MediaPlayerFactory
+    public class MediaFactory
     {
-        private Dictionary<object, ISubject<IMedia>> subjects = new Dictionary<object, ISubject<IMedia>>(ReferenceEqualityComparer.Instance);
+        private readonly Dictionary<object, ISubject<IMedia>> viewModelToMediaDictionary = new(ReferenceEqualityComparer.Instance);
 
-        public MediaPlayerFactory()
+        public MediaFactory()
         {
             MessageBus.Current.Listen<MediaPlayerCreated>()
                 .Subscribe(created =>
                 {
                     var vm = created.ViewDataContext;
-                    var vmFound = subjects.TryFind(vm);
+                    var vmFound = viewModelToMediaDictionary.TryFind(vm);
                     vmFound.Execute(subject => subject.OnNext(created.Media));
                 });
         }
 
-        public IObservable<IMedia> Create(object viewModel)
+        public IObservable<IMedia> CreateFor(object viewModel)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-            var subject = new Subject<IMedia>();
-            subjects[viewModel] = subject;
-            return subject;
+            var sequence = new Subject<IMedia>();
+            viewModelToMediaDictionary[viewModel] = sequence;
+            return sequence;
         }
     }
 }

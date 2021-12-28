@@ -2,16 +2,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace VideoTest.Views
+namespace AvaloniaApplication1.Views
 {
-    public partial class MainWindow : Window
+    public partial class SinglePlayer : UserControl
     {
-        public MainWindow()
+        public SinglePlayer()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

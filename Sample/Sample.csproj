@@ -4,14 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
@@ -27,5 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zafiro.LibVLCSharp.Avalonia\Zafiro.Avalonia.LibVLCSharp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\SinglePlayer.axaml.cs">
+      <DependentUpon>SinglePlayer.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
