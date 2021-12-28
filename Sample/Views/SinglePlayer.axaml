@@ -4,23 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:a="clr-namespace:AvaloniaApplication1"
              xmlns:zvlc="clr-namespace:Zafiro.Avalonia.LibVLCSharp;assembly=Zafiro.Avalonia.LibVLCSharp"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaApplication1.Views.SinglePlayer">
-    <Design.DataContext>
-        <a:MainViewModelDesign />
-    </Design.DataContext>
+	<Design.DataContext>
+		<a:MainViewModelDesign />
+	</Design.DataContext>
 
-    <DockPanel>
-        <ListBox Width="200" Items="{Binding Videos}" SelectedItem="{Binding SelectedVideo, Mode=TwoWay}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Source}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <zvlc:VideoHost>
-            <zvlc:VideoView AutoPlay="True"
-                Source="{Binding Path=SelectedVideo.Source, Converter={StaticResource StringToVideoSourceConverter}}" />
-        </zvlc:VideoHost>
-    </DockPanel>
+	<DockPanel>
+		<ListBox Width="200" Items="{Binding Videos}" SelectedItem="{Binding SelectedVideo, Mode=TwoWay}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Source}" />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		<zvlc:VideoView AutoPlay="True"
+                        Source="{Binding Path=SelectedVideo.Source, Converter={StaticResource StringToVideoSourceConverter}}">
+			<i:Interaction.Behaviors>
+				<zvlc:NotifyDataContextBehavior />
+			</i:Interaction.Behaviors>
+		</zvlc:VideoView>
+
+	</DockPanel>
 </UserControl>

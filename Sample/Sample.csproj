@@ -21,9 +21,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Zafiro.LibVLCSharp.Avalonia\Zafiro.Avalonia.LibVLCSharp.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Views\SinglePlayer.axaml.cs">
-      <DependentUpon>SinglePlayer.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>
