@@ -16,6 +16,15 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 {
     private readonly CompositeDisposable disposables = new();
 
+    public static readonly StyledProperty<bool> IsFlyoutOpenProperty = AvaloniaProperty.Register<ShowAttachedFlyoutWhenFocusedBehavior, bool>(
+        nameof(IsFlyoutOpen));
+
+    public bool IsFlyoutOpen
+    {
+        get => GetValue(IsFlyoutOpenProperty);
+        set => SetValue(IsFlyoutOpenProperty, value);
+    }
+
     protected override void OnAttachedToVisualTree()
     {
         base.OnAttachedToVisualTree();
@@ -41,20 +50,34 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 
         DescendantPressed(visualRoot)
             .Select(descendant => AssociatedObject.IsVisualAncestorOf(descendant))
-            .Do(isAncestor => flyoutController.IsOpen = isAncestor)
+            .Do(isAncestor =>
+            {
+                flyoutController.IsOpen = isAncestor;
+                IsFlyoutOpen = isAncestor;
+            })
             .Subscribe()
             .DisposeWith(disposables);
 
         Observable.FromEventPattern(AssociatedObject, nameof(InputElement.GotFocus))
-            .Do(_ => flyoutController.IsOpen = true)
+            .Do(_ =>
+            {
+                flyoutController.IsOpen = true;
+                IsFlyoutOpen = true;
+            })
             .Subscribe()
             .DisposeWith(disposables);
 
         Observable.FromEventPattern(AssociatedObject, nameof(InputElement.LostFocus))
             .Where(_ => !IsFocusInside(flyoutBase))
-            .Do(_ => flyoutController.IsOpen = false)
+            .Do(_ =>
+            {
+                flyoutController.IsOpen = false;
+                IsFlyoutOpen = false;
+            })
             .Subscribe()
             .DisposeWith(disposables);
+
+        this.GetObservable(IsFlyoutOpenProperty).Subscribe(b => flyoutController.IsOpen = b);
     }
 
     protected override void OnDetachedFromVisualTree()
