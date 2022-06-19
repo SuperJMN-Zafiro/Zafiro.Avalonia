@@ -81,6 +81,11 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 			.DisposeWith(disposables);
 
 		this.GetObservable(IsFlyoutOpenProperty).Subscribe(b => flyoutController.IsOpen = b);
+
+		if (IsFlyoutOpen)
+		{
+			flyoutController.IsOpen = false;
+		}
 	}
 
 	protected override void OnDetachedFromVisualTree()
