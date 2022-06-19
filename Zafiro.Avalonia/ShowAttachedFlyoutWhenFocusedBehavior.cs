@@ -1,4 +1,4 @@
-﻿using System.Reactive.Disposables;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -14,102 +14,107 @@ namespace Zafiro.Avalonia;
 
 public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 {
-    private readonly CompositeDisposable disposables = new();
+	public static readonly StyledProperty<bool> IsFlyoutOpenProperty =
+		AvaloniaProperty.Register<ShowAttachedFlyoutWhenFocusedBehavior, bool>(
+			nameof(IsFlyoutOpen));
 
-    public static readonly StyledProperty<bool> IsFlyoutOpenProperty = AvaloniaProperty.Register<ShowAttachedFlyoutWhenFocusedBehavior, bool>(
-        nameof(IsFlyoutOpen));
+	private readonly CompositeDisposable disposables = new();
 
-    public bool IsFlyoutOpen
-    {
-        get => GetValue(IsFlyoutOpenProperty);
-        set => SetValue(IsFlyoutOpenProperty, value);
-    }
+	private FlyoutController flyoutController;
 
-    protected override void OnAttachedToVisualTree()
-    {
-        base.OnAttachedToVisualTree();
+	public bool IsFlyoutOpen
+	{
+		get => GetValue(IsFlyoutOpenProperty);
+		set => SetValue(IsFlyoutOpenProperty, value);
+	}
 
-        if (AssociatedObject is null)
-        {
-            return;
-        }
+	protected override void OnAttachedToVisualTree()
+	{
+		base.OnAttachedToVisualTree();
 
-        var flyoutBase = FlyoutBase.GetAttachedFlyout(AssociatedObject);
-        if (flyoutBase is null)
-        {
-            return;
-        }
+		if (AssociatedObject is null)
+		{
+			return;
+		}
 
-        if (AssociatedObject.GetVisualRoot() is not Control visualRoot)
-        {
-            return;
-        }
+		var flyoutBase = FlyoutBase.GetAttachedFlyout(AssociatedObject);
+		if (flyoutBase is null)
+		{
+			return;
+		}
 
-        var flyoutController = new FlyoutController(flyoutBase, AssociatedObject)
-            .DisposeWith(disposables);
+		if (AssociatedObject.GetVisualRoot() is not Control visualRoot)
+		{
+			return;
+		}
 
-        DescendantPressed(visualRoot)
-            .Select(descendant => AssociatedObject.IsVisualAncestorOf(descendant))
-            .Do(isAncestor =>
-            {
-                flyoutController.IsOpen = isAncestor;
-                IsFlyoutOpen = isAncestor;
-            })
-            .Subscribe()
-            .DisposeWith(disposables);
+		flyoutController = new FlyoutController(flyoutBase, AssociatedObject)
+			.DisposeWith(disposables);
 
-        Observable.FromEventPattern(AssociatedObject, nameof(InputElement.GotFocus))
-            .Do(_ =>
-            {
-                flyoutController.IsOpen = true;
-                IsFlyoutOpen = true;
-            })
-            .Subscribe()
-            .DisposeWith(disposables);
+		DescendantPressed(visualRoot)
+			.Select(descendant => AssociatedObject.IsVisualAncestorOf(descendant))
+			.Do(isAncestor =>
+			{
+				flyoutController.IsOpen = isAncestor;
+				IsFlyoutOpen = isAncestor;
+			})
+			.Subscribe()
+			.DisposeWith(disposables);
 
-        Observable.FromEventPattern(AssociatedObject, nameof(InputElement.LostFocus))
-            .Where(_ => !IsFocusInside(flyoutBase))
-            .Do(_ =>
-            {
-                flyoutController.IsOpen = false;
-                IsFlyoutOpen = false;
-            })
-            .Subscribe()
-            .DisposeWith(disposables);
+		Observable.FromEventPattern(AssociatedObject, nameof(InputElement.GotFocus))
+			.Do(_ =>
+			{
+				flyoutController.IsOpen = true;
+				IsFlyoutOpen = true;
+			})
+			.Subscribe()
+			.DisposeWith(disposables);
 
-        this.GetObservable(IsFlyoutOpenProperty).Subscribe(b => flyoutController.IsOpen = b);
-    }
+		Observable.FromEventPattern(AssociatedObject, nameof(InputElement.LostFocus))
+			.Where(_ => !IsFocusInside(flyoutBase))
+			.Do(_ =>
+			{
+				flyoutController.IsOpen = false;
+				IsFlyoutOpen = false;
+			})
+			.Subscribe()
+			.DisposeWith(disposables);
 
-    protected override void OnDetachedFromVisualTree()
-    {
-        disposables.Dispose();
-    }
+		this.GetObservable(IsFlyoutOpenProperty).Subscribe(b => flyoutController.IsOpen = b);
+	}
 
-    private static IObservable<Visual> DescendantPressed(Control visualRoot)
-    {
-        return visualRoot.OnEvent(InputElement.PointerPressedEvent, RoutingStrategies.Tunnel)
-            .Select(ea => ea.EventArgs.Source as Visual)
-            .Where(s => s is not null)
-            .Where(s => s is not LightDismissOverlayLayer);
-    }
+	protected override void OnDetachedFromVisualTree()
+	{
+		disposables.Dispose();
+	}
 
-    private static bool IsFocusInside(IPopupHostProvider popupHostProvider)
-    {
-        var focusManager = FocusManager.Instance;
+	private static IObservable<Visual> DescendantPressed(IInteractive interactive)
+	{
+		return
+			from eventPattern in interactive.OnEvent(InputElement.PointerPressedEvent, RoutingStrategies.Tunnel)
+			let source = eventPattern.EventArgs.Source as Visual
+			where source is not null
+			where source is not LightDismissOverlayLayer
+			select source;
+	}
 
-        if (focusManager?.Current is null)
-        {
-            return false;
-        }
+	private static bool IsFocusInside(IPopupHostProvider popupHostProvider)
+	{
+		var focusManager = FocusManager.Instance;
 
-        var popupPresenter = popupHostProvider.PopupHost?.Presenter;
+		if (focusManager?.Current is null)
+		{
+			return false;
+		}
 
-        if (popupPresenter is null)
-        {
-            return false;
-        }
+		var popupPresenter = popupHostProvider.PopupHost?.Presenter;
 
-        var currentlyFocused = focusManager.Current;
-        return popupPresenter.IsVisualAncestorOf(currentlyFocused);
-    }
+		if (popupPresenter is null)
+		{
+			return false;
+		}
+
+		var currentlyFocused = focusManager.Current;
+		return popupPresenter.IsVisualAncestorOf(currentlyFocused);
+	}
 }
