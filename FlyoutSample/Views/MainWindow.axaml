@@ -17,8 +17,11 @@
 
     <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Text="Click me">
         <FlyoutBase.AttachedFlyout>
-            <Flyout>
-                <Button Content="Close flyout!" Command="{Binding HideFlyout}" />
+            <Flyout ShowMode="Transient">
+                <StackPanel>
+                    <TextBox>Hi</TextBox>
+                    <Button Focusable="False" Content="Close flyout!" Command="{Binding HideFlyout}" />
+                </StackPanel>
             </Flyout>
         </FlyoutBase.AttachedFlyout>
 

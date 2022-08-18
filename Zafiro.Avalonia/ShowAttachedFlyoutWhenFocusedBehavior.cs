@@ -111,10 +111,10 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 		isFocused.Subscribe(b => Debug.WriteLine($"Is focused {b}"));
 
 		return isFocused
-			.Buffer(TimeSpan.FromSeconds(0.5))
-			.Where(focusedList => focusedList.Any())
-			.Select(focusedList => focusedList.Any(focused => focused))
-			.DistinctUntilChanged()
+            .Buffer(TimeSpan.FromSeconds(0.3))
+            .Where(focusedList => focusedList.Any())
+            .Select(focusedList => focusedList.Any(focused => focused))
+            .DistinctUntilChanged()
 			.ObserveOn(RxApp.MainThreadScheduler)
 			.Do(isOpen => IsFlyoutOpen = isOpen)
 			.Subscribe();
