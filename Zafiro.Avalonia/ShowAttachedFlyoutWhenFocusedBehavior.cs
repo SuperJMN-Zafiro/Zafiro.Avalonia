@@ -10,9 +10,8 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
-using Zafiro.Avalonia;
 
-namespace WalletWasabi.Fluent.Behaviors;
+namespace Zafiro.Avalonia;
 
 public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 {
