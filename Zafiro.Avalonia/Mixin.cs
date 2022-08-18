@@ -4,12 +4,17 @@ using Avalonia.Interactivity;
 
 namespace Zafiro.Avalonia;
 
-public static class Mixin
+public static class AvaloniaMixin
 {
-    public static IObservable<EventPattern<TEventArgs>> OnEvent<TEventArgs>(this IInteractive target, RoutedEvent<TEventArgs> routedEvent, RoutingStrategies routingStrategies) where TEventArgs : RoutedEventArgs
+    public static IObservable<EventPattern<TEventArgs>> OnEvent<TEventArgs>(
+        this IInteractive target,
+        RoutedEvent<TEventArgs> routedEvent,
+        RoutingStrategies routingStrategies = RoutingStrategies.Bubble) where TEventArgs : RoutedEventArgs
     {
         return Observable.FromEventPattern<TEventArgs>(
             add => target.AddHandler(routedEvent, add, routingStrategies),
             remove => target.RemoveHandler(routedEvent, remove));
     }
+
+    public static IObservable<Unit> ToSignal<T>(this IObservable<T> source) => source.Select(_ => Unit.Default);
 }
