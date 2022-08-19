@@ -99,15 +99,16 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 			.Select(_ => ((IPopupHostProvider) flyoutBase).PopupHost?.Presenter)
 			.WhereNotNull();
 
-		var associatedGotFocus = associatedObject.OnEvent(InputElement.GotFocusEvent).ToSignal();
-		var associatedLostFocus = associatedObject.OnEvent(InputElement.LostFocusEvent).ToSignal();
-		var popupGotFocus = currentPopupHost.Select(x => x.OnEvent(InputElement.GotFocusEvent)).Switch().ToSignal();
+		var popupGotFocus = currentPopupHost.Select(x => x.GetObservable(InputElement.GotFocusEvent)).Switch().ToSignal();
 		var popupLostFocus = currentPopupHost.Select(x => x.OnEvent(InputElement.LostFocusEvent)).Switch().ToSignal();
 
-		var isFocused = associatedGotFocus
-			.Merge(popupGotFocus).Select(_ => true)
-			.Merge(associatedLostFocus.Merge(popupLostFocus).Select(_ => false));
-		
+        var associatedIsFocused2 = AssociatedObject.GetObservable(InputElement.IsFocusedProperty);
+        var flyoutGotFocus2 = currentPopupHost.Select(x => x.GetObservable(InputElement.IsFocusedProperty)).Switch();
+
+        var flyoutGotFocus = popupGotFocus.Select(_ => true).Merge(popupLostFocus.Select(_ => false));
+
+		var isFocused = associatedIsFocused2.Merge(flyoutGotFocus);
+        
 		return isFocused
             .Buffer(TimeSpan.FromSeconds(0.1))
             .Where(focusedList => focusedList.Any())
