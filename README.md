@@ -47,3 +47,7 @@ Usage:
 ```
 
 * If you want to programmatically hide the flyout, you need to move the focus away from the control :) There's no other way to do it!
+
+# NumberBoxBehavior
+
+A behavior to force a TextBox to accept numbers only.
