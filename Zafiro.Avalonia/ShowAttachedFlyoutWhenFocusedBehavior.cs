@@ -107,16 +107,14 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 		var isFocused = associatedGotFocus
 			.Merge(popupGotFocus).Select(_ => true)
 			.Merge(associatedLostFocus.Merge(popupLostFocus).Select(_ => false));
-
-		isFocused.Subscribe(b => Debug.WriteLine($"Is focused {b}"));
-
+		
 		return isFocused
-            .Buffer(TimeSpan.FromSeconds(0.3))
+            .Buffer(TimeSpan.FromSeconds(0.1))
             .Where(focusedList => focusedList.Any())
-            .Select(focusedList => focusedList.Any(focused => focused))
+            .Select(focusedList => focusedList.Last())
             .DistinctUntilChanged()
-			.ObserveOn(RxApp.MainThreadScheduler)
-			.Do(isOpen => IsFlyoutOpen = isOpen)
-			.Subscribe();
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Do(isOpen => IsFlyoutOpen = isOpen)
+            .Subscribe();
 	}
 }
