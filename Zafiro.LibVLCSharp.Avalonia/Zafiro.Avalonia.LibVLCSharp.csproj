@@ -15,11 +15,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="0.10.15" />
-		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.14" />
-		<PackageReference Include="CSharpFunctionalExtensions" Version="2.29.3" />
+		<PackageReference Include="Avalonia" Version="0.10.18" />
+		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
+		<PackageReference Include="CSharpFunctionalExtensions" Version="2.31.1" />
 		<PackageReference Include="LibVLCSharp" Version="3.6.6" />
-		<PackageReference Include="ReactiveUI" Version="18.1.8" />
+		<PackageReference Include="ReactiveUI" Version="18.3.1" />
 	</ItemGroup>
 
 </Project>

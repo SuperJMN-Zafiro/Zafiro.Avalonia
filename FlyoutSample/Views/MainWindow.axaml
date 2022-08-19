@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:FlyoutSample.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:avalonia="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FlyoutSample.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Focusable="True"
+        Title="FlyoutSample">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Text="Click me">
+        <FlyoutBase.AttachedFlyout>
+            <Flyout>
+                <StackPanel>
+                    <TextBox>Hi</TextBox>
+                    <Button Content="Close flyout!" Command="{Binding HideFlyout}" />
+                </StackPanel>
+            </Flyout>
+        </FlyoutBase.AttachedFlyout>
+
+        <i:Interaction.Behaviors>
+            <avalonia:ShowAttachedFlyoutWhenFocusedBehavior IsFlyoutOpen="{Binding IsFlyoutOpen}" />
+        </i:Interaction.Behaviors>
+    </TextBox>
+
+</Window>
