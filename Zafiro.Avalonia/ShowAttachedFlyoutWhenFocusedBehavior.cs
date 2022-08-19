@@ -98,9 +98,7 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
         var mergedFocused = isAssociatedObjectFocused.Merge(isPopupFocused);
 
         var weAreFocused = mergedFocused
-            .Buffer(TimeSpan.FromSeconds(0.1))
-            .Where(focusedList => focusedList.Any())
-            .Select(focusedList => focusedList.Last())
+            .Throttle(TimeSpan.FromSeconds(0.1))
             .DistinctUntilChanged();
         
 		return weAreFocused
