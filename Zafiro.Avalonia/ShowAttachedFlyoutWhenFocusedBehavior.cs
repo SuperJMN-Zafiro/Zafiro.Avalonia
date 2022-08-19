@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia;
@@ -6,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Diagnostics;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
@@ -91,31 +89,36 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : Behavior<Control>
 	}
 
 	private IDisposable FocusBasedFlyoutOpener(
-		IInteractive associatedObject,
+		IAvaloniaObject associatedObject,
 		FlyoutBase flyoutBase)
 	{
-		var currentPopupHost = Observable
-			.FromEventPattern(flyoutBase, nameof(flyoutBase.Opened))
-			.Select(_ => ((IPopupHostProvider) flyoutBase).PopupHost?.Presenter)
-			.WhereNotNull();
+		var isPopupFocused = GetPopupIsFocused(flyoutBase);
+		var isAssociatedObjectFocused = associatedObject.GetObservable(InputElement.IsFocusedProperty);
 
-		var popupGotFocus = currentPopupHost.Select(x => x.GetObservable(InputElement.GotFocusEvent)).Switch().ToSignal();
-		var popupLostFocus = currentPopupHost.Select(x => x.OnEvent(InputElement.LostFocusEvent)).Switch().ToSignal();
+        var mergedFocused = isAssociatedObjectFocused.Merge(isPopupFocused);
 
-        var associatedIsFocused2 = AssociatedObject.GetObservable(InputElement.IsFocusedProperty);
-        var flyoutGotFocus2 = currentPopupHost.Select(x => x.GetObservable(InputElement.IsFocusedProperty)).Switch();
-
-        var flyoutGotFocus = popupGotFocus.Select(_ => true).Merge(popupLostFocus.Select(_ => false));
-
-		var isFocused = associatedIsFocused2.Merge(flyoutGotFocus);
-        
-		return isFocused
+        var weAreFocused = mergedFocused
             .Buffer(TimeSpan.FromSeconds(0.1))
             .Where(focusedList => focusedList.Any())
             .Select(focusedList => focusedList.Last())
-            .DistinctUntilChanged()
+            .DistinctUntilChanged();
+        
+		return weAreFocused
             .ObserveOn(RxApp.MainThreadScheduler)
             .Do(isOpen => IsFlyoutOpen = isOpen)
             .Subscribe();
 	}
+
+    private static IObservable<bool> GetPopupIsFocused(FlyoutBase flyoutBase)
+    {
+        var currentPopupHost = Observable
+            .FromEventPattern(flyoutBase, nameof(flyoutBase.Opened))
+            .Select(_ => ((IPopupHostProvider) flyoutBase).PopupHost?.Presenter)
+            .WhereNotNull();
+
+        var popupGotFocus = currentPopupHost.Select(x => x.OnEvent(InputElement.GotFocusEvent)).Switch().ToSignal();
+        var popupLostFocus = currentPopupHost.Select(x => x.OnEvent(InputElement.LostFocusEvent)).Switch().ToSignal();
+        var flyoutGotFocus = popupGotFocus.Select(_ => true).Merge(popupLostFocus.Select(_ => false));
+        return flyoutGotFocus;
+    }
 }
