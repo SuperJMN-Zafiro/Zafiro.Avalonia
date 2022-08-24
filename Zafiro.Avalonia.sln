@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.LibVLCSharp", "Zafiro.LibVLCSharp.Avalonia\Zafiro.Avalonia.LibVLCSharp.csproj", "{D7510A31-CFEC-4A15-96E6-C73CCF2B93D8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia", "Zafiro.Avalonia\Zafiro.Avalonia.csproj", "{B7261318-9877-4651-BD01-1A2E0CE1BA14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "Sample\Sample.csproj", "{D2C851B0-A080-471E-A020-0854898F6372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlyoutSample", "FlyoutSample\FlyoutSample.csproj", "{F6732272-AAD3-41DE-9A21-565A6E420D64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyoutSample", "FlyoutSample\FlyoutSample.csproj", "{F6732272-AAD3-41DE-9A21-565A6E420D64}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testers", "Testers", "{054C23B9-FCEB-43C4-B8F5-24AB59670ADA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,18 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D7510A31-CFEC-4A15-96E6-C73CCF2B93D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7510A31-CFEC-4A15-96E6-C73CCF2B93D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7510A31-CFEC-4A15-96E6-C73CCF2B93D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7510A31-CFEC-4A15-96E6-C73CCF2B93D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7261318-9877-4651-BD01-1A2E0CE1BA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7261318-9877-4651-BD01-1A2E0CE1BA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7261318-9877-4651-BD01-1A2E0CE1BA14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7261318-9877-4651-BD01-1A2E0CE1BA14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2C851B0-A080-471E-A020-0854898F6372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2C851B0-A080-471E-A020-0854898F6372}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2C851B0-A080-471E-A020-0854898F6372}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2C851B0-A080-471E-A020-0854898F6372}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6732272-AAD3-41DE-9A21-565A6E420D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6732272-AAD3-41DE-9A21-565A6E420D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6732272-AAD3-41DE-9A21-565A6E420D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6732272-AAD3-41DE-9A21-565A6E420D64} = {054C23B9-FCEB-43C4-B8F5-24AB59670ADA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C43AF265-4D42-4B60-AEF7-829FF94E6F33}

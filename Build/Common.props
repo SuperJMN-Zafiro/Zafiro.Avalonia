@@ -1,0 +1,24 @@
+<Project>
+	<PropertyGroup>
+		<AssemblyName>Zafiro.$(MSBuildProjectName)</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>$(MSBuildProjectName)</PackageId>
+		<Authors>SuperJMN</Authors>
+		<Description>Avalonia + SuperJMN = Success!</Description>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<PackageReleaseNotes>Crema all around</PackageReleaseNotes>
+		<PackageTags>WPF XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>
+		<Product>Zafiro.Avalonia</Product>
+		<Company>José Manuel Nieto (@SuperJMN)</Company>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageIconUrl />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\icon.png" Pack="true" PackagePath=""/>
+	</ItemGroup>
+
+</Project>
