@@ -51,3 +51,17 @@ Usage:
 # NumberBoxBehavior
 
 A behavior to force a TextBox to accept numbers only.
+
+# MultiSelector
+
+A control that can automate multiple selection in lists:
+
+- Given a collection, it will reflect the status of the individual items with 3-state.
+- Clicking it will toggle the status of all the items in the given collection.
+
+```xml
+ <views:MultiSelector Items="{Binding Items}" />
+```
+
+https://user-images.githubusercontent.com/3109851/189864634-6638e86f-f40b-4349-8c64-71fec7de7d5f.mp4
+
