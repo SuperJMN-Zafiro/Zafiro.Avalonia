@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -20,27 +19,27 @@ public class MultiSelector : ItemsControl
         var changes = this
             .WhenAnyValue(x => x.Items)
             .WhereNotNull()
-            .Select(x => x.Cast<ISelectableNotify>())
+            .Select(x => x.Cast<ISelectable>())
             .Select(x => x.AsObservableChangeSet())
             .Switch();
 
-        var observable = changes
+        var isSelected = changes
             .AutoRefresh(x => x.IsSelected)
             .ToCollection()
             .Select(GetSelectionState);
 
-        BehaviorSubject<bool?> subject = new BehaviorSubject<bool?>(false);
-        observable.Subscribe(subject);
+        var isSelectedSubject = new BehaviorSubject<bool?>(false);
+        isSelected.Subscribe(isSelectedSubject);
 
-        IsChecked = observable
+        IsChecked = isSelected
             .Where(_ => canUpdate)
             .Replay(1)
             .RefCount();
 
-        Toggle = ReactiveCommand.CreateFromObservable(() => Do(changes, subject));
+        Toggle = ReactiveCommand.CreateFromObservable(() => ToggleChildrenSelection(changes, isSelectedSubject));
     }
 
-    private IObservable<IReadOnlyCollection<ISelectableNotify>> Do(IObservable<IChangeSet<ISelectableNotify>> changes, BehaviorSubject<bool?> subject)
+    private IObservable<IReadOnlyCollection<ISelectable>> ToggleChildrenSelection(IObservable<IChangeSet<ISelectable>> changes, BehaviorSubject<bool?> subject)
     {
         return changes
             .ToCollection()
@@ -54,17 +53,12 @@ public class MultiSelector : ItemsControl
             .Take(1);
     }
 
-    public ReactiveCommand<Unit, IReadOnlyCollection<ISelectableNotify>> Toggle { get; }
+    public ReactiveCommand<Unit, IReadOnlyCollection<ISelectable>> Toggle { get; }
 
-    private static bool? GetSelectionState(IReadOnlyCollection<ISelectableNotify> collection)
+    private static bool? GetSelectionState(IReadOnlyCollection<ISelectable> collection)
     {
         return collection.All(x => x.IsSelected) ? true : collection.Any(x => x.IsSelected) ? (bool?) null : false;
     }
 
     public IObservable<bool?> IsChecked { get; }
-}
-
-public interface ISelectableNotify : INotifyPropertyChanged
-{
-    public bool IsSelected { get; set; }
 }

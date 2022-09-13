@@ -23,7 +23,7 @@ public class MainWindowViewModel : ViewModelBase
 }
 
 
-public class ViewModel : ViewModelBase, ISelectableNotify
+public class ViewModel : ViewModelBase, ISelectable
 {
     [Reactive]
     public bool IsSelected { get; set; }
