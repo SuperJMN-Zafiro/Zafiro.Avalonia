@@ -2,17 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Avalonia;
 using Avalonia.Controls;
 using DynamicData;
 using ReactiveUI;
 
 namespace MultiSelectorSample.Views;
 
-public class MultiSelector : ItemsControl
+public class MultiSelector : ItemsControl, IDisposable
 {
-    private bool canUpdate = true;
+    private readonly CompositeDisposable disposables = new();
 
     public MultiSelector()
     {
@@ -22,7 +24,7 @@ public class MultiSelector : ItemsControl
             .Select(x => x.Cast<ISelectable>())
             .Select(x => x.AsObservableChangeSet())
             .Switch();
-
+        
         var isSelected = changes
             .AutoRefresh(x => x.IsSelected)
             .ToCollection()
@@ -30,35 +32,57 @@ public class MultiSelector : ItemsControl
 
         var isSelectedSubject = new BehaviorSubject<bool?>(false);
         isSelected.Subscribe(isSelectedSubject);
+        
+        Toggle = ReactiveCommand.CreateFromObservable(() =>
+            {
+                bool? currentValue = isSelectedSubject.Value;
+                return ToggleChildrenSelection(changes, GetNextValue(currentValue));
+            })
+            .DisposeWith(disposables);
 
         IsChecked = isSelected
-            .Where(_ => canUpdate)
+            .CombineLatest(Toggle.IsExecuting)
+            .Where(x => !x.Second)
+            .Select(x => x.First)
             .Replay(1)
             .RefCount();
-
-        Toggle = ReactiveCommand.CreateFromObservable(() => ToggleChildrenSelection(changes, isSelectedSubject));
     }
 
-    private IObservable<IReadOnlyCollection<ISelectable>> ToggleChildrenSelection(IObservable<IChangeSet<ISelectable>> changes, BehaviorSubject<bool?> subject)
+    public ReactiveCommand<Unit, IReadOnlyCollection<ISelectable>> Toggle { get; }
+
+    public IObservable<bool?> IsChecked { get; }
+
+    public void Dispose()
+    {
+        disposables.Dispose();
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        disposables.Dispose();
+        base.OnDetachedFromVisualTree(e);
+    }
+
+    private static bool? GetSelectionState(IReadOnlyCollection<ISelectable> collection)
+    {
+        return collection.All(x => x.IsSelected) ? true : collection.Any(x => x.IsSelected) ? null : false;
+    }
+
+    private static IObservable<IReadOnlyCollection<ISelectable>> ToggleChildrenSelection(
+        IObservable<IChangeSet<ISelectable>> changes, bool getNextValue)
     {
         return changes
             .ToCollection()
             .Do(x =>
             {
-                var toSet = !subject.Value ?? false;
-                canUpdate = false;
-                x.ToList().ForEach(notify => notify.IsSelected = toSet);
-                canUpdate = true;
+                var isChildSelected = getNextValue;
+                x.ToList().ForEach(notify => notify.IsSelected = isChildSelected);
             })
             .Take(1);
     }
 
-    public ReactiveCommand<Unit, IReadOnlyCollection<ISelectable>> Toggle { get; }
-
-    private static bool? GetSelectionState(IReadOnlyCollection<ISelectable> collection)
+    private static bool GetNextValue(bool? currentValue)
     {
-        return collection.All(x => x.IsSelected) ? true : collection.Any(x => x.IsSelected) ? (bool?) null : false;
+        return !currentValue ?? false;
     }
-
-    public IObservable<bool?> IsChecked { get; }
 }
