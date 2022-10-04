@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -8,7 +9,9 @@ using System.Reactive.Subjects;
 using Avalonia;
 using Avalonia.Controls;
 using DynamicData;
+using DynamicData.Binding;
 using ReactiveUI;
+using Zafiro.Avalonia;
 
 namespace MultiSelectorSample.Views;
 
@@ -21,10 +24,10 @@ public class MultiSelector : ItemsControl, IDisposable
         var changes = this
             .WhenAnyValue(x => x.Items)
             .WhereNotNull()
-            .Select(x => x.Cast<ISelectable>())
-            .Select(x => x.AsObservableChangeSet())
+            .OfType<ReadOnlyObservableCollection<ISelectable>>()
+            .Select(x => x.ToObservableChangeSet())
             .Switch();
-        
+
         var isSelected = changes
             .AutoRefresh(x => x.IsSelected)
             .ToCollection()
@@ -32,10 +35,10 @@ public class MultiSelector : ItemsControl, IDisposable
 
         var isSelectedSubject = new BehaviorSubject<bool?>(false);
         isSelected.Subscribe(isSelectedSubject);
-        
+
         Toggle = ReactiveCommand.CreateFromObservable(() =>
             {
-                bool? currentValue = isSelectedSubject.Value;
+                var currentValue = isSelectedSubject.Value;
                 return ToggleChildrenSelection(changes, GetNextValue(currentValue));
             })
             .DisposeWith(disposables);
@@ -44,8 +47,7 @@ public class MultiSelector : ItemsControl, IDisposable
             .CombineLatest(Toggle.IsExecuting)
             .Where(x => !x.Second)
             .Select(x => x.First)
-            .Replay(1)
-            .RefCount();
+            .ReplayLastActive();
     }
 
     public ReactiveCommand<Unit, IReadOnlyCollection<ISelectable>> Toggle { get; }
