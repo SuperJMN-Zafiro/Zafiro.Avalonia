@@ -6,34 +6,34 @@ namespace Zafiro.Avalonia;
 
 public static class TreeDataGridMixin
 {
-    public static int ModelToRowIndex<T>(this HierarchicalTreeDataGridSource<T> source, T model, Func<T, IEnumerable<T>?> getChildren)
+    public static void BringIntoView(this TreeDataGrid treeDataGrid, object model)
     {
-        var modelPath = source.Items.GetPath(model, getChildren);
-        var modelIndex = new IndexPath(modelPath);
-        return source.Rows.ModelIndexToRowIndex(modelIndex);
-    }
-    
-    public static void BringIntoView<T>(this TreeDataGrid treeDataGrid, T model, Func<T, IEnumerable<T>> getChildren)
-    {
-        if (treeDataGrid is { RowsPresenter: { Items: { } } rowsPresenter, Source: HierarchicalTreeDataGridSource<T> source })
+        if (treeDataGrid is { RowsPresenter: { Items: { } } rowsPresenter, Source: { } source })
         {
-            var modelPath = source.Items.GetPath(model, getChildren);
-            ExpandPath<T>(source, modelPath);
+            var modelPath = source.Items.GetPath(model, source.GetModelChildren);
+            ExpandPath(source, modelPath);
 
-            var index = ModelToRowIndex(source, model, getChildren);
+            var index = ModelToRowIndex(source, model);
             
             rowsPresenter.BringIntoView(index);
         }
     }
 
-    public static void ExpandPath<T>(this ITreeDataGridSource source, IEnumerable<int> modelPath)
+    public static int ModelToRowIndex(this ITreeDataGridSource source, object model)
+    {
+        var modelPath = source.Items.GetPath(model, source.GetModelChildren);
+        var modelIndex = new IndexPath(modelPath);
+        return source.Rows.ModelIndexToRowIndex(modelIndex);
+    }
+
+    public static void ExpandPath(this ITreeDataGridSource source, IEnumerable<int> modelPath)
     {
         var paths = Grow(modelPath);
 
         foreach (var path in paths.SkipLast(1))
         {
             var rowId = source.Rows.ModelIndexToRowIndex(new IndexPath(path));
-            var row = (HierarchicalRow<T>) source.Rows[rowId];
+            var row = (IExpander) source.Rows[rowId];
             row.IsExpanded = true;
         }
     }

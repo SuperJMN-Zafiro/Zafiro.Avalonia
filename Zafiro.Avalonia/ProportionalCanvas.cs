@@ -37,10 +37,10 @@ public class ProportionalCanvas : Panel
 
     private static Rect GetChildRect(Size finalSize, IControl child)
     {
-        var left = child.GetValue(LeftProperty);
-        var width = child.GetValue(ProportionalWidthProperty);
-        var top = child.GetValue(TopProperty);
-        var height = child.GetValue(ProportionalHeightProperty);
+        var left = child.GetValue<double>(LeftProperty);
+        var width = child.GetValue<double>(ProportionalWidthProperty);
+        var top = child.GetValue<double>(TopProperty);
+        var height = child.GetValue<double>(ProportionalHeightProperty);
 
         var rect = new Rect(left, top, width, height);
         var finalRect = rect.Multiply(new Vector2((float)finalSize.Width, (float)finalSize.Height));

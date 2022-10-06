@@ -19,12 +19,8 @@
         <TreeDataGrid Source="{Binding Source}">
 
 			<i:Interaction.Behaviors>
-				<global:ScrollToSelectedItemBehavior x:TypeArguments="vm:Model">
-					<x:Arguments>
-						<x:String>Children</x:String>
-					</x:Arguments>
-				</global:ScrollToSelectedItemBehavior>
-			</i:Interaction.Behaviors>
+				<global:ScrollToSelectedItemBehavior />
+            </i:Interaction.Behaviors>
 		</TreeDataGrid>
 	</DockPanel>
 
