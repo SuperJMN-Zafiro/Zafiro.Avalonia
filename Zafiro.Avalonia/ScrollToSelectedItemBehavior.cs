@@ -1,13 +1,21 @@
-﻿using System.Reactive.Disposables;
+﻿using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
+using Zafiro.Avalonia;
 
-namespace Zafiro.Avalonia;
-
-public class ScrollToSelectedItemBehavior : Behavior<TreeDataGrid>
+public class ScrollToSelectedItemBehavior<T> : Behavior<TreeDataGrid> where T : class
 {
+    public ScrollToSelectedItemBehavior(string str)
+    {
+        ChildrenProperty = typeof(T).GetProperty(str);
+    }
+
+    public PropertyInfo ChildrenProperty { get; }
+
     private readonly CompositeDisposable disposables = new();
 
     protected override void OnAttachedToVisualTree()
@@ -15,9 +23,10 @@ public class ScrollToSelectedItemBehavior : Behavior<TreeDataGrid>
         if (AssociatedObject is { SelectionInteraction: { } selection, RowSelection: { } rowSelection })
         {
             Observable.FromEventPattern(selection, nameof(selection.SelectionChanged))
-                .Select(_ => rowSelection.SelectedIndex.FirstOrDefault())
+                .Select(_ => rowSelection.SelectedItem as T)
                 .WhereNotNull()
-                .Do(ScrollToItemIndex)
+                .Throttle(TimeSpan.FromMilliseconds(100), Scheduler.CurrentThread)
+                .Do(model => AssociatedObject.BringIntoView(model, GetChildren))
                 .Subscribe()
                 .DisposeWith(disposables);
         }
@@ -26,14 +35,10 @@ public class ScrollToSelectedItemBehavior : Behavior<TreeDataGrid>
     protected override void OnDetachedFromVisualTree()
     {
         disposables.Dispose();
-        base.OnDetachedFromVisualTree();
     }
 
-    private void ScrollToItemIndex(int index)
+    private IEnumerable<T> GetChildren(T x)
     {
-        if (AssociatedObject is { RowsPresenter: { } rowsPresenter })
-        {
-            rowsPresenter.BringIntoView(index);
-        }
+        return (IEnumerable<T>) ChildrenProperty.GetValue(x);
     }
 }

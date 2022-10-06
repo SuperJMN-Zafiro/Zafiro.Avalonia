@@ -15,6 +15,4 @@ public static class AvaloniaMixin
             add => target.AddHandler(routedEvent, add, routingStrategies),
             remove => target.RemoveHandler(routedEvent, remove));
     }
-
-    public static IObservable<Unit> ToSignal<T>(this IObservable<T> source) => source.Select(_ => Unit.Default);
 }
