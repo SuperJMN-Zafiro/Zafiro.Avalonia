@@ -11,7 +11,7 @@ pr:
     include:
     - '*'  # must quote since "*" is a YAML reserved character; we want a string
 
- pool:
+pool:
   vmImage: 'windows-latest'
 
 variables:
