@@ -16,6 +16,7 @@ variables:
   Minor: 0
   Patch: $[counter(variables['Minor'], 0)] # this will reset when we bump Minor
   NugetVersion: $(GitVersion.NuGetVersionV2)
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   ArtifactName: 'Nuget Packages'
 
 stages:
@@ -57,7 +58,7 @@ stages:
           publishLocation: 'Container'
 
   - stage: Release
-    condition: succeeded()
+    condition: and(succeeded(), eq(variables.isMain, 'true'))
     jobs:
     - job: Publish_NuGet_External      
       steps:        
