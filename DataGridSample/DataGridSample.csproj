@@ -32,7 +32,7 @@
 		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.18" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
+	  <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="Avalonia.Controls.TreeDataGrid">

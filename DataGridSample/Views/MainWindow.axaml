@@ -7,7 +7,7 @@
         x:Class="DataGridSample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-        xmlns:global="clr-namespace:;assembly=Zafiro.Avalonia"
+        xmlns:avalonia="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.Avalonia"
         Title="DataGridSample">
 
 	<Design.DataContext>
@@ -19,11 +19,11 @@
         <TreeDataGrid Source="{Binding Source}">
 
 			<i:Interaction.Behaviors>
-				<global:ScrollToSelectedItemBehavior x:TypeArguments="vm:Model">
+				<avalonia:ScrollToSelectedItemBehavior x:TypeArguments="vm:Model">
 					<x:Arguments>
 						<x:String>Children</x:String>
 					</x:Arguments>
-				</global:ScrollToSelectedItemBehavior>
+				</avalonia:ScrollToSelectedItemBehavior>
 			</i:Interaction.Behaviors>
 		</TreeDataGrid>
 	</DockPanel>
