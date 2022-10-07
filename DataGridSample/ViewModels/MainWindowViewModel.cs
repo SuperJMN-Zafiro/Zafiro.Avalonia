@@ -5,8 +5,9 @@ using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Bogus;
-using Core.Trees;
 using ReactiveUI;
+using Zafiro.Core.Mixins;
+using Zafiro.Core.Trees;
 
 namespace DataGridSample.ViewModels
 {
@@ -31,8 +32,11 @@ namespace DataGridSample.ViewModels
 
             ScrollToRandom = ReactiveCommand.Create(() =>
             {
-                var randomModel = faker.Random.ListItem(Source.Items.Flatten(x => x.Children).ToList());
-                var index = Source.Items.GetPath(randomModel, x => x.Children);
+                var randomModel = faker.Random
+                    .ListItem(Source.Items.ToTreeNodes(x => x.Children)
+                    .Flatten(x => x.Children).ToList());
+
+                var index = randomModel.Path;
                 Source.RowSelection!.SelectedIndex = new IndexPath(index);
             });
         }

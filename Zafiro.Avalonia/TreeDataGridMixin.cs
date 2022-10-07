@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
-using Core.Mixins;
-using Core.Trees;
+using Zafiro.Core.Mixins;
+using Zafiro.Core.Trees;
 
 namespace Zafiro.Avalonia;
 
