@@ -1,24 +1,43 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
+using Core.Mixins;
 using Core.Trees;
 
 namespace Zafiro.Avalonia;
 
 public static class TreeDataGridMixin
 {
-    public static int ModelToRowIndex<T>(this HierarchicalTreeDataGridSource<T> source, T model, Func<T, IEnumerable<T>?> getChildren)
+    public static int ModelToRowIndex<T>(this HierarchicalTreeDataGridSource<T> source, T model, Func<T, IEnumerable<T>?> getChildren) where T : class
     {
-        var modelPath = source.Items.GetPath(model, getChildren);
-        var modelIndex = new IndexPath(modelPath);
+        var node = source.Items
+            .ToTreeNodes(getChildren)
+            .Flatten(x => x.Children)
+            .FirstOrDefault(x => Equals(x.Item, model));
+
+        if (node is null)
+        {
+            return -1;
+        }
+
+        var modelIndex = new IndexPath(node.Path);
         return source.Rows.ModelIndexToRowIndex(modelIndex);
     }
     
-    public static void BringIntoView<T>(this TreeDataGrid treeDataGrid, T model, Func<T, IEnumerable<T>> getChildren)
+    public static void BringIntoView<T>(this TreeDataGrid treeDataGrid, T model, Func<T, IEnumerable<T>> getChildren) where T : class
     {
         if (treeDataGrid is { RowsPresenter: { Items: { } } rowsPresenter, Source: HierarchicalTreeDataGridSource<T> source })
         {
-            var modelPath = source.Items.GetPath(model, getChildren);
-            ExpandPath<T>(source, modelPath);
+            var node = source.Items
+                .ToTreeNodes(getChildren)
+                .Flatten(x => x.Children)
+                .FirstOrDefault(x => Equals(x.Item, model));
+
+            if (node is null)
+            {
+                return;
+            }
+
+            ExpandPath<T>(source, node.Path);
 
             var index = ModelToRowIndex(source, model, getChildren);
             
@@ -26,7 +45,7 @@ public static class TreeDataGridMixin
         }
     }
 
-    public static void ExpandPath<T>(this ITreeDataGridSource source, IEnumerable<int> modelPath)
+    public static void ExpandPath<T>(this ITreeDataGridSource source, IEnumerable<int> modelPath) 
     {
         var paths = Grow(modelPath);
 
@@ -38,7 +57,7 @@ public static class TreeDataGridMixin
         }
     }
 
-    public static IEnumerable<IEnumerable<T>> Grow<T>(IEnumerable<T> sequence)
+    public static IEnumerable<IEnumerable<T>> Grow<T>(IEnumerable<T> sequence) 
     {
         return sequence.Select((x, i) => sequence.Take(i + 1));
     }
