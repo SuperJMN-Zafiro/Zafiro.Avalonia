@@ -57,16 +57,4 @@ namespace DataGridSample.ViewModels
 
         public HierarchicalTreeDataGridSource<Model> Source { get; set; }
     }
-
-    public class Model
-    {
-        public Model(string name, IEnumerable<Model> children)
-        {
-            Name = name;
-            Children = children;
-        }
-
-        public string Name { get; }
-        public IEnumerable<Model> Children { get; }
-    }
 }

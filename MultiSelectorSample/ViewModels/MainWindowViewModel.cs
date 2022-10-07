@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using MultiSelectorSample.Views;
-using ReactiveUI.Fody.Helpers;
 
 namespace MultiSelectorSample.ViewModels;
 
@@ -20,11 +18,4 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public List<ViewModel> Items { get; }
-}
-
-
-public class ViewModel : ViewModelBase, ISelectable
-{
-    [Reactive]
-    public bool IsSelected { get; set; }
 }

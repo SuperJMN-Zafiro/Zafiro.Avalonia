@@ -5,7 +5,8 @@ using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
-using Zafiro.Avalonia;
+
+namespace Zafiro.Avalonia;
 
 public class ScrollToSelectedItemBehavior<T> : Behavior<TreeDataGrid> where T : class
 {
