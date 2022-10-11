@@ -1,0 +1,31 @@
+<Window
+    x:Class="AvaloniaApplication1.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonia="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.Avalonia"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:AvaloniaApplication1.ViewModels"
+    Title="NumberBoxSample"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d"
+    >
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <StackPanel>
+        <Label Content="Numbers only TextBox" />
+        <TextBox Text="">
+            <i:Interaction.Behaviors>
+                <avalonia:NumberBoxBehavior />
+            </i:Interaction.Behaviors>
+        </TextBox>
+
+    </StackPanel>
+
+</Window>

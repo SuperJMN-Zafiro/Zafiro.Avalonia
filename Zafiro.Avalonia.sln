@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6D3E8E8A
 		GitVersion.yml = GitVersion.yml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumberBoxSample", "NumberBoxSample\NumberBoxSample.csproj", "{771D6B8C-5CE5-40E9-8BF9-D4A219CD87D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{F18715C7-B353-4031-9AA2-DFE08DDB47D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F18715C7-B353-4031-9AA2-DFE08DDB47D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F18715C7-B353-4031-9AA2-DFE08DDB47D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{771D6B8C-5CE5-40E9-8BF9-D4A219CD87D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{771D6B8C-5CE5-40E9-8BF9-D4A219CD87D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{771D6B8C-5CE5-40E9-8BF9-D4A219CD87D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{771D6B8C-5CE5-40E9-8BF9-D4A219CD87D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{F6732272-AAD3-41DE-9A21-565A6E420D64} = {054C23B9-FCEB-43C4-B8F5-24AB59670ADA}
 		{D3A6BE23-BDA4-4141-9760-80E770C5BFCF} = {054C23B9-FCEB-43C4-B8F5-24AB59670ADA}
 		{F18715C7-B353-4031-9AA2-DFE08DDB47D9} = {054C23B9-FCEB-43C4-B8F5-24AB59670ADA}
+		{771D6B8C-5CE5-40E9-8BF9-D4A219CD87D1} = {054C23B9-FCEB-43C4-B8F5-24AB59670ADA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C43AF265-4D42-4B60-AEF7-829FF94E6F33}
