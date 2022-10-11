@@ -97,7 +97,7 @@ public class NumberBoxBehavior : Behavior<TextBox>
             return false;
         }
 
-        return decimal.TryParse(str, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentUICulture, out _);
+        return decimal.TryParse(str, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.CurrentUICulture, out _);
     }
 
     private static string SimulateNextText(string? text, TextBox tb)
