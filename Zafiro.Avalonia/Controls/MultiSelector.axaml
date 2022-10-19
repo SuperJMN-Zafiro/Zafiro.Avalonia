@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:MultiSelectorSample.Views">
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
   <Design.PreviewWith>
     <controls:MultiSelector />
   </Design.PreviewWith>

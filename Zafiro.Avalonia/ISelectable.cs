@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace MultiSelectorSample.Views;
+namespace Zafiro.Avalonia;
 
 public interface ISelectable : INotifyPropertyChanged
 {

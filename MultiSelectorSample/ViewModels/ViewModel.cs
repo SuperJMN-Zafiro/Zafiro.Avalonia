@@ -1,5 +1,5 @@
-using MultiSelectorSample.Views;
 using ReactiveUI.Fody.Helpers;
+using Zafiro.Avalonia;
 
 namespace MultiSelectorSample.ViewModels;
 
