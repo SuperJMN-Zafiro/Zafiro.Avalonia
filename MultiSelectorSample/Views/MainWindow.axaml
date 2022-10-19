@@ -3,7 +3,7 @@
         xmlns:vm="using:MultiSelectorSample.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="clr-namespace:MultiSelectorSample.Views"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MultiSelectorSample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -15,9 +15,9 @@
 
 	<StackPanel>
         <Label>MultiSelector</Label>
-        <views:MultiSelector Items="{Binding Items}" />
+        <controls:MultiSelector Items="{Binding Items}" />
 		<Label Margin="0 20 0 0">Collection</Label>
-		<ItemsControl  Items="{Binding Items}">
+		<ItemsControl Items="{Binding Items}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<CheckBox IsChecked="{Binding IsSelected}" />

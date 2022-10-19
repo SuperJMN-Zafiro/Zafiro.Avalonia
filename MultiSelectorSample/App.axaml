@@ -8,6 +8,6 @@
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>
-        <StyleInclude Source="avares://MultiSelectorSample/Views/MultiSelector.axaml" />
+        <StyleInclude Source="avares://Zafiro.Avalonia/Controls/MultiSelector.axaml" />
     </Application.Styles>
 </Application>
