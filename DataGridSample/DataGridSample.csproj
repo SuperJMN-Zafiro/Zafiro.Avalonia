@@ -32,11 +32,6 @@
 		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.18" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Reference Include="Avalonia.Controls.TreeDataGrid">
-			<HintPath>C:\Users\JMN\.nuget\packages\avalonia.controls.treedatagrid\0.10.10\lib\net5.0\Avalonia.Controls.TreeDataGrid.dll</HintPath>
-		</Reference>
+		<ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
 	</ItemGroup>
 </Project>
