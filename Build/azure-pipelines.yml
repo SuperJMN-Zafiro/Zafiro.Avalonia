@@ -48,7 +48,7 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
-          packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
+          packagesToPack: '**/Zafiro.Avalonia.*.csproj;!**/*.Tests.csproj'
           versioningScheme: 'byEnvVar'
           versionEnvVar: 'GitVersion.NuGetVersionV2'
 
