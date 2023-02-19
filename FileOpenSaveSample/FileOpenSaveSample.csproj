@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -29,6 +29,8 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
+    <ProjectReference Include="..\Zafiro\Source\Core\Core.csproj" />
     <ProjectReference Include="..\Zafiro\Source\FileSystem\FileSystem.csproj" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Serilog;
+using Zafiro.Avalonia;
 using Zafiro.Core.Mixins;
 using Zafiro.FileSystem;
 
@@ -21,12 +22,19 @@ namespace FileOpenSaveSample.ViewModels
         {
             var currentApplicationLifetime = Application.Current.ApplicationLifetime;
             var mainWindow = (currentApplicationLifetime as ClassicDesktopStyleApplicationLifetime).MainWindow;
-            var picker = new AvaloniaDesktopFilePicker(mainWindow, new ZafiroFileSystem(new FileSystem(), Maybe<ILogger>.None));
-            Open = ReactiveCommand.CreateFromObservable(() => picker.PickSingle(("Pepito", new[] { "jpg" })));
-            OpenMultiple = ReactiveCommand.CreateFromObservable(() => picker.PickMultiple());
+            var zafiroFileSystem = new ZafiroFileSystem(new FileSystem(), Maybe<ILogger>.None);
+
+            var fileOpenPicker = new DesktopOpenFilePicker(mainWindow, zafiroFileSystem);
+            var filter = ("Images", new[] { "jpg" });
+            Open = ReactiveCommand.CreateFromObservable(() => fileOpenPicker.PickSingle(filter));
+            OpenMultiple = ReactiveCommand.CreateFromObservable(() => fileOpenPicker.PickMultiple());
             Open.WhereSuccess().Subscribe(x => { });
             OpenMultiple.Select(x => x.WhereSuccess()).Subscribe(b => { });
+            Save = ReactiveCommand.CreateFromObservable(() => new DesktopSaveFilePicker(mainWindow, zafiroFileSystem).Pick(filter));
+            Save.Subscribe(selected => { });
         }
+
+        public ReactiveCommand<Unit, Result<IZafiroFile>> Save { get; }
 
         public ReactiveCommand<Unit, IEnumerable<Result<IZafiroFile>>> OpenMultiple { get; }
 

@@ -13,9 +13,13 @@
 	</Design.DataContext>
 
 	<DockPanel>
-		<Menu>
-			<MenuItem Command="{Binding Open}" Header="Open…" />
-            <MenuItem Command="{Binding OpenMultiple}" Header="Open multiple…" />
+		<Menu DockPanel.Dock="Top">
+		    <MenuItem Header="File">
+                <MenuItem Command="{Binding Open}" Header="Open…" />
+                <MenuItem Command="{Binding OpenMultiple}" Header="Open multiple…" />
+                <MenuItem Header="-" />
+                <MenuItem Command="{Binding Save}" Header="Save" />
+            </MenuItem>
 		</Menu>
 		<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 	</DockPanel>
