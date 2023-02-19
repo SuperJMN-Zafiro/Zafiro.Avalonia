@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.FileSystem;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia;
 
@@ -17,25 +18,21 @@ public class DesktopOpenFilePicker : IOpenFilePicker
         this.fileSystem = fileSystem;
     }
 
-    public IObservable<IEnumerable<Result<IZafiroFile>>> PickMultiple(params (string, string[])[] filters)
+    public IObservable<IEnumerable<Result<IZafiroFile>>> PickMultiple(params FileTypeFilter[] filters)
     {
         var dialog = new OpenFileDialog { AllowMultiple = true };
         return PickCore(dialog, filters);
     }
 
-    public IObservable<Result<IZafiroFile>> PickSingle(params (string, string[])[] filters)
+    public IObservable<Result<IZafiroFile>> PickSingle(params FileTypeFilter[] filters)
     {
         var dialog = new OpenFileDialog { AllowMultiple = false };
         return PickCore(dialog, filters).Select(x => x.First());
     }
 
-    private IObservable<IEnumerable<Result<IZafiroFile>>> PickCore(OpenFileDialog dialog, params (string, string[])[] filters)
+    private IObservable<IEnumerable<Result<IZafiroFile>>> PickCore(OpenFileDialog dialog, params FileTypeFilter[] filters)
     {
-        dialog.Filters = filters.Select(tuple => new FileDialogFilter
-        {
-            Extensions = tuple.Item2.ToList(),
-            Name = tuple.Item1
-        }).ToList();
+        dialog.Filters = FilePicker.Map(filters);
 
         return Observable.FromAsync(() => dialog.ShowAsync(parent))
             .WhereNotNull()

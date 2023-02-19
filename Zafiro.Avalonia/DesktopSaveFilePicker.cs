@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.FileSystem;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia;
 
@@ -17,14 +18,10 @@ public class DesktopSaveFilePicker : ISaveFilePicker
         this.fileSystem = fileSystem;
     }
 
-    public IObservable<Result<IZafiroFile>> Pick(params (string, string[])[] filters)
+    public IObservable<Result<IZafiroFile>> Pick(params FileTypeFilter[] filters)
     {
         var dialog = new SaveFileDialog();
-        dialog.Filters = filters.Select(tuple => new FileDialogFilter
-        {
-            Extensions = tuple.Item2.ToList(),
-            Name = tuple.Item1
-        }).ToList();
+        dialog.Filters = FilePicker.Map(filters);
 
         return Observable.FromAsync(() => dialog.ShowAsync(parent))
             .WhereNotNull()

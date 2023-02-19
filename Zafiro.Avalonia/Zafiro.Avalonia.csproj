@@ -25,6 +25,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Zafiro\Source\FileSystem\FileSystem.csproj" />
+	  <ProjectReference Include="..\Zafiro\Source\UI\UI.csproj" />
 	</ItemGroup>
 
 </Project>

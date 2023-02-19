@@ -11,6 +11,7 @@ using Serilog;
 using Zafiro.Avalonia;
 using Zafiro.Core.Mixins;
 using Zafiro.FileSystem;
+using Zafiro.UI;
 
 namespace FileOpenSaveSample.ViewModels
 {
@@ -25,7 +26,7 @@ namespace FileOpenSaveSample.ViewModels
             var zafiroFileSystem = new ZafiroFileSystem(new FileSystem(), Maybe<ILogger>.None);
 
             var fileOpenPicker = new DesktopOpenFilePicker(mainWindow, zafiroFileSystem);
-            var filter = ("Images", new[] { "jpg" });
+            var filter = new FileTypeFilter("Images", "jpg");
             Open = ReactiveCommand.CreateFromObservable(() => fileOpenPicker.PickSingle(filter));
             OpenMultiple = ReactiveCommand.CreateFromObservable(() => fileOpenPicker.PickMultiple());
             Open.WhereSuccess().Subscribe(x => { });
