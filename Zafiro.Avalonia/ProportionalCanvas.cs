@@ -35,7 +35,7 @@ public class ProportionalCanvas : Panel
         return finalSize;
     }
 
-    private static Rect GetChildRect(Size finalSize, IControl child)
+    private static Rect GetChildRect(Size finalSize, Control child)
     {
         var left = child.GetValue(LeftProperty);
         var width = child.GetValue(ProportionalWidthProperty);

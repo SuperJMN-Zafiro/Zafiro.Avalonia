@@ -1,16 +1,15 @@
-using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia;
 
 public static class FilePicker
 {
-    public static List<FileDialogFilter> Map(params FileTypeFilter[] filters)
+    public static IReadOnlyList<FilePickerFileType> Map(params FileTypeFilter[] filters)
     {
-        return filters.Select(tuple => new FileDialogFilter
+        return filters.Select(tuple => new FilePickerFileType(tuple.Description)
         {
-            Name = tuple.Description,
-            Extensions = tuple.Extensions.ToList()
+            Patterns = tuple.Extensions
         }).ToList();
     }
 }

@@ -72,7 +72,7 @@ public class WrapToColumnHeaderBehavior : Behavior<TreeDataGrid>
             .Select(header => header.Bounds);
     }
 
-    private IEnumerable<TreeDataGridColumnHeader> GetColumnHeaders(IVisual treeDataGrid)
+    private IEnumerable<TreeDataGridColumnHeader> GetColumnHeaders(Visual treeDataGrid)
     {
         var treeDataGridColumnHeaders = treeDataGrid.GetVisualDescendants().OfType<TreeDataGridColumnHeader>();
         return treeDataGridColumnHeaders;
