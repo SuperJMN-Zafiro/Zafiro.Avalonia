@@ -40,13 +40,13 @@ public class AvaloniaStorage : IStorage
         }).Select(x => x.TryFirst());
     }
 
-    public IObservable<Maybe<IStorable>> PickForSave(string desiredName, string defaultExtension, params FileTypeFilter[] filters)
+    public IObservable<Maybe<IStorable>> PickForSave(string desiredName, Maybe<string> defaultExtension, params FileTypeFilter[] filters)
     {
         return Observable
             .FromAsync(() => storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
             {
                 FileTypeChoices = FilePicker.Map(filters),
-                DefaultExtension = defaultExtension,
+                DefaultExtension = defaultExtension.GetValueOrDefault(),
                 SuggestedFileName = desiredName,
             }))
             .Select(file => Maybe.From(file is null ? (IStorable)null : new StorableWrapper(file)));
