@@ -23,4 +23,5 @@ internal class StorableWrapper : IStorable
     }
 
     public ZafiroPath Path => file.Path.ToString();
+    public string Name => file.Name;
 }
