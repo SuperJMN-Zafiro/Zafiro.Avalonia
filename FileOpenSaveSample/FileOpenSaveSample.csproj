@@ -30,6 +30,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
-    <ProjectReference Include="..\Zafiro\Source\Core\Core.csproj" />
   </ItemGroup>
 </Project>

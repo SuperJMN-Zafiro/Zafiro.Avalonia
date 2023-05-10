@@ -21,11 +21,9 @@
 		<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.0-preview4" />
 		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.0-preview5" />
 		<PackageReference Include="ReactiveUI" Version="18.4.22" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Zafiro\Source\FileSystem\FileSystem.csproj" />
-	  <ProjectReference Include="..\Zafiro\Source\UI\UI.csproj" />
+		
+		<PackageReference Include="Zafiro.FileSystem" Version="3.2.33" />
+		<PackageReference Include="Zafiro.UI" Version="3.2.33" />
 	</ItemGroup>
 
 </Project>
