@@ -25,7 +25,7 @@ namespace FileOpenSaveSample.ViewModels
             OpenMultiple = ReactiveCommand.CreateFromObservable(() => fileOpenPicker.PickMultiple());
             Open.Subscribe(x => { });
             OpenMultiple.Subscribe(b => { });
-            Save = ReactiveCommand.CreateFromObservable(() => new SaveFilePicker(mainWindow).Pick(filter));
+            Save = ReactiveCommand.CreateFromObservable(() => new SaveFilePicker(mainWindow).Pick("file", "txt", filter));
             Save.Subscribe(selected => { });
         }
 
