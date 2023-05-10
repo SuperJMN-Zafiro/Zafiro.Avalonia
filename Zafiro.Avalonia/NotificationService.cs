@@ -2,11 +2,6 @@
 
 namespace Zafiro.Avalonia;
 
-public interface INotificationService
-{
-    void ShowMessage(string message);
-}
-
 public class NotificationService : INotificationService
 {
     private readonly IManagedNotificationManager managedNotification;
