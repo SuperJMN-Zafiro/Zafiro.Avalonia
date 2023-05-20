@@ -17,13 +17,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.0-preview5" />
-		<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.0-preview4" />
-		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.0-preview5" />
+		<PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+		<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="$(AvaloniaVersion)" />
+		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaVersion)" />
 		<PackageReference Include="ReactiveUI" Version="18.4.22" />
-		
 		<PackageReference Include="Zafiro.FileSystem" Version="3.2.33" />
 		<PackageReference Include="Zafiro.UI" Version="3.2.33" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dialogs\" />
 	</ItemGroup>
 
 </Project>
