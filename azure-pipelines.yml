@@ -1,2 +1,5 @@
 steps:
+- checkout: self
+  fetchDepth: 0
+
 - powershell: .\build.ps1
