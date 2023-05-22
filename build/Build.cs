@@ -72,15 +72,14 @@ class Build : NukeBuild
     
     Target Publish => _ => _
         .DependsOn(Pack)
-        //.Requires(() => NuGetApiKey)
+        .Requires(() => NuGetApiKey)
         .Executes(() =>
         {
             DotNetNuGetPush(settings => settings
                 .SetSource("https://api.nuget.org/v3/index.json")
                 .SetApiKey(NuGetApiKey)
                 .CombineWith(
-                    (ArtifactsDirectory / "NuGet").GlobFiles("*.nupkg").NotEmpty(), (_, v) => _
-                        .SetTargetPath(v)),
+                    (ArtifactsDirectory / "NuGet").GlobFiles("*.nupkg").NotEmpty(), (s, v) => s.SetTargetPath(v)),
                 degreeOfParallelism: 5, completeOnFailure: true);
         });
 }
