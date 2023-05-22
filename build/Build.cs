@@ -1,5 +1,3 @@
-using System.Linq;
-using GlobExpressions;
 using Nuke.Common;
 using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.Git;
@@ -9,13 +7,12 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.GitVersion;
 using Serilog;
-using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [AzurePipelines(AzurePipelinesImage.WindowsLatest, ImportSecrets = new[]{ nameof(NuGetApiKey)})]
 class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.Pack);
+    public static int Main() => Execute<Build>(x => x.Publish);
 
     [Parameter] [Secret] readonly string NuGetApiKey;
     
@@ -55,7 +52,6 @@ class Build : NukeBuild
     protected override void OnBuildInitialized()
     {
         Configuration = Configuration ?? "Release";
-        VersionSuffix = VersionSuffix ?? "";
     }
 
     Target Print => _ => _
