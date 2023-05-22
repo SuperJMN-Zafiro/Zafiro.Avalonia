@@ -12,7 +12,10 @@
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="7.0.1" />
-    <PackageReference Include="Glob" Version="1.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
   </ItemGroup>
 
 </Project>

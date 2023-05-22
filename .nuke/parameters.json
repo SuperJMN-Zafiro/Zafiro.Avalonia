@@ -1,4 +1,5 @@
 {
   "$schema": "./build.schema.json",
-  "Solution": "Zafiro.Avalonia.sln"
+  "Solution": "Zafiro.Avalonia.sln",
+  "NuGetApiKey": "v1:Pnp2i1sac5bmGzEZ1pP6XYzp3VU/gkraqLJFxX31o5qca7XeR0171mZD1i9pALEa"
 }
