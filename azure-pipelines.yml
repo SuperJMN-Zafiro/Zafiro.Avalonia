@@ -1,5 +1,7 @@
+variables:
+  Agent.Source.Git.ShallowFetchDepth: 0
+
 steps:
 - checkout: self
-  fetchDepth: 0
 
 - powershell: .\build.ps1
