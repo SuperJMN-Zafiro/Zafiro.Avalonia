@@ -4,9 +4,11 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.Data.Core;
 using Avalonia.Markup.Xaml;
+using JetBrains.Annotations;
 
 namespace Zafiro.Avalonia.DesignTime;
 
+[PublicAPI]
 public class ReturnExtension : MarkupExtension
 {
     public ReturnExtension()
@@ -39,19 +41,19 @@ public class ReturnExtension : MarkupExtension
 
     private object? ProvideValue(Type targetType)
     {
-        object finalValue;
-        if (targetType.IsAssignableFrom(this.Value.GetType()))
+        object? finalValue;
+        if (targetType.IsInstanceOfType(Value))
         {
             finalValue = Value;
         }
         else
         {
             var tc = TypeDescriptor.GetConverter(targetType);
-            finalValue = tc.ConvertFrom(null, CultureInfo.InvariantCulture, Value);
+            finalValue = tc.ConvertFrom(null, CultureInfo.InvariantCulture, Value!);
         }
 
         return finalValue;
     }
 
-    public object? Value { get; set; }
+    public object? Value { get; }
 }
