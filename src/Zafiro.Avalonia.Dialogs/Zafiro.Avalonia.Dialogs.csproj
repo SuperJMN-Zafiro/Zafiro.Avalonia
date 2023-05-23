@@ -17,6 +17,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Styles.axaml.cs">
+	    <DependentUpon>Styles.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="DialogViewContainer.axaml.cs">
 	    <DependentUpon>DialogViewContainer.axaml</DependentUpon>
 	  </Compile>

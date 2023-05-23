@@ -1,21 +1,19 @@
 ﻿using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
-using Avalonia.Media;
 
-namespace Zafiro.UI.Avalonia;
+namespace Zafiro.Avalonia.Dialogs;
 
-public class SingleViewDialogService : DialogServiceBase, IWindow
+public class SingleViewDialogService : DialogService, IWindow
 {
     private readonly Stack<(Control, TaskCompletionSource)> dialogs = new();
     private readonly AdornerLayer layer;
 
-    public SingleViewDialogService(Control control)
+    public SingleViewDialogService(Visual control)
     {
-        layer = AdornerLayer.GetAdornerLayer(control);
+        layer = AdornerLayer.GetAdornerLayer(control) ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
     }
 
     public override Task ShowDialog<T>(T viewModel, string title, params OptionConfiguration<T>[] options)

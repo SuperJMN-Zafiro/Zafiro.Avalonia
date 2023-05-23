@@ -1,8 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 
-namespace Zafiro.UI.Avalonia
+namespace Zafiro.Avalonia.Dialogs
 {
     public class DialogViewContainer : ContentControl
     {

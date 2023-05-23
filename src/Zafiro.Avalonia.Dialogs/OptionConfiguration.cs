@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Zafiro.UI.Avalonia;
+namespace Zafiro.Avalonia.Dialogs;
 
 public class OptionConfiguration<TViewModel>
 {

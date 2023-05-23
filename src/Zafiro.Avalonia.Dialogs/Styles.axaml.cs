@@ -1,6 +1,6 @@
 using Avalonia.Controls.Primitives;
 
-namespace Zafiro.UI.Avalonia
+namespace Zafiro.Avalonia.Dialogs
 {
     public class DialogView : TemplatedControl
     {

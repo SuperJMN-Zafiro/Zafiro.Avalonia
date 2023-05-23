@@ -2,9 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 
-namespace Zafiro.UI.Avalonia;
+namespace Zafiro.Avalonia.Dialogs;
 
-public class ClassicDesktopDialogService : DialogServiceBase
+public class ClassicDesktopDialogService : DialogService
 {
     public override Task ShowDialog<T>(T viewModel, string title, params OptionConfiguration<T>[] options)
     {
@@ -28,5 +28,5 @@ public class ClassicDesktopDialogService : DialogServiceBase
         return window.ShowDialog(MainWindow);
     }
 
-    private static Window MainWindow => ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow;
+    private static Window MainWindow => ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
 }
