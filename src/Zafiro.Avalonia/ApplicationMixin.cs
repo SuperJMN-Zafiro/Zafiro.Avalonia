@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 namespace Zafiro.Avalonia;
 
 [PublicAPI]
-public static class ApplicationExtensions
+public static class ApplicationMixin
 {
     public static void Connect(this Application application, Func<Control> createMainView, Func<Control, object> createDataContext)
     {
