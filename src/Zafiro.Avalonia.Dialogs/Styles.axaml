@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <ControlTemplate TargetType="dialogs:DialogView">
                 <DockPanel Margin="12" x:DataType="dialogs:DialogViewModel" x:CompileBindings="True">
-                    <ItemsControl Margin="0 8" HorizontalAlignment="Center" Items="{Binding Options}"
+                    <ItemsControl Margin="0 8" HorizontalAlignment="Right" Items="{Binding Options}"
                                   DockPanel.Dock="Bottom">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -34,6 +34,8 @@
     </Style>
 
     <Style Selector="dialogs|DialogViewContainer">
+        <Setter Property="MinWidth" Value="480" />
+        <Setter Property="MinHeight" Value="320" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
