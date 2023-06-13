@@ -1,0 +1,121 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:MyAvalonia"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls">
+    <Design.PreviewWith>
+        <controls1:MasterDetailsView Width="200" Height="300">
+            <controls1:MasterDetailsView.ItemsSource>
+                <generic:List x:TypeArguments="x:Object">
+                    <system:String>Hola</system:String>
+                    <system:String>Hola2</system:String>
+                    <system:String>Hola3</system:String>
+                </generic:List>
+            </controls1:MasterDetailsView.ItemsSource>
+        </controls1:MasterDetailsView>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <Image x:Key="BackArrow">
+            <Image.Resources>
+                <SolidColorBrush x:Key="ArrowColor" Color="#FF000000" />
+            </Image.Resources>
+            <DrawingImage>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="F1M0,0L800,0L800,800L0,800z" />
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="0.78125,0,0,0.78125,0,0" />
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="{DynamicResource ArrowColor}"
+                                         Geometry="F1 M669.6 849.6C678.4 857.6 692 856.8 700 848C708 839.2 707.2 825.6 698.4 817.6L388.8 537.6C380.8 530.4 380.8 520 388.8 512.8L698.4 242.4C707.2 234.4 708 220.8 700.8 212C692.8 203.2 679.2 202.4 670.4 209.6L360.8 480.8C333.6 504.8 332.8 544.8 360 569.6L669.6 849.6Z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage>
+        </Image>
+    </Styles.Resources>
+
+    <Style Selector="controls1|MasterDetailsView">
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <DockPanel x:Name="LargePane">
+
+                        <DockPanel.Styles>
+                            <Style Selector="DockPanel.Compact">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
+                            <Style Selector="DockPanel.Large">
+                                <Setter Property="IsVisible" Value="True" />
+                            </Style>
+                        </DockPanel.Styles>
+
+                        <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
+                                 SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
+                                 ItemsSource="{TemplateBinding ItemsSource}" Width="{TemplateBinding CompactWidth}" DockPanel.Dock="Left" />
+                        <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
+                                        Content="{TemplateBinding SelectedItem}" />
+
+                    </DockPanel>
+
+                    <Panel x:Name="CompactPane">
+
+                        <Panel.Styles>
+                            <Style Selector="Panel.Compact">
+                                <Setter Property="IsVisible" Value="True" />
+                            </Style>
+                            <Style Selector="Panel.Large">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
+                        </Panel.Styles>
+
+                        <Panel>
+                            <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
+                                     SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
+                                     ItemsSource="{TemplateBinding ItemsSource}"
+                                     IsVisible="{Binding !$parent[controls1:MasterDetailsView].AreDetailsShown}" />
+                            <DockPanel IsVisible="{Binding $parent[controls1:MasterDetailsView].AreDetailsShown}">
+                                <Button IsVisible="{Binding $parent[controls1:MasterDetailsView].IsBackButtonDisplayed}"
+                                        DockPanel.Dock="Top" Height="32" Padding="0"
+                                        Content="{StaticResource BackArrow}"
+                                        Command="{Binding $parent[controls1:MasterDetailsView].BackCommand}" />
+                                <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
+                                                Content="{TemplateBinding SelectedItem}" />
+                            </DockPanel>
+
+                            <Interaction.Behaviors>
+                                <controls:BackTrigger
+                                    MarkAsHandled="{Binding $parent[controls1:MasterDetailsView].AreDetailsShown} ">
+                                    <InvokeCommandAction
+                                        Command="{Binding $parent[controls1:MasterDetailsView].BackCommand}" />
+                                </controls:BackTrigger>
+                            </Interaction.Behaviors>
+                        </Panel>
+                    </Panel>
+
+                    <Interaction.Behaviors>
+                        <AdaptiveBehavior SourceControl="{Binding $parent[controls1:MasterDetailsView]}"
+                                          TargetControl="{Binding #LargePane}">
+                            <AdaptiveClassSetter MinWidth="0"
+                                                 MaxWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                                                 ClassName="Compact" />
+                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                                                 MaxWidth="Infinity" ClassName="Large" />
+                        </AdaptiveBehavior>
+                        <AdaptiveBehavior SourceControl="{Binding $parent[controls1:MasterDetailsView]}"
+                                          TargetControl="{Binding #CompactPane}">
+                            <AdaptiveClassSetter MinWidth="0"
+                                                 MaxWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                                                 ClassName="Compact" />
+                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                                                 MaxWidth="Infinity" ClassName="Large" />
+                        </AdaptiveBehavior>
+                    </Interaction.Behaviors>
+
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

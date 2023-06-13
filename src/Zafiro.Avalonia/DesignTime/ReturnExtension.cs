@@ -20,7 +20,9 @@ public class ReturnExtension : MarkupExtension
         Value = value;
     }
 
+#pragma warning disable CS8764
     public override object? ProvideValue(IServiceProvider serviceProvider)
+#pragma warning restore CS8764
     {
         if (Value is null)
         {
