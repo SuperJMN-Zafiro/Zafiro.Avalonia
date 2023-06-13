@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
+using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Interfaces;
 
 namespace TestApp.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    public IEnumerable<Section> Sections { get; } = new List<Section>()
-    {
-        new Section("Hi"),
-        new Section("How"),
-        new Section("Are"),
-        new Section("You"),
-    };
-}
+    private readonly IDialogService dialogService;
+    private readonly IStorage storage;
 
-public class Section
-{
-    public string Name { get; }
-
-    public Section(string name)
+    public MainViewModel(IDialogService dialogService, IStorage storage)
     {
-        Name = name;
+        this.dialogService = dialogService;
+        this.storage = storage;
     }
+
+    public IEnumerable<Section> Sections => new List<Section>()
+    {
+        new("Dialogs", new DialogSampleViewModel(dialogService)),
+        new("Storage", new StorageSampleViewModel(storage)),
+    };
 }

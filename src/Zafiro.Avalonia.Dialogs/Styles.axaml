@@ -34,8 +34,6 @@
     </Style>
 
     <Style Selector="dialogs|DialogViewContainer">
-        <Setter Property="MinWidth" Value="480" />
-        <Setter Property="MinHeight" Value="320" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>

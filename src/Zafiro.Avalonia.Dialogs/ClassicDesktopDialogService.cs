@@ -19,6 +19,7 @@ public class ClassicDesktopDialogService : DialogService
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             SizeToContent = SizeToContent.WidthAndHeight,
             CanResize = false,
+            MaxWidth = 640,
         };
 
         var wrapper = new WindowWrapper(window);

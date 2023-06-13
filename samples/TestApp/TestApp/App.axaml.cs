@@ -1,8 +1,11 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using TestApp.ViewModels;
 using TestApp.Views;
+using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Storage;
 
 namespace TestApp;
 
@@ -15,7 +18,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        this.Connect(() => new MainView(), _ => new MainViewModel(), () => new MainWindow());
+        this.Connect(() => new MainView(), view => new MainViewModel(DialogService.Create(Current!.ApplicationLifetime!), new AvaloniaStorage(TopLevel.GetTopLevel(view)!.StorageProvider)), () => new MainWindow());
 
         base.OnFrameworkInitializationCompleted();
     }
