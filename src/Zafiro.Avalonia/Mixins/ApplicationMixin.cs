@@ -1,14 +1,14 @@
 ﻿using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using JetBrains.Annotations;
 
-namespace Zafiro.Avalonia;
+namespace Zafiro.Avalonia.Mixins;
 
 [PublicAPI]
 public static class ApplicationMixin
 {
-    public static void Connect(this Application application, Func<Control> createMainView, Func<Control, object> createDataContext)
+    public static void Connect(this Application application, Func<Control> createMainView, Func<Control, object> createDataContext, Func<Window>? createApplicationWindow = default)
     {
         var mainView = createMainView();
 
@@ -16,10 +16,9 @@ public static class ApplicationMixin
         {
             case IClassicDesktopStyleApplicationLifetime desktop:
             {
-                var window = new Window
-                {
-                    Content = mainView,
-                };
+                var window = createApplicationWindow?.Invoke() ?? new Window();
+
+                window.Content = mainView;
 
                 desktop.MainWindow = window;
                 break;
@@ -29,9 +28,6 @@ public static class ApplicationMixin
                 break;
         }
 
-        mainView.Loaded += (_, _) =>
-        {
-            mainView.DataContext = createDataContext(mainView);
-        };
+        mainView.Loaded += (_, _) => { mainView.DataContext = createDataContext(mainView); };
     }
 }
