@@ -2,8 +2,10 @@ using System.Collections;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Metadata;
 using JetBrains.Annotations;
 using ReactiveUI;
 
@@ -37,10 +39,14 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<double> CompactWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(CompactWidth), 400);
 
-    public double CompactWidth
+    public static readonly StyledProperty<object> ItemsProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Items));
+
+    public static readonly StyledProperty<double> MasterPaneWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(MasterPaneWidth), 200);
+
+    public double MasterPaneWidth
     {
-        get => GetValue(CompactWidthProperty);
-        set => SetValue(CompactWidthProperty, value);
+        get => GetValue(MasterPaneWidthProperty);
+        set => SetValue(MasterPaneWidthProperty, value);
     }
 
     private bool areDetailsShown;
@@ -58,6 +64,19 @@ public class MasterDetailsView : TemplatedControl
 
         BackCommand = ReactiveCommand.Create(() => AreDetailsShown = false);
         GoToDetails = ReactiveCommand.Create(() => AreDetailsShown = true);
+    }
+
+    public double CompactWidth
+    {
+        get => GetValue(CompactWidthProperty);
+        set => SetValue(CompactWidthProperty, value);
+    }
+
+    [Content]
+    public object Items
+    {
+        get => GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
     }
 
     public DataTemplate DetailsTemplate

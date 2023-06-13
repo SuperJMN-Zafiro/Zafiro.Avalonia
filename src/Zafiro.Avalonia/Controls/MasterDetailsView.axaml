@@ -1,19 +1,19 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:MyAvalonia"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
-        xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:interaction="clr-namespace:Zafiro.Avalonia.Interaction">
     <Design.PreviewWith>
-        <controls1:MasterDetailsView Width="200" Height="300">
-            <controls1:MasterDetailsView.ItemsSource>
+        <controls:MasterDetailsView Width="200" Height="300">
+            <controls:MasterDetailsView.ItemsSource>
                 <generic:List x:TypeArguments="x:Object">
                     <system:String>Hola</system:String>
                     <system:String>Hola2</system:String>
                     <system:String>Hola3</system:String>
                 </generic:List>
-            </controls1:MasterDetailsView.ItemsSource>
-        </controls1:MasterDetailsView>
+            </controls:MasterDetailsView.ItemsSource>
+        </controls:MasterDetailsView>
     </Design.PreviewWith>
 
     <Styles.Resources>
@@ -36,7 +36,7 @@
         </Image>
     </Styles.Resources>
 
-    <Style Selector="controls1|MasterDetailsView">
+    <Style Selector="controls|MasterDetailsView">
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -54,7 +54,8 @@
 
                         <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
                                  SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
-                                 ItemsSource="{TemplateBinding ItemsSource}" Width="{TemplateBinding CompactWidth}" DockPanel.Dock="Left" />
+                                 ItemsSource="{TemplateBinding ItemsSource}" Width="{TemplateBinding MasterPaneWidth}" DockPanel.Dock="Left">
+                        </ListBox>
                         <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
                                         Content="{TemplateBinding SelectedItem}" />
 
@@ -75,41 +76,41 @@
                             <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
                                      SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
                                      ItemsSource="{TemplateBinding ItemsSource}"
-                                     IsVisible="{Binding !$parent[controls1:MasterDetailsView].AreDetailsShown}" />
-                            <DockPanel IsVisible="{Binding $parent[controls1:MasterDetailsView].AreDetailsShown}">
-                                <Button IsVisible="{Binding $parent[controls1:MasterDetailsView].IsBackButtonDisplayed}"
+                                     IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}" />
+                            <DockPanel IsVisible="{Binding $parent[controls:MasterDetailsView].AreDetailsShown}">
+                                <Button IsVisible="{Binding $parent[controls:MasterDetailsView].IsBackButtonDisplayed}"
                                         DockPanel.Dock="Top" Height="32" Padding="0"
                                         Content="{StaticResource BackArrow}"
-                                        Command="{Binding $parent[controls1:MasterDetailsView].BackCommand}" />
+                                        Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
                                 <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
                                                 Content="{TemplateBinding SelectedItem}" />
                             </DockPanel>
 
                             <Interaction.Behaviors>
-                                <controls:BackTrigger
-                                    MarkAsHandled="{Binding $parent[controls1:MasterDetailsView].AreDetailsShown} ">
+                                <interaction:BackTrigger
+                                    MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
                                     <InvokeCommandAction
-                                        Command="{Binding $parent[controls1:MasterDetailsView].BackCommand}" />
-                                </controls:BackTrigger>
+                                        Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
+                                </interaction:BackTrigger>
                             </Interaction.Behaviors>
                         </Panel>
                     </Panel>
 
                     <Interaction.Behaviors>
-                        <AdaptiveBehavior SourceControl="{Binding $parent[controls1:MasterDetailsView]}"
+                        <AdaptiveBehavior SourceControl="{Binding $parent[controls:MasterDetailsView]}"
                                           TargetControl="{Binding #LargePane}">
                             <AdaptiveClassSetter MinWidth="0"
-                                                 MaxWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                                                 MaxWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
                                                  ClassName="Compact" />
-                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
                                                  MaxWidth="Infinity" ClassName="Large" />
                         </AdaptiveBehavior>
-                        <AdaptiveBehavior SourceControl="{Binding $parent[controls1:MasterDetailsView]}"
+                        <AdaptiveBehavior SourceControl="{Binding $parent[controls:MasterDetailsView]}"
                                           TargetControl="{Binding #CompactPane}">
                             <AdaptiveClassSetter MinWidth="0"
-                                                 MaxWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                                                 MaxWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
                                                  ClassName="Compact" />
-                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls1:MasterDetailsView].CompactWidth}"
+                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
                                                  MaxWidth="Infinity" ClassName="Large" />
                         </AdaptiveBehavior>
                     </Interaction.Behaviors>
