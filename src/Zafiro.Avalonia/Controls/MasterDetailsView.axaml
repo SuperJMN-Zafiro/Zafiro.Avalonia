@@ -54,7 +54,8 @@
 
                         <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
                                  SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
-                                 ItemsSource="{TemplateBinding ItemsSource}" Width="{TemplateBinding MasterPaneWidth}" DockPanel.Dock="Left">
+                                 ItemsSource="{TemplateBinding ItemsSource}" 
+                                 Width="{TemplateBinding MasterPaneWidth}" DockPanel.Dock="Left">
                         </ListBox>
                         <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
                                         Content="{TemplateBinding SelectedItem}" />

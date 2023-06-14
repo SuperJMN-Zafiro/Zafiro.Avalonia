@@ -88,8 +88,8 @@
           "items": {
             "type": "string",
             "enum": [
+              "Clean",
               "Pack",
-              "Print",
               "Publish"
             ]
           }
@@ -104,8 +104,8 @@
           "items": {
             "type": "string",
             "enum": [
+              "Clean",
               "Pack",
-              "Print",
               "Publish"
             ]
           }

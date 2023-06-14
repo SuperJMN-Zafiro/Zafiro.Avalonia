@@ -1,85 +1,84 @@
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI.AzurePipelines;
-using Nuke.Common.Git;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tools.DotNet;
 using Nuke.Common.IO;
+using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tooling.ProcessTasks;
 
-[AzurePipelines(AzurePipelinesImage.WindowsLatest, ImportSecrets = new[]{ nameof(NuGetApiKey)})]
+
+[AzurePipelines(AzurePipelinesImage.WindowsLatest, ImportSecrets = new[] { nameof(NuGetApiKey) }, AutoGenerate = false)]
 class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.Publish);
-
     [Parameter] [Secret] readonly string NuGetApiKey;
-    
-    [Solution]
-    readonly Solution Solution;
 
-    [GitRepository]
-    readonly GitRepository GitRepository;
+    [Solution] readonly Solution Solution;
 
-    [Parameter("configuration")]
-    public string Configuration { get; set; }
+    [Parameter("configuration")] public string Configuration { get; set; }
 
-    [Parameter("version-suffix")]
-    public string VersionSuffix { get; set; }
+    [Parameter("version-suffix")] public string VersionSuffix { get; set; }
 
-    [Parameter("publish-framework")]
-    public string PublishFramework { get; set; }
+    [Parameter("publish-framework")] public string PublishFramework { get; set; }
 
-    [Parameter("publish-runtime")]
-    public string PublishRuntime { get; set; }
+    [Parameter("publish-runtime")] public string PublishRuntime { get; set; }
 
-    [Parameter("publish-project")]
-    public string PublishProject { get; set; }
+    [Parameter("publish-project")] public string PublishProject { get; set; }
 
-    [Parameter("publish-self-contained")]
-    public bool PublishSelfContained { get; set; } = true;
+    [Parameter("publish-self-contained")] public bool PublishSelfContained { get; set; } = true;
 
-    AbsolutePath SourceDirectory => RootDirectory / "src";
+    [GitVersion] readonly GitVersion GitVersion;
 
-    AbsolutePath TestsDirectory => RootDirectory / "tests";
+    AbsolutePath OutputDirectory => RootDirectory / "output";
 
-    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
-    
-    [GitVersion]
-    readonly GitVersion GitVersion;
-    
-    protected override void OnBuildInitialized()
-    {
-        Configuration = Configuration ?? "Release";
-    }
-
-    Target Print => _ => _
+    Target Clean => _ => _
         .Executes(() =>
         {
-            Log.Information("GitVersion = {Value}", GitVersion.MajorMinorPatch);
+            OutputDirectory.CreateOrCleanDirectory();
+            var absolutePaths = RootDirectory.GlobDirectories("**/bin", "**/obj").Where(a => !((string) a).Contains("build")).ToList();
+            Log.Information("Deleting {Dirs}", absolutePaths);
+            absolutePaths.DeleteDirectories();
         });
-    
+
     Target Pack => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
-            DotNetPack(s => s
-                .SetProject(Solution)
+            var packableProjects = Solution.AllProjects.Where(x => x.GetProperty<bool>("IsPackable")).ToList();
+
+            packableProjects.ForEach(project =>
+            {
+                Log.Information("Restoring workloads of {Input}", project);
+                RestoreProjectWorkload(project);
+            });
+
+            DotNetPack(settings => settings
                 .SetConfiguration(Configuration)
                 .SetVersion(GitVersion.NuGetVersion)
-                .SetOutputDirectory(ArtifactsDirectory / "NuGet"));
+                .SetOutputDirectory(OutputDirectory)
+                .CombineWith(packableProjects, (packSettings, project) =>
+                    packSettings.SetProject(project)));
         });
-    
+
     Target Publish => _ => _
         .DependsOn(Pack)
         .Requires(() => NuGetApiKey)
         .Executes(() =>
         {
             DotNetNuGetPush(settings => settings
-                .SetSource("https://api.nuget.org/v3/index.json")
-                .SetApiKey(NuGetApiKey)
-                .CombineWith(
-                    (ArtifactsDirectory / "NuGet").GlobFiles("*.nupkg").NotEmpty(), (s, v) => s.SetTargetPath(v)),
+                    .SetSource("https://api.nuget.org/v3/index.json")
+                    .SetApiKey(NuGetApiKey)
+                    .CombineWith(
+                        OutputDirectory.GlobFiles("*.nupkg").NotEmpty(), (s, v) => s.SetTargetPath(v)),
                 degreeOfParallelism: 5, completeOnFailure: true);
         });
+
+    public static int Main() => Execute<Build>(x => x.Publish);
+
+    protected override void OnBuildInitialized() => Configuration ??= "Release";
+
+    void RestoreProjectWorkload(Project project) => StartShell($@"dotnet workload restore --project {project.Path}").AssertZeroExitCode();
 }

@@ -22,7 +22,7 @@
 	</UserControl.DataTemplates>
 
 	<DockPanel>
-		<c:MasterDetailsView ItemsSource="{Binding Sections}">
+		<c:MasterDetailsView ItemsSource="{Binding Sections}" IsBackButtonDisplayed="False" MasterPaneWidth="250" CompactWidth="500">
 			<c:MasterDetailsView.DetailsTemplate>
 				<DataTemplate DataType="vm:Section">
 					<ContentControl Content="{Binding Content}" />
