@@ -16,6 +16,8 @@
         </controls:MasterDetailsView>
     </Design.PreviewWith>
 
+    <StyleInclude Source="avares://Zafiro.Avalonia/Common.axaml" />
+
     <Styles.Resources>
         <Image x:Key="BackArrow">
             <Image.Resources>
@@ -77,10 +79,25 @@
                             <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
                                      SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
                                      ItemsSource="{TemplateBinding ItemsSource}"
-                                     IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}" />
+                                     IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}">
+                                <ListBox.Styles>
+                                    <Style Selector="ListBoxItem">
+                                        <Setter Property="Interaction.Behaviors">
+                                            <BehaviorCollectionTemplate>
+                                                <BehaviorCollection>
+                                                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}" RoutingStrategies="Tunnel">
+                                                        <InvokeCommandAction Command="{Binding $parent[controls:MasterDetailsView].GoToDetails}" />
+                                                    </RoutedEventTriggerBehavior>
+                                                </BehaviorCollection>
+                                            </BehaviorCollectionTemplate>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.Styles>
+                            </ListBox>
                             <DockPanel IsVisible="{Binding $parent[controls:MasterDetailsView].AreDetailsShown}">
                                 <Button IsVisible="{Binding $parent[controls:MasterDetailsView].IsBackButtonDisplayed}"
                                         DockPanel.Dock="Top" Height="32" Padding="0"
+                                        Classes="Transparent"
                                         Content="{StaticResource BackArrow}"
                                         Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
                                 <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"

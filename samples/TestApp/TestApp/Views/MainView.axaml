@@ -15,6 +15,7 @@
 		<DataTemplate DataType="vm:StorageSampleViewModel">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Button Content="Open a file..."
+						Classes="Transparent"
                         Command="{Binding OpenFile}" />
 				<TextBlock Text="{Binding SelectedPaths^}" />
             </StackPanel>
@@ -22,7 +23,7 @@
 	</UserControl.DataTemplates>
 
 	<DockPanel>
-		<c:MasterDetailsView ItemsSource="{Binding Sections}" IsBackButtonDisplayed="False" MasterPaneWidth="250" CompactWidth="500">
+		<c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
 			<c:MasterDetailsView.DetailsTemplate>
 				<DataTemplate DataType="vm:Section">
 					<ContentControl Content="{Binding Content}" />

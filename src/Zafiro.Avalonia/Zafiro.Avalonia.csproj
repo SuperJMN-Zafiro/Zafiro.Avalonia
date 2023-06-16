@@ -18,4 +18,8 @@
 		<PackageReference Include="Zafiro.UI" Version="3.2.33" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Common.axaml" />
+	</ItemGroup>
+
 </Project>
