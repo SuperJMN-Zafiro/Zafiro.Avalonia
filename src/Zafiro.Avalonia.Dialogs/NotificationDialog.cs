@@ -1,8 +1,11 @@
-﻿using ReactiveUI;
+﻿using CSharpFunctionalExtensions;
+using JetBrains.Annotations;
+using ReactiveUI;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Dialogs;
 
+[PublicAPI]
 public class NotificationDialog : INotificationService
 {
     private readonly IDialogService dialogService;
@@ -12,12 +15,11 @@ public class NotificationDialog : INotificationService
         this.dialogService = dialogService;
     }
 
-    public Task Show(string message)
+    public Task Show(string message, Maybe<string> title)
     {
-        var title = "Failure";
         var messageDialogViewModel = new MessageDialogViewModel(message);
         var dismissText = "OK";
         var optionConfiguration = new OptionConfiguration<MessageDialogViewModel>(dismissText, context => ReactiveCommand.Create(() => context.Window.Close()));
-        return dialogService.ShowDialog(messageDialogViewModel, title, optionConfiguration);
+        return dialogService.ShowDialog(messageDialogViewModel, title.GetValueOrDefault("Failure"), optionConfiguration);
     }
 }
