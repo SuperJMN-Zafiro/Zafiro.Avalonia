@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Interfaces;
+using Zafiro.UI;
 
 namespace TestApp.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
     private readonly IDialogService dialogService;
-    private readonly IStorage storage;
+    private readonly IFilePicker storage;
 
-    public MainViewModel(IDialogService dialogService, IStorage storage)
+    public MainViewModel(IDialogService dialogService, IFilePicker storage)
     {
         this.dialogService = dialogService;
         this.storage = storage;

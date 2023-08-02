@@ -2,23 +2,22 @@ using System.Reactive.Linq;
 using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
-using Zafiro.Avalonia.Interfaces;
 using Zafiro.FileSystem;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Storage;
 
 [PublicAPI]
-public class AvaloniaStorage : IStorage
+public class AvaloniaFilePicker : IFilePicker
 {
     private readonly IStorageProvider storageProvider;
 
-    public AvaloniaStorage(IStorageProvider storageProvider)
+    public AvaloniaFilePicker(IStorageProvider storageProvider)
     {
         this.storageProvider = storageProvider;
     }
 
-    public IObservable<IEnumerable<IStorable>> PickForOpenMultiple(params FileTypeFilter[] filters)
+    public IObservable<IEnumerable<IZafiroFile>> PickForOpenMultiple(params FileTypeFilter[] filters)
     {
         return PickCore(new FilePickerOpenOptions
         {
@@ -27,7 +26,7 @@ public class AvaloniaStorage : IStorage
         });
     }
 
-    public IObservable<Maybe<IStorable>> PickForOpen(params FileTypeFilter[] filters)
+    public IObservable<Maybe<IZafiroFile>> PickForOpen(params FileTypeFilter[] filters)
     {
         return PickCore(new FilePickerOpenOptions
         {
@@ -36,7 +35,7 @@ public class AvaloniaStorage : IStorage
         }).Select(x => x.TryFirst());
     }
 
-    public IObservable<Maybe<IStorable>> PickForSave(string desiredName, Maybe<string> defaultExtension, params FileTypeFilter[] filters)
+    public IObservable<Maybe<IZafiroFile>> PickForSave(string desiredName, Maybe<string> defaultExtension, params FileTypeFilter[] filters)
     {
         return Observable
             .FromAsync(() => storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
@@ -45,10 +44,10 @@ public class AvaloniaStorage : IStorage
                 DefaultExtension = defaultExtension.GetValueOrDefault(),
                 SuggestedFileName = desiredName
             }))
-            .Select(file => Maybe.From<IStorable>(file is null ? default! : new StorableWrapper(file)));
+            .Select(file => Maybe.From<IZafiroFile>(file is null ? default! : new StorableWrapper(file)));
     }
 
-    private IObservable<IEnumerable<IStorable>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
+    private IObservable<IEnumerable<IZafiroFile>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
     {
         return Observable
             .FromAsync(() => storageProvider.OpenFilePickerAsync(filePickerOpenOptions))

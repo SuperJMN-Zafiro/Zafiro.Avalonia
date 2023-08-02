@@ -1,8 +1,10 @@
 ﻿using Avalonia.Controls.Notifications;
-using Zafiro.Avalonia.Interfaces;
+using JetBrains.Annotations;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Notifications;
 
+[PublicAPI]
 public class NotificationService : INotificationService
 {
     private readonly IManagedNotificationManager managedNotification;
@@ -12,8 +14,9 @@ public class NotificationService : INotificationService
         this.managedNotification = managedNotification;
     }
 
-    public void ShowMessage(string message)
+    public Task Show(string message)
     {
         managedNotification.Show(message);
+        return Task.CompletedTask;
     }
 }
