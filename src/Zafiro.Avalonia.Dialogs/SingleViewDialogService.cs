@@ -3,7 +3,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
-using CSharpFunctionalExtensions;
 
 namespace Zafiro.Avalonia.Dialogs;
 

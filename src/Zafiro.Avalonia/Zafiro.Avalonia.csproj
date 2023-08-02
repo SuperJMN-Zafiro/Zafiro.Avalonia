@@ -14,16 +14,11 @@
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
 		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
-		<PackageReference Include="Zafiro.UI" Version="3.2.33" />
+		<PackageReference Include="Zafiro.UI" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Common.axaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Zafiro.FileSystem\src\Zafiro.FileSystem\Zafiro.FileSystem.csproj" />
-	  <ProjectReference Include="..\..\..\Zafiro\Source\UI\UI.csproj" />
 	</ItemGroup>
 
 </Project>
