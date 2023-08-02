@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
+using CSharpFunctionalExtensions;
 
 namespace Zafiro.Avalonia.Dialogs;
 
@@ -11,7 +12,7 @@ public class SingleViewDialogService : DialogService, IWindow
     private readonly Stack<(Control, TaskCompletionSource)> dialogs = new();
     private readonly AdornerLayer layer;
 
-    public SingleViewDialogService(Visual control)
+    public SingleViewDialogService(Visual control, IReadOnlyDictionary<Type, Type> modelToViewDictionary) : base(modelToViewDictionary)
     {
         layer = AdornerLayer.GetAdornerLayer(control) ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
     }
@@ -25,9 +26,9 @@ public class SingleViewDialogService : DialogService, IWindow
 
         var tcs = new TaskCompletionSource();
 
-        var view = new DialogView()
+        var view = new DialogView
         {
-            DataContext = new DialogViewModel(viewModel, title, CreateOptions(viewModel, this, options).ToArray()),
+            DataContext = new DialogViewModel(GetFinalContent(viewModel), title, CreateOptions(viewModel, this, options).ToArray()),
         };
 
         var dialog = new DialogViewContainer()

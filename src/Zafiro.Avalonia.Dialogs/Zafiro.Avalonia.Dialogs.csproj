@@ -15,4 +15,14 @@
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Zafiro\Source\UI\UI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="MessageDialogView.axaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

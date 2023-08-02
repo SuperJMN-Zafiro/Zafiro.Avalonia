@@ -6,6 +6,10 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public class ClassicDesktopDialogService : DialogService
 {
+    public ClassicDesktopDialogService(IReadOnlyDictionary<Type, Type> modelToViewDictionary) : base(modelToViewDictionary)
+    {
+    }
+
     public override Task ShowDialog<T>(T viewModel, string title, params OptionConfiguration<T>[] options)
     {
         if (viewModel == null)
@@ -23,8 +27,8 @@ public class ClassicDesktopDialogService : DialogService
         };
 
         var wrapper = new WindowWrapper(window);
-
-        window.Content = new DialogView { DataContext = new DialogViewModel(viewModel, title, CreateOptions(viewModel, wrapper, options).ToArray()) };
+        
+        window.Content = new DialogView { DataContext = new DialogViewModel(GetFinalContent(viewModel), title, CreateOptions(viewModel, wrapper, options).ToArray()) };
         
         return window.ShowDialog(MainWindow);
     }

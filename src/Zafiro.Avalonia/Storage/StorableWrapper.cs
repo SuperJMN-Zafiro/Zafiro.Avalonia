@@ -1,9 +1,10 @@
 using Avalonia.Platform.Storage;
+using CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
 
 namespace Zafiro.Avalonia.Storage;
 
-internal class StorableWrapper : IStorable
+internal class StorableWrapper : IZafiroFile
 {
     private readonly IStorageFile file;
 
@@ -12,16 +13,26 @@ internal class StorableWrapper : IStorable
         this.file = file;
     }
 
-    public Task<Stream> OpenWrite()
-    {
-        return file.OpenWriteAsync();
-    }
-
-    public Task<Stream> OpenRead()
-    {
-        return file.OpenReadAsync();
-    }
-
     public ZafiroPath Path => file.Path.ToString();
-    public string Name => file.Name;
+
+    public Task<Result<Stream>> GetContents()
+    {
+        return Result.Try(file.OpenReadAsync);
+    }
+
+    public Task<Result> SetContents(Stream stream)
+    {
+        return Result.Try(async () =>
+        {
+            using (var openWriteAsync = await file.OpenWriteAsync())
+            {
+                await stream.CopyToAsync(openWriteAsync);
+            }
+        });
+    }
+
+    public Task<Result> Delete()
+    {
+        return Result.Try(file.DeleteAsync);
+    }
 }
