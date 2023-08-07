@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls.Notifications;
+using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 using Zafiro.UI;
 
@@ -14,9 +15,9 @@ public class NotificationService : INotificationService
         this.managedNotification = managedNotification;
     }
 
-    public Task Show(string message)
+    public Task Show(string message, Maybe<string> title)
     {
-        managedNotification.Show(message);
+        managedNotification.Show(new Notification(title.GetValueOrDefault(), message));
         return Task.CompletedTask;
     }
 }

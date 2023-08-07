@@ -15,6 +15,11 @@ internal class StorableWrapper : IZafiroFile
 
     public ZafiroPath Path => file.Path.ToString();
 
+    public Task<Result<long>> Size()
+    {
+        throw new NotSupportedException();
+    }
+
     public Task<Result<Stream>> GetContents()
     {
         return Result.Try(file.OpenReadAsync);
