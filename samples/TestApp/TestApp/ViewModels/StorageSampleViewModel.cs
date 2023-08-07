@@ -3,8 +3,8 @@ using System.Reactive;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
+using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
-using Zafiro.Functional;
 using Zafiro.UI;
 
 namespace TestApp.ViewModels;
