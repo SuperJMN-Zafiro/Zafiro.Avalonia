@@ -13,9 +13,4 @@
     <PackageReference Include="System.Reactive" Version="6.0.0" />
     <PackageReference Include="Zafiro.UI" Version="4.0.3" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="MessageDialogView.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>
