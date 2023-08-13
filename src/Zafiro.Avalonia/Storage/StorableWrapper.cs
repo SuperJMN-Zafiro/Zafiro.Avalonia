@@ -25,13 +25,13 @@ internal class StorableWrapper : IZafiroFile
         return Result.Try(file.OpenReadAsync);
     }
 
-    public Task<Result> SetContents(Stream stream)
+    public Task<Result> SetContents(Stream stream, CancellationToken cancellationToken)
     {
         return Result.Try(async () =>
         {
             using (var openWriteAsync = await file.OpenWriteAsync())
             {
-                await stream.CopyToAsync(openWriteAsync);
+                await stream.CopyToAsync(openWriteAsync, cancellationToken);
             }
         });
     }

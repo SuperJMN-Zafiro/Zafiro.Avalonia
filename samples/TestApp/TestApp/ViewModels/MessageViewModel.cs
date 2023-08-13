@@ -2,5 +2,5 @@
 
 public class MessageViewModel
 {
-    public string Text { get; set; }
+    public required string Text { get; init; }
 }
