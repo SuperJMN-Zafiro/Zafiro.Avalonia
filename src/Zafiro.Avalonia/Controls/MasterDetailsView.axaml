@@ -3,7 +3,7 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:interaction="clr-namespace:Zafiro.Avalonia.Interaction">
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
     <Design.PreviewWith>
         <controls:MasterDetailsView Width="200" Height="300">
             <controls:MasterDetailsView.ItemsSource>
@@ -105,11 +105,11 @@
                             </DockPanel>
 
                             <Interaction.Behaviors>
-                                <interaction:BackTrigger
+                                <behaviors:BackTrigger
                                     MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
                                     <InvokeCommandAction
                                         Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
-                                </interaction:BackTrigger>
+                                </behaviors:BackTrigger>
                             </Interaction.Behaviors>
                         </Panel>
                     </Panel>

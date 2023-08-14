@@ -7,7 +7,7 @@ using Avalonia.Xaml.Interactivity;
 using JetBrains.Annotations;
 using Zafiro.Avalonia.Mixins;
 
-namespace Zafiro.Avalonia.Interaction;
+namespace Zafiro.Avalonia.Behaviors;
 
 [PublicAPI]
 internal class BackTrigger : Trigger<Visual>
@@ -44,6 +44,6 @@ internal class BackTrigger : Trigger<Visual>
     private void Handle(RoutedEventArgs routedEventArgs)
     {
         routedEventArgs.Handled = MarkAsHandled;
-        global::Avalonia.Xaml.Interactivity.Interaction.ExecuteActions(this, Actions, null);
+        Interaction.ExecuteActions(this, Actions, null);
     }
 }
