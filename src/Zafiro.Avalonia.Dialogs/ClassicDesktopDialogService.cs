@@ -23,12 +23,15 @@ public class ClassicDesktopDialogService : DialogService
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             SizeToContent = SizeToContent.WidthAndHeight,
             CanResize = false,
-            MaxWidth = 640,
         };
 
         var wrapper = new WindowWrapper(window);
         
         window.Content = new DialogView { DataContext = new DialogViewModel(GetFinalContent(viewModel), title, CreateOptions(viewModel, wrapper, options).ToArray()) };
+
+#if DEBUG        
+        window.AttachDevTools();
+#endif
         
         return window.ShowDialog(MainWindow);
     }
