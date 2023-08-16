@@ -1,13 +1,17 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using CSharpFunctionalExtensions;
 
 namespace Zafiro.Avalonia.Dialogs;
 
 public class ClassicDesktopDialogService : DialogService
 {
-    public ClassicDesktopDialogService(IReadOnlyDictionary<Type, Type> modelToViewDictionary) : base(modelToViewDictionary)
+    private readonly Maybe<Action<ConfigureWindowContext>> configureWindow;
+
+    public ClassicDesktopDialogService(IReadOnlyDictionary<Type, Type> modelToViewDictionary, Maybe<Action<ConfigureWindowContext>> configureWindow) : base(modelToViewDictionary)
     {
+        this.configureWindow = configureWindow;
     }
 
     public override Task ShowDialog<T>(T viewModel, string title, params OptionConfiguration<T>[] options)
@@ -21,9 +25,10 @@ public class ClassicDesktopDialogService : DialogService
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            CanResize = false,
+            CanResize = true,
         };
+
+        configureWindow.Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
 
         var wrapper = new WindowWrapper(window);
         

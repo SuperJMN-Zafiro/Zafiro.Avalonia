@@ -37,11 +37,11 @@ public abstract class DialogService : IDialogService
 
     public abstract Task ShowDialog<T>(T viewModel, string title, params OptionConfiguration<T>[] options);
 
-    public static IDialogService Create(IApplicationLifetime lifetime, IReadOnlyDictionary<Type, Type> viewModelToViewDictionary)
+    public static IDialogService Create(IApplicationLifetime lifetime, IReadOnlyDictionary<Type, Type> viewModelToViewDictionary, Maybe<Action<ConfigureWindowContext>> configureWindow)
     {
         return lifetime switch
         {
-            IClassicDesktopStyleApplicationLifetime => new ClassicDesktopDialogService(viewModelToViewDictionary),
+            IClassicDesktopStyleApplicationLifetime => new ClassicDesktopDialogService(viewModelToViewDictionary, configureWindow),
             ISingleViewApplicationLifetime { MainView: not null } singleView => new SingleViewDialogService(singleView.MainView, viewModelToViewDictionary),
             ISingleViewApplicationLifetime { MainView: null } => throw new InvalidOperationException("Please, set MainView in the Application.Current.Lifetime before calling this method"),
             _ => throw new ArgumentOutOfRangeException(nameof(lifetime))
