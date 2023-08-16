@@ -39,7 +39,7 @@
                 <Panel>
                     <Border Background="Black" Opacity="0.4" />
                     <Border Padding="12" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Background="White">
+                            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                         <DockPanel>
                             <TextBlock FontWeight="Bold" Text="{TemplateBinding Title}" DockPanel.Dock="Top" />
                             <ContentPresenter Content="{TemplateBinding Content}" />
