@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:TestApp.ViewModels"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -12,6 +13,20 @@
 		<DataTemplate DataType="vm:DialogSampleViewModel">
 			<Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Show dialog" Command="{Binding ShowMessageCommand}" />
 		</DataTemplate>
+        <DataTemplate DataType="vm:BehaviorsSampleViewModel">
+            <Button x:Name="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Click me">
+                <Button.Flyout>
+                    <Flyout>
+						<Button Content="Close" Command="{Binding Close}" />
+						<Interaction.Behaviors>
+                            <behaviors:OnSignalTriggerBehavior Trigger="{Binding Executed}">
+                                <CallMethodAction TargetObject="{Binding #Button.Flyout}" MethodName="Hide" />
+                            </behaviors:OnSignalTriggerBehavior>
+                        </Interaction.Behaviors>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </DataTemplate>
 		<DataTemplate DataType="vm:StorageSampleViewModel">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Button Content="Open a file..."

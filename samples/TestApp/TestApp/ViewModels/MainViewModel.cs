@@ -19,5 +19,6 @@ public class MainViewModel : ViewModelBase
     {
         new("Dialogs", new DialogSampleViewModel(dialogService)),
         new("Storage", new StorageSampleViewModel(storage)),
+        new("Behaviors", new BehaviorsSampleViewModel()),
     };
 }
