@@ -13,42 +13,40 @@
 		<DataTemplate DataType="vm:DialogSampleViewModel">
 			<Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Show dialog" Command="{Binding ShowMessageCommand}" />
 		</DataTemplate>
-        <DataTemplate DataType="vm:BehaviorsSampleViewModel">
-            <Button x:Name="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Click me">
-                <Button.Flyout>
-                    <Flyout>
+		<DataTemplate DataType="vm:BehaviorsSampleViewModel">
+			<Button x:Name="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Click me">
+				<Button.Flyout>
+					<Flyout>
 						<Button Content="Close" Command="{Binding Close}" />
 						<Interaction.Behaviors>
-                            <behaviors:OnSignalTriggerBehavior Trigger="{Binding Executed}">
-                                <CallMethodAction TargetObject="{Binding #Button.Flyout}" MethodName="Hide" />
-                            </behaviors:OnSignalTriggerBehavior>
-                        </Interaction.Behaviors>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </DataTemplate>
+							<behaviors:OnSignalTriggerBehavior Trigger="{Binding Executed}">
+								<CallMethodAction TargetObject="{Binding #Button.Flyout}" MethodName="Hide" />
+							</behaviors:OnSignalTriggerBehavior>
+						</Interaction.Behaviors>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		</DataTemplate>
 		<DataTemplate DataType="vm:StorageSampleViewModel">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Button Content="Open a file..."
 						Classes="Transparent"
                         Command="{Binding OpenFile}" />
 				<TextBlock Text="{Binding SelectedPaths^}" />
-            </StackPanel>
+			</StackPanel>
 		</DataTemplate>
 	</UserControl.DataTemplates>
 
-	<DockPanel>
-		<c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
-			<c:MasterDetailsView.DetailsTemplate>
-				<DataTemplate DataType="vm:Section">
-					<ContentControl Content="{Binding Content}" />
-				</DataTemplate>
-			</c:MasterDetailsView.DetailsTemplate>
-			<c:MasterDetailsView.ItemTemplate>
-				<DataTemplate DataType="vm:Section">
-					<TextBlock Text="{Binding Name}" />
-				</DataTemplate>
-			</c:MasterDetailsView.ItemTemplate>
-		</c:MasterDetailsView>
-	</DockPanel>
+    <c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
+        <c:MasterDetailsView.DetailsTemplate>
+            <DataTemplate DataType="vm:Section">
+                <ContentControl Content="{Binding Content}" />
+            </DataTemplate>
+        </c:MasterDetailsView.DetailsTemplate>
+        <c:MasterDetailsView.ItemTemplate>
+            <DataTemplate DataType="vm:Section">
+                <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+        </c:MasterDetailsView.ItemTemplate>
+    </c:MasterDetailsView>
 </UserControl>
