@@ -1,8 +1,35 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
+    <Design.PreviewWith>
+        <Border Width="400">
+            <HeaderedContentControl FontSize="14" Header="Header">
+                <TextBox Text="Content" />
+            </HeaderedContentControl>
+        </Border>
+    </Design.PreviewWith>
+
     <Style Selector="Button.Transparent /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="HeaderedContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="Header" Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label VerticalAlignment="Center" TextElement.FontWeight="Bold" DockPanel.Dock="Left"
+                               Padding="0" Target="{Binding #ContentPresenter}" Margin="8 0 8 0"
+                               Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <ContentPresenter Grid.Column="1" x:Name="ContentPresenter" Content="{TemplateBinding Content}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </Styles>

@@ -4,137 +4,107 @@
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
-    <Design.PreviewWith>
-        <controls:MasterDetailsView Width="200" Height="300">
-            <controls:MasterDetailsView.ItemsSource>
-                <generic:List x:TypeArguments="x:Object">
-                    <system:String>Hola</system:String>
-                    <system:String>Hola2</system:String>
-                    <system:String>Hola3</system:String>
-                </generic:List>
-            </controls:MasterDetailsView.ItemsSource>
-        </controls:MasterDetailsView>
-    </Design.PreviewWith>
+	<Design.PreviewWith>
+		<controls:MasterDetailsView Width="200" Height="300">
+			<controls:MasterDetailsView.ItemsSource>
+				<generic:List x:TypeArguments="x:Object">
+					<system:String>Hola</system:String>
+					<system:String>Hola2</system:String>
+					<system:String>Hola3</system:String>
+				</generic:List>
+			</controls:MasterDetailsView.ItemsSource>
+		</controls:MasterDetailsView>
+	</Design.PreviewWith>
 
-    <StyleInclude Source="avares://Zafiro.Avalonia/Common.axaml" />
+	<StyleInclude Source="avares://Zafiro.Avalonia/Common.axaml" />
 
-    <Styles.Resources>
-        <Image x:Key="BackArrow">
-            <Image.Resources>
-                <SolidColorBrush x:Key="ArrowColor" Color="#FF000000" />
-            </Image.Resources>
-            <DrawingImage>
-                <DrawingGroup>
-                    <GeometryDrawing Brush="Transparent" Geometry="F1M0,0L800,0L800,800L0,800z" />
+	<Styles.Resources>
+		<ControlTemplate x:Key="BackArrow">
+            <Image>
+                <Image.Resources>
+                    <SolidColorBrush x:Key="ArrowColor" Color="#FF000000" />
+                </Image.Resources>
+                <DrawingImage>
                     <DrawingGroup>
-                        <DrawingGroup.Transform>
-                            <MatrixTransform Matrix="0.78125,0,0,0.78125,0,0" />
-                        </DrawingGroup.Transform>
-                        <GeometryDrawing Brush="{DynamicResource ArrowColor}"
-                                         Geometry="F1 M669.6 849.6C678.4 857.6 692 856.8 700 848C708 839.2 707.2 825.6 698.4 817.6L388.8 537.6C380.8 530.4 380.8 520 388.8 512.8L698.4 242.4C707.2 234.4 708 220.8 700.8 212C692.8 203.2 679.2 202.4 670.4 209.6L360.8 480.8C333.6 504.8 332.8 544.8 360 569.6L669.6 849.6Z" />
+                        <GeometryDrawing Brush="Transparent" Geometry="F1M0,0L800,0L800,800L0,800z" />
+                        <DrawingGroup>
+                            <DrawingGroup.Transform>
+                                <MatrixTransform Matrix="0.78125,0,0,0.78125,0,0" />
+                            </DrawingGroup.Transform>
+                            <GeometryDrawing Brush="{DynamicResource ArrowColor}"
+                                             Geometry="F1 M669.6 849.6C678.4 857.6 692 856.8 700 848C708 839.2 707.2 825.6 698.4 817.6L388.8 537.6C380.8 530.4 380.8 520 388.8 512.8L698.4 242.4C707.2 234.4 708 220.8 700.8 212C692.8 203.2 679.2 202.4 670.4 209.6L360.8 480.8C333.6 504.8 332.8 544.8 360 569.6L669.6 849.6Z" />
+                        </DrawingGroup>
                     </DrawingGroup>
-                </DrawingGroup>
-            </DrawingImage>
-        </Image>
-    </Styles.Resources>
+                </DrawingImage>
+            </Image>
+        </ControlTemplate>
+	</Styles.Resources>
 
-    <Style Selector="controls|MasterDetailsView">
+	<Style Selector="controls|MasterDetailsView">
 
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Panel>
-                    <DockPanel x:Name="LargePane">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<controls:AdaptiveControl>
+					<controls:AdaptiveControl.HorizontalTemplate>
+						<ControlTemplate>
+							<DockPanel DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
+								<ListBox ItemTemplate="{Binding ItemTemplate}"
+                                         SelectedItem="{Binding SelectedItem}"
+                                         ItemsSource="{Binding ItemsSource}"
+                                         Width="{Binding MasterPaneWidth}" DockPanel.Dock="Left">
+								</ListBox>
+								<ContentControl ContentTemplate="{Binding DetailsTemplate}"
+                                                Content="{Binding SelectedItem}" />
+							</DockPanel>
+						</ControlTemplate>
+					</controls:AdaptiveControl.HorizontalTemplate>
+					<controls:AdaptiveControl.VerticalTemplate>
+						<ControlTemplate>
+                            <Panel DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
+                                <ListBox ItemTemplate="{Binding ItemTemplate}"
+                                         SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
+                                         ItemsSource="{Binding ItemsSource}"
+                                         IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}">
+                                    <ListBox.Styles>
+                                        <Style Selector="ListBoxItem">
+                                            <Setter Property="Interaction.Behaviors">
+                                                <BehaviorCollectionTemplate>
+                                                    <BehaviorCollection>
+                                                        <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}" RoutingStrategies="Tunnel">
+                                                            <InvokeCommandAction Command="{Binding $parent[controls:MasterDetailsView].GoToDetails}" />
+                                                        </RoutedEventTriggerBehavior>
+                                                    </BehaviorCollection>
+                                                </BehaviorCollectionTemplate>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.Styles>
+                                </ListBox>
+                                <DockPanel IsVisible="{Binding $parent[controls:MasterDetailsView].AreDetailsShown}">
+                                    <Button IsVisible="{Binding $parent[controls:MasterDetailsView].IsBackButtonDisplayed}"
+                                            DockPanel.Dock="Top" Height="32" Padding="0"
+                                            Classes="Transparent"
+                                            Command="{Binding $parent[controls:MasterDetailsView].BackCommand}">
+                                        <Button.Content>
+                                            <ContentControl Template="{StaticResource BackArrow}" />
+                                        </Button.Content>
+                                    </Button>
+                                    <ContentControl ContentTemplate="{Binding DetailsTemplate}"
+                                                    Content="{Binding SelectedItem}" />
+                                </DockPanel>
 
-                        <DockPanel.Styles>
-                            <Style Selector="DockPanel.Compact">
-                                <Setter Property="IsVisible" Value="False" />
-                            </Style>
-                            <Style Selector="DockPanel.Large">
-                                <Setter Property="IsVisible" Value="True" />
-                            </Style>
-                        </DockPanel.Styles>
-
-                        <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
-                                 SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
-                                 ItemsSource="{TemplateBinding ItemsSource}" 
-                                 Width="{TemplateBinding MasterPaneWidth}" DockPanel.Dock="Left">
-                        </ListBox>
-                        <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
-                                        Content="{TemplateBinding SelectedItem}" />
-
-                    </DockPanel>
-
-                    <Panel x:Name="CompactPane">
-
-                        <Panel.Styles>
-                            <Style Selector="Panel.Compact">
-                                <Setter Property="IsVisible" Value="True" />
-                            </Style>
-                            <Style Selector="Panel.Large">
-                                <Setter Property="IsVisible" Value="False" />
-                            </Style>
-                        </Panel.Styles>
-
-                        <Panel>
-                            <ListBox ItemTemplate="{TemplateBinding ItemTemplate}"
-                                     SelectedItem="{TemplateBinding SelectedItem,Mode=TwoWay}"
-                                     ItemsSource="{TemplateBinding ItemsSource}"
-                                     IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}">
-                                <ListBox.Styles>
-                                    <Style Selector="ListBoxItem">
-                                        <Setter Property="Interaction.Behaviors">
-                                            <BehaviorCollectionTemplate>
-                                                <BehaviorCollection>
-                                                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}" RoutingStrategies="Tunnel">
-                                                        <InvokeCommandAction Command="{Binding $parent[controls:MasterDetailsView].GoToDetails}" />
-                                                    </RoutedEventTriggerBehavior>
-                                                </BehaviorCollection>
-                                            </BehaviorCollectionTemplate>
-                                        </Setter>
-                                    </Style>
-                                </ListBox.Styles>
-                            </ListBox>
-                            <DockPanel IsVisible="{Binding $parent[controls:MasterDetailsView].AreDetailsShown}">
-                                <Button IsVisible="{Binding $parent[controls:MasterDetailsView].IsBackButtonDisplayed}"
-                                        DockPanel.Dock="Top" Height="32" Padding="0"
-                                        Classes="Transparent"
-                                        Content="{StaticResource BackArrow}"
-                                        Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
-                                <ContentControl ContentTemplate="{TemplateBinding DetailsTemplate}"
-                                                Content="{TemplateBinding SelectedItem}" />
-                            </DockPanel>
-
-                            <Interaction.Behaviors>
-                                <behaviors:BackTrigger
-                                    MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
-                                    <InvokeCommandAction
-                                        Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
-                                </behaviors:BackTrigger>
-                            </Interaction.Behaviors>
-                        </Panel>
-                    </Panel>
-
-                    <Interaction.Behaviors>
-                        <AdaptiveBehavior SourceControl="{Binding $parent[controls:MasterDetailsView]}"
-                                          TargetControl="{Binding #LargePane}">
-                            <AdaptiveClassSetter MinWidth="0"
-                                                 MaxWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
-                                                 ClassName="Compact" />
-                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
-                                                 MaxWidth="Infinity" ClassName="Large" />
-                        </AdaptiveBehavior>
-                        <AdaptiveBehavior SourceControl="{Binding $parent[controls:MasterDetailsView]}"
-                                          TargetControl="{Binding #CompactPane}">
-                            <AdaptiveClassSetter MinWidth="0"
-                                                 MaxWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
-                                                 ClassName="Compact" />
-                            <AdaptiveClassSetter MinWidth="{Binding $parent[controls:MasterDetailsView].CompactWidth}"
-                                                 MaxWidth="Infinity" ClassName="Large" />
-                        </AdaptiveBehavior>
-                    </Interaction.Behaviors>
-
-                </Panel>
-            </ControlTemplate>
-        </Setter>
-    </Style>
+                                <Interaction.Behaviors>
+                                    <behaviors:BackTrigger
+                                        MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
+                                        <InvokeCommandAction
+                                            Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
+                                    </behaviors:BackTrigger>
+                                </Interaction.Behaviors>
+                            </Panel>
+						</ControlTemplate>
+					</controls:AdaptiveControl.VerticalTemplate>
+				</controls:AdaptiveControl>
+				
+			</ControlTemplate>
+		</Setter>
+	</Style>
 </Styles>
