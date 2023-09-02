@@ -9,7 +9,7 @@ public class ClassicDesktopDialogService : DialogService
 {
     private readonly Maybe<Action<ConfigureWindowContext>> configureWindow;
 
-    public ClassicDesktopDialogService(IReadOnlyDictionary<Type, Type> modelToViewDictionary, Maybe<Action<ConfigureWindowContext>> configureWindow) : base(modelToViewDictionary)
+    public ClassicDesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow) : base()
     {
         this.configureWindow = configureWindow;
     }
@@ -32,7 +32,7 @@ public class ClassicDesktopDialogService : DialogService
 
         var wrapper = new WindowWrapper(window);
         
-        window.Content = new DialogView { DataContext = new DialogViewModel(GetFinalContent(viewModel), title, CreateOptions(viewModel, wrapper, options).ToArray()) };
+        window.Content = new DialogView { DataContext = new DialogViewModel(viewModel, title, CreateOptions(viewModel, wrapper, options).ToArray()) };
 
 #if DEBUG        
         window.AttachDevTools();
