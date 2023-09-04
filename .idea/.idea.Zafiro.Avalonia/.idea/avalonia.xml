@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="samples/TestApp/TestApp/App.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Samples/Wizard/Pages/FirstPageView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Samples/Wizard/Pages/SecondPageView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Samples/Wizard/WizardSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Views/MainView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Views/Samples/Wizard/Pages/FirstPageView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Views/Samples/Wizard/Pages/SecondPageView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Views/Samples/Wizard/WizardSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Views/Samples/WizardSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Views/Samples/WizardSampleViewModel.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="src/Zafiro.Avalonia/Controls/WizardControl.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="src/Zafiro.Avalonia/Styles.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
