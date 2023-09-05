@@ -93,11 +93,11 @@
                                 </DockPanel>
 
                                 <Interaction.Behaviors>
-                                    <behaviors:BackTrigger
+                                    <behaviors:BackTriggerBehavior
                                         MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
                                         <InvokeCommandAction
                                             Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
-                                    </behaviors:BackTrigger>
+                                    </behaviors:BackTriggerBehavior>
                                 </Interaction.Behaviors>
                             </Panel>
 						</ControlTemplate>

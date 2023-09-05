@@ -10,9 +10,9 @@ using Zafiro.Avalonia.Mixins;
 namespace Zafiro.Avalonia.Behaviors;
 
 [PublicAPI]
-internal class BackTrigger : Trigger<Visual>
+internal class BackTriggerBehavior : Trigger<Visual>
 {
-    public static readonly StyledProperty<bool> MarkAsHandledProperty = AvaloniaProperty.Register<BackTrigger, bool>(nameof(MarkAsHandled));
+    public static readonly StyledProperty<bool> MarkAsHandledProperty = AvaloniaProperty.Register<BackTriggerBehavior, bool>(nameof(MarkAsHandled));
     private readonly CompositeDisposable disposables = new();
 
     public bool MarkAsHandled
