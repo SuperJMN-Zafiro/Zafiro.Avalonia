@@ -3,6 +3,8 @@
              xmlns:viewModels="clr-namespace:TestApp.ViewModels"
              xmlns:wizard="clr-namespace:TestApp.Samples.Wizard"
              xmlns:pages="clr-namespace:TestApp.Samples.Wizard.Pages"
+             xmlns:testApp="clr-namespace:TestApp"
+             xmlns:model="clr-namespace:Zafiro.Avalonia.Model;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Default">
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -14,7 +16,10 @@
 	</Application.Styles>
 
 	<Application.DataTemplates>
-		<DataTemplate DataType="wizard:WizardSampleViewModel">
+        <DataTemplate DataType="model:WizardPageContainer">
+            <ContentPresenter Content="{Binding Page}" />
+        </DataTemplate>
+        <DataTemplate DataType="wizard:WizardSampleViewModel">
 			<wizard:WizardSampleView />
 		</DataTemplate>
 		<DataTemplate DataType="pages:FirstPageViewModel">

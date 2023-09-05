@@ -1,7 +1,7 @@
 using System.Windows.Input;
 using ReactiveUI;
 
-namespace Zafiro.Avalonia.Controls.Wizard;
+namespace Zafiro.Avalonia.Model;
 
 public interface IWizard
 {

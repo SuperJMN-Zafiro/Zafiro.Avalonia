@@ -1,7 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:Zafiro.Avalonia.Controls"
-        xmlns:wizard="clr-namespace:Zafiro.Avalonia.Controls.Wizard"
+        xmlns:wizard="using:Zafiro.Avalonia.Controls"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
   <Design.PreviewWith>
     <wizard:WizardControl Width="600" Height="300"/>
@@ -58,7 +57,7 @@
               <Button x:Name="PART_NextButton"
                       Command="{Binding GoNextCommand}"
                       Opacity="{Binding CanGoNext^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                      Content="{Binding ActivePage^.NextText}" HorizontalAlignment="Right" />
+                      Content="{Binding ActivePage^.NextText.Value}" HorizontalAlignment="Right" />
 
             </Panel>
             <Carousel ItemsSource="{Binding Pages}" SelectedItem="{Binding ActivePage^}">

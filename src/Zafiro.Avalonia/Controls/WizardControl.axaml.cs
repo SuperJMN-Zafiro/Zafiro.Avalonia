@@ -3,8 +3,9 @@ using Avalonia;
 using Avalonia.Controls.Primitives;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Zafiro.Avalonia.Model;
 
-namespace Zafiro.Avalonia.Controls.Wizard
+namespace Zafiro.Avalonia.Controls
 {
     public class WizardControl : TemplatedControl
     {

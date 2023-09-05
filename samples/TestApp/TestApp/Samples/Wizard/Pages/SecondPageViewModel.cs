@@ -1,15 +1,16 @@
 ﻿using System;
+using CSharpFunctionalExtensions;
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Controls.Wizard;
+using Zafiro.Avalonia.Model;
 
 namespace TestApp.Samples.Wizard.Pages;
 
-public class SecondPageViewModel : ReactiveValidationObject, IWizardPage
+public class SecondPageViewModel : ReactiveValidationObject, IValidatable
 {
     public IObservable<bool> IsValid => ((ReactiveValidationObject)this).IsValid();
-    public string NextText { get; } = "";
+    public Maybe<string> NextText { get; } = "";
     public bool ShowNext { get; } = false;
     
     [Reactive]

@@ -3,27 +3,29 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Zafiro.Avalonia.Controls.Wizard;
+namespace Zafiro.Avalonia.Model;
 
-public partial class Wizard : ReactiveObject, IWizard
+public class Wizard : ReactiveObject, IWizard
 {
-    [Reactive]
-    public int CurrentPageIndex { get; set; }
-
     public Wizard(IList<IWizardPage> pages)
     {
         Pages = pages;
 
         ActivePage = this.WhenAnyValue(x => x.CurrentPageIndex).Select(i => Pages[i]);
-        var currentPageIsValid = ActivePage.Select(x => x.IsValid).Switch();
+        var isCurrentPageValid = ActivePage.Select(x => x.IsValid).Switch();
 
-        var canGoNext = this.WhenAnyValue(x => x.CurrentPageIndex, x => x < Pages.Count - 1).CombineLatest(currentPageIsValid, (inRange, isValid) => inRange && isValid);
-        var canBack = this.WhenAnyValue(x => x.CurrentPageIndex, x => x > 0);
+        var canGoNext = this
+            .WhenAnyValue(x => x.CurrentPageIndex, x => x == Pages.Count - 1)
+            .CombineLatest(isCurrentPageValid, (isLastPage, isValid) => isValid && !isLastPage);
+
+        var canGoBack = this.WhenAnyValue(x => x.CurrentPageIndex, x => x > 0);
 
         GoNextCommand = ReactiveCommand.Create(() => CurrentPageIndex++, canGoNext);
-        BackCommand = ReactiveCommand.Create(() => CurrentPageIndex--, canBack);
+        BackCommand = ReactiveCommand.Create(() => CurrentPageIndex--, canGoBack);
         CanGoNext = canGoNext;
     }
+
+    [Reactive] public int CurrentPageIndex { get; set; }
 
     public IObservable<bool> CanGoNext { get; }
 

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
 using TestApp.Samples.Wizard.Pages;
-using Zafiro.Avalonia.Controls.Wizard;
+using Zafiro.Avalonia.Model;
 
 namespace TestApp.Samples.Wizard;
 
@@ -9,7 +11,7 @@ public class WizardSampleViewModel : ReactiveValidationObject
 {
     public List<IWizardPage> Pages { get; } = new()
     {
-        new FirstPageViewModel(),
-        new SecondPageViewModel(),
+        new WizardPageContainer(new FirstPageViewModel(), "Continue"),
+        new WizardPageContainer(new SecondPageViewModel(), Maybe<string>.None),
     };
 }

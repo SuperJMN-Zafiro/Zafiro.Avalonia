@@ -1,12 +1,13 @@
 ﻿using System;
+using CSharpFunctionalExtensions;
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Controls.Wizard;
+using Zafiro.Avalonia.Model;
 
 namespace TestApp.Samples.Wizard.Pages;
 
-public class FirstPageViewModel : ReactiveValidationObject, IWizardPage
+public class FirstPageViewModel : ReactiveValidationObject, IValidatable
 {
     public FirstPageViewModel()
     {
@@ -19,6 +20,6 @@ public class FirstPageViewModel : ReactiveValidationObject, IWizardPage
 
     public IObservable<bool> IsValid => this.IsValid();
 
-    public string NextText { get; } = "Continue";
+    public Maybe<string> NextText { get; } = "Continue";
     public bool ShowNext { get; } = true;
 }
