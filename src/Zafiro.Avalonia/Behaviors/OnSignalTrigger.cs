@@ -6,16 +6,16 @@ using ReactiveUI;
 
 namespace Zafiro.Avalonia.Behaviors;
 
-public class OnSignalTriggerBehavior : Trigger
+public class OnSignalTrigger : Trigger
 {
-    public OnSignalTriggerBehavior()
+    public OnSignalTrigger()
     {
         this.WhenAnyObservable(x => x.Trigger)
             .Do(_ => Interaction.ExecuteActions(this, Actions, null))
             .Subscribe();
     }
 
-    public static readonly StyledProperty<IObservable<Unit>> TriggerProperty = AvaloniaProperty.Register<OnSignalTriggerBehavior, IObservable<Unit>>(
+    public static readonly StyledProperty<IObservable<Unit>> TriggerProperty = AvaloniaProperty.Register<OnSignalTrigger, IObservable<Unit>>(
         nameof(Trigger));
 
     public IObservable<Unit> Trigger
