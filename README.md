@@ -22,3 +22,7 @@ Some of the most important hightligts of the library are:
 
 * **NamingConventionViewLocator**. A data template that finds views for ViewModels by naming convention (ViewModel => View) AKA "ViewLocator" in AvaloniaUI templates.
 * **ReturnExtension**. A markup extension that can be used to return observables in design-time data (as part of Design.PreviewWith).
+
+# More info
+
+Please, take a look to the Samples inside the solution.
