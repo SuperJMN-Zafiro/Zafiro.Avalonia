@@ -1,9 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:viewModels="clr-namespace:TestApp.ViewModels"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Default">
-	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
 	<Application.Styles>
 		<StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
@@ -12,12 +11,8 @@
 	</Application.Styles>
 
 	<Application.DataTemplates>
-		<DataTemplate DataType="viewModels:MessageViewModel">
-			<DockPanel>
-                <Image Height="120" DockPanel.Dock="Top" Source="/Assets/avalonia-logo.ico" />
-                <TextBlock Margin="10" TextWrapping="Wrap" Text="{Binding Text}" />
-            </DockPanel>
-		</DataTemplate>
-	</Application.DataTemplates>
+        <misc:NamingConventionViewLocator />
+		<misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
+    </Application.DataTemplates>
 
 </Application>
