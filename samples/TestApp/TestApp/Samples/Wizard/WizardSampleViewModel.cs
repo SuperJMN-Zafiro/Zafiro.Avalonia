@@ -9,9 +9,16 @@ namespace TestApp.Samples.Wizard;
 
 public class WizardSampleViewModel : ReactiveValidationObject
 {
-    public List<IWizardPage> Pages { get; } = new()
+    public WizardSampleViewModel()
+    {
+        Wizard = new Zafiro.Avalonia.Model.Wizard(Pages);
+    }
+
+    private List<IWizardPage> Pages { get; } = new()
     {
         new WizardPageContainer(new FirstPageViewModel(), "Continue"),
         new WizardPageContainer(new SecondPageViewModel(), Maybe<string>.None),
     };
+
+    public IWizard Wizard { get; }
 }

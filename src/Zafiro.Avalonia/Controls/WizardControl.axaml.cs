@@ -1,32 +1,17 @@
-using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Zafiro.Avalonia.Model;
 
-namespace Zafiro.Avalonia.Controls
+namespace Zafiro.Avalonia.Controls;
+
+public class WizardControl : TemplatedControl
 {
-    public class WizardControl : TemplatedControl
+    public static readonly StyledProperty<IWizard?> WizardProperty = AvaloniaProperty.Register<WizardControl, IWizard?>(
+        nameof(Wizard));
+
+    public IWizard? Wizard
     {
-        public WizardControl()
-        {
-            this.WhenAnyValue(x => x.Pages)
-                .WhereNotNull()
-                .Select(enumerable => new Wizard(enumerable.ToList()))
-                .BindTo(this, x => x.Wizard);
-        }
-
-        [Reactive]
-        public Wizard? Wizard { get; private set; }
-
-        public static readonly StyledProperty<IEnumerable<IWizardPage>> PagesProperty = AvaloniaProperty.Register<WizardControl, IEnumerable<IWizardPage>>(
-            nameof(Pages));
-
-        public IEnumerable<IWizardPage> Pages
-        {
-            get => GetValue(PagesProperty);
-            set => SetValue(PagesProperty, value);
-        }
+        get => GetValue(WizardProperty);
+        set => SetValue(WizardProperty, value);
     }
 }

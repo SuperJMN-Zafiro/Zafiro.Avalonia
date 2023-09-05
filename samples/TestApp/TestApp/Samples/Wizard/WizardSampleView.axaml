@@ -15,5 +15,5 @@
         </DataTemplate>
     </UserControl.DataTemplates>
 
-    <controls:WizardControl Pages="{Binding Pages}" />
+    <controls:WizardControl Wizard="{Binding Wizard}" />
 </UserControl>
