@@ -25,4 +25,9 @@ public class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
+
+    private void AQUI_TOY_OnDataContextChanged(object? sender, EventArgs e)
+    {
+        
+    }
 }

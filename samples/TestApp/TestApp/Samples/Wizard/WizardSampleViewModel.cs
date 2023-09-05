@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
 using TestApp.Samples.Wizard.Pages;

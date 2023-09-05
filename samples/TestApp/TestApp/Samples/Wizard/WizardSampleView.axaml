@@ -3,17 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-             xmlns:model="clr-namespace:Zafiro.Avalonia.Model;assembly=Zafiro.Avalonia"
              xmlns:wizard="clr-namespace:TestApp.Samples.Wizard"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Wizard.WizardSampleView"
              x:DataType="wizard:WizardSampleViewModel">
-
-    <UserControl.DataTemplates>
-        <DataTemplate DataType="model:WizardPageContainer">
-            <ContentPresenter Content="{Binding Page}" />
-        </DataTemplate>
-    </UserControl.DataTemplates>
-
     <controls:WizardControl Wizard="{Binding Wizard}" />
 </UserControl>
