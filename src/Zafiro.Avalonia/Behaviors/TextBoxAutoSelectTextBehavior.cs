@@ -10,7 +10,7 @@ using Zafiro.Avalonia.Mixins;
 namespace Zafiro.Avalonia.Behaviors;
 
 [PublicAPI]
-internal class TextBoxAutoSelectTextBehavior : AttachedToVisualTreeBehavior<TextBox>
+public class TextBoxAutoSelectTextBehavior : AttachedToVisualTreeBehavior<TextBox>
 {
     protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
     {
