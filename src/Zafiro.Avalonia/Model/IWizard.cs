@@ -5,9 +5,9 @@ namespace Zafiro.Avalonia.Model;
 
 public interface IWizard
 {
-    IObservable<IWizardPage> ActivePage { get; }
-    IList<IWizardPage> Pages { get; }
-    ICommand GoNextCommand { get; set; }
-    IReactiveCommand BackCommand { get; set; }
+    IPage CurrentPage { get; }
+    IEnumerable<IPage> Pages { get; }
+    ICommand GoNext { get; }
+    IReactiveCommand GoBack { get; }
     IObservable<bool> CanGoNext { get; }
 }

@@ -6,10 +6,10 @@ namespace Zafiro.Avalonia.Controls;
 
 public class WizardControl : TemplatedControl
 {
-    public static readonly StyledProperty<IWizard?> WizardProperty = AvaloniaProperty.Register<WizardControl, IWizard?>(
+    public static readonly StyledProperty<Wizard?> WizardProperty = AvaloniaProperty.Register<WizardControl, Wizard?>(
         nameof(Wizard));
 
-    public IWizard? Wizard
+    public Wizard? Wizard
     {
         get => GetValue(WizardProperty);
         set => SetValue(WizardProperty, value);
