@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
 using TestApp.Samples.Wizard.Pages;
 using Zafiro.Avalonia.Model;
@@ -10,14 +9,14 @@ public class WizardSampleViewModel : ReactiveValidationObject
 {
     public WizardSampleViewModel()
     {
-        Wizard = new Zafiro.Avalonia.Model.Wizard(Pages);
-    }
+        var pages = PageBuilder
+            .PageFor(() => new FirstPageViewModel(), "Continue")
+            .WithNext(first => new SecondPageViewModel(first.Number), "Oh sí")
+            .WithNext(_ => new LastPageViewModel(), Maybe<string>.None)
+            .Build();
 
-    private List<IWizardPage> Pages { get; } = new()
-    {
-        new WizardPageContainer(new FirstPageViewModel(), "Continue"),
-        new WizardPageContainer(new SecondPageViewModel(), Maybe<string>.None),
-    };
+        Wizard = new Zafiro.Avalonia.Model.Wizard(pages);
+    }
 
     public IWizard Wizard { get; }
 }

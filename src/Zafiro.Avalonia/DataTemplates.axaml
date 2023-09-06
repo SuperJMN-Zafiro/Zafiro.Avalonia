@@ -1,9 +1,0 @@
-﻿<DataTemplates xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:model="clr-namespace:Zafiro.Avalonia.Model">
-
-    <DataTemplate DataType="model:WizardPageContainer">
-        <ContentPresenter Content="{Binding Page}" />
-    </DataTemplate>
-    
-</DataTemplates>

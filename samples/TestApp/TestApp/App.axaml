@@ -12,7 +12,6 @@
 
 	<Application.DataTemplates>
         <misc:NamingConventionViewLocator />
-		<misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
     </Application.DataTemplates>
 
 </Application>

@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wizard="using:Zafiro.Avalonia.Controls"
-        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
+        xmlns:model="clr-namespace:Zafiro.Avalonia.Model">
   <Design.PreviewWith>
     <wizard:WizardControl Width="600" Height="300"/>
   </Design.PreviewWith>
@@ -20,14 +21,14 @@
                   Margin="8 6"
                   Classes="plain"
                   HorizontalAlignment="Left"
-                  Opacity="{Binding BackCommand.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                  Command="{Binding BackCommand}">
+                  Opacity="{Binding GoBack.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+                  Command="{Binding GoBack}">
             <PathIcon Data="{StaticResource arrow_left_regular}" Width="16" />
           </Button>
           <DockPanel Margin="20">
             <Panel DockPanel.Dock="Bottom">
               <ListBox IsHitTestVisible="False" Background="Transparent" HorizontalAlignment="Center"
-                       SelectedItem="{Binding ActivePage^, Mode=OneWay}"
+                       SelectedItem="{Binding CurrentPage, Mode=OneWay}"
                        ItemsSource="{Binding Pages}">
                 <ListBox.Styles>
                   <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
@@ -55,13 +56,18 @@
                 </ListBox.ItemTemplate>
               </ListBox>
               <Button x:Name="PART_NextButton"
-                      Command="{Binding GoNextCommand}"
+                      Command="{Binding GoNext}"
                       Opacity="{Binding CanGoNext^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                      Content="{Binding ActivePage^.NextText.Value}" HorizontalAlignment="Right" />
+                      Content="{Binding CurrentPage.NextText.Value}" HorizontalAlignment="Right" />
 
             </Panel>
-            <Carousel ItemsSource="{Binding Pages}" SelectedItem="{Binding ActivePage^}">
-              <Carousel.PageTransition>
+            <Carousel ItemsSource="{Binding Pages}" SelectedItem="{Binding CurrentPage}">
+                <Carousel.ItemTemplate>
+                    <DataTemplate DataType="model:IPage">
+                        <ContentControl Content="{Binding Content}" />
+                    </DataTemplate>
+                </Carousel.ItemTemplate>
+                <Carousel.PageTransition>
                 <PageSlide Duration="0:0:0.5" SlideOutEasing="{StaticResource FluentEasing}"
                            SlideInEasing="" />
               </Carousel.PageTransition>
