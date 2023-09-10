@@ -2,7 +2,7 @@
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Model;
+using Zafiro.Avalonia.NewWizard.Interfaces;
 
 namespace TestApp.Samples.Wizard.Pages;
 

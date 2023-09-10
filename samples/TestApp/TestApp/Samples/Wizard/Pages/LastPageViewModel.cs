@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Model;
+using Zafiro.Avalonia.NewWizard.Interfaces;
 
 namespace TestApp.Samples.Wizard.Pages;
 
