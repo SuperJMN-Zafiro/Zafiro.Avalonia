@@ -4,8 +4,8 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.Avalonia.Misc;
-using Zafiro.Avalonia.Mixins;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;
 

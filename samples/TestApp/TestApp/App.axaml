@@ -1,6 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:interfaces="clr-namespace:Zafiro.Avalonia.NewWizard.Interfaces;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Default">
 
@@ -12,6 +14,9 @@
 
 	<Application.DataTemplates>
         <misc:NamingConventionViewLocator />
+        <DataTemplate DataType="interfaces:IWizard">
+            <controls:WizardControl Wizard="{Binding}" />
+        </DataTemplate>
     </Application.DataTemplates>
 
 </Application>

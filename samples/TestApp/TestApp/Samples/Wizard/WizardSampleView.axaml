@@ -2,10 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:wizard="clr-namespace:TestApp.Samples.Wizard"
+             xmlns:interfaces="clr-namespace:Zafiro.Avalonia.NewWizard.Interfaces;assembly=Zafiro.Avalonia"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Wizard.WizardSampleView"
              x:DataType="wizard:WizardSampleViewModel">
-    <controls:WizardControl Wizard="{Binding Wizard}" />
+
+    <!--<UserControl.DataTemplates>
+        <DataTemplate DataType="interfaces:IWizard">
+            <controls:WizardControl Wizard="{Binding}" />
+        </DataTemplate>
+    </UserControl.DataTemplates>-->
+
+    <Button Content="Show wizard" Command="{Binding ShowWizard}" />
 </UserControl>

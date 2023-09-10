@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.Avalonia.Misc;
 
 namespace TestApp.Samples.Dialogs;

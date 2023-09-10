@@ -4,9 +4,17 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using CSharpFunctionalExtensions;
-using static Avalonia.Threading.AvaloniaSynchronizationContext;
+using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
+
+public static class NewDialogExtensions
+{
+    public static Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(INewDialogService dialog, TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results) where TViewModel : IHaveResult<TResult>
+    {
+        return dialog.ShowDialog(viewModel, title, results, Array.Empty<NewOptionConfiguration<TViewModel, TResult>>());
+    }
+}
 
 public class NewDialogService : INewDialogService
 {
@@ -54,10 +62,4 @@ public class NewDialogService : INewDialogService
     }
 
     private static Window MainWindow => ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
-}
-
-public interface IHaveResult<T>
-{
-    Task<T> Result { get; }
-    void SetResult(T result);
 }

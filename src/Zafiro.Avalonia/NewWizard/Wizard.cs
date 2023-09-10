@@ -64,6 +64,10 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
     public IMyCommand GoNext { get; }
     public IMyCommand GoBack { get; }
     public Task<T> Result => tcs.Task;
+    public void SetResult(T result)
+    {
+        tcs.SetResult(result);
+    }
 
     public IObservable<IPage<IValidatable, IValidatable>> CurrentPage => this.WhenAnyValue(x => x.Current).Select(x => x.Value);
         

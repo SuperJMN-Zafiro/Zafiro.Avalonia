@@ -2,7 +2,7 @@
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace Zafiro.Avalonia.Mixins;
+namespace Zafiro.Avalonia.MigrateToZafiro;
 
 public static class TaskMixin
 {

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Avalonia.Controls.Notifications;
+﻿using System;
+using System.Collections.Generic;
+using CSharpFunctionalExtensions;
 using TestApp.Samples.Wizard;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Notifications;
 using Zafiro.UI;
 
 namespace TestApp.ViewModels;
@@ -22,7 +22,7 @@ public class MainViewModel : ViewModelBase
 
     public IEnumerable<Section> Sections => new List<Section>()
     {
-        new("Wizard", new WizardSampleViewModel()),
+        new("Wizard", new WizardSampleViewModel(new NewDialogService(Maybe<Action<ConfigureWindowContext>>.None), notificationService)),
         new("Dialogs", new DialogSampleViewModel(dialogService)),
         new("New Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),

@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.NewWizard.Interfaces;
 
@@ -11,7 +12,7 @@ public interface IWizard
     public IObservable<bool> IsFinished { get; }
 }
 
-public interface IWizard<TResult, TPage>
+public interface IWizard<TResult, TPage> : IHaveResult<TResult>
 {
     IObservable<TPage> CurrentPage { get; }
     IMyCommand GoNext { get; }

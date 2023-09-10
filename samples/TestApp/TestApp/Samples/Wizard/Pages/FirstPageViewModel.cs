@@ -2,11 +2,12 @@
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
+using Zafiro.Avalonia.Misc;
 using Zafiro.Avalonia.NewWizard.Interfaces;
 
 namespace TestApp.Samples.Wizard.Pages;
 
-public class FirstPageViewModel : ReactiveValidationObject, IValidatable
+public class FirstPageViewModel : ReactiveValidationObject, IValidatable, IViewModel
 {
     public FirstPageViewModel()
     {
