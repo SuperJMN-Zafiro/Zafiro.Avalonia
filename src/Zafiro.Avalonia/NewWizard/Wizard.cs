@@ -1,6 +1,6 @@
 ﻿using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows.Input;
+using System.Reactive.Subjects;
 using ReactiveUI;
 using Zafiro.Avalonia.NewWizard.Interfaces;
 
@@ -12,6 +12,7 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
     private readonly TaskCompletionSource<T> tcs = new();
     private readonly ReactiveCommand<Unit, Unit> goNextReactive;
     private readonly ReactiveCommand<Unit, Unit> goBackReactive;
+    private readonly BehaviorSubject<bool> isFinished = new(false);
 
     public Wizard(IList<IPage<IValidatable, IValidatable>> pages)
     {
@@ -22,9 +23,15 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
 
         goNextReactive = ReactiveCommand.Create(() =>
         {
+            if (isFinished.Value)
+            {
+                return;
+            }
+
             if (Current == Pages.Last)
             {
                 tcs.SetResult((T)Current.Value.Content);
+                isFinished.OnNext(true);
             }
             else
             {
@@ -38,21 +45,21 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
             Current = Current.Previous;
         });
 
-        CurrentPageWizard = this.WhenAnyValue(x => x.Current).Select(x => x.Value);
+        CurrentPageWizard = this.WhenAnyValue(x => x.Current).Select(x => x.Value).Cast<IPage>();
 
         GoBack = new Command<Unit, Unit>(goBackReactive);
     }
 
-    public IObservable<object> CurrentPageWizard { get; }
-    public IList<object> PagesList => Pages.Cast<object>().ToList();
+    public IObservable<bool> IsFinished => isFinished.AsObservable();
 
-    public ICommand GoNextCommand => goNextReactive;
+    public IObservable<IPage> CurrentPageWizard { get; }
+    public IList<IPage> PagesList => Pages.Cast<IPage>().ToList();
 
-    public ICommand GoBackCommand => goBackReactive;
+    public IReactiveCommand GoNextCommand => goNextReactive;
+
+    public IReactiveCommand GoBackCommand => goBackReactive;
     public IObservable<bool> CanGoNext => goNextReactive.CanExecute;
     public IObservable<bool> CanGoBack => goBackReactive.CanExecute;
-
-    Task<object> IWizard.Result => tcs.Task as Task<object>;
 
     public IMyCommand GoNext { get; }
     public IMyCommand GoBack { get; }

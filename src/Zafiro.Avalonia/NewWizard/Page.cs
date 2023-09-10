@@ -6,9 +6,10 @@ public class Page<TIn, TOut> : IPage<TIn, TOut>, IPage
 {
     private readonly Func<TIn, TOut> factory;
 
-    public Page(Func<TIn, TOut> factory)
+    public Page(Func<TIn, TOut> factory, string nextText)
     {
         this.factory = factory;
+        NextText = nextText;
     }
 
     public void UpdateWith(TIn input)
@@ -22,5 +23,6 @@ public class Page<TIn, TOut> : IPage<TIn, TOut>, IPage
     }
 
     object IPage.Content => Content;
+    public string NextText { get; }
     public TOut Content { get; private set; }
 }

@@ -16,12 +16,12 @@
 		<!-- Set Defaults -->
 		<Setter Property="Template">
 			<ControlTemplate TargetType="wizard:WizardControl">
-				<DockPanel DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wizard}">
+				<DockPanel IsEnabled="{Binding !IsFinished^}" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wizard}">
 					<Button x:Name="PART_BackButton" DockPanel.Dock="Top"
 							Margin="8 6"
 							Classes="plain"
 							HorizontalAlignment="Left"
-							Opacity="{Binding CanGoBack^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+							Opacity="{Binding GoBackCommand.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
 							Command="{Binding GoBackCommand}">
 						<PathIcon Data="{StaticResource arrow_left_regular}" Width="16" />
 					</Button>
@@ -29,7 +29,7 @@
 						<Panel DockPanel.Dock="Bottom">
                             <ListBox IsHitTestVisible="False" Background="Transparent" HorizontalAlignment="Center"
                                      SelectedItem="{Binding CurrentPageWizard^, Mode=OneWay}"
-                                     ItemsSource="{Binding Pages}">
+                                     ItemsSource="{Binding PagesList}">
                                 <ListBox.Styles>
                                     <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
                                         <Setter Property="Background" Value="Transparent" />
@@ -57,11 +57,11 @@
                             </ListBox>
                             <Button x:Name="PART_NextButton"
                                     Command="{Binding GoNextCommand}"
-                                    Opacity="{Binding CanGoNext^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                                    Content="{Binding CurrentPageWizard.NextText.Value}" HorizontalAlignment="Right" />
+                                    Opacity="{Binding GoNextCommand.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+                                    Content="{Binding CurrentPageWizard^.NextText}" HorizontalAlignment="Right" />
 
 						</Panel>
-						<Carousel ItemsSource="{Binding Pages}" SelectedItem="{Binding CurrentPageWizard^}">
+						<Carousel ItemsSource="{Binding PagesList}" SelectedItem="{Binding CurrentPageWizard^}">
 							<Carousel.ItemTemplate>
 								<DataTemplate DataType="interfaces:IPage">
 									<ContentControl Content="{Binding Content}" />

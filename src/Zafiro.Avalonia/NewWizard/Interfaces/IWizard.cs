@@ -1,16 +1,14 @@
-﻿using System.Windows.Input;
+﻿using ReactiveUI;
 
 namespace Zafiro.Avalonia.NewWizard.Interfaces;
 
 public interface IWizard
 {
-    IObservable<object> CurrentPageWizard { get; }
-    IList<object> PagesList { get; }
-    ICommand GoNextCommand { get; }
-    ICommand GoBackCommand { get; }
-    IObservable<bool> CanGoNext { get; }
-    IObservable<bool> CanGoBack { get; }
-    Task<object> Result { get; }
+    IObservable<IPage> CurrentPageWizard { get; }
+    IList<IPage> PagesList { get; }
+    IReactiveCommand GoNextCommand { get; }
+    IReactiveCommand GoBackCommand { get; }
+    public IObservable<bool> IsFinished { get; }
 }
 
 public interface IWizard<TResult, TPage>
