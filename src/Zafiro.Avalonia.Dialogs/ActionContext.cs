@@ -2,12 +2,12 @@
 
 public class ActionContext<T>
 {
-    public ActionContext(IWindow window, T viewModel)
+    public ActionContext(ICloseable closeable, T viewModel)
     {
         ViewModel = viewModel;
-        Window = window;
+        Closeable = closeable;
     }
 
     public T ViewModel{ get; set; }
-    public IWindow Window { get; set; }
+    public ICloseable Closeable { get; set; }
 }

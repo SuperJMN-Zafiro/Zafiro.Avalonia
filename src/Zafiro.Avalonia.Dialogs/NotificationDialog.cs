@@ -19,7 +19,7 @@ public class NotificationDialog : INotificationService
     {
         var messageDialogViewModel = new MessageDialogViewModel(message);
         var dismissText = "OK";
-        var optionConfiguration = new OptionConfiguration<MessageDialogViewModel>(dismissText, context => ReactiveCommand.Create(() => context.Window.Close()));
+        var optionConfiguration = new OptionConfiguration<MessageDialogViewModel>(dismissText, context => ReactiveCommand.Create(() => context.Closeable.Close()));
         return dialogService.ShowDialog(messageDialogViewModel, title.GetValueOrDefault("Failure"), optionConfiguration);
     }
 }

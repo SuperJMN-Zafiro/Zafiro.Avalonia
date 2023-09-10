@@ -1,6 +1,6 @@
 ﻿namespace Zafiro.Avalonia.Dialogs;
 
-public interface IWindow
+public interface ICloseable
 {
     public void Close();
 }

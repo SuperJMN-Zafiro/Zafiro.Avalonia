@@ -20,7 +20,7 @@ public abstract class DialogService : IDialogService
         };
     }
 
-    protected static IEnumerable<Option> CreateOptions<T>(object viewModel, IWindow window, IEnumerable<OptionConfiguration<T>> options)
+    protected static IEnumerable<Option> CreateOptions<T>(object viewModel, ICloseable window, IEnumerable<OptionConfiguration<T>> options)
     {
         return options.Select(configuration => new Option(configuration.Title, configuration.Factory(new ActionContext<T>(window, (T) viewModel))));
     }

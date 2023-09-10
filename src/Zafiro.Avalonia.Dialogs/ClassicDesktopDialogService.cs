@@ -30,7 +30,7 @@ public class ClassicDesktopDialogService : DialogService
 
         configureWindow.Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
 
-        var wrapper = new WindowWrapper(window);
+        var wrapper = new CloseableWrapper(window);
         
         window.Content = new DialogView { DataContext = new DialogViewModel(viewModel, title, CreateOptions(viewModel, wrapper, options).ToArray()) };
 

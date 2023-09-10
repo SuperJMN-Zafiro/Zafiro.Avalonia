@@ -17,7 +17,7 @@ public static class DialogExtensions
         {
             var command = commandFactory(instance);
             subscription = command.Subscribe(x => result = x);
-            return command.Extend(_ => context.Window.Close());
+            return command.Extend(_ => context.Closeable.Close());
         }));
 
         subscription!.Dispose();

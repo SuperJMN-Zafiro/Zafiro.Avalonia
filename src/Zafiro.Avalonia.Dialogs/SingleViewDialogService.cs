@@ -6,7 +6,7 @@ using Avalonia.Layout;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class SingleViewDialogService : DialogService, IWindow
+public class SingleViewDialogService : DialogService, ICloseable
 {
     private readonly Stack<(Control, TaskCompletionSource)> dialogs = new();
     private readonly AdornerLayer layer;

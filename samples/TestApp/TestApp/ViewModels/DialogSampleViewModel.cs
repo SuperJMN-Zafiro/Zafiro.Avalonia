@@ -16,7 +16,7 @@ public class DialogSampleViewModel
 
     private static Task OnShowMessage(IDialogService dialogService)
     {
-        var ok = new OptionConfiguration<MessageViewModel>("Close", x => ReactiveCommand.Create(() => x.Window.Close()));
+        var ok = new OptionConfiguration<MessageViewModel>("Close", x => ReactiveCommand.Create(() => x.Closeable.Close()));
         return dialogService.ShowDialog(new MessageViewModel() { Text = "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate"}, "Dialog Title", ok);
     }
 }

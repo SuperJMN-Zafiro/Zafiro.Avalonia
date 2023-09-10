@@ -28,9 +28,9 @@ public class NamingConventionViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is ReactiveObject;
+        return data is IViewModel;
     }
-
+    
     private static Control Fallback(string viewTypeName, object? data)
     {
         var dataName = data!.GetType().AssemblyQualifiedName;

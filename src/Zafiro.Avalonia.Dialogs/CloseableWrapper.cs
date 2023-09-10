@@ -2,11 +2,11 @@
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class WindowWrapper : IWindow
+public class CloseableWrapper : ICloseable
 {
     private readonly Window window;
 
-    public WindowWrapper(Window window)
+    public CloseableWrapper(Window window)
     {
         this.window = window;
     }
