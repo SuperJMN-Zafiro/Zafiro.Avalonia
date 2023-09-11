@@ -9,8 +9,12 @@
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.4" />
     <PackageReference Include="ReactiveUI" Version="19.4.1" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
     <PackageReference Include="Zafiro.UI" Version="4.0.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 </Project>

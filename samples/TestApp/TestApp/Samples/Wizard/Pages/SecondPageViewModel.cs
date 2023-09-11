@@ -1,11 +1,12 @@
 ﻿using System;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Model;
+using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.Wizard.Interfaces;
 
 namespace TestApp.Samples.Wizard.Pages;
 
-public class SecondPageViewModel : ReactiveValidationObject, IValidatable
+public class SecondPageViewModel : ReactiveValidationObject, IValidatable, IViewModel
 {
     public int SelectedNumber { get; }
 

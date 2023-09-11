@@ -1,12 +1,12 @@
 ﻿using Avalonia.Controls;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Obsolete;
 
-public class WindowWrapper : IWindow
+public class CloseableWrapper : ICloseable
 {
     private readonly Window window;
 
-    public WindowWrapper(Window window)
+    public CloseableWrapper(Window window)
     {
         this.window = window;
     }

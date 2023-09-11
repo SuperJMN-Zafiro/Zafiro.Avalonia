@@ -1,0 +1,35 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="dialogs|DialogView">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="dialogs:DialogView">
+                <DockPanel Margin="6" x:DataType="dialogs:DialogViewModel" x:CompileBindings="True">
+                    <ItemsControl Margin="0 4" HorizontalAlignment="Right" ItemsSource="{Binding Options}"
+                                  DockPanel.Dock="Bottom">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="dialogs:Option">
+                                <Button HorizontalContentAlignment="Center"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{Binding Command}"
+                                        Content="{Binding Title}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ContentControl Margin="0 4" Content="{Binding ViewModel}" />
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

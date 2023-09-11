@@ -1,26 +1,22 @@
 ﻿using System.Reactive;
+using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
-using JetBrains.Annotations;
 using ReactiveUI;
-using Zafiro.UI;
+using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-[PublicAPI]
 public static class DialogExtensions
 {
-    public static async Task<Maybe<TReturn>> Prompt<TViewModel, TReturn>(this IDialogService dialogService, string title, TViewModel instance, string okTitle, Func<TViewModel, ReactiveCommand<Unit, TReturn>> commandFactory)
+    public static Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(IDialogService dialog, TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results) where TViewModel : IHaveResult<TResult>
     {
-        Maybe<TReturn> result = Maybe<TReturn>.None;
-        IDisposable? subscription = null;
-        await dialogService.ShowDialog(instance, title, new OptionConfiguration<TViewModel>(okTitle, context =>
-        {
-            var command = commandFactory(instance);
-            subscription = command.Subscribe(x => result = x);
-            return command.Extend(_ => context.Window.Close());
-        }));
+        return dialog.ShowDialog(viewModel, title, results, Array.Empty<OptionConfiguration<TViewModel, TResult>>());
+    }
 
-        subscription!.Dispose();
-        return result;
+    public static Task ShowMessage(this IDialogService dialogService, string dismissText, string title, string text)
+    {
+        var optionConfiguration = new OptionConfiguration<MessageDialogViewModel, Unit>(dismissText, model => ReactiveCommand.Create(() => model.SetResult(Unit.Default)));
+        var messageDialogViewModel = new MessageDialogViewModel(text);
+        return dialogService.ShowDialog(messageDialogViewModel, title, model => Observable.FromAsync(() => model.Result), optionConfiguration);
     }
 }

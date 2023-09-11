@@ -1,13 +1,14 @@
 ﻿using System.Windows.Input;
+using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class OptionConfiguration<TViewModel>
+public class OptionConfiguration<T, TResult> where T : IHaveResult<TResult>
 {
     public string Title { get; }
-    public Func<ActionContext<TViewModel>, ICommand> Factory { get; }
+    public Func<T, ICommand> Factory { get; }
 
-    public OptionConfiguration(string title, Func<ActionContext<TViewModel>, ICommand> factory)
+    public OptionConfiguration(string title, Func<T, ICommand> factory)
     {
         Title = title;
         Factory = factory;
