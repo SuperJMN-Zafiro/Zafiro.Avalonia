@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.NewWizard.Interfaces;
+﻿namespace Zafiro.Avalonia.Wizard.Interfaces;
 
 public interface IMyCommand
 {

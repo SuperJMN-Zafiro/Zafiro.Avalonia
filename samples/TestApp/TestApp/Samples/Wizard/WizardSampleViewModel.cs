@@ -9,8 +9,8 @@ using TestApp.Samples.Wizard.Pages;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.Avalonia.Misc;
-using Zafiro.Avalonia.NewWizard;
-using Zafiro.Avalonia.NewWizard.Interfaces;
+using Zafiro.Avalonia.Wizard;
+using Zafiro.Avalonia.Wizard.Interfaces;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;
 

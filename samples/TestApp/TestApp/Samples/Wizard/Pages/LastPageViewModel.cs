@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.Avalonia.Misc;
-using Zafiro.Avalonia.NewWizard.Interfaces;
+using Zafiro.Avalonia.Wizard.Interfaces;
 
 namespace TestApp.Samples.Wizard.Pages;
 

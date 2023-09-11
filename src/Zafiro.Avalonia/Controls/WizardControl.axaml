@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wizard="using:Zafiro.Avalonia.Controls"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
-        xmlns:interfaces="clr-namespace:Zafiro.Avalonia.NewWizard.Interfaces">
+        xmlns:interfaces="clr-namespace:Zafiro.Avalonia.Wizard.Interfaces">
 	<Design.PreviewWith>
 		<wizard:WizardControl Width="600" Height="300"/>
 	</Design.PreviewWith>

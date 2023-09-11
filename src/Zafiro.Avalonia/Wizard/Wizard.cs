@@ -2,26 +2,32 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ReactiveUI;
-using Zafiro.Avalonia.NewWizard.Interfaces;
+using Zafiro.Avalonia.Wizard.Interfaces;
 
-namespace Zafiro.Avalonia.NewWizard;
+namespace Zafiro.Avalonia.Wizard;
 
 public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidatable>>, IWizard
 {
     private LinkedListNode<IPage<IValidatable, IValidatable>>? current;
     private readonly TaskCompletionSource<T> tcs = new();
-    private readonly ReactiveCommand<Unit, Unit> goNextReactive;
-    private readonly ReactiveCommand<Unit, Unit> goBackReactive;
+    private readonly ReactiveCommand<Unit, Unit> goNext;
+    private readonly ReactiveCommand<Unit, Unit> goBack;
     private readonly BehaviorSubject<bool> isFinished = new(false);
 
     public Wizard(IList<IPage<IValidatable, IValidatable>> pages)
     {
-        Pages = new LinkedList<IPage<IValidatable, IValidatable>>(pages);
-        Current = Pages.First;
-        
-        var isValid = this.WhenAnyObservable(x => x.Current.Value.Content.IsValid);
+        if (!pages.Any())
+        {
+            throw new ArgumentException("There must be at least one page in the Wizard", nameof(pages));
+        }
 
-        goNextReactive = ReactiveCommand.Create(() =>
+        Pages = new LinkedList<IPage<IValidatable, IValidatable>>(pages);
+        Current = Pages.First!;
+
+        var isValid = this.WhenAnyObservable(x => x.Current.Value.Content.IsValid);
+        var canGoBack = this.WhenAnyValue(x => x.Current).Select(node => node != Pages.First);
+
+        goNext = ReactiveCommand.Create(() =>
         {
             if (isFinished.Value)
             {
@@ -30,24 +36,21 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
 
             if (Current == Pages.Last)
             {
-                tcs.SetResult((T)Current.Value.Content);
+                tcs.SetResult((T) Current.Value.Content);
                 isFinished.OnNext(true);
             }
             else
             {
-                Current = Current.Next;
+                Current = Current.Next!;
             }
-        }, isValid);
-        GoNext = new Command<Unit, Unit>(goNextReactive);
+        }, isValid.CombineLatest(isFinished, (isValid, isFinished) => isValid && !isFinished));
+        GoNext = new Command<Unit, Unit>(goNext);
 
-        goBackReactive = ReactiveCommand.Create(() =>
-        {
-            Current = Current.Previous;
-        });
+        goBack = ReactiveCommand.Create(() => { Current = Current.Previous!; }, canGoBack);
 
         CurrentPageWizard = this.WhenAnyValue(x => x.Current).Select(x => x.Value).Cast<IPage>();
 
-        GoBack = new Command<Unit, Unit>(goBackReactive);
+        GoBack = new Command<Unit, Unit>(goBack);
     }
 
     public IObservable<bool> IsFinished => isFinished.AsObservable();
@@ -55,22 +58,21 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
     public IObservable<IPage> CurrentPageWizard { get; }
     public IList<IPage> PagesList => Pages.Cast<IPage>().ToList();
 
-    public IReactiveCommand GoNextCommand => goNextReactive;
+    public IReactiveCommand GoNextCommand => goNext;
 
-    public IReactiveCommand GoBackCommand => goBackReactive;
-    public IObservable<bool> CanGoNext => goNextReactive.CanExecute;
-    public IObservable<bool> CanGoBack => goBackReactive.CanExecute;
+    public IReactiveCommand GoBackCommand => goBack;
 
     public IMyCommand GoNext { get; }
     public IMyCommand GoBack { get; }
     public Task<T> Result => tcs.Task;
+
     public void SetResult(T result)
     {
         tcs.SetResult(result);
     }
 
     public IObservable<IPage<IValidatable, IValidatable>> CurrentPage => this.WhenAnyValue(x => x.Current).Select(x => x.Value);
-        
+
     private LinkedList<IPage<IValidatable, IValidatable>> Pages { get; }
 
     private LinkedListNode<IPage<IValidatable, IValidatable>>? Current
@@ -83,6 +85,7 @@ public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidat
             {
                 content = current.Value.Content;
             }
+
             current = value;
             current.Value.UpdateWith(content);
             this.RaisePropertyChanged();

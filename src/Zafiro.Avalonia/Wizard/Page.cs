@@ -1,6 +1,6 @@
-﻿using Zafiro.Avalonia.NewWizard.Interfaces;
+﻿using Zafiro.Avalonia.Wizard.Interfaces;
 
-namespace Zafiro.Avalonia.NewWizard;
+namespace Zafiro.Avalonia.Wizard;
 
 public class Page<TIn, TOut> : IPage<TIn, TOut>, IPage
 {

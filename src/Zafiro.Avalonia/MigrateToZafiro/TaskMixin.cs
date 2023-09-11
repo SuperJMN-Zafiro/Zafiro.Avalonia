@@ -1,6 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using System.Reactive;
-using System.Reactive.Linq;
+﻿using System.Reactive;
 
 namespace Zafiro.Avalonia.MigrateToZafiro;
 
@@ -11,9 +9,4 @@ public static class TaskMixin
         await task();
         return Unit.Default;
     }
-}
-
-public static class FunctionalMixin
-{
-    public static IObservable<Unit> Empties<T>(this IObservable<Maybe<T>> self) => self.Where(x => !x.HasValue).Select(_ => Unit.Default);
 }

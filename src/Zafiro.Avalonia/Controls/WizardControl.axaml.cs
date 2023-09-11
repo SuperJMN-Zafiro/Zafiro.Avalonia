@@ -1,6 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using Zafiro.Avalonia.NewWizard.Interfaces;
+using Zafiro.Avalonia.Wizard.Interfaces;
 
 namespace Zafiro.Avalonia.Controls;
 
