@@ -4,7 +4,6 @@ using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using CSharpFunctionalExtensions;
 using MoreLinq;
-using ReactiveUI;
 
 namespace Zafiro.Avalonia.Misc;
 
@@ -22,20 +21,23 @@ public class NamingConventionViewLocator : IDataTemplate
             select instance;
 
         return view
-            .Or(viewTypeNameResult.Map(viewTypeName => Fallback(viewTypeName, data)))
+            .Or(Fallback(data))
             .GetValueOrThrow();
     }
 
     public bool Match(object? data)
     {
-        return data is IViewModel;
+        return data is IViewModel || (data?.GetType().Name.EndsWith("ViewModel", StringComparison.OrdinalIgnoreCase) ?? false);
     }
     
-    private static Control Fallback(string viewTypeName, object? data)
+    private static Control Fallback(object? data)
     {
-        var dataName = data!.GetType().AssemblyQualifiedName;
+        if (data is null)
+        {
+            return new TextBlock { Text = "Data is null: We can't locate any view for null" };
+        }
 
-        var inlines = GetInlines(viewTypeName, data);
+        var inlines = GetInlines(data.GetType().FullName!.Replace("ViewModel", "View"), data);
         var inlineCollection = new InlineCollection();
         inlines.ForEach(inline => inlineCollection.Add(inline));
 
