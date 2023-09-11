@@ -18,7 +18,7 @@ namespace TestApp.Samples.Wizard;
 
 public class WizardSampleViewModel : ReactiveValidationObject, IViewModel
 {
-    public WizardSampleViewModel(INewDialogService dialogService, INotificationService notificationService)
+    public WizardSampleViewModel(IDialogService dialogService, INotificationService notificationService)
     {
         ShowWizard = ReactiveCommand.CreateFromTask(() => dialogService.ShowDialog(CreateWizard(), "Wizardo de los buenos", x => Observable.FromAsync(() => x.Result)));
         ShowWizard

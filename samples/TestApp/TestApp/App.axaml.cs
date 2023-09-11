@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -31,7 +30,7 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        var dialogService = DialogService.Create(Current!.ApplicationLifetime!, new Dictionary<Type, Type>(), Maybe<Action<ConfigureWindowContext>>.From(context => context.ToConfigure.SizeToContent = SizeToContent.WidthAndHeight));
+        var dialogService = DialogService.Create(Current!.ApplicationLifetime!, Maybe<Action<ConfigureWindowContext>>.From(context => context.ToConfigure.SizeToContent = SizeToContent.WidthAndHeight));
         var topLevel = TopLevel.GetTopLevel(view)!;
         var avaloniaFilePicker = new AvaloniaFilePicker(topLevel.StorageProvider);
         INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));

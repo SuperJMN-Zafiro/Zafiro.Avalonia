@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 using ReactiveUI;
+using Zafiro.Avalonia.Dialogs.Obsolete;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Dialogs;
@@ -8,9 +9,9 @@ namespace Zafiro.Avalonia.Dialogs;
 [PublicAPI]
 public class NotificationDialog : INotificationService
 {
-    private readonly IDialogService dialogService;
+    private readonly Obsolete.IDialogService dialogService;
 
-    public NotificationDialog(IDialogService dialogService)
+    public NotificationDialog(Obsolete.IDialogService dialogService)
     {
         this.dialogService = dialogService;
     }

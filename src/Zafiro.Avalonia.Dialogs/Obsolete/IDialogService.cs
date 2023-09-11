@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.Dialogs;
+﻿namespace Zafiro.Avalonia.Dialogs.Obsolete;
 
 public interface IDialogService
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs;
@@ -13,12 +14,12 @@ namespace TestApp.Samples.Dialogs;
 
 public class DialogSampleViewModel : IViewModel
 {
-    public DialogSampleViewModel(INotificationService notificationService)
+    public DialogSampleViewModel(INotificationService notificationService, IDialogService dialogService)
     {
-        var dialog = new NewDialogService(Maybe<Action<ConfigureWindowContext>>.None);
+        var dialog = new DesktopDialogService(Maybe<Action<ConfigureWindowContext>>.None);
         ShowDialog = ReactiveCommand.CreateFromTask(() =>
         {
-            return dialog.ShowDialog(new MyViewModel(), "Dale durity", model => Observable.FromAsync(() => model.Result), new NewOptionConfiguration<MyViewModel, string>("OK", x => ReactiveCommand.Create(() => x.SetResult(x.Text))));
+            return dialog.ShowDialog(new MyViewModel(), "Dale durity", model => Observable.FromAsync(() => model.Result), new OptionConfiguration<MyViewModel, string>("OK", x => ReactiveCommand.Create(() => x.SetResult(x.Text))));
         });
 
         ShowDialog
@@ -30,7 +31,16 @@ public class DialogSampleViewModel : IViewModel
             .Empties()
             .SelectMany(_ => TaskMixin.ToSignal(() => notificationService.Show("You dismissed the dialog", "Ouch!")))
             .Subscribe();
+
+        ShowMessage= ReactiveCommand.CreateFromTask(() => OnShowMessage(dialogService));
     }
+
+    private static Task OnShowMessage(IDialogService dialogService)
+    {
+        return dialogService.ShowMessage("Dismiss", "Dialog Title", "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate");
+    }
+
+    public ReactiveCommand<Unit, Unit> ShowMessage { get; set; }
 
     public ReactiveCommand<Unit, Maybe<string>> ShowDialog { get; set; }
 }

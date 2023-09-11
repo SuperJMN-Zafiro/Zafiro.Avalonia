@@ -15,7 +15,4 @@
 		<PackageReference Include="Zafiro.FileSystem" Version="4.0.16" />
 		<PackageReference Include="Zafiro.UI" Version="4.0.7" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Model\" />
-	</ItemGroup>
 </Project>

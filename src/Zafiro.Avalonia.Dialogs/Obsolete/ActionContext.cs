@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.Dialogs;
+﻿namespace Zafiro.Avalonia.Dialogs.Obsolete;
 
 public class ActionContext<T>
 {
@@ -8,6 +8,6 @@ public class ActionContext<T>
         Closeable = closeable;
     }
 
-    public T ViewModel{ get; set; }
+    public T ViewModel { get; set; }
     public ICloseable Closeable { get; set; }
 }

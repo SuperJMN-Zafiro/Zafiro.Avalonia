@@ -7,10 +7,10 @@
         </Border>
     </Design.PreviewWith>
 
-    <Style Selector="dialogs|NewDialogView">
+    <Style Selector="dialogs|DialogView">
         <Setter Property="Template">
-            <ControlTemplate TargetType="dialogs:NewDialogView">
-                <DockPanel Margin="6" x:DataType="dialogs:NewDialogViewModel" x:CompileBindings="True">
+            <ControlTemplate TargetType="dialogs:DialogView">
+                <DockPanel Margin="6" x:DataType="dialogs:DialogViewModel" x:CompileBindings="True">
                     <ItemsControl Margin="0 4" HorizontalAlignment="Right" ItemsSource="{Binding Options}"
                                   DockPanel.Dock="Bottom">
                         <ItemsControl.ItemsPanel>

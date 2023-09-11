@@ -6,5 +6,5 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Dialogs.MyView"
              x:DataType="dialogs:MyViewModel">
-  <TextBox Text="{Binding Text}" Watermark="Intro something" />
+  <TextBox VerticalAlignment="Center" Width="200" Text="{Binding Text}" Watermark="Enter something" />
 </UserControl>

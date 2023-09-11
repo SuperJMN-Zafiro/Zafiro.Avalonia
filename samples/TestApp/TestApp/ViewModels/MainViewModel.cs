@@ -20,11 +20,10 @@ public class MainViewModel : ViewModelBase
         this.notificationService = notificationService;
     }
 
-    public IEnumerable<Section> Sections => new List<Section>()
+    public IEnumerable<Section> Sections => new List<Section>
     {
-        new("Wizard", new WizardSampleViewModel(new NewDialogService(Maybe<Action<ConfigureWindowContext>>.None), notificationService)),
-        new("Dialogs", new DialogSampleViewModel(dialogService)),
-        new("New Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService)),
+        new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
+        new("Wizard", new WizardSampleViewModel(new DesktopDialogService(Maybe<Action<ConfigureWindowContext>>.None), notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
     };

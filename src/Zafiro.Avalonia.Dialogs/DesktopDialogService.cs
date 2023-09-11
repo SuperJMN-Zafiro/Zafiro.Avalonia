@@ -8,24 +8,16 @@ using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public static class NewDialogExtensions
-{
-    public static Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(INewDialogService dialog, TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results) where TViewModel : IHaveResult<TResult>
-    {
-        return dialog.ShowDialog(viewModel, title, results, Array.Empty<NewOptionConfiguration<TViewModel, TResult>>());
-    }
-}
-
-public class NewDialogService : INewDialogService
+public class DesktopDialogService : IDialogService
 {
     private readonly Maybe<Action<ConfigureWindowContext>> configureWindow;
 
-    public NewDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow)
+    public DesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow)
     {
         this.configureWindow = configureWindow;
     }
 
-    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, params NewOptionConfiguration<TViewModel, TResult>[] options) where TViewModel : IHaveResult<TResult>
+    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : IHaveResult<TResult>
     {
         if (viewModel == null)
         {
