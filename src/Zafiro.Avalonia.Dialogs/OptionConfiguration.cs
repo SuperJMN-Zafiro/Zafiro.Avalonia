@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 

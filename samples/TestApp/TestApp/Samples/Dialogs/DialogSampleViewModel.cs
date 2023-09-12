@@ -6,7 +6,6 @@ using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.MigrateToZafiro;
-using Zafiro.Avalonia.Misc;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;
 
