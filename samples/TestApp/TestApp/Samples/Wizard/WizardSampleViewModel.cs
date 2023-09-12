@@ -8,7 +8,6 @@ using ReactiveUI.Validation.Helpers;
 using TestApp.Samples.Wizard.Pages;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.MigrateToZafiro;
-using Zafiro.Avalonia.Misc;
 using Zafiro.Avalonia.Wizard;
 using Zafiro.Avalonia.Wizard.Interfaces;
 using Zafiro.CSharpFunctionalExtensions;
@@ -16,7 +15,7 @@ using Zafiro.UI;
 
 namespace TestApp.Samples.Wizard;
 
-public class WizardSampleViewModel : ReactiveValidationObject, IViewModel
+public class WizardSampleViewModel : ReactiveValidationObject
 {
     public WizardSampleViewModel(IDialogService dialogService, INotificationService notificationService)
     {
@@ -42,8 +41,4 @@ public class WizardSampleViewModel : ReactiveValidationObject, IViewModel
     }
 
     public ReactiveCommand<Unit, Maybe<SecondPageViewModel>> ShowWizard { get; set; }
-
-    public IObservable<SecondPageViewModel> IsComplete { get; }
-
-    public IWizard<SecondPageViewModel, IPage<IValidatable, IValidatable>> Wizard { get; }
 }

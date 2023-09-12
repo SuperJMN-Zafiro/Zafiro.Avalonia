@@ -1,0 +1,19 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Zafiro.Avalonia.Controls">
+  <Design.PreviewWith>
+    <controls:StoppableControl />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|StoppableControl">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+          <StackPanel DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Command}">
+              <Button Content="{TemplateBinding Content}" IsVisible="{Binding !IsExecuting^, FallbackValue='True'}" Command="{Binding Start}" />
+              <Button Content="{TemplateBinding StopContent}" IsVisible="{Binding IsExecuting^, FallbackValue='False'}" Command="{Binding Stop}" />
+          </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

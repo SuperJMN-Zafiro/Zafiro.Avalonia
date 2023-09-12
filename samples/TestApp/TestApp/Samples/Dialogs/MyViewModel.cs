@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Zafiro.Avalonia.MigrateToZafiro;
-using Zafiro.Avalonia.Misc;
+using Zafiro;
 
 namespace TestApp.Samples.Dialogs;
 
-public class MyViewModel : IHaveResult<string>, IViewModel
+public class MyViewModel : IHaveResult<string>
 {
     private TaskCompletionSource<string> tcs = new();
     public Task<string> Result => tcs.Task;
