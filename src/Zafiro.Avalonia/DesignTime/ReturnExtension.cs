@@ -57,5 +57,5 @@ public class ReturnExtension : MarkupExtension
         return finalValue;
     }
 
-    public object? Value { get; }
+    public object? Value { get; set; }
 }
