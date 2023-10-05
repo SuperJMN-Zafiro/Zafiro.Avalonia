@@ -19,7 +19,7 @@ internal class StorableWrapper : IZafiroFile
     {
         return Result
             .Try(file.GetBasicPropertiesAsync)
-            .Map(r => (long?)r.Size)
+            .Map(properties => (long?)properties.Size)
             .EnsureNotNull("Size not available");
     }
 
