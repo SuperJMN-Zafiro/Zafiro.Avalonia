@@ -17,12 +17,20 @@ internal class StorableWrapper : IZafiroFile
 
     public Task<Result<long>> Size()
     {
-        throw new NotSupportedException();
+        return Result
+            .Try(file.GetBasicPropertiesAsync)
+            .Map(r => (long?)r.Size)
+            .EnsureNotNull("Size not available");
     }
 
-    public Task<Result<Stream>> GetContents()
+    public Task<Result<bool>> Exists()
     {
-        return Result.Try(file.OpenReadAsync);
+        return Task.FromResult(Result.Success(true));
+    }
+
+    public Task<Result<Stream>> GetContents(CancellationToken cancellationToken = default)
+    {
+        return Result.Try(() => file.OpenReadAsync());
     }
 
     public Task<Result> SetContents(Stream stream, CancellationToken cancellationToken)
@@ -36,7 +44,7 @@ internal class StorableWrapper : IZafiroFile
         });
     }
 
-    public Task<Result> Delete()
+    public Task<Result> Delete(CancellationToken cancellationToken = default)
     {
         return Result.Try(file.DeleteAsync);
     }
