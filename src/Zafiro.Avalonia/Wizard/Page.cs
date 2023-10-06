@@ -19,7 +19,8 @@ public class Page<TIn, TOut> : IPage<TIn, TOut>, IPage
 
     public void UpdateWith(object input)
     {
-        UpdateWith((TIn) input);
+        var i = (TIn) input;
+        UpdateWith(i);
     }
 
     object IPage.Content => Content;
