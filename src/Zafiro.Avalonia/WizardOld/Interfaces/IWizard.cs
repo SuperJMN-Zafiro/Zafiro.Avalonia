@@ -1,7 +1,6 @@
 ﻿using ReactiveUI;
-using Zafiro.Avalonia.MigrateToZafiro;
 
-namespace Zafiro.Avalonia.Wizard.Interfaces;
+namespace Zafiro.Avalonia.WizardOld.Interfaces;
 
 public interface IWizard
 {

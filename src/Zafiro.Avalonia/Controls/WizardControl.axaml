@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wizard="using:Zafiro.Avalonia.Controls"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
-        xmlns:interfaces="clr-namespace:Zafiro.Avalonia.Wizard.Interfaces">
+        xmlns:wizard1="clr-namespace:Zafiro.Avalonia.Wizard">
 	<Design.PreviewWith>
 		<wizard:WizardControl Width="600" Height="300"/>
 	</Design.PreviewWith>
@@ -21,58 +21,62 @@
 							Margin="8 6"
 							Classes="plain"
 							HorizontalAlignment="Left"
-							Opacity="{Binding GoBackCommand.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-							Command="{Binding GoBackCommand}">
+							Opacity="{Binding GoBack.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+							Command="{Binding GoBack}">
 						<PathIcon Data="{StaticResource arrow_left_regular}" Width="16" />
 					</Button>
 					<DockPanel Margin="20">
 						<Panel DockPanel.Dock="Bottom">
-                            <ListBox IsHitTestVisible="False" Background="Transparent" HorizontalAlignment="Center"
-                                     SelectedItem="{Binding CurrentPageWizard^, Mode=OneWay}"
+							<ListBox IsHitTestVisible="False" Background="Transparent" HorizontalAlignment="Center"
+                                     SelectedItem="{Binding CurrentPage^, Mode=OneWay}"
                                      ItemsSource="{Binding PagesList}">
-                                <ListBox.Styles>
-                                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-                                        <Setter Property="Background" Value="Transparent" />
-                                    </Style>
-                                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                                        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemChromeAltLowColor}" />
-                                    </Style>
-                                    <Style Selector="ListBoxItem">
-                                        <Setter Property="Opacity" Value="0.3" />
-                                    </Style>
-                                    <Style Selector="ListBoxItem:selected">
-                                        <Setter Property="Opacity" Value="1" />
-                                    </Style>
-                                </ListBox.Styles>
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Ellipse Fill="{DynamicResource SystemChromeAltLowColor}" Width="9" Height="9" />
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <Button x:Name="PART_NextButton"
-                                    Command="{Binding GoNextCommand}"
-                                    Opacity="{Binding GoNextCommand.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                                    Content="{Binding CurrentPageWizard^.NextText}" HorizontalAlignment="Right" />
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+										<Setter Property="Background" Value="Transparent" />
+									</Style>
+									<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+										<Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemChromeAltLowColor}" />
+									</Style>
+									<Style Selector="ListBoxItem">
+										<Setter Property="Opacity" Value="0.3" />
+									</Style>
+									<Style Selector="ListBoxItem:selected">
+										<Setter Property="Opacity" Value="1" />
+									</Style>
+								</ListBox.Styles>
+								<ListBox.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Orientation="Horizontal" />
+									</ItemsPanelTemplate>
+								</ListBox.ItemsPanel>
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<Ellipse Fill="{DynamicResource SystemChromeAltLowColor}" Width="9" Height="9" />
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<Button x:Name="PART_NextButton"
+                                    Command="{Binding GoNext}"
+                                    Opacity="{Binding GoNext.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+                                    Content="{Binding CurrentPage^.NextText}" HorizontalAlignment="Right" />
 
+                            <Button 
+                                HorizontalAlignment="Right" 
+                                Opacity="{Binding Finish.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+                                Content="{Binding FinishText}" Command="{Binding Finish}" />
 						</Panel>
-						<Carousel ItemsSource="{Binding PagesList}" SelectedItem="{Binding CurrentPageWizard^}">
-							<Carousel.ItemTemplate>
-								<DataTemplate DataType="interfaces:IPage">
-									<ContentControl Content="{Binding Content}" />
-								</DataTemplate>
-							</Carousel.ItemTemplate>
-							<Carousel.PageTransition>
-								<PageSlide Duration="0:0:0.5" SlideOutEasing="{StaticResource FluentEasing}"
-										   SlideInEasing="" />
-							</Carousel.PageTransition>
-						</Carousel>
-					</DockPanel>
+                        <Carousel ItemsSource="{Binding PagesList}" SelectedItem="{Binding CurrentPage^}">
+                            <Carousel.ItemTemplate>
+                                <DataTemplate DataType="wizard1:IPage">
+                                    <ContentControl Content="{Binding Content}" />
+                                </DataTemplate>
+                            </Carousel.ItemTemplate>
+                            <Carousel.PageTransition>
+                                <PageSlide Duration="0:0:0.5" SlideOutEasing="{StaticResource FluentEasing}"
+                                           SlideInEasing="" />
+                            </Carousel.PageTransition>
+                        </Carousel>
+                    </DockPanel>
 				</DockPanel>
 			</ControlTemplate>
 		</Setter>

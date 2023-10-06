@@ -25,9 +25,4 @@
       <Name>Zafiro.UI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Controls\SuperWizardControl.axaml.cs">
-      <DependentUpon>SuperWizardControl.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>

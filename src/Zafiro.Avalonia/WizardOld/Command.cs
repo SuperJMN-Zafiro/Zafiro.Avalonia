@@ -1,8 +1,8 @@
 ﻿using System.Reactive.Linq;
 using ReactiveUI;
-using Zafiro.Avalonia.Wizard.Interfaces;
+using Zafiro.Avalonia.WizardOld.Interfaces;
 
-namespace Zafiro.Avalonia.Wizard;
+namespace Zafiro.Avalonia.WizardOld;
 
 internal class Command<TIn, TOut> : IMyCommand
 {

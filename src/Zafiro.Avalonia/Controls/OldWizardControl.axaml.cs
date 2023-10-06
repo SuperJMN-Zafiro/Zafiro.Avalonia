@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using Zafiro.Avalonia.Wizard;
+using Zafiro.Avalonia.WizardOld.Interfaces;
 
 namespace Zafiro.Avalonia.Controls;
 
-public class WizardControl : TemplatedControl
+public class OldWizardControl : TemplatedControl
 {
     public static readonly StyledProperty<IWizard?> WizardProperty = AvaloniaProperty.Register<OldWizardControl, IWizard?>(
         nameof(Wizard));
