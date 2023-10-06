@@ -1,8 +1,6 @@
 ﻿using System.Reactive;
 using System.Reactive.Linq;
-using AvaloniaSyncer.Sections.NewSync;
 using ReactiveUI;
-using Zafiro.Avalonia.Wizard;
 using Zafiro.Avalonia.Wizard.Interfaces;
 using Zafiro.Mixins;
 
@@ -10,52 +8,56 @@ namespace Zafiro.Avalonia.Controls;
 
 public class SuperWizard<TPage1, TPage2, TResult> : ISuperWizard<TResult> where TPage1 : IValidatable where TPage2 : IValidatable
 {
-    public TPage1 Page1 { get; }
-    public TPage2 Page2 { get; }
-
     private readonly TaskCompletionSource<TResult> tcs = new();
 
-    public SuperWizard(Func<TPage1> page1factory, Func<TPage1, TPage2> page2factory)
+    public SuperWizard(ISuperPage page1, ISuperPage page2, Func<TPage1, TPage2, TResult> selectResult)
     {
-        PagesList = new List<IPage>
+        PagesList = new List<ISuperPage>
         {
-            new Page<Unit, TPage1>(_ => page1factory(), "Next"),
-            new Page<TPage1, TPage2>(page1 => page2factory(page1), "Next")
+            page1,
+            page2,
         };
 
-        var navigator = new Navigator<IPage>(PagesList);
+        var navigator = new Navigator<ISuperPage>(PagesList);
         GoNext = navigator.GoNext;
         GoBack = navigator.GoBack;
         CurrentPage = navigator.CurrentItems;
-        
-
-        navigator.CurrentNodes.Do(page =>
-        {
-            if (page.Value == PagesList.First())
-            {
-                page.Value.UpdateWith(Unit.Default);
-            }
-            else
-            {
-                page.Value.UpdateWith(page.Previous!.Value.Content);
-            }
-        }).Subscribe();
 
         var canComplete = navigator.CurrentItems.Select(x => PagesList.Last() == x);
-        Complete = ReactiveCommand.Create(() => { }, canComplete);
-        IsFinished = Complete.Any().ToSignal();
+        Finish = ReactiveCommand.Create(() => { }, canComplete);
+        IsFinished = Finish.Any().ToSignal();
         IsFinished
-            .Select(_ => (TResult)PagesList.Last().Content)
+            .Select(_ => selectResult((TPage1) page1.Content, (TPage2) page2.Content))
             .Do(result => tcs.SetResult(result))
             .Subscribe();
     }
 
-    public ReactiveCommand<Unit, Unit> Complete { get; }
-    public IObservable<IPage> CurrentPage { get; }
-    public IList<IPage> PagesList { get; }
+    public ReactiveCommand<Unit, Unit> Finish { get; }
+    public IObservable<ISuperPage> CurrentPage { get; }
+    public IList<ISuperPage> PagesList { get; }
     public IReactiveCommand GoNext { get; }
     public IReactiveCommand GoBack { get; }
     public IObservable<Unit> IsFinished { get; }
+    public string FinishText => PagesList.Last().NextText;
     public Task<TResult> Result => tcs.Task;
+}
+
+public class SuperPage<T> : ISuperPage
+{
+    public SuperPage(IValidatable content, string next)
+    {
+        Content = content;
+        NextText = next;
+    }
+
+    public string NextText { get; set; }
+
+    public object Content { get; set; }
+}
+
+public interface ISuperPage
+{
+    object Content { get; }
+    string NextText { get;  }
 }
 

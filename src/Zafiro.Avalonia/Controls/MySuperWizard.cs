@@ -8,12 +8,13 @@ namespace Zafiro.Avalonia.Controls;
 
 public interface ISuperWizard
 {
-    ReactiveCommand<Unit, Unit> Complete { get; }
-    IObservable<IPage> CurrentPage { get; }
-    IList<IPage> PagesList { get; }
+    ReactiveCommand<Unit, Unit> Finish { get; }
+    IObservable<ISuperPage> CurrentPage { get; }
+    IList<ISuperPage> PagesList { get; }
     IReactiveCommand GoNext { get; }
     IReactiveCommand GoBack { get; }
     public IObservable<Unit> IsFinished { get; }
+    public string FinishText { get; }
 }
 
 public interface ISuperWizard<TResult> : ISuperWizard, IResult<TResult>
