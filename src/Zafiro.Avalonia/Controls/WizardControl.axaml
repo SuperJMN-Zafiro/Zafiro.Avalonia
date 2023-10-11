@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wizard="using:Zafiro.Avalonia.Controls"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
-        xmlns:wizard1="clr-namespace:Zafiro.Avalonia.Wizard">
+        xmlns:w="clr-namespace:Zafiro.Avalonia.Wizard">
 	<Design.PreviewWith>
 		<wizard:WizardControl Width="600" Height="300"/>
 	</Design.PreviewWith>
@@ -16,17 +16,20 @@
 		<!-- Set Defaults -->
 		<Setter Property="Template">
 			<ControlTemplate TargetType="wizard:WizardControl">
-				<DockPanel IsEnabled="{Binding !IsFinished^}" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wizard}">
-					<Button x:Name="PART_BackButton" DockPanel.Dock="Top"
-							Margin="8 6"
-							Classes="plain"
-							HorizontalAlignment="Left"
-							Opacity="{Binding GoBack.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-							Command="{Binding GoBack}">
-						<PathIcon Data="{StaticResource arrow_left_regular}" Width="16" />
-					</Button>
-					<DockPanel Margin="20">
-						<Panel DockPanel.Dock="Bottom">
+				<DockPanel IsEnabled="{Binding !IsFinished^}" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wizard}"
+                           Margin="10">
+					<DockPanel DockPanel.Dock="Top">
+						<Button x:Name="PART_BackButton" 
+                                Classes="plain"
+                                HorizontalAlignment="Left"
+                                Opacity="{Binding GoBack.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
+                                Command="{Binding GoBack}">
+							<PathIcon Data="{StaticResource arrow_left_regular}" Width="16" />
+						</Button>
+						<TextBlock Text="{Binding CurrentPage^.Title}" FontWeight="Black" VerticalAlignment="Center" TextAlignment="Center"></TextBlock>
+					</DockPanel>
+					<DockPanel>
+						<Panel DockPanel.Dock="Bottom" >
 							<ListBox IsHitTestVisible="False" Background="Transparent" HorizontalAlignment="Center"
                                      SelectedItem="{Binding CurrentPage^, Mode=OneWay}"
                                      ItemsSource="{Binding PagesList}">
@@ -58,25 +61,25 @@
 							<Button x:Name="PART_NextButton"
                                     Command="{Binding GoNext}"
                                     Opacity="{Binding GoNext.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                                    Content="{Binding CurrentPage^.NextText}" HorizontalAlignment="Right" />
+                                    Content="{Binding CurrentPage^.NextText, FallbackValue='Next'}" HorizontalAlignment="Right" />
 
-                            <Button 
-                                HorizontalAlignment="Right" 
+							<Button
+                                HorizontalAlignment="Right"
                                 Opacity="{Binding Finish.CanExecute^, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}"
-                                Content="{Binding FinishText}" Command="{Binding Finish}" />
+                                Content="{Binding FinishText, FallbackValue='Finish'}" Command="{Binding Finish}" />
 						</Panel>
-                        <Carousel ItemsSource="{Binding PagesList}" SelectedItem="{Binding CurrentPage^}">
-                            <Carousel.ItemTemplate>
-                                <DataTemplate DataType="wizard1:IPage">
-                                    <ContentControl Content="{Binding Content}" />
-                                </DataTemplate>
-                            </Carousel.ItemTemplate>
-                            <Carousel.PageTransition>
-                                <PageSlide Duration="0:0:0.5" SlideOutEasing="{StaticResource FluentEasing}"
+						<Carousel ItemsSource="{Binding PagesList}" SelectedItem="{Binding CurrentPage^}">
+							<Carousel.ItemTemplate>
+								<DataTemplate DataType="w:IPage">
+									<ContentControl Content="{Binding Content}" />
+								</DataTemplate>
+							</Carousel.ItemTemplate>
+							<Carousel.PageTransition>
+								<PageSlide Duration="0:0:0.5" SlideOutEasing="{StaticResource FluentEasing}"
                                            SlideInEasing="" />
-                            </Carousel.PageTransition>
-                        </Carousel>
-                    </DockPanel>
+							</Carousel.PageTransition>
+						</Carousel>
+					</DockPanel>
 				</DockPanel>
 			</ControlTemplate>
 		</Setter>
