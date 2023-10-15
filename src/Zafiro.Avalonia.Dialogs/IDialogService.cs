@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 

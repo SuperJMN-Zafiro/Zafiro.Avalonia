@@ -2,15 +2,14 @@
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 
 public static class DialogExtensions
 {
-    public static Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(IDialogService dialog, TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results) where TViewModel : IHaveResult<TResult>, UI.IResult<TResult>
+    public static Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(this IDialogService dialog, TViewModel viewModel, string title) where TViewModel : UI.IResult<TResult>
     {
-        return dialog.ShowDialog(viewModel, title, results, Array.Empty<OptionConfiguration<TViewModel, TResult>>());
+        return dialog.ShowDialog(viewModel, title, model => Observable.FromAsync(() => model.Result), Array.Empty<OptionConfiguration<TViewModel, TResult>>());
     }
 
     public static Task ShowMessage(this IDialogService dialogService, string dismissText, string title, string text)
