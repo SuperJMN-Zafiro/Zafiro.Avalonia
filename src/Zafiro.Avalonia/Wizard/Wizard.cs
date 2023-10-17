@@ -1,94 +1,44 @@
 ﻿using System.Reactive;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using ReactiveUI;
-using Zafiro.Avalonia.Wizard.Interfaces;
+using Zafiro.Avalonia.Model;
+using Zafiro.Mixins;
 
 namespace Zafiro.Avalonia.Wizard;
 
-public class Wizard<T> : ReactiveObject, IWizard<T, IPage<IValidatable, IValidatable>>, IWizard
+public class Wizard<TPage1, TPage2, TResult> : IWizard<TResult> where TPage1 : IValidatable where TPage2 : IValidatable
 {
-    private LinkedListNode<IPage<IValidatable, IValidatable>>? current;
-    private readonly TaskCompletionSource<T> tcs = new();
-    private readonly ReactiveCommand<Unit, Unit> goNext;
-    private readonly ReactiveCommand<Unit, Unit> goBack;
-    private readonly BehaviorSubject<bool> isFinished = new(false);
+    private readonly TaskCompletionSource<TResult> tcs = new();
 
-    public Wizard(IList<IPage<IValidatable, IValidatable>> pages)
+    public Wizard(IPage page1, IPage page2, Func<TPage1, TPage2, TResult> selectResult)
     {
-        if (!pages.Any())
+        PagesList = new List<IPage>
         {
-            throw new ArgumentException("There must be at least one page in the Wizard", nameof(pages));
-        }
+            page1,
+            page2,
+        };
 
-        Pages = new LinkedList<IPage<IValidatable, IValidatable>>(pages);
-        Current = Pages.First!;
+        var navigator = new Navigator<IPage>(PagesList);
+        GoNext = navigator.GoNext;
+        GoBack = navigator.GoBack;
+        CurrentPage = navigator.CurrentItems;
 
-        var isValid = this.WhenAnyObservable(x => x.Current.Value.Content.IsValid);
-        var canGoBack = this.WhenAnyValue(x => x.Current).Select(node => node != Pages.First);
-
-        goNext = ReactiveCommand.Create(() =>
-        {
-            if (isFinished.Value)
-            {
-                return;
-            }
-
-            if (Current == Pages.Last)
-            {
-                tcs.SetResult((T) Current.Value.Content);
-                isFinished.OnNext(true);
-            }
-            else
-            {
-                Current = Current.Next!;
-            }
-        }, isValid.CombineLatest(isFinished, (isValid, isFinished) => isValid && !isFinished));
-        GoNext = new Command<Unit, Unit>(goNext);
-
-        goBack = ReactiveCommand.Create(() => { Current = Current.Previous!; }, canGoBack);
-
-        CurrentPageWizard = this.WhenAnyValue(x => x.Current).Select(x => x.Value).Cast<IPage>();
-
-        GoBack = new Command<Unit, Unit>(goBack);
+        var canComplete = navigator.CurrentItems.Select(x => PagesList.Last() == x);
+        var lastIsValid = page2.Content.IsValid;
+        Finish = ReactiveCommand.Create(() => { }, canComplete.CombineLatest(lastIsValid, (canComplete, lastIsValid) => canComplete && lastIsValid));
+        IsFinished = Finish.Any().ToSignal();
+        IsFinished
+            .Select(_ => selectResult((TPage1) page1.Content, (TPage2) page2.Content))
+            .Do(result => tcs.SetResult(result))
+            .Subscribe();
     }
 
-    public IObservable<bool> IsFinished => isFinished.AsObservable();
-
-    public IObservable<IPage> CurrentPageWizard { get; }
-    public IList<IPage> PagesList => Pages.Cast<IPage>().ToList();
-
-    public IReactiveCommand GoNextCommand => goNext;
-
-    public IReactiveCommand GoBackCommand => goBack;
-
-    public IMyCommand GoNext { get; }
-    public IMyCommand GoBack { get; }
-    public Task<T> Result => tcs.Task;
-
-    public void SetResult(T result)
-    {
-        tcs.SetResult(result);
-    }
-
-    public IObservable<IPage<IValidatable, IValidatable>> CurrentPage => this.WhenAnyValue(x => x.Current).Select(x => x.Value);
-
-    private LinkedList<IPage<IValidatable, IValidatable>> Pages { get; }
-
-    private LinkedListNode<IPage<IValidatable, IValidatable>>? Current
-    {
-        get => current;
-        set
-        {
-            IValidatable content = null;
-            if (current != null)
-            {
-                content = current.Value.Content;
-            }
-
-            current = value;
-            current.Value.UpdateWith(content);
-            this.RaisePropertyChanged();
-        }
-    }
+    public ReactiveCommand<Unit, Unit> Finish { get; }
+    public IObservable<IPage> CurrentPage { get; }
+    public IList<IPage> PagesList { get; }
+    public IReactiveCommand GoNext { get; }
+    public IReactiveCommand GoBack { get; }
+    public IObservable<Unit> IsFinished { get; }
+    public string FinishText => PagesList.Last().NextText;
+    public Task<TResult> Result => tcs.Task;
 }

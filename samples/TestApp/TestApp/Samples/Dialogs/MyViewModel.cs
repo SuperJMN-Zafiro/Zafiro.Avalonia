@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Zafiro;
+using Zafiro.UI;
 
 namespace TestApp.Samples.Dialogs;
 
-public class MyViewModel : IHaveResult<string>
+public class MyViewModel : IResult<string>
 {
     private TaskCompletionSource<string> tcs = new();
     public Task<string> Result => tcs.Task;

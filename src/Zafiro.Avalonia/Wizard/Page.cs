@@ -1,28 +1,18 @@
-﻿using Zafiro.Avalonia.Wizard.Interfaces;
+﻿using Zafiro.Avalonia.Model;
 
 namespace Zafiro.Avalonia.Wizard;
 
-public class Page<TIn, TOut> : IPage<TIn, TOut>, IPage
+public class Page<T> : IPage where T : IValidatable
 {
-    private readonly Func<TIn, TOut> factory;
-
-    public Page(Func<TIn, TOut> factory, string nextText)
+    public Page(T content, string next, string title)
     {
-        this.factory = factory;
-        NextText = nextText;
+        Content = content;
+        NextText = next;
+        Title = title;
     }
 
-    public void UpdateWith(TIn input)
-    {
-        Content = factory(input);
-    }
-
-    public void UpdateWith(object input)
-    {
-        UpdateWith((TIn) input);
-    }
-
-    object IPage.Content => Content;
-    public string NextText { get; }
-    public TOut Content { get; private set; }
+    public string NextText { get; set; }
+    public string Title { get; }
+    public IValidatable Content { get; }
+    public IObservable<bool> IsValid => Content.IsValid;
 }

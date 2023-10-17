@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.Wizard.Interfaces;
+namespace Zafiro.Avalonia.Model;
 
 public interface IValidatable
 {

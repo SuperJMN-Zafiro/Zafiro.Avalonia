@@ -1,8 +1,9 @@
 ﻿using System.Windows.Input;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class OptionConfiguration<T, TResult> where T : IHaveResult<TResult>
+public class OptionConfiguration<T, TResult> where T : IResult<TResult>
 {
     public string Title { get; }
     public Func<T, ICommand> Factory { get; }

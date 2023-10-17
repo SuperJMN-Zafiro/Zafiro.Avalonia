@@ -1,9 +1,10 @@
 ﻿using System.Reactive;
 using Zafiro.Avalonia.MigrateToZafiro;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class MessageDialogViewModel : IHaveResult<Unit>
+public class MessageDialogViewModel : IResult<Unit>
 {
     public string Message { get; }
     private readonly TaskCompletionSource<Unit> tcs = new();

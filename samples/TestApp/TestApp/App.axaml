@@ -3,7 +3,7 @@
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs;assembly=Zafiro.Avalonia.Dialogs"
-             xmlns:interfaces="clr-namespace:Zafiro.Avalonia.Wizard.Interfaces;assembly=Zafiro.Avalonia"
+             xmlns:wizard="clr-namespace:Zafiro.Avalonia.Wizard;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Default">
 
@@ -18,7 +18,7 @@
         <DataTemplate DataType="dialogs:MessageDialogViewModel">
             <dialogs:MessageDialogView />
         </DataTemplate>
-        <DataTemplate DataType="interfaces:IWizard">
+        <DataTemplate DataType="wizard:IWizard">
             <controls:WizardControl Wizard="{Binding}" />
         </DataTemplate>
     </Application.DataTemplates>
