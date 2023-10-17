@@ -6,7 +6,7 @@ namespace Zafiro.Avalonia.Controls;
 
 public class WizardControl : TemplatedControl
 {
-    public static readonly StyledProperty<IWizard?> WizardProperty = AvaloniaProperty.Register<OldWizardControl, IWizard?>(
+    public static readonly StyledProperty<IWizard?> WizardProperty = AvaloniaProperty.Register<WizardControl, IWizard?>(
         nameof(Wizard));
 
     public IWizard? Wizard
