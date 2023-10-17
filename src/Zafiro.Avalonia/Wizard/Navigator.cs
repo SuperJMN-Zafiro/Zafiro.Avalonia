@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Zafiro.Avalonia.WizardOld.Interfaces;
+using Zafiro.Avalonia.Model;
 
 namespace Zafiro.Avalonia.Wizard;
 
@@ -25,11 +25,8 @@ internal class Navigator<T> : ReactiveObject where T : IValidatable
     }
 
     public IObservable<T> CurrentItems { get; set; }
-
     public ReactiveCommand<Unit, LinkedListNode<T>?> GoBack { get; }
-
     public ReactiveCommand<Unit, LinkedListNode<T>?> GoNext { get; }
-
     [Reactive] private LinkedListNode<T>? Current { get; set; }
     public IObservable<LinkedListNode<T>> CurrentNodes { get; }
 }

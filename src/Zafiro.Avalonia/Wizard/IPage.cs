@@ -1,4 +1,4 @@
-﻿using Zafiro.Avalonia.WizardOld.Interfaces;
+﻿using Zafiro.Avalonia.Model;
 
 namespace Zafiro.Avalonia.Wizard;
 

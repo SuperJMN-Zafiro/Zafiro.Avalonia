@@ -1,7 +1,7 @@
 ﻿using System.Reactive;
 using System.Reactive.Linq;
 using ReactiveUI;
-using Zafiro.Avalonia.WizardOld.Interfaces;
+using Zafiro.Avalonia.Model;
 using Zafiro.Mixins;
 
 namespace Zafiro.Avalonia.Wizard;
