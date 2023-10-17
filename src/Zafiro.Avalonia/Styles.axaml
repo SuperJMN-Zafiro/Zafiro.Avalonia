@@ -5,7 +5,6 @@
     <StyleInclude Source="avares://Zafiro.Avalonia/Button.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/AdaptiveControl.axaml" />
-    <StyleInclude Source="avares://Zafiro.Avalonia/Controls/OldWizardControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/WizardControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
 
