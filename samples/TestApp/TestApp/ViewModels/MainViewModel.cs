@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CSharpFunctionalExtensions;
+using TestApp.Samples.Wizard;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.UI;
 
@@ -23,7 +24,7 @@ public class MainViewModel : ViewModelBase
     {
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
         // TODO: Add wizard sample
-        //new("Wizard", new WizardSampleViewModel(new DesktopDialogService(Maybe<Action<ConfigureWindowContext>>.None), notificationService)),
+        new("Wizard", new WizardSampleViewModel(dialogService, notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
     };
