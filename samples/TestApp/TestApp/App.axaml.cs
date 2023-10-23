@@ -31,6 +31,9 @@ public class App : Application
     private static MainViewModel MainViewModel(Control view)
     {
         var dialogService = DialogService.Create(Current!.ApplicationLifetime!, Maybe<Action<ConfigureWindowContext>>.From(context => context.ToConfigure.SizeToContent = SizeToContent.WidthAndHeight));
+        // Enable if you want to force the Single Dialog Service
+        //var dialogService = new SingleViewDialogService(view);
+
         var topLevel = TopLevel.GetTopLevel(view)!;
         var avaloniaFilePicker = new AvaloniaFilePicker(topLevel.StorageProvider);
         INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));

@@ -10,8 +10,8 @@
     <Style Selector="dialogs|DialogView">
         <Setter Property="Template">
             <ControlTemplate TargetType="dialogs:DialogView">
-                <DockPanel Margin="6" x:DataType="dialogs:DialogViewModel" x:CompileBindings="True">
-                    <ItemsControl Margin="0 4" HorizontalAlignment="Right" ItemsSource="{Binding Options}"
+                <DockPanel Margin="0 6 0 0" x:DataType="dialogs:DialogViewModel" x:CompileBindings="True">
+                    <ItemsControl Margin="0 10 0 0" HorizontalAlignment="Right" ItemsSource="{Binding Options}"
                                   DockPanel.Dock="Bottom">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

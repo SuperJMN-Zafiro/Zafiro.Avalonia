@@ -33,7 +33,11 @@ public class DesktopDialogService : IDialogService
 
         configureWindow.Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
 
-        window.Content = new DialogView { DataContext = new DialogViewModel(viewModel, title, options.Select(x => new Option(x.Title, command: x.Factory(viewModel))).ToArray()) };
+        window.Content = new DialogViewContainer()
+        {
+            Classes = { "Desktop" },
+            Content = new DialogView { DataContext = new DialogViewModel(viewModel, options.Select(x => new Option(x.Title, command: x.Factory(viewModel))).ToArray()) }
+        };
 
 #if DEBUG        
         window.AttachDevTools();
