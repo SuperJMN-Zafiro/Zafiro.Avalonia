@@ -18,9 +18,10 @@
     </AndroidResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Android" Version="11.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Android" Version="11.0.5" />
+		<PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.4" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TestApp\TestApp.csproj" />

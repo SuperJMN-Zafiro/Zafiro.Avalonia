@@ -1,6 +1,12 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+	<Styles.Resources>
+        <ControlTheme x:Key="Transparent" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="Transparent" />
+        </ControlTheme>
+    </Styles.Resources>
+
     <Design.PreviewWith>
 		<StackPanel>
 			<Border Width="400">
@@ -8,9 +14,11 @@
 					<TextBox Text="Content" />
 				</HeaderedContentControl>
 			</Border>
+			<Button Content="Transparent button" Theme="{StaticResource Transparent}"></Button>
         </StackPanel>
 	</Design.PreviewWith>
 
+	
     <Style Selector="Button.Transparent /template/ ContentPresenter">
 		<Setter Property="Background" Value="Transparent" />
 	</Style>
@@ -33,7 +41,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-
-
 
 </Styles>

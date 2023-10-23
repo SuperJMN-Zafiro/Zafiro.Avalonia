@@ -1,17 +1,20 @@
-﻿using System.Reactive.Linq;
+﻿using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.MigrateToZafiro;
+using ReactiveUI;
 
 namespace Zafiro.Avalonia.Dialogs;
 
 public class SingleViewDialogService : IDialogService
 {
-    private readonly Stack<(Control, TaskCompletionSource)> dialogs = new();
+    private readonly Stack<Control> dialogs = new();
     private readonly AdornerLayer layer;
+    private readonly Subject<Unit> closeSubject = new();
 
     public SingleViewDialogService(Visual control)
     {
@@ -25,16 +28,20 @@ public class SingleViewDialogService : IDialogService
             throw new ArgumentNullException(nameof(viewModel));
         }
 
-        var tcs = new TaskCompletionSource();
-
         var view = new DialogView
         {
-            DataContext = new DialogViewModel(viewModel, title, options.Select(x => new Option(x.Title, command: x.Factory(viewModel))).ToArray())
+            DataContext = new DialogViewModel(viewModel, options.Select(x => new Option(x.Title, command: x.Factory(viewModel))).ToArray())
         };
 
         var dialog = new DialogViewContainer
         {
             Title = title,
+            Classes = { "Mobile" },
+            Close = ReactiveCommand.Create(() =>
+            {
+                Close();
+                closeSubject.OnNext(Unit.Default);
+            }),
             VerticalAlignment = VerticalAlignment.Stretch,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             CornerRadius = new CornerRadius(10),
@@ -44,17 +51,23 @@ public class SingleViewDialogService : IDialogService
         };
 
         layer.Children.Add(dialog);
-        dialogs.Push((dialog, tcs));
+        dialogs.Push(dialog);
 
-        var result = await results(viewModel).Take(1);
-        Close();
+        var firstResult = results(viewModel)
+            .Select(x => Maybe.From(x))
+            .ObserveOn(SynchronizationContext.Current!)
+            .Do(_ => Close());
+
+        var closeResult = closeSubject.Select(_ => Maybe<TResult>.None);
+        var merged = firstResult.Merge(closeResult).FirstAsync();
+        var result = await merged;
+        
         return result;
     }
 
     private void Close()
     {
         var valueTuple = dialogs.Pop();
-        layer.Children.Remove(valueTuple.Item1);
-        valueTuple.Item2.SetResult();
+        layer.Children.Remove(valueTuple);
     }
 }

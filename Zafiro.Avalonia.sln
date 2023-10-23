@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "samples\TestApp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp.Desktop", "samples\TestApp\TestApp.Desktop\TestApp.Desktop.csproj", "{562DA12A-1D8E-4DB8-9279-059677AED984}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp.Android", "samples\TestApp\TestApp.Android\TestApp.Android.csproj", "{10A9EB55-8394-47D7-839B-E47F8932F16C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,12 @@ Global
 		{562DA12A-1D8E-4DB8-9279-059677AED984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{562DA12A-1D8E-4DB8-9279-059677AED984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{562DA12A-1D8E-4DB8-9279-059677AED984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A9EB55-8394-47D7-839B-E47F8932F16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A9EB55-8394-47D7-839B-E47F8932F16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A9EB55-8394-47D7-839B-E47F8932F16C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{10A9EB55-8394-47D7-839B-E47F8932F16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A9EB55-8394-47D7-839B-E47F8932F16C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A9EB55-8394-47D7-839B-E47F8932F16C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0B28296D-9B99-45C7-B9AC-6EBB7DCF22A1} = {022A4D50-4916-4866-833D-89E8A1C3E90B}
 		{562DA12A-1D8E-4DB8-9279-059677AED984} = {022A4D50-4916-4866-833D-89E8A1C3E90B}
+		{10A9EB55-8394-47D7-839B-E47F8932F16C} = {022A4D50-4916-4866-833D-89E8A1C3E90B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6309FF7A-E6E5-485B-BAE6-70DD0E37B3BA}

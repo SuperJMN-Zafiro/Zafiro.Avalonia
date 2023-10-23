@@ -30,10 +30,20 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        var dialogService = DialogService.Create(Current!.ApplicationLifetime!, Maybe<Action<ConfigureWindowContext>>.From(context => context.ToConfigure.SizeToContent = SizeToContent.WidthAndHeight));
+        var dialogService = DialogService.Create(Current!.ApplicationLifetime!, Maybe<Action<ConfigureWindowContext>>.From(ConfigureWindow));
+        // Enable if you want to force the Single Dialog Service
+        //var dialogService = new SingleViewDialogService(view);
+
         var topLevel = TopLevel.GetTopLevel(view)!;
         var avaloniaFilePicker = new AvaloniaFilePicker(topLevel.StorageProvider);
         INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));
         return new MainViewModel(dialogService, avaloniaFilePicker, notificationService);
+    }
+
+    private static void ConfigureWindow(ConfigureWindowContext context)
+    {
+        context.ToConfigure.MinWidth = 640;
+        context.ToConfigure.MinHeight = 400;
+        context.ToConfigure.SizeToContent = SizeToContent.WidthAndHeight;
     }
 }

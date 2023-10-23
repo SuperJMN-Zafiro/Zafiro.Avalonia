@@ -15,11 +15,12 @@ public class DialogSampleViewModel : IViewModel
 {
     public DialogSampleViewModel(INotificationService notificationService, IDialogService dialogService)
     {
-        var dialog = new DesktopDialogService(Maybe<Action<ConfigureWindowContext>>.None);
         ShowDialog = ReactiveCommand.CreateFromTask(() =>
         {
-            return dialog.ShowDialog(new MyViewModel(), "Dale durity", model => Observable.FromAsync(() => model.Result), new OptionConfiguration<MyViewModel, string>("OK", x => ReactiveCommand.Create(() => x.SetResult(x.Text))));
+            return dialogService.ShowDialog(new MyViewModel(), "Dale durity", model => Observable.FromAsync(() => model.Result), new OptionConfiguration<MyViewModel, string>("OK", x => ReactiveCommand.Create(() => x.SetResult(x.Text))));
         });
+
+        ShowDialog.Subscribe(maybe => { });
 
         ShowDialog
             .Values()

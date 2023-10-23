@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
+using ReactiveUI;
 
 namespace Zafiro.Avalonia.Dialogs.Obsolete;
 
@@ -27,12 +28,13 @@ public class SingleViewDialogService : DialogService, ICloseable
 
         var view = new DialogView
         {
-            DataContext = new DialogViewModel(viewModel, title, CreateOptions(viewModel, this, options).ToArray()),
+            DataContext = new DialogViewModel(viewModel, CreateOptions(viewModel, this, options).ToArray()),
         };
 
         var dialog = new DialogViewContainer()
         {
             Title = title,
+            Close = ReactiveCommand.Create(Close),
             VerticalAlignment = VerticalAlignment.Stretch,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             CornerRadius = new CornerRadius(10),
