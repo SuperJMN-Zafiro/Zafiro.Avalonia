@@ -9,5 +9,6 @@
              x:DataType="stringEditor:StringEditorSampleViewModel">
 	<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 		<o:StringEditorControl Width="200" Wrapper="{Binding EditableString}" />
+        <TextBlock Margin="4" Text="{Binding EditableString.InstanceOfType.Text, StringFormat='Current value: {0}'}" />
 	</StackPanel>
 </UserControl>
