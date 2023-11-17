@@ -1,12 +1,14 @@
 # Zafiro.Avalonia
 
-This library offers common functionalities to AvaloniaUI based applications.
+This library offers common (and useful) features to AvaloniaUI based applications.
 
 Some of the most important hightligts of the library are:
 
 ## Dialogs
 
-* A very convenient way to show dialogs for both mobile and desktop.
+A very convenient way to show dialogs for **both** mobile and desktop.
+
+https://github.com/SuperJMN-Zafiro/Zafiro.Avalonia/assets/3109851/d3d29a3e-3a35-4b27-abe0-14d95405c651
 
 ## Notification Service
 
@@ -16,7 +18,18 @@ Some of the most important hightligts of the library are:
 
 * **MasterDetailsView**. Side list with items. Details are shown when an item is selected.
 * **AdaptiveControl**. Has 2 templates: one for portrait and another for landscape.
-* **WizardControl**. Offers a nice way to show wizards (multiple steps).
+### WizardControl
+
+Offers a nice way to show wizards (multiple steps).
+
+https://github.com/SuperJMN-Zafiro/Zafiro.Avalonia/assets/3109851/47dad47a-af35-489c-83b7-0a7c853879f7
+
+
+### **StringEditorControl**
+
+Looks like a TextBlock, but it's editable (and validatable!).
+
+https://github.com/SuperJMN-Zafiro/Zafiro.Avalonia/assets/3109851/13279313-92cc-4ba9-902e-e3a26da87916
 
 ## Misc
 
