@@ -10,6 +10,6 @@ public class StringEditorSampleViewModel : ReactiveValidationObject
     public StringEditorSampleViewModel()
     {
         EditableString = new("Hola");
-        EditableString.ValidationRule(s => s is { Length: < 5 }, "Too long");
+        EditableString.ValidationRule(s => s is { Length: < 7 }, "Too long");
     }
 }

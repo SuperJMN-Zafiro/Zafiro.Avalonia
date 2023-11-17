@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:stringEditor="clr-namespace:Zafiro.Avalonia.Controls.StringEditor">
+                    xmlns:stringEditor="clr-namespace:Zafiro.Avalonia.Controls.StringEditor"
+                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
 
     <Design.PreviewWith>
         <stringEditor:StringEditorControl Width="200" />
@@ -119,14 +120,14 @@
 								</StackPanel>
                             </Panel>
                         </TextBox.InnerRightContent>
-                        <!--<Interaction.Behaviors>
+                        <Interaction.Behaviors>
                             <behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel" MarkAsHandled="True">
-                                <InvokeCommandAction Command="{Binding $parent[se:StringEditorControl].Wrapper.Commit}" />
+                                <InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=stringEditor:StringEditorControl}, Path=Wrapper.Commit}" />
                             </behaviors:KeyDownTriggerBehavior>
                             <behaviors:KeyDownTriggerBehavior Key="Escape" EventRoutingStrategy="Tunnel" MarkAsHandled="True">
-                                <InvokeCommandAction Command="{Binding $parent[se:StringEditorControl].Wrapper.Cancel}" />
+                                <InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=stringEditor:StringEditorControl}, Path=Wrapper.Cancel}" />
                             </behaviors:KeyDownTriggerBehavior>
-                        </Interaction.Behaviors>-->
+                        </Interaction.Behaviors>
                     </TextBox>
                 </ControlTemplate>
             </Setter.Value>
