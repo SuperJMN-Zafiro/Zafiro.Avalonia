@@ -17,4 +17,9 @@
     <PackageReference Include="Zafiro.FileSystem" Version="4.0.26" />
     <PackageReference Include="Zafiro.UI" Version="4.0.11" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\StringEditor\StringEditorControl.axaml.cs">
+      <DependentUpon>StringEditorControl.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
