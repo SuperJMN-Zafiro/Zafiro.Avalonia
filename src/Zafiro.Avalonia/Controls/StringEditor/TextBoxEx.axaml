@@ -1,0 +1,117 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:stringEditor="clr-namespace:Zafiro.Avalonia.Controls.StringEditor">
+	<Design.PreviewWith>
+		<stringEditor:StringEditor />
+	</Design.PreviewWith>
+
+
+	<DrawingGroup x:Key="edit_svgrepo_com">
+		<DrawingGroup.ClipGeometry>
+			<RectangleGeometry Rect="0.0,0.0,24.0,24.0"/>
+		</DrawingGroup.ClipGeometry>
+		<DrawingGroup>
+			<DrawingGroup>
+				<DrawingGroup>
+					<GeometryDrawing>
+						<GeometryDrawing.Pen>
+							<Pen Brush="#ff000000" LineJoin="Round" Thickness="2.0" LineCap="Round"/>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Geometry>
+							<PathGeometry Figures="M 20 16 v 4 a 2 2 0 0 1 -2 2 H 4 a 2 2 0 0 1 -2 -2 V 6 A 2 2 0 0 1 4 4 H 8" FillRule="NonZero"/>
+						</GeometryDrawing.Geometry>
+					</GeometryDrawing>
+					<GeometryDrawing>
+						<GeometryDrawing.Pen>
+							<Pen Brush="#ff000000" LineJoin="Round" Thickness="2.0" LineCap="Round"/>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Geometry>
+							<PathGeometry Figures="M 12.5 15.8 L 22 6.2 L 17.8 2 L 8.3 11.5 L 8 16 L 12.5 15.8 Z"/>
+						</GeometryDrawing.Geometry>
+					</GeometryDrawing>
+				</DrawingGroup>
+			</DrawingGroup>
+		</DrawingGroup>
+	</DrawingGroup>
+	<DrawingImage Drawing="{StaticResource edit_svgrepo_com}" x:Key="di_edit_svgrepo_com"/>
+
+	<DrawingGroup x:Key="ok_svgrepo_com">
+		<DrawingGroup.ClipGeometry>
+			<RectangleGeometry Rect="0.0,0.0,24.0,24.0"/>
+		</DrawingGroup.ClipGeometry>
+		<GeometryDrawing Brush="{DynamicResource SystemAccentColor}">
+			<GeometryDrawing.Geometry>
+				<PathGeometry Figures="M 19.3 5.3 L 9 15.6 l -4.3 -4.3 l -1.4 1.4 l 5 5 L 9 18.4 l 0.7 -0.7 l 11 -11 L 19.3 5.3 z" FillRule="NonZero"/>
+			</GeometryDrawing.Geometry>
+		</GeometryDrawing>
+	</DrawingGroup>
+	<DrawingImage Drawing="{StaticResource ok_svgrepo_com}" x:Key="di_ok_svgrepo_com"/>
+
+	<DrawingGroup x:Key="cancel_svgrepo_com">
+		<DrawingGroup.ClipGeometry>
+			<RectangleGeometry Rect="0.0,0.0,512.0,512.0"/>
+		</DrawingGroup.ClipGeometry>
+		<DrawingGroup>
+			<DrawingGroup>
+				<DrawingGroup.Transform>
+					<MatrixTransform Matrix="1.0,0.0,0.0,1.0,91.52,91.52"/>
+				</DrawingGroup.Transform>
+				<GeometryDrawing Brush="{StaticResource SystemErrorTextColor}">
+					<GeometryDrawing.Geometry>
+						<PathGeometry Figures="M 328.96 30.2933 L 298.667 1.42109e-14 L 164.48 134.4 L 30.2933 1.42109e-14 L 1.42109e-14 30.2933 L 134.4 164.48 L 1.42109e-14 298.667 L 30.2933 328.96 L 164.48 194.56 L 298.667 328.96 L 328.96 298.667 L 194.56 164.48 Z"/>
+					</GeometryDrawing.Geometry>
+				</GeometryDrawing>
+			</DrawingGroup>
+		</DrawingGroup>
+	</DrawingGroup>
+	<DrawingImage Drawing="{StaticResource cancel_svgrepo_com}" x:Key="di_cancel_svgrepo_com"/>
+
+	<ControlTheme x:Key="{x:Type stringEditor:StringEditor}" TargetType="stringEditor:StringEditor">
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<TextBox BorderBrush="{TemplateBinding BorderBrush}" IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wrapper.WorkInstanceOfType.Text, Mode=TwoWay}">
+						<TextBox.InnerRightContent>
+							<Panel Margin="0 0 6 0">
+								<Button Theme="{StaticResource Transparent}" Command="{Binding $parent[stringEditor:StringEditor].Edit}" IsVisible="{Binding !$parent[stringEditor:StringEditor].IsEditing}">
+									<Button.Content>
+										<Image Source="{StaticResource di_edit_svgrepo_com}" />
+									</Button.Content>
+								</Button>
+								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding $parent[stringEditor:StringEditor].IsEditing}">
+									<Button Theme="{StaticResource Transparent}"
+                                            Command="{Binding $parent[stringEditor:StringEditor].Wrapper.Commit}">
+										<Button.Content>
+											<Image Source="{StaticResource di_ok_svgrepo_com}"  />
+										</Button.Content>
+									</Button>
+									<Button Opacity="0.5" Theme="{StaticResource Transparent}"
+                                            Command="{Binding $parent[stringEditor:StringEditor].Wrapper.Cancel}">
+										<Button.Content>
+											<Image Source="{StaticResource di_cancel_svgrepo_com}"  />
+										</Button.Content>
+									</Button>
+								</StackPanel>
+							</Panel>
+						</TextBox.InnerRightContent>
+                        <Interaction.Behaviors>
+                            <behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel" MarkAsHandled="True">
+                                <InvokeCommandAction Command="{Binding $parent[stringEditor:StringEditor].Wrapper.Commit}" />
+                            </behaviors:KeyDownTriggerBehavior>
+                            <behaviors:KeyDownTriggerBehavior Key="Escape" EventRoutingStrategy="Tunnel" MarkAsHandled="True">
+                                <InvokeCommandAction Command="{Binding $parent[stringEditor:StringEditor].Wrapper.Cancel}" />
+                            </behaviors:KeyDownTriggerBehavior>
+                        </Interaction.Behaviors>
+					</TextBox>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Style Selector="^:editing">
+			<Setter Property="BorderBrush" Value="Black" />
+		</Style>
+	</ControlTheme>
+
+</ResourceDictionary>
