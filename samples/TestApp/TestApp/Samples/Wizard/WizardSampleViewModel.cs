@@ -28,7 +28,7 @@ public class WizardSampleViewModel
         ShowWizard = ReactiveCommand.CreateFromTask(OnShowWizard);
         ShowWizard
             .Values()
-            .SelectMany(s => Observable.FromAsync(() => notificationService.Show(s, $"Wizard success! Resulting: {s}")))
+            .SelectMany(s => Observable.FromAsync(() => notificationService.Show($"Result: {s}", "Wizard success!")))
             .Subscribe();
     }
 
@@ -37,9 +37,9 @@ public class WizardSampleViewModel
     private Task<Maybe<string>> OnShowWizard()
     {
         var wizard = new Wizard<Page1ViewModel, Page2ViewModel, string>(
-            new Page<Page1ViewModel>(new Page1ViewModel(), "Text", "Page 1"),
-            new Page<Page2ViewModel>(new Page2ViewModel(), "Text", "Page 1"),
-            (page1, page2) => string.Join(page1.Message, page2.Message));
+            new Page<Page1ViewModel>(new Page1ViewModel(), "Next", "Page 1"),
+            new Page<Page2ViewModel>(new Page2ViewModel(), "Finish", "Page 2"),
+            (page1, page2) => string.Join(",", new[] { page1.Message, page2.Message }));
 
         return dialogService.ShowDialog<Wizard<Page1ViewModel, Page2ViewModel, string>, string>(wizard, "Do something, boi");
     }
