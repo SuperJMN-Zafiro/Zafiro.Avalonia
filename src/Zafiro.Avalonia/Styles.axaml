@@ -7,5 +7,13 @@
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/WizardControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
+    
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/StringEditor/StringEditorControl.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
 
 </Styles>

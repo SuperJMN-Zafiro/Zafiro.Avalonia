@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using CSharpFunctionalExtensions;
+﻿using System.Collections.Generic;
+using TestApp.Samples.StringEditor;
 using TestApp.Samples.Wizard;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.UI;
@@ -23,7 +22,7 @@ public class MainViewModel : ViewModelBase
     public IEnumerable<Section> Sections => new List<Section>
     {
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
-        // TODO: Add wizard sample
+        new("StringEditor", new StringEditorSampleViewModel()),
         new("Wizard", new WizardSampleViewModel(dialogService, notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
