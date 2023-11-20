@@ -7,8 +7,30 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.StringEditor.StringEditorSampleView"
              x:DataType="stringEditor:StringEditorSampleViewModel">
-	<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-		<o:StringEditorControl Width="200" Wrapper="{Binding EditableString}" />
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <o:StringEditorControl Width="200" Wrapper="{Binding EditableString}" />
         <TextBlock Margin="4" Text="{Binding EditableString.InstanceOfType.Text, StringFormat='Current value: {0}'}" />
-	</StackPanel>
+        <HeaderedContentControl>
+            <HeaderedContentControl.Header>
+                <TextBlock>
+                    <TextBlock.Inlines>
+                        <Run>Inside ListBox</Run>
+                        <LineBreak />
+                        <Run FontSize="12">Using  using 'TransparentStringEditorControl'</Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
+            </HeaderedContentControl.Header>
+            <ListBox>
+                <ListBox.Items>
+                    <o:StringEditorControl Theme="{StaticResource TransparentStringEditorControl}"
+                                           IsLocked="{Binding !$parent[ListBoxItem].IsSelected}" Width="200"
+                                           Wrapper="{Binding EditableString}" />
+                    <o:StringEditorControl Theme="{StaticResource TransparentStringEditorControl}" Width="200"
+                                           Wrapper="{Binding EditableString}" />
+                    <o:StringEditorControl Theme="{StaticResource TransparentStringEditorControl}" Width="200"
+                                           Wrapper="{Binding EditableString}" />
+                </ListBox.Items>
+            </ListBox>
+        </HeaderedContentControl>
+    </StackPanel>
 </UserControl>
