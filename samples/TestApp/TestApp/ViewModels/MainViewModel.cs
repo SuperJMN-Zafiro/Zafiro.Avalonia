@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TestApp.Samples.Adorners;
 using TestApp.Samples.StringEditor;
 using TestApp.Samples.Wizard;
 using Zafiro.Avalonia.Dialogs;
@@ -23,6 +24,7 @@ public class MainViewModel : ViewModelBase
     {
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
         new("StringEditor", new StringEditorSampleViewModel()),
+        new("Adorners", new AdornerSample()),
         new("Wizard", new WizardSampleViewModel(dialogService, notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),

@@ -1,0 +1,27 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <Styles.Resources>
+        <ControlTheme x:Key="TransparentButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="CornerRadius" Value="6"></Setter>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="#F9F9F9" />
+                <Setter Property="BorderBrush" Value="#ECECEC" />
+            </Style>
+            <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Opacity" Value="0.8" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <Button IsEnabled="True" Content="Transparent" Theme="{StaticResource TransparentButton}" />
+        </Border>
+    </Design.PreviewWith>
+
+</Styles>

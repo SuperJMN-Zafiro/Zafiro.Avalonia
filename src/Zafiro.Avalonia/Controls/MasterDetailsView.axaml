@@ -16,8 +16,6 @@
 		</controls:MasterDetailsView>
 	</Design.PreviewWith>
 
-	<StyleInclude Source="avares://Zafiro.Avalonia/Common.axaml" />
-
 	<Styles.Resources>
 		<ControlTemplate x:Key="BackArrow">
             <Image>
