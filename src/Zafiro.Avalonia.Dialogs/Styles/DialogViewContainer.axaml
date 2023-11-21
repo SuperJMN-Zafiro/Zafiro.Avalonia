@@ -17,7 +17,7 @@
 						<DockPanel>
 							<Panel DockPanel.Dock="Top">
 								<TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{TemplateBinding Title}"  />
-								<Button Theme="{StaticResource Transparent}" HorizontalAlignment="Right" Content="x" Command="{TemplateBinding Close}"></Button>
+								<Button Theme="{StaticResource TransparentButton}" HorizontalAlignment="Right" Content="x" Command="{TemplateBinding Close}"></Button>
 							</Panel>
 							<ContentPresenter Content="{TemplateBinding Content}" />
 						</DockPanel>

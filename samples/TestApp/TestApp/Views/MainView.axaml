@@ -30,7 +30,7 @@
 		<DataTemplate DataType="vm:StorageSampleViewModel">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Button Content="Open a file..."
-						Classes="Transparent"
+						Theme="{StaticResource TransparentButton}"
                         Command="{Binding OpenFile}" />
 				<TextBlock Text="{Binding SelectedPaths^}" />
 			</StackPanel>

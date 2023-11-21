@@ -48,4 +48,6 @@ internal class StorableWrapper : IZafiroFile
     {
         return Result.Try(file.DeleteAsync);
     }
+
+    public bool IsHidden => false;
 }
