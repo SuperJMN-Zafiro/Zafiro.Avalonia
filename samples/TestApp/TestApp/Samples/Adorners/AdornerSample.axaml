@@ -8,13 +8,14 @@
 	<Border Background="Blue" Width="300" Height="200">
 		<Viewbox >
 			<Image Source="/Assets/image.png" />
-            <Interaction.Behaviors>
-                <behaviors:AdornerBehavior>
-                    <behaviors:AdornerBehavior.Adorner>
-                        <Button Background="Red">I'm adorning</Button>
-                    </behaviors:AdornerBehavior.Adorner>
-                </behaviors:AdornerBehavior>
-            </Interaction.Behaviors>
 		</Viewbox>
+
+        <Interaction.Behaviors>
+            <behaviors:AdornerBehavior PlacementMode="BottomRight">
+                <behaviors:AdornerBehavior.Adorner>
+                    <Button Background="Red">I'm adorning</Button>
+                </behaviors:AdornerBehavior.Adorner>
+            </behaviors:AdornerBehavior>
+        </Interaction.Behaviors>
 	</Border>
 </UserControl>
