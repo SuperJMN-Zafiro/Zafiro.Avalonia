@@ -28,4 +28,10 @@
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Samples\Adorners\AdornerSampleView.axaml.cs">
+      <DependentUpon>AdornerSampleView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

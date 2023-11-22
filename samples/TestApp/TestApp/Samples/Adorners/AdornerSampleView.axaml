@@ -3,8 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+             xmlns:adorners="clr-namespace:TestApp.Samples.Adorners"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
-             x:Class="TestApp.Samples.Adorners.AdornerSample">
+			 x:DataType="adorners:AdornerSampleViewModel"
+             x:Class="TestApp.Samples.Adorners.AdornerSampleView">
 
 	<Border Background="Blue" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
 		<Viewbox>
@@ -13,9 +15,9 @@
 
 		<Interaction.Behaviors>
 
-            <behaviors:AdornerBehavior PlacementMode="BottomRight">
+            <behaviors:AdornerBehavior PlacementMode="BottomRight" AdornerDataContextMode="DataContext">
 				<behaviors:AdornerBehavior.Adorner>
-					<Button x:Name="Button" Background="Red">I'm adorning</Button>
+					<Button Command="{Binding LengthyCommand}" x:Name="Button" Background="Red">I'm adorning</Button>
 				</behaviors:AdornerBehavior.Adorner>
 			</behaviors:AdornerBehavior>
 

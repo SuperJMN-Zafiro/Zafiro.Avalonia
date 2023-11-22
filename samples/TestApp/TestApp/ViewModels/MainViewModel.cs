@@ -24,7 +24,7 @@ public class MainViewModel : ViewModelBase
     {
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
         new("StringEditor", new StringEditorSampleViewModel()),
-        new("Adorners", new AdornerSample()),
+        new("Adorners", new AdornerSampleViewModel()),
         new("Wizard", new WizardSampleViewModel(dialogService, notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),

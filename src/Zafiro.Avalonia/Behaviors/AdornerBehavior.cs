@@ -2,9 +2,7 @@
 using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Xaml.Interactions.Custom;
 
 namespace Zafiro.Avalonia.Behaviors;
@@ -15,9 +13,17 @@ public enum Alignment
     BottomRight
 }
 
+public enum DataContextMode
+{
+    TemplatedParent,
+    DataContext
+}
+
 public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
 {
     public static readonly StyledProperty<Alignment> PlacementModeProperty = AvaloniaProperty.Register<AdornerBehavior, Alignment>(nameof(PlacementMode));
+
+    [ResolveByName]
     public Control? Adorner { get; set; }
 
     public Alignment PlacementMode
@@ -25,6 +31,8 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
         get => GetValue(PlacementModeProperty);
         set => SetValue(PlacementModeProperty, value);
     }
+
+    public DataContextMode AdornerDataContextMode { get; set; } = DataContextMode.TemplatedParent;
 
     protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
     {
@@ -40,7 +48,7 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
             return;
         }
 
-        Adorner.DataContext = AssociatedObject.TemplatedParent;
+        Adorner.DataContext = AdornerDataContextMode == DataContextMode.TemplatedParent ? AssociatedObject.TemplatedParent : AssociatedObject.DataContext;
 
         layer.Children.Add(Adorner);
 
@@ -53,7 +61,7 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
                         AssociatedObject.LayoutUpdated -= handler;
                     }
                 })
-            .Do(_ => ArrangeAdorner(AssociatedObject, layer))
+            .Do(_ => ArrangeAdorner(Adorner, AssociatedObject, layer))
             .Subscribe()
             .DisposeWith(disposables);
 
@@ -61,10 +69,10 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
             .Create(() => layer.Children.Remove(Adorner))
             .DisposeWith(disposables);
 
-        ArrangeAdorner(AssociatedObject, layer);
+        ArrangeAdorner(Adorner, AssociatedObject, layer);
     }
 
-    private void ArrangeAdorner(Visual adorned, Visual layer)
+    private void ArrangeAdorner(Control adorner, Visual adorned, Visual layer)
     {
         var translatePoint = adorned.TranslatePoint(new Point(), layer);
 
@@ -74,20 +82,20 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
         }
 
         var finalBounds = new Rect(point.X, point.Y, adorned.Bounds.Width, adorned.Bounds.Height);
-        AlignTo(finalBounds);
+        AlignTo(adorner, finalBounds, PlacementMode);
     }
 
-    private void AlignTo(Rect finalBounds)
+    private static void AlignTo(Visual target, Rect bounds, Alignment placementMode)
     {
-        switch (PlacementMode)
+        switch (placementMode)
         {
             case Alignment.MiddleRight:
-                Canvas.SetLeft(Adorner!, finalBounds.Right);
-                Canvas.SetTop(Adorner!, finalBounds.Y + (finalBounds.Height / 2 - Adorner!.Bounds.Height / 2));
+                Canvas.SetLeft(target, bounds.Right);
+                Canvas.SetTop(target, bounds.Y + (bounds.Height / 2 - target.Bounds.Height / 2));
                 break;
             case Alignment.BottomRight:
-                Canvas.SetLeft(Adorner!, finalBounds.Right);
-                Canvas.SetTop(Adorner!, finalBounds.Y + (finalBounds.Height - Adorner!.Bounds.Height));
+                Canvas.SetLeft(target, bounds.Right);
+                Canvas.SetTop(target, bounds.Y + (bounds.Height - target.Bounds.Height));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
