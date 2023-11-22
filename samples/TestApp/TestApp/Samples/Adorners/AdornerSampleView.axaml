@@ -21,7 +21,7 @@
 				</behaviors:AdornerBehavior.Adorner>
 			</behaviors:AdornerBehavior>
 
-			<behaviors:ProximityRevealBehavior InflateHitBoxesBy="16" Target="Button" />
+			<behaviors:ProximityRevealBehavior ForceVisible="{Binding IsExecuting^}" InflateHitBoxesBy="16" Target="Button" />
 
         </Interaction.Behaviors>
 	</Border>

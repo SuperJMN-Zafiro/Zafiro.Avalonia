@@ -5,13 +5,15 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactions.Custom;
+using ReactiveUI;
 
 namespace Zafiro.Avalonia.Behaviors;
 
 public class ProximityRevealBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    public static readonly StyledProperty<Thickness> InflateHitboxesByProperty = AvaloniaProperty.Register<ProximityRevealBehavior, Thickness>(
-        nameof(InflateHitBoxesBy));
+    public static readonly StyledProperty<Thickness> InflateHitboxesByProperty = AvaloniaProperty.Register<ProximityRevealBehavior, Thickness>(nameof(InflateHitBoxesBy));
+
+    public static readonly StyledProperty<bool> ForceVisibleProperty = AvaloniaProperty.Register<ProximityRevealBehavior, bool>(nameof(ForceVisible));
 
     [ResolveByName] public Visual? Target { get; set; }
 
@@ -19,6 +21,12 @@ public class ProximityRevealBehavior : AttachedToVisualTreeBehavior<Control>
     {
         get => GetValue(InflateHitboxesByProperty);
         set => SetValue(InflateHitboxesByProperty, value);
+    }
+
+    public bool ForceVisible
+    {
+        get => GetValue(ForceVisibleProperty);
+        set => SetValue(ForceVisibleProperty, value);
     }
 
     protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
@@ -49,9 +57,10 @@ public class ProximityRevealBehavior : AttachedToVisualTreeBehavior<Control>
             return ContainsPoint(mainView, point, AssociatedObject) || ContainsPoint(mainView, point, Target);
         });
 
-        hits
-            .StartWith(false)
-            .Do(isHit => Target!.IsVisible = isHit)
+        var isVisibilityForced = this.WhenAnyValue(x => x.ForceVisible);
+
+        hits.CombineLatest(isVisibilityForced, (isHit, isForced) => (isHit, isForced))
+            .Do(tuple => Target!.IsVisible = tuple.isHit || tuple.isForced)
             .Subscribe()
             .DisposeWith(disposable);
     }
