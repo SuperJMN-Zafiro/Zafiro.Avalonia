@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Zafiro.Avalonia.Model;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Wizard;
 

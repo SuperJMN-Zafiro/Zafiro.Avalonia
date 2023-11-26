@@ -11,7 +11,6 @@ using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Model;
 using Zafiro.Avalonia.Wizard;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;

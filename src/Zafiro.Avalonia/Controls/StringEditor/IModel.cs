@@ -1,4 +1,4 @@
-using Zafiro.Avalonia.Model;
+using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
