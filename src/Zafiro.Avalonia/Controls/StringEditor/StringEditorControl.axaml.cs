@@ -11,8 +11,8 @@ namespace Zafiro.Avalonia.Controls.StringEditor;
 [TemplatePart("PART_TextBox", typeof(TextBox))]
 public class StringEditorControl : TemplatedControl
 {
-    public static readonly StyledProperty<EditableString> WrapperProperty = AvaloniaProperty.Register<StringEditorControl, EditableString>(
-        nameof(Wrapper));
+    public static readonly StyledProperty<StringField> StringFieldProperty = AvaloniaProperty.Register<StringEditorControl, StringField>(
+        nameof(StringField));
     
     public static readonly StyledProperty<bool> IsEditingProperty = AvaloniaProperty.Register<StringEditorControl, bool>(nameof(IsEditing), defaultValue: false);
     public static readonly StyledProperty<ICommand> EditProperty = AvaloniaProperty.Register<StringEditorControl, ICommand>(nameof(Edit));
@@ -24,11 +24,11 @@ public class StringEditorControl : TemplatedControl
             IsLocked = false;
             IsEditing = true;
         });
-        this.WhenAnyValue(x => x.Wrapper)
+        this.WhenAnyValue(x => x.StringField)
             .WhereNotNull()
             .Subscribe(wrapper =>
         {
-            wrapper.Commit.Merge(wrapper.Cancel).Do(_ =>
+            wrapper.Commit.Merge(wrapper.Rollback).Do(_ =>
             {
                 IsEditing = false;
                 IsLocked = true;
@@ -57,10 +57,10 @@ public class StringEditorControl : TemplatedControl
         }).Subscribe();
     }
     
-    public Editable<StringBox> Wrapper
+    public StringField StringField
     {
-        get => GetValue(WrapperProperty);
-        set => SetValue(WrapperProperty, value);
+        get => GetValue(StringFieldProperty);
+        set => SetValue(StringFieldProperty, value);
     }
     
     public bool IsEditing

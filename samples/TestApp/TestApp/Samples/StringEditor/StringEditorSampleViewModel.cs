@@ -1,15 +1,16 @@
 ﻿using ReactiveUI.Validation.Helpers;
 using Zafiro.Avalonia.Controls.StringEditor;
+using Zafiro.UI.Fields;
 
 namespace TestApp.Samples.StringEditor;
 
 public class StringEditorSampleViewModel : ReactiveValidationObject
 {
-    public EditableString EditableString { get; }
+    public StringField StringField { get; }
 
     public StringEditorSampleViewModel()
     {
-        EditableString = new("Hola");
-        EditableString.ValidationRule(s => s is { Length: < 7 }, "Too long");
+        StringField = new("Hola");
+        StringField.AddRule(s => s is { Length: < 7 }, "Too long");
     }
 }

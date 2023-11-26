@@ -8,8 +8,8 @@
              x:Class="TestApp.Samples.StringEditor.StringEditorSampleView"
              x:DataType="stringEditor:StringEditorSampleViewModel">
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <o:StringEditorControl Width="200" Wrapper="{Binding EditableString}" />
-        <TextBlock Margin="4" Text="{Binding EditableString.InstanceOfType.Text, StringFormat='Current value: {0}'}" />
+        <o:StringEditorControl Width="200" StringField="{Binding StringField}" />
+        <TextBlock Margin="4" Text="{Binding StringField.CommittedValue, StringFormat='Current value: {0}'}" />
         <HeaderedContentControl>
             <HeaderedContentControl.Header>
                 <TextBlock>
@@ -24,11 +24,11 @@
                 <ListBox.Items>
                     <o:StringEditorControl Theme="{StaticResource TransparentStringEditorControl}"
                                            IsLocked="{Binding !$parent[ListBoxItem].IsSelected}" Width="200"
-                                           Wrapper="{Binding EditableString}" />
+                                           StringField="{Binding StringField}" />
                     <o:StringEditorControl Theme="{StaticResource TransparentStringEditorControl}" Width="200"
-                                           Wrapper="{Binding EditableString}" />
+                                           StringField="{Binding StringField}" />
                     <o:StringEditorControl Theme="{StaticResource TransparentStringEditorControl}" Width="200"
-                                           Wrapper="{Binding EditableString}" />
+                                           StringField="{Binding StringField}" />
                 </ListBox.Items>
             </ListBox>
         </HeaderedContentControl>

@@ -109,7 +109,7 @@
                              Theme="{StaticResource StringEditorTransparentTextBox}"
                              DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}"
                              IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}"
-                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wrapper.WorkInstanceOfType.Text, Mode=TwoWay}">
+                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StringField.Value, Mode=TwoWay}">
 						<TextBox.InnerRightContent>
 							<Panel Margin="0 0 6 0"
                                    DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}">
@@ -134,13 +134,13 @@
 								</Button>
 								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding IsEditing}">
 									<Button Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding Wrapper.Commit}">
+                                            Command="{Binding StringField.Commit}">
 										<Button.Content>
 											<Image Source="{StaticResource di_ok_svgrepo_com}" />
 										</Button.Content>
 									</Button>
 									<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding Wrapper.Cancel}">
+                                            Command="{Binding StringField.Rollback}">
 										<Button.Content>
 											<Image Source="{StaticResource di_cancel_svgrepo_com}" />
 										</Button.Content>
@@ -152,12 +152,12 @@
 							<behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Wrapper.Commit}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Commit}" />
 							</behaviors:KeyDownTriggerBehavior>
 							<behaviors:KeyDownTriggerBehavior Key="Escape" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Wrapper.Cancel}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Rollback}" />
 							</behaviors:KeyDownTriggerBehavior>
 						</Interaction.Behaviors>
 					</TextBox>
@@ -189,7 +189,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Wrapper.WorkInstanceOfType.Text, Mode=TwoWay}">
+                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StringField.Value, Mode=TwoWay}">
 						<TextBox.InnerRightContent>
 							<Panel Margin="0 0 6 0"
                                    DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}">
@@ -214,13 +214,13 @@
 								</Button>
 								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding IsEditing}">
 									<Button Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding Wrapper.Commit}">
+                                            Command="{Binding StringField.Commit}">
 										<Button.Content>
 											<Image Source="{StaticResource di_ok_svgrepo_com}" />
 										</Button.Content>
 									</Button>
 									<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding Wrapper.Cancel}">
+                                            Command="{Binding StringField.Rollback}">
 										<Button.Content>
 											<Image Source="{StaticResource di_cancel_svgrepo_com}" />
 										</Button.Content>
@@ -232,12 +232,12 @@
 							<behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Wrapper.Commit}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Commit}" />
 							</behaviors:KeyDownTriggerBehavior>
 							<behaviors:KeyDownTriggerBehavior Key="Escape" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Wrapper.Cancel}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Rollback}" />
 							</behaviors:KeyDownTriggerBehavior>
 						</Interaction.Behaviors>
 					</TextBox>
