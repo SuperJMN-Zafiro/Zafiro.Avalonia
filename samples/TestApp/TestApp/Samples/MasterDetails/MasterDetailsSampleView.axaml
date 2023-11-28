@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:masterDetails="clr-namespace:TestApp.Samples.MasterDetails"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.MasterDetails.MasterDetailsSampleView"
+             x:DataType="masterDetails:MasterDetailsSampleViewModel">
+  <controls:MasterDetailsView ItemsSource="{Binding Sections}" CompactWidth="500">
+      <controls:MasterDetailsView.DetailsTemplate>
+          <DataTemplate DataType="masterDetails:SampleSection">
+              <TextBox Text="{Binding Content}" />
+          </DataTemplate>
+      </controls:MasterDetailsView.DetailsTemplate>
+      <controls:MasterDetailsView.ItemTemplate>
+          <DataTemplate DataType="masterDetails:SampleSection">
+              <TextBlock Text="{Binding Content}" />
+          </DataTemplate>
+      </controls:MasterDetailsView.ItemTemplate>
+  </controls:MasterDetailsView>
+</UserControl>

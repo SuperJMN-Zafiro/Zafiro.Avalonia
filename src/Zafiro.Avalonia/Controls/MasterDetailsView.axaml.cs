@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Controls.Templates;
 using Avalonia.Metadata;
 using JetBrains.Annotations;
 using ReactiveUI;
@@ -13,7 +13,7 @@ namespace Zafiro.Avalonia.Controls;
 [PublicAPI]
 public class MasterDetailsView : TemplatedControl
 {
-    public static readonly StyledProperty<IEnumerable> ItemsSourceProperty = AvaloniaProperty.Register<MasterDetailsView, IEnumerable>(nameof(ItemsSource));
+    public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty = AvaloniaProperty.Register<MasterDetailsView, IEnumerable?>(nameof(ItemsSource));
 
     public static readonly StyledProperty<object> SelectedItemProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(SelectedItem));
 
@@ -23,9 +23,9 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<bool> IsBackButtonEnabledProperty = AvaloniaProperty.Register<MasterDetailsView, bool>(nameof(IsBackButtonDisplayed), true);
 
-    public static readonly StyledProperty<DataTemplate> ItemTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, DataTemplate>(nameof(ItemTemplate));
+    public static readonly StyledProperty<IDataTemplate?> ItemTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, IDataTemplate?>(nameof(ItemTemplate));
 
-    public static readonly StyledProperty<DataTemplate> DetailsTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, DataTemplate>(nameof(DetailsTemplate));
+    public static readonly StyledProperty<IDataTemplate?> DetailsTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, IDataTemplate?>(nameof(DetailsTemplate));
 
     public static readonly DirectProperty<MasterDetailsView, bool> AreDetailsShownProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, bool>(nameof(AreDetailsShown), o => o.AreDetailsShown, (o, v) => o.AreDetailsShown = v);
 
@@ -39,9 +39,9 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<object> FooterProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Footer));
 
-    public static readonly StyledProperty<ControlTemplate> FooterTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, ControlTemplate>(nameof(FooterTemplate));
+    public static readonly StyledProperty<IControlTemplate?> FooterTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, IControlTemplate?>(nameof(FooterTemplate));
 
-    public static readonly StyledProperty<ControlTemplate> HeaderTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, ControlTemplate>(nameof(HeaderTemplate));
+    public static readonly StyledProperty<IControlTemplate?> HeaderTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, IControlTemplate?>(nameof(HeaderTemplate));
 
     private bool areDetailsShown;
 
@@ -60,13 +60,13 @@ public class MasterDetailsView : TemplatedControl
         GoToDetails = ReactiveCommand.Create(() => AreDetailsShown = true);
     }
 
-    public ControlTemplate FooterTemplate
+    public IControlTemplate? FooterTemplate
     {
         get => GetValue(FooterTemplateProperty);
         set => SetValue(FooterTemplateProperty, value);
     }
 
-    public ControlTemplate HeaderTemplate
+    public IControlTemplate? HeaderTemplate
     {
         get => GetValue(HeaderTemplateProperty);
         set => SetValue(HeaderTemplateProperty, value);
@@ -103,7 +103,8 @@ public class MasterDetailsView : TemplatedControl
         set => SetValue(ItemsProperty, value);
     }
 
-    public DataTemplate DetailsTemplate
+    [InheritDataTypeFromItems(nameof(ItemsSource))]
+    public IDataTemplate? DetailsTemplate
     {
         get => GetValue(DetailsTemplateProperty);
         set => SetValue(DetailsTemplateProperty, value);
@@ -115,7 +116,7 @@ public class MasterDetailsView : TemplatedControl
         set => SetValue(IsBackButtonEnabledProperty, value);
     }
 
-    public IEnumerable ItemsSource
+    public IEnumerable? ItemsSource
     {
         get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
@@ -145,7 +146,8 @@ public class MasterDetailsView : TemplatedControl
         private set => SetAndRaise(BackCommandProperty, ref backCommand, value);
     }
 
-    public DataTemplate ItemTemplate
+    [InheritDataTypeFromItems(nameof(ItemsSource))]
+    public IDataTemplate? ItemTemplate
     {
         get => GetValue(ItemTemplateProperty);
         set => SetValue(ItemTemplateProperty, value);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TestApp.Samples.Adorners;
+using TestApp.Samples.MasterDetails;
 using TestApp.Samples.StringEditor;
 using TestApp.Samples.Wizard;
 using Zafiro.Avalonia.Dialogs;
@@ -22,6 +23,7 @@ public class MainViewModel : ViewModelBase
 
     public IEnumerable<Section> Sections => new List<Section>
     {
+        new("MasterDetailsView", new MasterDetailsSampleViewModel()),
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
         new("StringEditor", new StringEditorSampleViewModel()),
         new("Adorners", new AdornerSampleViewModel()),
