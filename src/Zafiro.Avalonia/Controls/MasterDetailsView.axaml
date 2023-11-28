@@ -4,20 +4,23 @@
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
-	<Design.PreviewWith>
-		<controls:MasterDetailsView Width="200" Height="300">
-			<controls:MasterDetailsView.ItemsSource>
-				<generic:List x:TypeArguments="x:Object">
-					<system:String>Hola</system:String>
-					<system:String>Hola2</system:String>
-					<system:String>Hola3</system:String>
-				</generic:List>
-			</controls:MasterDetailsView.ItemsSource>
-		</controls:MasterDetailsView>
-	</Design.PreviewWith>
+    <Design.PreviewWith>
+        <controls:MasterDetailsView Width="600" Height="500" Header="Header">
+            <controls:MasterDetailsView.Footer>
+                <TextBlock>Footer</TextBlock>
+            </controls:MasterDetailsView.Footer>
+            <controls:MasterDetailsView.ItemsSource>
+                <generic:List x:TypeArguments="x:Object">
+                    <system:String>Hola</system:String>
+                    <system:String>Hola2</system:String>
+                    <system:String>Hola3</system:String>
+                </generic:List>
+            </controls:MasterDetailsView.ItemsSource>
+        </controls:MasterDetailsView>
+    </Design.PreviewWith>
 
-	<Styles.Resources>
-		<ControlTemplate x:Key="BackArrow">
+    <Styles.Resources>
+        <ControlTemplate x:Key="BackArrow">
             <Image>
                 <Image.Resources>
                     <SolidColorBrush x:Key="ArrowColor" Color="#FF000000" />
@@ -36,73 +39,103 @@
                 </DrawingImage>
             </Image>
         </ControlTemplate>
-	</Styles.Resources>
+    </Styles.Resources>
 
-	<Style Selector="controls|MasterDetailsView">
+    <Style Selector="controls|MasterDetailsView">
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <controls:AdaptiveControl>
+                    <controls:AdaptiveControl.HorizontalTemplate>
+                        <ControlTemplate>
+                            <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto * Auto"
+                                  DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
 
-		<Setter Property="Template">
-			<ControlTemplate>
-				<controls:AdaptiveControl>
-					<controls:AdaptiveControl.HorizontalTemplate>
-						<ControlTemplate>
-							<DockPanel DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
-								<ListBox ItemTemplate="{Binding ItemTemplate}"
+                                <Border Background="{Binding Background}" Grid.RowSpan="3" />
+
+                                <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding Header}"
+                                                ContentTemplate="{Binding HeaderTemplate}" />
+                                <ListBox Grid.Row="1" Grid.Column="0" ItemTemplate="{Binding ItemTemplate}"
                                          SelectedItem="{Binding SelectedItem}"
                                          ItemsSource="{Binding ItemsSource}"
-                                         Width="{Binding MasterPaneWidth}" DockPanel.Dock="Left">
-								</ListBox>
-								<ContentControl ContentTemplate="{Binding DetailsTemplate}"
+                                         Width="{Binding MasterPaneWidth}" DockPanel.Dock="Left" />
+
+                                <ContentControl Grid.Row="1" Grid.Column="1"
+                                                ContentTemplate="{Binding DetailsTemplate}"
                                                 Content="{Binding SelectedItem}" />
-							</DockPanel>
-						</ControlTemplate>
-					</controls:AdaptiveControl.HorizontalTemplate>
-					<controls:AdaptiveControl.VerticalTemplate>
-						<ControlTemplate>
-                            <Panel DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
-                                <ListBox ItemTemplate="{Binding ItemTemplate}"
-                                         SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
-                                         ItemsSource="{Binding ItemsSource}"
-                                         IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}">
-                                    <ListBox.Styles>
-                                        <Style Selector="ListBoxItem">
-                                            <Setter Property="Interaction.Behaviors">
-                                                <BehaviorCollectionTemplate>
-                                                    <BehaviorCollection>
-                                                        <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}" RoutingStrategies="Tunnel">
-                                                            <InvokeCommandAction Command="{Binding $parent[controls:MasterDetailsView].GoToDetails}" />
-                                                        </RoutedEventTriggerBehavior>
-                                                    </BehaviorCollection>
-                                                </BehaviorCollectionTemplate>
-                                            </Setter>
-                                        </Style>
-                                    </ListBox.Styles>
-                                </ListBox>
-                                <DockPanel IsVisible="{Binding $parent[controls:MasterDetailsView].AreDetailsShown}">
-                                    <Button IsVisible="{Binding $parent[controls:MasterDetailsView].IsBackButtonDisplayed}"
+
+                                <ContentControl Grid.Row="2" Grid.Column="0" Content="{Binding Footer}"
+                                                ContentTemplate="{Binding FooterTemplate}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </controls:AdaptiveControl.HorizontalTemplate>
+                    <controls:AdaptiveControl.VerticalTemplate>
+                        <ControlTemplate>
+                            <Grid RowDefinitions="Auto * Auto"
+                                  DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
+
+                                <Border Background="{Binding Background}" Grid.RowSpan="3" />
+
+                                <ContentControl Grid.Row="0" Content="{Binding Header}"
+                                                ContentTemplate="{Binding HeaderTemplate}"
+                                                IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}" />
+
+                                <Panel Grid.Row="1">
+                                    <ListBox ItemTemplate="{Binding ItemTemplate}"
+                                             SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
+                                             ItemsSource="{Binding ItemsSource}"
+                                             Background="{Binding Background}"
+                                             IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}">
+                                        <ListBox.Styles>
+                                            <Style Selector="ListBoxItem">
+                                                <Setter Property="Interaction.Behaviors">
+                                                    <BehaviorCollectionTemplate>
+                                                        <BehaviorCollection>
+                                                            <RoutedEventTriggerBehavior
+                                                                RoutedEvent="{x:Static InputElement.PointerPressedEvent}"
+                                                                RoutingStrategies="Tunnel">
+                                                                <InvokeCommandAction
+                                                                    Command="{Binding $parent[controls:MasterDetailsView].GoToDetails}" />
+                                                            </RoutedEventTriggerBehavior>
+                                                        </BehaviorCollection>
+                                                    </BehaviorCollectionTemplate>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.Styles>
+                                    </ListBox>
+                                    <DockPanel
+                                        IsVisible="{Binding $parent[controls:MasterDetailsView].AreDetailsShown}">
+                                        <Button
+                                            IsVisible="{Binding $parent[controls:MasterDetailsView].IsBackButtonDisplayed}"
                                             DockPanel.Dock="Top" Height="32" Padding="0"
                                             Classes="Transparent"
                                             Command="{Binding $parent[controls:MasterDetailsView].BackCommand}">
-                                        <Button.Content>
-                                            <ContentControl Template="{StaticResource BackArrow}" />
-                                        </Button.Content>
-                                    </Button>
-                                    <ContentControl ContentTemplate="{Binding DetailsTemplate}"
-                                                    Content="{Binding SelectedItem}" />
-                                </DockPanel>
+                                            <Button.Content>
+                                                <ContentControl Template="{StaticResource BackArrow}" />
+                                            </Button.Content>
+                                        </Button>
+                                        <ContentControl ContentTemplate="{Binding DetailsTemplate}"
+                                                        Content="{Binding SelectedItem}" />
+                                    </DockPanel>
 
-                                <Interaction.Behaviors>
-                                    <behaviors:BackTriggerBehavior
-                                        MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
-                                        <InvokeCommandAction
-                                            Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
-                                    </behaviors:BackTriggerBehavior>
-                                </Interaction.Behaviors>
-                            </Panel>
-						</ControlTemplate>
-					</controls:AdaptiveControl.VerticalTemplate>
-				</controls:AdaptiveControl>
-				
-			</ControlTemplate>
-		</Setter>
-	</Style>
+                                    <Interaction.Behaviors>
+                                        <behaviors:BackTriggerBehavior
+                                            MarkAsHandled="{Binding $parent[controls:MasterDetailsView].AreDetailsShown} ">
+                                            <InvokeCommandAction
+                                                Command="{Binding $parent[controls:MasterDetailsView].BackCommand}" />
+                                        </behaviors:BackTriggerBehavior>
+                                    </Interaction.Behaviors>
+                                </Panel>
+
+                                <ContentControl Grid.Row="2" Content="{Binding Footer}"
+                                                IsVisible="{Binding !$parent[controls:MasterDetailsView].AreDetailsShown}"
+                                                ContentTemplate="{Binding FooterTemplate}" />
+                            </Grid>
+
+                        </ControlTemplate>
+                    </controls:AdaptiveControl.VerticalTemplate>
+                </controls:AdaptiveControl>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 </Styles>

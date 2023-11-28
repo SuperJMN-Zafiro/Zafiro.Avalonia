@@ -13,28 +13,21 @@ namespace Zafiro.Avalonia.Controls;
 [PublicAPI]
 public class MasterDetailsView : TemplatedControl
 {
-    public static readonly StyledProperty<IEnumerable> ItemsSourceProperty = AvaloniaProperty.Register<MasterDetailsView, IEnumerable>(
-        nameof(ItemsSource));
+    public static readonly StyledProperty<IEnumerable> ItemsSourceProperty = AvaloniaProperty.Register<MasterDetailsView, IEnumerable>(nameof(ItemsSource));
 
-    public static readonly StyledProperty<object> SelectedItemProperty = AvaloniaProperty.Register<MasterDetailsView, object>(
-        nameof(SelectedItem));
+    public static readonly StyledProperty<object> SelectedItemProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(SelectedItem));
 
-    public static readonly DirectProperty<MasterDetailsView, ICommand> GoToDetailsProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, ICommand>(
-        nameof(GoToDetails), o => o.GoToDetails, (o, v) => o.GoToDetails = v);
+    public static readonly DirectProperty<MasterDetailsView, ICommand> GoToDetailsProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, ICommand>(nameof(GoToDetails), o => o.GoToDetails, (o, v) => o.GoToDetails = v);
 
-    public static readonly DirectProperty<MasterDetailsView, ICommand> BackCommandProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, ICommand>(
-        nameof(BackCommand), o => o.BackCommand, (o, v) => o.BackCommand = v);
+    public static readonly DirectProperty<MasterDetailsView, ICommand> BackCommandProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, ICommand>(nameof(BackCommand), o => o.BackCommand, (o, v) => o.BackCommand = v);
 
     public static readonly StyledProperty<bool> IsBackButtonEnabledProperty = AvaloniaProperty.Register<MasterDetailsView, bool>(nameof(IsBackButtonDisplayed), true);
 
-    public static readonly StyledProperty<DataTemplate> ItemTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, DataTemplate>(
-        nameof(ItemTemplate));
+    public static readonly StyledProperty<DataTemplate> ItemTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, DataTemplate>(nameof(ItemTemplate));
 
-    public static readonly StyledProperty<DataTemplate> DetailsTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, DataTemplate>(
-        nameof(DetailsTemplate));
+    public static readonly StyledProperty<DataTemplate> DetailsTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, DataTemplate>(nameof(DetailsTemplate));
 
-    public static readonly DirectProperty<MasterDetailsView, bool> AreDetailsShownProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, bool>(
-        nameof(AreDetailsShown), o => o.AreDetailsShown, (o, v) => o.AreDetailsShown = v);
+    public static readonly DirectProperty<MasterDetailsView, bool> AreDetailsShownProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, bool>(nameof(AreDetailsShown), o => o.AreDetailsShown, (o, v) => o.AreDetailsShown = v);
 
     public static readonly StyledProperty<double> CompactWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(CompactWidth), 400);
 
@@ -42,11 +35,13 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<double> MasterPaneWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(MasterPaneWidth), 200);
 
-    public double MasterPaneWidth
-    {
-        get => GetValue(MasterPaneWidthProperty);
-        set => SetValue(MasterPaneWidthProperty, value);
-    }
+    public static readonly StyledProperty<object> HeaderProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Header));
+
+    public static readonly StyledProperty<object> FooterProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Footer));
+
+    public static readonly StyledProperty<ControlTemplate> FooterTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, ControlTemplate>(nameof(FooterTemplate));
+
+    public static readonly StyledProperty<ControlTemplate> HeaderTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, ControlTemplate>(nameof(HeaderTemplate));
 
     private bool areDetailsShown;
 
@@ -63,6 +58,36 @@ public class MasterDetailsView : TemplatedControl
 
         BackCommand = ReactiveCommand.Create(() => AreDetailsShown = false);
         GoToDetails = ReactiveCommand.Create(() => AreDetailsShown = true);
+    }
+
+    public ControlTemplate FooterTemplate
+    {
+        get => GetValue(FooterTemplateProperty);
+        set => SetValue(FooterTemplateProperty, value);
+    }
+
+    public ControlTemplate HeaderTemplate
+    {
+        get => GetValue(HeaderTemplateProperty);
+        set => SetValue(HeaderTemplateProperty, value);
+    }
+
+    public object Header
+    {
+        get => GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
+
+    public object Footer
+    {
+        get => GetValue(FooterProperty);
+        set => SetValue(FooterProperty, value);
+    }
+
+    public double MasterPaneWidth
+    {
+        get => GetValue(MasterPaneWidthProperty);
+        set => SetValue(MasterPaneWidthProperty, value);
     }
 
     public double CompactWidth
