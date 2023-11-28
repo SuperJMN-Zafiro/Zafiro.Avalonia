@@ -60,7 +60,9 @@ public class ProximityRevealBehavior : AttachedToVisualTreeBehavior<Control>
         var isVisibilityForced = this.WhenAnyValue(x => x.ForceVisible);
 
         hits.CombineLatest(isVisibilityForced, (isHit, isForced) => (isHit, isForced))
-            .Do(tuple => Target!.IsVisible = tuple.isHit || tuple.isForced)
+			.Select(tuple => tuple.isHit && AssociatedObject.IsEffectivelyEnabled || tuple.isForced)
+			.StartWith(false)
+            .Do(isVisible => Target!.IsVisible = isVisible)
             .Subscribe()
             .DisposeWith(disposable);
     }

@@ -72,7 +72,7 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
         ArrangeAdorner(Adorner, AssociatedObject, layer);
     }
 
-    private void ArrangeAdorner(Control adorner, Visual adorned, Visual layer)
+    private void ArrangeAdorner(Visual adorner, Visual adorned, Visual layer)
     {
         var translatePoint = adorned.TranslatePoint(new Point(), layer);
 
@@ -98,7 +98,7 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
                 Canvas.SetTop(target, bounds.Y + (bounds.Height - target.Bounds.Height));
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(placementMode));
         }
     }
 }
