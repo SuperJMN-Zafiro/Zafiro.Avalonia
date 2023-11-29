@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Reactive.Linq;
 using System.Windows.Input;
@@ -27,8 +28,6 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<IDataTemplate?> DetailsTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, IDataTemplate?>(nameof(DetailsTemplate));
 
-    public static readonly DirectProperty<MasterDetailsView, bool> AreDetailsShownProperty = AvaloniaProperty.RegisterDirect<MasterDetailsView, bool>(nameof(AreDetailsShown), o => o.AreDetailsShown, (o, v) => o.AreDetailsShown = v);
-
     public static readonly StyledProperty<double> CompactWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(CompactWidth), 400);
 
     public static readonly StyledProperty<object> ItemsProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Items));
@@ -43,7 +42,9 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<IControlTemplate?> HeaderTemplateProperty = AvaloniaProperty.Register<MasterDetailsView, IControlTemplate?>(nameof(HeaderTemplate));
 
-    private bool areDetailsShown;
+    public static readonly StyledProperty<bool> IsCollapsedProperty = AvaloniaProperty.Register<MasterDetailsView, bool>(nameof(IsCollapsed));
+
+    public static readonly StyledProperty<bool> AreDetailsShownProperty = AvaloniaProperty.Register<MasterDetailsView, bool>(nameof(AreDetailsShown));
 
     private ICommand backCommand = null!;
 
@@ -56,8 +57,16 @@ public class MasterDetailsView : TemplatedControl
             .Do(_ => AreDetailsShown = true)
             .Subscribe();
 
+        MessageBus.Current.SendMessage(new RegisterNavigation(this));
+
         BackCommand = ReactiveCommand.Create(() => AreDetailsShown = false);
         GoToDetails = ReactiveCommand.Create(() => AreDetailsShown = true);
+    }
+
+    public bool IsCollapsed
+    {
+        get => GetValue(IsCollapsedProperty);
+        set => SetValue(IsCollapsedProperty, value);
     }
 
     public IControlTemplate? FooterTemplate
@@ -130,8 +139,8 @@ public class MasterDetailsView : TemplatedControl
 
     public bool AreDetailsShown
     {
-        get => areDetailsShown;
-        private set => SetAndRaise(AreDetailsShownProperty, ref areDetailsShown, value);
+        get => GetValue(AreDetailsShownProperty);
+        set => SetValue(AreDetailsShownProperty, value);
     }
 
     public ICommand GoToDetails
@@ -151,5 +160,20 @@ public class MasterDetailsView : TemplatedControl
     {
         get => GetValue(ItemTemplateProperty);
         set => SetValue(ItemTemplateProperty, value);
+    }
+
+    public void HideDetails()
+    {
+        AreDetailsShown = false;
+    }
+}
+
+public class RegisterNavigation
+{
+    public MasterDetailsView MasterDetailsView { get; }
+
+    public RegisterNavigation(MasterDetailsView masterDetailsView)
+    {
+        MasterDetailsView = masterDetailsView;
     }
 }

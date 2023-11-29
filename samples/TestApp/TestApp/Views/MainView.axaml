@@ -37,16 +37,19 @@
 		</DataTemplate>
 	</UserControl.DataTemplates>
 
-    <c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
-        <c:MasterDetailsView.DetailsTemplate>
-            <DataTemplate DataType="vm:Section">
-                <ContentControl Content="{Binding Content}" />
-            </DataTemplate>
-        </c:MasterDetailsView.DetailsTemplate>
-        <c:MasterDetailsView.ItemTemplate>
-            <DataTemplate DataType="vm:Section">
-                <TextBlock Text="{Binding Name}" />
-            </DataTemplate>
-        </c:MasterDetailsView.ItemTemplate>
-    </c:MasterDetailsView>
+    <DockPanel>
+		<c:MasterDetailsNavigator DockPanel.Dock="Top" />
+        <c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
+            <c:MasterDetailsView.DetailsTemplate>
+                <DataTemplate DataType="vm:Section">
+                    <ContentControl Content="{Binding Content}" />
+                </DataTemplate>
+            </c:MasterDetailsView.DetailsTemplate>
+            <c:MasterDetailsView.ItemTemplate>
+                <DataTemplate DataType="vm:Section">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </c:MasterDetailsView.ItemTemplate>
+        </c:MasterDetailsView>
+    </DockPanel>
 </UserControl>
