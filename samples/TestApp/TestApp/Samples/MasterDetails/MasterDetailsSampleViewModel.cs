@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ReactiveUI.Fody.Helpers;
 
 namespace TestApp.Samples.MasterDetails
 {
@@ -25,6 +26,9 @@ namespace TestApp.Samples.MasterDetails
                 },
             };
         }
+
+        [Reactive]
+        public SampleSection? SelectedSection { get; set; }
 
         public IEnumerable<SampleSection> Sections { get; }
     }

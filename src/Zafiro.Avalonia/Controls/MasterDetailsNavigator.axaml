@@ -1,0 +1,26 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:Zafiro.Avalonia.Controls"
+                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
+    <Design.PreviewWith>
+        <controls:MasterDetailsNavigator />
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:MasterDetailsNavigator}" TargetType="controls:MasterDetailsNavigator">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="controls:MasterDetailsNavigator">
+                <Button Content="Back"
+                        IsVisible="{Binding Backs^, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}"
+                        DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType=controls:MasterDetailsNavigator}}"
+                        Command="{Binding Backs^}">
+                    <Interaction.Behaviors>
+                        <behaviors:BackTriggerBehavior
+                            MarkAsHandled="True">
+                            <InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsNavigator}, Path=Backs^}" />
+                        </behaviors:BackTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Button>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

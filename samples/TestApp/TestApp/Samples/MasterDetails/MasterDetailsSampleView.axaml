@@ -7,16 +7,19 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.MasterDetails.MasterDetailsSampleView"
              x:DataType="masterDetails:MasterDetailsSampleViewModel">
-  <controls:MasterDetailsView ItemsSource="{Binding Sections}" CompactWidth="500">
-      <controls:MasterDetailsView.DetailsTemplate>
-          <DataTemplate DataType="masterDetails:SampleSection">
-              <TextBox Text="{Binding Content}" />
-          </DataTemplate>
-      </controls:MasterDetailsView.DetailsTemplate>
-      <controls:MasterDetailsView.ItemTemplate>
-          <DataTemplate DataType="masterDetails:SampleSection">
-              <TextBlock Text="{Binding Content}" />
-          </DataTemplate>
-      </controls:MasterDetailsView.ItemTemplate>
-  </controls:MasterDetailsView>
+	<DockPanel>
+		<controls:MasterDetailsView SelectedItem="{Binding SelectedSection, Mode=TwoWay}"
+                                    ItemsSource="{Binding Sections}" CompactWidth="500">
+			<controls:MasterDetailsView.DetailsTemplate>
+				<DataTemplate DataType="masterDetails:SampleSection">
+					<TextBox Text="{Binding Content}" />
+				</DataTemplate>
+			</controls:MasterDetailsView.DetailsTemplate>
+			<controls:MasterDetailsView.ItemTemplate>
+				<DataTemplate DataType="masterDetails:SampleSection">
+					<TextBlock Text="{Binding Content}" />
+				</DataTemplate>
+			</controls:MasterDetailsView.ItemTemplate>
+		</controls:MasterDetailsView>
+	</DockPanel>
 </UserControl>

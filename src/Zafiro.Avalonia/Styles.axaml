@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <MergeResourceInclude Source="avares://Zafiro.Avalonia/Styles/Common.axaml" />
                 <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/StringEditor/StringEditorControl.axaml" />
+                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/MasterDetailsNavigator.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
