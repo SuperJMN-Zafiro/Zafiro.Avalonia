@@ -15,7 +15,7 @@
                         Command="{Binding Back^}">
                     <Interaction.Behaviors>
                         <behaviors:BackTriggerBehavior
-                            MarkAsHandled="True">
+                            MarkAsHandled="{Binding CanNavigateBack^}">
                             <InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsNavigator}, Path=Back^}" />
                         </behaviors:BackTriggerBehavior>
                     </Interaction.Behaviors>
