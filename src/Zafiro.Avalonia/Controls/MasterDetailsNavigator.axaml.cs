@@ -27,12 +27,12 @@ public class MasterDetailsNavigator : TemplatedControl
         CanNavigateBack = backCommands.Count().Select(i => i > 0);
         Back = backCommands.ToCollection().Select(x => x.LastOrDefault());
 
-        IsBackButtonDisplayed = CanNavigateBack.Select(canGoBack => canGoBack && !SupportsBackButton());
+        IsBackButtonDisplayed = CanNavigateBack.Select(canGoBack => canGoBack && RequiresBackButton());
     }
 
-    private static bool SupportsBackButton()
+    private static bool RequiresBackButton()
     {
-        return OperatingSystem.IsAndroid() || OperatingSystem.IsIOS();
+        return !(OperatingSystem.IsAndroid() || OperatingSystem.IsIOS());
     }
 
     public IObservable<bool> IsBackButtonDisplayed { get; }
