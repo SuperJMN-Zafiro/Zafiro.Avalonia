@@ -16,16 +16,15 @@ public class MasterDetailsNavigator : TemplatedControl
             .Do(navigation => source.AddOrUpdate(navigation.MasterDetailsView))
             .Subscribe();
 
-        var n = source
+        var backCommands = source
             .Connect()
             .AutoRefresh(x => x.AreDetailsShown)
             .AutoRefresh(x => x.IsCollapsed)
-            .Filter(masterDetailsView => masterDetailsView is { AreDetailsShown: true, IsCollapsed: true });
+            .Filter(masterDetailsView => masterDetailsView is { AreDetailsShown: true, IsCollapsed: true })
+            .Transform(masterDetailsView => ReactiveCommand.Create(masterDetailsView.HideDetails));
 
-        var commands = n.Transform(masterDetailsView => ReactiveCommand.Create(masterDetailsView.HideDetails));
-
-        Backs = commands.ToCollection().Select(x => x.LastOrDefault());
+        Back = backCommands.ToCollection().Select(x => x.LastOrDefault());
     }
 
-    public IObservable<ReactiveCommand<Unit, Unit>?> Backs { get; }
+    public IObservable<ReactiveCommand<Unit, Unit>?> Back { get; }
 }
