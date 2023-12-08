@@ -21,7 +21,7 @@
     <PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
     <PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
     <PackageReference Include="Zafiro" Version="4.0.8" />
-    <PackageReference Include="Zafiro.UI" Version="4.0.13" />
+    <PackageReference Include="Zafiro.UI" Version="4.0.15" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,9 +29,4 @@
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Samples\Adorners\AdornerSampleView.axaml.cs">
-      <DependentUpon>AdornerSampleView.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>

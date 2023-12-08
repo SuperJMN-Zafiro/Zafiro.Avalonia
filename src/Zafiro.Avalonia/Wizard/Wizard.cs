@@ -33,11 +33,11 @@ public class Wizard<TPage1, TPage2, TResult> : IWizard<TResult> where TPage1 : I
             .Subscribe();
     }
 
-    public ReactiveCommand<Unit, Unit> Finish { get; }
+    public ReactiveCommandBase<Unit, Unit> Finish { get; }
     public IObservable<IPage> CurrentPage { get; }
     public IList<IPage> PagesList { get; }
-    public IReactiveCommand GoNext { get; }
-    public IReactiveCommand GoBack { get; }
+    public ReactiveCommand<Unit, LinkedListNode<IPage>?> GoNext { get; }
+    public ReactiveCommand<Unit, LinkedListNode<IPage>?> GoBack { get; }
     public IObservable<Unit> IsFinished { get; }
     public string FinishText => PagesList.Last().NextText;
     public Task<TResult> Result => tcs.Task;
