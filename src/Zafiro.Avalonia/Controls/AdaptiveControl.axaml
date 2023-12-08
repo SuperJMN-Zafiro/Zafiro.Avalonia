@@ -18,12 +18,6 @@
                     <Setter Property="Template" Value="{Binding VerticalTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Style>
             </ContentControl.Styles>
-            <Interaction.Behaviors>
-                <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:AdaptiveControl}}">
-                    <AdaptiveClassSetter ClassName="Vertical" MinWidth="0" MaxWidth="400" />
-                    <AdaptiveClassSetter ClassName="Horizontal" MinWidth="400" MaxWidth="Infinity" />
-                </AdaptiveBehavior>
-            </Interaction.Behaviors>
         </ContentControl>
       </ControlTemplate>
     </Setter>

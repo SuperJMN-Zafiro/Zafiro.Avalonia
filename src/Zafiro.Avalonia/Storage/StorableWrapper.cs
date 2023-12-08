@@ -1,6 +1,9 @@
+using System.Reactive.Linq;
 using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
+using Zafiro.IO;
+using Zafiro.Mixins;
 
 namespace Zafiro.Avalonia.Storage;
 
@@ -13,41 +16,31 @@ internal class StorableWrapper : IZafiroFile
         this.file = file;
     }
 
+    Task<Result<bool>> IZafiroFile.Exists => Task.FromResult(Result.Success(true));
+
     public ZafiroPath Path => file.Path.ToString();
+    public Task<Result<FileProperties>> Properties => Result.Try(() => file.GetBasicPropertiesAsync()).Map(props => new FileProperties(false, props.DateCreated ?? DateTimeOffset.MinValue, GetSize(props)));
 
-    public Task<Result<long>> Size()
-    {
-        return Result
-            .Try(file.GetBasicPropertiesAsync)
-            .Map(properties => (long?)properties.Size)
-            .EnsureNotNull("Size not available");
-    }
-
-    public Task<Result<bool>> Exists()
-    {
-        return Task.FromResult(Result.Success(true));
-    }
-
-    public Task<Result<Stream>> GetContents(CancellationToken cancellationToken = default)
-    {
-        return Result.Try(() => file.OpenReadAsync());
-    }
-
-    public Task<Result> SetContents(Stream stream, CancellationToken cancellationToken)
+    public Task<Result> SetContents(IObservable<byte> contents)
     {
         return Result.Try(async () =>
         {
-            using (var openWriteAsync = await file.OpenWriteAsync())
-            {
-                await stream.CopyToAsync(openWriteAsync, cancellationToken);
-            }
+            await using var stream = await file.OpenWriteAsync();
+            await contents.DumpTo(stream);
         });
     }
 
-    public Task<Result> Delete(CancellationToken cancellationToken = default)
-    {
-        return Result.Try(file.DeleteAsync);
-    }
+    public IObservable<byte> Contents => ObservableFactory.UsingAsync(() => file.OpenReadAsync(), stream => stream.ToObservable());
 
-    public bool IsHidden => false;
+    public Task<Result> Delete() => Result.Try(file.DeleteAsync);
+
+    private static long GetSize(StorageItemProperties props)
+    {
+        if (props.Size is { } s)
+        {
+            return (long) s;
+        }
+
+        return 0;
+    }
 }

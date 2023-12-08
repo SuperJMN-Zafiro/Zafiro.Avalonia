@@ -4,14 +4,13 @@ using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Wizard;
 
-
 public interface IWizard
 {
-    ReactiveCommand<Unit, Unit> Finish { get; }
+    ReactiveCommandBase<Unit, Unit> Finish { get; }
     IObservable<IPage> CurrentPage { get; }
     IList<IPage> PagesList { get; }
-    IReactiveCommand GoNext { get; }
-    IReactiveCommand GoBack { get; }
+    ReactiveCommand<Unit, LinkedListNode<IPage>?> GoNext { get; }
+    ReactiveCommand<Unit, LinkedListNode<IPage>?> GoBack { get; }
     public IObservable<Unit> IsFinished { get; }
     public string FinishText { get; }
 }

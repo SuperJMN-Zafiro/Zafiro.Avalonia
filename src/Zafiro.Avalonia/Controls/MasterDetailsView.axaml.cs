@@ -30,8 +30,6 @@ public class MasterDetailsView : TemplatedControl
 
     public static readonly StyledProperty<double> CompactWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(CompactWidth), 400);
 
-    public static readonly StyledProperty<object> ItemsProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Items));
-
     public static readonly StyledProperty<double> MasterPaneWidthProperty = AvaloniaProperty.Register<MasterDetailsView, double>(nameof(MasterPaneWidth), 200);
 
     public static readonly StyledProperty<object> HeaderProperty = AvaloniaProperty.Register<MasterDetailsView, object>(nameof(Header));
@@ -52,15 +50,16 @@ public class MasterDetailsView : TemplatedControl
 
     public MasterDetailsView()
     {
-        this.WhenAnyValue(x => x.SelectedItem)
-            .WhereNotNull()
-            .Do(_ => AreDetailsShown = true)
-            .Subscribe();
+        //this.WhenAnyValue(x => x.SelectedItem)
+        //    .WhereNotNull()
+        //    .Do(_ => AreDetailsShown = true)
+        //    .Subscribe();
 
-        MessageBus.Current.SendMessage(new RegisterNavigation(this));
+        //MessageBus.Current.SendMessage(new RegisterNavigation(this));
 
-        BackCommand = ReactiveCommand.Create(() => AreDetailsShown = false);
-        GoToDetails = ReactiveCommand.Create(() => AreDetailsShown = true);
+        //GoToDetails = ReactiveCommand.Create(() => AreDetailsShown = true);
+
+        //Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler).Do(l => InvalidateArrange()).Subscribe();
     }
 
     public bool IsCollapsed
@@ -105,14 +104,6 @@ public class MasterDetailsView : TemplatedControl
         set => SetValue(CompactWidthProperty, value);
     }
 
-    [Content]
-    public object Items
-    {
-        get => GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
-
-    [InheritDataTypeFromItems(nameof(ItemsSource))]
     public IDataTemplate? DetailsTemplate
     {
         get => GetValue(DetailsTemplateProperty);
@@ -155,7 +146,6 @@ public class MasterDetailsView : TemplatedControl
         private set => SetAndRaise(BackCommandProperty, ref backCommand, value);
     }
 
-    [InheritDataTypeFromItems(nameof(ItemsSource))]
     public IDataTemplate? ItemTemplate
     {
         get => GetValue(ItemTemplateProperty);
