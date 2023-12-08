@@ -7,13 +7,22 @@ namespace Zafiro.Avalonia.Storage;
 internal class StorableWrapper : IZafiroFile
 {
     private readonly IStorageFile file;
+    private Task<Result<bool>> exists;
 
     public StorableWrapper(IStorageFile file)
     {
         this.file = file;
     }
 
+    public IObservable<byte> Contents { get; }
+
+    Task<Result<bool>> IZafiroFile.Exists => exists;
+
     public ZafiroPath Path => file.Path.ToString();
+    public Task<Result<FileProperties>> Properties { get; }
+    public Task<Result> Delete() => throw new NotImplementedException();
+
+    public Task<Result> SetContents(IObservable<byte> contents) => throw new NotImplementedException();
 
     public Task<Result<long>> Size()
     {
