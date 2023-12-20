@@ -54,7 +54,7 @@
 
 								<ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding Header}"
                                                 ContentTemplate="{Binding HeaderTemplate}" />
-								<ListBox Grid.Row="1" Grid.Column="0" ItemTemplate="{Binding ItemTemplate}"
+								<ListBox Grid.Row="1" Grid.Column="0" x:DataType="controls:MasterDetailsView" ItemTemplate="{Binding ItemTemplate}"
                                          SelectedItem="{Binding SelectedItem}"
                                          ItemsSource="{Binding ItemsSource}"
                                          Width="{Binding MasterPaneWidth}" DockPanel.Dock="Left" />
@@ -80,7 +80,7 @@
                                                 IsVisible="{Binding AreDetailsShown}" />
 
 								<Panel Grid.Row="1">
-									<ListBox ItemTemplate="{Binding ItemTemplate}"
+									<ListBox x:DataType="controls:MasterDetailsView" ItemTemplate="{Binding ItemTemplate}"
                                              SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
                                              ItemsSource="{Binding ItemsSource}"
                                              Background="{Binding Background}"
