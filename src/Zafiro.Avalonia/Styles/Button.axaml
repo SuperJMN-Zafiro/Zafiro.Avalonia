@@ -8,8 +8,8 @@
             <Setter Property="Margin" Value="1" />
             <Setter Property="CornerRadius" Value="6"></Setter>
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="#F9F9F9" />
-                <Setter Property="BorderBrush" Value="#ECECEC" />
+                <Setter Property="Background" Value="{DynamicResource SoftBackground}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource SoftBorder}" />
             </Style>
             <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="Transparent" />

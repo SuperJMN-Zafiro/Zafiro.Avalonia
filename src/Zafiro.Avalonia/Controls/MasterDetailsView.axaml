@@ -41,7 +41,6 @@
 	</Styles.Resources>
 
 	<Style Selector="controls|MasterDetailsView">
-		<Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
 		<Setter Property="Template">
 			<ControlTemplate>
 				<controls:AdaptiveControl IsHorizontal="{Binding !$parent[controls:MasterDetailsView].IsCollapsed, Mode=TwoWay}">
@@ -50,13 +49,14 @@
 							<Grid ColumnDefinitions="Auto *" RowDefinitions="Auto * Auto"
                                   DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
 
-								<Border Background="{Binding Background}" Grid.RowSpan="3" />
+								<Border Background="{DynamicResource SoftBackgroundLists}" Grid.RowSpan="3" />
 
 								<ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding Header}"
                                                 ContentTemplate="{Binding HeaderTemplate}" />
 								<ListBox Grid.Row="1" Grid.Column="0" x:DataType="controls:MasterDetailsView" ItemTemplate="{Binding ItemTemplate}"
                                          SelectedItem="{Binding SelectedItem}"
                                          ItemsSource="{Binding ItemsSource}"
+                                         Background="Transparent"
                                          Width="{Binding MasterPaneWidth}" DockPanel.Dock="Left" />
 
 								<ContentControl Grid.Row="1" Grid.Column="1"
@@ -73,7 +73,7 @@
 							<Grid RowDefinitions="Auto * Auto"
                                   DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsView}}">
 
-								<Border Background="{Binding Background}" Grid.RowSpan="3" />
+								<Border Background="{DynamicResource SoftBackgroundLists}" Grid.RowSpan="3" />
 
 								<ContentControl Grid.Row="0" Content="{Binding Header}"
                                                 ContentTemplate="{Binding HeaderTemplate}"
@@ -83,7 +83,7 @@
 									<ListBox x:DataType="controls:MasterDetailsView" ItemTemplate="{Binding ItemTemplate}"
                                              SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
                                              ItemsSource="{Binding ItemsSource}"
-                                             Background="{Binding Background}"
+											 Background="Transparent"
                                              IsVisible="{Binding !AreDetailsShown}">
 										<ListBox.Styles>
 											<Style Selector="ListBoxItem">

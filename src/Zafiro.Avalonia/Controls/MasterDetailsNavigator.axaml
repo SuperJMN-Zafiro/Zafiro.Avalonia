@@ -6,7 +6,7 @@
         <controls:MasterDetailsNavigator />
     </Design.PreviewWith>
 
-    <SolidColorBrush x:Key="ArrowColor" Color="#FF000000" />
+    <SolidColorBrush x:Key="ArrowColor" Color="{DynamicResource Accent}" />
 
     <DrawingImage x:Key="BackArrow">
         <DrawingGroup>

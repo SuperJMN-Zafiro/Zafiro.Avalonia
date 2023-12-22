@@ -5,7 +5,7 @@
              xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs;assembly=Zafiro.Avalonia.Dialogs"
              xmlns:wizard="clr-namespace:Zafiro.Avalonia.Wizard;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Light">
 
 	<Application.Styles>
 		<StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
