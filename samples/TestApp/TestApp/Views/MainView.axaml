@@ -40,6 +40,9 @@
     <DockPanel>
 		<c:MasterDetailsNavigator DockPanel.Dock="Top" />
         <c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
+            <c:MasterDetailsView.Header>
+				<TextBlock TextAlignment="Center" Margin="10" FontWeight="Bold">Samples</TextBlock>
+            </c:MasterDetailsView.Header>
             <c:MasterDetailsView.DetailsTemplate>
                 <DataTemplate DataType="vm:Section">
                     <ContentControl Content="{Binding Content}" />
