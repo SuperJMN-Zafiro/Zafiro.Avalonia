@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Dialogs;
 
