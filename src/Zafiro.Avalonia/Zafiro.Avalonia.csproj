@@ -14,17 +14,8 @@
     <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
     <PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
     <PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
-    <ProjectReference Include="E:\Repos\SuperJMN-Zafiro\Zafiro\src\Zafiro\Zafiro.csproj" Version="4.0.16">
-      <Temp>Zafiro</Temp>
-      <Name>Zafiro</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\Repos\SuperJMN-Zafiro\Zafiro.FileSystem\src\Zafiro.FileSystem\Zafiro.FileSystem.csproj" Version="5.0.2">
-      <Temp>Zafiro.FileSystem</Temp>
-      <Name>Zafiro.FileSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\Repos\SuperJMN-Zafiro\Zafiro.UI\src\Zafiro.UI\Zafiro.UI.csproj" Version="4.0.19">
-      <Temp>Zafiro.UI</Temp>
-      <Name>Zafiro.UI</Name>
-    </ProjectReference>
+    <PackageReference Include="Zafiro" Version="4.0.17" />
+    <PackageReference Include="Zafiro.FileSystem" Version="5.0.2" />
+    <PackageReference Include="Zafiro.UI" Version="4.0.19" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using ReactiveUI;
-using Zafiro.Mixins;
+using Zafiro.Reactive;
 
 namespace TestApp.ViewModels;
 
