@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using ReactiveUI;
 using Zafiro.Mixins;
+using Zafiro.Reactive;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Wizard;
