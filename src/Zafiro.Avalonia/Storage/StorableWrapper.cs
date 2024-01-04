@@ -20,7 +20,7 @@ internal class StorableWrapper : IZafiroFile
 
     public ZafiroPath Path => file.Path.ToString();
     public Task<Result<FileProperties>> Properties { get; }
-    public Task<Result<IDictionary<ChecksumKind, byte[]>>> Hashes => throw new NotSupportedException("Hashes is not implemented yet");
+    public Task<Result<IDictionary<HashMethod, byte[]>>> Hashes => throw new NotSupportedException("Hashes is not implemented yet");
     public IFileSystemRoot FileSystem => throw new NotSupportedException("Cannot get filesystem of IStorageFile");
     public Task<Result> Delete() => throw new NotImplementedException();
 
