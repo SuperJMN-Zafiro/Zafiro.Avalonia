@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using ReactiveUI;
+using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
@@ -28,7 +29,7 @@ public class StringEditorControl : TemplatedControl
             .WhereNotNull()
             .Subscribe(wrapper =>
         {
-            wrapper.Commit.Merge(wrapper.Rollback).Do(_ =>
+            wrapper.Commit.Merge(wrapper.Rollback.ToSignal()).Do(_ =>
             {
                 IsEditing = false;
                 IsLocked = true;
