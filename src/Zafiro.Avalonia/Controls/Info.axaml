@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Zafiro.Avalonia.Controls">
+  <Design.PreviewWith>
+    <controls:Info ToolTipContent="Salute" IconContent="!" />
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type controls:Info}" TargetType="controls:Info">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+       <Border ToolTip.Tip="{TemplateBinding ToolTipContent}">
+           <OnPlatform>
+               <On Options="Default">
+                   <ContentControl Content="{TemplateBinding IconContent}" />
+               </On>
+               <On Options="Android,iOS">
+                   <Button x:Name="ToggleButton">
+                       <ContentControl Content="{TemplateBinding IconContent}" />
+                       <Button.Flyout>
+                           <Flyout>
+                               <ContentControl Content="{TemplateBinding ToolTipContent}" />
+                           </Flyout>
+                       </Button.Flyout>
+                   </Button>
+               </On>
+           </OnPlatform>
+       </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

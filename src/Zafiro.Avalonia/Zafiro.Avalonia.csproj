@@ -27,4 +27,7 @@
       <Name>Zafiro.UI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Controls\Info.axaml" />
+  </ItemGroup>
 </Project>
