@@ -2,24 +2,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:Zafiro.Avalonia.Controls">
   <Design.PreviewWith>
-    <controls:Info ToolTipContent="Salute" IconContent="!" />
+    <controls:Info Details="Salute" Icon="!" />
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type controls:Info}" TargetType="controls:Info">
     <!-- Set Defaults -->
     <Setter Property="Template">
       <ControlTemplate>
-       <Border ToolTip.Tip="{TemplateBinding ToolTipContent}">
+       <Border ToolTip.Tip="{TemplateBinding Details}">
            <OnPlatform>
                <On Options="Default">
-                   <ContentControl Content="{TemplateBinding IconContent}" />
+                   <ContentControl Content="{TemplateBinding Icon}" />
                </On>
                <On Options="Android,iOS">
                    <Button x:Name="ToggleButton">
-                       <ContentControl Content="{TemplateBinding IconContent}" />
+                       <ContentControl Content="{TemplateBinding Icon}" />
                        <Button.Flyout>
                            <Flyout>
-                               <ContentControl Content="{TemplateBinding ToolTipContent}" />
+                               <ContentControl Content="{TemplateBinding Details}" />
                            </Flyout>
                        </Button.Flyout>
                    </Button>

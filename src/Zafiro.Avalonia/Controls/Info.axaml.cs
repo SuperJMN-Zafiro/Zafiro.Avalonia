@@ -1,25 +1,23 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 
-namespace Zafiro.Avalonia.Controls
+namespace Zafiro.Avalonia.Controls;
+
+public class Info : TemplatedControl
 {
-    public class Info : TemplatedControl
+    public static readonly StyledProperty<object> IconProperty = AvaloniaProperty.Register<Info, object>(nameof(Icon));
+
+    public object Icon
     {
-        public static readonly StyledProperty<object> IconContentProperty = AvaloniaProperty.Register<Info, object>(nameof(IconContent));
+        get => GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
 
-        public object IconContent
-        {
-            get => GetValue(IconContentProperty);
-            set => SetValue(IconContentProperty, value);
-        }
+    public static readonly StyledProperty<object> DetailsProperty = AvaloniaProperty.Register<Info, object>(nameof(Details));
 
-        public static readonly StyledProperty<object> ToolTipContentProperty = AvaloniaProperty.Register<Info, object>(nameof(ToolTipContent));
-
-        public object ToolTipContent
-        {
-            get => GetValue(ToolTipContentProperty);
-            set => SetValue(ToolTipContentProperty, value);
-        }
+    public object Details
+    {
+        get => GetValue(DetailsProperty);
+        set => SetValue(DetailsProperty, value);
     }
 }

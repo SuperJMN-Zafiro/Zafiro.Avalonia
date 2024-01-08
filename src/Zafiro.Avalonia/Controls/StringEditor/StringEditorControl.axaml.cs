@@ -1,11 +1,8 @@
-using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using ReactiveUI;
-using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
@@ -18,46 +15,6 @@ public class StringEditorControl : TemplatedControl
     public static readonly StyledProperty<bool> IsEditingProperty = AvaloniaProperty.Register<StringEditorControl, bool>(nameof(IsEditing), defaultValue: false);
     public static readonly StyledProperty<ICommand> EditProperty = AvaloniaProperty.Register<StringEditorControl, ICommand>(nameof(Edit));
 
-    public StringEditorControl()
-    {
-        Edit = ReactiveCommand.Create(() =>
-        {
-            IsLocked = false;
-            IsEditing = true;
-        });
-        this.WhenAnyValue(x => x.StringField)
-            .WhereNotNull()
-            .Subscribe(wrapper =>
-        {
-            wrapper.Commit.Merge(wrapper.Rollback.ToSignal()).Do(_ =>
-            {
-                IsEditing = false;
-                IsLocked = true;
-            }).Subscribe();
-        });
-
-        this.WhenAnyValue(x => x.IsEditing).Do(isEditing =>
-        {
-            if (isEditing)
-            {
-                PseudoClasses.Set(":editing", true);
-            } else
-            {
-                PseudoClasses.Set(":editing", false);
-            }
-
-            if (textBox != null)
-            {
-                if (textBox.Text != null)
-                {
-                    textBox.SelectionStart = textBox.Text.Length;
-                }
-
-                textBox?.Focus();
-            }
-        }).Subscribe();
-    }
-    
     public StringField StringField
     {
         get => GetValue(StringFieldProperty);

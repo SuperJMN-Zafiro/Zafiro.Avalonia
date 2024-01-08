@@ -116,42 +116,7 @@
                              IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}"
                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StringField.Value, Mode=TwoWay}">
 						<TextBox.InnerRightContent>
-							<Panel Margin="0 0 6 0"
-                                   DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}">
-
-								<Panel.Styles>
-									<Style Selector="Button">
-										<Setter Property="Padding" Value="2" />
-									</Style>
-
-									<Style Selector="Image">
-										<Setter Property="Height" Value="14" />
-										<Setter Property="Width" Value="14" />
-									</Style>
-								</Panel.Styles>
-
-								<Button Theme="{StaticResource TransparentButton}"
-                                        Command="{Binding Edit}"
-                                        IsVisible="{Binding !IsEditing}">
-									<Button.Content>
-										<Image Source="{StaticResource di_edit_svgrepo_com}" />
-									</Button.Content>
-								</Button>
-								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding IsEditing}">
-									<Button Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Commit}">
-										<Button.Content>
-											<Image Source="{StaticResource di_ok_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-									<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Rollback}">
-										<Button.Content>
-											<Image Source="{StaticResource di_cancel_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-								</StackPanel>
-							</Panel>
+							<se:EditControl IsEditing="{Binding IsEditing, Mode=TwoWay}" AcceptCommand="{Binding StringField.Commit}" CancelCommand="{Binding StringField.Rollback}" />
 						</TextBox.InnerRightContent>
 						<Interaction.Behaviors>
 							<behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel"
@@ -200,44 +165,9 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}"
                         Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StringField.Value, Mode=TwoWay}">
-						<TextBox.InnerRightContent>
-							<Panel Margin="0 0 6 0"
-                                   DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}">
-
-								<Panel.Styles>
-									<Style Selector="Button">
-										<Setter Property="Padding" Value="2" />
-									</Style>
-
-									<Style Selector="Image">
-										<Setter Property="Height" Value="14" />
-										<Setter Property="Width" Value="14" />
-									</Style>
-								</Panel.Styles>
-
-								<Button Theme="{StaticResource TransparentButton}"
-                                        Command="{Binding Edit}"
-                                        IsVisible="{Binding !IsEditing}">
-									<Button.Content>
-										<Image Source="{StaticResource di_edit_svgrepo_com}" />
-									</Button.Content>
-								</Button>
-								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding IsEditing}">
-									<Button Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Commit}">
-										<Button.Content>
-											<Image Source="{StaticResource di_ok_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-									<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Rollback}">
-										<Button.Content>
-											<Image Source="{StaticResource di_cancel_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-								</StackPanel>
-							</Panel>
-						</TextBox.InnerRightContent>
+                        <TextBox.InnerRightContent>
+                            <se:EditControl IsEditing="{Binding IsEditing, Mode=TwoWay}" AcceptCommand="{Binding StringField.Commit}" CancelCommand="{Binding StringField.Rollback}" />
+                        </TextBox.InnerRightContent>
 						<Interaction.Behaviors>
 							<behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
@@ -253,8 +183,6 @@
 					</TextBox>
 				</ControlTemplate>
 			</Setter.Value>
-
-
 		</Setter>
 
 		<Style Selector="^ /template/ TextBox">
