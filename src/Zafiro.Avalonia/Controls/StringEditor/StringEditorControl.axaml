@@ -106,58 +106,28 @@
 			<Setter.Value>
 				<ControlTemplate>
 					<TextBox x:Name="PART_TextBox"
+                             FontWeight="{TemplateBinding FontWeight}"
+                             FontSize="{TemplateBinding FontSize}"
+                             FontStyle="{TemplateBinding FontStyle}"
+                             FontFamily="{TemplateBinding FontFamily}"
+                             FontStretch="{TemplateBinding FontStretch}"
                              Theme="{StaticResource StringEditorTransparentTextBox}"
                              DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}"
                              IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}"
-                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StringField.Value, Mode=TwoWay}">
+                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Field.Value, Mode=TwoWay}">
 						<TextBox.InnerRightContent>
-							<Panel Margin="0 0 6 0"
-                                   DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}">
-
-								<Panel.Styles>
-									<Style Selector="Button">
-										<Setter Property="Padding" Value="2" />
-									</Style>
-
-									<Style Selector="Image">
-										<Setter Property="Height" Value="14" />
-										<Setter Property="Width" Value="14" />
-									</Style>
-								</Panel.Styles>
-
-								<Button Theme="{StaticResource TransparentButton}"
-                                        Command="{Binding Edit}"
-                                        IsVisible="{Binding !IsEditing}">
-									<Button.Content>
-										<Image Source="{StaticResource di_edit_svgrepo_com}" />
-									</Button.Content>
-								</Button>
-								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding IsEditing}">
-									<Button Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Commit}">
-										<Button.Content>
-											<Image Source="{StaticResource di_ok_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-									<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Rollback}">
-										<Button.Content>
-											<Image Source="{StaticResource di_cancel_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-								</StackPanel>
-							</Panel>
+							<se:EditControl IsEditing="{Binding IsEditing, Mode=TwoWay}" AcceptCommand="{Binding Field.Commit}" CancelCommand="{Binding Field.Rollback}" />
 						</TextBox.InnerRightContent>
 						<Interaction.Behaviors>
 							<behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Commit}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Field.Commit}" />
 							</behaviors:KeyDownTriggerBehavior>
 							<behaviors:KeyDownTriggerBehavior Key="Escape" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Rollback}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Field.Rollback}" />
 							</behaviors:KeyDownTriggerBehavior>
 						</Interaction.Behaviors>
 					</TextBox>
@@ -184,67 +154,35 @@
 				<ControlTemplate>
 					<TextBox
                         x:Name="PART_TextBox"
+                        FontWeight="{TemplateBinding FontWeight}"
+                        FontSize="{TemplateBinding FontSize}"
+                        FontStyle="{TemplateBinding FontStyle}"
+                        FontFamily="{TemplateBinding FontFamily}"
+                        FontStretch="{TemplateBinding FontStretch}"
                         Background="{TemplateBinding Background}"
                         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StringField.Value, Mode=TwoWay}">
-						<TextBox.InnerRightContent>
-							<Panel Margin="0 0 6 0"
-                                   DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}}">
-
-								<Panel.Styles>
-									<Style Selector="Button">
-										<Setter Property="Padding" Value="2" />
-									</Style>
-
-									<Style Selector="Image">
-										<Setter Property="Height" Value="14" />
-										<Setter Property="Width" Value="14" />
-									</Style>
-								</Panel.Styles>
-
-								<Button Theme="{StaticResource TransparentButton}"
-                                        Command="{Binding Edit}"
-                                        IsVisible="{Binding !IsEditing}">
-									<Button.Content>
-										<Image Source="{StaticResource di_edit_svgrepo_com}" />
-									</Button.Content>
-								</Button>
-								<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{Binding IsEditing}">
-									<Button Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Commit}">
-										<Button.Content>
-											<Image Source="{StaticResource di_ok_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-									<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
-                                            Command="{Binding StringField.Rollback}">
-										<Button.Content>
-											<Image Source="{StaticResource di_cancel_svgrepo_com}" />
-										</Button.Content>
-									</Button>
-								</StackPanel>
-							</Panel>
-						</TextBox.InnerRightContent>
+                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Field.Value, Mode=TwoWay}">
+                        <TextBox.InnerRightContent>
+                            <se:EditControl IsEditing="{Binding IsEditing, Mode=TwoWay}" AcceptCommand="{Binding Field.Commit}" CancelCommand="{Binding Field.Rollback}" />
+                        </TextBox.InnerRightContent>
 						<Interaction.Behaviors>
 							<behaviors:KeyDownTriggerBehavior Key="Enter" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Commit}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Field.Commit}" />
 							</behaviors:KeyDownTriggerBehavior>
 							<behaviors:KeyDownTriggerBehavior Key="Escape" EventRoutingStrategy="Tunnel"
                                                               MarkAsHandled="True">
 								<InvokeCommandAction
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=StringField.Rollback}" />
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=se:StringEditorControl}, Path=Field.Rollback}" />
 							</behaviors:KeyDownTriggerBehavior>
 						</Interaction.Behaviors>
 					</TextBox>
 				</ControlTemplate>
 			</Setter.Value>
-
-
 		</Setter>
 
 		<Style Selector="^ /template/ TextBox">

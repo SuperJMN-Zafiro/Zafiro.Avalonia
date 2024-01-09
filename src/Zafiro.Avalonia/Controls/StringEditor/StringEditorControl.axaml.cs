@@ -1,66 +1,22 @@
-using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using ReactiveUI;
+using Zafiro.UI.Fields;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
-[TemplatePart("PART_TextBox", typeof(TextBox))]
 public class StringEditorControl : TemplatedControl
 {
-    public static readonly StyledProperty<StringField> StringFieldProperty = AvaloniaProperty.Register<StringEditorControl, StringField>(
-        nameof(StringField));
+    public static readonly StyledProperty<Field<string>> FieldProperty = AvaloniaProperty.Register<StringEditorControl, Field<string>>(
+        nameof(Field<string>));
     
     public static readonly StyledProperty<bool> IsEditingProperty = AvaloniaProperty.Register<StringEditorControl, bool>(nameof(IsEditing), defaultValue: false);
     public static readonly StyledProperty<ICommand> EditProperty = AvaloniaProperty.Register<StringEditorControl, ICommand>(nameof(Edit));
 
-    public StringEditorControl()
+    public Field<string> Field
     {
-        Edit = ReactiveCommand.Create(() =>
-        {
-            IsLocked = false;
-            IsEditing = true;
-        });
-        this.WhenAnyValue(x => x.StringField)
-            .WhereNotNull()
-            .Subscribe(wrapper =>
-        {
-            wrapper.Commit.Merge(wrapper.Rollback).Do(_ =>
-            {
-                IsEditing = false;
-                IsLocked = true;
-            }).Subscribe();
-        });
-
-        this.WhenAnyValue(x => x.IsEditing).Do(isEditing =>
-        {
-            if (isEditing)
-            {
-                PseudoClasses.Set(":editing", true);
-            } else
-            {
-                PseudoClasses.Set(":editing", false);
-            }
-
-            if (textBox != null)
-            {
-                if (textBox.Text != null)
-                {
-                    textBox.SelectionStart = textBox.Text.Length;
-                }
-
-                textBox?.Focus();
-            }
-        }).Subscribe();
-    }
-    
-    public StringField StringField
-    {
-        get => GetValue(StringFieldProperty);
-        set => SetValue(StringFieldProperty, value);
+        get => GetValue(FieldProperty);
+        set => SetValue(FieldProperty, value);
     }
     
     public bool IsEditing
@@ -78,17 +34,9 @@ public class StringEditorControl : TemplatedControl
     public static readonly StyledProperty<bool> IsLockedProperty = AvaloniaProperty.Register<StringEditorControl, bool>(
         nameof(IsLocked), defaultValue: true);
 
-    private TextBox? textBox;
-
     public bool IsLocked
     {
         get => GetValue(IsLockedProperty);
         set => SetValue(IsLockedProperty, value);
-    }
-
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        textBox = e.NameScope.Find<TextBox>("PART_TextBox");
-        base.OnApplyTemplate(e);
     }
 }

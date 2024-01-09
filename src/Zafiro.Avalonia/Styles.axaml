@@ -7,6 +7,8 @@
                 <MergeResourceInclude Source="avares://Zafiro.Avalonia/Styles/Common.axaml" />
                 <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/StringEditor/StringEditorControl.axaml" />
                 <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/MasterDetailsNavigator.axaml" />
+                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/Info.axaml" />
+                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/StringEditor/EditControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
