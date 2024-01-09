@@ -1,21 +1,22 @@
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.Primitives;
+using Zafiro.UI.Fields;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
 public class StringEditorControl : TemplatedControl
 {
-    public static readonly StyledProperty<StringField> StringFieldProperty = AvaloniaProperty.Register<StringEditorControl, StringField>(
-        nameof(StringField));
+    public static readonly StyledProperty<Field<string>> FieldProperty = AvaloniaProperty.Register<StringEditorControl, Field<string>>(
+        nameof(Field<string>));
     
     public static readonly StyledProperty<bool> IsEditingProperty = AvaloniaProperty.Register<StringEditorControl, bool>(nameof(IsEditing), defaultValue: false);
     public static readonly StyledProperty<ICommand> EditProperty = AvaloniaProperty.Register<StringEditorControl, ICommand>(nameof(Edit));
 
-    public StringField StringField
+    public Field<string> Field
     {
-        get => GetValue(StringFieldProperty);
-        set => SetValue(StringFieldProperty, value);
+        get => GetValue(FieldProperty);
+        set => SetValue(FieldProperty, value);
     }
     
     public bool IsEditing
