@@ -1,14 +1,17 @@
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI.AzurePipelines;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
+using Octokit;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tooling.ProcessTasks;
+using Project = Nuke.Common.ProjectModel.Project;
 
 
 [AzurePipelines(AzurePipelinesImage.WindowsLatest, ImportSecrets = new[] { nameof(NuGetApiKey) }, AutoGenerate = false)]
@@ -17,8 +20,6 @@ class Build : NukeBuild
     [Parameter] [Secret] readonly string NuGetApiKey;
 
     [Solution] readonly Solution Solution;
-
-    [Parameter("configuration")] public string Configuration { get; set; }
 
     [Parameter("version-suffix")] public string VersionSuffix { get; set; }
 
@@ -31,6 +32,13 @@ class Build : NukeBuild
     [Parameter("publish-self-contained")] public bool PublishSelfContained { get; set; } = true;
 
     [GitVersion] readonly GitVersion GitVersion;
+
+    [GitRepository] readonly GitRepository Repository;
+
+    [Parameter]
+    readonly Configuration Configuration = IsServerBuild
+        ? Configuration.Release
+        : Configuration.Debug;
 
     AbsolutePath OutputDirectory => RootDirectory / "output";
 
@@ -66,8 +74,21 @@ class Build : NukeBuild
     Target Publish => _ => _
         .DependsOn(Pack)
         .Requires(() => NuGetApiKey)
+        .OnlyWhenStatic(() => Repository.IsOnMainOrMasterBranch())
         .Executes(() =>
         {
+            Log.Information("Commit = {Value}", Repository.Commit);
+            Log.Information("Branch = {Value}", Repository.Branch);
+            Log.Information("Tags = {Value}", Repository.Tags);
+
+            Log.Information("main branch = {Value}", Repository.IsOnMainBranch());
+            Log.Information("main/master branch = {Value}", Repository.IsOnMainOrMasterBranch());
+            Log.Information("release/* branch = {Value}", Repository.IsOnReleaseBranch());
+            Log.Information("hotfix/* branch = {Value}", Repository.IsOnHotfixBranch());
+
+            Log.Information("Https URL = {Value}", Repository.HttpsUrl);
+            Log.Information("SSH URL = {Value}", Repository.SshUrl);
+
             DotNetNuGetPush(settings => settings
                     .SetSource("https://api.nuget.org/v3/index.json")
                     .SetApiKey(NuGetApiKey)
@@ -77,8 +98,6 @@ class Build : NukeBuild
         });
 
     public static int Main() => Execute<Build>(x => x.Publish);
-
-    protected override void OnBuildInitialized() => Configuration ??= "Release";
 
     void RestoreProjectWorkload(Project project) => StartShell($@"dotnet workload restore --project {project.Path}").AssertZeroExitCode();
 }
