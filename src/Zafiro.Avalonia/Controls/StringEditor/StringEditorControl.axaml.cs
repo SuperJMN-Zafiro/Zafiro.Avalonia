@@ -1,12 +1,9 @@
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
-[TemplatePart("PART_TextBox", typeof(TextBox))]
 public class StringEditorControl : TemplatedControl
 {
     public static readonly StyledProperty<StringField> StringFieldProperty = AvaloniaProperty.Register<StringEditorControl, StringField>(
@@ -36,17 +33,9 @@ public class StringEditorControl : TemplatedControl
     public static readonly StyledProperty<bool> IsLockedProperty = AvaloniaProperty.Register<StringEditorControl, bool>(
         nameof(IsLocked), defaultValue: true);
 
-    private TextBox? textBox;
-
     public bool IsLocked
     {
         get => GetValue(IsLockedProperty);
         set => SetValue(IsLockedProperty, value);
-    }
-
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        textBox = e.NameScope.Find<TextBox>("PART_TextBox");
-        base.OnApplyTemplate(e);
     }
 }
