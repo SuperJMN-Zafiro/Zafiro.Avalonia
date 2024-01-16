@@ -13,7 +13,6 @@
     <PackageReference Include="ReactiveUI" Version="19.5.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Zafiro.UI\src\Zafiro.UI\Zafiro.UI.csproj" />
     <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 </Project>
