@@ -1,7 +1,4 @@
 ﻿using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Xaml.Interactions.Custom;
 

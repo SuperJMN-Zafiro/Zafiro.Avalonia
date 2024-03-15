@@ -1,10 +1,8 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Documents;
+﻿using Avalonia.Controls.Documents;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using CSharpFunctionalExtensions;
 using MoreLinq;
-using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Misc;
 

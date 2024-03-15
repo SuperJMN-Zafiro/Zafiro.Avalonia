@@ -1,9 +1,7 @@
 using System.Reactive;
-using System.Reactive.Linq;
 using Avalonia.Controls.Primitives;
 using DynamicData;
 using DynamicData.Aggregation;
-using ReactiveUI;
 
 namespace Zafiro.Avalonia.Controls;
 

@@ -1,6 +1,4 @@
-﻿using Zafiro.UI;
-
-namespace Zafiro.Avalonia.Wizard;
+﻿namespace Zafiro.Avalonia.Wizard;
 
 public interface IPage : IValidatable
 {

@@ -1,8 +1,5 @@
 ﻿using System.Reactive;
-using System.Reactive.Linq;
-using ReactiveUI;
 using Zafiro.Reactive;
-using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Wizard;
 
