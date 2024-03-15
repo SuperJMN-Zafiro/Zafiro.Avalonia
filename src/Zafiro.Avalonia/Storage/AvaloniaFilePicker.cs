@@ -1,9 +1,7 @@
-using System.Reactive.Linq;
 using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 using Zafiro.FileSystem;
-using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Storage;
 

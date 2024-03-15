@@ -1,5 +1,3 @@
-using System.Reactive.Linq;
-using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.Templates;
 

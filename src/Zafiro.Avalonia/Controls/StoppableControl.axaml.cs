@@ -1,7 +1,3 @@
-using Avalonia;
-using Avalonia.Controls;
-using Zafiro.UI;
-
 namespace Zafiro.Avalonia.Controls;
 
 public class StoppableControl : ContentControl

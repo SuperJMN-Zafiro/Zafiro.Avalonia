@@ -1,13 +1,10 @@
 using System;
 using System.Collections;
-using System.Reactive.Linq;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Metadata;
 using JetBrains.Annotations;
-using ReactiveUI;
 
 namespace Zafiro.Avalonia.Controls;
 

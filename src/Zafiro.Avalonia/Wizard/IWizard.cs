@@ -1,6 +1,4 @@
 ﻿using System.Reactive;
-using ReactiveUI;
-using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Wizard;
 

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls.Primitives;
 using Zafiro.Avalonia.Wizard;
 

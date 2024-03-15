@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls.Notifications;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
-using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Notifications;
 

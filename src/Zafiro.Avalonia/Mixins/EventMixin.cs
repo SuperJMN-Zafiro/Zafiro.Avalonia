@@ -1,5 +1,4 @@
 ﻿using System.Reactive;
-using System.Reactive.Linq;
 using Avalonia.Interactivity;
 
 namespace Zafiro.Avalonia.Mixins

@@ -1,11 +1,7 @@
 ﻿using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactions.Custom;
-using ReactiveUI;
 
 namespace Zafiro.Avalonia.Behaviors;
 

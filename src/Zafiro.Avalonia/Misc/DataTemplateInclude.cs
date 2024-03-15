@@ -1,10 +1,6 @@
-﻿using System.Reactive.Linq;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Templates;
+﻿using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using CSharpFunctionalExtensions;
-using ReactiveUI;
 
 namespace Zafiro.Avalonia.Misc;
 

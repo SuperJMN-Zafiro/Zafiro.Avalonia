@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
-using Avalonia;
 using Avalonia.Data.Core;
 using Avalonia.Markup.Xaml;
 using JetBrains.Annotations;
