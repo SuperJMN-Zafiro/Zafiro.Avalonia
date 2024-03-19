@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Selection;
+using DynamicData;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -28,8 +29,15 @@ public class SelectionControl : TemplatedControl
             .Throttle(TimeSpan.FromSeconds(0.1), AvaloniaScheduler.Instance)
             .Select(_ => Selection.SelectedItems.Any());
 
-        clear = ReactiveCommand.Create(() => Selection.Clear(), hasItems);
-        selectAll = ReactiveCommand.Create(() => Selection.SelectAll());
+        var selectedItems = this.WhenAnyValue(x => x.Selection)
+            .WhereNotNull()
+            .Select(model => Observable.FromEventPattern(model, nameof(ISelectionModel.SelectionChanged)))
+            .Switch()
+            .Throttle(TimeSpan.FromSeconds(0.1), AvaloniaScheduler.Instance)
+            .Select(_ => (SelectionCount: Selection.Count, SourceCount: Selection.Source!.Cast<object>().Count()));
+        
+        clear = ReactiveCommand.Create(() => Selection.Clear(), selectedItems.Select(i => i.SelectionCount > 0));
+        selectAll = ReactiveCommand.Create(() => selectedItems.Select(i => i.SelectionCount != i.SourceCount && i.SelectionCount > 0));
     }
 
     public ISelectionModel Selection
