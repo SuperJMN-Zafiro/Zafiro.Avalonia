@@ -1,6 +1,6 @@
 ﻿using Avalonia.Markup.Xaml;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.Mixins;
 
 internal static class Extensions
 {
@@ -11,6 +11,6 @@ internal static class Extensions
 
     private static T? GetService<T>(this IServiceProvider sp)
     {
-        return (T?) sp.GetService(typeof(T));
+        return (T?)sp.GetService(typeof(T));
     }
 }

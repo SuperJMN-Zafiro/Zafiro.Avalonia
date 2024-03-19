@@ -4,12 +4,14 @@
    <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Styles/Common.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/StringEditor/StringEditorControl.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/MasterDetailsNavigator.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/Info.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/StringEditor/EditControl.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia/Controls/Shell.axaml" />
+                <ResourceInclude Source="Styles/Common.axaml" />
+                <ResourceInclude Source="Controls/StringEditor/StringEditorControl.axaml" />
+                <ResourceInclude Source="Controls/MasterDetailsNavigator.axaml" />
+                <ResourceInclude Source="Controls/Info.axaml" />
+                <ResourceInclude Source="Controls/StringEditor/EditControl.axaml" />
+                <ResourceInclude Source="Controls/Shell.axaml" />
+                <ResourceInclude Source="Controls/ListBox.axaml" />
+                <ResourceInclude Source="Controls/SelectionControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

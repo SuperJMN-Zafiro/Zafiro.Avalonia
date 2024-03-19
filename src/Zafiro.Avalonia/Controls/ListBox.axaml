@@ -1,0 +1,23 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:myLib="clr-namespace:Zafiro.Avalonia.Controls"
+                    x:CompileBindings="True">
+    <ControlTheme x:Key="EasyListBox" TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+        <Setter Property="ItemContainerTheme">
+            <Setter.Value>
+                <ControlTheme TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="ContentTemplate">
+                        <DataTemplate DataType="system:Object">
+                            <DockPanel>
+                                <CheckBox IsChecked="{Binding $parent[ListBoxItem].IsSelected}" 
+                                          IsVisible="{Binding $parent[ListBox].(myLib:Selection.EnableCheckBoxes)}" />
+                                <ContentControl VerticalAlignment="Center" Content="{Binding}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </Setter>
+                </ControlTheme>
+            </Setter.Value>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

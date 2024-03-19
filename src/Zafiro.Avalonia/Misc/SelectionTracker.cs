@@ -2,7 +2,7 @@
 using Avalonia.Controls.Selection;
 using DynamicData;
 
-namespace Zafiro.Avalonia.Mixins;
+namespace Zafiro.Avalonia.Misc;
 
 public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKey : notnull
 {
@@ -11,7 +11,7 @@ public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKe
     public SelectionTracker(SelectionModel<T> selection, Func<T, TKey> selector)
     {
         var cache = new SourceCache<T, TKey>(selector)
-            .DisposeWith(disposable);;
+            .DisposeWith(disposable); ;
 
         var obs = Observable
             .FromEventPattern<SelectionModelSelectionChangedEventArgs<T>>(handler => selection.SelectionChanged += handler, handler => selection.SelectionChanged -= handler);
