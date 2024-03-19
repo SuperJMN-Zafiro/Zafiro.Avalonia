@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TestApp.Samples.Adorners;
+using TestApp.Samples.Controls;
 using TestApp.Samples.MasterDetails;
 using TestApp.Samples.StringEditor;
 using TestApp.Samples.Wizard;
@@ -25,6 +26,7 @@ public class MainViewModel : ViewModelBase
     {
         new("MasterDetailsView", new MasterDetailsSampleViewModel()),
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
+        new("Controls", new ControlsSampleViewModel()),
         new("StringEditor", new StringEditorSampleViewModel()),
         new("Adorners", new AdornerSampleViewModel()),
         new("Wizard", new WizardSampleViewModel(dialogService, notificationService)),

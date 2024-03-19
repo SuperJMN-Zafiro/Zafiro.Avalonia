@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using CSharpFunctionalExtensions;
+using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.Misc;
 

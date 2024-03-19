@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    <ControlTheme TargetType="controls:SelectionControl" x:Key="{x:Type controls:SelectionControl}">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <Button Command="{TemplateBinding Clear}">Select none</Button>
+                    <Button Command="{TemplateBinding SelectAll}">Select all</Button>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
