@@ -1,33 +1,8 @@
-﻿using System.Reactive;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
 using Avalonia.Controls.Selection;
 using DynamicData;
 
 namespace Zafiro.Avalonia.Misc;
-
-public interface ISelectionHandler<T, TKey> where T : notnull where TKey : notnull
-{
-    IObservable<IChangeSet<T, TKey>> Changes { get; }
-    ReactiveCommand<Unit, Unit> SelectNone { get; }
-    ReactiveCommand<Unit, Unit> SelectAll { get; }
-}
-
-public class SelectionHandler<T, TKey> : ISelectionHandler<T, TKey> where T : notnull where TKey : notnull
-{
-    public SelectionHandler(SelectionModel<T> model, Func<T, TKey> selector)
-    {
-        SelectAll = ReactiveCommand.Create(() => model.SelectAll());
-        SelectNone = ReactiveCommand.Create(() => model.Clear());
-        var tracker = new SelectionTracker<T, TKey>(model, selector);
-        Changes = tracker.Changes;
-    }
-
-    public IObservable<IChangeSet<T, TKey>> Changes { get; }
-
-    public ReactiveCommand<Unit, Unit> SelectNone { get; }
-
-    public ReactiveCommand<Unit, Unit> SelectAll { get; }
-}
 
 public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKey : notnull
 {
@@ -46,8 +21,11 @@ public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKe
             .Subscribe()
             .DisposeWith(disposable);
 
-        Changes = cache.Connect();
+        Changes = cache.Connect(suppressEmptyChangeSets: false);
+        Count = selection.WhenAnyValue(x => x.Source, selector: enumerable => enumerable?.Cast<object>().Count() ?? 0);
     }
+
+    public IObservable<int> Count { get; }
 
     public IObservable<IChangeSet<T, TKey>> Changes { get; }
 
