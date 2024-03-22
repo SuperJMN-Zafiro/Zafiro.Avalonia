@@ -23,7 +23,7 @@ public class SelectionControl : TemplatedControl
         this
             .WhenAnyValue(x => x.Selection)
             .WhereNotNull()
-            .Select(x => x.SelectionKind.Select(kind => (kind, x)))
+            .Select(x => x.Kind().Select(kind => (kind, x)))
             .Switch()
             .Select(tuple => tuple.kind == SelectionKind.None ? tuple.x.SelectAll : tuple.x.SelectNone)
             .ToProperty(this, CycleSelectionProperty)
@@ -32,9 +32,8 @@ public class SelectionControl : TemplatedControl
         this
             .WhenAnyValue(x => x.Selection)
             .WhereNotNull()
-            .Select(x => x.SelectionKind)
+            .Select(x => x.Kind())
             .Switch()
-            .Select(kind => kind)
             .ToProperty(this, SelectionKindProperty)
             .DisposeWith(disposables);
     }
