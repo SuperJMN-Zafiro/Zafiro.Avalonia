@@ -13,4 +13,13 @@ public class MiscConverters
             SelectionKind.None => false,
         };
     });
+
+    public static FuncValueConverter<int, string> MoreThan99 = new FuncValueConverter<int, string>(i =>
+    {
+        return i switch
+        {
+            > 99 => "+99",
+            _ => i.ToString()
+        };
+    });
 }

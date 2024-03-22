@@ -36,6 +36,22 @@ public class SelectionControl : TemplatedControl
             .Switch()
             .ToProperty(this, SelectionKindProperty)
             .DisposeWith(disposables);
+        
+        this
+            .WhenAnyValue(x => x.Selection)
+            .WhereNotNull()
+            .Select(x => x.SelectionCount)
+            .Switch()
+            .ToProperty(this, SelectedCountProperty)
+            .DisposeWith(disposables);
+        
+        this
+            .WhenAnyValue(x => x.Selection)
+            .WhereNotNull()
+            .Select(x => x.TotalCount)
+            .Switch()
+            .ToProperty(this, TotalCountProperty)
+            .DisposeWith(disposables);
     }
 
     private SelectionKind _selectionKind;
@@ -72,5 +88,27 @@ public class SelectionControl : TemplatedControl
     {
         get => _cycleSelection;
         private set => SetAndRaise(CycleSelectionProperty, ref _cycleSelection, value);
+    }
+
+    private int _selectedCount;
+
+    public static readonly DirectProperty<SelectionControl, int> SelectedCountProperty = AvaloniaProperty.RegisterDirect<SelectionControl, int>(
+        "SelectedCount", o => o.SelectedCount, (o, v) => o.SelectedCount = v);
+
+    public int SelectedCount
+    {
+        get => _selectedCount;
+        set => SetAndRaise(SelectedCountProperty, ref _selectedCount, value);
+    }
+
+    private int _totalCount;
+
+    public static readonly DirectProperty<SelectionControl, int> TotalCountProperty = AvaloniaProperty.RegisterDirect<SelectionControl, int>(
+        "TotalCount", o => o.TotalCount, (o, v) => o.TotalCount = v);
+
+    public int TotalCount
+    {
+        get => _totalCount;
+        set => SetAndRaise(TotalCountProperty, ref _totalCount, value);
     }
 }
