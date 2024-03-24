@@ -5,22 +5,37 @@
 	<ControlTheme TargetType="controls:SelectionControl" x:Key="{x:Type controls:SelectionControl}">
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Panel>
-					<CheckBox Command="{TemplateBinding CycleSelection}"
-                              IsChecked="{TemplateBinding SelectionKind, Converter={x:Static converters:MiscConverters.SelectionKindToCheckBoxValue}}" />
-                    <Viewbox Height="20" Margin="15 -18 0 0">
-                        <Panel IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!!SelectedCount}">
-                            <ToolTip.Tip>
-                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="SelectedCount" />
-                            </ToolTip.Tip>
-                            <Ellipse Width="20" Height="20" Fill="{DynamicResource SystemAccentColor}" />
-                            <TextBlock Foreground="{DynamicResource CheckBoxCheckGlyphForegroundChecked}"
-                                       FontSize="10"
-                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedCount, Converter={x:Static converters:MiscConverters.MoreThan99}}"
-                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Panel></Viewbox>
-                   
-				</Panel>
+				<StackPanel>
+					<TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectionKind}" />
+					<Button Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectAllCommand}" />
+					<Button Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ClearSelectionCommand}" />
+					<Panel>
+						<CheckBox IsChecked="{TemplateBinding SelectionKind, Converter={x:Static converters:MiscConverters.SelectionKindToCheckBoxValue}}">
+							<CheckBox.Styles>
+								<Style Selector="CheckBox:checked">
+									<Setter Property="Command" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectAllCommand}" />
+								</Style>
+                                <Style Selector="CheckBox:unchecked">
+                                    <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ClearSelectionCommand}" />
+                                </Style>
+							</CheckBox.Styles>
+						</CheckBox>
+						<Viewbox Height="20" Margin="15 -18 0 0">
+							<Panel
+                                IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!!SelectedCount}">
+								<ToolTip.Tip>
+									<Binding RelativeSource="{RelativeSource TemplatedParent}" Path="SelectedCount" />
+								</ToolTip.Tip>
+								<Ellipse Width="20" Height="20" Fill="{DynamicResource SystemAccentColor}" />
+								<TextBlock Foreground="{DynamicResource CheckBoxCheckGlyphForegroundChecked}"
+                                           FontSize="10"
+                                           Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedCount, Converter={x:Static converters:MiscConverters.MoreThan99}}"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center" />
+							</Panel>
+						</Viewbox>
+
+					</Panel>
+				</StackPanel>
 			</ControlTemplate>
 		</Setter>
 	</ControlTheme>
