@@ -4,12 +4,14 @@
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">
 			<Color x:Key="SoftBackground">#F9F9F9</Color>
+            <Color x:Key="SoftBackgroundDarker">#F4F4F4</Color>
 			<Color x:Key="SoftBorder">#ECECEC</Color>
 			<Color x:Key="SoftBackgroundLists">#F3F3F3</Color>
             <Color x:Key="Accent">#F0000000</Color>
 		</ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="SoftBackground">#171717</Color>
+            <Color x:Key="SoftBackgroundDarker">#1F1F1F</Color>
             <Color x:Key="SoftBorder">#4E4E4E</Color>
             <Color x:Key="SoftBackgroundLists">#202020</Color>
             <Color x:Key="Accent">#F0FFFFFF</Color>
