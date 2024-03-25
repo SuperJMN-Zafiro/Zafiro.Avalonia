@@ -32,10 +32,4 @@ namespace TestApp.Samples.MasterDetails
 
         public IEnumerable<SampleSection> Sections { get; }
     }
-
-    public class SampleSection
-    {
-        public string Title { get; set; }
-        public object Content { get; set; }
-    }
 }

@@ -3,15 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:controls1="clr-namespace:TestApp.Samples.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TestApp.Samples.Controls.ControlsSampleView">
+             x:Class="TestApp.Samples.Controls.ControlsSampleView"
+             x:DataType="controls1:ControlsSampleViewModel">
     <DockPanel>
-        <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding #ListBox.Selection}" />
-        <ListBox x:Name="ListBox" controls:Selection.EnableCheckBoxes="True" Theme="{StaticResource EasyListBox}"
+        <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" />
+        <ListBox x:Name="ListBox"
+                 ItemsSource="{Binding Items}"
+                 Selection="{Binding SelectionModel}"
+                 controls:Selection.EnableCheckBoxes="True" Theme="{StaticResource EasyListBox}"
                  SelectionMode="Multiple">
-            <ListBoxItem>Item 1</ListBoxItem>
-            <ListBoxItem>Item 2</ListBoxItem>
-            <ListBoxItem>Item 3</ListBoxItem>
         </ListBox>
     </DockPanel>
 </UserControl>

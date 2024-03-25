@@ -1,14 +1,43 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
-    <ControlTheme TargetType="controls:SelectionControl" x:Key="{x:Type controls:SelectionControl}">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <StackPanel Orientation="Horizontal" Spacing="4">
-                    <Button Command="{TemplateBinding Clear}">Select none</Button>
-                    <Button Command="{TemplateBinding SelectAll}">Select all</Button>
-                </StackPanel>
-            </ControlTemplate>
-        </Setter>
-    </ControlTheme>
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+                    xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters" x:CompileBindings="True">
+
+	<Design.PreviewWith>
+		<Border Background="Red" Width="200">
+			<controls:SelectionControl />
+		</Border>
+	</Design.PreviewWith>
+
+	<ControlTheme TargetType="controls:SelectionControl" x:Key="{x:Type controls:SelectionControl}">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Panel>
+					<CheckBox IsChecked="{TemplateBinding SelectionKind, Converter={x:Static converters:MiscConverters.SelectionKindToCheckBoxValue}}">
+						<CheckBox.Styles>
+							<Style Selector="CheckBox:checked">
+								<Setter Property="Command" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectAllCommand}" />
+							</Style>
+							<Style Selector="CheckBox:unchecked">
+								<Setter Property="Command" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ClearSelectionCommand}" />
+							</Style>
+						</CheckBox.Styles>
+					</CheckBox>
+					<Viewbox HorizontalAlignment="Left" IsHitTestVisible="False" Height="20" Margin="15 -18 0 0">
+						<Panel
+                            IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!!SelectedCount}">
+							<ToolTip.Tip>
+								<Binding RelativeSource="{RelativeSource TemplatedParent}" Path="SelectedCount" />
+							</ToolTip.Tip>
+							<Ellipse Width="20" Height="20" Fill="{DynamicResource SystemAccentColor}" />
+							<TextBlock Foreground="{DynamicResource CheckBoxCheckGlyphForegroundChecked}"
+                                       FontSize="10"
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedCount, Converter={x:Static converters:MiscConverters.MoreThan99}}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+						</Panel>
+					</Viewbox>
+				</Panel>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
 </ResourceDictionary>

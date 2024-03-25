@@ -7,9 +7,6 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using ReactiveUI.Validation.Extensions;
-using ReactiveUI.Validation.Helpers;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Wizard;
 using Zafiro.CSharpFunctionalExtensions;
@@ -42,28 +39,4 @@ public class WizardSampleViewModel
 
         return dialogService.ShowDialog<Wizard<Page1ViewModel, Page2ViewModel, string>, string>(wizard, "Do something, boi");
     }
-}
-
-internal class Page2ViewModel : ReactiveValidationObject, IValidatable
-{
-    public Page2ViewModel()
-    {
-        this.ValidationRule(x => x.Message, x => !string.IsNullOrWhiteSpace(x), "Can't be blank");
-    }
-
-    public IObservable<bool> IsValid => this.IsValid();
-    [Reactive]
-    public string? Message { get; set; }
-}
-
-internal class Page1ViewModel : ReactiveValidationObject, IValidatable
-{
-    public Page1ViewModel()
-    {
-        this.ValidationRule(x => x.Message, x => !string.IsNullOrWhiteSpace(x), "Can't be blank");
-    }
-
-    public IObservable<bool> IsValid => this.IsValid();
-    [Reactive]
-    public string? Message { get; set; }
 }

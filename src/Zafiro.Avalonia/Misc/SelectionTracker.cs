@@ -1,6 +1,7 @@
 ﻿using System.Reactive.Disposables;
 using Avalonia.Controls.Selection;
 using DynamicData;
+using DynamicData.Aggregation;
 
 namespace Zafiro.Avalonia.Misc;
 
@@ -11,8 +12,8 @@ public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKe
     public SelectionTracker(SelectionModel<T> selection, Func<T, TKey> selector)
     {
         var cache = new SourceCache<T, TKey>(selector)
-            .DisposeWith(disposable); ;
-
+            .DisposeWith(disposable); 
+        
         var obs = Observable
             .FromEventPattern<SelectionModelSelectionChangedEventArgs<T>>(handler => selection.SelectionChanged += handler, handler => selection.SelectionChanged -= handler);
 
@@ -21,8 +22,14 @@ public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKe
             .Subscribe()
             .DisposeWith(disposable);
 
-        Changes = cache.Connect();
+        Changes = cache.Connect(suppressEmptyChangeSets: false);
+        TotalCount = selection.WhenAnyValue(x => x.Source, selector: enumerable => enumerable?.Cast<object>().Count() ?? 0);
+        SelectionCount = Changes.Count();
     }
+
+    public IObservable<int> SelectionCount { get; }
+
+    public IObservable<int> TotalCount { get; }
 
     public IObservable<IChangeSet<T, TKey>> Changes { get; }
 

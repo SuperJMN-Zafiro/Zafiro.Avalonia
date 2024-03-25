@@ -1,60 +1,123 @@
+using System.Reactive.Disposables;
 using System.Windows.Input;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Selection;
-using DynamicData;
+using Avalonia.Interactivity;
 
 namespace Zafiro.Avalonia.Controls;
 
+public static class AvaloniaObjectMixin
+{
+    public static IDisposable ToProperty<T>(this IObservable<T> observable, AvaloniaObject avaloniaObject, AvaloniaProperty<T> property) => avaloniaObject.Bind(property, observable);
+}
+
 public class SelectionControl : TemplatedControl
 {
-    private ICommand clear;
+    private ICommand clearSelectionCommand;
 
-    private ICommand selectAll;
+    private ICommand selectAllCommand;
 
-    public static readonly StyledProperty<ISelectionModel> SelectionProperty = AvaloniaProperty.Register<SelectionControl, ISelectionModel>(
-        nameof(Selection));
+    private int selectedCount;
 
-    public static readonly DirectProperty<SelectionControl, ICommand> SelectAllProperty = AvaloniaProperty.RegisterDirect<SelectionControl, ICommand>(
-        "SelectAll", o => o.SelectAll, (o, v) => o.SelectAll = v);
+    private SelectionKind selectionKind;
 
-    public static readonly DirectProperty<SelectionControl, ICommand> ClearProperty = AvaloniaProperty.RegisterDirect<SelectionControl, ICommand>(
-        "Clear", o => o.Clear, (o, v) => o.Clear = v);
+    private int totalCount;
+
+    private readonly CompositeDisposable disposables = new();
+
+    public static readonly StyledProperty<ISelectionHandler> SelectionProperty = AvaloniaProperty.Register<SelectionControl, ISelectionHandler>(
+        "Selection");
+
+    public static readonly DirectProperty<SelectionControl, ICommand> SelectAllCommandProperty = AvaloniaProperty.RegisterDirect<SelectionControl, ICommand>(
+        "SelectAllCommand", o => o.SelectAllCommand, (o, v) => o.SelectAllCommand = v);
+
+    public static readonly DirectProperty<SelectionControl, SelectionKind> SelectionKindProperty = AvaloniaProperty.RegisterDirect<SelectionControl, SelectionKind>(
+        "SelectionKind", o => o.SelectionKind, (o, v) => o.SelectionKind = v);
+
+    public static readonly DirectProperty<SelectionControl, ICommand> ClearSelectionCommandProperty = AvaloniaProperty.RegisterDirect<SelectionControl, ICommand>(
+        "ClearSelectionCommand", o => o.ClearSelectionCommand, (o, v) => o.ClearSelectionCommand = v);
+
+    public static readonly DirectProperty<SelectionControl, int> SelectedCountProperty = AvaloniaProperty.RegisterDirect<SelectionControl, int>(
+        "SelectedCount", o => o.SelectedCount, (o, v) => o.SelectedCount = v);
+
+    public static readonly DirectProperty<SelectionControl, int> TotalCountProperty = AvaloniaProperty.RegisterDirect<SelectionControl, int>(
+        "TotalCount", o => o.TotalCount, (o, v) => o.TotalCount = v);
 
     public SelectionControl()
     {
-        var hasItems = this.WhenAnyValue(x => x.Selection)
-            .WhereNotNull()
-            .Select(model => Observable.FromEventPattern(model, nameof(ISelectionModel.SelectionChanged)))
-            .Switch()
-            .Throttle(TimeSpan.FromSeconds(0.1), AvaloniaScheduler.Instance)
-            .Select(_ => Selection.SelectedItems.Any());
+        this
+            .WhenAnyValue(x => x.Selection.SelectAll)
+            .ToProperty(this, SelectAllCommandProperty)
+            .DisposeWith(disposables);
 
-        var selectedItems = this.WhenAnyValue(x => x.Selection)
+        this
+            .WhenAnyValue(x => x.Selection.SelectNone)
+            .ToProperty(this, ClearSelectionCommandProperty)
+            .DisposeWith(disposables);
+
+        this
+            .WhenAnyValue(x => x.Selection)
             .WhereNotNull()
-            .Select(model => Observable.FromEventPattern(model, nameof(ISelectionModel.SelectionChanged)))
+            .Select(x => x.Kind())
             .Switch()
-            .Throttle(TimeSpan.FromSeconds(0.1), AvaloniaScheduler.Instance)
-            .Select(_ => (SelectionCount: Selection.Count, SourceCount: Selection.Source!.Cast<object>().Count()));
-        
-        clear = ReactiveCommand.Create(() => Selection.Clear(), selectedItems.Select(i => i.SelectionCount > 0));
-        selectAll = ReactiveCommand.Create(() => selectedItems.Select(i => i.SelectionCount != i.SourceCount && i.SelectionCount > 0));
+            .ToProperty(this, SelectionKindProperty)
+            .DisposeWith(disposables);
+
+        this
+            .WhenAnyValue(x => x.Selection)
+            .WhereNotNull()
+            .Select(x => x.SelectionCount)
+            .Switch()
+            .ToProperty(this, SelectedCountProperty)
+            .DisposeWith(disposables);
+
+        this
+            .WhenAnyValue(x => x.Selection)
+            .WhereNotNull()
+            .Select(x => x.TotalCount)
+            .Switch()
+            .ToProperty(this, TotalCountProperty)
+            .DisposeWith(disposables);
     }
 
-    public ISelectionModel Selection
+    public ICommand SelectAllCommand
+    {
+        get => selectAllCommand;
+        set => SetAndRaise(SelectAllCommandProperty, ref selectAllCommand, value);
+    }
+
+    public SelectionKind SelectionKind
+    {
+        get => selectionKind;
+        set => SetAndRaise(SelectionKindProperty, ref selectionKind, value);
+    }
+
+    public ICommand ClearSelectionCommand
+    {
+        get => clearSelectionCommand;
+        set => SetAndRaise(ClearSelectionCommandProperty, ref clearSelectionCommand, value);
+    }
+
+    public ISelectionHandler Selection
     {
         get => GetValue(SelectionProperty);
         set => SetValue(SelectionProperty, value);
     }
 
-    public ICommand SelectAll
+    public int SelectedCount
     {
-        get => selectAll;
-        private set => SetAndRaise(SelectAllProperty, ref selectAll, value);
+        get => selectedCount;
+        set => SetAndRaise(SelectedCountProperty, ref selectedCount, value);
     }
 
-    public ICommand Clear
+    public int TotalCount
     {
-        get => clear;
-        private set => SetAndRaise(ClearProperty, ref clear, value);
+        get => totalCount;
+        set => SetAndRaise(TotalCountProperty, ref totalCount, value);
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        disposables.Dispose();
+        base.OnUnloaded(e);
     }
 }
