@@ -1,7 +1,9 @@
 using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
+using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
+using Zafiro.FileSystem.Mutable;
 
 namespace Zafiro.Avalonia.Storage;
 
@@ -50,5 +52,14 @@ public class AvaloniaFilePicker : IFilePicker
         return Observable
             .FromAsync(() => storageProvider.OpenFilePickerAsync(filePickerOpenOptions))
             .Select(list => list.Select(file => new StorableWrapper(file)));
+    }
+
+    public async Task<Maybe<IEnumerable<IMutableDirectory>>> PickFolder()
+    {
+        var openFolderPickerAsync = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions());
+        return Maybe.From(openFolderPickerAsync.AsEnumerable()).MapEach(x =>
+        {
+            return (IMutableDirectory) new StorageDirectory(x);
+        });
     }
 }
