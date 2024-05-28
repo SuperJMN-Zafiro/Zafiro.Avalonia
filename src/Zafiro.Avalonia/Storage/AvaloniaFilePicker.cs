@@ -35,16 +35,16 @@ public class AvaloniaFilePicker : IFilePicker
         }).Select(x => x.TryFirst());
     }
 
-    public IObservable<Maybe<IZafiroFile>> PickForSave(string desiredName, Maybe<string> defaultExtension, params FileTypeFilter[] filters)
+    public async Task<Maybe<IMutableFile>> PickForSave(string desiredName, Maybe<string> defaultExtension, params FileTypeFilter[] filters)
     {
-        return Observable
-            .FromAsync(() => storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
-            {
-                FileTypeChoices = FilePicker.Map(filters),
-                DefaultExtension = defaultExtension.GetValueOrDefault(),
-                SuggestedFileName = desiredName
-            }))
-            .Select(file => Maybe.From<IZafiroFile>(file is null ? default! : new StorableWrapper(file)));
+        var file = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            FileTypeChoices = FilePicker.Map(filters),
+            DefaultExtension = defaultExtension.GetValueOrDefault(),
+            SuggestedFileName = desiredName
+        });
+        
+        return Maybe.From<IMutableFile>(file is null ? default! : new StorageFile(file));
     }
 
     private IObservable<IEnumerable<IZafiroFile>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
@@ -54,12 +54,14 @@ public class AvaloniaFilePicker : IFilePicker
             .Select(list => list.Select(file => new StorableWrapper(file)));
     }
 
-    public async Task<Maybe<IEnumerable<IMutableDirectory>>> PickFolder()
+    public Task<Maybe<IMutableDirectory>> PickFolder()
     {
-        var openFolderPickerAsync = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions());
-        return Maybe.From(openFolderPickerAsync.AsEnumerable()).MapEach(x =>
-        {
-            return (IMutableDirectory) new StorageDirectory(x);
-        });
+        return PickFolders(new FolderPickerOpenOptions { AllowMultiple = false }).Bind(x => x.TryFirst());
+    }
+
+    public async Task<Maybe<IEnumerable<IMutableDirectory>>> PickFolders(FolderPickerOpenOptions folderPickerOpenOptions)
+    {
+        var openFolderPickerAsync = await storageProvider.OpenFolderPickerAsync(folderPickerOpenOptions);
+        return Maybe.From(openFolderPickerAsync.AsEnumerable()).MapEach(x => (IMutableDirectory)new StorageDirectory(x));
     }
 }
