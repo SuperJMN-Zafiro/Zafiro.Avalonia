@@ -28,11 +28,11 @@ public class StorageDirectory : IMutableDirectory
         return mutableChildren;
     }
 
-    private IMutableNode ToMutableNode(IStorageItem item)
+    private async Task<IMutableNode> ToMutableNode(IStorageItem item)
     {
         return item switch
         {
-            IStorageFile storageFile => (IMutableNode)new StorageFile(storageFile),
+            IStorageFile storageFile => new MutableStorageFile(storageFile),
             IStorageFolder storageFolder => (IMutableNode)new StorageDirectory(storageFolder),
             _ => throw new ArgumentOutOfRangeException(nameof(item))
         };

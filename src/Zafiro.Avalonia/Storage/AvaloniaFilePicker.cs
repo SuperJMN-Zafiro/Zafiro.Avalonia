@@ -44,7 +44,7 @@ public class AvaloniaFilePicker : IFilePicker
             SuggestedFileName = desiredName
         });
         
-        return Maybe.From<IMutableFile>(file is null ? default! : new StorageFile(file));
+        return Maybe.From<IMutableFile>(file is null ? default! : new MutableStorageFile(file));
     }
 
     private IObservable<IEnumerable<IZafiroFile>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
