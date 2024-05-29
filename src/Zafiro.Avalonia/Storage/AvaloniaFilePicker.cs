@@ -42,7 +42,7 @@ public class AvaloniaFilePicker : IFilePicker
             FileTypeChoices = FilePicker.Map(filters),
             DefaultExtension = defaultExtension.GetValueOrDefault(),
             SuggestedFileName = desiredName
-        });
+        }).ConfigureAwait(false);
         
         return Maybe.From<IMutableFile>(file is null ? default! : new MutableStorageFile(file));
     }
@@ -61,7 +61,7 @@ public class AvaloniaFilePicker : IFilePicker
 
     public async Task<Maybe<IEnumerable<IMutableDirectory>>> PickFolders(FolderPickerOpenOptions folderPickerOpenOptions)
     {
-        var openFolderPickerAsync = await storageProvider.OpenFolderPickerAsync(folderPickerOpenOptions);
+        var openFolderPickerAsync = await storageProvider.OpenFolderPickerAsync(folderPickerOpenOptions).ConfigureAwait(false);
         return Maybe.From(openFolderPickerAsync.AsEnumerable()).MapEach(x => (IMutableDirectory)new StorageDirectory(x));
     }
 }

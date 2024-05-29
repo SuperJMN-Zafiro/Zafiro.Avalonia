@@ -20,10 +20,10 @@ public class StorageDirectory : IMutableDirectory
         var mutableChildren = await Result.Try(() => folder.GetItemsAsync())
             .Map(async a =>
             {
-                var storageItems = await a.ToListAsync();
+                var storageItems = await a.ToListAsync().ConfigureAwait(false);
                 return storageItems.AsEnumerable();
             })
-            .MapEach(ToMutableNode);
+            .MapEach(ToMutableNode).ConfigureAwait(false);
             
         return mutableChildren;
     }

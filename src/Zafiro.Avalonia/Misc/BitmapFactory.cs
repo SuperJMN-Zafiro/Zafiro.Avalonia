@@ -12,9 +12,9 @@ public static class BitmapFactory
         using var httpClient = new HttpClient();
         try
         {
-            var response = await httpClient.GetAsync(url);
+            var response = await httpClient.GetAsync(url).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
-            var data = await response.Content.ReadAsByteArrayAsync();
+            var data = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             return new Bitmap(new MemoryStream(data));
         }
         catch (HttpRequestException ex)
