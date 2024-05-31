@@ -8,16 +8,16 @@ using Zafiro.FileSystem.Mutable;
 namespace Zafiro.Avalonia.Storage;
 
 [PublicAPI]
-public class AvaloniaFilePicker : IFilePicker
+public class AvaloniaFileSystemPicker : IFileSystemPicker
 {
     private readonly IStorageProvider storageProvider;
 
-    public AvaloniaFilePicker(IStorageProvider storageProvider)
+    public AvaloniaFileSystemPicker(IStorageProvider storageProvider)
     {
         this.storageProvider = storageProvider;
     }
 
-    public IObservable<IEnumerable<IZafiroFile>> PickForOpenMultiple(params FileTypeFilter[] filters)
+    public Task<Result<IEnumerable<IFile>>> PickForOpenMultiple(params FileTypeFilter[] filters)
     {
         return PickCore(new FilePickerOpenOptions
         {
@@ -26,13 +26,13 @@ public class AvaloniaFilePicker : IFilePicker
         });
     }
 
-    public IObservable<Maybe<IZafiroFile>> PickForOpen(params FileTypeFilter[] filters)
+    public Task<Result<Maybe<IFile>>> PickForOpen(params FileTypeFilter[] filters)
     {
         return PickCore(new FilePickerOpenOptions
         {
             AllowMultiple = false,
             FileTypeFilter = FilePicker.Map(filters)
-        }).Select(x => x.TryFirst());
+        }).Map(files => files.TryFirst());
     }
 
     public async Task<Maybe<IMutableFile>> PickForSave(string desiredName, Maybe<string> defaultExtension, params FileTypeFilter[] filters)
@@ -47,11 +47,12 @@ public class AvaloniaFilePicker : IFilePicker
         return Maybe.From<IMutableFile>(file is null ? default! : new MutableStorageFile(file));
     }
 
-    private IObservable<IEnumerable<IZafiroFile>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
+    private Task<Result<IEnumerable<IFile>>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
     {
-        return Observable
-            .FromAsync(() => storageProvider.OpenFilePickerAsync(filePickerOpenOptions))
-            .Select(list => list.Select(file => new StorableWrapper(file)));
+        return Result.Try(async () => (await storageProvider.OpenFilePickerAsync(filePickerOpenOptions)).AsEnumerable())
+            .MapEach(x => new MutableStorageFile(x))
+            .Map(x => x.ToImmutable())
+            .Combine();
     }
 
     public Task<Maybe<IMutableDirectory>> PickFolder()
