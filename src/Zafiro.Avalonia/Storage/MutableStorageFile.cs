@@ -28,7 +28,7 @@ internal class MutableStorageFile : IMutableFile
     {
         return await Result.Try(async () =>
         {
-            var size = ResultEx.FromNullableStruct((await StorageFile.GetBasicPropertiesAsync().ConfigureAwait(false)).Size);
+            var size = MaybeEx.FromNullableStruct((await StorageFile.GetBasicPropertiesAsync().ConfigureAwait(false)).Size);
             
             Func<Task<Stream>> openReadAsync = StorageFile.OpenReadAsync;
             return size.Match(arg => (IData)new Data(openReadAsync.Chunked(), (long) arg), () => new Data(Observable.Empty<byte[]>(), 0));
