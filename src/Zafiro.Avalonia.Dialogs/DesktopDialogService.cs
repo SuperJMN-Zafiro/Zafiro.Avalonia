@@ -2,21 +2,20 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.ReactiveUI;
 using CSharpFunctionalExtensions;
 
 namespace Zafiro.Avalonia.Dialogs;
 
 public class DesktopDialogService : IDialogService
 {
-    private readonly Maybe<Action<ConfigureWindowContext>> configureWindow;
+    private readonly Maybe<Action<ConfigureWindowContext>> configureWindowAction;
 
-    public DesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow)
+    public DesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindowAction)
     {
-        this.configureWindow = configureWindow;
+        this.configureWindowAction = configureWindowAction;
     }
 
-    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
+    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, Maybe<Action<ConfigureWindowContext>> configureWindowActionOverride, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
     {
         if (viewModel == null)
         {
@@ -27,10 +26,15 @@ public class DesktopDialogService : IDialogService
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = true,
+            CanResize = false, 
+            SizeToContent = SizeToContent.WidthAndHeight,
+            Icon = MainWindow.Icon,
         };
 
-        configureWindow.Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
+        configureWindowActionOverride
+            .Or(configureWindowAction)
+            .Or(DefaultWindowConfigurator)
+            .Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
 
         window.Content = new DialogViewContainer()
         {
@@ -54,6 +58,15 @@ public class DesktopDialogService : IDialogService
         await window.ShowDialog(MainWindow);
 
         return result;
+    }
+
+    private static Action<ConfigureWindowContext> DefaultWindowConfigurator()
+    {
+        return context =>
+        {
+            context.ToConfigure.Width = context.Parent.Bounds.Width / 3;
+            context.ToConfigure.Height = context.Parent.Bounds.Width / 3;
+        };
     }
 
     private static Window MainWindow => ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;

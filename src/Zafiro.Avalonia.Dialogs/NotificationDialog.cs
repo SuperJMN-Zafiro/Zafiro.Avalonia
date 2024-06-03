@@ -16,7 +16,7 @@ public class NotificationDialog : INotificationService
 
     public Task Show(string message, Maybe<string> title)
     {
-        return dialogService.ShowMessage(DismissText.GetValueOrDefault("Dismiss"), title.GetValueOrDefault(), message);
+        return dialogService.ShowMessage(title.GetValueOrDefault(), message, DismissText.GetValueOrDefault("Dismiss"));
     }
 
     public Maybe<string> DismissText { get; set; }
