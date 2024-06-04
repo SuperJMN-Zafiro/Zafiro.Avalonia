@@ -1,31 +1,18 @@
-﻿using System.Reactive;
-using System.Reactive.Linq;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.UI;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Simple;
 
-public interface IDialog2
+public class SimpleDesktopDialogService : ISimpleDialog
 {
-    public Task Show(object viewModel, string title, IObservable<bool> canSubmit);
-}
+    public Maybe<Action<ConfigureWindowContext>> ConfigureWindowAction { get; }
 
-public interface IHaveCommit
-{
-    IObservable<Unit> Commited { get; }
-}
-
-public class DesktopDialogService2 : IDialog2
-{
-    private readonly Maybe<Action<ConfigureWindowContext>> configureWindowAction;
-
-    public DesktopDialogService2(Maybe<Action<ConfigureWindowContext>> configureWindowAction)
+    public SimpleDesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindowAction)
     {
-        this.configureWindowAction = configureWindowAction;
+        ConfigureWindowAction = configureWindowAction;
     }
 
     public Task Show(object viewModel, string title, IObservable<bool> canSubmit)
@@ -39,11 +26,11 @@ public class DesktopDialogService2 : IDialog2
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = false, 
+            CanResize = false,
             SizeToContent = SizeToContent.WidthAndHeight,
             Icon = MainWindow.Icon,
         };
-        
+
         window.Content = new DialogViewContainer()
         {
             Classes = { "Desktop" },
@@ -57,7 +44,8 @@ public class DesktopDialogService2 : IDialog2
 #if DEBUG        
         window.AttachDevTools();
 #endif
-        
+        ConfigureWindowAction.Or(DefaultWindowConfigurator).Execute(configure => configure(new ConfigureWindowContext(MainWindow, window)));
+
         return window.ShowDialog(MainWindow);
     }
 
