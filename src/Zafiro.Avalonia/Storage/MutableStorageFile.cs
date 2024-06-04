@@ -7,7 +7,7 @@ using Zafiro.FileSystem.Mutable;
 
 namespace Zafiro.Avalonia.Storage;
 
-internal class MutableStorageFile : IMutableFile
+internal class MutableStorageFile : IMutableFile, IRooted
 {
     public MutableStorageFile(IStorageFile storageFile)
     {
@@ -17,6 +17,7 @@ internal class MutableStorageFile : IMutableFile
     public IStorageFile StorageFile { get; }
 
     public string Name => StorageFile.Name;
+
     public async Task<Result> SetContents(IData data)
     {
         var stream = await StorageFile.OpenWriteAsync().ConfigureAwait(false);
@@ -29,9 +30,11 @@ internal class MutableStorageFile : IMutableFile
         return await Result.Try(async () =>
         {
             var size = MaybeEx.FromNullableStruct((await StorageFile.GetBasicPropertiesAsync().ConfigureAwait(false)).Size);
-            
-            Func<Task<Stream>> openReadAsync = StorageFile.OpenReadAsync;
-            return size.Match(arg => (IData)new Data(openReadAsync.Chunked(), (long) arg), () => new Data(Observable.Empty<byte[]>(), 0));
+
+            var openReadAsync = StorageFile.OpenReadAsync;
+            return size.Match(arg => (IData) new Data(openReadAsync.Chunked(), (long) arg), () => new Data(Observable.Empty<byte[]>(), 0));
         }).ConfigureAwait(false);
     }
+
+    public ZafiroPath Path => StorageFile.Path.ToString();
 }

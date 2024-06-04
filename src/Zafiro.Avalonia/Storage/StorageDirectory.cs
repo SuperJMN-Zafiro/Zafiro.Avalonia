@@ -6,7 +6,7 @@ using Zafiro.FileSystem.Mutable;
 
 namespace Zafiro.Avalonia.Storage;
 
-public class StorageDirectory : IMutableDirectory
+public class StorageDirectory : IMutableDirectory, IRooted
 {
     private readonly IStorageFolder folder;
 
@@ -33,11 +33,12 @@ public class StorageDirectory : IMutableDirectory
         return item switch
         {
             IStorageFile storageFile => new MutableStorageFile(storageFile),
-            IStorageFolder storageFolder => (IMutableNode)new StorageDirectory(storageFolder),
+            IStorageFolder storageFolder => new StorageDirectory(storageFolder),
             _ => throw new ArgumentOutOfRangeException(nameof(item))
         };
     }
 
     public string Name => folder.Name;
     public Task<Result<IEnumerable<INode>>> Children() => MutableChildren().Map(x => x.Cast<INode>());
+    public ZafiroPath Path => folder.Path.ToString();
 }
