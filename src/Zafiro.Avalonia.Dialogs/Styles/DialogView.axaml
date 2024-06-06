@@ -28,6 +28,8 @@
                                 <Button HorizontalContentAlignment="Center"
                                         HorizontalAlignment="Stretch"
                                         Command="{Binding Command}"
+                                        IsDefault="{Binding IsDefault}"
+                                        IsCancel="{Binding IsCancel}"
                                         Content="{Binding Title}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

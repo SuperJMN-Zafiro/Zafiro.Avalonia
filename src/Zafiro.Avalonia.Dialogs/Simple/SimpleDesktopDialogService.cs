@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Reactive.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CSharpFunctionalExtensions;
@@ -30,14 +31,18 @@ public class SimpleDesktopDialogService : ISimpleDialog
             SizeToContent = SizeToContent.WidthAndHeight,
             Icon = MainWindow.Icon,
         };
+        var options = new[]
+        {
+            new Option("Cancel", ReactiveCommand.Create(() => window.Close(), canSubmit), false, true),
+            new Option("OK", ReactiveCommand.Create(() => window.Close(), Observable.Return(true)), true)
+        };
 
         window.Content = new DialogViewContainer()
         {
             Classes = { "Desktop" },
             Content = new DialogView
             {
-                DataContext = new DialogViewModel(viewModel,
-                    new Option("OK", ReactiveCommand.Create(() => window.Close(), canSubmit)))
+                DataContext = new DialogViewModel(viewModel, options)
             }
         };
 
