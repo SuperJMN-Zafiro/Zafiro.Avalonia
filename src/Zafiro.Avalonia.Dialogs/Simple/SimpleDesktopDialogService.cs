@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
+using Zafiro.Avalonia.Dialogs.Obsolete;
 
 namespace Zafiro.Avalonia.Dialogs.Simple;
 
@@ -16,7 +17,7 @@ public class SimpleDesktopDialogService : ISimpleDialog
         ConfigureWindowAction = configureWindowAction;
     }
 
-    public Task Show(object viewModel, string title, IObservable<bool> canSubmit)
+    public Task Show(object viewModel, string title, Func<ICloseable, Option[]> optionsFactory)
     {
         if (viewModel == null)
         {
@@ -31,12 +32,9 @@ public class SimpleDesktopDialogService : ISimpleDialog
             SizeToContent = SizeToContent.WidthAndHeight,
             Icon = MainWindow.Icon,
         };
-        var options = new[]
-        {
-            new Option("Cancel", ReactiveCommand.Create(() => window.Close(), canSubmit), false, true),
-            new Option("OK", ReactiveCommand.Create(() => window.Close(), Observable.Return(true)), true)
-        };
 
+        var closeable = new CloseableWrapper(window);
+        var options = optionsFactory(closeable);
         window.Content = new DialogViewContainer()
         {
             Classes = { "Desktop" },

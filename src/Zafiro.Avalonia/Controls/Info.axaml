@@ -14,7 +14,7 @@
                <On Options="Default">
                    <ContentControl Content="{TemplateBinding Icon}" />
                </On>
-               <On Options="Android,iOS">
+               <On Options="Android, iOS">
                    <Button x:Name="ToggleButton">
                        <ContentControl Content="{TemplateBinding Icon}" />
                        <Button.Flyout>

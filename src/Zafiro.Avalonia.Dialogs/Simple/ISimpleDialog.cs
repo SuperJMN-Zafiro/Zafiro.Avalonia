@@ -1,6 +1,8 @@
-﻿namespace Zafiro.Avalonia.Dialogs.Simple;
+﻿using Zafiro.Avalonia.Dialogs.Obsolete;
+
+namespace Zafiro.Avalonia.Dialogs.Simple;
 
 public interface ISimpleDialog
 {
-    public Task Show(object viewModel, string title, IObservable<bool> canSubmit);
+    Task Show(object viewModel, string title, Func<ICloseable, Option[]> optionsFactory);
 }
