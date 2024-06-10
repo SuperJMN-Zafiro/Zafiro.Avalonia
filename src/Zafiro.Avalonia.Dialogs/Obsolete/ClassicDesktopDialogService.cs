@@ -9,7 +9,7 @@ public class ClassicDesktopDialogService : DialogService
 {
     private readonly Maybe<Action<ConfigureWindowContext>> configureWindow;
 
-    public ClassicDesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow) : base()
+    public ClassicDesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow)
     {
         this.configureWindow = configureWindow;
     }
@@ -26,6 +26,7 @@ public class ClassicDesktopDialogService : DialogService
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             CanResize = true,
+            SizeToContent = SizeToContent.WidthAndHeight
         };
 
         configureWindow.Execute(action => action(new ConfigureWindowContext(MainWindow, window)));

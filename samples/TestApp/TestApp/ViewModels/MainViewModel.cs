@@ -3,19 +3,19 @@ using TestApp.Samples.Adorners;
 using TestApp.Samples.Controls;
 using TestApp.Samples.MasterDetails;
 using TestApp.Samples.StringEditor;
-using TestApp.Samples.Wizard;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.UI;
 
 namespace TestApp.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    private readonly IDialogService dialogService;
-    private readonly IFilePicker storage;
+    private readonly ISimpleDialog dialogService;
+    private readonly IFileSystemPicker storage;
     private readonly INotificationService notificationService;
 
-    public MainViewModel(IDialogService dialogService, IFilePicker storage, INotificationService notificationService)
+    public MainViewModel(ISimpleDialog dialogService, IFileSystemPicker storage, INotificationService notificationService)
     {
         this.dialogService = dialogService;
         this.storage = storage;
@@ -29,7 +29,6 @@ public class MainViewModel : ViewModelBase
         new("Controls", new ControlsSampleViewModel()),
         new("StringEditor", new StringEditorSampleViewModel()),
         new("Adorners", new AdornerSampleViewModel()),
-        new("Wizard", new WizardSampleViewModel(dialogService, notificationService)),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
     };

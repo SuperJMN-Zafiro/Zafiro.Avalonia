@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
+using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
 using Zafiro.UI;
@@ -11,13 +12,18 @@ namespace TestApp.ViewModels;
 
 public class StorageSampleViewModel
 {
-    public StorageSampleViewModel(IFilePicker storage)
+    public StorageSampleViewModel(IFileSystemPicker storage)
     {
-        OpenFile = ReactiveCommand.CreateFromObservable(() => storage.PickForOpen(new FileTypeFilter("All files", new[] { "*.*" })));
-        SelectedPaths = OpenFile.Values().Select(x => x.Path.Name());
+        OpenFile = ReactiveCommand.CreateFromTask(async () =>
+        {
+            Result<Maybe<IFile>> pickForOpen = await storage.PickForOpen(new FileTypeFilter("All files", new[] { "*.*" }));
+            return pickForOpen.IgnoreResult();
+        });
+        
+        SelectedPaths = OpenFile.Values().Select(x => x.Name);
     }
 
     public IObservable<string> SelectedPaths { get; }
 
-    public ReactiveCommand<Unit, Maybe<IZafiroFile>> OpenFile { get; }
+    public ReactiveCommand<Unit, Maybe<IFile>> OpenFile { get; }
 }

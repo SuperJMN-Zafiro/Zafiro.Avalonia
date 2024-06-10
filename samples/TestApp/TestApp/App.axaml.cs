@@ -35,7 +35,7 @@ public class App : Application
         //var dialogService = new SingleViewDialogService(view);
 
         var topLevel = TopLevel.GetTopLevel(view)!;
-        var avaloniaFilePicker = new AvaloniaFilePicker(topLevel.StorageProvider);
+        var avaloniaFilePicker = new AvaloniaFileSystemPicker(topLevel.StorageProvider);
         INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));
         return new MainViewModel(dialogService, avaloniaFilePicker, notificationService);
     }

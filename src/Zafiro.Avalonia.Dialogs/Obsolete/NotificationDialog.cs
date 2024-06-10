@@ -17,7 +17,7 @@ public class NotificationDialog : INotificationService
 
     public Task Show(string message, Maybe<string> title)
     {
-        var messageDialogViewModel = new MessageDialogViewModel(message);
+        var messageDialogViewModel = new MessageDialogViewModel(message, DialogSizeCalculator.CalculateDialogWidth(message));
         var dismissText = "OK";
         var optionConfiguration = new OptionConfiguration<MessageDialogViewModel>(dismissText, context => ReactiveCommand.Create(() => context.Closeable.Close()));
         return dialogService.ShowDialog(messageDialogViewModel, title.GetValueOrDefault("Failure"), optionConfiguration);

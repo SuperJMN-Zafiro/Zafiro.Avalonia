@@ -26,6 +26,10 @@ public static class ApplicationMixin
                 break;
         }
 
-        mainView.Loaded += (_, _) => { mainView.DataContext = createDataContext(mainView); };
+        mainView.Loaded += (_, _) =>
+        {
+            var dataContext = createDataContext(mainView);
+            mainView.DataContext = dataContext;
+        };
     }
 }

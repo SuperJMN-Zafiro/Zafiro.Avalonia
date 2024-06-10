@@ -1,17 +1,20 @@
 ﻿using System.Threading.Tasks;
+using ReactiveUI.Fody.Helpers;
+using ReactiveUI.Validation.Extensions;
+using ReactiveUI.Validation.Helpers;
 using Zafiro;
 using Zafiro.UI;
 
 namespace TestApp.Samples.Dialogs;
 
-public class MyViewModel : IResult<string>
+public class MyViewModel : ReactiveValidationObject
 {
-    private TaskCompletionSource<string> tcs = new();
-    public Task<string> Result => tcs.Task;
+    [Reactive]
     public string Text { get; set; }
 
-    public void SetResult(string value)
+    public MyViewModel()
     {
-        tcs.SetResult(value);
+        Text = "";
+        this.ValidationRule(x => x.Text, s =>  !string.IsNullOrEmpty(s), "Can't be empty");
     }
 }

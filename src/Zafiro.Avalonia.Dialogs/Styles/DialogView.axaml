@@ -11,6 +11,11 @@
         <Setter Property="Template">
             <ControlTemplate TargetType="dialogs:DialogView">
                 <DockPanel Margin="0 6 0 0" x:DataType="dialogs:DialogViewModel" x:CompileBindings="True">
+                    <DockPanel.DataTemplates>
+                        <DataTemplate DataType="dialogs:MessageDialogViewModel">
+                            <dialogs:MessageDialogView />
+                        </DataTemplate>
+                    </DockPanel.DataTemplates>
                     <ItemsControl Margin="0 10 0 0" HorizontalAlignment="Right" ItemsSource="{Binding Options}"
                                   DockPanel.Dock="Bottom">
                         <ItemsControl.ItemsPanel>
@@ -23,6 +28,8 @@
                                 <Button HorizontalContentAlignment="Center"
                                         HorizontalAlignment="Stretch"
                                         Command="{Binding Command}"
+                                        IsDefault="{Binding IsDefault}"
+                                        IsCancel="{Binding IsCancel}"
                                         Content="{Binding Title}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
