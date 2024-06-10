@@ -4,7 +4,9 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
+using ReactiveUI.Validation.Extensions;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;
@@ -13,14 +15,14 @@ namespace TestApp.Samples.Dialogs;
 
 public class DialogSampleViewModel : IViewModel
 {
-    public DialogSampleViewModel(INotificationService notificationService, IDialogService dialogService)
+    public DialogSampleViewModel(INotificationService notificationService, ISimpleDialog dialogService)
     {
-        ShowDialog = ReactiveCommand.CreateFromTask(() =>
+        ShowDialog = ReactiveCommand.CreateFromTask(async () =>
         {
-            return dialogService.ShowDialog(new MyViewModel(), "Dale durity", model => Observable.FromAsync(() => model.Result), new OptionConfiguration<MyViewModel, string>("OK", x => ReactiveCommand.Create(() => x.SetResult(x.Text))));
+            var myViewModel = new MyViewModel();
+            return await dialogService.ShowAndGetResult(myViewModel, "Dale durity", myViewModel.IsValid(),
+                model => model.Text);
         });
-
-        ShowDialog.Subscribe(maybe => { });
 
         ShowDialog
             .Values()
@@ -35,9 +37,9 @@ public class DialogSampleViewModel : IViewModel
         ShowMessage= ReactiveCommand.CreateFromTask(() => OnShowMessage(dialogService));
     }
 
-    private static Task OnShowMessage(IDialogService dialogService)
+    private static Task OnShowMessage(ISimpleDialog dialogService)
     {
-        return dialogService.ShowMessage("Dismiss", "Dialog Title", "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate");
+        return dialogService.ShowMessage("Dialog Title", "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate", "Dismiss");
     }
 
     public ReactiveCommand<Unit, Unit> ShowMessage { get; set; }
