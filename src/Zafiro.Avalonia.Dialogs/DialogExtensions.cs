@@ -10,7 +10,7 @@ public static class DialogExtensions
     public static Task<bool> Show(this ISimpleDialog dialogService, object viewModel, string title,
         Func<ICloseable, Option[]> optionsFactory)
     {
-        return dialogService.Show(viewModel, title, optionsFactory, Maybe<Action<ConfigureSizeContext>>.None);
+        return dialogService.Show(viewModel, title, optionsFactory);
     }
 
     public static Task Show(this ISimpleDialog dialogService, object viewModel, string title,
@@ -20,7 +20,7 @@ public static class DialogExtensions
         [
             new Option("Cancel", ReactiveCommand.Create(closeable.Close, canSubmit), false, true),
             new Option("OK", ReactiveCommand.Create(closeable.Close, Observable.Return(true)), true)
-        ], configureDialogAction);
+        ]);
     }
 
     public static Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this ISimpleDialog dialogService,
@@ -39,7 +39,7 @@ public static class DialogExtensions
         [
             new Option("Cancel", ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true)), false, true),
             new Option("OK", ReactiveCommand.Create(dialog.Close, canSubmit(viewModel)), true)
-        ], configureDialogAction);
+        ]);
 
         if (dialogResult == false) return Maybe<TResult>.None;
 
@@ -54,7 +54,7 @@ public static class DialogExtensions
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
             new Option(dismissText, ReactiveCommand.Create(closeable.Close, Observable.Return(true)), true)
-        ], Maybe<Action<ConfigureSizeContext>>.From(context => ConfigureForMessage(context, text)));
+        ]);
     }
 
     private static void ConfigureForMessage(ConfigureSizeContext context, string text)
