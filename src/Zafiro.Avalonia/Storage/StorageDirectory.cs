@@ -1,4 +1,5 @@
-﻿using Avalonia.Platform.Storage;
+﻿using System.Reactive.Subjects;
+using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
@@ -28,6 +29,21 @@ public class StorageDirectory : IMutableDirectory, IRooted
         return mutableChildren;
     }
 
+    public Task<Result> AddOrUpdate(IFile data, ISubject<double>? progress = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<IMutableFile>> CreateFile(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<IMutableDirectory>> CreateDirectory(string name)
+    {
+        throw new NotImplementedException();
+    }
+
     private async Task<IMutableNode> ToMutableNode(IStorageItem item)
     {
         return item switch
@@ -41,4 +57,5 @@ public class StorageDirectory : IMutableDirectory, IRooted
     public string Name => folder.Name;
     public Task<Result<IEnumerable<INode>>> Children() => MutableChildren().Map(x => x.Cast<INode>());
     public ZafiroPath Path => folder.Path.ToString();
+    public bool IsHidden => false;
 }

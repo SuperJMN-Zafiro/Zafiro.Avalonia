@@ -49,7 +49,7 @@ public class SimpleDesktopDialogService : ISimpleDialog
 #endif
         ConfigureWindowAction.Or(DefaultWindowConfigurator).Execute(configure => configure(new ConfigureWindowContext(MainWindow, window)));
 
-        return window.ShowDialog(MainWindow);
+        return window.ShowDialog<int>(MainWindow);
     }
 
     private static Action<ConfigureWindowContext> DefaultWindowConfigurator()

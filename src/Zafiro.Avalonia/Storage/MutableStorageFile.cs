@@ -25,6 +25,11 @@ internal class MutableStorageFile : IMutableFile, IRooted
         return await data.DumpTo(stream).ConfigureAwait(false);
     }
 
+    public Task<Result> SetContents(IData data, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<IData>> GetContents()
     {
         return await Result.Try(async () =>
@@ -36,5 +41,11 @@ internal class MutableStorageFile : IMutableFile, IRooted
         }).ConfigureAwait(false);
     }
 
+    public Task<Result> Delete()
+    {
+        throw new NotImplementedException();
+    }
+
     public ZafiroPath Path => StorageFile.Path.ToString();
+    public bool IsHidden { get; }
 }
