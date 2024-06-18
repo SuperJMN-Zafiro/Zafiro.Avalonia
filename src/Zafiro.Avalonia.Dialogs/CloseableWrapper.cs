@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace Zafiro.Avalonia.Dialogs.Obsolete;
+namespace Zafiro.Avalonia.Dialogs;
 
 public class CloseableWrapper : ICloseable
 {

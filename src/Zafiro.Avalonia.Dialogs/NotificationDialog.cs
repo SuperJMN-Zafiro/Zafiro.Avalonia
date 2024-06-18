@@ -8,9 +8,9 @@ namespace Zafiro.Avalonia.Dialogs;
 [PublicAPI]
 public class NotificationDialog : INotificationService
 {
-    private readonly ISimpleDialog dialogService;
+    private readonly IDialog dialogService;
 
-    public NotificationDialog(ISimpleDialog dialogService)
+    public NotificationDialog(IDialog dialogService)
     {
         this.dialogService = dialogService;
     }

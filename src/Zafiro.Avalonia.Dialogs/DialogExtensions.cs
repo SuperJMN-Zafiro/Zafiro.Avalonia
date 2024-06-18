@@ -7,13 +7,13 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public static class DialogExtensions
 {
-    public static Task<bool> Show(this ISimpleDialog dialogService, object viewModel, string title,
+    public static Task<bool> Show(this IDialog dialogService, object viewModel, string title,
         Func<ICloseable, Option[]> optionsFactory)
     {
         return dialogService.Show(viewModel, title, optionsFactory);
     }
 
-    public static Task Show(this ISimpleDialog dialogService, object viewModel, string title,
+    public static Task Show(this IDialog dialogService, object viewModel, string title,
         IObservable<bool> canSubmit, Maybe<Action<ConfigureSizeContext>> configureDialogAction)
     {
         return dialogService.Show(viewModel, title, closeable =>
@@ -23,7 +23,7 @@ public static class DialogExtensions
         ]);
     }
 
-    public static Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this ISimpleDialog dialogService,
+    public static Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
         TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
         Func<TViewModel, TResult> getResult)
     {
@@ -31,7 +31,7 @@ public static class DialogExtensions
             Maybe<Action<ConfigureSizeContext>>.None);
     }
 
-    public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this ISimpleDialog dialogService,
+    public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
         TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
         Func<TViewModel, TResult> getResult, Maybe<Action<ConfigureSizeContext>> configureDialogAction)
     {
@@ -46,7 +46,7 @@ public static class DialogExtensions
         return getResult(viewModel);
     }
 
-    public static Task ShowMessage(this ISimpleDialog dialogService, string title, string text,
+    public static Task ShowMessage(this IDialog dialogService, string title, string text,
         string dismissText = "OK")
     {
         var messageDialogViewModel = new MessageDialogViewModel(text, DialogSizeCalculator.CalculateDialogWidth(text));
