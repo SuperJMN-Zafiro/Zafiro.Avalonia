@@ -20,7 +20,7 @@ public static class DialogExtensions
     {
         var isCancelled = false;
         
-        await dialogService.Show(viewModel, title, closeable =>
+        var dialogResult = await dialogService.Show(viewModel, title, closeable =>
         [
             new Option("Cancel", ReactiveCommand.Create(() =>
             {
@@ -30,7 +30,7 @@ public static class DialogExtensions
             new Option("OK", ReactiveCommand.Create(closeable.Close, canSubmit), true)
         ]);
 
-        if (isCancelled)
+        if (isCancelled || dialogResult == false)
         {
             return Maybe<TResult>.None;
         }

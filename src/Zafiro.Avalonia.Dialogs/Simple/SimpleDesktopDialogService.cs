@@ -17,7 +17,7 @@ public class SimpleDesktopDialogService : ISimpleDialog
         ConfigureWindowAction = configureWindowAction;
     }
 
-    public Task Show(object viewModel, string title, Func<ICloseable, Option[]> optionsFactory)
+    public async Task<bool> Show(object viewModel, string title, Func<ICloseable, Option[]> optionsFactory)
     {
         if (viewModel == null)
         {
@@ -29,7 +29,7 @@ public class SimpleDesktopDialogService : ISimpleDialog
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             CanResize = false,
-            SizeToContent = SizeToContent.WidthAndHeight,
+            //SizeToContent = SizeToContent.WidthAndHeight,
             Icon = MainWindow.Icon,
         };
 
@@ -49,7 +49,8 @@ public class SimpleDesktopDialogService : ISimpleDialog
 #endif
         ConfigureWindowAction.Or(DefaultWindowConfigurator).Execute(configure => configure(new ConfigureWindowContext(MainWindow, window)));
 
-        return window.ShowDialog<int>(MainWindow);
+        var result = await window.ShowDialog<bool?>(MainWindow).ConfigureAwait(false);
+        return result != null;
     }
 
     private static Action<ConfigureWindowContext> DefaultWindowConfigurator()
