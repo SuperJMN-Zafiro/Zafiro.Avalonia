@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.Dialogs.Obsolete;
+﻿namespace Zafiro.Avalonia.Dialogs;
 
 public interface ICloseable
 {

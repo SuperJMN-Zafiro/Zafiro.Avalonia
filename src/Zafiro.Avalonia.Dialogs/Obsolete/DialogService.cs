@@ -9,7 +9,7 @@ public abstract class DialogService : IDialogService
     public abstract Task ShowDialog<T>(T viewModel, string title, params OptionConfiguration<T>[] options);
 
     [PublicAPI]
-    public static IDialogService Create(IApplicationLifetime lifetime, IDictionary<Type, Type> viewModelToViewDictionary, Maybe<Action<ConfigureWindowContext>> configureWindow)
+    public static IDialogService Create(IApplicationLifetime lifetime, IDictionary<Type, Type> viewModelToViewDictionary, Maybe<Action<ConfigureSizeContext>> configureWindow)
     {
         return lifetime switch
         {

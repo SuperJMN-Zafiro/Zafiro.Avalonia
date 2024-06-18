@@ -21,7 +21,7 @@ public class SingleViewDialogService : IDialogService
         layer = AdornerLayer.GetAdornerLayer(control) ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
     }
 
-    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, Maybe<Action<ConfigureWindowContext>> configureWindowActionOverride, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
+    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, Maybe<Action<ConfigureSizeContext>> configureWindowActionOverride, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
     {
         if (viewModel == null)
         {

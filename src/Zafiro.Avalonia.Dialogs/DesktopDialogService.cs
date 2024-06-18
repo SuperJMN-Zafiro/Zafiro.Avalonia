@@ -8,14 +8,14 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public class DesktopDialogService : IDialogService
 {
-    private readonly Maybe<Action<ConfigureWindowContext>> configureWindowAction;
+    private readonly Maybe<Action<ConfigureSizeContext>> configureWindowAction;
 
-    public DesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindowAction)
+    public DesktopDialogService(Maybe<Action<ConfigureSizeContext>> configureWindowAction)
     {
         this.configureWindowAction = configureWindowAction;
     }
 
-    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, Maybe<Action<ConfigureWindowContext>> configureWindowActionOverride, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
+    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, Maybe<Action<ConfigureSizeContext>> configureWindowActionOverride, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
     {
         if (viewModel == null)
         {
@@ -26,7 +26,7 @@ public class DesktopDialogService : IDialogService
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = false, 
+            CanResize = false,
             SizeToContent = SizeToContent.WidthAndHeight,
             Icon = MainWindow.Icon,
         };
@@ -34,7 +34,7 @@ public class DesktopDialogService : IDialogService
         configureWindowActionOverride
             .Or(configureWindowAction)
             .Or(DefaultWindowConfigurator)
-            .Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
+            .Execute(action => ConfigureSize(action, window));
 
         window.Content = new DialogViewContainer()
         {
@@ -45,7 +45,7 @@ public class DesktopDialogService : IDialogService
 #if DEBUG        
         window.AttachDevTools();
 #endif
-       
+
         Maybe<TResult> result = Maybe.None;
         results(viewModel).Take(1)
             .ObserveOn(AvaloniaScheduler.Instance)
@@ -54,18 +54,49 @@ public class DesktopDialogService : IDialogService
             result = Maybe.From(r);
             window.Close();
         }).Subscribe();
-        
+
         await window.ShowDialog(MainWindow);
 
         return result;
     }
 
-    private static Action<ConfigureWindowContext> DefaultWindowConfigurator()
+    private static void ConfigureSize(Action<ConfigureSizeContext> action, Window window)
+    {
+        var configureSizeContext = new ConfigureSizeContext()
+        {
+            ParentBounds = window.Bounds
+        };
+        
+        action(configureSizeContext);
+        if (double.IsNaN(configureSizeContext.Width) && double.IsNaN(configureSizeContext.Height))
+        {
+            window.SizeToContent = SizeToContent.WidthAndHeight;
+        }
+
+        else if (double.IsNaN(configureSizeContext.Width))
+        {
+            window.SizeToContent = SizeToContent.Width;
+            window.Height = configureSizeContext.Height;
+        }
+
+        else if (double.IsNaN(configureSizeContext.Height))
+        {
+            window.SizeToContent = SizeToContent.Height;
+            window.Width = configureSizeContext.Width;
+        }
+        else
+        {
+            window.Height = configureSizeContext.Height;
+            window.Width = configureSizeContext.Width;
+        }
+    }
+
+    private static Action<ConfigureSizeContext> DefaultWindowConfigurator()
     {
         return context =>
         {
-            context.ToConfigure.Width = context.Parent.Bounds.Width / 3;
-            context.ToConfigure.Height = context.Parent.Bounds.Width / 3;
+            context.Width = context.ParentBounds.Width / 3;
+            context.Height = context.ParentBounds.Width / 3;
         };
     }
 

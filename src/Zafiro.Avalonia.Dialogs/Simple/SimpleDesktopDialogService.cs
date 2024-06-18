@@ -10,14 +10,13 @@ namespace Zafiro.Avalonia.Dialogs.Simple;
 
 public class SimpleDesktopDialogService : ISimpleDialog
 {
-    public Maybe<Action<ConfigureWindowContext>> ConfigureWindowAction { get; }
+    public Maybe<Action<ConfigureSizeContext>> ConfigureWindowAction { get; }
 
-    public SimpleDesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindowAction)
+    public SimpleDesktopDialogService()
     {
-        ConfigureWindowAction = configureWindowAction;
     }
 
-    public async Task<bool> Show(object viewModel, string title, Func<ICloseable, Option[]> optionsFactory)
+    public async Task<bool> Show(object viewModel, string title, Func<ICloseable, Option[]> optionsFactory, Maybe<Action<ConfigureSizeContext>> configureDialogAction)
     {
         if (viewModel == null)
         {
@@ -47,18 +46,49 @@ public class SimpleDesktopDialogService : ISimpleDialog
 #if DEBUG        
         window.AttachDevTools();
 #endif
-        ConfigureWindowAction.Or(DefaultWindowConfigurator).Execute(configure => configure(new ConfigureWindowContext(MainWindow, window)));
+        configureDialogAction.Or(DefaultWindowConfigurator).Execute(configure => ConfigureSize(configure, window, MainWindow));
 
         var result = await window.ShowDialog<bool?>(MainWindow).ConfigureAwait(false);
         return result is not (null or false);
     }
 
-    private static Action<ConfigureWindowContext> DefaultWindowConfigurator()
+    private static void ConfigureSize(Action<ConfigureSizeContext> action, Window dialog, Window parent)
+    {
+        var configureSizeContext = new ConfigureSizeContext()
+        {
+            ParentBounds = parent.Bounds
+        };
+
+        action(configureSizeContext);
+        if (double.IsNaN(configureSizeContext.Width) && double.IsNaN(configureSizeContext.Height))
+        {
+            dialog.SizeToContent = SizeToContent.WidthAndHeight;
+        }
+
+        else if (double.IsNaN(configureSizeContext.Width))
+        {
+            dialog.SizeToContent = SizeToContent.Width;
+            dialog.Height = configureSizeContext.Height;
+        }
+
+        else if (double.IsNaN(configureSizeContext.Height))
+        {
+            dialog.SizeToContent = SizeToContent.Height;
+            dialog.Width = configureSizeContext.Width;
+        }
+        else
+        {
+            dialog.Height = configureSizeContext.Height;
+            dialog.Width = configureSizeContext.Width;
+        }
+    }
+
+    private static Action<ConfigureSizeContext> DefaultWindowConfigurator()
     {
         return context =>
         {
-            context.ToConfigure.Width = context.Parent.Bounds.Width / 3;
-            context.ToConfigure.Height = context.Parent.Bounds.Height / 3;
+            context.Width = context.ParentBounds.Width / 3;
+            context.Height = context.ParentBounds.Height / 3;
         };
     }
 
