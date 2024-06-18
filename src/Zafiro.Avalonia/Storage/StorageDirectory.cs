@@ -3,7 +3,7 @@ using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem.Core;
-using Zafiro.FileSystem.Mutable.Mutable;
+using Zafiro.FileSystem.Mutable;
 using Zafiro.FileSystem.Readonly;
 
 namespace Zafiro.Avalonia.Storage;

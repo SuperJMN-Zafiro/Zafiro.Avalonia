@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
-using Zafiro.FileSystem.Mutable.Mutable;
+using Zafiro.FileSystem.Mutable;
 using Zafiro.FileSystem.Readonly;
 
 namespace Zafiro.Avalonia.Storage;
