@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using Zafiro.CSharpFunctionalExtensions;
-using Zafiro.FileSystem;
+using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Mutable.Mutable;
-using Directory = Zafiro.FileSystem.Directory;
-using File = Zafiro.FileSystem.File;
+using Zafiro.FileSystem.Readonly;
+using Directory = Zafiro.FileSystem.Readonly.Directory;
+using File = Zafiro.FileSystem.Readonly.File;
 
 namespace Zafiro.Avalonia.Storage;
 
