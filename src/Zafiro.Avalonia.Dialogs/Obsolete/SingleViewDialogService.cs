@@ -55,4 +55,9 @@ public class SingleViewDialogService : DialogService, ICloseable
         layer.Children.Remove(valueTuple.Item1);
         valueTuple.Item2.SetResult();
     }
+
+    public void Dismiss()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -16,21 +16,16 @@ public static class DialogExtensions
         ]);
     }
     
-    public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this ISimpleDialog dialogService, TViewModel viewModel, string title, IObservable<bool> canSubmit, Func<TViewModel, TResult> getResult)
+    public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this ISimpleDialog dialogService, TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit, Func<TViewModel, TResult> getResult)
     {
-        var isCancelled = false;
         
-        var dialogResult = await dialogService.Show(viewModel, title, closeable =>
+        var dialogResult = await dialogService.Show(viewModel, title, dialog =>
         [
-            new Option("Cancel", ReactiveCommand.Create(() =>
-            {
-                isCancelled = true;
-                closeable.Close();
-            }, Observable.Return(true)), false, true),
-            new Option("OK", ReactiveCommand.Create(closeable.Close, canSubmit), true)
+            new Option("Cancel", ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true)), false, true),
+            new Option("OK", ReactiveCommand.Create(dialog.Close, canSubmit(viewModel)), true)
         ]);
 
-        if (isCancelled || dialogResult == false)
+        if (dialogResult == false)
         {
             return Maybe<TResult>.None;
         }

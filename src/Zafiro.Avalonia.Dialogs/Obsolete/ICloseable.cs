@@ -3,4 +3,5 @@
 public interface ICloseable
 {
     public void Close();
+    void Dismiss();
 }

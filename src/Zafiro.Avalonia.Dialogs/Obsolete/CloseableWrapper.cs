@@ -13,6 +13,11 @@ public class CloseableWrapper : ICloseable
 
     public void Close()
     {
-        window.Close();
+        window.Close(true);
+    }
+
+    public void Dismiss()
+    {
+        window.Close(false);
     }
 }

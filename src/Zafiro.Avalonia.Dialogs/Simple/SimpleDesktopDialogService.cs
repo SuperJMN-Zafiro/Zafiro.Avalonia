@@ -50,7 +50,7 @@ public class SimpleDesktopDialogService : ISimpleDialog
         ConfigureWindowAction.Or(DefaultWindowConfigurator).Execute(configure => configure(new ConfigureWindowContext(MainWindow, window)));
 
         var result = await window.ShowDialog<bool?>(MainWindow).ConfigureAwait(false);
-        return result != null;
+        return result is not (null or false);
     }
 
     private static Action<ConfigureWindowContext> DefaultWindowConfigurator()
@@ -58,7 +58,7 @@ public class SimpleDesktopDialogService : ISimpleDialog
         return context =>
         {
             context.ToConfigure.Width = context.Parent.Bounds.Width / 3;
-            context.ToConfigure.Height = context.Parent.Bounds.Width / 3;
+            context.ToConfigure.Height = context.Parent.Bounds.Height / 3;
         };
     }
 
