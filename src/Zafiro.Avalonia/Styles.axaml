@@ -12,6 +12,7 @@
                 <ResourceInclude Source="Controls/Shell.axaml" />
                 <ResourceInclude Source="Controls/ListBox.axaml" />
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
+                <ResourceInclude Source="Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

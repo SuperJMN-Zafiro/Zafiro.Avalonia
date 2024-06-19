@@ -45,6 +45,17 @@ public static class DialogExtensions
 
         return getResult(viewModel);
     }
+    
+    public static Task<bool> ShowConfirmation(this IDialog dialogService, string title, string text)
+    {
+        var messageDialogViewModel = new MessageDialogViewModel(text, DialogSizeCalculator.CalculateDialogWidth(text));
+
+        return dialogService.Show(messageDialogViewModel, title, closeable => new []
+        {
+            new Option("Yes", ReactiveCommand.Create(() => closeable.Close())),
+            new Option("No", ReactiveCommand.Create(() => closeable.Dismiss()))
+        });
+    }
 
     public static Task ShowMessage(this IDialog dialogService, string title, string text,
         string dismissText = "OK")

@@ -45,6 +45,11 @@ public class StorageDirectory : IMutableDirectory, IRooted
         throw new NotImplementedException();
     }
 
+    public Task<Result> Delete()
+    {
+        throw new NotImplementedException();
+    }
+
     private async Task<IMutableNode> ToMutableNode(IStorageItem item)
     {
         return item switch
