@@ -49,13 +49,3 @@ public class ObservableSelectionModelTests
         Assert.Equal(3, observer.Messages[1].Value.Value.Adds);
     }
 }
-
-public class Model
-{
-    public Model(string id)
-    {
-        Id = id;
-    }
-
-    public string Id { get; }
-};
