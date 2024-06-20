@@ -5,11 +5,11 @@ using DynamicData.Aggregation;
 
 namespace Zafiro.Avalonia.Misc;
 
-public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKey : notnull
+public class ObservableSelectionModel<T, TKey> : IDisposable where T : notnull where TKey : notnull
 {
     private readonly CompositeDisposable disposable = new();
 
-    public SelectionTracker(SelectionModel<T> selection, Func<T, TKey> selector)
+    public ObservableSelectionModel(SelectionModel<T> selection, Func<T, TKey> selector)
     {
         var cache = new SourceCache<T, TKey>(selector)
             .DisposeWith(disposable); 
@@ -22,16 +22,10 @@ public class SelectionTracker<T, TKey> : IDisposable where T : notnull where TKe
             .Subscribe()
             .DisposeWith(disposable);
 
-        Changes = cache.Connect(suppressEmptyChangeSets: false);
-        TotalCount = selection.WhenAnyValue(x => x.Source, selector: enumerable => enumerable?.Cast<object>().Count() ?? 0);
-        SelectionCount = Changes.Count();
+        Selection = cache.Connect(suppressEmptyChangeSets: false);
     }
 
-    public IObservable<int> SelectionCount { get; }
-
-    public IObservable<int> TotalCount { get; }
-
-    public IObservable<IChangeSet<T, TKey>> Changes { get; }
+    public IObservable<IChangeSet<T, TKey>> Selection { get; }
 
     private static void Sync(SelectionModelSelectionChangedEventArgs<T> pattern, SourceCache<T, TKey> sourceCache)
     {
