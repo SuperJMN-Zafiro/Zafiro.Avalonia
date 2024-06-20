@@ -52,7 +52,7 @@ public class SelectionControl : TemplatedControl
         this
             .WhenAnyValue(x => x.Selection)
             .WhereNotNull()
-            .Select(x => x.Kind())
+            .Select(x => x.Kinds())
             .Switch()
             .ToProperty(this, SelectionKindProperty)
             .DisposeWith(disposables);
