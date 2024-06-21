@@ -35,12 +35,12 @@ public class StorageDirectory : IMutableDirectory, IRooted
         throw new NotImplementedException();
     }
 
-    public Task<Result<IMutableFile>> CreateFile(string name)
+    public Task<Result<IMutableFile>> Get(string name)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Result<IMutableDirectory>> CreateDirectory(string name)
+    public Task<Result<IMutableDirectory>> CreateSubdirectory(string name)
     {
         throw new NotImplementedException();
     }
@@ -64,4 +64,8 @@ public class StorageDirectory : IMutableDirectory, IRooted
     public Task<Result<IEnumerable<INode>>> Children() => MutableChildren().Map(x => x.Cast<INode>());
     public ZafiroPath Path => folder.Path.ToString();
     public bool IsHidden => false;
+    public Task<Result> Create()
+    {
+        throw new NotImplementedException();
+    }
 }

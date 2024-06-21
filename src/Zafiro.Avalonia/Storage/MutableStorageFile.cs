@@ -48,4 +48,8 @@ internal class MutableStorageFile : IMutableFile, IRooted
 
     public ZafiroPath Path => StorageFile.Path.ToString();
     public bool IsHidden { get; }
+    public Task<Result> Create()
+    {
+        throw new NotImplementedException();
+    }
 }
