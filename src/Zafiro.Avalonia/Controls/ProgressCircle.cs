@@ -23,7 +23,7 @@ public class ProgressCircle : Control
     public override void Render(DrawingContext context)
     {
         base.Render(context);
-        var bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
+        var bounds = this.Bounds;
         var center = bounds.Center;
         var radius = Math.Min(bounds.Width, bounds.Height) / 2 - 2; // Ajustar el radio para evitar el clipping
 
