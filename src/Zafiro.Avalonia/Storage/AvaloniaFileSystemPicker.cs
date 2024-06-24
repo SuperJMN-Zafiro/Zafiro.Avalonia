@@ -50,9 +50,7 @@ public class AvaloniaFileSystemPicker : IFileSystemPicker
 
     private Task<Result<IEnumerable<IFile>>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
     {
-        return Result.Try(async () => (await storageProvider.OpenFilePickerAsync(filePickerOpenOptions)).AsEnumerable())
-            .MapEach(x => new MutableStorageFile(x))
-            .Map(x => x.ToImmutable())
+        return FunctionalMixin.ManyMap(ReactiveResultMixin.ManyMap(Result.Try(async () => (await storageProvider.OpenFilePickerAsync(filePickerOpenOptions)).AsEnumerable()), x => new MutableStorageFile(x)), x => x.ToImmutable())
             .Combine();
     }
 
@@ -64,6 +62,6 @@ public class AvaloniaFileSystemPicker : IFileSystemPicker
     public async Task<Maybe<IEnumerable<IMutableDirectory>>> PickFolders(FolderPickerOpenOptions folderPickerOpenOptions)
     {
         var openFolderPickerAsync = await storageProvider.OpenFolderPickerAsync(folderPickerOpenOptions).ConfigureAwait(false);
-        return Maybe.From(openFolderPickerAsync.AsEnumerable()).MapEach(x => (IMutableDirectory)new StorageDirectory(x));
+        return Maybe.From(openFolderPickerAsync.AsEnumerable()).ManyMap(x => (IMutableDirectory)new StorageDirectory(x));
     }
 }
