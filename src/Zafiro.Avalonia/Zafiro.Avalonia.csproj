@@ -17,7 +17,6 @@
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Zafiro.FileSystem\src\Zafiro.FileSystem.Mutable\Zafiro.FileSystem.Mutable.Delete.csproj" />
 	  <ProjectReference Include="..\..\..\Zafiro.FileSystem\src\Zafiro.FileSystem\Zafiro.FileSystem.csproj" />
 	  <ProjectReference Include="..\..\..\Zafiro.UI\src\Zafiro.UI\Zafiro.UI.csproj" />
 	  <ProjectReference Include="..\..\..\Zafiro\src\Zafiro\Zafiro.csproj" />
