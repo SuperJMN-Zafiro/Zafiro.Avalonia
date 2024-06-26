@@ -3,7 +3,7 @@
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
     <Design.PreviewWith>
         <Border Width="200" Height="200" Background="Yellow">
-            <controls:ProgressCircle VerticalAlignment="Top" Height="20" HorizontalAlignment="Stretch" Stroke="Blue" Fill="Red" StrokeThickness="3"  Progress="0.3" />
+            <controls:ProgressCircle VerticalAlignment="Center" Height="50" HorizontalAlignment="Stretch" Stroke="Blue" Fill="Red" StrokeThickness="3"  Progress="0.3" />
         </Border>
     </Design.PreviewWith>
 

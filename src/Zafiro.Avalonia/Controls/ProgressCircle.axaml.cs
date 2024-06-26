@@ -16,7 +16,7 @@ public class ProgressCircle : Control
     public static readonly StyledProperty<double> StrokeThicknessProperty =
         AvaloniaProperty.Register<ProgressCircle, double>(nameof(StrokeThickness));
 
-    private Size mySize = new Size(0,0);
+    private Size renderSize = new Size(0,0);
 
     static ProgressCircle()
     {
@@ -48,26 +48,19 @@ public class ProgressCircle : Control
         set => SetValue(StrokeThicknessProperty, value);
     }
 
-    protected override Size MeasureOverride(Size availableSize)
-    {
-        return base.MeasureOverride(availableSize);
-    }
-
     protected override Size ArrangeOverride(Size finalSize)
     {
-        mySize = finalSize;
+        renderSize = finalSize;
         return base.ArrangeOverride(finalSize);
     }
 
     public override void Render(DrawingContext context)
     {
         base.Render(context);
-        var bounds = new Rect(0,0, mySize.Width, mySize.Height);
+        var bounds = new Rect(0,0, renderSize.Width, renderSize.Height);
         var center = bounds.Center;
         var radius = Math.Min(bounds.Width, bounds.Height) / 2;
         
-        context.DrawRectangle(Brushes.Gray, null, bounds);
-
         // Progress slice
         if (Progress > 0)
         {
