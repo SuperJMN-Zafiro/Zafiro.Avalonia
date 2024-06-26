@@ -21,8 +21,5 @@
 	  <ProjectReference Include="..\..\..\Zafiro.UI\src\Zafiro.UI\Zafiro.UI.csproj" />
 	  <ProjectReference Include="..\..\..\Zafiro\src\Zafiro\Zafiro.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Compile Remove="SelectionHandler.cs" />
-	  <Compile Remove="SelectionHandler2.cs" />
-	</ItemGroup>
+	
 </Project>
