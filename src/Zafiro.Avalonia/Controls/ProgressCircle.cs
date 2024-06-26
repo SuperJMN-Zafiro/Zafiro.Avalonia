@@ -2,16 +2,26 @@ using Avalonia.Media;
 
 namespace Zafiro.Avalonia.Controls;
 
-using System;
-
 public class ProgressCircle : Control
 {
     public static readonly StyledProperty<double> ProgressProperty =
-        AvaloniaProperty.Register<ProgressCircle, double>(nameof(Progress), 0.0);
+        AvaloniaProperty.Register<ProgressCircle, double>(nameof(Progress));
+
+    public static readonly StyledProperty<IBrush> FillProperty =
+        AvaloniaProperty.Register<ProgressCircle, IBrush>(nameof(Fill));
+
+    public static readonly StyledProperty<IBrush> StrokeProperty =
+        AvaloniaProperty.Register<ProgressCircle, IBrush>(nameof(Stroke));
+    
+    public static readonly StyledProperty<double> StrokeThicknessProperty =
+        AvaloniaProperty.Register<ProgressCircle, double>(nameof(StrokeThickness));
+
+    private Size mySize = new Size(0,0);
 
     static ProgressCircle()
     {
         AffectsRender<ProgressCircle>(ProgressProperty);
+        AffectsRender<ProgressCircle>(FillProperty);
     }
 
     public double Progress
@@ -20,15 +30,43 @@ public class ProgressCircle : Control
         set => SetValue(ProgressProperty, value);
     }
 
+    public IBrush Stroke
+    {
+        get => GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
+
+    public IBrush Fill
+    {
+        get => GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
+    }
+    
+    public double StrokeThickness
+    {
+        get => GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        return base.MeasureOverride(availableSize);
+    }
+
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        mySize = finalSize;
+        return base.ArrangeOverride(finalSize);
+    }
+
     public override void Render(DrawingContext context)
     {
         base.Render(context);
-        var bounds = this.Bounds;
+        var bounds = new Rect(0,0, mySize.Width, mySize.Height);
         var center = bounds.Center;
-        var radius = Math.Min(bounds.Width, bounds.Height) / 2 - 2; // Ajustar el radio para evitar el clipping
-
-        // Background circle
-        context.DrawEllipse(null, new Pen(Brushes.Gray, 2), center, radius, radius);
+        var radius = Math.Min(bounds.Width, bounds.Height) / 2;
+        
+        context.DrawRectangle(Brushes.Gray, null, bounds);
 
         // Progress slice
         if (Progress > 0)
@@ -36,7 +74,7 @@ public class ProgressCircle : Control
             if (Progress >= 1)
             {
                 // Draw a full circle
-                context.DrawEllipse(Brushes.Green, null, center, radius, radius);
+                context.DrawEllipse(Fill, null, center, radius, radius);
             }
             else
             {
@@ -68,8 +106,11 @@ public class ProgressCircle : Control
                     contextGeometry.EndFigure(true);
                 }
 
-                context.DrawGeometry(Brushes.Green, null, geometry);
+                context.DrawGeometry(Fill, null, geometry);
             }
         }
+        
+        // Background circle
+        context.DrawEllipse(null, new Pen(Stroke, StrokeThickness), center, radius - StrokeThickness /2, radius - StrokeThickness/2);
     }
 }

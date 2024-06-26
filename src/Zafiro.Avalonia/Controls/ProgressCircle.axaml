@@ -1,0 +1,11 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    <Design.PreviewWith>
+        <Border Width="200" Height="200" Background="Yellow">
+            <controls:ProgressCircle VerticalAlignment="Top" Height="20" HorizontalAlignment="Stretch" Stroke="Blue" Fill="Red" StrokeThickness="3"  Progress="0.3" />
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+</Styles>
