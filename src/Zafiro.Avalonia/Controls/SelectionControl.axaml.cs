@@ -5,11 +5,6 @@ using Avalonia.Interactivity;
 
 namespace Zafiro.Avalonia.Controls;
 
-public static class AvaloniaObjectMixin
-{
-    public static IDisposable ToProperty<T>(this IObservable<T> observable, AvaloniaObject avaloniaObject, AvaloniaProperty<T> property) => avaloniaObject.Bind(property, observable);
-}
-
 public class SelectionControl : TemplatedControl
 {
     private ICommand clearSelectionCommand;
@@ -57,7 +52,7 @@ public class SelectionControl : TemplatedControl
         this
             .WhenAnyValue(x => x.Selection)
             .WhereNotNull()
-            .Select(x => x.Kind())
+            .Select(x => x.Kinds())
             .Switch()
             .ToProperty(this, SelectionKindProperty)
             .DisposeWith(disposables);

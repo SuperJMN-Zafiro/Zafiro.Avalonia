@@ -7,6 +7,7 @@ using CSharpFunctionalExtensions;
 using TestApp.ViewModels;
 using TestApp.Views;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.Avalonia.Mixins;
 using Zafiro.Avalonia.Notifications;
 using Zafiro.Avalonia.Storage;
@@ -30,7 +31,7 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        var dialogService = DialogService.Create(Current!.ApplicationLifetime!, Maybe<Action<ConfigureWindowContext>>.From(ConfigureWindow));
+        var dialogService = new DesktopDialog(Current!);
         // Enable if you want to force the Single Dialog Service
         //var dialogService = new SingleViewDialogService(view);
 
@@ -38,12 +39,5 @@ public class App : Application
         var avaloniaFilePicker = new AvaloniaFileSystemPicker(topLevel.StorageProvider);
         INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));
         return new MainViewModel(dialogService, avaloniaFilePicker, notificationService);
-    }
-
-    private static void ConfigureWindow(ConfigureWindowContext context)
-    {
-        context.ToConfigure.MinWidth = 640;
-        context.ToConfigure.MinHeight = 400;
-        context.ToConfigure.SizeToContent = SizeToContent.WidthAndHeight;
     }
 }

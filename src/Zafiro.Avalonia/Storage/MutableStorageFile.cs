@@ -1,8 +1,9 @@
-﻿using Avalonia.Platform.Storage;
+﻿using System.Reactive.Concurrency;
+using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.DataModel;
-using Zafiro.FileSystem;
+using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Mutable;
 
 namespace Zafiro.Avalonia.Storage;
@@ -18,13 +19,6 @@ internal class MutableStorageFile : IMutableFile, IRooted
 
     public string Name => StorageFile.Name;
 
-    public async Task<Result> SetContents(IData data)
-    {
-        var stream = await StorageFile.OpenWriteAsync().ConfigureAwait(false);
-        await using var stream1 = stream.ConfigureAwait(false);
-        return await data.DumpTo(stream).ConfigureAwait(false);
-    }
-
     public async Task<Result<IData>> GetContents()
     {
         return await Result.Try(async () =>
@@ -36,5 +30,29 @@ internal class MutableStorageFile : IMutableFile, IRooted
         }).ConfigureAwait(false);
     }
 
+    public Task<Result> SetContents(IData data, CancellationToken cancellationToken = default, IScheduler? scheduler = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> Delete()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool IsHidden { get; }
+
+    public Task<Result> Create()
+    {
+        throw new NotImplementedException();
+    }
+
     public ZafiroPath Path => StorageFile.Path.ToString();
+
+    public async Task<Result> SetContents(IData data)
+    {
+        var stream = await StorageFile.OpenWriteAsync().ConfigureAwait(false);
+        await using var stream1 = stream.ConfigureAwait(false);
+        return await data.DumpTo(stream).ConfigureAwait(false);
+    }
 }

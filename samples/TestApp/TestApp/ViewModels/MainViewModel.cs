@@ -11,11 +11,11 @@ namespace TestApp.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    private readonly ISimpleDialog dialogService;
+    private readonly IDialog dialogService;
     private readonly IFileSystemPicker storage;
     private readonly INotificationService notificationService;
 
-    public MainViewModel(ISimpleDialog dialogService, IFileSystemPicker storage, INotificationService notificationService)
+    public MainViewModel(IDialog dialogService, IFileSystemPicker storage, INotificationService notificationService)
     {
         this.dialogService = dialogService;
         this.storage = storage;

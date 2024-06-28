@@ -8,7 +8,7 @@
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="controls1:ControlsSampleViewModel">
     <DockPanel>
-        <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" />
+        <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
         <ListBox x:Name="ListBox"
                  ItemsSource="{Binding Items}"
                  Selection="{Binding SelectionModel}"

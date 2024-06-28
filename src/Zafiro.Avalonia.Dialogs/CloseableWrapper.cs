@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace Zafiro.Avalonia.Dialogs.Obsolete;
+namespace Zafiro.Avalonia.Dialogs;
 
 public class CloseableWrapper : ICloseable
 {
@@ -13,6 +13,11 @@ public class CloseableWrapper : ICloseable
 
     public void Close()
     {
-        window.Close();
+        window.Close(true);
+    }
+
+    public void Dismiss()
+    {
+        window.Close(false);
     }
 }

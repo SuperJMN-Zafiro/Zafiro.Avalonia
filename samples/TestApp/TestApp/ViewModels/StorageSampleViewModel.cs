@@ -6,6 +6,7 @@ using ReactiveUI;
 using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem;
+using Zafiro.FileSystem.Readonly;
 using Zafiro.UI;
 
 namespace TestApp.ViewModels;

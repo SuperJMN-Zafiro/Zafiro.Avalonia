@@ -7,9 +7,9 @@ namespace Zafiro.Avalonia.Dialogs.Obsolete;
 
 public class ClassicDesktopDialogService : DialogService
 {
-    private readonly Maybe<Action<ConfigureWindowContext>> configureWindow;
+    private readonly Maybe<Action<ConfigureSizeContext>> configureWindow;
 
-    public ClassicDesktopDialogService(Maybe<Action<ConfigureWindowContext>> configureWindow)
+    public ClassicDesktopDialogService(Maybe<Action<ConfigureSizeContext>> configureWindow)
     {
         this.configureWindow = configureWindow;
     }
@@ -29,7 +29,7 @@ public class ClassicDesktopDialogService : DialogService
             SizeToContent = SizeToContent.WidthAndHeight
         };
 
-        configureWindow.Execute(action => action(new ConfigureWindowContext(MainWindow, window)));
+        configureWindow.Execute(action => action(new ConfigureSizeContext()));
 
         var wrapper = new CloseableWrapper(window);
 
