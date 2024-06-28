@@ -15,12 +15,11 @@ namespace TestApp.Samples.Dialogs;
 
 public class DialogSampleViewModel : IViewModel
 {
-    public DialogSampleViewModel(INotificationService notificationService, ISimpleDialog dialogService)
+    public DialogSampleViewModel(INotificationService notificationService, IDialog dialogService)
     {
         ShowDialog = ReactiveCommand.CreateFromTask(async () =>
         {
-            var myViewModel = new MyViewModel();
-            return await dialogService.ShowAndGetResult(myViewModel, "Dale durity", myViewModel.IsValid(),
+            return await dialogService.ShowAndGetResult(new MyViewModel(), "Dale durity", model => model.IsValid(),
                 model => model.Text);
         });
 
@@ -37,7 +36,7 @@ public class DialogSampleViewModel : IViewModel
         ShowMessage= ReactiveCommand.CreateFromTask(() => OnShowMessage(dialogService));
     }
 
-    private static Task OnShowMessage(ISimpleDialog dialogService)
+    private static Task OnShowMessage(IDialog dialogService)
     {
         return dialogService.ShowMessage("Dialog Title", "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate", "Dismiss");
     }

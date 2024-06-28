@@ -15,11 +15,7 @@
         <PackageReference Include="JetBrains.Annotations" Version="2023.3.0"/>
         <PackageReference Include="ReactiveUI.Fody" Version="19.5.41"/>
         <PackageReference Include="System.Linq.Async" Version="6.0.1"/>
+        <PackageReference Include="Zafiro.FileSystem" Version="7.0.0" />
+        <PackageReference Include="Zafiro.UI" Version="5.0.0" />
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\Zafiro.FileSystem\src\Zafiro.FileSystem\Zafiro.FileSystem.csproj"/>
-        <ProjectReference Include="..\..\..\Zafiro.UI\src\Zafiro.UI\Zafiro.UI.csproj"/>
-        <ProjectReference Include="..\..\..\Zafiro\src\Zafiro\Zafiro.csproj"/>
-    </ItemGroup>
-
 </Project>

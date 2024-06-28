@@ -10,12 +10,12 @@ public class ControlsSampleViewModel
     {
         SelectionModel = new SelectionModel<Item> { SingleSelect = false };
         Items = new List<Item> { new Item(1), new Item(2), new Item(3) };
-        SelectionHandler = new SelectionHandler<Item, int>(SelectionModel, arg => arg.Id);
+        //SelectionHandler = new SelectionHandler<Item, int>(SelectionModel, arg => arg.Id);
     }
 
     public List<Item> Items { get; }
 
-    public SelectionHandler<Item, int> SelectionHandler { get; }
+    //public SelectionHandler<Item, int> SelectionHandler { get; }
 
     public SelectionModel<Item> SelectionModel { get; }
 }
