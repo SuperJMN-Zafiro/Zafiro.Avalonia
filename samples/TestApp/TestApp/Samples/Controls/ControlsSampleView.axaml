@@ -2,18 +2,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:controls1="clr-namespace:TestApp.Samples.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="controls1:ControlsSampleViewModel">
-    <DockPanel>
-        <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
-        <ListBox x:Name="ListBox"
-                 ItemsSource="{Binding Items}"
-                 Selection="{Binding SelectionModel}"
-                 controls:Selection.EnableCheckBoxes="True" Theme="{StaticResource EasyListBox}"
-                 SelectionMode="Multiple">
-        </ListBox>
-    </DockPanel>
+    <TabControl>
+        <TabItem Header="EasyListBox">
+            <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
+            <ListBox x:Name="ListBox"
+                     ItemsSource="{Binding Items}"
+                     Selection="{Binding SelectionModel}"
+                     c:Selection.EnableCheckBoxes="True" Theme="{StaticResource EasyListBox}"
+                     SelectionMode="Multiple">
+            </ListBox>
+        </TabItem>
+       <TabItem Header="Proportional Canvas">
+           <c:ProportionalCanvas>
+               <Rectangle Fill="Red" 
+                          c:ProportionalCanvas.Left="0" 
+                          c:ProportionalCanvas.Top="0.1"
+                          c:ProportionalCanvas.ProportionalWidth="0.4"
+                          c:ProportionalCanvas.ProportionalHeight="0.2" />
+           </c:ProportionalCanvas>
+       </TabItem>
+    </TabControl>
 </UserControl>
