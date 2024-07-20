@@ -1,56 +1,79 @@
-﻿using System.Numerics;
-using Avalonia.Data;
-using static System.Math;
+﻿using Avalonia.Data;
 
 namespace Zafiro.Avalonia.Controls;
 
 public class ProportionalCanvas : Panel
 {
     public static readonly AttachedProperty<double> LeftProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Left", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Left",
+            defaultBindingMode: BindingMode.TwoWay,
+            coerce: (Func<AvaloniaObject, double, double>) ((_, val) => Math.Max(0.0, val)));
 
     public static readonly AttachedProperty<double> ProportionalWidthProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalWidth", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalWidth",
+            defaultBindingMode: BindingMode.TwoWay,
+            coerce: (Func<AvaloniaObject, double, double>) ((_, val) => Math.Max(0.0, val)));
 
     public static readonly AttachedProperty<double> TopProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Top", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("Top",
+            defaultBindingMode: BindingMode.TwoWay,
+            coerce: (Func<AvaloniaObject, double, double>) ((_, val) => Math.Max(0.0, val)));
 
     public static readonly AttachedProperty<double> ProportionalHeightProperty =
-        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalHeight", 0D, false,
-            BindingMode.TwoWay, coerce: (_, val) => Max(0, val));
+        AvaloniaProperty.RegisterAttached<ProportionalCanvas, Control, double>("ProportionalHeight",
+            defaultBindingMode: BindingMode.TwoWay,
+            coerce: (Func<AvaloniaObject, double, double>) ((_, val) => Math.Max(0.0, val)));
+
+    public static readonly StyledProperty<double> HorizontalMaximumProperty =
+        AvaloniaProperty.Register<ProportionalCanvas, double>(
+            nameof(HorizontalMaximum), 1D);
+
+    public static readonly StyledProperty<double> VerticalMaximumProperty =
+        AvaloniaProperty.Register<ProportionalCanvas, double>(
+            nameof(VerticalMaximum), 1D);
+
+    public double HorizontalMaximum
+    {
+        get => GetValue(HorizontalMaximumProperty);
+        set => SetValue(HorizontalMaximumProperty, value);
+    }
+
+    public double VerticalMaximum
+    {
+        get => GetValue(VerticalMaximumProperty);
+        set => SetValue(VerticalMaximumProperty, value);
+    }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
         foreach (var child in Children)
         {
-            var finalRect = GetChildRect(finalSize, child);
-            child.Arrange(finalRect);
+            var childRect = GetChildRect(new Vector((float) HorizontalMaximum, (float) VerticalMaximum), finalSize,
+                child);
+            child.Arrange(childRect);
         }
 
         return finalSize;
     }
 
-    private static Rect GetChildRect(Size finalSize, Control child)
+    private static Rect GetChildRect(Vector scale, Size finalSize, Control child)
     {
-        var left = child.GetValue(LeftProperty);
-        var width = child.GetValue(ProportionalWidthProperty);
-        var top = child.GetValue(TopProperty);
-        var height = child.GetValue(ProportionalHeightProperty);
-
-        var rect = new Rect(left, top, width, height);
-        var finalRect = rect * new Vector2((float)finalSize.Width, (float)finalSize.Height);
-        return finalRect;
+        var x = child.GetValue(LeftProperty);
+        var w = child.GetValue(ProportionalWidthProperty);
+        var y = child.GetValue(TopProperty);
+        var h = child.GetValue(ProportionalHeightProperty);
+        var areaToFill = new Vector(finalSize.Width, (float) finalSize.Height);
+        var relativeRect = new Rect(x, y, w, h) / scale;
+        return relativeRect * areaToFill;
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         foreach (var child in Children)
         {
-            var finalRect = GetChildRect(availableSize, child);
-            child.Measure(finalRect.Size);
+            var childRect = GetChildRect(new Vector((float) HorizontalMaximum, (float) VerticalMaximum), availableSize,
+                child);
+            child.Measure(childRect.Size);
         }
 
         return base.MeasureOverride(availableSize);
@@ -65,7 +88,6 @@ public class ProportionalCanvas : Panel
     {
         return target.GetValue(LeftProperty);
     }
-
 
     public static void SetProportionalWidth(AvaloniaObject target, double value)
     {
@@ -86,7 +108,6 @@ public class ProportionalCanvas : Panel
     {
         return target.GetValue(TopProperty);
     }
-
 
     public static void SetProportionalHeight(AvaloniaObject target, double value)
     {

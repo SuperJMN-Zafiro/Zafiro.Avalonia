@@ -18,12 +18,17 @@
             </ListBox>
         </TabItem>
        <TabItem Header="Proportional Canvas">
-           <c:ProportionalCanvas>
+           <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
                <Rectangle Fill="Red" 
                           c:ProportionalCanvas.Left="0" 
-                          c:ProportionalCanvas.Top="0.1"
-                          c:ProportionalCanvas.ProportionalWidth="0.4"
-                          c:ProportionalCanvas.ProportionalHeight="0.2" />
+                          c:ProportionalCanvas.Top="10"
+                          c:ProportionalCanvas.ProportionalWidth="40"
+                          c:ProportionalCanvas.ProportionalHeight="20" />
+               <Rectangle Fill="Green" 
+                          c:ProportionalCanvas.Left="60" 
+                          c:ProportionalCanvas.Top="50"
+                          c:ProportionalCanvas.ProportionalWidth="30"
+                          c:ProportionalCanvas.ProportionalHeight="20" />
            </c:ProportionalCanvas>
        </TabItem>
     </TabControl>
