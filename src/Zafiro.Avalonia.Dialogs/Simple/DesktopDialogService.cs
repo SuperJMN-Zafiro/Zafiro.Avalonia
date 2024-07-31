@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Diagnostics;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
@@ -8,11 +9,6 @@ namespace Zafiro.Avalonia.Dialogs.Simple;
 
 public class DesktopDialog : IDialog
 {
-    public DesktopDialog(Application application) : this(Maybe.From(Dialog.GetTemplates(application)))
-    {
-        DataTemplates = Maybe.From(Dialog.GetTemplates(application));
-    }
-
     public DesktopDialog(Maybe<DataTemplates> dataTemplates)
     {
         DataTemplates = dataTemplates;
@@ -39,31 +35,37 @@ public class DesktopDialog : IDialog
         var options = optionsFactory(closeable);
         var content = new DialogView
         {
-            DataContext = new DialogViewModel(viewModel, options)
+            DataContext = new DialogViewModel(viewModel, options),
         };
 
-        DataTemplates.Execute(content.DataTemplates.AddRange);
+        content.DataTemplates.AddRange(GetDialogTemplates());
 
         window.Content = new DialogViewContainer
         {
             Classes = { "Desktop" },
-            Content = content
+            Content = content,
         };
 
         SetWindowSize(window);
 
-#if DEBUG
-        window.AttachDevTools();
-#endif
+        if (Debugger.IsAttached)
+        {
+            window.AttachDevTools();
+        }
+
         var result = await window.ShowDialog<bool?>(MainWindow).ConfigureAwait(false);
         return result is not (null or false);
+    }
+
+    private DataTemplates GetDialogTemplates()
+    {
+        var map = Application.Current.AsMaybe().Map(Dialog.GetTemplates);
+        var templates = DataTemplates.Or(map);
+        return templates.GetValueOrDefault(new DataTemplates());
     }
 
     private static void SetWindowSize(Window window)
     {
         window.SizeToContent = SizeToContent.WidthAndHeight;
-
-        window.Height = MainWindow.Bounds.Height / 3;
-        window.Width = MainWindow.Bounds.Width / 3;
     }
 }

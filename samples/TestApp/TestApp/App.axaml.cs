@@ -2,6 +2,7 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using CSharpFunctionalExtensions;
 using TestApp.ViewModels;
@@ -31,7 +32,7 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        var dialogService = new DesktopDialog(Current!);
+        var dialogService = new DesktopDialog(Maybe<DataTemplates>.None);
         // Enable if you want to force the Single Dialog Service
         //var dialogService = new SingleViewDialogService(view);
 
