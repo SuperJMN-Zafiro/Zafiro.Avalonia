@@ -51,10 +51,11 @@ public class AvaloniaFileSystemPicker : IFileSystemPicker
 
     private Task<Result<IEnumerable<IFile>>> PickCore(FilePickerOpenOptions filePickerOpenOptions)
     {
-        return Result.Try(async () => (await storageProvider.OpenFilePickerAsync(filePickerOpenOptions)).AsEnumerable())
-            .ManyMap(x => new MutableStorageFile(x))
-            .ManyMap(x => x.ToImmutable())
-            .Combine();
+        throw new NotImplementedException();
+        //return Result.Try(async () => (await storageProvider.OpenFilePickerAsync(filePickerOpenOptions)).AsEnumerable())
+        //    .ManyMap(x => new MutableStorageFile(x))
+        //    .ManyMap(x => x.())
+        //    .Combine();
     }
 
     public Task<Maybe<IMutableDirectory>> PickFolder()

@@ -19,4 +19,10 @@
 		<PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="..\src\">
+	    <Link>Directory.Build\src</Link>
+	  </Folder>
+	</ItemGroup>
+
 </Project>

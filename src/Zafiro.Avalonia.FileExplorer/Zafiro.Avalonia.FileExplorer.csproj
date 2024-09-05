@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.1.3" />
+        <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.8" />
+        <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+        <PackageReference Include="ReactiveUI.Validation" Version="4.0.9" />
+        <PackageReference Include="Zafiro.FileSystem" Version="11.0.0" />
+        <PackageReference Include="Zafiro.FileSystem.Actions" Version="11.0.0" />
+        <PackageReference Include="Zafiro.UI" Version="11.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
+    </ItemGroup>
+
+</Project>

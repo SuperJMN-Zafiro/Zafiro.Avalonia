@@ -40,10 +40,45 @@ public class StorageDirectory : IMutableDirectory, IRooted
         throw new NotImplementedException();
     }
 
+    public Task<Result> DeleteFile(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteSubdirectory(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<IMutableFile>> CreateFile(string entryName)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<Result<IMutableDirectory>> CreateSubdirectory(string name)
     {
         throw new NotImplementedException();
     }
+
+    public Task<Result<IEnumerable<IMutableNode>>> GetChildren(CancellationToken cancellationToken = new CancellationToken())
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<bool>> HasFile(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<bool>> HasSubdirectory(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IObservable<IMutableFile> FileCreated { get; }
+    public IObservable<IMutableDirectory> DirectoryCreated { get; }
+    public IObservable<string> FileDeleted { get; }
+    public IObservable<string> DirectoryDeleted { get; }
 
     public Task<Result> Delete()
     {

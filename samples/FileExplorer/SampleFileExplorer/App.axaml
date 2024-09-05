@@ -1,0 +1,27 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SampleFileExplorer.App"
+             xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs;assembly=Zafiro.Avalonia.Dialogs"
+             xmlns:sampleFileExplorer="clr-namespace:SampleFileExplorer"
+             xmlns:dc="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;assembly=Zafiro.Avalonia.FileExplorer"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <sampleFileExplorer:ViewLocator />
+    </Application.DataTemplates>
+
+    <dialogs:Dialog.Templates>
+        <DataTemplate DataType="dc:CreateDirectoryViewModel">
+            <Border Width="250" Height="80">
+                <TextBox VerticalAlignment="Center" Text="{Binding DirectoryName}" />
+            </Border>
+        </DataTemplate>
+    </dialogs:Dialog.Templates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Zafiro.Avalonia.FileExplorer/Styles.axaml" />
+        <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
+        <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
+    </Application.Styles>
+</Application>

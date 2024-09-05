@@ -19,6 +19,12 @@ internal class MutableStorageFile : IMutableFile, IRooted
 
     public string Name => StorageFile.Name;
 
+    public Task<Result> SetContents(IData data, IScheduler? scheduler = null,
+        CancellationToken cancellationToken = new CancellationToken())
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<IData>> GetContents()
     {
         return await Result.Try(async () =>
@@ -26,7 +32,7 @@ internal class MutableStorageFile : IMutableFile, IRooted
             var size = MaybeEx.FromNullableStruct((await StorageFile.GetBasicPropertiesAsync().ConfigureAwait(false)).Size);
 
             var openReadAsync = StorageFile.OpenReadAsync;
-            return size.Match(arg => (IData) new Data(openReadAsync.Chunked(), (long) arg), () => new Data(Observable.Empty<byte[]>(), 0));
+            return size.Match(s => Data.FromStream(openReadAsync, (long)s), () => new Data(Observable.Empty<byte[]>(), 0));
         }).ConfigureAwait(false);
     }
 

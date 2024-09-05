@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SampleFileExplorer.ViewModels"
+             xmlns:dc="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;assembly=Zafiro.Avalonia.FileExplorer"
+             xmlns:fe="clr-namespace:Zafiro.Avalonia.FileExplorer;assembly=Zafiro.Avalonia.FileExplorer"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SampleFileExplorer.Views.MainView"
+             x:DataType="viewModels:MainViewModel">
+
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="dc:FileViewModel">
+            <DockPanel>
+                <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></Button>
+                <TextBlock Text="{Binding Name}"></TextBlock>
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate DataType="dc:DirectoryViewModel">
+            <DockPanel>
+                <!-- <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></Button> -->
+                <TextBlock Text="{Binding Name}" />
+            </DockPanel>
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <ItemsControl ItemsSource="{Binding Explorers}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <fe:FileExplorerView DataContext="{Binding}" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="1" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
+
+</UserControl>
