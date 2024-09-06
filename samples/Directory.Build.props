@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <Nullable>enable</Nullable>
+        <AvaloniaVersion>11.*</AvaloniaVersion>
+    </PropertyGroup>
+</Project>
