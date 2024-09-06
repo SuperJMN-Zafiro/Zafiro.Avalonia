@@ -2,19 +2,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:transfers1="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.Transfers"
+             xmlns:t="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.Transfers"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+             xmlns:jobs="clr-namespace:Zafiro.UI.Jobs;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Zafiro.Avalonia.FileExplorer.Core.Transfers.TransferManagerView"
-             x:DataType="transfers1:ITransferManager">
+             x:DataType="t:ITransferManager">
     <Border>
-        <ListBox ItemsSource="{Binding Transfers}" controls:Empty.Content="Nothing to show">
+        <ListBox ItemsSource="{Binding Jobs}" controls:Empty.Content="Nothing to show">
             <ListBox.ItemTemplate>
-                <DataTemplate DataType="transfers1:TransferItem">
+                <DataTemplate DataType="jobs:IJob">
                     <DockPanel>
-                        <TextBlock FontSize="12" Text="{Binding Description}" DockPanel.Dock="Top" />
-                        <Button Theme="{StaticResource TransparentButton}" Content="x" Command="{Binding Transfer.Stop}" DockPanel.Dock="Right" VerticalAlignment="Center" />
-                        <ProgressBar Width="100" Maximum="{Binding Progress^.Total}"  Value="{Binding Progress^.Current}" />
+                        <TextBlock FontSize="12" Text="{Binding Name}" DockPanel.Dock="Top" />
+                        <Button Theme="{StaticResource TransparentButton}" Content="x" Command="{Binding Execution.Stop}" DockPanel.Dock="Right" VerticalAlignment="Center" />
+                        <ProgressBar Width="100">
+                            <Interaction.Behaviors>
+                                <behaviors:ProgressBarExecutionBehavior Execution="{Binding Execution}" />
+                            </Interaction.Behaviors>
+                        </ProgressBar>
                     </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

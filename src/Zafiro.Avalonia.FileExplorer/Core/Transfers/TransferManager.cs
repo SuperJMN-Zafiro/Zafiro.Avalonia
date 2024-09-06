@@ -3,7 +3,10 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Aggregation;
+using MoreLinq;
 using Zafiro.Reactive;
+using Zafiro.UI.Jobs;
+using Zafiro.UI.Jobs.Manager;
 
 namespace Zafiro.Avalonia.FileExplorer.Core.Transfers;
 
@@ -11,10 +14,21 @@ public class TransferManager : ITransferManager, IDisposable
 {
     private readonly SourceCache<ITransferItem, object> items = new(item => item);
     private readonly CompositeDisposable disposable = new();
+    private readonly JobManager jobManager;
 
     public TransferManager()
     {
         var itemChanges = items.Connect();
+
+        jobManager = new JobManager();
+
+        jobManager.Tasks
+            .Transform(x => x.Job)
+            .Bind(out var jobItems)
+            .Subscribe()
+            .DisposeWith(disposable);
+
+        Jobs = jobItems;
 
         itemChanges
             .Bind(out var transfers)
@@ -22,21 +36,14 @@ public class TransferManager : ITransferManager, IDisposable
             .DisposeWith(disposable);
 
         Transfers = transfers;
-
-        Progress = itemChanges
-            .FilterOnObservable(x => x.Transfer.IsExecuting)
-            .TransformOnObservable(x => x.Progress.Select(y => y.Value)).Avg(d => d).Sample(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler);
-
-        IsTransferring = items.Connect(suppressEmptyChangeSets: false)
-            .FilterOnObservable(x => x.Transfer.IsExecuting)
+        
+        IsTransferring = jobManager.Tasks
+            .FilterOnObservable(x => x.Job.Execution.Start.IsExecuting)
             .Count()
             .Select(i => i > 0);
-
-        itemChanges.FilterOnObservable(item => item.Transfer.IsExecuting.Not().Skip(1).Delay(TimeSpan.FromSeconds(5), RxApp.MainThreadScheduler))
-            .OnItemAdded(item => items.Remove(item))
-            .Subscribe()
-            .DisposeWith(disposable);
     }
+
+    public ReadOnlyObservableCollection<IJob> Jobs { get; }
 
     public IObservable<bool> IsTransferring { get; }
 
@@ -44,9 +51,9 @@ public class TransferManager : ITransferManager, IDisposable
 
     public ReadOnlyObservableCollection<ITransferItem> Transfers { get; }
 
-    public void Add(params ITransferItem[] item)
+    public void Add(params ITransferItem[] transfers)
     {
-        items.AddOrUpdate(item);
+        transfers.ForEach(x => jobManager.Add(x, new JobOptions { AutoStart = true, }));
     }
 
     public void Dispose()

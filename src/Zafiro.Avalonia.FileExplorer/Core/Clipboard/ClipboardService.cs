@@ -104,13 +104,8 @@ public class ClipboardService : IClipboardService
     private async Task<Result> Paste(List<CopiedClipboardEntry> items, IMutableDirectory destination)
     {
         var transferItemResult = await GetAction(items, destination)
-            .Map(action => (ITransferItem)new TransferItem($"Copiando {action.Actions.Count} elementos a {destination}", action));
-        
-        transferItemResult.Tap(transferItem =>
-        {
-            TransferManager.Add(transferItem);
-            transferItem.Transfer.StartReactive.Execute().Subscribe();
-        });
+            .Map(action => (ITransferItem)new TransferItem($"Copiando {action.Actions.Count} elementos a {destination}", action))
+            .Tap(a => TransferManager.Add(a));
         
         return transferItemResult;
     }
