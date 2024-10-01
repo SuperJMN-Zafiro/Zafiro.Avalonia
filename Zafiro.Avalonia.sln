@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileExplorer", "FileExplore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleFileExplorer", "samples\FileExplorer\SampleFileExplorer\SampleFileExplorer.csproj", "{A14CD472-4466-4113-9661-F64C4F8A607C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.Avalonia.FileExplorer.Tests", "test\Zafiro.Avalonia.FileExplorer.Tests\Zafiro.Avalonia.FileExplorer.Tests.csproj", "{0D7067B8-1E50-4126-A77B-8712E6DF0C03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{A14CD472-4466-4113-9661-F64C4F8A607C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A14CD472-4466-4113-9661-F64C4F8A607C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A14CD472-4466-4113-9661-F64C4F8A607C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

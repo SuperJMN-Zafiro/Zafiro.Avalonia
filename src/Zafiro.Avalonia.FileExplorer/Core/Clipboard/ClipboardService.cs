@@ -121,7 +121,7 @@ public class ClipboardService : IClipboardService
     {
         var source = await FromEntry(entry);
         var destination = await directory.CreateFile(entry.Name);
-
+        
         return source.CombineAndMap(destination, (src, dst) => (IAction<LongProgress>)new CopyFileAction(src, dst));
     }
 
