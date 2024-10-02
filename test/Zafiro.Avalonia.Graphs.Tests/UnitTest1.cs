@@ -7,7 +7,7 @@ namespace Zafiro.Avalonia.Graphs.Tests;
 public class UnitTest1
 {
     [Fact]
-    public void Test1()
+    public void Create()
     {
         var person = new Person("JMN");
         var person1 = new Person("Ana");
@@ -23,31 +23,9 @@ public class UnitTest1
         var personEdges = edges.Select(x => new PersonEdge(dict[x.Source], dict[x.Target], 20)).ToList();
 
         var graph2d = new Graph2D<PersonNode, PersonEdge>(personNodes, personEdges);
-        var ffd = new FCC<PersonNode, PersonEdge>(graph2d);
+        var ffd = new ForceDirectedGraph<PersonNode, PersonEdge>(graph2d);
         ffd.Distribute();
         ffd.Step();
-    }
-}
-
-public class FCC<TNode2D, TEdge> where TNode2D : class, INode2D where TEdge : IEdge<TNode2D>
-{
-    public Graph2D<TNode2D, TEdge> Graph2d { get; }
-    private readonly Engine<TNode2D, TEdge> engine;
-
-    public FCC(Graph2D<TNode2D, TEdge> graph2d)
-    {
-        Graph2d = graph2d;
-        engine = new Engine<TNode2D, TEdge>(graph2d);
-    }
-
-    public void Step()
-    {
-        engine.Step();
-    }
-
-    public void Distribute()
-    {
-        engine.Distribute(200, 200);
     }
 }
 
