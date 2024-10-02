@@ -40,7 +40,7 @@
                         <Ellipse Width="20" Height="20" Fill="Red" />
                     </DataTemplate>
                 </control:GraphControl.ItemTemplate>
-                <control:GraphControl.EdgeTemplate>
+                <!--<control:GraphControl.EdgeTemplate>
                     <DataTemplate DataType="controls1:Friendship">
                         <Line Stroke="Black" StrokeThickness="3">
                             <Line.StartPoint>
@@ -57,7 +57,7 @@
                             </Line.EndPoint>
                         </Line>
                     </DataTemplate>
-                </control:GraphControl.EdgeTemplate>
+                </control:GraphControl.EdgeTemplate>-->
             </control:GraphControl>
             
         </TabItem>
