@@ -1,6 +1,6 @@
 using Zafiro.Avalonia.Graphs.Core;
 
-namespace Zafiro.Avalonia.Graphs.Tests;
+namespace TestApp.Samples.Controls;
 
 public class Friendship : IEdge<INode2D>
 {

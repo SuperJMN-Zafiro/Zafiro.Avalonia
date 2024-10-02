@@ -4,16 +4,16 @@ using System.Threading.Tasks;
 
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public class Engine<TNode2D, TEdge> where TNode2D : class, INode2D where TEdge : IEdge<TNode2D>
+public class Engine
 {
-    public Engine(Graph2D<TNode2D, TEdge> graph)
+    public Engine(Graph2D graph)
     {
         Graph = graph;
     }
 
     public Configuration Configuration { get; } = new();
 
-    public Graph2D<TNode2D, TEdge> Graph { get; }
+    public Graph2D Graph { get; }
 
     public void Step()
     {

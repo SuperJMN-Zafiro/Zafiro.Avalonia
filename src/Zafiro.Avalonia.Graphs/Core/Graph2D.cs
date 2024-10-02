@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public class Graph2D<TNode2D, TEdge>(List<TNode2D> nodes, List<TEdge> edges) where TNode2D : INode2D where TEdge : IEdge<TNode2D>
+public class Graph2D(List<INode2D> nodes, List<IEdge<INode2D>> edges) : IGraph<INode2D, IEdge<INode2D>>
 {
-    public List<TNode2D> Nodes { get; } = nodes;
-    public List<TEdge> Edges { get; } = edges;
+    public List<INode2D> Nodes { get; } = nodes;
+    public List<IEdge<INode2D>> Edges { get; } = edges;
 }

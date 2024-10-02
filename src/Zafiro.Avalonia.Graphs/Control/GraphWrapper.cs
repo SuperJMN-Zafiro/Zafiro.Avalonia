@@ -1,13 +1,7 @@
 ﻿using System.Collections;
 using Zafiro.Avalonia.Graphs.Core;
 
-namespace Zafiro.Avalonia.Graphs;
-
-public interface IGraph
-{
-    IEnumerable Nodes { get; }
-    IEnumerable Edges { get; }
-}
+namespace Zafiro.Avalonia.Graphs.Control;
 
 public class GraphWrapper : IGraph
 {

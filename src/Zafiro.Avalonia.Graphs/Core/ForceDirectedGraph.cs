@@ -1,14 +1,14 @@
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public class ForceDirectedGraph<TNode2D, TEdge> where TNode2D : class, INode2D where TEdge : IEdge<TNode2D>
+public class ForceDirectedGraph
 {
-    public Graph2D<TNode2D, TEdge> Graph2d { get; }
-    private readonly Engine<TNode2D, TEdge> engine;
+    public Graph2D Graph2d { get; }
+    private readonly Engine engine;
 
-    public ForceDirectedGraph(Graph2D<TNode2D, TEdge> graph2d)
+    public ForceDirectedGraph(Graph2D graph2d)
     {
         Graph2d = graph2d;
-        engine = new Engine<TNode2D, TEdge>(graph2d);
+        engine = new Engine(graph2d);
     }
 
     public void Step()

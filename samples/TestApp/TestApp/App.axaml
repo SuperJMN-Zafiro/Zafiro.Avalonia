@@ -10,6 +10,7 @@
 	<Application.Styles>
 		<StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
 		<StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
+        <StyleInclude Source="avares://Zafiro.Avalonia.Graphs/Styles.axaml" />
 		<FluentTheme />
 	</Application.Styles>
 
