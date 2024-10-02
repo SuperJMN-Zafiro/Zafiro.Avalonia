@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.Graphs.Tests.Core;
+namespace Zafiro.Avalonia.Graphs;
 
 public interface INode2D
 {

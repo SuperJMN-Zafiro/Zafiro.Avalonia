@@ -1,4 +1,6 @@
-﻿namespace Zafiro.Avalonia.Graphs.Tests.Core;
+﻿using System;
+
+namespace Zafiro.Avalonia.Graphs;
 
 public struct Vector2D
 {

@@ -1,3 +1,5 @@
+namespace Zafiro.Avalonia.Graphs;
+
 public interface IEdge<T>
 {
     T Source { get; }
