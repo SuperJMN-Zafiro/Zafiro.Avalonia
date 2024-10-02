@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.Graphs.Tests;
+﻿namespace Zafiro.Avalonia.Graphs.Tests.Core;
 
 public class Configuration
 {

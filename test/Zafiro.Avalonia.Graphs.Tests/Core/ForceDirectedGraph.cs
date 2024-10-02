@@ -1,6 +1,4 @@
-using Zafiro.Avalonia.Graphs.Tests.Core;
-
-namespace Zafiro.Avalonia.Graphs.Tests;
+namespace Zafiro.Avalonia.Graphs.Tests.Core;
 
 public class ForceDirectedGraph<TNode2D, TEdge> where TNode2D : class, INode2D where TEdge : IEdge<TNode2D>
 {
