@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Zafiro.Avalonia.Graphs;
+namespace Zafiro.Avalonia.Graphs.Core;
 
 public class Engine<TNode2D, TEdge> where TNode2D : class, INode2D where TEdge : IEdge<TNode2D>
 {

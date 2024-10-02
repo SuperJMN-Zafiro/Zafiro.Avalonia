@@ -13,13 +13,9 @@
 	<Import Project="..\Common.props" />
 	
 	<ItemGroup>
-	  <AvaloniaXaml Remove="Core\**" />
 	  <AvaloniaXaml Remove="Impl\**" />
-	  <Compile Remove="Core\**" />
 	  <Compile Remove="Impl\**" />
-	  <EmbeddedResource Remove="Core\**" />
 	  <EmbeddedResource Remove="Impl\**" />
-	  <None Remove="Core\**" />
 	  <None Remove="Impl\**" />
 	</ItemGroup>
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Zafiro.Avalonia.Graphs;
+namespace Zafiro.Avalonia.Graphs.Core;
 
 public interface IGraph<TNode, TEdge> where TEdge : IEdge<TNode>
 {

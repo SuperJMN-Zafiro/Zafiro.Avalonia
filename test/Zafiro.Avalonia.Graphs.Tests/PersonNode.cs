@@ -1,3 +1,5 @@
+using Zafiro.Avalonia.Graphs.Core;
+
 namespace Zafiro.Avalonia.Graphs.Tests;
 
 public class Person(string name) : INode2D

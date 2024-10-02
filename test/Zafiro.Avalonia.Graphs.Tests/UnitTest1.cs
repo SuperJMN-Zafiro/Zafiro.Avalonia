@@ -1,4 +1,4 @@
-using System.Linq;
+using Zafiro.Avalonia.Graphs.Core;
 
 namespace Zafiro.Avalonia.Graphs.Tests;
 
