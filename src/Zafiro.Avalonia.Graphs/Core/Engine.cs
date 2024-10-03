@@ -100,12 +100,12 @@ public class Engine
         }
     }
 
-    public void Distribute(int width, int height)
+    public void Distribute(double width, double height)
     {
         Graph.Nodes.ToList().ForEach(x =>
         {
-            x.X = Random.Shared.Next(width);
-            x.Y = Random.Shared.Next(height);
+            x.X = Random.Shared.Next((int) width);
+            x.Y = Random.Shared.Next((int) height);
         });
     }
 }

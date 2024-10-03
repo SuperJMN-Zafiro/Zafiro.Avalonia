@@ -18,9 +18,9 @@ public class ForceDirectedGraph : IGraph<INode2D, IEdge<INode2D>>
         engine.Step();
     }
 
-    public void Distribute()
+    public void Distribute(double width, double height)
     {
-        engine.Distribute(200, 200);
+        engine.Distribute(width, height);
     }
 
     public List<INode2D> Nodes => Graph2d.Nodes;

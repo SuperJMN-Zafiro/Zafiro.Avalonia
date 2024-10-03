@@ -17,7 +17,7 @@ public class UnitTest1
         
         var graph2d = new Graph2D(nodes, edges.ToList());
         var ffd = new ForceDirectedGraph(graph2d);
-        ffd.Distribute();
+        ffd.Distribute(400,400);
         ffd.Step();
     }
 }

@@ -34,7 +34,7 @@
            </c:ProportionalCanvas>
        </TabItem>
         <TabItem Header="Graph">
-            <control:GraphControl Graph="{Binding Graph}">
+            <control:GraphControl Margin="-1000" Graph="{Binding Graph}">
                 <control:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
                         <Ellipse Width="20" Height="20" Fill="Red" />
