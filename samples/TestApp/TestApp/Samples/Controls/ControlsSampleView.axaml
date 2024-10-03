@@ -3,10 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-             xmlns:controls1="clr-namespace:TestApp.Samples.Controls"
+             xmlns:vm="clr-namespace:TestApp.Samples.Controls"
+             xmlns:control="clr-namespace:Zafiro.Avalonia.Graphs.Control;assembly=Zafiro.Avalonia.Graphs"
+             xmlns:ng="clr-namespace:System.Drawing;assembly=System.ComponentModel.TypeConverter"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
-             x:DataType="controls1:ControlsSampleViewModel">
+             x:DataType="vm:ControlsSampleViewModel">
     <TabControl>
         <TabItem Header="EasyListBox">
             <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
@@ -31,5 +33,33 @@
                           c:ProportionalCanvas.ProportionalHeight="20" />
            </c:ProportionalCanvas>
        </TabItem>
+        <TabItem Header="Graph">
+            <control:GraphControl Margin="-1000" Graph="{Binding Graph}">
+                <control:GraphControl.ItemTemplate>
+                    <DataTemplate DataType="vm:Person">
+                        <Ellipse Width="{Binding Weight}" Height="{Binding Weight}" Fill="Red" />
+                    </DataTemplate>
+                </control:GraphControl.ItemTemplate>
+                <control:GraphControl.EdgeTemplate>
+                    <DataTemplate DataType="vm:Friendship">
+                        <Line Stroke="Black" StrokeThickness="3">
+                            <Line.StartPoint>
+                                <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                    <Binding Path="Source.X" />
+                                    <Binding Path="Source.Y" />
+                                </MultiBinding>
+                            </Line.StartPoint>
+                            <Line.EndPoint>
+                                <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                    <Binding Path="Target.X" />
+                                    <Binding Path="Target.Y" />
+                                </MultiBinding>
+                            </Line.EndPoint>
+                        </Line>
+                    </DataTemplate>
+                </control:GraphControl.EdgeTemplate>
+            </control:GraphControl>
+            
+        </TabItem>
     </TabControl>
 </UserControl>

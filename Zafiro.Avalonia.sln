@@ -23,7 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{41
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileExplorer", "FileExplorer", "{5A7D3F1E-067D-443D-8E3A-4B8E0B24608D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleFileExplorer", "samples\FileExplorer\SampleFileExplorer\SampleFileExplorer.csproj", "{A14CD472-4466-4113-9661-F64C4F8A607C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleFileExplorer", "samples\FileExplorer\SampleFileExplorer\SampleFileExplorer.csproj", "{A14CD472-4466-4113-9661-F64C4F8A607C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.Graphs", "src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.Graphs.csproj", "{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.Avalonia.Graphs.Tests", "test\Zafiro.Avalonia.Graphs.Tests\Zafiro.Avalonia.Graphs.Tests.csproj", "{47E07E6C-31E5-43E7-B8D8-66CD767860EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,15 +67,23 @@ Global
 		{A14CD472-4466-4113-9661-F64C4F8A607C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A14CD472-4466-4113-9661-F64C4F8A607C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A14CD472-4466-4113-9661-F64C4F8A607C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47E07E6C-31E5-43E7-B8D8-66CD767860EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47E07E6C-31E5-43E7-B8D8-66CD767860EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47E07E6C-31E5-43E7-B8D8-66CD767860EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47E07E6C-31E5-43E7-B8D8-66CD767860EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{41A6E3E0-9492-4B68-B308-40F2A7ED0623} = {022A4D50-4916-4866-833D-89E8A1C3E90B}
 		{0B28296D-9B99-45C7-B9AC-6EBB7DCF22A1} = {41A6E3E0-9492-4B68-B308-40F2A7ED0623}
 		{562DA12A-1D8E-4DB8-9279-059677AED984} = {41A6E3E0-9492-4B68-B308-40F2A7ED0623}
 		{10A9EB55-8394-47D7-839B-E47F8932F16C} = {41A6E3E0-9492-4B68-B308-40F2A7ED0623}
+		{41A6E3E0-9492-4B68-B308-40F2A7ED0623} = {022A4D50-4916-4866-833D-89E8A1C3E90B}
 		{5A7D3F1E-067D-443D-8E3A-4B8E0B24608D} = {022A4D50-4916-4866-833D-89E8A1C3E90B}
 		{A14CD472-4466-4113-9661-F64C4F8A607C} = {5A7D3F1E-067D-443D-8E3A-4B8E0B24608D}
 	EndGlobalSection

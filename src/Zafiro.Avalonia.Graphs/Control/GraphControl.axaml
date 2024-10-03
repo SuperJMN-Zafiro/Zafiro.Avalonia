@@ -1,0 +1,81 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:g="clr-namespace:Zafiro.Avalonia.Graphs.Core"
+                    xmlns:control="clr-namespace:Zafiro.Avalonia.Graphs.Control"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <control:GraphControl />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type control:GraphControl}" TargetType="control:GraphControl">
+        <Setter Property="EdgeTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Line x:CompileBindings="False" Stroke="Gray" StrokeThickness="2">
+                        <Line.StartPoint>
+                            <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                <Binding Path="Source.X" />
+                                <Binding Path="Source.Y" />
+                            </MultiBinding>
+                        </Line.StartPoint>
+                        <Line.EndPoint>
+                            <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                <Binding Path="Target.X" />
+                                <Binding Path="Target.Y" />
+                            </MultiBinding>
+                        </Line.EndPoint>
+                    </Line>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel DataContext="{Binding Path=Graph, RelativeSource={RelativeSource TemplatedParent}}">
+                    <ZoomBorder PanButton="Left">
+                        <Panel>
+                            <ItemsControl ItemsSource="{Binding Edges}" ItemTemplate="{TemplateBinding EdgeTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <ListBox Background="{x:Null}" ItemsSource="{Binding Nodes}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:MidpointCanvas />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.Styles>
+                                    <Style Selector="ScrollViewer">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                    </Style>
+                                </ListBox.Styles>
+                                <ListBox.ItemContainerTheme>
+                                    <ControlTheme TargetType="ListBoxItem">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="ClipToBounds" Value="False" />
+                                        <Setter x:DataType="g:INode2D" Property="Canvas.Left" Value="{Binding X}" />
+                                        <Setter x:DataType="g:INode2D" Property="Canvas.Top" Value="{Binding Y}" />
+                                        <Setter x:DataType="g:INode2D" Property="ZIndex" Value="{Binding Weight}" />
+                                    </ControlTheme>
+                                </ListBox.ItemContainerTheme>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl Background="{x:Null}" ClipToBounds="False" Content="{Binding}"
+                                                        ContentTemplate="{Binding $parent[control:GraphControl].ItemTemplate}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Panel>
+                    </ZoomBorder>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

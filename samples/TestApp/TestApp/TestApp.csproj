@@ -18,12 +18,14 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="ReactiveUI.Validation" Version="4.0.9" />
+    <PackageReference Include="ReactiveUI.SourceGenerators" Version="1.1.31" />
+    <PackageReference Include="ReactiveUI.Validation" Version="4.1.1" />
     <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
+    <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.Graphs.csproj" />
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 
