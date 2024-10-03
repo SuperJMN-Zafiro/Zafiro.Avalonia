@@ -6,14 +6,14 @@ namespace Zafiro.Avalonia.Graphs.Core;
 
 public class Engine
 {
-    public Engine(Graph2D graph)
+    public Engine(IGraph<INode2D, IEdge<INode2D>> graph)
     {
         Graph = graph;
     }
 
     public Configuration Configuration { get; } = new();
 
-    public Graph2D Graph { get; }
+    public IGraph<INode2D, IEdge<INode2D>> Graph { get; }
 
     public void Step()
     {

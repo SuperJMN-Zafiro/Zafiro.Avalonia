@@ -22,8 +22,8 @@ public class ControlsSampleViewModel
 
         var nodes = new List<INode2D> { person, person1 };
         
-        var graph2d = new Graph2D(nodes.ToList(), edges.ToList());
-        Graph = new GraphWrapper(graph2d);
+        var ffd = new ForceDirectedGraph(new Graph2D(nodes.ToList(), edges.ToList()));
+        Graph = new GraphWrapper(ffd);
     }
 
     public List<Item> Items { get; }
