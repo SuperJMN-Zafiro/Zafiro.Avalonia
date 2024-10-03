@@ -1,9 +1,3 @@
-using System.Collections.Generic;
-
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public interface IGraph2D
-{
-    public List<INode2D> Nodes { get; } 
-    public List<IEdge2D> Edges { get; } 
-}
+public interface IGraph2D : IGenericGraph<INode2D, IEdge2D>;

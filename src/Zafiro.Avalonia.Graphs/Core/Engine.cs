@@ -52,7 +52,7 @@ public class Engine
                 var forceX = force * dx / distance;
                 var forceY = force * dy / distance;
 
-                // Acummulate changes in forces in temporary variables
+                // Accumulate changes in forces in temporary variables
                 forceChanges[i] -= new Vector2D(forceX, forceY);
                 forceChanges[j] += new Vector2D(forceX, forceY);
             }
