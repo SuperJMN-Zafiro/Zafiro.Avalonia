@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public interface IGraph<TNode, TEdge> where TEdge : IEdge<TNode>
+public interface IGraph
 {
-    List<TNode> Nodes { get; }
-    List<TEdge> Edges { get; }
+    IEnumerable Nodes { get; }
+    IEnumerable Edges { get; }
 }

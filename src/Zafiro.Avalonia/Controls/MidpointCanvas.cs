@@ -1,7 +1,4 @@
-using Avalonia;
-using Avalonia.Controls;
-
-namespace Zafiro.Avalonia.Graphs.Control;
+namespace Zafiro.Avalonia.Controls;
 
 public class MidpointCanvas : Canvas
 {

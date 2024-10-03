@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using Zafiro.Avalonia.Graphs.Core;
 
-namespace Zafiro.Avalonia.Graphs.Control;
+namespace Zafiro.Avalonia.Graphs.Core;
 
-public class GraphWrapper : IGraph
+public class GraphAdapter : IGraph
 {
-    public GraphWrapper(IGraph2D graph)
+    public GraphAdapter(IGraph2D graph)
     {
         Edges = graph.Edges;
         Nodes = graph.Nodes;

@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Zafiro.Avalonia.Graphs.Core;
 
 namespace Zafiro.Avalonia.Graphs.Control;
 

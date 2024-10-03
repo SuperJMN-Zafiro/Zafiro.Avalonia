@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Zafiro.Avalonia.Graphs.Control;
 
 namespace Zafiro.Avalonia.Graphs.Core;
 

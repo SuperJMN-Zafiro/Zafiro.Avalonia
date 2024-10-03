@@ -5,7 +5,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Controls.Selection;
 using ReactiveUI;
-using Zafiro.Avalonia.Graphs.Control;
 using Zafiro.Avalonia.Graphs.Core;
 
 namespace TestApp.Samples.Controls;
@@ -24,7 +23,7 @@ public class ControlsSampleViewModel
 
         var ffd = new ForceDirectedGraph(new Graph2D(graph.nodes.Cast<INode2D>().ToList(), edge2Ds.ToList()));
         ffd.Distribute(5000, 3000);
-        Graph = new GraphWrapper(ffd);
+        Graph = new GraphAdapter(ffd);
 
         Play = ReactiveCommand
             .CreateFromObservable(() => Observable.Interval(TimeSpan.FromMilliseconds(12), RxApp.MainThreadScheduler).Do(_ => ffd.Step()));

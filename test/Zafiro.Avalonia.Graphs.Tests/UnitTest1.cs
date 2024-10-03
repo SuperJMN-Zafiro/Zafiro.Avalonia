@@ -1,4 +1,3 @@
-using Zafiro.Avalonia.Graphs.Control;
 using Zafiro.Avalonia.Graphs.Core;
 
 namespace Zafiro.Avalonia.Graphs.Tests;
@@ -8,8 +7,8 @@ public class UnitTest1
     [Fact]
     public void Create()
     {
-        var person = new Person("JMN");
-        var person1 = new Person("Ana");
+        var person = new Person("One");
+        var person1 = new Person("Two");
         var rel = new Friendship(person, person1, 33);
 
         var edges = new List<IEdge2D> { rel };
