@@ -7,7 +7,7 @@ namespace Zafiro.Avalonia.Graphs.Control;
 
 public class Converters
 {
-    public static readonly FuncMultiValueConverter<double, Point?> PointCoordinatesToPoint = new(enumerable =>
+    public static readonly FuncMultiValueConverter<double, Point?> CoordinatesToPoint = new(enumerable =>
     {
         var list = enumerable.ToList();
         return new Point(list[0], list[1]);

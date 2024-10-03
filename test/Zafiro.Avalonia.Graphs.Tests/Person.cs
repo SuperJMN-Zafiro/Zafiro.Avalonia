@@ -9,4 +9,5 @@ public class Person(string name) : INode2D
     public double ForceY { get; set; }
     public double X { get; set; }
     public double Y { get; set; }
+    public double Weight { get; } = 0;
 }

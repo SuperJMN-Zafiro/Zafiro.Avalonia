@@ -20,7 +20,7 @@ public class RandomGraphGenerator
         var nodes = new List<Person>();
         for (int i = 0; i < maxNodes; i++)
         {
-            nodes.Add(new Person($"Person_{i}"));
+            nodes.Add(new Person($"Person_{i}", Random.Shared.NextDouble() * 50));
         }
         return nodes;
     }

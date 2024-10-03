@@ -6,4 +6,5 @@ public interface INode2D
     double ForceY { get; set; }
     double X { get; set; }
     double Y { get; set; }
+    public double Weight { get; }
 }

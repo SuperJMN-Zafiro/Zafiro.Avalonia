@@ -3,7 +3,7 @@ using Zafiro.Avalonia.Graphs.Core;
 
 namespace TestApp.Samples.Controls;
 
-public class Person(string name) : ReactiveObject, INode2D
+public class Person(string name, double weight) : ReactiveObject, INode2D
 {
     private double x;
     private double y;
@@ -22,4 +22,6 @@ public class Person(string name) : ReactiveObject, INode2D
         get => y;
         set => this.RaiseAndSetIfChanged(ref y, value);
     }
+
+    public double Weight { get; } = weight;
 }

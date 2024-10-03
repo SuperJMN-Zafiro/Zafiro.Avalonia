@@ -37,20 +37,20 @@
             <control:GraphControl Margin="-1000" Graph="{Binding Graph}">
                 <control:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
-                        <Ellipse Width="20" Height="20" Fill="Red" />
+                        <Ellipse Width="{Binding Weight}" Height="{Binding Weight}" Fill="Red" />
                     </DataTemplate>
                 </control:GraphControl.ItemTemplate>
                 <control:GraphControl.EdgeTemplate>
                     <DataTemplate DataType="vm:Friendship">
                         <Line Stroke="Black" StrokeThickness="3">
                             <Line.StartPoint>
-                                <MultiBinding Converter="{x:Static control:Converters.PointCoordinatesToPoint}">
+                                <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
                                     <Binding Path="Source.X" />
                                     <Binding Path="Source.Y" />
                                 </MultiBinding>
                             </Line.StartPoint>
                             <Line.EndPoint>
-                                <MultiBinding Converter="{x:Static control:Converters.PointCoordinatesToPoint}">
+                                <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
                                     <Binding Path="Target.X" />
                                     <Binding Path="Target.Y" />
                                 </MultiBinding>

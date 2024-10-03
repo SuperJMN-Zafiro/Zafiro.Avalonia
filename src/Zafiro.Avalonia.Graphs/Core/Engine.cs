@@ -6,14 +6,14 @@ namespace Zafiro.Avalonia.Graphs.Core;
 
 public class Engine
 {
-    public Engine(IGraph<INode2D, IEdge<INode2D>> graph)
+    public Engine(IGraph2D graph)
     {
         Graph = graph;
     }
 
     public Configuration Configuration { get; } = new();
 
-    public IGraph<INode2D, IEdge<INode2D>> Graph { get; }
+    public IGraph2D Graph { get; }
 
     public void Step()
     {
@@ -47,7 +47,7 @@ public class Engine
                 var dy = nodeB.Y - nodeA.Y;
                 var distance = Math.Sqrt(dx * dx + dy * dy) + 0.01;
 
-                var force = Configuration.RepulsionForce / (distance * distance);
+                var force = Configuration.RepulsionForce * (nodeA.Weight * nodeB.Weight)  / (distance * distance);
 
                 var forceX = force * dx / distance;
                 var forceY = force * dy / distance;
@@ -78,7 +78,7 @@ public class Engine
             var dy = linkTarget.Y - linkSource.Y;
             var distance = Math.Sqrt(dx * dx + dy * dy) + 0.01;
 
-            var force = (distance - Configuration.EquilibriumDistance) * Configuration.AttractionForce * edge.Weight;
+            var force = (distance - Configuration.EquilibriumDistance) * Configuration.AttractionForce * edge.Weight * (linkSource.Weight + linkTarget.Weight) / 2.0;
 
             var forceX = force * dx / distance;
             var forceY = force * dy / distance;
@@ -92,11 +92,10 @@ public class Engine
 
     private void UpdatePositions()
     {
-        // Update positions
         foreach (var node in Graph.Nodes)
         {
-            node.X += node.ForceX * Configuration.Damping;
-            node.Y += node.ForceY * Configuration.Damping;
+            node.X += (node.ForceX / node.Weight) * Configuration.Damping;
+            node.Y += (node.ForceY / node.Weight) * Configuration.Damping;
         }
     }
 

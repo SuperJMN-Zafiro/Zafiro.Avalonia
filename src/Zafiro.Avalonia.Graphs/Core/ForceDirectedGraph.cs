@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using Zafiro.Avalonia.Graphs.Control;
 
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public class ForceDirectedGraph : IGraph<INode2D, IEdge<INode2D>>
+public class ForceDirectedGraph : IGraph2D
 {
-    public IGraph<INode2D, IEdge<INode2D>> Graph2d { get; }
+    public IGraph2D Graph2d { get; }
     private readonly Engine engine;
 
-    public ForceDirectedGraph(IGraph<INode2D, IEdge<INode2D>> graph2d)
+    public ForceDirectedGraph(IGraph2D graph2d)
     {
         Graph2d = graph2d;
         engine = new Engine(graph2d);
@@ -25,5 +26,5 @@ public class ForceDirectedGraph : IGraph<INode2D, IEdge<INode2D>>
 
     public List<INode2D> Nodes => Graph2d.Nodes;
 
-    public List<IEdge<INode2D>> Edges => Graph2d.Edges;
+    public List<IEdge2D> Edges => Graph2d.Edges;
 }

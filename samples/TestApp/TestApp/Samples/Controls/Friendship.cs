@@ -1,8 +1,9 @@
+using Zafiro.Avalonia.Graphs.Control;
 using Zafiro.Avalonia.Graphs.Core;
 
 namespace TestApp.Samples.Controls;
 
-public class Friendship : IEdge<INode2D>
+public class Friendship : IEdge2D
 {
     public Friendship(Person source, Person target, double weight)
     {

@@ -17,13 +17,13 @@
                 <DataTemplate>
                     <Line x:CompileBindings="False" Stroke="Gray" StrokeThickness="2">
                         <Line.StartPoint>
-                            <MultiBinding Converter="{x:Static control:Converters.PointCoordinatesToPoint}">
+                            <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
                                 <Binding Path="Source.X" />
                                 <Binding Path="Source.Y" />
                             </MultiBinding>
                         </Line.StartPoint>
                         <Line.EndPoint>
-                            <MultiBinding Converter="{x:Static control:Converters.PointCoordinatesToPoint}">
+                            <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
                                 <Binding Path="Target.X" />
                                 <Binding Path="Target.Y" />
                             </MultiBinding>
@@ -62,7 +62,7 @@
                                         <Setter x:DataType="g:INode2D" Property="Canvas.Left" Value="{Binding X}" />
                                         <Setter x:DataType="g:INode2D" Property="Canvas.Top" Value="{Binding Y}" />
                                         <Setter x:DataType="g:INode2D" Property="ZIndex"
-                                                Value="{Binding Converter={x:Static control:Converters.ZIndex}}" />
+                                                Value="{Binding Weight}" />
                                     </ControlTheme>
                                 </ListBox.ItemContainerTheme>
                                 <ListBox.ItemTemplate>

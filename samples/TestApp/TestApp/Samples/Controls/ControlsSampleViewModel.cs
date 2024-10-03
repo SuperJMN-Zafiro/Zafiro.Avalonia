@@ -19,9 +19,11 @@ public class ControlsSampleViewModel
         //SelectionHandler = new SelectionHandler<Item, int>(SelectionModel, arg => arg.Id);
 
         var graph = new RandomGraphGenerator().GenerateRandomGraph(30, 3);
-        
-        var ffd = new ForceDirectedGraph(new Graph2D(graph.nodes.Cast<INode2D>().ToList(), graph.edges.Cast<IEdge<INode2D>>().ToList()));
-        ffd.Distribute(1900, 1300);
+
+        var edge2Ds = graph.edges.Cast<IEdge2D>();
+
+        var ffd = new ForceDirectedGraph(new Graph2D(graph.nodes.Cast<INode2D>().ToList(), edge2Ds.ToList()));
+        ffd.Distribute(5000, 3000);
         Graph = new GraphWrapper(ffd);
 
         Play = ReactiveCommand

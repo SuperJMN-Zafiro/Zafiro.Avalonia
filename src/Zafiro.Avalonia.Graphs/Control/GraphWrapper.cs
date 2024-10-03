@@ -5,7 +5,7 @@ namespace Zafiro.Avalonia.Graphs.Control;
 
 public class GraphWrapper : IGraph
 {
-    public GraphWrapper(IGraph<INode2D, IEdge<INode2D>> graph)
+    public GraphWrapper(IGraph2D graph)
     {
         Edges = graph.Edges;
         Nodes = graph.Nodes;
