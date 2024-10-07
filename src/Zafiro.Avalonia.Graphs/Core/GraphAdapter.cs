@@ -1,16 +1,13 @@
 ﻿using System.Collections;
+using Avalonia.Data.Converters;
 
 namespace Zafiro.Avalonia.Graphs.Core;
 
-public class GraphAdapter : IGraph
+public class GraphAdapter(IGraph2D graph) : IGraph
 {
-    public GraphAdapter(IGraph2D graph)
-    {
-        Edges = graph.Edges;
-        Nodes = graph.Nodes;
-    }
+    public IEnumerable Nodes { get; } = graph.Nodes;
 
-    public IEnumerable Nodes { get; }
+    public IEnumerable Edges { get; } = graph.Edges;
 
-    public IEnumerable Edges { get; }
+    public static readonly FuncValueConverter<IGraph2D?, IGraph?> Converter = new(graph2D => graph2D != null ? new GraphAdapter(graph2D) : null);
 }

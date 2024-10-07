@@ -23,7 +23,7 @@ public class ControlsSampleViewModel
 
         var ffd = new ForceDirectedGraph(new Graph2D(graph.nodes.Cast<INode2D>().ToList(), edge2Ds.ToList()));
         ffd.Distribute(5000, 3000);
-        Graph = new GraphAdapter(ffd);
+        Graph = ffd;
 
         Play = ReactiveCommand
             .CreateFromObservable(() => Observable.Interval(TimeSpan.FromMilliseconds(12), RxApp.MainThreadScheduler).Do(_ => ffd.Step()));
@@ -38,5 +38,5 @@ public class ControlsSampleViewModel
     //public SelectionHandler<Item, int> SelectionHandler { get; }
 
     public SelectionModel<Item> SelectionModel { get; }
-    public IGraph Graph { get; }
+    public ForceDirectedGraph Graph { get; }
 }

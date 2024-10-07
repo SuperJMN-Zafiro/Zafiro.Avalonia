@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:TestApp.Samples.Controls"
              xmlns:control="clr-namespace:Zafiro.Avalonia.Graphs.Control;assembly=Zafiro.Avalonia.Graphs"
              xmlns:ng="clr-namespace:System.Drawing;assembly=System.ComponentModel.TypeConverter"
+             xmlns:core="clr-namespace:Zafiro.Avalonia.Graphs.Core;assembly=Zafiro.Avalonia.Graphs"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -34,10 +35,17 @@
            </c:ProportionalCanvas>
        </TabItem>
         <TabItem Header="Graph">
-            <control:GraphControl Margin="-1000" Graph="{Binding Graph}">
+            <control:GraphControl Margin="-1000"  Graph="{Binding Graph, Converter={x:Static core:GraphAdapter.Converter}}">
                 <control:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
-                        <Ellipse Width="{Binding Weight}" Height="{Binding Weight}" Fill="Red" />
+                        <Ellipse Height="{Binding $self.Width}" Fill="Red">
+                            <Ellipse.Width>
+                                <MultiBinding Converter="{x:Static vm:CustomConverters.Importance}">
+                                    <Binding x:DataType="vm:ControlsSampleViewModel" Path="$parent[vm:ControlsSampleView].DataContext" />
+                                    <Binding />
+                                </MultiBinding>
+                            </Ellipse.Width>
+                        </Ellipse>
                     </DataTemplate>
                 </control:GraphControl.ItemTemplate>
                 <control:GraphControl.EdgeTemplate>
