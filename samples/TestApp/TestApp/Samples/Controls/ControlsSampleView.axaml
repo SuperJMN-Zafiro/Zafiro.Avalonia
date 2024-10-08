@@ -20,28 +20,30 @@
                      SelectionMode="Multiple">
             </ListBox>
         </TabItem>
-       <TabItem Header="Proportional Canvas">
-           <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
-               <Rectangle Fill="Red" 
-                          c:ProportionalCanvas.Left="0" 
-                          c:ProportionalCanvas.Top="10"
-                          c:ProportionalCanvas.ProportionalWidth="40"
-                          c:ProportionalCanvas.ProportionalHeight="20" />
-               <Rectangle Fill="Green" 
-                          c:ProportionalCanvas.Left="60" 
-                          c:ProportionalCanvas.Top="50"
-                          c:ProportionalCanvas.ProportionalWidth="30"
-                          c:ProportionalCanvas.ProportionalHeight="20" />
-           </c:ProportionalCanvas>
-       </TabItem>
+        <TabItem Header="Proportional Canvas">
+            <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
+                <Rectangle Fill="Red"
+                           c:ProportionalCanvas.Left="0"
+                           c:ProportionalCanvas.Top="10"
+                           c:ProportionalCanvas.ProportionalWidth="40"
+                           c:ProportionalCanvas.ProportionalHeight="20" />
+                <Rectangle Fill="Green"
+                           c:ProportionalCanvas.Left="60"
+                           c:ProportionalCanvas.Top="50"
+                           c:ProportionalCanvas.ProportionalWidth="30"
+                           c:ProportionalCanvas.ProportionalHeight="20" />
+            </c:ProportionalCanvas>
+        </TabItem>
         <TabItem Header="Graph">
-            <control:GraphControl Margin="-1000"  Graph="{Binding Graph, Converter={x:Static core:GraphAdapter.Converter}}">
+            <control:GraphControl Margin="-1000"
+                                  Graph="{Binding Graph, Converter={x:Static core:GraphAdapter.Converter}}">
                 <control:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
                         <Ellipse Height="{Binding $self.Width}" Fill="Red">
                             <Ellipse.Width>
                                 <MultiBinding Converter="{x:Static vm:CustomConverters.Importance}">
-                                    <Binding x:DataType="vm:ControlsSampleViewModel" Path="$parent[vm:ControlsSampleView].DataContext" />
+                                    <Binding x:DataType="vm:ControlsSampleViewModel"
+                                             Path="$parent[vm:ControlsSampleView].DataContext" />
                                     <Binding />
                                 </MultiBinding>
                             </Ellipse.Width>
@@ -67,7 +69,44 @@
                     </DataTemplate>
                 </control:GraphControl.EdgeTemplate>
             </control:GraphControl>
-            
+        </TabItem>
+        <TabItem Header="GradualGraph">
+            <DockPanel>
+                <Button DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
+                <control:GraphControl Graph="{Binding GradualGraph}">
+                    <control:GraphControl.ItemTemplate>
+                        <DataTemplate DataType="vm:Person">
+                            <Ellipse Height="{Binding $self.Width}" Fill="Red">
+                                <Ellipse.Width>
+                                    <MultiBinding Converter="{x:Static vm:CustomConverters.Importance}">
+                                        <Binding x:DataType="vm:ControlsSampleViewModel"
+                                                 Path="$parent[vm:ControlsSampleView].DataContext" />
+                                        <Binding />
+                                    </MultiBinding>
+                                </Ellipse.Width>
+                            </Ellipse>
+                        </DataTemplate>
+                    </control:GraphControl.ItemTemplate>
+                    <control:GraphControl.EdgeTemplate>
+                        <DataTemplate DataType="vm:Friendship">
+                            <Line Stroke="Black" StrokeThickness="3">
+                                <Line.StartPoint>
+                                    <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                        <Binding Path="Source.X" />
+                                        <Binding Path="Source.Y" />
+                                    </MultiBinding>
+                                </Line.StartPoint>
+                                <Line.EndPoint>
+                                    <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                        <Binding Path="Target.X" />
+                                        <Binding Path="Target.Y" />
+                                    </MultiBinding>
+                                </Line.EndPoint>
+                            </Line>
+                        </DataTemplate>
+                    </control:GraphControl.EdgeTemplate>
+                </control:GraphControl>
+            </DockPanel>
         </TabItem>
     </TabControl>
 </UserControl>
