@@ -34,7 +34,7 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> wher
         Load = ReactiveCommand.CreateFromObservable(() => Combined(vertexList, edgesList));
     }
 
-    public static int EdgeBufferCount { get; set; } = 20;
+    public int EdgeBufferCount { get; set; } = 20;
 
     public TimeSpan AddDelay { get; set; } = TimeSpan.FromMilliseconds(500);
 
