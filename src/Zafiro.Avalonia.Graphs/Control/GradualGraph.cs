@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using DynamicData;
+using DynamicData.Aggregation;
 using ReactiveUI;
 using Zafiro.Avalonia.Graphs.Core;
 using Zafiro.Reactive;
@@ -12,21 +13,34 @@ namespace Zafiro.Avalonia.Graphs.Control;
 
 public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> where TNode : notnull
 {
+    public LoadOptions Options { get; }
     private readonly IGenericGraph<TNode, TEdge> inner;
 
-    public GradualGraph(IGenericGraph<TNode, TEdge> inner)
+    public GradualGraph(IGenericGraph<TNode, TEdge> inner, LoadOptions options)
     {
+        Options = options;
         this.inner = inner;
         var vertexList = new SourceList<TNode>();
         var edgesList = new SourceList<TEdge>();
 
-        vertexList.Connect()
+        var vertexChanges = vertexList.Connect();
+
+        vertexChanges
             .Bind(out var nodes)
             .Subscribe();
 
-        edgesList.Connect()
+        var edgeChanges = edgesList.Connect();
+
+        edgeChanges
             .Bind(out var edges)
             .Subscribe();
+
+        var edgeCount = edgeChanges.Count().StartWith(0);
+        var vertexCount = vertexChanges.Count().StartWith(0);
+        var currentCount = edgeCount.CombineLatest(vertexCount, (v, e) => v + e);
+
+        var total = inner.Edges.Count + inner.Nodes.Count;
+        Progress = currentCount.Select(current => (double) current / total);
 
         Nodes = nodes;
         Edges = edges;
@@ -34,11 +48,9 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> wher
         Load = ReactiveCommand.CreateFromObservable(() => Combined(vertexList, edgesList));
     }
 
-    public int EdgeBufferCount { get; set; } = 20;
 
-    public TimeSpan AddDelay { get; set; } = TimeSpan.FromMilliseconds(500);
+    public IObservable<double> Progress { get; }
 
-    public int VertexBufferCount { get; set; } = 10;
 
     public ReactiveCommand<Unit, Unit> Load { get; set; }
 
@@ -57,8 +69,8 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> wher
     {
         return inner.Edges.OrderByDescending(edge => edge.Weight)
             .ToObservable()
-            .Buffer(EdgeBufferCount)
-            .Select(list => Observable.Return(list).Delay(AddDelay))
+            .Buffer(Options.EdgeBufferCount)
+            .Select(list => Observable.Return(list).Delay(Options.AddDelay))
             .Merge(1)
             .ObserveOn(AvaloniaScheduler.Instance)
             .Do(edgesList.AddRange)
@@ -69,8 +81,8 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> wher
     {
         return inner.Nodes.OrderByDescending(inner.DegreeCentrality)
             .ToObservable()
-            .Buffer(VertexBufferCount)
-            .Select(list => Observable.Return(list).Delay(AddDelay))
+            .Buffer(Options.VertexBufferCount)
+            .Select(list => Observable.Return(list).Delay(Options.AddDelay))
             .Merge(1)
             .ObserveOn(AvaloniaScheduler.Instance)
             .Do(vertexList.AddRange)
