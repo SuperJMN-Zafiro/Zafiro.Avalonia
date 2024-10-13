@@ -5,7 +5,8 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia.Graphs/Control/GraphControl.axaml" />
+                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Graph/Control/GraphControl.axaml" />
+                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Dendrogram/Control/ClusterControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

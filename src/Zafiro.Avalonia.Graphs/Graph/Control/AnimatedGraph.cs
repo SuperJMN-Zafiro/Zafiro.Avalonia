@@ -5,11 +5,11 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.Graphs.Core;
+using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.Reactive;
 using Zafiro.UI;
 
-namespace Zafiro.Avalonia.Graphs.Control;
+namespace Zafiro.Avalonia.DataViz.Graph.Control;
 
 public class AnimatedGraph : ReactiveObject, IGraph
 {

@@ -1,9 +1,9 @@
 using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Zafiro.Avalonia.Graphs.Core;
+using Zafiro.Avalonia.DataViz.Graph.Core;
 
-namespace Zafiro.Avalonia.Graphs.Control;
+namespace Zafiro.Avalonia.DataViz.Graph.Control;
 
 public class Converters
 {

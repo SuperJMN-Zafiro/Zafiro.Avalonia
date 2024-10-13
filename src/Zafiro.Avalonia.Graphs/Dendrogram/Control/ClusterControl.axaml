@@ -1,0 +1,102 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control">
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <control:ClusterControl />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type control:ClusterControl}" TargetType="control:ClusterControl">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="control:ClusterControl">
+                <Panel DataContext="{Binding Cluster, RelativeSource={RelativeSource TemplatedParent}}"
+                       Background="{TemplateBinding Background}">
+                    <Panel.Width>
+                        <MultiBinding Converter="{x:Static control:ObjectConverters.Multiply}">
+                            <Binding Path="Parent.FusionDistance" />
+                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="DistanceMultiplier" />
+                        </MultiBinding>
+                    </Panel.Width>
+                       
+                    <Panel.Styles>
+                        <Style Selector="Rectangle">
+                            <Setter Property="Fill"
+                                    Value="{Binding ConnectionBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="ToolTip.Tip" Value="{Binding FusionDistance}" />
+                        </Style>
+                        <Style Selector="Rectangle.Vertical">
+                            <Setter Property="Width"
+                                    Value="{Binding ConnectionThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Style>
+                        <Style Selector="Rectangle.Horizontal">
+                            <Setter Property="Height"
+                                    Value="{Binding ConnectionThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Style>
+                    </Panel.Styles>
+
+                    <Grid RowDefinitions="* *">
+
+                        <Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
+                            <Rectangle.IsVisible>
+                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                    <Binding Path="Parent.FusionDistance" />
+                                    <Binding Path="Parent.Parent.FusionDistance" />
+                                </MultiBinding>
+                            </Rectangle.IsVisible>
+                        </Rectangle>
+
+                        <Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
+                            <Rectangle.IsVisible>
+                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                    <Binding Path="." />
+                                    <Binding Path="Parent.Right" />
+                                </MultiBinding>
+                            </Rectangle.IsVisible>
+                        </Rectangle>
+                        
+                        <Rectangle Grid.Row="1" Classes="Vertical" HorizontalAlignment="Right">
+                            <Rectangle.IsVisible>
+                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                    <Binding Path="." />
+                                    <Binding Path="Parent.Left" />
+                                </MultiBinding>
+                            </Rectangle.IsVisible>
+                        </Rectangle>
+                        
+                    </Grid>
+                    <DockPanel>
+                        <ItemsControl ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <control:ClusterControl
+                                        ItemTemplate="{Binding $parent[control:ClusterControl].ItemTemplate}"
+                                        ConnectionThickness="{Binding $parent[control:ClusterControl].ConnectionThickness}"
+                                        ConnectionBrush="{Binding $parent[control:ClusterControl].ConnectionBrush}"
+                                        Cluster="{Binding}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <ContentControl
+                            ContentTemplate="{TemplateBinding ItemTemplate}"
+                            VerticalAlignment="Center" Content="{Binding Content}">
+                            <ContentControl.IsVisible>
+                                <Binding Converter="{x:Static control:ObjectConverters.ContentVisibilityConverter}" />
+                            </ContentControl.IsVisible>
+                        </ContentControl>
+                        <Rectangle Classes="Horizontal" />
+                    </DockPanel>
+                </Panel>
+
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

@@ -6,10 +6,10 @@ using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Aggregation;
 using ReactiveUI;
-using Zafiro.Avalonia.Graphs.Core;
+using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.Reactive;
 
-namespace Zafiro.Avalonia.Graphs.Control;
+namespace Zafiro.Avalonia.DataViz.Graph.Control;
 
 public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> where TNode : notnull
 {

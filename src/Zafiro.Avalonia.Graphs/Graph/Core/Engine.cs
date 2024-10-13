@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Zafiro.Avalonia.Graphs.Core;
+namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
 public class Engine
 {

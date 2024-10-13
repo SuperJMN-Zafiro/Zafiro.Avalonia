@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using Avalonia.Data.Converters;
 
-namespace Zafiro.Avalonia.Graphs.Core;
+namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
 public class GraphAdapter(IGraph2D graph) : IGraph
 {

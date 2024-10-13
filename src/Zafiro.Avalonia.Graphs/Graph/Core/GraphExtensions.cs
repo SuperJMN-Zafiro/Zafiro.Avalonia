@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Memoizer;
 
-namespace Zafiro.Avalonia.Graphs.Core;
+namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
 public static class GraphExtensions
 {

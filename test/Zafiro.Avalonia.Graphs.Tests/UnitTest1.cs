@@ -1,4 +1,4 @@
-using Zafiro.Avalonia.Graphs.Core;
+using Zafiro.Avalonia.DataViz.Graph.Core;
 
 namespace Zafiro.Avalonia.Graphs.Tests;
 

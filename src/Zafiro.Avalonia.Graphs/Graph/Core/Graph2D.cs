@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Zafiro.Avalonia.Graphs.Core;
+namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
 public class Graph2D(List<INode2D> nodes, List<IEdge2D> edges) : IGraph2D
 {

@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:vm="clr-namespace:TestApp.Samples.Controls"
-             xmlns:control="clr-namespace:Zafiro.Avalonia.Graphs.Control;assembly=Zafiro.Avalonia.Graphs"
-             xmlns:ng="clr-namespace:System.Drawing;assembly=System.ComponentModel.TypeConverter"
-             xmlns:core="clr-namespace:Zafiro.Avalonia.Graphs.Core;assembly=Zafiro.Avalonia.Graphs"
+             xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:core="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -107,6 +107,9 @@
                     </control:GraphControl.EdgeTemplate>
                 </control:GraphControl>
             </DockPanel>
+        </TabItem>
+        <TabItem Header="Dendrogram">
+            <control1:ClusterControl DistanceMultiplier="100" Cluster="{Binding Cluster}" />
         </TabItem>
     </TabControl>
 </UserControl>

@@ -25,9 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileExplorer", "FileExplore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleFileExplorer", "samples\FileExplorer\SampleFileExplorer\SampleFileExplorer.csproj", "{A14CD472-4466-4113-9661-F64C4F8A607C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.Graphs", "src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.Graphs.csproj", "{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.DataViz", "src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.DataViz.csproj", "{5EF3556F-F8D8-4DAB-AFA8-A2A6F2D2F5D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.Avalonia.Graphs.Tests", "test\Zafiro.Avalonia.Graphs.Tests\Zafiro.Avalonia.Graphs.Tests.csproj", "{47E07E6C-31E5-43E7-B8D8-66CD767860EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.Graphs.Tests", "test\Zafiro.Avalonia.Graphs.Tests\Zafiro.Avalonia.Graphs.Tests.csproj", "{47E07E6C-31E5-43E7-B8D8-66CD767860EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

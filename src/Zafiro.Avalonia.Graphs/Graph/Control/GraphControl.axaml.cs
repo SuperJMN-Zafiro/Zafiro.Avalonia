@@ -1,9 +1,9 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
-using Zafiro.Avalonia.Graphs.Core;
+using Zafiro.Avalonia.DataViz.Graph.Core;
 
-namespace Zafiro.Avalonia.Graphs.Control;
+namespace Zafiro.Avalonia.DataViz.Graph.Control;
 
 public class GraphControl : TemplatedControl
 {

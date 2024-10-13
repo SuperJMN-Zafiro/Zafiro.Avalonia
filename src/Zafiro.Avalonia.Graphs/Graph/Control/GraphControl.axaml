@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:g="clr-namespace:Zafiro.Avalonia.Graphs.Core"
-                    xmlns:control="clr-namespace:Zafiro.Avalonia.Graphs.Control"
-                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control"
+                    xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
