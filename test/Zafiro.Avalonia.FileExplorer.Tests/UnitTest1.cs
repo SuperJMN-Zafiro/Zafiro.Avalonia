@@ -1,8 +1,11 @@
 using System.IO.Abstractions.TestingHelpers;
+using System.Reactive;
 using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 using FluentAssertions;
 using FluentAssertions.Primitives;
+using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.Transfers;
 using Zafiro.FileSystem.Core;
@@ -10,6 +13,19 @@ using Zafiro.FileSystem.Mutable;
 using Zafiro.Mixins;
 
 namespace Zafiro.Avalonia.FileExplorer.Tests;
+
+public partial class FileExplorer2 : ReactiveObject
+{
+    [Reactive] private ZafiroPath address;
+
+    public FileExplorer2(IMutableFileSystem fileSystem)
+    {
+        Navigate = ReactiveCommand.CreateFromTask(() => fileSystem.GetDirectory(Address));
+        Address = fileSystem.InitialPath;
+    }
+
+    public ReactiveCommand<Unit, Result<IMutableDirectory>> Navigate { get; }
+}
 
 public class UnitTest1
 {
@@ -101,6 +117,8 @@ public static class StringAssertionExtensions
 
 public class MockFileSystem : IMutableFileSystem
 {
+    public System.IO.Abstractions.TestingHelpers.MockFileSystem Inner { get; }
+
     public Task<Result<IMutableDirectory>> GetDirectory(ZafiroPath path)
     {
         return FileSystem.GetDirectory(path);
@@ -108,7 +126,8 @@ public class MockFileSystem : IMutableFileSystem
 
     public MockFileSystem(IDictionary<string,MockFileData>? files = null)
     {
-        FileSystem = new Zafiro.FileSystem.Local.FileSystem(new System.IO.Abstractions.TestingHelpers.MockFileSystem(files));
+        Inner = new System.IO.Abstractions.TestingHelpers.MockFileSystem(files);
+        FileSystem = new Zafiro.FileSystem.Local.FileSystem(Inner);
     }
 
     public IMutableFileSystem FileSystem { get; }
