@@ -37,11 +37,17 @@ public class ControlsSampleViewModel
         graph2D.Distribute(2000, 2000);
         GradualGraph = new GradualGraph<INode2D, IEdge2D>(graph2D, new LoadOptions());
 
-
-        var cluster = new Cluster(new Cluster("A"), new Cluster("B"), 3);
-        var right = new Cluster(new Cluster("C"), new Cluster("D"), 4);
-
-        Cluster = new Cluster(cluster, right, 6);
+        Cluster = new Cluster(
+            new Cluster(
+                new Cluster(
+                    new Cluster("A"), 
+                    new Cluster("B"), 1),
+                new Cluster("F"), 2),
+            new Cluster(
+                new Cluster("C"),
+                new Cluster(
+                    new Cluster("D"),
+                    new Cluster("E"), 4), 5), 7);
     }
 
     public ReactiveCommand<Unit, long> Play { get; set; }

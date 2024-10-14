@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:TestApp.Samples.Controls"
              xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control;assembly=Zafiro.Avalonia.DataViz"
              xmlns:core="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core;assembly=Zafiro.Avalonia.DataViz"
-             xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:cc="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -109,7 +109,16 @@
             </DockPanel>
         </TabItem>
         <TabItem Header="Dendrogram">
-            <control1:ClusterControl DistanceMultiplier="100" Cluster="{Binding Cluster}" />
+            <cc:ClusterControl DistanceMultiplier="80" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
+                               Cluster="{Binding Cluster}">
+                <cc:ClusterControl.ItemTemplate>
+                    <DataTemplate DataType="x:String">
+                        <Border CornerRadius="10" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
+                            <TextBlock FontWeight="Black" Text="{Binding}" />
+                        </Border>
+                    </DataTemplate>
+                </cc:ClusterControl.ItemTemplate>
+            </cc:ClusterControl>
         </TabItem>
     </TabControl>
 </UserControl>

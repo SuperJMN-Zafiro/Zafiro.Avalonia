@@ -26,11 +26,11 @@
                         <Style Selector="Rectangle">
                             <Setter Property="Fill"
                                     Value="{Binding ConnectionBrush, RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Setter Property="ToolTip.Tip" Value="{Binding FusionDistance}" />
                         </Style>
                         <Style Selector="Rectangle.Vertical">
                             <Setter Property="Width"
                                     Value="{Binding ConnectionThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="ToolTip.Tip" Value="{Binding Parent.FusionDistance}" />
                         </Style>
                         <Style Selector="Rectangle.Horizontal">
                             <Setter Property="Height"
