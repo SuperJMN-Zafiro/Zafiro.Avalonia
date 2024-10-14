@@ -17,7 +17,7 @@ public class UnitTest1
     public async Task Get_non_existing_filesystem()
     {
         var fileUniverse = new FileRepo([new FileSystemConnection("test", "Test", new MockFileSystem())]);
-        var file = await fileUniverse.Get(new Locator("local", "home/jmn/file.txt", ItemType.File));
+        var file = await fileUniverse.Get(new FileLocator("local", "home/jmn/file.txt", ItemType.File));
         file.Should().Fail();
     }
     
@@ -25,7 +25,7 @@ public class UnitTest1
     public async Task Get_non_existing_file()
     {
         var fileUniverse = new FileRepo([new FileSystemConnection("test", "Test", new MockFileSystem())]);
-        var file = await fileUniverse.Get(new Locator("test", "home/jmn/file.txt", ItemType.File));
+        var file = await fileUniverse.Get(new FileLocator("test", "home/jmn/file.txt", ItemType.File));
         file.Should().Fail();
     }
     
@@ -38,14 +38,14 @@ public class UnitTest1
         };
         
         var fileUniverse = new FileRepo([new FileSystemConnection("test", "Test", new MockFileSystem(filesystem))]);
-        var file = await fileUniverse.Get(new Locator("test", "home/jmn/file.txt", ItemType.File));
+        var file = await fileUniverse.Get(new FileLocator("test", "home/jmn/file.txt", ItemType.File));
         file.Should().Succeed();
     }
 }
 
 public interface IFileRepo 
 {
-    public Task<Result<INode>> Get(Locator item);
+    public Task<Result<INode>> Get(FileLocator item);
 }
 
 public class FileRepo : IFileRepo
@@ -57,12 +57,12 @@ public class FileRepo : IFileRepo
         Connections = connections;
     }
     
-    public Task<Result<INode>> Get(Locator item)
+    public Task<Result<INode>> Get(FileLocator item)
     {
         return Locate(item);
     }
 
-    private Task<Result<INode>> Locate(Locator item)
+    private Task<Result<INode>> Locate(FileLocator item)
     {
         return Connections
             .TryFirst(x => x.Identifier == item.Connection)
@@ -70,12 +70,12 @@ public class FileRepo : IFileRepo
             .Map(connection => GetItem(item, connection));
     }
 
-    private string ErrorMessage(Locator item)
+    private string ErrorMessage(FileLocator item)
     {
         return $"Cannot find '{item.Connection}' in the available connections {{{Connections.Select(x => "'" + x.Identifier + "'").JoinWithCommas()}}}. Used: {item}";
     }
 
-    private static Task<Result<INode>> GetItem(Locator item, FileSystemConnection connection)
+    private static Task<Result<INode>> GetItem(FileLocator item, FileSystemConnection connection)
     {
         return item.ItemType switch
         {
