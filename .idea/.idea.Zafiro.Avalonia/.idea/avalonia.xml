@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="samples/FileExplorer/SampleFileExplorer/Views/MainView.axaml" value="samples/FileExplorer/SampleFileExplorer/SampleFileExplorer.csproj" />
         <entry key="samples/TestApp/TestApp/App.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/Controls/ControlsSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/Dialogs/DialogSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
@@ -17,6 +18,7 @@
         <entry key="samples/TestApp/TestApp/Views/Samples/WizardSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Views/Samples/WizardSampleViewModel.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="src/Zafiro.Avalonia.FileExplorer/Core/Transfers/TransferManagerView.axaml" value="samples/FileExplorer/SampleFileExplorer/SampleFileExplorer.csproj" />
+        <entry key="src/Zafiro.Avalonia.FileExplorer/FileExplorerView.axaml" value="samples/FileExplorer/SampleFileExplorer/SampleFileExplorer.csproj" />
         <entry key="src/Zafiro.Avalonia/Controls/Info.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="src/Zafiro.Avalonia/Controls/StringEditor/StringEditorControl.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="src/Zafiro.Avalonia/Controls/WizardControl.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />

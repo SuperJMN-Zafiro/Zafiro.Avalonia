@@ -39,6 +39,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
       <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.FileExplorer\Zafiro.Avalonia.FileExplorer.csproj" />
+      <ProjectReference Include="..\..\..\test\Zafiro.Avalonia.FileExplorer.Tests\Zafiro.Avalonia.FileExplorer.Tests.csproj" />
     </ItemGroup>
 
 </Project>

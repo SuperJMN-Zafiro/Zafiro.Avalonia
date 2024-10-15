@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleFileExplorer", "sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.Avalonia.FileExplorer.Tests", "test\Zafiro.Avalonia.FileExplorer.Tests\Zafiro.Avalonia.FileExplorer.Tests.csproj", "{0D7067B8-1E50-4126-A77B-8712E6DF0C03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{EA30701A-AF5C-42D2-9900-B84E69DA4FC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D7067B8-1E50-4126-A77B-8712E6DF0C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA30701A-AF5C-42D2-9900-B84E69DA4FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA30701A-AF5C-42D2-9900-B84E69DA4FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA30701A-AF5C-42D2-9900-B84E69DA4FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA30701A-AF5C-42D2-9900-B84E69DA4FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

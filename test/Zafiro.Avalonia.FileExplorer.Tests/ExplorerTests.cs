@@ -1,11 +1,28 @@
 using System.IO.Abstractions.TestingHelpers;
 using System.Reactive.Linq;
+using ClassLibrary1;
 using FluentAssertions;
+using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
+using Zafiro.FileSystem.Mutable;
 
 namespace Zafiro.Avalonia.FileExplorer.Tests;
 
 public class ExplorerTests
 {
+    [Fact]
+    public async Task Navigate_loads_contents()
+    {
+        var files = new Dictionary<string, MockFileData>()
+        {
+            ["TestDir"] = new MockDirectoryData(),
+        };
+        
+        var sut = CreateSut(files);
+        
+        sut.Address = "TestDir";
+        var result = await sut.Navigate.Execute();
+    }
+
     [Fact]
     public async Task Navigate_to_path()
     {
@@ -13,7 +30,7 @@ public class ExplorerTests
         {
             ["TestDir"] = new MockDirectoryData(),
         };
-        var sut = new FileExplorer2(new MockFileSystem(files));
+        var sut = CreateSut(files);
         
         sut.Address = "TestDir";
         var result = await sut.Navigate.Execute();
@@ -29,12 +46,23 @@ public class ExplorerTests
         {
             [initialDir] = new MockDirectoryData(),
         };
-        
-        var mutableFileSystem = new MockFileSystem(files);
-        var sut = new FileExplorer2(mutableFileSystem);
+        var sut = CreateSut(files);
         
         var result = await sut.Navigate.Execute();
         
         result.Should().Succeed();
     }
+
+    private static FileExplorer2 CreateSut(Dictionary<string, MockFileData> files)
+    {
+        var mutableFileSystem = new MockFileSystem(files);
+        var sut = new FileExplorer2(mutableFileSystem, path => new MockDirectoryContents(path));
+        return sut;
+    }
+}
+
+public class MockDirectoryContents(IMutableDirectory path) : IDirectoryContents
+{
+    public IEnumerable<IDirectoryItem> Items { get; }
+    public IEnumerable<IDirectoryItem> SelectedItems { get; }
 }
