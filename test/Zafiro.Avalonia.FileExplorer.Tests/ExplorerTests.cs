@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using ClassLibrary1;
 using FluentAssertions;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
+using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Mutable;
 
 namespace Zafiro.Avalonia.FileExplorer.Tests;
@@ -53,15 +54,15 @@ public class ExplorerTests
         result.Should().Succeed();
     }
 
-    private static FileExplorer2 CreateSut(Dictionary<string, MockFileData> files)
+    private static ClassLibrary1.FileExplorer CreateSut(Dictionary<string, MockFileData> files)
     {
         var mutableFileSystem = new MockFileSystem(files);
-        var sut = new FileExplorer2(mutableFileSystem, path => new MockDirectoryContents(path));
+        var sut = new ClassLibrary1.FileExplorer(mutableFileSystem, (path, e) => new MockDirectoryContents(path));
         return sut;
     }
 }
 
-public class MockDirectoryContents(IMutableDirectory path) : IDirectoryContents
+public class MockDirectoryContents(IRooted<IMutableDirectory> path) : IDirectoryContents
 {
     public IEnumerable<IDirectoryItem> Items { get; }
     public IEnumerable<IDirectoryItem> SelectedItems { get; }
