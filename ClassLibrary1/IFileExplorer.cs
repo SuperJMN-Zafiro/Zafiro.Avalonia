@@ -7,5 +7,5 @@ namespace ClassLibrary1;
 
 public interface IFileExplorer
 {
-    Task<Result> GoTo(ZafiroPath newAddress);
+    Task<Result<IDirectoryContents>> GoTo(ZafiroPath newAddress);
 }

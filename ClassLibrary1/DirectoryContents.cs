@@ -45,6 +45,7 @@ public class DirectoryContents : IDirectoryContents, IDisposable
     
     public IEnumerable<IDirectoryItem> Items { get; }
     public IEnumerable<IDirectoryItem> SelectedItems { get; }
+    public ZafiroPath Path => directory.Path;
 
     public void Dispose()
     {

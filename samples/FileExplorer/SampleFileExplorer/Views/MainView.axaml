@@ -33,7 +33,8 @@
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                         <TextBox Text="{Binding Address}" />
-                        <Button Content="Load" Command="{Binding Navigate}" />
+                        <Button Content="Load" Command="{Binding LoadAddress}" />
+                        <Button Content="Go back" Command="{Binding GoBack}" />
                     </StackPanel>
                     <ListBox ItemsSource="{Binding Contents^.Items}" />
                 </DockPanel>

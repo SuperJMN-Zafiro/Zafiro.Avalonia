@@ -12,5 +12,5 @@ public class DirectoryItem(IRooted<IMutableDirectory> parent, string name, IFile
     public string Name { get; } = name;
     public string Key { get; } = name + "/";
     public ReactiveCommand<Unit, Result> Delete { get; } = ReactiveCommand.CreateFromTask(() => parent.Value.DeleteSubdirectory(name));
-    public ReactiveCommand<Unit, Result> Navigate { get; } = ReactiveCommand.CreateFromTask(() => fileExplorer.GoTo(parent.Path.Combine(name)));
+    public ReactiveCommand<Unit, Result<IDirectoryContents>> Navigate { get; } = ReactiveCommand.CreateFromTask(() => fileExplorer.GoTo(parent.Path.Combine(name)));
 }

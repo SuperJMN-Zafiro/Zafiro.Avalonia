@@ -21,7 +21,7 @@ public class ExplorerTests
         var sut = CreateSut(files);
         
         sut.Address = "TestDir";
-        var result = await sut.Navigate.Execute();
+        var result = await sut.LoadAddress.Execute();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class ExplorerTests
         var sut = CreateSut(files);
         
         sut.Address = "TestDir";
-        var result = await sut.Navigate.Execute();
+        var result = await sut.LoadAddress.Execute();
         
         result.Should().Succeed();
     }
@@ -49,7 +49,7 @@ public class ExplorerTests
         };
         var sut = CreateSut(files);
         
-        var result = await sut.Navigate.Execute();
+        var result = await sut.LoadAddress.Execute();
         
         result.Should().Succeed();
     }
@@ -66,4 +66,5 @@ public class MockDirectoryContents(IRooted<IMutableDirectory> path) : IDirectory
 {
     public IEnumerable<IDirectoryItem> Items { get; }
     public IEnumerable<IDirectoryItem> SelectedItems { get; }
+    public ZafiroPath Path { get; }
 }
