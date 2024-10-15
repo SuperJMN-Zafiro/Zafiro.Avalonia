@@ -20,7 +20,7 @@
 		<PackageReference Include="Avalonia.Controls.PanAndZoom" Version="11.1.0.1" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-		<PackageReference Include="Memoizer.NETStandard" Version="2023.5.1.16" />
+		
 	</ItemGroup>
 
 	<ItemGroup>
