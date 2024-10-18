@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using DynamicData;
+using DynamicData.Alias;
 using DynamicData.Binding;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 using Zafiro.FileSystem.Core;
@@ -22,8 +24,9 @@ public class DirectoryContents : IDirectoryContents, IDisposable
         watcher.StartWatching().DisposeWith(disposable);
         
         watcher.Items
+            .Where(node => !node.IsHidden)
             .Transform(DirectoryItem)
-            .Sort(SortExpressionComparer<IDirectoryItem>.Descending(p => p is DirectoryViewModel)
+            .Sort(SortExpressionComparer<IDirectoryItem>.Descending(p => p is IDirectoryItemDirectory)
                 .ThenByAscending(p => p.Name))
             .Bind(out var itemsCollection)
             .DisposeMany()
@@ -31,6 +34,7 @@ public class DirectoryContents : IDirectoryContents, IDisposable
             .DisposeWith(disposable);
 
         Items = itemsCollection;
+        SelectedItems = new ObservableCollection<IDirectoryItem>();
     }
     
     private IDirectoryItem DirectoryItem(IMutableNode node)

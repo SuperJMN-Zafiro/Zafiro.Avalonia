@@ -7,7 +7,7 @@ using Zafiro.FileSystem.Mutable;
 
 namespace ClassLibrary1;
 
-public class FileItem(IRooted<IMutableDirectory> parent, IMutableFile file) : IDirectoryItem
+public class FileItem(IRooted<IMutableDirectory> parent, IMutableFile file) : IDirectoryItemFile
 {
     public string Name { get; } = file.Name;
     public string Key { get; } = file.GetKey();

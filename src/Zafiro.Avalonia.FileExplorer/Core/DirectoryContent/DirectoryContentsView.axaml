@@ -7,8 +7,6 @@
              xmlns:directoryContent="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.DirectoryContent"
              x:Class="Zafiro.Avalonia.FileExplorer.Core.DirectoryContent.DirectoryContentsView"
              x:CompileBindings="True"
-             xmlns:core="clr-namespace:Zafiro.Avalonia.FileExplorer.Core"
-             xmlns:pr="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
              x:DataType="directoryContent:DirectoryContentsViewModel">
 
     <UserControl.DataTemplates>
@@ -25,5 +23,6 @@
         <KeyBinding Command="{Binding Context.Paste^}" Gesture="Ctrl+V" />
         <KeyBinding Command="{Binding Context.Delete^}" Gesture="Delete" />
     </UserControl.KeyBindings>
-    <ListBox Theme="{StaticResource EasyListBox}" Selection="{Binding Selection}" c:Selection.EnableCheckBoxes="{Binding Context.IsSelectionEnabled}" ItemsSource="{Binding Items}" />
+    <ListBox Theme="{StaticResource EasyListBox}" Selection="{Binding Selection}"
+             c:Selection.EnableCheckBoxes="{Binding Context.IsSelectionEnabled}" ItemsSource="{Binding Items}" />
 </UserControl>

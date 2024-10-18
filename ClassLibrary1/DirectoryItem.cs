@@ -7,7 +7,7 @@ using Zafiro.FileSystem.Mutable;
 
 namespace ClassLibrary1;
 
-public class DirectoryItem(IRooted<IMutableDirectory> parent, string name, IFileExplorer fileExplorer) : IDirectoryItem
+public class DirectoryItem(IRooted<IMutableDirectory> parent, string name, IFileExplorer fileExplorer) : IDirectoryItemDirectory
 {
     public string Name { get; } = name;
     public string Key { get; } = name + "/";
