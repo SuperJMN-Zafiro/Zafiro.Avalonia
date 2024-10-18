@@ -40,14 +40,15 @@
 
                     <Grid RowDefinitions="* *">
 
-                        <Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
+                        <!-- THIS SEEMS TO BE IRRELEVANT -->
+                        <!--<Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
                             <Rectangle.IsVisible>
                                 <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
                                     <Binding Path="Parent.FusionDistance" />
                                     <Binding Path="Parent.Parent.FusionDistance" />
                                 </MultiBinding>
                             </Rectangle.IsVisible>
-                        </Rectangle>
+                        </Rectangle>-->
 
                         <Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
                             <Rectangle.IsVisible>
@@ -76,12 +77,14 @@
                                         ItemTemplate="{Binding $parent[control:ClusterControl].ItemTemplate}"
                                         ConnectionThickness="{Binding $parent[control:ClusterControl].ConnectionThickness}"
                                         ConnectionBrush="{Binding $parent[control:ClusterControl].ConnectionBrush}"
+                                        DistanceMultiplier="{Binding $parent[control:ClusterControl].DistanceMultiplier}"
                                         Cluster="{Binding}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="1" />
+                                    <StackPanel />
+                                    <!--<UniformGrid Columns="1" />-->
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -92,7 +95,7 @@
                                 <Binding Converter="{x:Static control:ObjectConverters.ContentVisibilityConverter}" />
                             </ContentControl.IsVisible>
                         </ContentControl>
-                        <Rectangle Classes="Horizontal" />
+                        <Rectangle Classes="Horizontal" IsVisible="{Binding Parent, Converter={x:Static ObjectConverters.IsNotNull}}" />
                     </DockPanel>
                 </Panel>
 
