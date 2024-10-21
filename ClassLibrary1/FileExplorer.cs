@@ -1,9 +1,12 @@
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using CSharpFunctionalExtensions;
+using DynamicData;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 using Zafiro.Avalonia.FileExplorer.Core.Navigator;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem.Core;
@@ -43,7 +46,11 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
         }, canGoBack);
         
         Contents = LoadAddress.Merge(GoBack).Successes();
+        Items = this.WhenAnyObservable(explorer => explorer.Contents).Select(x => x.Items)
+            .EditDiff(x => x.Key);
     }
+
+    public IObservable<IChangeSet<IDirectoryItem, string>> Items { get; }
 
     public async Task<Result<IDirectoryContents>> GoTo(ZafiroPath path)
     {

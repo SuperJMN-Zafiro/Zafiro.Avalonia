@@ -3,7 +3,7 @@ using System.Reactive.Subjects;
 
 namespace Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 
-public class FileViewModel : IDirectoryItem
+public class FileViewModel : ReactiveObject, IDirectoryItem
 {
     private readonly Subject<Unit> deleteSubject = new();
     public IMutableFile File { get; }
