@@ -36,4 +36,5 @@ public class DirectoryViewModel: ReactiveObject, IDirectoryItem
     public string Name => Directory.Name;
     public string Key => Directory.Name + "/";
     public IObservable<Unit> Deleted => deleteSubject.AsObservable();
+    public bool IsSelected { get; set; }
 }

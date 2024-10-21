@@ -26,9 +26,8 @@ public class DirectoryContents : IDirectoryContents, IDisposable
         watcher.Items
             .Where(node => !node.IsHidden)
             .Transform(DirectoryItem)
-            .Sort(SortExpressionComparer<IDirectoryItem>.Descending(p => p is IDirectoryItemDirectory)
+            .SortAndBind(out ReadOnlyObservableCollection<IDirectoryItem> itemsCollection, SortExpressionComparer<IDirectoryItem>.Descending(p => p is IDirectoryItemDirectory)
                 .ThenByAscending(p => p.Name))
-            .Bind(out var itemsCollection)
             .DisposeMany()
             .Subscribe()
             .DisposeWith(disposable);

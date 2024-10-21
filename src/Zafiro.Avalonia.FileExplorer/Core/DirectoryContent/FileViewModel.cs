@@ -21,4 +21,5 @@ public class FileViewModel : IDirectoryItem
     public ReactiveCommand<Unit, Result> Delete { get; }
     public string Key => Name;
     public IObservable<Unit> Deleted => deleteSubject.AsObservable();
+    public bool IsSelected { get; set; }
 }

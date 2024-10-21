@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:SampleFileExplorer.ViewModels"
              xmlns:classLibrary1="clr-namespace:ClassLibrary1;assembly=ClassLibrary1"
-             xmlns:sampleFileExplorer="clr-namespace:SampleFileExplorer"
-             xmlns:directoryContent="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;assembly=Zafiro.Avalonia.FileExplorer"
+             xmlns:avalonia="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SampleFileExplorer.Views.MainView"
              x:DataType="viewModels:MainViewModel">
@@ -38,10 +37,12 @@
                         <Button Content="Load" Command="{Binding LoadAddress}" />
                         <Button Content="Go back" Command="{Binding GoBack}" />
                     </StackPanel>
-                    <ListBox ItemsSource="{Binding Contents^.Items}">
-                        <Interaction.Behaviors>
-                            <sampleFileExplorer:SelectionModelBehavior SelectedItems="{Binding Contents^.SelectedItems}" />
-                        </Interaction.Behaviors>
+                    <ListBox ItemsSource="{Binding Contents^.Items}" SelectionMode="Multiple">
+                        <ListBox.ItemContainerTheme>
+                            <ControlTheme BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                                <Setter x:DataType="avalonia:ISelectable" Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            </ControlTheme>
+                        </ListBox.ItemContainerTheme>
                     </ListBox>
                 </DockPanel>
             </DataTemplate>
