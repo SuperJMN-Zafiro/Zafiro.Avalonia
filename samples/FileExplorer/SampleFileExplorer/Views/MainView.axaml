@@ -3,20 +3,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:SampleFileExplorer.ViewModels"
-             xmlns:classLibrary1="clr-namespace:ClassLibrary1;assembly=ClassLibrary1"
+             xmlns:fe="clr-namespace:ClassLibrary1;assembly=ClassLibrary1"
              xmlns:avalonia="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SampleFileExplorer.Views.MainView"
              x:DataType="viewModels:MainViewModel">
 
     <UserControl.DataTemplates>
-        <DataTemplate DataType="classLibrary1:FileItem">
+        <DataTemplate DataType="fe:FileItem">
             <DockPanel>
-                <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></Button>
-                <TextBlock Text="{Binding Name}"></TextBlock>
+                <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete" />
+                <TextBlock Text="{Binding Name}" />
             </DockPanel>
         </DataTemplate>
-        <DataTemplate DataType="classLibrary1:DirectoryItem">
+        <DataTemplate DataType="fe:DirectoryItem">
             <DockPanel>
                 <!-- <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></Button> -->
                 <Button Command="{Binding Navigate}">

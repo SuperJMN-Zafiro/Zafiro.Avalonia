@@ -7,6 +7,5 @@ namespace ClassLibrary1;
 public interface IDirectoryContents
 {
     public IEnumerable<IDirectoryItem> Items { get; }
-    public IEnumerable<IDirectoryItem> SelectedItems { get;  }
     ZafiroPath Path { get; }
 }
