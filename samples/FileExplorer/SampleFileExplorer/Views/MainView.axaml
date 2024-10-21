@@ -36,6 +36,7 @@
                         <TextBox Text="{Binding Address}" />
                         <Button Content="Load" Command="{Binding LoadAddress}" />
                         <Button Content="Go back" Command="{Binding GoBack}" />
+                        <Button Content="Copy" Command="{Binding Copy}" />
                     </StackPanel>
                     <ListBox ItemsSource="{Binding Contents^.Items}" SelectionMode="Multiple">
                         <ListBox.ItemContainerTheme>

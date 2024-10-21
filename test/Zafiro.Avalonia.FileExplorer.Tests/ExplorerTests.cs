@@ -2,6 +2,7 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Reactive.Linq;
 using ClassLibrary1;
 using FluentAssertions;
+using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Mutable;
@@ -57,7 +58,7 @@ public class ExplorerTests
     private static ClassLibrary1.FileExplorer CreateSut(Dictionary<string, MockFileData> files)
     {
         var mutableFileSystem = new MockFileSystem(files);
-        var sut = new ClassLibrary1.FileExplorer(mutableFileSystem, (path, e) => new MockDirectoryContents(path));
+        var sut = new ClassLibrary1.FileExplorer(new FileSystemConnection("pepito", "pepito", mutableFileSystem), (path, e) => new MockDirectoryContents(path), new Clipboard() );
         return sut;
     }
 }

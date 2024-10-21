@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
 using ClassLibrary1;
 using DynamicData;
 using Zafiro.Avalonia.Dialogs.Simple;
@@ -9,7 +9,6 @@ using Zafiro.Avalonia.FileExplorer;
 using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.Clipboard;
 using Zafiro.Avalonia.FileExplorer.Core.Transfers;
-using Zafiro.Avalonia.FileExplorer.Tests;
 using Zafiro.UI;
 using FileExplorer = ClassLibrary1.FileExplorer;
 
@@ -20,12 +19,16 @@ public class MainViewModel : ViewModelBase
     public MainViewModel(List<FileSystemConnection> mutableFileSystem, INotificationService notificationService, IDialog dialogService,
         IClipboardService clipboardService, ITransferManager transferManager)
     {
-        var fileExplorers = mutableFileSystem
-            .Select(connection => new FileExplorer(connection.FileSystem, (directory, e) => new DirectoryContents(directory, e))).ToList();
-        Explorers = fileExplorers;
+        
+        var fileContext = new FileContext();
 
-        fileExplorers[0].Items.AutoRefresh(x => x.IsSelected).Filter(x => x.IsSelected).Subscribe(set => { });
+        foreach (var connection in mutableFileSystem)
+        {
+            fileContext.Add(new FileExplorer(connection, (directory, e) => new DirectoryContents(directory, e), new Clipboard()));
+        }
+        
+        Explorers = fileContext.Explorers;
     }
 
-    public IEnumerable<FileExplorer> Explorers { get; }
+    public ReadOnlyObservableCollection<IFileExplorer> Explorers { get; }
 }

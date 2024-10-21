@@ -4,10 +4,11 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using CSharpFunctionalExtensions;
 using DynamicData;
+using DynamicData.Aggregation;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
-using Zafiro.Avalonia.FileExplorer.Core.Navigator;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Mutable;
@@ -16,15 +17,16 @@ namespace ClassLibrary1;
 
 public partial class FileExplorer : ReactiveObject, IFileExplorer
 {
-    private readonly IMutableFileSystem fileSystem;
+    public FileSystemConnection Connection { get; }
     private readonly Func<IRooted<IMutableDirectory>, IFileExplorer, IDirectoryContents> getContents;
     [Reactive] private string address;
     private Stack<ZafiroPath> history = new();
     ISubject<bool> canGoBack = new Subject<bool>();
 
-    public FileExplorer(IMutableFileSystem fileSystem, Func<IRooted<IMutableDirectory>, IFileExplorer, IDirectoryContents> getContents)
+    public FileExplorer(FileSystemConnection connection,
+        Func<IRooted<IMutableDirectory>, IFileExplorer, IDirectoryContents> getContents, Clipboard clipboard)
     {
-        this.fileSystem = fileSystem;
+        Connection = connection;
         this.getContents = getContents;
         LoadAddress = ReactiveCommand.CreateFromTask(() => GoToCore(Address));
 
@@ -34,7 +36,7 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
             canGoBack.OnNext(history.Count > 1);
         }).Subscribe();
         
-        Address = fileSystem.InitialPath;
+        Address = Connection.FileSystem.InitialPath;
 
         GoBack = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -48,9 +50,17 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
         Contents = LoadAddress.Merge(GoBack).Successes();
         Items = this.WhenAnyObservable(explorer => explorer.Contents).Select(x => x.Items)
             .EditDiff(x => x.Key);
+
+        Items.AutoRefresh(x => x.IsSelected).Filter(x => x.IsSelected).Bind(out var selectedItemsCollection).Subscribe();
+        selectedItemsCollection.WhenAnyValue(x => x.Count).Select(i => i > 0);
+
+        Copy = ReactiveCommand.Create(() => clipboard.Copy(Key, selectedItemsCollection), selectedItemsCollection.WhenAnyValue(x => x.Count).Select(i => i > 0));
     }
 
     public IObservable<IChangeSet<IDirectoryItem, string>> Items { get; }
+    public string Key => Connection.Identifier;
+
+    public ReactiveCommand<Unit, Unit> Copy { get; }
 
     public async Task<Result<IDirectoryContents>> GoTo(ZafiroPath path)
     {
@@ -60,7 +70,7 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
 
     private Task<Result<IDirectoryContents>> GoToCore(ZafiroPath path)
     {
-        return fileSystem
+        return Connection.FileSystem
             .GetDirectory(path)
             .Map(directory => getContents(new Rooted<IMutableDirectory>(path, directory), this));
     }
@@ -70,4 +80,11 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
     public IObservable<IDirectoryContents> Contents { get; }
 
     public ReactiveCommand<Unit, Result<IDirectoryContents>> LoadAddress { get; }
+}
+
+public class Clipboard
+{
+    public void Copy(string key, IEnumerable<IDirectoryItem> item)
+    {
+    }
 }
