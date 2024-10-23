@@ -19,6 +19,18 @@ public class HostedConnector : Control
     public static readonly StyledProperty<object?> ToProperty = AvaloniaProperty.Register<HostedConnector, object?>(
         nameof(To));
 
+    public static readonly StyledProperty<ILineStrategy> ConnectionStyleProperty =
+        AvaloniaProperty.Register<HostedConnector, ILineStrategy>(
+            nameof(ConnectionStyle), SLineStrategy.Instance);
+
+    public static readonly StyledProperty<IBrush> ConnectionStrokeProperty =
+        AvaloniaProperty.Register<HostedConnector, IBrush>(
+            nameof(ConnectionStroke), Brushes.Black);
+
+    public static readonly StyledProperty<double> ConnectionStrokeThicknessProperty =
+        AvaloniaProperty.Register<HostedConnector, double>(
+            nameof(ConnectionStrokeThickness), 1d);
+
     private readonly CompositeDisposable disposables = new();
 
     public HostedConnector()
@@ -52,6 +64,24 @@ public class HostedConnector : Control
         set => SetValue(ToProperty, value);
     }
 
+    public ILineStrategy ConnectionStyle
+    {
+        get => GetValue(ConnectionStyleProperty);
+        set => SetValue(ConnectionStyleProperty, value);
+    }
+
+    public IBrush ConnectionStroke
+    {
+        get => GetValue(ConnectionStrokeProperty);
+        set => SetValue(ConnectionStrokeProperty, value);
+    }
+
+    public double ConnectionStrokeThickness
+    {
+        get => GetValue(ConnectionStrokeThicknessProperty);
+        set => SetValue(ConnectionStrokeThicknessProperty, value);
+    }
+
     private static IObservable<Point> CanvasPositionChanged(Control control)
     {
         var left = control.GetObservable(Canvas.LeftProperty);
@@ -77,8 +107,9 @@ public class HostedConnector : Control
 
         if (fromContainer == null || toContainer == null) return;
 
-        var pen = new Pen(Brushes.Black, 2);
+        var pen = new Pen(ConnectionStroke, ConnectionStrokeThickness);
+
         context.Connect(this, fromContainer, toContainer, VerticalAlignment.Center, HorizontalAlignment.Right,
-            VerticalAlignment.Center, HorizontalAlignment.Left, SLineStrategy.Instance, pen);
+            VerticalAlignment.Center, HorizontalAlignment.Left, ConnectionStyle, pen);
     }
 }

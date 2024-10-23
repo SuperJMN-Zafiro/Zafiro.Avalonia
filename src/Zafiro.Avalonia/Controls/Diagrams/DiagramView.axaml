@@ -45,7 +45,10 @@
               <ItemsControl ItemsSource="{TemplateBinding Edges}">
                   <ItemsControl.ItemTemplate>
                       <DataTemplate DataType="diagrams:IHaveFromTo">
-                          <diagrams:HostedConnector Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
+                          <diagrams:HostedConnector 
+                              ConnectionStroke="{Binding $parent[diagrams:DiagramView].ConnectionStroke}"
+                              ConnectionStrokeThickness="{Binding $parent[diagrams:DiagramView].ConnectionStrokeThickness}"
+                              ConnectionStyle="{Binding $parent[diagrams:DiagramView].ConnectionStyle}" Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
                       </DataTemplate>
                   </ItemsControl.ItemTemplate>
               </ItemsControl>

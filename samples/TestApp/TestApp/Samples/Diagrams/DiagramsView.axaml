@@ -6,7 +6,7 @@
              xmlns:diag="clr-namespace:TestApp.Samples.Diagrams"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Diagrams.DiagramsView" x:DataType="diag:DiagramsViewModel">
-    <diagrams:DiagramView Edges="{Binding Edges}" Nodes="{Binding Nodes}">
+    <diagrams:DiagramView ConnectionStrokeThickness="2"  Edges="{Binding Edges}" Nodes="{Binding Nodes}">
         <diagrams:DiagramView.ItemTemplate>
             <DataTemplate DataType="diag:Node">
                 <StackPanel Background="Transparent" Orientation="Horizontal">
