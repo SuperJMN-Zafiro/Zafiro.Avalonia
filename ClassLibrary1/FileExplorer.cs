@@ -24,7 +24,7 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
     ISubject<bool> canGoBack = new Subject<bool>();
 
     public FileExplorer(FileSystemConnection connection,
-        Func<IRooted<IMutableDirectory>, IFileExplorer, IDirectoryContents> getContents, Clipboard clipboard)
+        Func<IRooted<IMutableDirectory>, IFileExplorer, IDirectoryContents> getContents, Func<string, string, ReadOnlyObservableCollection<IDirectoryItem>, Task> copy)
     {
         Connection = connection;
         this.getContents = getContents;
@@ -54,7 +54,7 @@ public partial class FileExplorer : ReactiveObject, IFileExplorer
         Items.AutoRefresh(x => x.IsSelected).Filter(x => x.IsSelected).Bind(out var selectedItemsCollection).Subscribe();
         selectedItemsCollection.WhenAnyValue(x => x.Count).Select(i => i > 0);
 
-        Copy = ReactiveCommand.Create(() => clipboard.Copy(Key, selectedItemsCollection), selectedItemsCollection.WhenAnyValue(x => x.Count).Select(i => i > 0));
+        Copy = ReactiveCommand.CreateFromTask(() => copy(Key, Address, selectedItemsCollection), selectedItemsCollection.WhenAnyValue(x => x.Count).Select(i => i > 0));
     }
 
     public IObservable<IChangeSet<IDirectoryItem, string>> Items { get; }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using ClassLibrary1;
 using DynamicData;
 using Zafiro.Avalonia.Dialogs.Simple;
@@ -24,7 +25,8 @@ public class MainViewModel : ViewModelBase
 
         foreach (var connection in mutableFileSystem)
         {
-            fileContext.Add(new FileExplorer(connection, (directory, e) => new DirectoryContents(directory, e), new Clipboard()));
+            fileContext.Add(new FileExplorer(connection, (directory, e) => new DirectoryContents(directory, e),
+                (s, a, items) => { return Task.CompletedTask; }));
         }
         
         Explorers = fileContext.Explorers;

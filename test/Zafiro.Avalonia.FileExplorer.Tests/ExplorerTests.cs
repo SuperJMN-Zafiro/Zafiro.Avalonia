@@ -58,7 +58,7 @@ public class ExplorerTests
     private static ClassLibrary1.FileExplorer CreateSut(Dictionary<string, MockFileData> files)
     {
         var mutableFileSystem = new MockFileSystem(files);
-        var sut = new ClassLibrary1.FileExplorer(new FileSystemConnection("pepito", "pepito", mutableFileSystem), (path, e) => new MockDirectoryContents(path), new Clipboard() );
+        var sut = new ClassLibrary1.FileExplorer(new FileSystemConnection("pepito", "pepito", mutableFileSystem), (path, e) => new MockDirectoryContents(path), (s, a, items) => Task.CompletedTask);
         return sut;
     }
 }
