@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
+             xmlns:diag="clr-namespace:TestApp.Samples.Diagrams"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Diagrams.DiagramsView" x:DataType="diag:DiagramsViewModel">
+    <diagrams:DiagramView Edges="{Binding Edges}" Nodes="{Binding Nodes}">
+        <diagrams:DiagramView.ItemTemplate>
+            <DataTemplate DataType="diag:Node">
+                <StackPanel Background="Transparent" Orientation="Horizontal">
+                    <Rectangle Fill="#5BACFF" Width="3" Height="8" Stroke="#008DC4" StrokeThickness="1" />
+                    <Border BorderThickness="1" BorderBrush="#008DC4" CornerRadius="10" Padding="10">
+                        <TextBlock Text="{Binding Name}" />
+                    </Border>
+                    <Rectangle Fill="#5BACFF" Width="3" Height="8" Stroke="#008DC4" StrokeThickness="1" />
+                </StackPanel>
+            </DataTemplate>
+        </diagrams:DiagramView.ItemTemplate>
+    </diagrams:DiagramView>
+</UserControl>

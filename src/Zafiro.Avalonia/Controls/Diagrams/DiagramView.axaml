@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams">
+
+  <!--
+    Additional resources 
+    Using Control Themes:
+         https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+    Using Theme Variants:
+         https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+  -->
+  
+  <Design.PreviewWith>
+    <StackPanel Width="400" Spacing="10">      
+        <StackPanel Background="{DynamicResource SystemRegionBrush}">
+          <diagrams:DiagramView />
+        </StackPanel>
+    </StackPanel>
+  </Design.PreviewWith>
+ 
+  <ControlTheme x:Key="{x:Type diagrams:DiagramView}" TargetType="diagrams:DiagramView">
+    <Setter Property="Template">
+      <ControlTemplate TargetType="diagrams:DiagramView">
+          <Panel>
+              <ItemsControl x:Name="ItemsControl" ItemsSource="{TemplateBinding Nodes}" ItemTemplate="{TemplateBinding ItemTemplate}">
+                  <ItemsControl.ItemContainerTheme>
+                      <ControlTheme TargetType="ContentPresenter">
+                          <Setter Property="Interaction.Behaviors">
+                              <BehaviorCollectionTemplate>
+                                  <BehaviorCollection>
+                                      <diagrams:DraggableBehavior />
+                                  </BehaviorCollection>
+                              </BehaviorCollectionTemplate>
+                          </Setter>
+                          <Setter x:DataType="diagrams:IHaveLocation" Property="Canvas.Left" Value="{Binding Left}" />
+                          <Setter x:DataType="diagrams:IHaveLocation" Property="Canvas.Top" Value="{Binding Top}" />
+                      </ControlTheme>
+                  </ItemsControl.ItemContainerTheme>
+                  <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                          <Canvas />
+                      </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+              </ItemsControl>
+              <ItemsControl ItemsSource="{TemplateBinding Edges}">
+                  <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="diagrams:IHaveFromTo">
+                          <diagrams:HostedConnector Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
+                      </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+              </ItemsControl>
+          </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>
