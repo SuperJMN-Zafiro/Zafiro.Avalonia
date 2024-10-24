@@ -14,9 +14,6 @@ public class DraggableBehavior : AttachedToVisualTreeBehavior<Control>
         AvaloniaProperty.Register<DraggableBehavior, RoutingStrategies>(nameof(RoutingStrategy),
             RoutingStrategies.Tunnel);
 
-    public static readonly StyledProperty<bool> IsEnabledProperty =
-        AvaloniaProperty.Register<DraggableBehavior, bool>(nameof(IsEnabled), true);
-
     public static readonly StyledProperty<double> LeftProperty =
         AvaloniaProperty.Register<DraggableBehavior, double>(nameof(Left), defaultBindingMode : BindingMode.TwoWay);
 
@@ -27,12 +24,6 @@ public class DraggableBehavior : AttachedToVisualTreeBehavior<Control>
     {
         get => GetValue(RoutingStrategyProperty);
         set => SetValue(RoutingStrategyProperty, value);
-    }
-
-    public bool IsEnabled
-    {
-        get => GetValue(IsEnabledProperty);
-        set => SetValue(IsEnabledProperty, value);
     }
 
     public double Left
