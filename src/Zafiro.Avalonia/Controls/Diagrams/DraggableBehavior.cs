@@ -42,12 +42,19 @@ public class DraggableBehavior : AttachedToVisualTreeBehavior<Control>
     {
         if (AssociatedObject == null) return;
 
-        PointerDownPoints(AssociatedObject)
-            .Select(point => DeltasFor(AssociatedObject, point))
-            .Switch()
-            .TakeUntil(PointerReleased(AssociatedObject))
+        var pointerPressed = PointerDownPoints(AssociatedObject);
+        var pointerMoved = AssociatedObject.OnEvent(InputElement.PointerMovedEvent, RoutingStrategy)
+            .Select(e => e.EventArgs.GetCurrentPoint(AssociatedObject).Position);
+        var pointerReleased = PointerReleased(AssociatedObject);
+
+        pointerPressed
+            .SelectMany(startPoint =>
+                pointerMoved
+                    .TakeUntil(pointerReleased)
+                    .Select(movePoint => startPoint - movePoint)
+                    .Do(diff => ApplyDelta(diff))
+            )
             .Repeat()
-            .Do(diff => ApplyDelta(diff))
             .Subscribe()
             .DisposeWith(disposable);
     }
