@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.5.33516.290
+VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.Dialogs", "src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj", "{94A2F49C-AAAA-4C94-879E-2F74FDDFF423}"
 EndProject
@@ -88,6 +88,6 @@ Global
 		{A14CD472-4466-4113-9661-F64C4F8A607C} = {5A7D3F1E-067D-443D-8E3A-4B8E0B24608D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6309FF7A-E6E5-485B-BAE6-70DD0E37B3BA}
+		SolutionGuid = {E64CD420-15B1-487C-9806-41EBE6DC15A4}
 	EndGlobalSection
 EndGlobal

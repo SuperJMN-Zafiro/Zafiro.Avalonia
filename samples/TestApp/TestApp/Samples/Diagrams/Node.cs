@@ -1,10 +1,12 @@
-﻿using Zafiro.Avalonia.Controls.Diagrams;
+﻿using ReactiveUI;
+using ReactiveUI.SourceGenerators;
+using Zafiro.Avalonia.Controls.Diagrams;
 
 namespace TestApp.Samples.Diagrams;
 
-public class Node(string name) : IHaveLocation
+public partial class Node(string name) : ReactiveObject, IHaveLocation
 {
     public string Name { get; } = name;
-    public double Left { get; set; }
-    public double Top { get; set; }
+    [Reactive] public double left;
+    [Reactive] public double top;
 }
