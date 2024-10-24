@@ -1,5 +1,6 @@
 using System.Reactive;
 using System.Reactive.Disposables;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactions.Custom;
@@ -14,7 +15,13 @@ public class DraggableBehavior : AttachedToVisualTreeBehavior<Control>
             RoutingStrategies.Tunnel);
 
     public static readonly StyledProperty<bool> IsEnabledProperty =
-        AvaloniaProperty.Register<DraggableBehavior, bool>(nameof(IsEnabled), defaultValue: true);
+        AvaloniaProperty.Register<DraggableBehavior, bool>(nameof(IsEnabled), true);
+
+    public static readonly StyledProperty<double> LeftProperty =
+        AvaloniaProperty.Register<DraggableBehavior, double>(nameof(Left), defaultBindingMode : BindingMode.TwoWay);
+
+    public static readonly StyledProperty<double> TopProperty =
+        AvaloniaProperty.Register<DraggableBehavior, double>(nameof(Top), defaultBindingMode: BindingMode.TwoWay);
 
     public RoutingStrategies RoutingStrategy
     {
@@ -28,6 +35,18 @@ public class DraggableBehavior : AttachedToVisualTreeBehavior<Control>
         set => SetValue(IsEnabledProperty, value);
     }
 
+    public double Left
+    {
+        get => GetValue(LeftProperty);
+        set => SetValue(LeftProperty, value);
+    }
+
+    public double Top
+    {
+        get => GetValue(TopProperty);
+        set => SetValue(TopProperty, value);
+    }
+
     protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
     {
         if (AssociatedObject == null) return;
@@ -37,19 +56,19 @@ public class DraggableBehavior : AttachedToVisualTreeBehavior<Control>
             .Switch()
             .TakeUntil(PointerReleased(AssociatedObject))
             .Repeat()
-            .Do(diff => ApplyDelta(AssociatedObject, diff))
+            .Do(diff => ApplyDelta(diff))
             .Subscribe()
             .DisposeWith(disposable);
     }
 
-    private void ApplyDelta(Control control, Point diff)
+    private void ApplyDelta(Point diff)
     {
         if (!IsEnabled) return;
 
-        var current = new Point(Canvas.GetLeft(control), Canvas.GetTop(control));
+        var current = new Point(Left, Top);
         var next = current - diff;
-        Canvas.SetLeft(control, next.X);
-        Canvas.SetTop(control, next.Y);
+        Left = next.X;
+        Top= next.Y;
     }
 
     private IObservable<EventPattern<PointerReleasedEventArgs>> PointerReleased(Control control)

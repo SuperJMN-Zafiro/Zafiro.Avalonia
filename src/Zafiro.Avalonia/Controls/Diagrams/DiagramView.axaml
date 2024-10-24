@@ -28,7 +28,9 @@
                           <Setter Property="Interaction.Behaviors">
                               <BehaviorCollectionTemplate>
                                   <BehaviorCollection>
-                                      <diagrams:DraggableBehavior />
+                                      <diagrams:DraggableBehavior 
+                                          Left="{Binding Left}"
+                                          Top="{Binding Top}"/>
                                   </BehaviorCollection>
                               </BehaviorCollectionTemplate>
                           </Setter>
