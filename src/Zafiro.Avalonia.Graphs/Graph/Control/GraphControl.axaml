@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
                     xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control"
-                    xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core">
+                    xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core"
+                    xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
@@ -63,6 +64,15 @@
                                         <Setter x:DataType="g:INode2D" Property="Canvas.Left" Value="{Binding X}" />
                                         <Setter x:DataType="g:INode2D" Property="Canvas.Top" Value="{Binding Y}" />
                                         <Setter x:DataType="g:INode2D" Property="ZIndex" Value="{Binding Weight}" />
+                                        <Setter Property="Interaction.Behaviors">
+                                            <BehaviorCollectionTemplate>
+                                                <BehaviorCollection>
+                                                    <diagrams:DraggableBehavior x:DataType="diagrams:IHaveLocation"
+                                                        Left="{Binding Left}"
+                                                        Top="{Binding Top}"/>
+                                                </BehaviorCollection>
+                                            </BehaviorCollectionTemplate>
+                                        </Setter>
                                     </ControlTheme>
                                 </ListBox.ItemContainerTheme>
                                 <ListBox.ItemTemplate>

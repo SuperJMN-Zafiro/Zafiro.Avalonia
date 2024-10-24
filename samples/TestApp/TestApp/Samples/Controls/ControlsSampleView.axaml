@@ -47,6 +47,10 @@
                                     <Binding />
                                 </MultiBinding>
                             </Ellipse.Width>
+                            <Interaction.Behaviors>
+                                <ExecuteCommandOnPointerPressedBehavior Command="{Binding Disable}" />
+                                <ExecuteCommandOnPointerReleasedBehavior Command="{Binding Enable}" />
+                            </Interaction.Behaviors>
                         </Ellipse>
                     </DataTemplate>
                 </control:GraphControl.ItemTemplate>

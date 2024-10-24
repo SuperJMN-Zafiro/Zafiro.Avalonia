@@ -10,4 +10,5 @@ public class Person(string name) : INode2D
     public double X { get; set; }
     public double Y { get; set; }
     public double Weight { get; } = 0;
+    public bool IsEnabled { get; }
 }

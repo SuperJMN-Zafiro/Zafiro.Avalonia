@@ -92,10 +92,10 @@ public class Engine
 
     private void UpdatePositions()
     {
-        foreach (var node in Graph.Nodes)
+        foreach (var node in Graph.Nodes.Where(x => x.IsEnabled))
         {
-            node.X += (node.ForceX / node.Weight) * Configuration.Damping;
-            node.Y += (node.ForceY / node.Weight) * Configuration.Damping;
+            node.X += node.ForceX / node.Weight * Configuration.Damping;
+            node.Y += node.ForceY / node.Weight * Configuration.Damping;
         }
     }
 
