@@ -50,8 +50,8 @@
                                 </MultiBinding>
                             </Ellipse.Width>
                             <Interaction.Behaviors>
-                                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior Button="Right" Command="{Binding Disable}" />
-                                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior Button="Right" Command="{Binding Enable}" />
+                                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Disable}" />
+                                <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Enable}" />
                             </Interaction.Behaviors>
                         </Ellipse>
                     </DataTemplate>

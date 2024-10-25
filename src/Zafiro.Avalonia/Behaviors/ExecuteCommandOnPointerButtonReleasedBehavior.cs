@@ -7,7 +7,7 @@ using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.Behaviors;
 
-public class ExecuteCommandOnPointerButtonPressedBehavior : DisposingBehavior<InputElement>
+public class ExecuteCommandOnPointerButtonReleasedBehavior : DisposingBehavior<InputElement>
 {
     public static readonly StyledProperty<RoutingStrategies> RoutingStrategyProperty = AvaloniaProperty.Register<ExecuteCommandOnPointerPressedBehavior, RoutingStrategies>(nameof(RoutingStrategy), RoutingStrategies.Bubble);
 
@@ -50,10 +50,10 @@ public class ExecuteCommandOnPointerButtonPressedBehavior : DisposingBehavior<In
     {
         if (AssociatedObject == null) return;
 
-        var pointerPressed = AssociatedObject.OnEvent(InputElement.PointerPressedEvent, RoutingStrategy);
+        var pointerPressed = AssociatedObject.OnEvent(InputElement.PointerReleasedEvent, RoutingStrategy);
 
         var buttonPressed = pointerPressed.Where(x =>
-            x.EventArgs.GetCurrentPoint(AssociatedObject).Properties.IsButtonPressed(Button));
+            x.EventArgs.GetCurrentPoint(AssociatedObject).Properties.WasButtonReleased(Button));
         var command = this.WhenAnyValue(x => x.Command).WhereNotNull();
 
 
