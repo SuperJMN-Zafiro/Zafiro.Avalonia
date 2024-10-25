@@ -36,7 +36,7 @@ public class RandomGraphGenerator
             for (int i = 0; i < edgeCount && potentialFriends.Any(); i++)
             {
                 var friend = potentialFriends[random.Next(potentialFriends.Count)];
-                var strength = random.Next(1, 300); 
+                var strength = random.NextDouble(); 
                 edges.Add(new Friendship(node, friend, strength));
                 potentialFriends.Remove(friend);
             }

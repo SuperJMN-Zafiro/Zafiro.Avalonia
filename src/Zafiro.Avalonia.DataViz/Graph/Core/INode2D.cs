@@ -7,5 +7,5 @@ public interface INode2D
     double X { get; set; }
     double Y { get; set; }
     public double Weight { get; }
-    bool IsEnabled { get; }
+    bool IsFrozen { get; }
 }

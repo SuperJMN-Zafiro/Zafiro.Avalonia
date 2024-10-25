@@ -16,6 +16,6 @@ public static class CustomConverters
                 return graph.RelativeDegreeCentrality(node) * 50;
             }
 
-            return double.NaN;
+            return 0;
         });
 }

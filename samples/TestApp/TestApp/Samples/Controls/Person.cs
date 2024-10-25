@@ -1,5 +1,3 @@
-using System;
-using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
@@ -18,7 +16,7 @@ public partial class Person : ReactiveObject, IHaveLocation, INode2D
     [Reactive] private double y;
     [Reactive] private double left;
     [Reactive] private double top;
-    [Reactive] private bool isEnabled = true;
+    [Reactive] private bool isFrozen;
 
     /// <inheritdoc/>
     public Person(string name, double weight)
@@ -33,7 +31,6 @@ public partial class Person : ReactiveObject, IHaveLocation, INode2D
 
     public double Weight { get; }
     
-    public ICommand Enable => ReactiveCommand.Create(() => IsEnabled = true);
-
-    public ICommand Disable => ReactiveCommand.Create(() => IsEnabled = false);
+    public ICommand Unfreeze => ReactiveCommand.Create(() => IsFrozen = false);
+    public ICommand Freeze => ReactiveCommand.Create(() => IsFrozen = true);
 }
