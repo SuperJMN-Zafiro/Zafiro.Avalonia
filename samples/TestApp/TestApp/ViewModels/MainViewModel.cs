@@ -2,6 +2,7 @@
 using TestApp.Samples.Adorners;
 using TestApp.Samples.Controls;
 using TestApp.Samples.Diagrams;
+using TestApp.Samples.Drag;
 using TestApp.Samples.MasterDetails;
 using TestApp.Samples.StringEditor;
 using Zafiro.Avalonia.Dialogs;
@@ -32,6 +33,7 @@ public class MainViewModel : ViewModelBase
         new("Adorners", new AdornerSampleViewModel()),
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
-        new("Diagrams", new DiagramsViewModel())
+        new("Diagrams", new DiagramsViewModel()),
+        new("Drag", new DragViewModel()),
     };
 }
