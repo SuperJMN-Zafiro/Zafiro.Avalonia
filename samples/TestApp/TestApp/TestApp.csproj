@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.DataViz\Zafiro.Avalonia.DataViz.csproj" />
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
-    <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.DataViz.csproj" />
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 

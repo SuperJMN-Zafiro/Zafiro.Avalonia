@@ -17,22 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.DataViz.csproj" />
-    <ProjectReference Include="..\..\src\Zafiro.Avalonia.Graphs\Zafiro.Avalonia.Graphs.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Mono.Android">
-      <HintPath>C:\Program Files\dotnet\packs\Microsoft.Android.Ref.34\34.0.113\ref\net8.0\Mono.Android.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Core\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Zafiro.Avalonia.DataViz\Zafiro.Avalonia.DataViz.csproj" />
   </ItemGroup>
 
 </Project>
