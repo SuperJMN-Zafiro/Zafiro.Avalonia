@@ -1,0 +1,73 @@
+﻿using System.Reactive.Disposables;
+using System.Windows.Input;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Xaml.Interactions.Custom;
+using Zafiro.Avalonia.Mixins;
+
+namespace Zafiro.Avalonia.Behaviors;
+
+public class ExecuteCommandOnPointerButtonReleasedBehavior : DisposingBehavior<InputElement>
+{
+    public static readonly StyledProperty<RoutingStrategies> RoutingStrategyProperty = AvaloniaProperty.Register<ExecuteCommandOnPointerPressedBehavior, RoutingStrategies>(nameof(RoutingStrategy), RoutingStrategies.Bubble);
+
+    public static readonly StyledProperty<ICommand?> CommandProperty =
+        AvaloniaProperty.Register<ExecuteCommandOnPointerPressedBehavior, ICommand?>(
+            nameof(Command));
+
+    public static readonly StyledProperty<object?> CommandParameterProperty =
+        AvaloniaProperty.Register<ExecuteCommandOnPointerPressedBehavior, object?>(
+            nameof(CommandParameter));
+
+    public static readonly StyledProperty<MouseButton> ButtonProperty =
+        AvaloniaProperty.Register<ExecuteCommandOnPointerPressedBehavior, MouseButton>(nameof(Button), MouseButton.Left);
+
+    public RoutingStrategies RoutingStrategy
+    {
+        get => GetValue(RoutingStrategyProperty);
+        set => SetValue(RoutingStrategyProperty, value);
+    }
+
+    public ICommand? Command
+    {
+        get => GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public object? CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
+    public MouseButton Button
+    {
+        get => GetValue(ButtonProperty);
+        set => SetValue(ButtonProperty, value);
+    }
+
+    protected override void OnAttached(CompositeDisposable disposables)
+    {
+        if (AssociatedObject == null) return;
+
+        var pointerPressed = AssociatedObject.OnEvent(InputElement.PointerReleasedEvent, RoutingStrategy);
+
+        var buttonPressed = pointerPressed.Where(x =>
+            x.EventArgs.GetCurrentPoint(AssociatedObject).Properties.WasButtonReleased(Button));
+        var command = this.WhenAnyValue(x => x.Command).WhereNotNull();
+
+
+        var buttonWithCommand = buttonPressed
+            .WithLatestFrom(command);
+
+        var executionRequest = buttonWithCommand.Select(_ => CommandParameter);
+
+        executionRequest.Subscribe(o =>
+        {
+            if (Command!.CanExecute(o))
+            {
+                Command.Execute(o);
+            }
+        }).DisposeWith(disposables);
+    }
+}

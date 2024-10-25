@@ -7,6 +7,7 @@
              xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control;assembly=Zafiro.Avalonia.DataViz"
              xmlns:core="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core;assembly=Zafiro.Avalonia.DataViz"
              xmlns:cc="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -36,6 +37,7 @@
         </TabItem>
         <TabItem Header="Graph">
             <control:GraphControl Margin="-1000"
+                                  DragButton="Right"
                                   Graph="{Binding Graph, Converter={x:Static core:GraphAdapter.Converter}}">
                 <control:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
@@ -48,8 +50,8 @@
                                 </MultiBinding>
                             </Ellipse.Width>
                             <Interaction.Behaviors>
-                                <ExecuteCommandOnPointerPressedBehavior Command="{Binding Disable}" />
-                                <ExecuteCommandOnPointerReleasedBehavior Command="{Binding Enable}" />
+                                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Disable}" />
+                                <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Enable}" />
                             </Interaction.Behaviors>
                         </Ellipse>
                     </DataTemplate>

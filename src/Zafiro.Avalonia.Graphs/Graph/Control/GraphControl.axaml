@@ -67,7 +67,8 @@
                                         <Setter Property="Interaction.Behaviors">
                                             <BehaviorCollectionTemplate>
                                                 <BehaviorCollection>
-                                                    <diagrams:DraggableBehavior x:DataType="diagrams:IHaveLocation"
+                                                    <diagrams:DragDeltaBehavior x:DataType="diagrams:IHaveLocation"
+                                                        DragButton="{Binding $parent[control:GraphControl].DragButton}"
                                                         Left="{Binding Left}"
                                                         Top="{Binding Top}"/>
                                                 </BehaviorCollection>

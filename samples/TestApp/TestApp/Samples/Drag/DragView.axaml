@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:drag="clr-namespace:TestApp.Samples.Drag"
+             xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
+             xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Drag.DragView"
+             x:DataType="drag:DragViewModel">
+    <Canvas>
+        <Button Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
+            <Interaction.Behaviors>
+                <diagrams:DragDeltaBehavior Left="{Binding Left}"  />
+                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior Command="{Binding Disable}" />
+                <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior Command="{Binding Enable}" />
+            </Interaction.Behaviors>
+        </Button>
+    </Canvas>
+</UserControl>

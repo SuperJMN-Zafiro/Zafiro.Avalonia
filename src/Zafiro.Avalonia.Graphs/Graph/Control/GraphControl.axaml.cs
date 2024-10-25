@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Input;
 using Zafiro.Avalonia.DataViz.Graph.Core;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Control;
@@ -14,6 +15,13 @@ public class GraphControl : TemplatedControl
         AvaloniaProperty.Register<GraphControl, IDataTemplate?>(
             nameof(ItemTemplate));
 
+    public static readonly StyledProperty<IDataTemplate?> EdgeTemplateProperty =
+        AvaloniaProperty.Register<GraphControl, IDataTemplate?>(
+            nameof(EdgeTemplate));
+
+    public static readonly StyledProperty<MouseButton> DragButtonProperty =
+        AvaloniaProperty.Register<GraphControl, MouseButton>(nameof(DragButton), MouseButton.Left);
+
     public IGraph Graph
     {
         get => GetValue(GraphProperty);
@@ -26,12 +34,15 @@ public class GraphControl : TemplatedControl
         set => SetValue(ItemTemplateProperty, value);
     }
 
-    public static readonly StyledProperty<IDataTemplate?> EdgeTemplateProperty = AvaloniaProperty.Register<GraphControl, IDataTemplate?>(
-        nameof(EdgeTemplate));
-
     public IDataTemplate? EdgeTemplate
     {
         get => GetValue(EdgeTemplateProperty);
         set => SetValue(EdgeTemplateProperty, value);
+    }
+
+    public MouseButton DragButton
+    {
+        get => GetValue(DragButtonProperty);
+        set => SetValue(DragButtonProperty, value);
     }
 }
