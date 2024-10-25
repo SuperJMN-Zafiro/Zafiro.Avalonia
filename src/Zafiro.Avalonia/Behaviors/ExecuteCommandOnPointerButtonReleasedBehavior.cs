@@ -50,19 +50,22 @@ public class ExecuteCommandOnPointerButtonReleasedBehavior : DisposingBehavior<I
     {
         if (AssociatedObject == null) return;
 
-        var pointerPressed = AssociatedObject.OnEvent(InputElement.PointerReleasedEvent, RoutingStrategy);
+        var releases = AssociatedObject.OnEvent(InputElement.PointerReleasedEvent, RoutingStrategy);
 
-        var buttonPressed = pointerPressed.Where(x =>
+        var buttonReleased = releases.Where(x =>
             x.EventArgs.GetCurrentPoint(AssociatedObject).Properties.WasButtonReleased(Button));
         var command = this.WhenAnyValue(x => x.Command).WhereNotNull();
 
+        AssociatedObject.OnEvent(InputElement.PointerCaptureLostEvent).Subscribe(pattern => { });
 
-        var buttonWithCommand = buttonPressed
+        var buttonWithCommand = buttonReleased
+            .Do(x => x.EventArgs.Pointer.Capture(null))
             .WithLatestFrom(command);
 
         var executionRequest = buttonWithCommand.Select(_ => CommandParameter);
 
-        executionRequest.Subscribe(o =>
+        executionRequest
+            .Subscribe(o =>
         {
             if (Command!.CanExecute(o))
             {

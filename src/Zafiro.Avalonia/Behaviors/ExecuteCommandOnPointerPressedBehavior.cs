@@ -58,6 +58,7 @@ public class ExecuteCommandOnPointerButtonPressedBehavior : DisposingBehavior<In
 
 
         var buttonWithCommand = buttonPressed
+            .Do(pattern => pattern.EventArgs.Pointer.Capture(AssociatedObject))
             .WithLatestFrom(command);
 
         var executionRequest = buttonWithCommand.Select(_ => CommandParameter);

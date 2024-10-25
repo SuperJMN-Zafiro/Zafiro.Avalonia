@@ -12,8 +12,8 @@
         <Button Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
             <Interaction.Behaviors>
                 <diagrams:DragDeltaBehavior Left="{Binding Left}"  />
-                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior Command="{Binding Disable}" />
-                <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior Command="{Binding Enable}" />
+                <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Command="{Binding Disable}" />
+                <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Command="{Binding Enable}" />
             </Interaction.Behaviors>
         </Button>
     </Canvas>

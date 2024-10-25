@@ -1,3 +1,5 @@
+using System;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
@@ -6,54 +8,32 @@ using Zafiro.Avalonia.DataViz.Graph.Core;
 
 namespace TestApp.Samples.Controls;
 
-public partial class Person(string name, double weight) : ReactiveObject, IHaveLocation, INode2D
+public partial class Person : ReactiveObject, IHaveLocation, INode2D
 {
-    private double x;
-    private double y;
-    public string Name { get; } = name;
+    public string Name { get; }
     public double ForceX { get; set; }
     public double ForceY { get; set; }
 
-    public double X
-    {
-        get => x;
-        set => this.RaiseAndSetIfChanged(ref x, value);
-    }
-
-    public double Y
-    {
-        get => y;
-        set => this.RaiseAndSetIfChanged(ref y, value);
-    }
-
-    public double Weight { get; } = weight;
-
+    [Reactive] private double x;
+    [Reactive] private double y;
+    [Reactive] private double left;
+    [Reactive] private double top;
     [Reactive] private bool isEnabled = true;
 
-    public double Left
+    /// <inheritdoc/>
+    public Person(string name, double weight)
     {
-        get => X;
-        set
-        {
-            X = value;
-            this.RaisePropertyChanged();
-        }
+        Name = name;
+        Weight = weight;
+        this.WhenAnyValue(person => person.Left).BindTo(this, person => person.X);
+        this.WhenAnyValue(person => person.Top).BindTo(this, person => person.Y);
+        this.WhenAnyValue(person => person.X).BindTo(this, person => person.left);
+        this.WhenAnyValue(person => person.Y).BindTo(this, person => person.Top);
     }
 
-    public double Top
-    {
-        get => Y;
-        set
-        {
-            Y = value;
-            this.RaisePropertyChanged();
-        }
-    }
-
-    public ICommand Enable => ReactiveCommand.Create(() =>
-    {
-        return IsEnabled = true;
-    });
+    public double Weight { get; }
+    
+    public ICommand Enable => ReactiveCommand.Create(() => IsEnabled = true);
 
     public ICommand Disable => ReactiveCommand.Create(() => IsEnabled = false);
 }
