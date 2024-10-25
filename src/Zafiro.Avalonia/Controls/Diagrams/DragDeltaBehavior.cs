@@ -59,10 +59,10 @@ public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
         var captureLost = AssociatedObject.OnEvent(InputElement.PointerCaptureLostEvent);
 
         pointerPressed
-            .Do(x => x.Pointer.Capture(AssociatedObject))
             .SelectMany(startPoint =>
                 pointerMoved
-                    .TakeUntil(pointerReleased.Do(a => a.EventArgs.Pointer.Capture(null)).ToSignal()
+                    .TakeUntil(pointerReleased
+                        .ToSignal()
                         .Merge(captureLost.ToSignal()))
                     .Select(movePoint => startPoint.Position - movePoint)
                     .Do(ApplyDelta)

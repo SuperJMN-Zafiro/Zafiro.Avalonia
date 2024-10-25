@@ -9,12 +9,12 @@
              x:Class="TestApp.Samples.Drag.DragView"
              x:DataType="drag:DragViewModel">
     <Canvas>
-        <Rectangle Width="100" Height="100" Fill="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
+        <Button Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
             <Interaction.Behaviors>
                 <diagrams:DragDeltaBehavior Left="{Binding Left}"  />
                 <behaviors:ExecuteCommandOnPointerButtonPressedBehavior Command="{Binding Disable}" />
                 <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior Command="{Binding Enable}" />
             </Interaction.Behaviors>
-        </Rectangle>
+        </Button>
     </Canvas>
 </UserControl>
