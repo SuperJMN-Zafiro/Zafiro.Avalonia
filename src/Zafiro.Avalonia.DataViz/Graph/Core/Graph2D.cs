@@ -1,9 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
+using Zafiro.Graphs;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
-public class Graph2D(List<INode2D> nodes, List<IEdge2D> edges) : IGraph2D
+public class Graph2D(IEnumerable<INode2D> nodes, IEnumerable<IEdge2D> edges) : Graph<INode2D, IEdge2D>(nodes, edges), IGraph2D, IGraph
 {
-    public List<INode2D> Nodes { get; } = nodes;
-    public List<IEdge2D> Edges { get; } = edges;
+    IEnumerable IGraph.Nodes => Nodes;
+    IEnumerable IGraph.Edges => Edges;
 }

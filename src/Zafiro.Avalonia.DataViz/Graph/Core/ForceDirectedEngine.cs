@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
-public class Engine
+public class ForceDirectedEngine(IGraph2D graph)
 {
-    public Engine(IGraph2D graph)
-    {
-        Graph = graph;
-    }
+    public List<IEdge2D> Edges { get; } = graph.Edges.ToList();
+
+    public List<INode2D> Nodes { get; } = graph.Nodes.ToList();
 
     public Configuration Configuration { get; } = new();
 
-    public IGraph2D Graph { get; }
+    public IGraph2D Graph { get; } = graph;
 
     public void Step()
     {
@@ -25,7 +25,7 @@ public class Engine
 
     private void ResetForces()
     {
-        foreach (var node in Graph.Nodes)
+        foreach (var node in Nodes)
         {
             node.ForceX = 0;
             node.ForceY = 0;
@@ -34,20 +34,20 @@ public class Engine
 
     private void Repel()
     {
-        var forceChanges = new Vector2D[Graph.Nodes.Count];
+        var forceChanges = new Vector2D[Nodes.Count];
 
-        Parallel.For(0, Graph.Nodes.Count, i =>
+        Parallel.For(0, Nodes.Count, i =>
         {
-            for (var j = i + 1; j < Graph.Nodes.Count; j++)
+            for (var j = i + 1; j < Nodes.Count; j++)
             {
-                var nodeA = Graph.Nodes[i];
-                var nodeB = Graph.Nodes[j];
+                var nodeA = Nodes[i];
+                var nodeB = Nodes[j];
 
                 var dx = nodeB.X - nodeA.X;
                 var dy = nodeB.Y - nodeA.Y;
                 var distance = Math.Sqrt(dx * dx + dy * dy) + 0.01;
 
-                var force = Configuration.RepulsionForce * (nodeA.Weight * nodeB.Weight)  / (distance * distance);
+                var force = Configuration.RepulsionForce * (nodeA.Weight * nodeB.Weight) / (distance * distance);
 
                 var forceX = force * dx / distance;
                 var forceY = force * dy / distance;
@@ -59,40 +59,41 @@ public class Engine
         });
 
         // Apply them when all calculations have finished
-        for (int i = 0; i < Graph.Nodes.Count; i++)
+        for (var i = 0; i < Nodes.Count; i++)
         {
-            Graph.Nodes[i].ForceX += forceChanges[i].X;
-            Graph.Nodes[i].ForceY += forceChanges[i].Y;
+            Nodes[i].ForceX += forceChanges[i].X;
+            Nodes[i].ForceY += forceChanges[i].Y;
         }
     }
 
     private void Attract()
     {
         // Attraction force
-        foreach (var edge in Graph.Edges)
+        foreach (var edge in Edges)
         {
-            var linkTarget = edge.Target;
-            var linkSource = edge.Source;
+            var from = edge.From;
+            var to = edge.To;
 
-            var dx = linkTarget.X - linkSource.X;
-            var dy = linkTarget.Y - linkSource.Y;
+            var dx = to.X - from.X;
+            var dy = to.Y - from.Y;
             var distance = Math.Sqrt(dx * dx + dy * dy) + 0.01;
 
-            var force = (distance - Configuration.EquilibriumDistance) * Configuration.AttractionForce * edge.Weight * (linkSource.Weight + linkTarget.Weight) / 2.0;
+            var force = (distance - Configuration.EquilibriumDistance) * Configuration.AttractionForce * edge.Weight *
+                (from.Weight + to.Weight) / 2.0;
 
             var forceX = force * dx / distance;
             var forceY = force * dy / distance;
 
-            linkSource.ForceX += forceX;
-            linkSource.ForceY += forceY;
-            linkTarget.ForceX -= forceX;
-            linkTarget.ForceY -= forceY;
+            from.ForceX += forceX;
+            from.ForceY += forceY;
+            to.ForceX -= forceX;
+            to.ForceY -= forceY;
         }
     }
 
     private void UpdatePositions()
     {
-        foreach (var node in Graph.Nodes.Where(x => !x.IsFrozen))
+        foreach (var node in Nodes.Where(x => !x.IsFrozen))
         {
             node.X += node.ForceX / node.Weight * Configuration.Damping;
             node.Y += node.ForceY / node.Weight * Configuration.Damping;
@@ -101,7 +102,7 @@ public class Engine
 
     public void Distribute(double width, double height)
     {
-        Graph.Nodes.ToList().ForEach(x =>
+        Nodes.ForEach(x =>
         {
             x.X = Random.Shared.Next((int) width);
             x.Y = Random.Shared.Next((int) height);

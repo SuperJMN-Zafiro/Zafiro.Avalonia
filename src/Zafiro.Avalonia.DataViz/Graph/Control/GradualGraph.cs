@@ -7,16 +7,17 @@ using DynamicData;
 using DynamicData.Aggregation;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Core;
+using Zafiro.Graphs;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Control;
 
-public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> where TNode : notnull
+public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNode> where TNode : notnull
 {
     public LoadOptions Options { get; }
-    private readonly IGenericGraph<TNode, TEdge> inner;
+    private readonly IGraph<TNode, TEdge> inner;
 
-    public GradualGraph(IGenericGraph<TNode, TEdge> inner, LoadOptions options)
+    public GradualGraph(IGraph<TNode, TEdge> inner, LoadOptions options)
     {
         Options = options;
         this.inner = inner;
@@ -39,7 +40,7 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IEdge<TNode> wher
         var vertexCount = vertexChanges.Count().StartWith(0);
         var currentCount = edgeCount.CombineLatest(vertexCount, (v, e) => v + e);
 
-        var total = inner.Edges.Count + inner.Nodes.Count;
+        var total = inner.Edges.Count() + inner.Nodes.Count();
         Progress = currentCount.Select(current => (double) current / total);
 
         Nodes = nodes;

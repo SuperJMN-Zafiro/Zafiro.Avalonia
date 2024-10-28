@@ -23,18 +23,24 @@ public class ControlsSampleViewModel
 
         var edge2Ds = graph.edges.Cast<IEdge2D>();
 
-        var ffd = new ForceDirectedGraph(new Graph2D(graph.nodes.Cast<INode2D>().ToList(), edge2Ds.ToList()));
-        ffd.Distribute(5000, 3000);
-        Graph = ffd;
+        var graph2D = new Graph2D(graph.nodes.Cast<INode2D>().ToList(), edge2Ds.ToList());
+
+        var engine1 = new ForceDirectedEngine(graph2D);
+
+        engine1.Distribute(5000, 3000);
+        Graph = graph2D;
 
         Play = ReactiveCommand
-            .CreateFromObservable(() => Observable.Interval(TimeSpan.FromMilliseconds(12), RxApp.MainThreadScheduler).Do(_ => ffd.Step()));
+            .CreateFromObservable(() => Observable.Interval(TimeSpan.FromMilliseconds(12), RxApp.MainThreadScheduler).Do(_ => engine1.Step()));
 
         Play.Execute().Subscribe();
 
-        var generateRandomGraph = new RandomGraphGenerator().GenerateRandomGraph(30, 10);
-        var graph2D = new ForceDirectedGraph(new Graph2D(generateRandomGraph.nodes.Cast<INode2D>().ToList(), generateRandomGraph.edges.Cast<IEdge2D>().ToList()));
-        graph2D.Distribute(2000, 2000);
+        var randomGraph = new RandomGraphGenerator().GenerateRandomGraph(30, 10);
+        var graph2d = new Graph2D(randomGraph.nodes.Cast<INode2D>().ToList(), randomGraph.edges.Cast<IEdge2D>().ToList());
+
+        var engine2 = new ForceDirectedEngine(graph2d);
+
+        engine2.Distribute(2000, 2000);
         GradualGraph = new GradualGraph<INode2D, IEdge2D>(graph2D, new LoadOptions());
 
         Cluster = new Cluster(
@@ -57,7 +63,7 @@ public class ControlsSampleViewModel
     //public SelectionHandler<Item, int> SelectionHandler { get; }
 
     public SelectionModel<Item> SelectionModel { get; }
-    public ForceDirectedGraph Graph { get; }
+    public IGraph2D Graph { get; }
     public GradualGraph<INode2D, IEdge2D> GradualGraph { get; }
     public Cluster Cluster { get; }
 }

@@ -5,13 +5,19 @@
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:vm="clr-namespace:TestApp.Samples.Controls"
              xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control;assembly=Zafiro.Avalonia.DataViz"
-             xmlns:core="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core;assembly=Zafiro.Avalonia.DataViz"
              xmlns:cc="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control;assembly=Zafiro.Avalonia.DataViz"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
     <TabControl>
+
+        <TabControl.Styles>
+            <Style Selector="TabControl ItemsPresenter">
+                <Setter Property="ZIndex" Value="1" />
+            </Style>
+        </TabControl.Styles>
+
         <TabItem Header="EasyListBox">
             <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
             <ListBox x:Name="ListBox"
@@ -38,7 +44,7 @@
         <TabItem Header="Graph">
             <control:GraphControl Margin="-1000"
                                   DragButton="Right"
-                                  Graph="{Binding Graph, Converter={x:Static core:GraphAdapter.Converter}}">
+                                  Graph="{Binding Graph}">
                 <control:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
                         <Ellipse Height="{Binding $self.Width}" Fill="Red">
@@ -61,14 +67,14 @@
                         <Line Stroke="Black" StrokeThickness="3">
                             <Line.StartPoint>
                                 <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
-                                    <Binding Path="Source.X" />
-                                    <Binding Path="Source.Y" />
+                                    <Binding Path="From.X" />
+                                    <Binding Path="From.Y" />
                                 </MultiBinding>
                             </Line.StartPoint>
                             <Line.EndPoint>
                                 <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
-                                    <Binding Path="Target.X" />
-                                    <Binding Path="Target.Y" />
+                                    <Binding Path="To.X" />
+                                    <Binding Path="To.Y" />
                                 </MultiBinding>
                             </Line.EndPoint>
                         </Line>
@@ -78,8 +84,8 @@
         </TabItem>
         <TabItem Header="GradualGraph">
             <DockPanel>
-                <Button DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
-                <control:GraphControl Graph="{Binding GradualGraph}">
+                <Button ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
+                <control:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
                     <control:GraphControl.ItemTemplate>
                         <DataTemplate DataType="vm:Person">
                             <Ellipse Height="{Binding $self.Width}" Fill="Red">
@@ -98,14 +104,14 @@
                             <Line Stroke="Black" StrokeThickness="3">
                                 <Line.StartPoint>
                                     <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
-                                        <Binding Path="Source.X" />
-                                        <Binding Path="Source.Y" />
+                                        <Binding Path="From.X" />
+                                        <Binding Path="From.Y" />
                                     </MultiBinding>
                                 </Line.StartPoint>
                                 <Line.EndPoint>
                                     <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
-                                        <Binding Path="Target.X" />
-                                        <Binding Path="Target.Y" />
+                                        <Binding Path="To.X" />
+                                        <Binding Path="To.Y" />
                                     </MultiBinding>
                                 </Line.EndPoint>
                             </Line>
