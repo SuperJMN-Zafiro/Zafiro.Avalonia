@@ -1,3 +1,5 @@
+using Zafiro.Graphs;
+
 namespace Zafiro.Avalonia.DataViz.Graph.Core;
 
-public interface IGraph2D : IGenericGraph<INode2D, IEdge2D>;
+public interface IGraph2D : IGraph<INode2D, IEdge2D>;

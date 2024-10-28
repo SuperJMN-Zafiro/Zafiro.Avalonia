@@ -15,7 +15,8 @@
         <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
         <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Zafiro.FileSystem" Version="11.0.0" />
-        <PackageReference Include="Zafiro.UI" Version="11.0.0" />
+        <PackageReference Include="Zafiro" Version="11.0.4" />
+        <PackageReference Include="Zafiro.FileSystem" Version="11.0.4" />
+        <PackageReference Include="Zafiro.UI" Version="11.0.4" />
     </ItemGroup>
 </Project>

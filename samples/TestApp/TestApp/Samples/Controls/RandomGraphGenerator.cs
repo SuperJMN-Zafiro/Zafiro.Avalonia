@@ -31,7 +31,7 @@ public class RandomGraphGenerator
         foreach (var node in nodes)
         {
             var edgeCount = random.Next(0, maxEdgesPerNode + 1);
-            var potentialFriends = nodes.Where(n => n != node && !edges.Any(e => (e.Source== node && e.Target== n) || (e.Source== n && e.Target== node))).ToList();
+            var potentialFriends = nodes.Where(n => n != node && !edges.Any(e => (e.From== node && e.To== n) || (e.From== n && e.To== node))).ToList();
             
             for (int i = 0; i < edgeCount && potentialFriends.Any(); i++)
             {
