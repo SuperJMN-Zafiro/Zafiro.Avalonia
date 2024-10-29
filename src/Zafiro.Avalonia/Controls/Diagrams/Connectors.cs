@@ -15,12 +15,18 @@ public class Connectors : Control
         AvaloniaProperty.Register<Connectors, IConnectorStrategy>(
             nameof(ConnectionStyle), SLineConnectorStrategy.Instance);
 
-    public static readonly StyledProperty<ItemsControl> HostProperty =
-        AvaloniaProperty.Register<Connectors, ItemsControl>(nameof(Host));
+    public static readonly StyledProperty<ItemsControl?> HostProperty =
+        AvaloniaProperty.Register<Connectors, ItemsControl?>(nameof(Host));
 
-    public static readonly StyledProperty<IEnumerable> EdgesProperty =
-        AvaloniaProperty.Register<Connectors, IEnumerable>(
-            nameof(Edges));
+    public static readonly StyledProperty<IEnumerable?> EdgesProperty =
+        AvaloniaProperty.Register<Connectors, IEnumerable?>(nameof(Edges));
+
+    public static readonly StyledProperty<IBrush> StrokeProperty = AvaloniaProperty.Register<Connectors, IBrush>(
+        nameof(Stroke), Brushes.Black);
+
+    public static readonly StyledProperty<double> StrokeThicknessProperty =
+        AvaloniaProperty.Register<Connectors, double>(
+            nameof(StrokeThickness), 1D);
 
     private readonly CompositeDisposable disposables = new();
 
@@ -32,10 +38,16 @@ public class Connectors : Control
         ForContainerProperty(Canvas.TopProperty).Do(_ => InvalidateVisual()).Subscribe().DisposeWith(disposables);
     }
 
-    protected override void OnUnloaded(RoutedEventArgs e)
+    public IBrush Stroke
     {
-        disposables.Dispose();
-        base.OnUnloaded(e);
+        get => GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
+
+    public double StrokeThickness
+    {
+        get => GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
     }
 
     public IConnectorStrategy ConnectionStyle
@@ -44,16 +56,22 @@ public class Connectors : Control
         set => SetValue(ConnectionStyleProperty, value);
     }
 
-    public ItemsControl Host
+    public ItemsControl? Host
     {
         get => GetValue(HostProperty);
         set => SetValue(HostProperty, value);
     }
 
-    public IEnumerable Edges
+    public IEnumerable? Edges
     {
         get => GetValue(EdgesProperty);
         set => SetValue(EdgesProperty, value);
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        disposables.Dispose();
+        base.OnUnloaded(e);
     }
 
     private IObservable<T> ForContainerProperty<T>(AvaloniaProperty<T> property)
@@ -96,8 +114,8 @@ public class Connectors : Control
 
         if (Host == null || Edges == null) return;
 
-        var edges = Edges.Cast<IEdge<object>>();
-        var pen = new Pen(Brushes.Black);
+        var edges = Edges.Cast<IEdge<object>>().ToList();
+        var pen = new Pen(Stroke, StrokeThickness);
 
         // Diccionario para almacenar las conexiones de cada rectángulo
         var rectangleConnections = new Dictionary<Control, RectangleConnections>();
@@ -248,11 +266,11 @@ public class Connectors : Control
 
     private Control GetConnectedControl(IEdge<object> edge, Control currentControl)
     {
-        var from = Host.ContainerFromItem(edge.From);
+        var from = Host!.ContainerFromItem(edge.From);
         var to = Host.ContainerFromItem(edge.To);
 
-        if (from == currentControl)
-            return to;
+        if (from == currentControl) return to;
+
         return from;
     }
 
