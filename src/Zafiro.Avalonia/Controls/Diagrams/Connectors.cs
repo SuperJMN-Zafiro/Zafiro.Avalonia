@@ -21,21 +21,22 @@ public class Connectors : Control
     {
         AffectsRender<Connectors>(EdgesProperty, HostProperty);
 
-        this.WhenAnyValue(connectors => connectors.Host)
-            .WhereNotNull()
-            .SelectMany(itemsControl => Observable.FromEventPattern<ContainerPreparedEventArgs>(h => itemsControl.ContainerPrepared += h, h => itemsControl.ContainerPrepared += h))
-            .Select(pattern => pattern.EventArgs.Container)
-            .SelectMany(control => control.GetObservable(Canvas.LeftProperty))
-            .Do(_ => InvalidateVisual())
-            .Subscribe();
+        ForContainerProperty(Canvas.LeftProperty).Do(_ => InvalidateVisual()).Subscribe();
+        ForContainerProperty(Canvas.TopProperty).Do(_ => InvalidateVisual()).Subscribe();
+    }
 
-        this.WhenAnyValue(connectors => connectors.Host)
+    private IObservable<T> ForContainerProperty<T>(AvaloniaProperty<T> property)
+    {
+        return WhenAnyContainerCreated<T>()
+            .SelectMany(control => control.GetObservable(property));
+    }
+
+    private IObservable<Control> WhenAnyContainerCreated<T>()
+    {
+        return this.WhenAnyValue(connectors => connectors.Host)
             .WhereNotNull()
-            .SelectMany(itemsControl => Observable.FromEventPattern<ContainerPreparedEventArgs>(h => itemsControl.ContainerPrepared += h, h => itemsControl.ContainerPrepared += h))
-            .Select(pattern => pattern.EventArgs.Container)
-            .SelectMany(control => control.GetObservable(Canvas.TopProperty))
-            .Do(_ => InvalidateVisual())
-            .Subscribe();
+            .SelectMany(itemsControl => Observable.FromEventPattern<ContainerPreparedEventArgs>(h => itemsControl.ContainerPrepared += h, h => itemsControl.ContainerPrepared -= h))
+            .Select(pattern => pattern.EventArgs.Container);
     }
 
     public static readonly StyledProperty<ItemsControl> HostProperty = AvaloniaProperty.Register<Connectors, ItemsControl>(nameof(Host));
