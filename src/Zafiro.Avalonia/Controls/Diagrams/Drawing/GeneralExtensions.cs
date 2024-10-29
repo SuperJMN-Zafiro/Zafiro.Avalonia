@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace Zafiro.Avalonia.Controls.Diagrams.Drawing;
 
-public static class DrawingContextExtensions
+public static class GeneralExtensions
 {
     public static void Connect(this DrawingContext context, Visual parent, Visual from, Visual to,
         VerticalAlignment fromVerticalAlignment, HorizontalAlignment fromHorizontalAlignment,

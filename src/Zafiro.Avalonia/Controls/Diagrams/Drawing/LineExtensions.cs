@@ -2,7 +2,7 @@ using Avalonia.Media;
 
 namespace Zafiro.Avalonia.Controls.Diagrams.Drawing;
 
-public static class DrawingContextLineExtensions
+public static class LineExtensions
 {
     public static void OrthogonalLine(this DrawingContext context, Point pointA, Point pointB, Pen pen)
     {
