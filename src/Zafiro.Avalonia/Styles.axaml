@@ -13,6 +13,7 @@
                 <ResourceInclude Source="Controls/ListBox.axaml" />
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/DiagramView.axaml" />
+                <ResourceInclude Source="Controls/Diagrams/ItemsCanvas.axaml" />
                 <ResourceInclude Source="Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
