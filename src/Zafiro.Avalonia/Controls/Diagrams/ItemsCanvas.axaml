@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams">
+
+    <!--
+    Additional resources 
+    Using Control Themes:
+         https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+    Using Theme Variants:
+         https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+  -->
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <diagrams:ItemsCanvas />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="LeftAndTopContainer" TargetType="ContentPresenter">
+        <Setter Property="Canvas.Left" Value="{ReflectionBinding Left}" />
+        <Setter Property="Canvas.Top" Value="{ReflectionBinding Top}" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type diagrams:ItemsCanvas}" TargetType="diagrams:ItemsCanvas" BasedOn="{StaticResource {x:Type ItemsControl}}">
+        <Setter Property="ItemContainerTheme" Value="{StaticResource LeftAndTopContainer}" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <Canvas />
+            </ItemsPanelTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
