@@ -4,7 +4,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using Zafiro.Clustering;
 
-namespace Zafiro.Avalonia.DataViz.Dendrogram.Control;
+namespace Zafiro.Avalonia.DataViz.Dendrogram;
 
 public class ClusterControl : TemplatedControl
 {

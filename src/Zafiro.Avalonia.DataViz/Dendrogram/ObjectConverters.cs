@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Zafiro.Avalonia.DataViz.Dendrogram.Core;
 
-namespace Zafiro.Avalonia.DataViz.Dendrogram.Control;
+namespace Zafiro.Avalonia.DataViz.Dendrogram;
 
 public class ObjectConverters
 {
@@ -37,7 +36,7 @@ public class ObjectConverters
             return false;
         }
 
-        if (o is Cluster c)
+        if (o is ClusterNode c)
         {
             if (c.Content is null)
             {

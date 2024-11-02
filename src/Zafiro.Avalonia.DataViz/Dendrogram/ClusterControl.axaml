@@ -1,16 +1,17 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control">
+                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram"
+                    xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
-                <control:ClusterControl />
+                <dendrogram:ClusterControl />
             </StackPanel>
         </StackPanel>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type control:ClusterControl}" TargetType="control:ClusterControl">
+    <ControlTheme x:Key="{x:Type dendrogram:ClusterControl}" TargetType="control:ClusterControl">
         <Setter Property="Template">
             <ControlTemplate TargetType="control:ClusterControl">
                 <Panel DataContext="{Binding Cluster, RelativeSource={RelativeSource TemplatedParent}}"
