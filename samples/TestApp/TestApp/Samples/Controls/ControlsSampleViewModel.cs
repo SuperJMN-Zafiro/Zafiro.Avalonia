@@ -8,7 +8,6 @@ using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.Clustering;
-using Zafiro.Clustering.Untyped;
 
 namespace TestApp.Samples.Controls;
 
@@ -44,7 +43,7 @@ public class ControlsSampleViewModel
         engine2.Distribute(2000, 2000);
         GradualGraph = new GradualGraph<INode2D, IEdge2D>(graph2D, new LoadOptions());
 
-        ClusterNode<string> typedCluster = new InternalNode<string>(
+        ClusterNode<string> cluster = new InternalNode<string>(
             new InternalNode<string>(
                 new InternalNode<string>(
                     new LeafNode<string>("A"), 
@@ -55,8 +54,7 @@ public class ControlsSampleViewModel
                 new InternalNode<string>(
                     new LeafNode<string>("D"),
                     new LeafNode<string>("E"), 4), 5), 7);
-
-        var untyped = ClusterNodeViewModel.CreateViewModel(typedCluster);
+        Cluster = ClusterNode.Create(cluster);
     }
 
     public ReactiveCommand<Unit, long> Play { get; set; }
@@ -68,5 +66,5 @@ public class ControlsSampleViewModel
     public SelectionModel<Item> SelectionModel { get; }
     public IGraph2D Graph { get; }
     public GradualGraph<INode2D, IEdge2D> GradualGraph { get; }
-    public ClusterNode<string> Cluster { get; }
+    public ClusterNode Cluster { get; }
 }

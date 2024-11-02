@@ -17,7 +17,7 @@
                        Background="{TemplateBinding Background}">
                     <Panel.Width>
                         <MultiBinding Converter="{x:Static control:ObjectConverters.Multiply}">
-                            <Binding Path="Parent.FusionDistance" />
+                            <Binding Path="Parent.MergeDistance" />
                             <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="DistanceMultiplier" />
                         </MultiBinding>
                     </Panel.Width>
@@ -30,7 +30,7 @@
                         <Style Selector="Rectangle.Vertical">
                             <Setter Property="Width"
                                     Value="{Binding ConnectionThickness, RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Setter Property="ToolTip.Tip" Value="{Binding Parent.FusionDistance}" />
+                            <Setter Property="ToolTip.Tip" Value="{Binding Parent.MergeDistance}" />
                         </Style>
                         <Style Selector="Rectangle.Horizontal">
                             <Setter Property="Height"
@@ -70,7 +70,7 @@
                         
                     </Grid>
                     <DockPanel>
-                        <ItemsControl ItemsSource="{Binding Items}">
+                        <ItemsControl ItemsSource="{Binding Children}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <control:ClusterControl
