@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
+using Zafiro.DataAnalysis.Clustering.Untyped;
 
 namespace Zafiro.Avalonia.DataViz.Dendrogram;
 

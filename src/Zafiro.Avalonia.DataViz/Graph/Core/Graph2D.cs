@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Zafiro.Graphs;
+using Zafiro.DataAnalysis.Graphs;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Core;
 

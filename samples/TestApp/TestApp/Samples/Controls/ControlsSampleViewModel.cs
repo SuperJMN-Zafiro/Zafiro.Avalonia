@@ -7,7 +7,8 @@ using Avalonia.Controls.Selection;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.Avalonia.DataViz.Graph.Core;
-using Zafiro.Clustering;
+using Zafiro.DataAnalysis.Clustering;
+using Zafiro.DataAnalysis.Clustering.Untyped;
 
 namespace TestApp.Samples.Controls;
 
