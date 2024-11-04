@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
+using Zafiro.DataAnalysis;
+using Zafiro.DataAnalysis.Clustering;
 using Zafiro.Tables;
 
 namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
-public class HeatmapViewModel
+public class HeatmapWithDendrogramsViewModel
 {
-    public HeatmapViewModel()
+    public HeatmapWithDendrogramsViewModel()
     {
-        Table = DoubleTable.Create(GetTable());
-    }
+        var heatMap = Heatmap.Create(GetTable(), new SingleLinkageClusteringStrategy<string>(), new SingleLinkageClusteringStrategy<string>());
 
-    public DoubleTable Table { get; }
+        DoubleTable.Create(heatMap.Table);
+    }
 
     public static Table<string, string, double> GetTable()
     {

@@ -12,8 +12,9 @@ public class DataAnalysisViewModel
     {
         Sections = new List<Section>()
         {
-            new Section("Tables", new TableViewModel(), Maybe<object>.None),
-            new Section("Heatmaps", new HeatmapViewModel(), Maybe<object>.None),
+            new Section("Table", new TableViewModel(), Maybe<object>.None),
+            new Section("Heatmap", new HeatmapViewModel(), Maybe<object>.None),
+            new Section("Heatmap with dendrograms", new HeatmapWithDendrogramsViewModel(), Maybe<object>.None),
         };
     }
 
