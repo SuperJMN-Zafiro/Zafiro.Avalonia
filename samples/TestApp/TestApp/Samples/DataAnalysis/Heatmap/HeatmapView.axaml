@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:heatmap="clr-namespace:TestApp.Samples.DataAnalysis.Heatmap"
+             xmlns:testApp="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.DataAnalysis.Heatmap.HeatmapView"
+             x:DataType="heatmap:HeatmapViewModel">
+  <ItemsControl ItemsSource="{Binding Values}">
+      <ItemsControl.ItemTemplate>
+          <DataTemplate>
+              <Border>
+                  <Border.Background>
+                      <MultiBinding Converter="{x:Static testApp:HeatmapConverters.HeatToBrushConverter}">
+                          <Binding Source="{x:Static Colors.Blue}" />
+                          <Binding Source="{x:Static Colors.Red}" />
+                          <Binding Path="Normalized" />
+                      </MultiBinding>
+                  </Border.Background>
+                  <TextBlock VerticalAlignment="Center" TextAlignment="Center" Foreground="White" FontWeight="Bold"
+                             Text="{Binding Value}">
+                  </TextBlock>
+              </Border>
+          </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+              <UniformGrid Rows="{Binding Rows}" Columns="{Binding Columns}"></UniformGrid>
+          </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+  </ItemsControl>
+</UserControl>
