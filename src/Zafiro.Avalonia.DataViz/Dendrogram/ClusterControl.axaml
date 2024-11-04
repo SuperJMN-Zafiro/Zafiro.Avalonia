@@ -90,6 +90,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                         <ContentControl
+                            x:Name="PART_ContentControl"
                             ContentTemplate="{TemplateBinding ItemTemplate}"
                             VerticalAlignment="Center" Content="{Binding Content}">
                             <ContentControl.IsVisible>

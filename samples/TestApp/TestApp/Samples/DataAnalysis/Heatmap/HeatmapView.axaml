@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:heatmap="clr-namespace:TestApp.Samples.DataAnalysis.Heatmap"
              xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram;assembly=Zafiro.Avalonia.DataViz"
-             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.Controls.Heatmaps;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Heatmap.HeatmapView"
@@ -12,16 +11,30 @@
 
     <Grid RowDefinitions="200 *" ColumnDefinitions="200 *">
         <Viewbox Grid.Row="1" Stretch="Fill">
-            <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding LeftCluster}" />
+
+            <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding LeftCluster}">
+                <dendrogram:ClusterControl.RenderTransform>
+                    <ScaleTransform ScaleX="-1" />
+                </dendrogram:ClusterControl.RenderTransform>
+                <dendrogram:ClusterControl.Styles>
+                    <Style Selector="dendrogram|ClusterControl ContentControl#PART_ContentControl">
+                        <Setter x:DataType="dendrogram:ClusterControl" Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="-1" />
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </dendrogram:ClusterControl.Styles>
+            </dendrogram:ClusterControl>
         </Viewbox>
-        <LayoutTransformControl Grid.Row="0" Grid.Column="1" DockPanel.Dock="Top">
+        <!--<LayoutTransformControl Grid.Row="0" Grid.Column="1" DockPanel.Dock="Top">
             <LayoutTransformControl.LayoutTransform>
                 <RotateTransform Angle="-90" />
             </LayoutTransformControl.LayoutTransform>
             <Viewbox Stretch="Fill">
                 <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding TopCluster}" />
             </Viewbox>
-        </LayoutTransformControl>
+        </LayoutTransformControl>-->
         <heatmaps:HeatmapControl Grid.Row="1" Grid.Column="1"
                                  Columns="{Binding Columns}" 
                                  Rows="{Binding Rows}" Values="{Binding Values}" />
