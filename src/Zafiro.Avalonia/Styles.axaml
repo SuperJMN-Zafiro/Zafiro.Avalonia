@@ -14,6 +14,7 @@
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/DiagramView.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/ItemsCanvas.axaml" />
+                <ResourceInclude Source="Controls/Heatmaps/HeatmapControl.axaml" />
                 <ResourceInclude Source="Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -24,5 +25,6 @@
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/WizardControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
+    
 
 </Styles>

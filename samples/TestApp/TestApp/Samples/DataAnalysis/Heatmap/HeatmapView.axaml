@@ -3,31 +3,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:heatmap="clr-namespace:TestApp.Samples.DataAnalysis.Heatmap"
-             xmlns:testApp="clr-namespace:TestApp"
+             xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.Controls.Heatmaps;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Heatmap.HeatmapView"
              x:DataType="heatmap:HeatmapViewModel">
-  <ItemsControl ItemsSource="{Binding Values}">
-      <ItemsControl.ItemTemplate>
-          <DataTemplate>
-              <Border>
-                  <Border.Background>
-                      <MultiBinding Converter="{x:Static testApp:HeatmapConverters.HeatToBrushConverter}">
-                          <Binding Source="{x:Static Colors.Blue}" />
-                          <Binding Source="{x:Static Colors.Red}" />
-                          <Binding Path="Normalized" />
-                      </MultiBinding>
-                  </Border.Background>
-                  <TextBlock VerticalAlignment="Center" TextAlignment="Center" Foreground="White" FontWeight="Bold"
-                             Text="{Binding Value}">
-                  </TextBlock>
-              </Border>
-          </DataTemplate>
-      </ItemsControl.ItemTemplate>
-      <ItemsControl.ItemsPanel>
-          <ItemsPanelTemplate>
-              <UniformGrid Rows="{Binding Rows}" Columns="{Binding Columns}"></UniformGrid>
-          </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-  </ItemsControl>
+
+    <Grid RowDefinitions="200 *" ColumnDefinitions="200 *">
+        <Viewbox Grid.Row="1" Stretch="Fill">
+            <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding LeftCluster}" />
+        </Viewbox>
+        <LayoutTransformControl Grid.Row="0" Grid.Column="1" DockPanel.Dock="Top">
+            <LayoutTransformControl.LayoutTransform>
+                <RotateTransform Angle="-90" />
+            </LayoutTransformControl.LayoutTransform>
+            <Viewbox Stretch="Fill">
+                <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding TopCluster}" />
+            </Viewbox>
+        </LayoutTransformControl>
+        <heatmaps:HeatmapControl Grid.Row="1" Grid.Column="1"
+                                 Columns="{Binding Columns}" 
+                                 Rows="{Binding Rows}" Values="{Binding Values}" />
+    </Grid>
 </UserControl>

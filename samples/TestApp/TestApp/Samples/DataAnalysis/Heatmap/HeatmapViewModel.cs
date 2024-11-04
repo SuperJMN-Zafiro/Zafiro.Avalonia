@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Zafiro.DataAnalysis.Clustering;
+using Zafiro.DataAnalysis.Clustering.Untyped;
 using Zafiro.Tables;
 
 namespace TestApp.Samples.DataAnalysis.Heatmap;
@@ -11,15 +12,19 @@ public class HeatmapViewModel
     {
         var strategy = new SingleLinkageClusteringStrategy<string>();
         var heatmap = Zafiro.DataAnalysis.Heatmap.Create(GetTable(), strategy, strategy);
-        var items = heatmap.Table.Items().ToList();
-        var max = items.Max();
-
-        Values = items.Select(d => new ValueViewModel(d, d / max));
+        Values = heatmap.Table.Items();
         Columns = heatmap.Table.Columns;
         Rows = heatmap.Table.Rows;
+
+        LeftCluster = ClusterNode.Create(heatmap.RowsCluster);
+        TopCluster = ClusterNode.Create(heatmap.ColumnsCluster);
     }
 
-    public IEnumerable<ValueViewModel> Values { get; }
+    public ClusterNode TopCluster { get; }
+
+    public ClusterNode LeftCluster { get; }
+
+    public IEnumerable<double> Values { get; }
 
     public int Columns { get; }
     public int Rows { get; }

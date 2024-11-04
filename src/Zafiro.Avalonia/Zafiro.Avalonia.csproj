@@ -19,4 +19,9 @@
       <ProjectReference Include="..\..\..\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj" />
       <ProjectReference Include="..\..\..\Zafiro\src\Zafiro\Zafiro.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Controls\Heatmaps\HeatmapControl.axaml.cs">
+        <DependentUpon>HeatmapControl.axaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>
