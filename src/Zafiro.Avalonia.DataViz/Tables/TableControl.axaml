@@ -1,0 +1,54 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables">
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <tables:TableControl />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type tables:TableControl}" TargetType="tables:TableControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *">
+                        <ItemsControl Grid.Row="1" ItemTemplate="{TemplateBinding RowTemplate}"
+                                      Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
+                                      ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <ItemsControl Grid.Row="0" Grid.Column="1" TextElement.FontWeight="Bold"
+                                      ItemTemplate="{TemplateBinding ColumnTemplate}"
+                                      Background="{Binding $parent[tables:TableControl].ColumnHeaderBackground}"
+                                      ItemsSource="{Binding $parent[tables:TableControl].Table.ColumnLabels}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <ItemsControl Grid.Row="1" Grid.Column="1"
+                                      ItemsSource="{Binding $parent[tables:TableControl].Table.Cells}"
+                                      ItemTemplate="{TemplateBinding CellTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="{Binding $parent[tables:TableControl].Table.Rows}"
+                                                 Columns="{Binding $parent[tables:TableControl].Table.Columns}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

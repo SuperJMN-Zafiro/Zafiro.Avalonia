@@ -10,6 +10,13 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <AvaloniaXaml Remove="Samples\DataAnalysis\Heatmaps\**" />
+    <Compile Remove="Samples\DataAnalysis\Heatmaps\**" />
+    <EmbeddedResource Remove="Samples\DataAnalysis\Heatmaps\**" />
+    <None Remove="Samples\DataAnalysis\Heatmaps\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />

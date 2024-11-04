@@ -1,10 +1,21 @@
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Media;
+using Zafiro.Tables;
 
 namespace Zafiro.Avalonia.Controls.Heatmaps;
 
 public class HeatmapControl : TemplatedControl
 {
+    public static readonly StyledProperty<IDataTemplate> CellTemplateProperty = AvaloniaProperty.Register<HeatmapControl, IDataTemplate>(
+        nameof(CellTemplate));
+
+    public IDataTemplate CellTemplate
+    {
+        get => GetValue(CellTemplateProperty);
+        set => SetValue(CellTemplateProperty, value);
+    }
+
     public static readonly StyledProperty<Color> LowColorProperty = AvaloniaProperty.Register<HeatmapControl, Color>(
         nameof(LowColor));
 
@@ -30,6 +41,15 @@ public class HeatmapControl : TemplatedControl
     {
         get => GetValue(ValuesProperty);
         set => SetValue(ValuesProperty, value);
+    }
+
+    public static readonly StyledProperty<ObjectTable> TableProperty = AvaloniaProperty.Register<HeatmapControl, ObjectTable>(
+        nameof(Table));
+
+    public ObjectTable Table
+    {
+        get => GetValue(TableProperty);
+        set => SetValue(TableProperty, value);
     }
 
     public HeatmapControl()

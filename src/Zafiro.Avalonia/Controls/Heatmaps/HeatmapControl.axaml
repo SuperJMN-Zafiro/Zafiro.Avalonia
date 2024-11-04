@@ -21,28 +21,12 @@
       <Setter Property="HighColor" Value="{x:Static Colors.Red}" />
       <Setter Property="Template">
       <ControlTemplate>
-          <ItemsControl ItemsSource="{TemplateBinding ValueModels}">
-              <ItemsControl.ItemTemplate>
-                  <DataTemplate x:DataType="testApp:ValueModel">
-                      <Border BorderBrush="DarkGray">
-                          <Border.Background>
-                              <MultiBinding Converter="{x:Static testApp:HeatmapConverter.Instance}">
-                                  <Binding Path="$parent[testApp:HeatmapControl].LowColor" />
-                                  <Binding Path="$parent[testApp:HeatmapControl].HighColor" />
-                                  <Binding Path="Normalized" />
-                              </MultiBinding>
-                          </Border.Background>
-                          <TextBlock VerticalAlignment="Center" TextAlignment="Center" 
-                                     Foreground="{Binding $parent[testApp:HeatmapControl].Foreground}"
-                                     FontWeight="{Binding $parent[testApp:HeatmapControl].FontWeight}"
-                                     Text="{Binding Value}">
-                          </TextBlock>
-                      </Border>
-                  </DataTemplate>
-              </ItemsControl.ItemTemplate>
+          <ItemsControl ItemsSource="{Binding $parent[testApp:HeatmapControl].Table.Cells}"
+                        ItemTemplate="{TemplateBinding CellTemplate}">
               <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                      <UniformGrid Rows="{Binding $parent[testApp:HeatmapControl].Rows}" Columns="{Binding $parent[testApp:HeatmapControl].Columns}" />
+                      <UniformGrid Rows="{Binding $parent[testApp:HeatmapControl].Table.Rows}" 
+                                   Columns="{Binding $parent[testApp:HeatmapControl].Table.Columns}" />
                   </ItemsPanelTemplate>
               </ItemsControl.ItemsPanel>
           </ItemsControl>

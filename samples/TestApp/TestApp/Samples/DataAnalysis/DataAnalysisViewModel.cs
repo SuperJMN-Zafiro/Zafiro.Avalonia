@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CSharpFunctionalExtensions;
-using TestApp.Samples.DataAnalysis.Heatmap;
+using TestApp.Samples.DataAnalysis.Tables;
 using Zafiro.UI;
 
 namespace TestApp.Samples.DataAnalysis;
@@ -11,7 +11,8 @@ public class DataAnalysisViewModel
     {
         Sections = new List<Section>()
         {
-            new Section("Heatmaps", new HeatmapViewModel(), Maybe<object>.None),
+            new Section("Tables", new TableViewModel(), Maybe<object>.None),
+            //new Section("Heatmaps", new HeatmapViewModel(), Maybe<object>.None),
         };
     }
 

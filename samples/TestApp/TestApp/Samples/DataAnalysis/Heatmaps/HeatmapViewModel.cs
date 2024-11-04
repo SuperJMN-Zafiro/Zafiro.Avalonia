@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Zafiro.DataAnalysis.Clustering;
 using Zafiro.DataAnalysis.Clustering.Untyped;
 using Zafiro.Tables;
 
-namespace TestApp.Samples.DataAnalysis.Heatmap;
+namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
 public class HeatmapViewModel
 {
@@ -18,7 +17,10 @@ public class HeatmapViewModel
 
         LeftCluster = ClusterNode.Create(heatmap.RowsCluster);
         TopCluster = ClusterNode.Create(heatmap.ColumnsCluster);
+        Table = ObjectTable.Create(heatmap.Table);
     }
+
+    public ObjectTable Table { get; set; }
 
     public ClusterNode TopCluster { get; }
 

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace TestApp.Samples.DataAnalysis.Heatmap;
+namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
 public partial class HeatmapView : UserControl
 {

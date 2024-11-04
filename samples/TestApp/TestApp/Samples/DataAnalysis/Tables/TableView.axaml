@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:tables1="clr-namespace:TestApp.Samples.DataAnalysis.Tables"
+             xmlns:t="clr-namespace:Zafiro.Tables;assembly=Zafiro"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.DataAnalysis.Tables.TableView"
+             x:DataType="tables1:TableViewModel">
+    <tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
+        <tables:TableControl.ColumnTemplate>
+            <DataTemplate x:DataType="x:String">
+                <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+                    <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"
+                               Text="{Binding}" />
+                </Border>
+            </DataTemplate>
+        </tables:TableControl.ColumnTemplate>
+        <tables:TableControl.RowTemplate>
+            <DataTemplate x:DataType="x:String">
+                <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+                    <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold"
+                               Text="{Binding}" /></Border>
+            </DataTemplate>
+        </tables:TableControl.RowTemplate>
+        <tables:TableControl.CellTemplate>
+            <DataTemplate DataType="t:Cell">
+                <Border Margin="2" BorderBrush="#E1F0FF" BorderThickness="1">
+                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Item}" />
+                </Border>
+            </DataTemplate>
+        </tables:TableControl.CellTemplate>
+    </tables:TableControl>
+</UserControl>
