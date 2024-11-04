@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram"
-                    xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram">
+                    xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram"
+                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
@@ -17,7 +18,7 @@
                 <Panel DataContext="{Binding Cluster, RelativeSource={RelativeSource TemplatedParent}}"
                        Background="{TemplateBinding Background}">
                     <Panel.Width>
-                        <MultiBinding Converter="{x:Static control:ObjectConverters.Multiply}">
+                        <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Multiply}">
                             <Binding Path="Parent.MergeDistance" />
                             <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="DistanceMultiplier" />
                         </MultiBinding>
@@ -53,7 +54,7 @@
 
                         <Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
                             <Rectangle.IsVisible>
-                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                <MultiBinding Converter="{x:Static dataViz:DataVizConverters.AreEquals}">
                                     <Binding Path="." />
                                     <Binding Path="Parent.Right" />
                                 </MultiBinding>
@@ -62,7 +63,7 @@
                         
                         <Rectangle Grid.Row="1" Classes="Vertical" HorizontalAlignment="Right">
                             <Rectangle.IsVisible>
-                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                <MultiBinding Converter="{x:Static dataViz:DataVizConverters.AreEquals}">
                                     <Binding Path="." />
                                     <Binding Path="Parent.Left" />
                                 </MultiBinding>
@@ -94,7 +95,7 @@
                             ContentTemplate="{TemplateBinding ItemTemplate}"
                             VerticalAlignment="Center" Content="{Binding Content}">
                             <ContentControl.IsVisible>
-                                <Binding Converter="{x:Static control:ObjectConverters.ContentVisibilityConverter}" />
+                                <Binding Converter="{x:Static dataViz:DataVizConverters.ContentVisibilityConverter}" />
                             </ContentControl.IsVisible>
                         </ContentControl>
                         <Rectangle Classes="Horizontal" IsVisible="{Binding Parent, Converter={x:Static ObjectConverters.IsNotNull}}" />

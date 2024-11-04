@@ -3,9 +3,9 @@ using Avalonia;
 using Avalonia.Data.Converters;
 using Zafiro.DataAnalysis.Clustering.Untyped;
 
-namespace Zafiro.Avalonia.DataViz.Dendrogram;
+namespace Zafiro.Avalonia.DataViz;
 
-public class ObjectConverters
+public class DataVizConverters
 {
     public static readonly FuncMultiValueConverter<object, bool> AreEquals =
         new(
@@ -55,6 +55,15 @@ public class ObjectConverters
         //return a * b;
 
         return doubles.Aggregate((a, b) => a * b);
+    });
+
+    public static FuncMultiValueConverter<double, double> Divide = new FuncMultiValueConverter<double, double>(doubles =>
+    {
+        //var a = doubles.ToList()[0];
+        //var b = doubles.ToList()[1];
+        //return a * b;
+
+        return doubles.Aggregate((a, b) => a / b);
     });
 }
 

@@ -3,7 +3,8 @@
                     xmlns:testApp="clr-namespace:Zafiro.Avalonia.Controls.Heatmaps"
                     xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
                     xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables"
-                    xmlns:dataViz1="clr-namespace:Zafiro.Tables;assembly=Zafiro">
+                    xmlns:dataViz1="clr-namespace:Zafiro.Tables;assembly=Zafiro"
+                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz">
 
     <ControlTheme x:Key="{x:Type heatmaps:HeatmapControl}" TargetType="heatmaps:HeatmapControl">
         <Setter Property="LowColor" Value="{x:Static Colors.Blue}" />
@@ -13,7 +14,7 @@
             <ControlTemplate>
                 <tables:TableControl ShowHeaders="False" Table="{TemplateBinding Table}">
                     <tables:TableControl.CellTemplate>
-                        <DataTemplate x:DataType="dataViz1:DoubleCell">
+                        <DataTemplate x:DataType="dataViz1:ICell">
                             <Border>
                                 <ToolTip.Tip>
                                     <StackPanel>
@@ -25,7 +26,10 @@
                                     <MultiBinding Converter="{x:Static testApp:HeatmapConverter.Instance}">
                                         <Binding Path="$parent[heatmaps:HeatmapControl].LowColor" />
                                         <Binding Path="$parent[heatmaps:HeatmapControl].HighColor" />
-                                        <Binding Path="Normalized" />
+                                        <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Divide}">
+                                            <Binding Path="Item" />
+                                            <Binding Path="$parent[heatmaps:HeatmapControl].MaximumValue" />
+                                        </MultiBinding>
                                     </MultiBinding>
                                 </Border.Background>
                                 <TextBlock Text="{Binding Item}" TextAlignment="Center" VerticalAlignment="Center" />

@@ -7,10 +7,10 @@ public class TableViewModel
 {
     public TableViewModel()
     {
-        Table = ObjectTable.Create(GetTable());
+        Table = GetTable();
     }
 
-    public ObjectTable Table { get; set; }
+    public ITable Table { get; set; }
 
     public static Table<string, string, double> GetTable()
     {

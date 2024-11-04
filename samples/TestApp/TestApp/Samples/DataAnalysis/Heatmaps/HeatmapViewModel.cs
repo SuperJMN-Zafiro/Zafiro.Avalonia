@@ -7,10 +7,10 @@ public class HeatmapViewModel
 {
     public HeatmapViewModel()
     {
-        Table = DoubleTable.Create(GetTable());
+        Table = GetTable();
     }
 
-    public DoubleTable Table { get; }
+    public ITable Table { get; }
 
     public static Table<string, string, double> GetTable()
     {

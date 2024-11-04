@@ -8,8 +8,8 @@ namespace Zafiro.Avalonia.DataViz.Tables;
 
 public class TableControl : TemplatedControl
 {
-    public static readonly StyledProperty<ObjectTable> TableProperty =
-        AvaloniaProperty.Register<TableControl, ObjectTable>(
+    public static readonly StyledProperty<ITable> TableProperty =
+        AvaloniaProperty.Register<TableControl, ITable>(
             nameof(Table));
 
     public static readonly StyledProperty<IDataTemplate> CellTemplateProperty =
@@ -35,7 +35,7 @@ public class TableControl : TemplatedControl
     public static readonly StyledProperty<bool> ShowHeadersProperty = AvaloniaProperty.Register<TableControl, bool>(
         nameof(ShowHeaders), true);
 
-    public ObjectTable Table
+    public ITable Table
     {
         get => GetValue(TableProperty);
         set => SetValue(TableProperty, value);

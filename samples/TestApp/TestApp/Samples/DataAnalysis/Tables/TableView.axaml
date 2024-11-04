@@ -25,7 +25,7 @@
             </DataTemplate>
         </tables:TableControl.RowTemplate>
         <tables:TableControl.CellTemplate>
-            <DataTemplate DataType="t:Cell">
+            <DataTemplate DataType="t:ICell">
                 <Border Margin="2" BorderBrush="#E1F0FF" BorderThickness="1">
                     <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Item}" />
                 </Border>
