@@ -16,7 +16,7 @@
                 <Border Background="{TemplateBinding Background}" 
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                    <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *">
+                    <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *" IsVisible="{TemplateBinding ShowHeaders}">
                         <ItemsControl Grid.Row="1" ItemTemplate="{TemplateBinding RowTemplate}"
                                       Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
                                       ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
@@ -26,7 +26,7 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-                        <ItemsControl Grid.Row="0" Grid.Column="1" TextElement.FontWeight="Bold"
+                        <ItemsControl Grid.Row="0" Grid.Column="1" IsVisible="{TemplateBinding ShowHeaders}"
                                       ItemTemplate="{TemplateBinding ColumnTemplate}"
                                       Background="{Binding $parent[tables:TableControl].ColumnHeaderBackground}"
                                       ItemsSource="{Binding $parent[tables:TableControl].Table.ColumnLabels}">

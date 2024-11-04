@@ -32,6 +32,9 @@ public class TableControl : TemplatedControl
         AvaloniaProperty.Register<TableControl, IBrush>(
             nameof(ColumnHeaderBackground));
 
+    public static readonly StyledProperty<bool> ShowHeadersProperty = AvaloniaProperty.Register<TableControl, bool>(
+        nameof(ShowHeaders), true);
+
     public ObjectTable Table
     {
         get => GetValue(TableProperty);
@@ -66,5 +69,11 @@ public class TableControl : TemplatedControl
     {
         get => GetValue(ColumnHeaderBackgroundProperty);
         set => SetValue(ColumnHeaderBackgroundProperty, value);
+    }
+
+    public bool ShowHeaders
+    {
+        get => GetValue(ShowHeadersProperty);
+        set => SetValue(ShowHeadersProperty, value);
     }
 }
