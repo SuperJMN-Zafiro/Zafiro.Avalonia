@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+using Zafiro.Tables;
 
 namespace Zafiro.Avalonia.DataViz.Heatmaps;
 

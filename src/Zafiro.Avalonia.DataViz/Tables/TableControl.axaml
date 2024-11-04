@@ -16,8 +16,10 @@
                 <Border Background="{TemplateBinding Background}" 
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                    <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *" IsVisible="{TemplateBinding ShowHeaders}">
-                        <ItemsControl Grid.Row="1" ItemTemplate="{TemplateBinding RowTemplate}"
+                    <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *">
+                        <ItemsControl Grid.Row="1"
+                                      IsVisible="{TemplateBinding ShowHeaders}"
+                                      ItemTemplate="{TemplateBinding RowTemplate}"
                                       Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
                                       ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
                             <ItemsControl.ItemsPanel>

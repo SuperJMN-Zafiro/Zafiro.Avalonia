@@ -9,7 +9,7 @@ public class HeatmapViewModel
 {
     public HeatmapViewModel()
     {
-        //Table = DoubleTable.Create(GetTable());
+        Table = DoubleTable.Create(GetTable());
     }
 
     public DoubleTable Table { get; }

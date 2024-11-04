@@ -46,5 +46,5 @@
             </heatmaps:HeatmapControl.CellTemplate>
         </heatmaps:HeatmapControl>--><!--
     </Grid>-->
-    <hm:HeatmapControl Table="{Binding Table}" />
+    <hm:HeatmapControl Foreground="White" Table="{Binding Table}" />
 </UserControl>
