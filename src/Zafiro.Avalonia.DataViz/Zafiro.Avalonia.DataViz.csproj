@@ -29,6 +29,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Heatmaps\HeatmapControl.axaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
 	  <Compile Update="Tables\TableControl.axaml.cs">
 	    <DependentUpon>TableControl.axaml</DependentUpon>
 	  </Compile>

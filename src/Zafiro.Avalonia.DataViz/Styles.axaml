@@ -5,9 +5,10 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Graphs/Control/GraphControl.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Dendrograms/ClusterControl.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Tables/TableControl.axaml" />
+                <MergeResourceInclude Source="Graphs/Control/GraphControl.axaml" />
+                <MergeResourceInclude Source="Dendrograms/ClusterControl.axaml" />
+                <MergeResourceInclude Source="Tables/TableControl.axaml" />
+                <MergeResourceInclude Source="Heatmaps/HeatmapControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

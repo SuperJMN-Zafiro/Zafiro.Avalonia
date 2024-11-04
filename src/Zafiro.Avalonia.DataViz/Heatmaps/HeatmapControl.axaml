@@ -1,0 +1,45 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:testApp="clr-namespace:Zafiro.Avalonia.Controls.Heatmaps"
+        xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
+        xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables"
+        xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz">
+
+  <Design.PreviewWith>
+      <!--<heatmaps:HeatmapControl Columns="2" Rows="2">
+          <heatmaps:HeatmapControl.Values>
+              <generic:List x:TypeArguments="x:Double">
+                  <x:Double>1</x:Double>
+                  <x:Double>2</x:Double>
+                  <x:Double>3</x:Double>
+                  <x:Double>4</x:Double>
+              </generic:List>
+          </heatmaps:HeatmapControl.Values>
+      </heatmaps:HeatmapControl>-->
+  </Design.PreviewWith>
+ 
+  <ControlTheme x:Key="{x:Type heatmaps:HeatmapControl}" TargetType="heatmaps:HeatmapControl">
+      <Setter Property="LowColor" Value="{x:Static Colors.Blue}" />
+      <Setter Property="HighColor" Value="{x:Static Colors.Red}" />
+      <Setter Property="Template">
+      <ControlTemplate>
+          <tables:TableControl Table="{TemplateBinding Table}">
+              <tables:TableControl.CellTemplate>
+                  <DataTemplate x:DataType="dataViz:DoubleCell">
+                      <Border>
+                          <Border.Background>
+                              <MultiBinding Converter="{x:Static testApp:HeatmapConverter.Instance}">
+                                  <Binding Path="$parent[heatmaps:HeatmapControl].LowColor" />
+                                  <Binding Path="$parent[heatmaps:HeatmapControl].HighColor" />
+                                  <Binding Path="Normalized" />
+                              </MultiBinding>
+                          </Border.Background>
+                          <TextBlock Text="{Binding Value}" VerticalAlignment="Center" />
+                      </Border>
+                  </DataTemplate>
+              </tables:TableControl.CellTemplate>
+          </tables:TableControl>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

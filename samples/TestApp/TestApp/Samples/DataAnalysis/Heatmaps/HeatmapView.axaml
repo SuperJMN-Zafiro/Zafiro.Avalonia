@@ -2,14 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:heatmap="clr-namespace:TestApp.Samples.DataAnalysis.Heatmap"
-             xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram;assembly=Zafiro.Avalonia.DataViz"
-             xmlns:heatmap1="clr-namespace:TestApp.Samples.DataAnalysis.Heatmaps"
+             xmlns:s="clr-namespace:TestApp.Samples.DataAnalysis.Heatmaps"
+             xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapView"
-             x:DataType="heatmap1:HeatmapViewModel">
+             x:DataType="s:HeatmapViewModel">
 
-    <Grid RowDefinitions="200 *" ColumnDefinitions="200 *">
+    <!--<Grid RowDefinitions="200 *" ColumnDefinitions="200 *">
         <Viewbox Grid.Row="1" Stretch="Fill">
 
             <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding LeftCluster}">
@@ -27,15 +26,15 @@
                 </dendrogram:ClusterControl.Styles>
             </dendrogram:ClusterControl>
         </Viewbox>
-        <!--<LayoutTransformControl Grid.Row="0" Grid.Column="1" DockPanel.Dock="Top">
+        --><!--<LayoutTransformControl Grid.Row="0" Grid.Column="1" DockPanel.Dock="Top">
             <LayoutTransformControl.LayoutTransform>
                 <RotateTransform Angle="-90" />
             </LayoutTransformControl.LayoutTransform>
             <Viewbox Stretch="Fill">
                 <dendrogram:ClusterControl DistanceMultiplier="5" DockPanel.Dock="Left" Cluster="{Binding TopCluster}" />
             </Viewbox>
-        </LayoutTransformControl>-->
-        <!--<heatmaps:HeatmapControl Grid.Row="1" Grid.Column="1"
+        </LayoutTransformControl>--><!--
+        --><!--<heatmaps:HeatmapControl Grid.Row="1" Grid.Column="1"
                                  Table="{Binding Table}">
             <heatmaps:HeatmapControl.CellTemplate>
                 <DataTemplate x:DataType="heatmaps:Cell">
@@ -45,6 +44,7 @@
                     </StackPanel>
                 </DataTemplate>
             </heatmaps:HeatmapControl.CellTemplate>
-        </heatmaps:HeatmapControl>-->
-    </Grid>
+        </heatmaps:HeatmapControl>--><!--
+    </Grid>-->
+    <hm:HeatmapControl Table="{Binding Table}" />
 </UserControl>
