@@ -5,20 +5,16 @@
              xmlns:heatmaps="clr-namespace:TestApp.Samples.DataAnalysis.Heatmaps"
              xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapWithDendrogramsView"
              x:DataType="heatmaps:HeatmapWithDendrogramsViewModel">
     <DockPanel>
-        <!--<Border DockPanel.Dock="Right" Width="10">
+        <Border DockPanel.Dock="Right" Width="10">
             <Border.Background>
-                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-                    <LinearGradientBrush.GradientStops>
-                        <GradientStop Offset="0" Color="Red" />
-                        <GradientStop Offset="1" Color="Blue" />
-                    </LinearGradientBrush.GradientStops>
-                </LinearGradientBrush>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%" GradientStops="{Binding #HeatmapControl.ColorList, Converter={x:Static dataViz:DataVizConverters.ColorsToGrandientStops}}" />
             </Border.Background>
-        </Border>-->
+        </Border>
         <Grid ColumnDefinitions="1* 10* Auto" RowDefinitions="1* 10* Auto" Width="500" Height="400">
             <Viewbox Grid.Row="1" Stretch="Fill">
                 <dendrograms:ClusterControl DistanceMultiplier="1" Cluster="{Binding Model.RowsCluster}">
@@ -87,7 +83,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <hm:HeatmapControl ShowValues="False" Grid.Row="1" Grid.Column="1" ShowHeaders="False" Table="{Binding Model.Table}">
+            <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False" Grid.Row="1" Grid.Column="1" ShowHeaders="False" Table="{Binding Model.Table}">
                 <hm:HeatmapControl.ColumnTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">

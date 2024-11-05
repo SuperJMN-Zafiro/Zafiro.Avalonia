@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:testApp="clr-namespace:Zafiro.Avalonia.Controls.Heatmaps"
                     xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
                     xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables"
                     xmlns:dataViz1="clr-namespace:Zafiro.Tables;assembly=Zafiro"

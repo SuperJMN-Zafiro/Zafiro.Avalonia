@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
+using MoreLinq;
 using Zafiro.DataAnalysis.Clustering;
 
 namespace Zafiro.Avalonia.DataViz;
@@ -65,5 +68,23 @@ public class DataVizConverters
 
         return doubles.Aggregate((a, b) => a / b);
     });
+
+    public static FuncValueConverter<IEnumerable<Color>, GradientStops> ColorsToGrandientStops =
+        new FuncValueConverter<IEnumerable<Color>, GradientStops>(colors =>
+        {
+            if (colors == null)
+            {
+                return new GradientStops();
+            }
+
+            var colorList = colors.ToList();
+            var totalColors  = colorList.Count();
+            var gradientStops = new GradientStops();
+
+            var step = (double)1 / (totalColors-1);
+
+            colorList.Select((color, i) => (Color: color, Offset: step * i)).ForEach(color => gradientStops.Add(new GradientStop(color.Color, color.Offset)));
+            return gradientStops;
+        });
 }
 
