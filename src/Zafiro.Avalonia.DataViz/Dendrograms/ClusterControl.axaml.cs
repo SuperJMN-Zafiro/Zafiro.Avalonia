@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
-using Zafiro.DataAnalysis.Clustering.Untyped;
+using Zafiro.DataAnalysis.Clustering;
 
 namespace Zafiro.Avalonia.DataViz.Dendrograms;
 

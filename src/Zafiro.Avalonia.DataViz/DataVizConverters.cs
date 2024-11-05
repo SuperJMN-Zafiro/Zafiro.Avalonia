@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Zafiro.DataAnalysis.Clustering.Untyped;
+using Zafiro.DataAnalysis.Clustering;
 
 namespace Zafiro.Avalonia.DataViz;
 
