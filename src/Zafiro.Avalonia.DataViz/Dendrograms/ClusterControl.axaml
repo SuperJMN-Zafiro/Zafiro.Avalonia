@@ -1,20 +1,19 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram"
-                    xmlns:dendrogram="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram"
-                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz">
+                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
+                    xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
-                <dendrogram:ClusterControl />
+                <dendrograms:ClusterControl />
             </StackPanel>
         </StackPanel>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type dendrogram:ClusterControl}" TargetType="control:ClusterControl">
+    <ControlTheme x:Key="{x:Type dendrograms:ClusterControl}" TargetType="dendrograms:ClusterControl">
         <Setter Property="Template">
-            <ControlTemplate TargetType="control:ClusterControl">
+            <ControlTemplate TargetType="dendrograms:ClusterControl">
                 <Panel DataContext="{Binding Cluster, RelativeSource={RelativeSource TemplatedParent}}"
                        Background="{TemplateBinding Background}">
                     <Panel.Width>
@@ -75,11 +74,11 @@
                         <ItemsControl ItemsSource="{Binding Children}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <control:ClusterControl
-                                        ItemTemplate="{Binding $parent[control:ClusterControl].ItemTemplate}"
-                                        ConnectionThickness="{Binding $parent[control:ClusterControl].ConnectionThickness}"
-                                        ConnectionBrush="{Binding $parent[control:ClusterControl].ConnectionBrush}"
-                                        DistanceMultiplier="{Binding $parent[control:ClusterControl].DistanceMultiplier}"
+                                    <dendrograms:ClusterControl
+                                        ItemTemplate="{Binding $parent[dendrograms:ClusterControl].ItemTemplate}"
+                                        ConnectionThickness="{Binding $parent[dendrograms:ClusterControl].ConnectionThickness}"
+                                        ConnectionBrush="{Binding $parent[dendrograms:ClusterControl].ConnectionBrush}"
+                                        DistanceMultiplier="{Binding $parent[dendrograms:ClusterControl].DistanceMultiplier}"
                                         Cluster="{Binding}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -93,7 +92,7 @@
                         <ContentControl
                             x:Name="PART_ContentControl"
                             ContentTemplate="{TemplateBinding ItemTemplate}"
-                            VerticalAlignment="Center" Content="{Binding Content}">
+                            VerticalAlignment="Center" Content="{Binding Item}">
                             <ContentControl.IsVisible>
                                 <Binding Converter="{x:Static dataViz:DataVizConverters.ContentVisibilityConverter}" />
                             </ContentControl.IsVisible>

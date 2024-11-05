@@ -29,7 +29,7 @@ public class DataVizConverters
 
                 return areEqual;
             });
-
+    
     public static FuncValueConverter<object, bool> ContentVisibilityConverter = new FuncValueConverter<object, bool>(o =>
     {
         if (o == null)
@@ -39,7 +39,7 @@ public class DataVizConverters
 
         if (o is ClusterNode c)
         {
-            if (c.Content is null)
+            if (c.Item is null)
             {
                 return false;
             }
