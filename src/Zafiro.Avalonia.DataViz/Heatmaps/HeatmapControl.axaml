@@ -4,11 +4,20 @@
                     xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
                     xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables"
                     xmlns:dataViz1="clr-namespace:Zafiro.Tables;assembly=Zafiro"
-                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz">
+                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
+                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
 
     <ControlTheme x:Key="{x:Type heatmaps:HeatmapControl}" TargetType="heatmaps:HeatmapControl">
-        <Setter Property="LowColor" Value="{x:Static Colors.Blue}" />
-        <Setter Property="HighColor" Value="{x:Static Colors.Red}" />
+        <Setter Property="ColorList">
+            <Setter.Value>
+                <generic:List x:TypeArguments="Color">
+                    <Color>#4575B3</Color>
+                    <Color>White</Color>
+                    <Color>#D63027</Color>
+                </generic:List>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="TextElement.Foreground" Value="{TemplateBinding Foreground}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -29,16 +38,15 @@
                                     </StackPanel>
                                 </ToolTip.Tip>
                                 <Border.Background>
-                                    <MultiBinding Converter="{x:Static testApp:HeatmapConverter.Instance}">
-                                        <Binding Path="$parent[heatmaps:HeatmapControl].LowColor" />
-                                        <Binding Path="$parent[heatmaps:HeatmapControl].HighColor" />
+                                    <MultiBinding Converter="{x:Static heatmaps:HeatmapConverter.Instance}">
+                                        <Binding Path="$parent[heatmaps:HeatmapControl].ColorList" />
                                         <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Divide}">
                                             <Binding Path="Item" />
                                             <Binding Path="$parent[heatmaps:HeatmapControl].MaximumValue" />
                                         </MultiBinding>
                                     </MultiBinding>
                                 </Border.Background>
-                                <TextBlock Text="{Binding Item}" TextAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock IsVisible="{Binding $parent[heatmaps:HeatmapControl].ShowValues}" Text="{Binding Item}" TextAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </DataTemplate>
                     </tables:TableControl.CellTemplate>

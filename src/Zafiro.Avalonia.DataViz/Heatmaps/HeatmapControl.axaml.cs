@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using Avalonia;
@@ -105,5 +106,23 @@ public class HeatmapControl : TemplatedControl
     {
         get => maximumValue;
         set => SetAndRaise(MaximumValueProperty, ref maximumValue, value);
+    }
+
+    public static readonly StyledProperty<bool> ShowValuesProperty = AvaloniaProperty.Register<HeatmapControl, bool>(
+        nameof(ShowValues), true);
+
+    public bool ShowValues
+    {
+        get => GetValue(ShowValuesProperty);
+        set => SetValue(ShowValuesProperty, value);
+    }
+
+    public static readonly StyledProperty<IEnumerable<Color>> ColorListProperty = AvaloniaProperty.Register<HeatmapControl, IEnumerable<Color>>(
+        "ColorList");
+
+    public IEnumerable<Color> ColorList
+    {
+        get => GetValue(ColorListProperty);
+        set => SetValue(ColorListProperty, value);
     }
 }

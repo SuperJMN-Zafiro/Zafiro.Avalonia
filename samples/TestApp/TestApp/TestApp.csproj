@@ -34,4 +34,10 @@
     <UpToDateCheckInput Remove="Samples\Wizard\WizardSampleView.axaml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Samples\DataAnalysis\Heatmaps\Synthetic_Heatmap_Data.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

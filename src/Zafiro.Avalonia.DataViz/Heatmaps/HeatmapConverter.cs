@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
-using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using Zafiro.Avalonia.Misc;
 
-namespace Zafiro.Avalonia.Controls.Heatmaps;
+namespace Zafiro.Avalonia.DataViz.Heatmaps;
 
 public class HeatmapConverter
 {
@@ -18,15 +19,9 @@ public class HeatmapConverter
                     return Brushes.Black;
                 }
 
-                var lowBrush = (Color)list[0];
-                var highBrush = (Color)list[1];
-                var value = (double)list[2];
+                var colorList = ((IEnumerable<Color>)list[0]).ToList();
+                var value = (double)list[1];
 
-                // Interpolación lineal para cada componente de color
-                var r = (byte)(lowBrush.R + (highBrush.R - lowBrush.R) * value);
-                var g = (byte)(lowBrush.G + (highBrush.G - lowBrush.G) * value);
-                var b = (byte)(lowBrush.B + (highBrush.B - lowBrush.B) * value);
-
-                return new SolidColorBrush(Color.FromRgb(r, g, b));
+                return new SolidColorBrush(ColorInterpolator.InterpolateColor(colorList.ToList(), value));
             });
 }
