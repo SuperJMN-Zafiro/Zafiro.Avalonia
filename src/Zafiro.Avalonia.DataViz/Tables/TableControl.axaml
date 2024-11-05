@@ -17,13 +17,12 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                     <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *">
-                        <DockPanel Grid.Row="1" IsVisible="{TemplateBinding ShowHeaders}"
-                                   >
+                        <DockPanel Grid.Row="1">
                             <ContentControl HorizontalAlignment="Center" Content="{TemplateBinding RowHeaderContent}" />
-                            <ItemsControl
-                                ItemTemplate="{TemplateBinding RowTemplate}"
-                                Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
-                                ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
+                            <ItemsControl IsVisible="{TemplateBinding ShowHeaders}"
+                                          ItemTemplate="{TemplateBinding RowTemplate}"
+                                          Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
+                                          ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />
@@ -31,10 +30,10 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                         </DockPanel>
-                        <DockPanel Grid.Row="0" Grid.Column="1" IsVisible="{TemplateBinding ShowHeaders}"
-                                   >
+                        <DockPanel Grid.Row="0" Grid.Column="1">
                             <ContentControl DockPanel.Dock="Top"  Content="{TemplateBinding ColumnHeaderContent}" />
                             <ItemsControl ItemTemplate="{TemplateBinding ColumnTemplate}"
+                                          IsVisible="{TemplateBinding ShowHeaders}"
                                           Background="{Binding $parent[tables:TableControl].ColumnHeaderBackground}"
                                           ItemsSource="{Binding $parent[tables:TableControl].Table.ColumnLabels}">
                                 <ItemsControl.ItemsPanel>

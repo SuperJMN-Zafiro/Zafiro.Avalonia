@@ -23,6 +23,33 @@ public class HeatmapControl : TemplatedControl
         AvaloniaProperty.RegisterDirect<HeatmapControl, double>(
             nameof(MaximumValue), o => o.MaximumValue, (o, v) => o.MaximumValue = v);
 
+    public static readonly StyledProperty<object> ColumnHeaderContentProperty = AvaloniaProperty.Register<HeatmapControl, object>(
+        nameof(ColumnHeaderContent));
+
+    public object ColumnHeaderContent
+    {
+        get => GetValue(ColumnHeaderContentProperty);
+        set => SetValue(ColumnHeaderContentProperty, value);
+    }
+
+    public static readonly StyledProperty<object> RowHeaderContentProperty = AvaloniaProperty.Register<HeatmapControl, object>(
+        nameof(RowHeaderContent));
+
+    public object RowHeaderContent
+    {
+        get => GetValue(RowHeaderContentProperty);
+        set => SetValue(RowHeaderContentProperty, value);
+    }
+
+    public static readonly StyledProperty<bool> ShowHeadersProperty = AvaloniaProperty.Register<HeatmapControl, bool>(
+        nameof(ShowHeaders), true);
+
+    public bool ShowHeaders
+    {
+        get => GetValue(ShowHeadersProperty);
+        set => SetValue(ShowHeadersProperty, value);
+    }
+
     private double maximumValue;
 
     public HeatmapControl()

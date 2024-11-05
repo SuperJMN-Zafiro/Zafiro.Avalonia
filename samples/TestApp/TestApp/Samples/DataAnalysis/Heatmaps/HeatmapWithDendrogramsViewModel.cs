@@ -9,7 +9,7 @@ public class HeatmapWithDendrogramsViewModel
 {
     public HeatmapWithDendrogramsViewModel()
     {
-        this.Model = HeatmapWithDendrograms.Create(GetTable(), new SingleLinkageClusteringStrategy<string>(), new SingleLinkageClusteringStrategy<string>());
+        Model = HeatmapWithDendrograms.Create(GetTable(), new SingleLinkageClusteringStrategy<string>(), new SingleLinkageClusteringStrategy<string>());
     }
 
     public IHeatmapWithDendrograms Model { get; }

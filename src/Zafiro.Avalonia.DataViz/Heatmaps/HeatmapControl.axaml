@@ -12,7 +12,11 @@
         <Setter Property="TextElement.Foreground" Value="{TemplateBinding Foreground}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <tables:TableControl ShowHeaders="False" Table="{TemplateBinding Table}">
+                <tables:TableControl 
+                    ShowHeaders="{TemplateBinding ShowHeaders}" 
+                    ColumnHeaderContent="{TemplateBinding ColumnHeaderContent}"
+                    RowHeaderContent="{TemplateBinding RowHeaderContent}"
+                    Table="{TemplateBinding Table}">
                     <tables:TableControl.CellTemplate>
                         <DataTemplate x:DataType="dataViz1:ICell">
                             <Border>
