@@ -16,6 +16,8 @@
                     ShowHeaders="{TemplateBinding ShowHeaders}" 
                     ColumnHeaderContent="{TemplateBinding ColumnHeaderContent}"
                     RowHeaderContent="{TemplateBinding RowHeaderContent}"
+                    RowTemplate="{TemplateBinding RowTemplate}"
+                    ColumnTemplate="{TemplateBinding ColumnTemplate}"
                     Table="{TemplateBinding Table}">
                     <tables:TableControl.CellTemplate>
                         <DataTemplate x:DataType="dataViz1:ICell">

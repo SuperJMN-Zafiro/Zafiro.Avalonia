@@ -56,7 +56,24 @@
                     </dendrograms:ClusterControl>
                 </Viewbox>
             </LayoutTransformControl>
-            <hm:HeatmapControl Grid.Row="1" Grid.Column="1" ShowHeaders="False" Table="{Binding Model.Table}" />
+            <hm:HeatmapControl Grid.Row="1" Grid.Column="1" ShowHeaders="False" Table="{Binding Model.Table}">
+                <hm:HeatmapControl.ColumnTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"
+                                       Text="{Binding}" />
+                        </Border>
+                    </DataTemplate>
+                </hm:HeatmapControl.ColumnTemplate>
+                <hm:HeatmapControl.RowTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold"
+                                       Text="{Binding}" />
+                        </Border>
+                    </DataTemplate>
+                </hm:HeatmapControl.RowTemplate>
+            </hm:HeatmapControl>
         </Grid>
     </DockPanel>
 </UserControl>

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using ReactiveUI;
 using Zafiro.Tables;
@@ -23,8 +24,29 @@ public class HeatmapControl : TemplatedControl
         AvaloniaProperty.RegisterDirect<HeatmapControl, double>(
             nameof(MaximumValue), o => o.MaximumValue, (o, v) => o.MaximumValue = v);
 
-    public static readonly StyledProperty<object> ColumnHeaderContentProperty = AvaloniaProperty.Register<HeatmapControl, object>(
-        nameof(ColumnHeaderContent));
+    public static readonly StyledProperty<IDataTemplate> RowTemplateProperty =
+        AvaloniaProperty.Register<HeatmapControl, IDataTemplate>(
+            nameof(RowTemplate));
+
+    public IDataTemplate RowTemplate
+    {
+        get => GetValue(RowTemplateProperty);
+        set => SetValue(RowTemplateProperty, value);
+    }
+
+    public static readonly StyledProperty<IDataTemplate> ColumnTemplateProperty =
+        AvaloniaProperty.Register<HeatmapControl, IDataTemplate>(
+            nameof(ColumnTemplate));
+
+    public IDataTemplate ColumnTemplate
+    {
+        get => GetValue(ColumnTemplateProperty);
+        set => SetValue(ColumnTemplateProperty, value);
+    }
+
+    public static readonly StyledProperty<object> ColumnHeaderContentProperty =
+        AvaloniaProperty.Register<HeatmapControl, object>(
+            nameof(ColumnHeaderContent));
 
     public object ColumnHeaderContent
     {
@@ -32,8 +54,9 @@ public class HeatmapControl : TemplatedControl
         set => SetValue(ColumnHeaderContentProperty, value);
     }
 
-    public static readonly StyledProperty<object> RowHeaderContentProperty = AvaloniaProperty.Register<HeatmapControl, object>(
-        nameof(RowHeaderContent));
+    public static readonly StyledProperty<object> RowHeaderContentProperty =
+        AvaloniaProperty.Register<HeatmapControl, object>(
+            nameof(RowHeaderContent));
 
     public object RowHeaderContent
     {

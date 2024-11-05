@@ -8,38 +8,40 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Tables.TableView"
              x:DataType="tables1:TableViewModel">
-    <tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
-        <tables:TableControl.RowHeaderContent>
-            <LayoutTransformControl>
-                <LayoutTransformControl.LayoutTransform>
-                    <RotateTransform Angle="-90" />
-                </LayoutTransformControl.LayoutTransform>
-                <TextBlock FontSize="20" FontWeight="Black" Margin="10" TextAlignment="Center">Drinks</TextBlock></LayoutTransformControl>
-        </tables:TableControl.RowHeaderContent>
-        <tables:TableControl.ColumnHeaderContent>
-            <TextBlock FontWeight="Black" FontSize="20" Margin="10" TextAlignment="Center">Hours</TextBlock>
-        </tables:TableControl.ColumnHeaderContent>
-        <tables:TableControl.ColumnTemplate>
-            <DataTemplate x:DataType="x:String">
-                <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
-                    <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"
+	<tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
+		<tables:TableControl.RowHeaderContent>
+			<LayoutTransformControl>
+				<LayoutTransformControl.LayoutTransform>
+					<RotateTransform Angle="-90" />
+				</LayoutTransformControl.LayoutTransform>
+				<TextBlock FontSize="20" FontWeight="Black" Margin="10" TextAlignment="Center">Drinks</TextBlock>
+			</LayoutTransformControl>
+		</tables:TableControl.RowHeaderContent>
+		<tables:TableControl.ColumnHeaderContent>
+			<TextBlock FontWeight="Black" FontSize="20" Margin="10" TextAlignment="Center">Hours</TextBlock>
+		</tables:TableControl.ColumnHeaderContent>
+		<tables:TableControl.ColumnTemplate>
+			<DataTemplate x:DataType="x:String">
+				<Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+					<TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"
                                Text="{Binding}" />
-                </Border>
-            </DataTemplate>
-        </tables:TableControl.ColumnTemplate>
-        <tables:TableControl.RowTemplate>
-            <DataTemplate x:DataType="x:String">
-                <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
-                    <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold"
-                               Text="{Binding}" /></Border>
-            </DataTemplate>
-        </tables:TableControl.RowTemplate>
-        <tables:TableControl.CellTemplate>
-            <DataTemplate DataType="t:ICell">
-                <Border Margin="2" BorderBrush="#E1F0FF" BorderThickness="1">
-                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Item}" />
-                </Border>
-            </DataTemplate>
-        </tables:TableControl.CellTemplate>
-    </tables:TableControl>
+				</Border>
+			</DataTemplate>
+		</tables:TableControl.ColumnTemplate>
+		<tables:TableControl.RowTemplate>
+			<DataTemplate x:DataType="x:String">
+				<Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+					<TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold"
+                               Text="{Binding}" />
+				</Border>
+			</DataTemplate>
+		</tables:TableControl.RowTemplate>
+		<tables:TableControl.CellTemplate>
+			<DataTemplate DataType="t:ICell">
+				<Border Margin="2" BorderBrush="#E1F0FF" BorderThickness="1">
+					<TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Item}" />
+				</Border>
+			</DataTemplate>
+		</tables:TableControl.CellTemplate>
+	</tables:TableControl>
 </UserControl>
