@@ -9,6 +9,16 @@
              x:Class="TestApp.Samples.DataAnalysis.Tables.TableView"
              x:DataType="tables1:TableViewModel">
     <tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
+        <tables:TableControl.RowHeaderContent>
+            <LayoutTransformControl>
+                <LayoutTransformControl.LayoutTransform>
+                    <RotateTransform Angle="-90" />
+                </LayoutTransformControl.LayoutTransform>
+                <TextBlock FontSize="20" FontWeight="Black" Margin="10" TextAlignment="Center">Drinks</TextBlock></LayoutTransformControl>
+        </tables:TableControl.RowHeaderContent>
+        <tables:TableControl.ColumnHeaderContent>
+            <TextBlock FontWeight="Black" FontSize="20" Margin="10" TextAlignment="Center">Hours</TextBlock>
+        </tables:TableControl.ColumnHeaderContent>
         <tables:TableControl.ColumnTemplate>
             <DataTemplate x:DataType="x:String">
                 <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">

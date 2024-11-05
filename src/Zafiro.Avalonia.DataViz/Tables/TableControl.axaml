@@ -13,31 +13,37 @@
     <ControlTheme x:Key="{x:Type tables:TableControl}" TargetType="tables:TableControl">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}" 
+                <Border Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                     <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *">
-                        <ItemsControl Grid.Row="1"
-                                      IsVisible="{TemplateBinding ShowHeaders}"
-                                      ItemTemplate="{TemplateBinding RowTemplate}"
-                                      Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
-                                      ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="1" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <ItemsControl Grid.Row="0" Grid.Column="1" IsVisible="{TemplateBinding ShowHeaders}"
-                                      ItemTemplate="{TemplateBinding ColumnTemplate}"
-                                      Background="{Binding $parent[tables:TableControl].ColumnHeaderBackground}"
-                                      ItemsSource="{Binding $parent[tables:TableControl].Table.ColumnLabels}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Rows="1" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
+                        <DockPanel Grid.Row="1" IsVisible="{TemplateBinding ShowHeaders}"
+                                   >
+                            <ContentControl HorizontalAlignment="Center" Content="{TemplateBinding RowHeaderContent}" />
+                            <ItemsControl
+                                ItemTemplate="{TemplateBinding RowTemplate}"
+                                Background="{Binding $parent[tables:TableControl].RowHeaderBackground}"
+                                ItemsSource="{Binding $parent[tables:TableControl].Table.RowLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </DockPanel>
+                        <DockPanel Grid.Row="0" Grid.Column="1" IsVisible="{TemplateBinding ShowHeaders}"
+                                   >
+                            <ContentControl DockPanel.Dock="Top"  Content="{TemplateBinding ColumnHeaderContent}" />
+                            <ItemsControl ItemTemplate="{TemplateBinding ColumnTemplate}"
+                                          Background="{Binding $parent[tables:TableControl].ColumnHeaderBackground}"
+                                          ItemsSource="{Binding $parent[tables:TableControl].Table.ColumnLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </DockPanel>
                         <ItemsControl Grid.Row="1" Grid.Column="1"
                                       ItemsSource="{Binding $parent[tables:TableControl].Table.Cells}"
                                       ItemTemplate="{TemplateBinding CellTemplate}">

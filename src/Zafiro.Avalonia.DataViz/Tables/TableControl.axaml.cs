@@ -35,6 +35,26 @@ public class TableControl : TemplatedControl
     public static readonly StyledProperty<bool> ShowHeadersProperty = AvaloniaProperty.Register<TableControl, bool>(
         nameof(ShowHeaders), true);
 
+    public static readonly StyledProperty<object> ColumnHeaderContentProperty =
+        AvaloniaProperty.Register<TableControl, object>(
+            "TopContent");
+
+    public static readonly StyledProperty<object> RowHeaderContentProperty =
+        AvaloniaProperty.Register<TableControl, object>(
+            nameof(RowHeaderContent));
+
+    public object ColumnHeaderContent
+    {
+        get => GetValue(ColumnHeaderContentProperty);
+        set => SetValue(ColumnHeaderContentProperty, value);
+    }
+
+    public object RowHeaderContent
+    {
+        get => GetValue(RowHeaderContentProperty);
+        set => SetValue(RowHeaderContentProperty, value);
+    }
+
     public ITable Table
     {
         get => GetValue(TableProperty);
