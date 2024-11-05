@@ -19,7 +19,7 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>-->
-        <Grid ColumnDefinitions="1*  10*" RowDefinitions="1* 10*" Width="500" Height="400">
+        <Grid ColumnDefinitions="1* Auto 10*" RowDefinitions="1* 10*" Width="500" Height="400">
             <Viewbox Grid.Row="1" Stretch="Fill">
                 <dendrograms:ClusterControl DistanceMultiplier="1" Cluster="{Binding Model.RowsCluster}">
                     <dendrograms:ClusterControl.RenderTransform>
@@ -41,7 +41,7 @@
                     </dendrograms:ClusterControl.ItemTemplate>
                 </dendrograms:ClusterControl>
             </Viewbox>
-            <LayoutTransformControl Grid.Row="0" Grid.Column="1">
+            <LayoutTransformControl Grid.Row="0" Grid.Column="2">
                 <LayoutTransformControl.LayoutTransform>
                     <RotateTransform Angle="-90" />
                 </LayoutTransformControl.LayoutTransform>
@@ -56,7 +56,25 @@
                     </dendrograms:ClusterControl>
                 </Viewbox>
             </LayoutTransformControl>
-            <hm:HeatmapControl Grid.Row="1" Grid.Column="1" ShowHeaders="False" Table="{Binding Model.Table}">
+            <ItemsControl Grid.Row="1" Grid.Column="1"
+                          ItemsSource="{Binding Model.Table.RowLabels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <LayoutTransformControl>
+                            <LayoutTransformControl.LayoutTransform>
+                                <RotateTransform Angle="-90" />
+                            </LayoutTransformControl.LayoutTransform>
+                            <TextBlock TextAlignment="Center" Text="{Binding}" TextTrimming="CharacterEllipsis" />
+                        </LayoutTransformControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <hm:HeatmapControl Grid.Row="1" Grid.Column="2" ShowHeaders="False" Table="{Binding Model.Table}">
                 <hm:HeatmapControl.ColumnTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
