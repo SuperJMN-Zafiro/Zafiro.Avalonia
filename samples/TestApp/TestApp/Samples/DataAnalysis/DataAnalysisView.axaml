@@ -8,7 +8,12 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.DataAnalysisView"
              x:DataType="dataAnalysis:DataAnalysisViewModel">
-  <TabControl ItemsSource="{Binding Sections}">
+
+    <Design.DataContext>
+        <dataAnalysis:DataAnalysisViewModel/>
+    </Design.DataContext>
+
+    <TabControl ItemsSource="{Binding Sections}">
       <TabControl.ContentTemplate>
           <DataTemplate DataType="ui:Section">
               <ContentControl Content="{Binding Content}" />

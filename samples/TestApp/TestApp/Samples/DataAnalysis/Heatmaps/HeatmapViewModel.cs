@@ -11,7 +11,7 @@ public class HeatmapViewModel
 {
     public HeatmapViewModel()
     {
-        Table = GetTable2();
+        Table = GetTable();
     }
 
     private ITable? GetTable2()

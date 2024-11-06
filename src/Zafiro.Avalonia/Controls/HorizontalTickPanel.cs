@@ -1,16 +1,28 @@
 ﻿namespace Zafiro.Avalonia.Controls;
 
-public class CenteredDistributorPanel : Panel
+public class HorizontalTickPanel : Panel
 {
     protected override Size MeasureOverride(Size availableSize)
     {
+        double maxChildHeight = 0;
+        double totalChildWidth = 0;
+
         foreach (var child in Children)
         {
-            // Medir cada hijo con el alto disponible y ancho infinito
+            // Medir cada hijo con ancho infinito y altura disponible
             child.Measure(new Size(Double.PositiveInfinity, availableSize.Height));
+
+            // Acumular el ancho total y la altura máxima
+            totalChildWidth += child.DesiredSize.Width;
+            maxChildHeight = Math.Max(maxChildHeight, child.DesiredSize.Height);
         }
-        // Retornar el tamaño total disponible
-        return new Size(availableSize.Width, availableSize.Height);
+
+        // Calcular el tamaño deseado del panel
+        double desiredWidth = double.IsInfinity(availableSize.Width) ? totalChildWidth : availableSize.Width;
+        double desiredHeight = double.IsInfinity(availableSize.Height) ? maxChildHeight : availableSize.Height;
+
+        // Retornar el tamaño deseado sin valores infinitos o NaN
+        return new Size(desiredWidth, desiredHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)

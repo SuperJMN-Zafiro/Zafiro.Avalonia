@@ -7,6 +7,8 @@
              xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control;assembly=Zafiro.Avalonia.DataViz"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
              xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -26,6 +28,29 @@
                      c:Selection.EnableCheckBoxes="True" Theme="{StaticResource EasyListBox}"
                      SelectionMode="Multiple">
             </ListBox>
+        </TabItem>
+        <TabItem Header="GradientControl">
+            <StackPanel>
+                <heatmaps:GradientControl NumberOfDivisions="4" Width="500" >
+                    <heatmaps:GradientControl.ColorList>
+                        <generic:List x:TypeArguments="Color">
+                            <Color>Blue</Color>
+                            <Color>White</Color>
+                            <Color>Red</Color>
+                        </generic:List>
+                    </heatmaps:GradientControl.ColorList>
+                </heatmaps:GradientControl>
+                <heatmaps:GradientControl Height="500" BorderBrush="Black" BorderThickness="1"
+                                          Theme="{StaticResource Vertical}" NumberOfDivisions="3">
+                    <heatmaps:GradientControl.ColorList>
+                        <generic:List x:TypeArguments="Color">
+                            <Color>Blue</Color>
+                            <Color>White</Color>
+                            <Color>Red</Color>
+                        </generic:List>
+                    </heatmaps:GradientControl.ColorList>
+                </heatmaps:GradientControl>
+            </StackPanel>
         </TabItem>
         <TabItem Header="Proportional Canvas">
             <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
@@ -119,18 +144,6 @@
                     </control:GraphControl.EdgeTemplate>
                 </control:GraphControl>
             </DockPanel>
-        </TabItem>
-        <TabItem Header="Dendrogram">
-            <dendrograms:ClusterControl DistanceMultiplier="80" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
-                               Cluster="{Binding Cluster}">
-                <dendrograms:ClusterControl.ItemTemplate>
-                    <DataTemplate DataType="x:String">
-                        <Border CornerRadius="10" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
-                            <TextBlock FontWeight="Black" Text="{Binding}" />
-                        </Border>
-                    </DataTemplate>
-                </dendrograms:ClusterControl.ItemTemplate>
-            </dendrograms:ClusterControl>
         </TabItem>
     </TabControl>
 </UserControl>

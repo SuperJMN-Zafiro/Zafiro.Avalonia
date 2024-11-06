@@ -69,7 +69,7 @@ public class DataVizConverters
         return doubles.Aggregate((a, b) => a / b);
     });
 
-    public static FuncValueConverter<IEnumerable<Color>, GradientStops> ColorsToGrandientStops =
+    public static FuncValueConverter<IEnumerable<Color>, GradientStops> ColorsToGradientStops =
         new FuncValueConverter<IEnumerable<Color>, GradientStops>(colors =>
         {
             if (colors == null)

@@ -3,12 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables;assembly=Zafiro.Avalonia.DataViz"
-             xmlns:tables1="clr-namespace:TestApp.Samples.DataAnalysis.Tables"
-             xmlns:t="clr-namespace:Zafiro.Tables;assembly=Zafiro"
+             xmlns:tv="clr-namespace:TestApp.Samples.DataAnalysis.Tables"
+             xmlns:z="clr-namespace:Zafiro.Tables;assembly=Zafiro"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Tables.TableView"
-             x:DataType="tables1:TableViewModel">
-	<tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
+             x:DataType="tv:TableViewModel">
+
+    <Design.DataContext>
+        <tv:TableViewModel />
+    </Design.DataContext>
+
+    <tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
 		<tables:TableControl.RowHeaderContent>
 			<LayoutTransformControl>
 				<LayoutTransformControl.LayoutTransform>
@@ -37,7 +42,7 @@
 			</DataTemplate>
 		</tables:TableControl.RowTemplate>
 		<tables:TableControl.CellTemplate>
-			<DataTemplate DataType="t:ICell">
+			<DataTemplate DataType="z:ICell">
 				<Border Margin="2" BorderBrush="#E1F0FF" BorderThickness="1">
 					<TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Item}" />
 				</Border>

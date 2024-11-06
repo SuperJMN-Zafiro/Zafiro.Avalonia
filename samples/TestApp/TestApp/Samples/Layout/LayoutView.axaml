@@ -6,10 +6,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Layout.LayoutView">
     <Border Background="Blue">
-        <controls:CenteredDistributorPanel ClipToBounds="False">
+        <controls:HorizontalTickPanel ClipToBounds="False">
             <Button>A</Button>
             <Button>B</Button>
             <Button>C</Button>
-        </controls:CenteredDistributorPanel>
+        </controls:HorizontalTickPanel>
     </Border>
 </UserControl>
