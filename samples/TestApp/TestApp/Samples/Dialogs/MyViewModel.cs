@@ -1,16 +1,12 @@
-﻿using System.Threading.Tasks;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro;
-using Zafiro.UI;
 
 namespace TestApp.Samples.Dialogs;
 
-public class MyViewModel : ReactiveValidationObject
+public partial class MyViewModel : ReactiveValidationObject
 {
-    [Reactive]
-    public string Text { get; set; }
+    [Reactive] private string text;
 
     public MyViewModel()
     {
