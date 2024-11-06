@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
@@ -60,13 +61,18 @@ public class DataVizConverters
         return doubles.Aggregate((a, b) => a * b);
     });
 
-    public static FuncMultiValueConverter<double, double> Divide = new FuncMultiValueConverter<double, double>(doubles =>
+    public static FuncMultiValueConverter<object, double> Divide = new FuncMultiValueConverter<object, double>(objects =>
     {
         //var a = doubles.ToList()[0];
         //var b = doubles.ToList()[1];
         //return a * b;
+        
+        if (objects.Any(o => o is UnsetValueType))
+        {
+            return 1;
+        };
 
-        return doubles.Aggregate((a, b) => a / b);
+        return objects.Select(o => Convert.ToDouble(o)).Aggregate((a, b) => a / b);
     });
 
     public static FuncValueConverter<IEnumerable<Color>, GradientStops> ColorsToGradientStops =

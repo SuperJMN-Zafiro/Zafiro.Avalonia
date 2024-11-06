@@ -7,6 +7,7 @@
         <entry key="samples/TestApp/TestApp/Samples/Controls/ControlsSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/Dendrograms/DendrogramLinesView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/Dendrograms/DendrogramView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/Heatmaps/HeatmapWithDendrogramView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/Dialogs/DialogSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/Dialogs/MyView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/Wizard/Pages/FirstPageView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
@@ -18,6 +19,7 @@
         <entry key="samples/TestApp/TestApp/Views/Samples/Wizard/WizardSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Views/Samples/WizardSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Views/Samples/WizardSampleViewModel.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="src/Zafiro.Avalonia.DataViz/Heatmaps/HeatmapControl.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="src/Zafiro.Avalonia/Controls/Info.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="src/Zafiro.Avalonia/Controls/StringEditor/StringEditorControl.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="src/Zafiro.Avalonia/Controls/WizardControl.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />

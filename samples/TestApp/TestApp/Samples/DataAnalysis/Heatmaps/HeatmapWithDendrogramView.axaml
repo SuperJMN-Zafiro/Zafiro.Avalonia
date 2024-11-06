@@ -5,7 +5,9 @@
              xmlns:heatmaps="clr-namespace:TestApp.Samples.DataAnalysis.Heatmaps"
              xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:testApp="clr-namespace:TestApp"
+             xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz;assembly=Zafiro.Avalonia.DataViz"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="800"
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapWithDendrogramsView"
              x:DataType="heatmaps:HeatmapWithDendrogramsViewModel">
 
@@ -13,44 +15,66 @@
         <heatmaps:HeatmapWithDendrogramsViewModel />
     </Design.DataContext>
 
-    <DockPanel  Width="500" Height="400">
-        <hm:GradientControl Margin="30" DockPanel.Dock="Right" BorderBrush="#8E999999" BorderThickness="1" Height="200" Maximum="{Binding #HeatmapControl.MaximumValue}" ColorList="{Binding #HeatmapControl.ColorList}" Theme="{StaticResource Vertical}" />
+    <DockPanel>
+        <hm:GradientControl Margin="30" DockPanel.Dock="Right" BorderBrush="#8E999999" BorderThickness="1" Height="200" Maximum="{Binding #HeatmapControl.MaximumValue}" ColorList="{Binding #HeatmapControl.ColorList}"
+                            Theme="{StaticResource Vertical}" />
         <Grid x:Name="Name" ColumnDefinitions="1* 10* Auto" RowDefinitions="1* 10* Auto">
-            <Viewbox Grid.Row="1" Stretch="Fill">
-                <dendrograms:ClusterControl DistanceMultiplier="1" Cluster="{Binding Model.RowsCluster}">
-                    <dendrograms:ClusterControl.RenderTransform>
-                        <ScaleTransform ScaleX="-1" />
-                    </dendrograms:ClusterControl.RenderTransform>
-                    <dendrograms:ClusterControl.Styles>
-                        <Style Selector="dendrograms|ClusterControl ContentControl#PART_ContentControl">
-                            <Setter x:DataType="dendrograms:ClusterControl" Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="-1" />
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </dendrograms:ClusterControl.Styles>
-                    <dendrograms:ClusterControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock x:DataType="x:String" Text="" />
-                        </DataTemplate>
-                    </dendrograms:ClusterControl.ItemTemplate>
-                </dendrograms:ClusterControl>
-            </Viewbox>
-            <LayoutTransformControl Grid.Row="0" Grid.Column="1">
+            <LayoutTransformControl Grid.Row="1">
+                <LayoutTransformControl.Margin>
+                    <!-- <MultiBinding Converter="{x:Static testApp:ThicknessConverters.RowsMarginConverter}"> -->
+                    <!--     <Binding Path="#HeatmapControl.Bounds.Height" /> -->
+                    <!--     <Binding Path="#HeatmapControl.Table.Rows" /> -->
+                    <!-- </MultiBinding> -->
+                    <MultiBinding Converter="{x:Static testApp:ThicknessConverters.DoubleToVerticalThicknessConverter}">
+                        <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Divide}">
+                            <Binding Path="#HeatmapControl.Bounds.Height" />
+                            <Binding Path="#HeatmapControl.Table.Rows" />
+                            <Binding Converter="{x:Static testApp:ConstantConverter.Instance}">
+                                <Binding.ConverterParameter>
+                                    <x:Int32>2</x:Int32>
+                                </Binding.ConverterParameter>
+                            </Binding>
+                        </MultiBinding>
+                    </MultiBinding>
+                </LayoutTransformControl.Margin>
                 <LayoutTransformControl.LayoutTransform>
-                    <RotateTransform Angle="-90" />
+                    <TransformGroup>
+                        <RotateTransform Angle="-90" />
+                        <ScaleTransform ScaleY="-1" />
+                    </TransformGroup>
                 </LayoutTransformControl.LayoutTransform>
-                <Viewbox Stretch="Fill">
-                    <dendrograms:ClusterControl DistanceMultiplier="1" DockPanel.Dock="Left"
-                                                Cluster="{Binding Model.ColumnsCluster}">
-                        <dendrograms:ClusterControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock x:DataType="x:String" Text="" />
-                            </DataTemplate>
-                        </dendrograms:ClusterControl.ItemTemplate>
-                    </dendrograms:ClusterControl>
-                </Viewbox>
+                <dendrograms:DendrogramLinesControl LineBrush="Black" Cluster="{Binding Model.RowsCluster}" />
+            </LayoutTransformControl>
+
+            <!-- <Viewbox Grid.Row="1" Stretch="Fill"> -->
+            <!--     <dendrograms:ClusterControl DistanceMultiplier="1" Cluster="{Binding Model.RowsCluster}"> -->
+            <!--         <dendrograms:ClusterControl.RenderTransform> -->
+            <!--             <ScaleTransform ScaleX="-1" /> -->
+            <!--         </dendrograms:ClusterControl.RenderTransform> -->
+            <!--         <dendrograms:ClusterControl.Styles> -->
+            <!--             <Style Selector="dendrograms|ClusterControl ContentControl#PART_ContentControl"> -->
+            <!--                 <Setter x:DataType="dendrograms:ClusterControl" Property="RenderTransform"> -->
+            <!--                     <Setter.Value> -->
+            <!--                         <ScaleTransform ScaleX="-1" /> -->
+            <!--                     </Setter.Value> -->
+            <!--                 </Setter> -->
+            <!--             </Style> -->
+            <!--         </dendrograms:ClusterControl.Styles> -->
+            <!--         <dendrograms:ClusterControl.ItemTemplate> -->
+            <!--             <DataTemplate> -->
+            <!--                 <TextBlock x:DataType="x:String" Text="" /> -->
+            <!--             </DataTemplate> -->
+            <!--         </dendrograms:ClusterControl.ItemTemplate> -->
+            <!--     </dendrograms:ClusterControl> -->
+            <!-- </Viewbox> -->
+            <LayoutTransformControl Grid.Row="0" Grid.Column="1" Margin="45 0">
+                <LayoutTransformControl.LayoutTransform>
+                    <TransformGroup>
+                        <!-- <RotateTransform Angle="-90" /> -->
+                        <!-- <ScaleTransform ScaleX="-1" /> -->
+                    </TransformGroup>
+                </LayoutTransformControl.LayoutTransform>
+                <dendrograms:DendrogramLinesControl LineBrush="Black" Cluster="{Binding Model.ColumnsCluster}" />
             </LayoutTransformControl>
             <ItemsControl Grid.Row="1" Grid.Column="2"
                           ItemsSource="{Binding Model.Table.RowLabels}">
