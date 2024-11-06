@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:tv="clr-namespace:TestApp.Samples.DataAnalysis.Tables"
+             xmlns:z="clr-namespace:Zafiro.Tables;assembly=Zafiro"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.DataAnalysis.Tables.TableView"
+             x:DataType="tv:TableViewModel">
+
+    <Design.DataContext>
+        <tv:TableViewModel />
+    </Design.DataContext>
+
+    <tables:TableControl Table="{Binding Table}" RowHeaderBackground="LightBlue" ColumnHeaderBackground="LightBlue">
+		<tables:TableControl.RowHeaderContent>
+			<LayoutTransformControl>
+				<LayoutTransformControl.LayoutTransform>
+					<RotateTransform Angle="-90" />
+				</LayoutTransformControl.LayoutTransform>
+				<TextBlock FontSize="20" FontWeight="Black" Margin="10" TextAlignment="Center">Drinks</TextBlock>
+			</LayoutTransformControl>
+		</tables:TableControl.RowHeaderContent>
+		<tables:TableControl.ColumnHeaderContent>
+			<TextBlock FontWeight="Black" FontSize="20" Margin="10" TextAlignment="Center">Hours</TextBlock>
+		</tables:TableControl.ColumnHeaderContent>
+		<tables:TableControl.ColumnTemplate>
+			<DataTemplate x:DataType="x:String">
+				<Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+					<TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"
+                               Text="{Binding}" />
+				</Border>
+			</DataTemplate>
+		</tables:TableControl.ColumnTemplate>
+		<tables:TableControl.RowTemplate>
+			<DataTemplate x:DataType="x:String">
+				<Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+					<TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold"
+                               Text="{Binding}" />
+				</Border>
+			</DataTemplate>
+		</tables:TableControl.RowTemplate>
+		<tables:TableControl.CellTemplate>
+			<DataTemplate DataType="z:ICell">
+				<Border Margin="2" BorderBrush="#E1F0FF" BorderThickness="1">
+					<TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Item}" />
+				</Border>
+			</DataTemplate>
+		</tables:TableControl.CellTemplate>
+	</tables:TableControl>
+</UserControl>

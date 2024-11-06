@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TestApp.Samples.Adorners;
 using TestApp.Samples.Controls;
+using TestApp.Samples.DataAnalysis;
 using TestApp.Samples.Diagrams;
 using TestApp.Samples.Drag;
 using TestApp.Samples.MasterDetails;
@@ -34,6 +35,7 @@ public class MainViewModel : ViewModelBase
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
         new("Diagrams", new DiagramsViewModel()),
+        new("Data Analysis", new DataAnalysisViewModel()),
         new("Drag", new DragViewModel()),
     };
 }

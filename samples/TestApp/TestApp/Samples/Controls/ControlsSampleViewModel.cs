@@ -5,9 +5,9 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Controls.Selection;
 using ReactiveUI;
-using Zafiro.Avalonia.DataViz.Dendrogram.Core;
 using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.Avalonia.DataViz.Graph.Core;
+using Zafiro.DataAnalysis.Clustering;
 
 namespace TestApp.Samples.Controls;
 
@@ -43,17 +43,18 @@ public class ControlsSampleViewModel
         engine2.Distribute(2000, 2000);
         GradualGraph = new GradualGraph<INode2D, IEdge2D>(graph2D, new LoadOptions());
 
-        Cluster = new Cluster(
-            new Cluster(
-                new Cluster(
-                    new Cluster("A"), 
-                    new Cluster("B"), 1),
-                new Cluster("F"), 2),
-            new Cluster(
-                new Cluster("C"),
-                new Cluster(
-                    new Cluster("D"),
-                    new Cluster("E"), 4), 5), 7);
+        Cluster<string> cluster = new Internal<string>(
+            new Internal<string>(
+                new Internal<string>(
+                    new Leaf<string>("A"), 
+                    new Leaf<string>("B"), 1),
+                new Leaf<string>("F"), 2),
+            new Internal<string>(
+                new Leaf<string>("C"),
+                new Internal<string>(
+                    new Leaf<string>("D"),
+                    new Leaf<string>("E"), 4), 5), 7);
+        Cluster = ClusterNode.Create(cluster);
     }
 
     public ReactiveCommand<Unit, long> Play { get; set; }
@@ -65,5 +66,5 @@ public class ControlsSampleViewModel
     public SelectionModel<Item> SelectionModel { get; }
     public IGraph2D Graph { get; }
     public GradualGraph<INode2D, IEdge2D> GradualGraph { get; }
-    public Cluster Cluster { get; }
+    public ClusterNode Cluster { get; }
 }

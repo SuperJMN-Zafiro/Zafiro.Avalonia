@@ -2,16 +2,16 @@ using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
-using Zafiro.Avalonia.DataViz.Dendrogram.Core;
+using Zafiro.DataAnalysis.Clustering;
 
-namespace Zafiro.Avalonia.DataViz.Dendrogram.Control;
+namespace Zafiro.Avalonia.DataViz.Dendrograms;
 
 public class ClusterControl : TemplatedControl
 {
-    public static readonly StyledProperty<Cluster> ClusterProperty = AvaloniaProperty.Register<ClusterControl, Cluster>(
+    public static readonly StyledProperty<ICluster> ClusterProperty = AvaloniaProperty.Register<ClusterControl, ICluster>(
         nameof(Cluster));
 
-    public Cluster Cluster
+    public ICluster Cluster
     {
         get => GetValue(ClusterProperty);
         set => SetValue(ClusterProperty, value);

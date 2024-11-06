@@ -1,0 +1,25 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:dendrograms1="clr-namespace:TestApp.Samples.DataAnalysis.Dendrograms"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramView"
+             x:DataType="dendrograms1:DendrogramViewModel">
+    
+    <Design.DataContext>
+        <dendrograms1:DendrogramViewModel/>
+    </Design.DataContext>
+    
+    <dendrograms:ClusterControl DistanceMultiplier="80" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
+                                Cluster="{Binding Cluster}">
+        <dendrograms:ClusterControl.ItemTemplate>
+            <DataTemplate DataType="x:String">
+                <Border CornerRadius="10" Margin="4 6" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
+                    <TextBlock FontWeight="Black" Text="{Binding}" />
+                </Border>
+            </DataTemplate>
+        </dendrograms:ClusterControl.ItemTemplate>
+    </dendrograms:ClusterControl>
+</UserControl>

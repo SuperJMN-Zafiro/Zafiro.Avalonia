@@ -5,7 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Zafiro.Avalonia.Controls.Diagrams.Drawing;
 using Zafiro.Avalonia.Controls.Diagrams.Drawing.RectConnectorStrategies;
-using Zafiro.Graphs;
+using Zafiro.DataAnalysis.Graphs;
 
 namespace Zafiro.Avalonia.Controls.Diagrams;
 

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:testApp="clr-namespace:TestApp"
+             xmlns:dataAnalysis="clr-namespace:TestApp.Samples.DataAnalysis"
+             xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.DataAnalysis.DataAnalysisView"
+             x:DataType="dataAnalysis:DataAnalysisViewModel">
+
+    <Design.DataContext>
+        <dataAnalysis:DataAnalysisViewModel/>
+    </Design.DataContext>
+
+    <TabControl ItemsSource="{Binding Sections}">
+      <TabControl.ContentTemplate>
+          <DataTemplate DataType="ui:Section">
+              <ContentControl Content="{Binding Content}" />
+          </DataTemplate>
+      </TabControl.ContentTemplate>
+      <TabControl.ItemTemplate>
+          <DataTemplate DataType="ui:Section">
+              <TextBlock Text="{Binding Title}" />
+          </DataTemplate>
+      </TabControl.ItemTemplate>
+  </TabControl>
+</UserControl>

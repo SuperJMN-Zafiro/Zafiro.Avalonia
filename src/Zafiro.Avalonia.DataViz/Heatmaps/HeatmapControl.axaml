@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
+                    xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables"
+                    xmlns:dv="clr-namespace:Zafiro.Tables;assembly=Zafiro"
+                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
+                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
+
+    <ControlTheme x:Key="{x:Type heatmaps:HeatmapControl}" TargetType="heatmaps:HeatmapControl">
+        <Setter Property="ColorList">
+            <Setter.Value>
+                <generic:List x:TypeArguments="Color">
+                    <Color>#4575B3</Color>
+                    <Color>White</Color>
+                    <Color>#D63027</Color>
+                </generic:List>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="TextElement.Foreground" Value="{TemplateBinding Foreground}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <tables:TableControl 
+                    ShowHeaders="{TemplateBinding ShowHeaders}" 
+                    ColumnHeaderContent="{TemplateBinding ColumnHeaderContent}"
+                    RowHeaderContent="{TemplateBinding RowHeaderContent}"
+                    RowTemplate="{TemplateBinding RowTemplate}"
+                    ColumnTemplate="{TemplateBinding ColumnTemplate}"
+                    Table="{TemplateBinding Table}">
+                    <tables:TableControl.CellTemplate>
+                        <DataTemplate x:DataType="dv:ICell">
+                            <Border>
+                                <ToolTip.Tip>
+                                    <StackPanel Grid.IsSharedSizeScope="True">
+                                        <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Row" Content="{Binding Row}" />
+                                        <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Column" Content="{Binding Column}" />
+                                        <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Value" Content="{Binding Item}" />
+                                    </StackPanel>
+                                </ToolTip.Tip>
+                                <Border.Background>
+                                    <MultiBinding Converter="{x:Static heatmaps:HeatmapConverter.Instance}">
+                                        <Binding Path="$parent[heatmaps:HeatmapControl].ColorList" />
+                                        <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Divide}">
+                                            <Binding Path="Item" />
+                                            <Binding Path="$parent[heatmaps:HeatmapControl].MaximumValue" />
+                                        </MultiBinding>
+                                    </MultiBinding>
+                                </Border.Background>
+                                <TextBlock IsVisible="{Binding $parent[heatmaps:HeatmapControl].ShowValues}" Text="{Binding Item}" TextAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </tables:TableControl.CellTemplate>
+                </tables:TableControl>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

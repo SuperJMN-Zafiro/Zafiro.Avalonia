@@ -7,7 +7,7 @@ using DynamicData;
 using DynamicData.Aggregation;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Core;
-using Zafiro.Graphs;
+using Zafiro.DataAnalysis.Graphs;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Control;

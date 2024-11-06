@@ -1,23 +1,24 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Dendrogram.Control">
+                    xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
+                    xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
-                <control:ClusterControl />
+                <dendrograms:ClusterControl />
             </StackPanel>
         </StackPanel>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type control:ClusterControl}" TargetType="control:ClusterControl">
+    <ControlTheme x:Key="{x:Type dendrograms:ClusterControl}" TargetType="dendrograms:ClusterControl">
         <Setter Property="Template">
-            <ControlTemplate TargetType="control:ClusterControl">
+            <ControlTemplate TargetType="dendrograms:ClusterControl">
                 <Panel DataContext="{Binding Cluster, RelativeSource={RelativeSource TemplatedParent}}"
                        Background="{TemplateBinding Background}">
                     <Panel.Width>
-                        <MultiBinding Converter="{x:Static control:ObjectConverters.Multiply}">
-                            <Binding Path="Parent.FusionDistance" />
+                        <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Multiply}">
+                            <Binding Path="Parent.MergeDistance" />
                             <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="DistanceMultiplier" />
                         </MultiBinding>
                     </Panel.Width>
@@ -30,7 +31,7 @@
                         <Style Selector="Rectangle.Vertical">
                             <Setter Property="Width"
                                     Value="{Binding ConnectionThickness, RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Setter Property="ToolTip.Tip" Value="{Binding Parent.FusionDistance}" />
+                            <Setter Property="ToolTip.Tip" Value="{Binding Parent.MergeDistance}" />
                         </Style>
                         <Style Selector="Rectangle.Horizontal">
                             <Setter Property="Height"
@@ -52,7 +53,7 @@
 
                         <Rectangle Grid.Row="0" Classes="Vertical" HorizontalAlignment="Right">
                             <Rectangle.IsVisible>
-                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                <MultiBinding Converter="{x:Static dataViz:DataVizConverters.AreEquals}">
                                     <Binding Path="." />
                                     <Binding Path="Parent.Right" />
                                 </MultiBinding>
@@ -61,7 +62,7 @@
                         
                         <Rectangle Grid.Row="1" Classes="Vertical" HorizontalAlignment="Right">
                             <Rectangle.IsVisible>
-                                <MultiBinding Converter="{x:Static control:ObjectConverters.AreEquals}">
+                                <MultiBinding Converter="{x:Static dataViz:DataVizConverters.AreEquals}">
                                     <Binding Path="." />
                                     <Binding Path="Parent.Left" />
                                 </MultiBinding>
@@ -70,14 +71,14 @@
                         
                     </Grid>
                     <DockPanel>
-                        <ItemsControl ItemsSource="{Binding Items}">
+                        <ItemsControl ItemsSource="{Binding Children}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <control:ClusterControl
-                                        ItemTemplate="{Binding $parent[control:ClusterControl].ItemTemplate}"
-                                        ConnectionThickness="{Binding $parent[control:ClusterControl].ConnectionThickness}"
-                                        ConnectionBrush="{Binding $parent[control:ClusterControl].ConnectionBrush}"
-                                        DistanceMultiplier="{Binding $parent[control:ClusterControl].DistanceMultiplier}"
+                                    <dendrograms:ClusterControl
+                                        ItemTemplate="{Binding $parent[dendrograms:ClusterControl].ItemTemplate}"
+                                        ConnectionThickness="{Binding $parent[dendrograms:ClusterControl].ConnectionThickness}"
+                                        ConnectionBrush="{Binding $parent[dendrograms:ClusterControl].ConnectionBrush}"
+                                        DistanceMultiplier="{Binding $parent[dendrograms:ClusterControl].DistanceMultiplier}"
                                         Cluster="{Binding}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -89,10 +90,11 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                         <ContentControl
+                            x:Name="PART_ContentControl"
                             ContentTemplate="{TemplateBinding ItemTemplate}"
-                            VerticalAlignment="Center" Content="{Binding Content}">
+                            VerticalAlignment="Center" Content="{Binding Item}">
                             <ContentControl.IsVisible>
-                                <Binding Converter="{x:Static control:ObjectConverters.ContentVisibilityConverter}" />
+                                <Binding Converter="{x:Static dataViz:DataVizConverters.ContentVisibilityConverter}" />
                             </ContentControl.IsVisible>
                         </ContentControl>
                         <Rectangle Classes="Horizontal" IsVisible="{Binding Parent, Converter={x:Static ObjectConverters.IsNotNull}}" />

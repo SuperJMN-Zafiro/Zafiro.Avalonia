@@ -5,8 +5,11 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Graph/Control/GraphControl.axaml" />
-                <MergeResourceInclude Source="avares://Zafiro.Avalonia.DataViz/Dendrogram/Control/ClusterControl.axaml" />
+                <MergeResourceInclude Source="Graphs/Control/GraphControl.axaml" />
+                <MergeResourceInclude Source="Dendrograms/ClusterControl.axaml" />
+                <MergeResourceInclude Source="Tables/TableControl.axaml" />
+                <MergeResourceInclude Source="Heatmaps/HeatmapControl.axaml" />
+                <MergeResourceInclude Source="Heatmaps/GradientControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
