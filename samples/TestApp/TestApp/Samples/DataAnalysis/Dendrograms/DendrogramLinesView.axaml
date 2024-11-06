@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dendrograms="clr-namespace:TestApp.Samples.DataAnalysis.Dendrograms"
-             xmlns:dendrograms1="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:dg="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="50"
              x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramLinesView" x:DataType="dendrograms:DendrogramLinesViewModel">
     
@@ -11,5 +11,5 @@
         <dendrograms:DendrogramLinesViewModel />
     </Design.DataContext>
 
-    <dendrograms1:DendrogramLinesControl RootCluster="{Binding Cluster}" />
+    <dg:DendrogramLinesControl LineThickness="1" LineBrush="Red" Cluster="{Binding Cluster}" />
 </UserControl>

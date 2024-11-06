@@ -1,131 +1,199 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Zafiro.DataAnalysis.Clustering;
 
-namespace Zafiro.Avalonia.DataViz.Dendrograms
+namespace Zafiro.Avalonia.DataViz.Dendrograms;
+
+public class DendrogramLinesControl : Control
 {
-    public class DendrogramLinesControl : Control
+    public static readonly StyledProperty<ICluster?> ClusterProperty =
+        AvaloniaProperty.Register<DendrogramLinesControl, ICluster?>(nameof(Cluster));
+
+    public static readonly StyledProperty<double> LineThicknessProperty =
+        AvaloniaProperty.Register<DendrogramLinesControl, double>(nameof(LineThickness), 1);
+
+    public static readonly StyledProperty<IBrush> LineBrushProperty = AvaloniaProperty.Register<DendrogramLinesControl, IBrush>(
+        nameof(LineBrush));
+
+    static DendrogramLinesControl()
     {
-        public static readonly StyledProperty<ICluster?> RootClusterProperty =
-            AvaloniaProperty.Register<DendrogramLinesControl, ICluster?>(nameof(RootCluster));
+        AffectsRender<DendrogramLinesControl>(ClusterProperty, LineThicknessProperty, LineBrushProperty);
+    }
 
-        public ICluster? RootCluster
+    public ICluster? Cluster
+    {
+        get => GetValue(ClusterProperty);
+        set => SetValue(ClusterProperty, value);
+    }
+
+    public double LineThickness
+    {
+        get => GetValue(LineThicknessProperty);
+        set => SetValue(LineThicknessProperty, value);
+    }
+
+    public IBrush LineBrush
+    {
+        get => GetValue(LineBrushProperty);
+        set => SetValue(LineBrushProperty, value);
+    }
+
+    public override void Render(DrawingContext context)
+    {
+        base.Render(context);
+
+        if (Cluster == null)
         {
-            get => GetValue(RootClusterProperty);
-            set => SetValue(RootClusterProperty, value);
+            return;
         }
 
-        public override void Render(DrawingContext context)
+        // Definir el margen interno basado en el grosor de la línea
+        var margin = LineThickness / 2;
+
+        // Ajustar el área de dibujo disponible
+        var availableWidth = Bounds.Width - 2 * margin;
+        var availableHeight = Bounds.Height - 2 * margin;
+
+        // Definir un diccionario para almacenar las posiciones de las hojas
+        var leafPositions = new Dictionary<ICluster, double>();
+        var leafClusters = GetLeaves(Cluster).ToList();
+
+        var leafCount = leafClusters.Count;
+        var leafSpacing = leafCount > 1 ? availableWidth / (leafCount - 1) : availableWidth;
+
+        // Asignar posiciones X a las hojas, ajustando por el margen
+        for (var i = 0; i < leafClusters.Count; i++)
         {
-            base.Render(context);
+            var x = margin + (leafCount > 1 ? i * leafSpacing : availableWidth / 2);
+            leafPositions[leafClusters[i]] = x;
+        }
 
-            if (RootCluster == null)
-                return;
+        // Calcular la altura máxima basada en MergeDistance
+        var maxDistance = GetMaxMergeDistance(Cluster);
 
-            // Definir un diccionario para almacenar las posiciones de las hojas
-            var leafPositions = new Dictionary<ICluster, double>();
-            var leafClusters = GetLeaves(RootCluster).ToList();
+        // Crear una geometría para dibujar el dendrograma
+        var geometry = new StreamGeometry();
 
-            double leafSpacing = leafClusters.Count > 1 ? Bounds.Width / (leafClusters.Count - 1) : Bounds.Width;
-
-            // Asignar posiciones X a las hojas
-            for (int i = 0; i < leafClusters.Count; i++)
-            {
-                leafPositions[leafClusters[i]] = leafClusters.Count > 1 ? i * leafSpacing : Bounds.Width / 2;
-            }
-
-            // Calcular la altura máxima basada en MergeDistance
-            double maxDistance = GetMaxMergeDistance(RootCluster);
-
+        using (var ctx = geometry.Open())
+        {
             // Dibujar las líneas del dendrograma
-            DrawClusterLines(context, RootCluster, leafPositions, Bounds.Height, maxDistance);
+            DrawClusterLines(ctx, Cluster, leafPositions, margin, availableHeight, maxDistance);
         }
 
-        private void DrawClusterLines(DrawingContext context, ICluster cluster, Dictionary<ICluster, double> leafPositions, double controlHeight, double maxDistance)
+        // Dibujar la geometría resultante
+        var pen = new Pen(LineBrush, LineThickness)
         {
-            if (cluster.Left != null && cluster.Right != null)
-            {
-                // Calcular posiciones
-                double leftX = GetClusterX(cluster.Left, leafPositions);
-                double rightX = GetClusterX(cluster.Right, leafPositions);
-                double centerX = (leftX + rightX) / 2;
+            LineJoin = PenLineJoin.Miter,
+            LineCap = PenLineCap.Flat
+        };
+        context.DrawGeometry(null, pen, geometry);
+    }
 
-                double clusterY = controlHeight - (cluster.MergeDistance / maxDistance) * controlHeight;
-                double leftY = controlHeight - (cluster.Left.MergeDistance / maxDistance) * controlHeight;
-                double rightY = controlHeight - (cluster.Right.MergeDistance / maxDistance) * controlHeight;
+    private void DrawClusterLines(StreamGeometryContext ctx, ICluster cluster, Dictionary<ICluster, double> leafPositions, double margin, double availableHeight, double maxDistance)
+    {
+        if (cluster.Left != null && cluster.Right != null)
+        {
+            // Calcular posiciones
+            var leftX = GetClusterX(cluster.Left, leafPositions);
+            var rightX = GetClusterX(cluster.Right, leafPositions);
+            var centerX = (leftX + rightX) / 2;
 
-                // Dibujar líneas horizontales y verticales
-                var pen = new Pen(Brushes.Black, 1);
+            var clusterY = margin + (1 - cluster.MergeDistance / maxDistance) * availableHeight;
+            var leftY = margin + (1 - cluster.Left.MergeDistance / maxDistance) * availableHeight;
+            var rightY = margin + (1 - cluster.Right.MergeDistance / maxDistance) * availableHeight;
 
-                // Línea horizontal superior
-                context.DrawLine(pen, new Point(leftX, clusterY), new Point(rightX, clusterY));
-                // Línea vertical izquierda
-                context.DrawLine(pen, new Point(leftX, clusterY), new Point(leftX, leftY));
-                // Línea vertical derecha
-                context.DrawLine(pen, new Point(rightX, clusterY), new Point(rightX, rightY));
+            // Construir el camino del dendrograma
+            // Comenzar en el punto izquierdo inferior
+            ctx.BeginFigure(new Point(leftX, leftY), false);
 
-                // Dibujar recursivamente los subárboles
-                DrawClusterLines(context, cluster.Left, leafPositions, controlHeight, maxDistance);
-                DrawClusterLines(context, cluster.Right, leafPositions, controlHeight, maxDistance);
-            }
+            // Línea vertical izquierda hacia arriba
+            ctx.LineTo(new Point(leftX, clusterY));
+
+            // Línea horizontal superior desde leftX hasta rightX
+            ctx.LineTo(new Point(rightX, clusterY));
+
+            // Línea vertical derecha hacia abajo
+            ctx.LineTo(new Point(rightX, rightY));
+
+            // Dibujar recursivamente los subárboles
+            DrawClusterLines(ctx, cluster.Left, leafPositions, margin, availableHeight, maxDistance);
+            DrawClusterLines(ctx, cluster.Right, leafPositions, margin, availableHeight, maxDistance);
         }
-
-        private double GetClusterX(ICluster cluster, Dictionary<ICluster, double> leafPositions)
+        else if (cluster.Left == null && cluster.Right == null)
         {
-            if (cluster.Left == null && cluster.Right == null)
-            {
-                // Es una hoja
-                return leafPositions[cluster];
-            }
-            else
-            {
-                // Es un nodo interno
-                double leftX = GetClusterX(cluster.Left!, leafPositions);
-                double rightX = GetClusterX(cluster.Right!, leafPositions);
-                return (leftX + rightX) / 2;
-            }
+            // Es una hoja, no hace falta dibujar nada
         }
-
-        private IEnumerable<ICluster> GetLeaves(ICluster cluster)
+        else
         {
-            if (cluster.Left == null && cluster.Right == null)
-            {
-                yield return cluster;
-            }
-            else
-            {
-                if (cluster.Left != null)
-                {
-                    foreach (var leaf in GetLeaves(cluster.Left))
-                    {
-                        yield return leaf;
-                    }
-                }
-                if (cluster.Right != null)
-                {
-                    foreach (var leaf in GetLeaves(cluster.Right))
-                    {
-                        yield return leaf;
-                    }
-                }
-            }
-        }
+            // Manejo de posibles nodos con un solo hijo
+            var child = cluster.Left ?? cluster.Right!;
+            var childX = GetClusterX(child, leafPositions);
+            var childY = margin + (1 - child.MergeDistance / maxDistance) * availableHeight;
+            var clusterY = margin + (1 - cluster.MergeDistance / maxDistance) * availableHeight;
 
-        private double GetMaxMergeDistance(ICluster cluster)
-        {
-            double maxDistance = cluster.MergeDistance;
+            // Comenzar en el punto hijo
+            ctx.BeginFigure(new Point(childX, childY), false);
 
-            if (cluster.Left != null)
-                maxDistance = System.Math.Max(maxDistance, GetMaxMergeDistance(cluster.Left));
+            // Línea vertical hacia arriba
+            ctx.LineTo(new Point(childX, clusterY));
 
-            if (cluster.Right != null)
-                maxDistance = System.Math.Max(maxDistance, GetMaxMergeDistance(cluster.Right));
-
-            return maxDistance;
+            // Dibujar recursivamente el subárbol
+            DrawClusterLines(ctx, child, leafPositions, margin, availableHeight, maxDistance);
         }
     }
-}
 
+    private double GetClusterX(ICluster cluster, Dictionary<ICluster, double> leafPositions)
+    {
+        if (cluster.Left == null && cluster.Right == null)
+        {
+            // Es una hoja
+            return leafPositions[cluster];
+        }
+
+        // Es un nodo interno
+        var leftX = cluster.Left != null ? GetClusterX(cluster.Left, leafPositions) : 0;
+        var rightX = cluster.Right != null ? GetClusterX(cluster.Right, leafPositions) : Bounds.Width;
+        return (leftX + rightX) / 2;
+    }
+
+    private IEnumerable<ICluster> GetLeaves(ICluster cluster)
+    {
+        if (cluster.Left == null && cluster.Right == null)
+        {
+            yield return cluster;
+        }
+        else
+        {
+            if (cluster.Left != null)
+            {
+                foreach (var leaf in GetLeaves(cluster.Left)) yield return leaf;
+            }
+
+            if (cluster.Right != null)
+            {
+                foreach (var leaf in GetLeaves(cluster.Right)) yield return leaf;
+            }
+        }
+    }
+
+    private double GetMaxMergeDistance(ICluster cluster)
+    {
+        var maxDistance = cluster.MergeDistance;
+
+        if (cluster.Left != null)
+        {
+            maxDistance = Math.Max(maxDistance, GetMaxMergeDistance(cluster.Left));
+        }
+
+        if (cluster.Right != null)
+        {
+            maxDistance = Math.Max(maxDistance, GetMaxMergeDistance(cluster.Right));
+        }
+
+        return maxDistance;
+    }
+}

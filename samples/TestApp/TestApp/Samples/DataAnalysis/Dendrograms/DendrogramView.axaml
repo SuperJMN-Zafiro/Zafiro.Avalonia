@@ -7,19 +7,29 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramView"
              x:DataType="dendrograms1:DendrogramViewModel">
-    
+
     <Design.DataContext>
-        <dendrograms1:DendrogramViewModel/>
+        <dendrograms1:DendrogramViewModel />
     </Design.DataContext>
-    
-    <dendrograms:ClusterControl DistanceMultiplier="80" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
-                                Cluster="{Binding Cluster}">
-        <dendrograms:ClusterControl.ItemTemplate>
-            <DataTemplate DataType="x:String">
-                <Border CornerRadius="10" Margin="4 6" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
-                    <TextBlock FontWeight="Black" Text="{Binding}" />
-                </Border>
-            </DataTemplate>
-        </dendrograms:ClusterControl.ItemTemplate>
-    </dendrograms:ClusterControl>
+
+    <UniformGrid Rows="1">
+        <dendrograms:ClusterControl DistanceMultiplier="50" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
+                                    Cluster="{Binding Cluster}">
+            <dendrograms:ClusterControl.ItemTemplate>
+                <DataTemplate DataType="x:String">
+                    <Border CornerRadius="10" Margin="4 6" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
+                        <TextBlock FontWeight="Black" Text="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </dendrograms:ClusterControl.ItemTemplate>
+        </dendrograms:ClusterControl>
+        <LayoutTransformControl>
+            <LayoutTransformControl.LayoutTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="90"></RotateTransform>
+                </TransformGroup>
+            </LayoutTransformControl.LayoutTransform>
+            <dendrograms:DendrogramLinesControl LineThickness="10" Cluster="{Binding Cluster}" />
+        </LayoutTransformControl>
+    </UniformGrid>
 </UserControl>
