@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dendrograms="clr-namespace:TestApp.Samples.DataAnalysis.Dendrograms"
              xmlns:dendrograms1="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="40"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="50"
              x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramLinesView" x:DataType="dendrograms:DendrogramLinesViewModel">
     
     <Design.DataContext>

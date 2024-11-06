@@ -28,12 +28,13 @@ namespace Zafiro.Avalonia.DataViz.Dendrograms
             // Definir un diccionario para almacenar las posiciones de las hojas
             var leafPositions = new Dictionary<ICluster, double>();
             var leafClusters = GetLeaves(RootCluster).ToList();
-            double leafSpacing = Bounds.Width / (leafClusters.Count + 1);
+
+            double leafSpacing = leafClusters.Count > 1 ? Bounds.Width / (leafClusters.Count - 1) : Bounds.Width;
 
             // Asignar posiciones X a las hojas
             for (int i = 0; i < leafClusters.Count; i++)
             {
-                leafPositions[leafClusters[i]] = (i + 1) * leafSpacing;
+                leafPositions[leafClusters[i]] = leafClusters.Count > 1 ? i * leafSpacing : Bounds.Width / 2;
             }
 
             // Calcular la altura máxima basada en MergeDistance
