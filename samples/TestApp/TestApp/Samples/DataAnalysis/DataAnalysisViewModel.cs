@@ -15,6 +15,7 @@ public class DataAnalysisViewModel
         {
             new Section("Table", new TableViewModel(), Maybe<object>.None),
             new Section("Dendrogram", new DendrogramViewModel(), Maybe<object>.None),
+            new Section("Dendrogram lines", new DendrogramLinesViewModel(), Maybe<object>.None),
             new Section("Heatmap", new HeatmapViewModel(), Maybe<object>.None),
             new Section("Heatmap with dendrograms", new HeatmapWithDendrogramsViewModel(), Maybe<object>.None),
         };
