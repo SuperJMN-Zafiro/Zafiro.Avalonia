@@ -1,0 +1,134 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
+                    xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
+                    xmlns:views="clr-namespace:Zafiro.Avalonia.DataViz.Views"
+                    xmlns:c="clr-namespace:Zafiro.Avalonia.DataViz"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+
+    <!--
+    Additional resources 
+    Using Control Themes:
+         https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+    Using Theme Variants:
+         https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+  -->
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <views:HeatmapWithDendrogramsControl />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type views:HeatmapWithDendrogramsControl}"
+                  TargetType="views:HeatmapWithDendrogramsControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <StackPanel Spacing="30" Orientation="Horizontal">
+                    <controls:AspectRatioDecorator>
+                        <Grid ColumnDefinitions="1* 10* Auto" RowDefinitions="1* 10* Auto">
+
+
+                            <ItemsControl x:Name="RowLabels"
+                                          Grid.Row="1" Grid.Column="2"
+                                          ItemsSource="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table.RowLabels}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <LayoutTransformControl>
+                                            <LayoutTransformControl.LayoutTransform>
+                                                <RotateTransform Angle="-90" />
+                                            </LayoutTransformControl.LayoutTransform>
+                                            <TextBlock TextAlignment="Center" Text="{Binding}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </LayoutTransformControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+
+                            <ItemsControl x:Name="ColumnLabels"
+                                          Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table.ColumnLabels}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextAlignment="Center" Text="{Binding}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+
+                            <LayoutTransformControl Grid.Row="1" Grid.Column="0">
+                                <LayoutTransformControl.Margin>
+                                    <MultiBinding Converter="{x:Static c:ThicknessConverters.RowsMarginConverter}">
+                                        <Binding Path="#HeatmapControl.Bounds.Height" />
+                                        <Binding Path="#HeatmapControl.Table.Rows" />
+                                    </MultiBinding>
+                                </LayoutTransformControl.Margin>
+                                <LayoutTransformControl.LayoutTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="-90" />
+                                        <ScaleTransform ScaleY="-1" />
+                                    </TransformGroup>
+                                </LayoutTransformControl.LayoutTransform>
+                                <dendrograms:DendrogramLinesControl LineBrush="Black"
+                                                                    Cluster="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.RowsCluster}" />
+                            </LayoutTransformControl>
+
+                            <dendrograms:DendrogramLinesControl Grid.Row="0" Grid.Column="1" LineBrush="Black"
+                                                                Cluster="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.ColumnsCluster}">
+
+                                <dendrograms:DendrogramLinesControl.Margin>
+                                    <MultiBinding Converter="{x:Static c:ThicknessConverters.ColumnsMarginConverter}">
+                                        <Binding Path="#HeatmapControl.Bounds.Width" />
+                                        <Binding Path="#HeatmapControl.Table.Columns" />
+                                    </MultiBinding>
+                                </dendrograms:DendrogramLinesControl.Margin>
+                            </dendrograms:DendrogramLinesControl>
+
+                            <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False" Grid.Row="1" Grid.Column="1"
+                                               ShowHeaders="False"
+                                               ColorList="{TemplateBinding ColorList}"
+                                               Table="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table}">
+                                <hm:HeatmapControl.ColumnTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+                                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center"
+                                                       FontWeight="Bold"
+                                                       Text="{Binding}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </hm:HeatmapControl.ColumnTemplate>
+                                <hm:HeatmapControl.RowTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
+                                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right"
+                                                       FontWeight="Bold"
+                                                       Text="{Binding}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </hm:HeatmapControl.RowTemplate>
+                            </hm:HeatmapControl>
+                        </Grid>
+                    </controls:AspectRatioDecorator>
+                    <hm:GradientControl VerticalAlignment="Center" BorderBrush="#8E999999"
+                                        BorderThickness="1" Height="200"
+                                        Maximum="{Binding #HeatmapControl.MaximumValue}"
+                                        ColorList="{Binding #HeatmapControl.ColorList}"
+                                        Theme="{StaticResource Vertical}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

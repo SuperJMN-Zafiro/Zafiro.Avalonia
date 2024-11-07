@@ -3,9 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:heatmaps="clr-namespace:TestApp.Samples.DataAnalysis.Heatmaps"
-             xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
-             xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:views="clr-namespace:Zafiro.Avalonia.DataViz.Views;assembly=Zafiro.Avalonia.DataViz"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="800"
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapWithDendrogramsView"
              x:DataType="heatmaps:HeatmapWithDendrogramsViewModel">
 
@@ -13,94 +12,6 @@
         <heatmaps:HeatmapWithDendrogramsViewModel />
     </Design.DataContext>
 
-    <DockPanel  Width="500" Height="400">
-        <hm:GradientControl Margin="30" DockPanel.Dock="Right" BorderBrush="#8E999999" BorderThickness="1" Height="200" Maximum="{Binding #HeatmapControl.MaximumValue}" ColorList="{Binding #HeatmapControl.ColorList}" Theme="{StaticResource Vertical}" />
-        <Grid x:Name="Name" ColumnDefinitions="1* 10* Auto" RowDefinitions="1* 10* Auto">
-            <Viewbox Grid.Row="1" Stretch="Fill">
-                <dendrograms:ClusterControl DistanceMultiplier="1" Cluster="{Binding Model.RowsCluster}">
-                    <dendrograms:ClusterControl.RenderTransform>
-                        <ScaleTransform ScaleX="-1" />
-                    </dendrograms:ClusterControl.RenderTransform>
-                    <dendrograms:ClusterControl.Styles>
-                        <Style Selector="dendrograms|ClusterControl ContentControl#PART_ContentControl">
-                            <Setter x:DataType="dendrograms:ClusterControl" Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="-1" />
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </dendrograms:ClusterControl.Styles>
-                    <dendrograms:ClusterControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock x:DataType="x:String" Text="" />
-                        </DataTemplate>
-                    </dendrograms:ClusterControl.ItemTemplate>
-                </dendrograms:ClusterControl>
-            </Viewbox>
-            <LayoutTransformControl Grid.Row="0" Grid.Column="1">
-                <LayoutTransformControl.LayoutTransform>
-                    <RotateTransform Angle="-90" />
-                </LayoutTransformControl.LayoutTransform>
-                <Viewbox Stretch="Fill">
-                    <dendrograms:ClusterControl DistanceMultiplier="1" DockPanel.Dock="Left"
-                                                Cluster="{Binding Model.ColumnsCluster}">
-                        <dendrograms:ClusterControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock x:DataType="x:String" Text="" />
-                            </DataTemplate>
-                        </dendrograms:ClusterControl.ItemTemplate>
-                    </dendrograms:ClusterControl>
-                </Viewbox>
-            </LayoutTransformControl>
-            <ItemsControl Grid.Row="1" Grid.Column="2"
-                          ItemsSource="{Binding Model.Table.RowLabels}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <LayoutTransformControl>
-                            <LayoutTransformControl.LayoutTransform>
-                                <RotateTransform Angle="-90" />
-                            </LayoutTransformControl.LayoutTransform>
-                            <TextBlock TextAlignment="Center" Text="{Binding}" TextTrimming="CharacterEllipsis" />
-                        </LayoutTransformControl>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="1" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <ItemsControl Grid.Row="2" Grid.Column="1"
-                          ItemsSource="{Binding Model.Table.ColumnLabels}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock TextAlignment="Center" Text="{Binding}" TextTrimming="CharacterEllipsis" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="1" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False" Grid.Row="1" Grid.Column="1" ShowHeaders="False" Table="{Binding Model.Table}">
-                <hm:HeatmapControl.ColumnTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
-                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"
-                                       Text="{Binding}" />
-                        </Border>
-                    </DataTemplate>
-                </hm:HeatmapControl.ColumnTemplate>
-                <hm:HeatmapControl.RowTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
-                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold"
-                                       Text="{Binding}" />
-                        </Border>
-                    </DataTemplate>
-                </hm:HeatmapControl.RowTemplate>
-            </hm:HeatmapControl>
-        </Grid>
-    </DockPanel>
+    <views:HeatmapWithDendrogramsControl HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100" Source="{Binding Model}" />
+
 </UserControl>

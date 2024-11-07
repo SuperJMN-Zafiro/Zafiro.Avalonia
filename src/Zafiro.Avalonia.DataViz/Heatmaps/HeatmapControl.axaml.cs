@@ -118,7 +118,7 @@ public class HeatmapControl : TemplatedControl
     }
 
     public static readonly StyledProperty<IEnumerable<Color>> ColorListProperty = AvaloniaProperty.Register<HeatmapControl, IEnumerable<Color>>(
-        "ColorList");
+        nameof(ColorList), [Colors.Blue, Colors.White, Colors.Red]);
 
     public IEnumerable<Color> ColorList
     {
