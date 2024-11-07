@@ -10,6 +10,7 @@
                 <MergeResourceInclude Source="Tables/TableControl.axaml" />
                 <MergeResourceInclude Source="Heatmaps/HeatmapControl.axaml" />
                 <MergeResourceInclude Source="Heatmaps/GradientControl.axaml" />
+                <MergeResourceInclude Source="Views/HeatmapWithDendrogramsControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

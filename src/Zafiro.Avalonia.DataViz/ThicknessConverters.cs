@@ -1,15 +1,11 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
 
-namespace TestApp;
+namespace Zafiro.Avalonia.DataViz;
 
 public static class ThicknessConverters
 {
-    public static FuncMultiValueConverter<double, Thickness> DoubleToHorizontalThicknessConverter { get; } = new(d => new Thickness(d.First(), 0));
-    public static FuncMultiValueConverter<double, Thickness> DoubleToVerticalThicknessConverter { get; } = new(d => new Thickness(0, d.First()));
     public static FuncMultiValueConverter<object, Thickness> RowsMarginConverter { get; } = new(d =>
     {
         var list = d.ToList();
@@ -39,19 +35,4 @@ public static class ThicknessConverters
         
         return new Thickness(width / columns / 2, 0);
     });
-}
-
-public class ConstantConverter : IValueConverter
-{
-    public static ConstantConverter Instance { get; } = new();
-    
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        return parameter;
-    }
-
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
 }
