@@ -7,7 +7,6 @@ using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.DataAnalysis.Graphs;
-using Zafiro.DataAnalysis.Graphs.Core;
 using Zafiro.Reactive;
 using Zafiro.UI;
 

@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
                     xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control"
-                    xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core"
                     xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
                     xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control"
                     xmlns:graphs="clr-namespace:Zafiro.DataAnalysis.Graphs;assembly=Zafiro">

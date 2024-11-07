@@ -2,7 +2,6 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Controls.Diagrams;
-using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.DataAnalysis.Graphs;
 
 namespace TestApp.Samples.Controls;

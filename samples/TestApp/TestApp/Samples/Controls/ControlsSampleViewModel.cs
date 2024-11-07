@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
@@ -7,9 +6,9 @@ using System.Reactive.Linq;
 using Avalonia.Controls.Selection;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Control;
-using Zafiro.Avalonia.DataViz.Graphs.Core;
 using Zafiro.DataAnalysis.Clustering;
 using Zafiro.DataAnalysis.Graphs;
+using Zafiro.DataAnalysis.Graphs.ForceDirected;
 
 namespace TestApp.Samples.Controls;
 
@@ -18,7 +17,7 @@ public class ControlsSampleViewModel
     public ControlsSampleViewModel()
     {
         SelectionModel = new SelectionModel<Item> { SingleSelect = false };
-        Items = new List<Item> { new(1), new(2), new(3) };
+        Items = [new(1), new(2), new(3)];
         //SelectionHandler = new SelectionHandler<Item, int>(SelectionModel, arg => arg.Id);
 
         var graph = new RandomGraphGenerator().GenerateRandomGraph(30, 3);
@@ -69,22 +68,4 @@ public class ControlsSampleViewModel
     public IMutableGraph MutableGraph { get; }
     public GradualGraph<IMutableNode, IMutableEdge> GradualGraph { get; }
     public ClusterNode Cluster { get; }
-}
-
-public class MutableGraph : IMutableGraph, IGraph<IMutableNode, IMutableEdge>
-{
-    public MutableGraph(IEnumerable<IMutableNode> nodes, IEnumerable<IMutableEdge> edges)
-    {
-        Edges = edges;
-        Nodes = nodes;
-    }
-
-    IEnumerable<IMutableEdge> IGraph<IMutableNode, IMutableEdge>.Edges => Edges.Cast<IMutableEdge>();
-
-    IEnumerable IGraph.Nodes => Nodes;
-
-    public IEnumerable<IWeightedEdge<IMutableNode>> Edges { get; }
-    public IEnumerable<IMutableNode> Nodes { get; }
-
-    IEnumerable IGraph.Edges => Edges;
 }

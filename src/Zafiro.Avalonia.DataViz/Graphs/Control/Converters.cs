@@ -1,7 +1,6 @@
 using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.DataAnalysis.Graphs;
 
 namespace Zafiro.Avalonia.DataViz.Graph.Control;

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Avalonia.Data.Converters;
-using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.DataAnalysis.Graphs;
 
 namespace TestApp.Samples.Controls;

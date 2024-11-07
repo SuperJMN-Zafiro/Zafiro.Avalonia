@@ -1,5 +1,3 @@
-using Zafiro.Avalonia.DataViz.Graph.Core;
-using Zafiro.Avalonia.DataViz.Graphs.Core;
 using Zafiro.DataAnalysis.Graphs;
 
 namespace TestApp.Samples.Controls;
