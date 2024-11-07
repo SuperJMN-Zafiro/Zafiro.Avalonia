@@ -1,8 +1,8 @@
 # Zafiro.Avalonia
 
-This library offers common (and useful) features to AvaloniaUI based applications.
+This library offers common (and useful) features to Avalonia based applications.
 
-Some of the most important hightligts of the library are:
+Some of the most important highlights  of the library are:
 
 ## Dialogs
 
