@@ -6,7 +6,6 @@
              xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
              xmlns:testApp="clr-namespace:TestApp"
-             xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="800"
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapWithDendrogramsView"
              x:DataType="heatmaps:HeatmapWithDendrogramsViewModel">
@@ -21,21 +20,10 @@
         <Grid x:Name="Name" ColumnDefinitions="1* 10* Auto" RowDefinitions="1* 10* Auto">
             <LayoutTransformControl Grid.Row="1">
                 <LayoutTransformControl.Margin>
-                    <!-- <MultiBinding Converter="{x:Static testApp:ThicknessConverters.RowsMarginConverter}"> -->
-                    <!--     <Binding Path="#HeatmapControl.Bounds.Height" /> -->
-                    <!--     <Binding Path="#HeatmapControl.Table.Rows" /> -->
-                    <!-- </MultiBinding> -->
-                    <MultiBinding Converter="{x:Static testApp:ThicknessConverters.DoubleToVerticalThicknessConverter}">
-                        <MultiBinding Converter="{x:Static dataViz:DataVizConverters.Divide}">
-                            <Binding Path="#HeatmapControl.Bounds.Height" />
-                            <Binding Path="#HeatmapControl.Table.Rows" />
-                            <Binding Converter="{x:Static testApp:ConstantConverter.Instance}">
-                                <Binding.ConverterParameter>
-                                    <x:Int32>2</x:Int32>
-                                </Binding.ConverterParameter>
-                            </Binding>
-                        </MultiBinding>
-                    </MultiBinding>
+                     <MultiBinding Converter="{x:Static testApp:ThicknessConverters.RowsMarginConverter}"> 
+                         <Binding Path="#HeatmapControl.Bounds.Height" /> 
+                         <Binding Path="#HeatmapControl.Table.Rows" /> 
+                     </MultiBinding> 
                 </LayoutTransformControl.Margin>
                 <LayoutTransformControl.LayoutTransform>
                     <TransformGroup>
@@ -46,36 +34,15 @@
                 <dendrograms:DendrogramLinesControl LineBrush="Black" Cluster="{Binding Model.RowsCluster}" />
             </LayoutTransformControl>
 
-            <!-- <Viewbox Grid.Row="1" Stretch="Fill"> -->
-            <!--     <dendrograms:ClusterControl DistanceMultiplier="1" Cluster="{Binding Model.RowsCluster}"> -->
-            <!--         <dendrograms:ClusterControl.RenderTransform> -->
-            <!--             <ScaleTransform ScaleX="-1" /> -->
-            <!--         </dendrograms:ClusterControl.RenderTransform> -->
-            <!--         <dendrograms:ClusterControl.Styles> -->
-            <!--             <Style Selector="dendrograms|ClusterControl ContentControl#PART_ContentControl"> -->
-            <!--                 <Setter x:DataType="dendrograms:ClusterControl" Property="RenderTransform"> -->
-            <!--                     <Setter.Value> -->
-            <!--                         <ScaleTransform ScaleX="-1" /> -->
-            <!--                     </Setter.Value> -->
-            <!--                 </Setter> -->
-            <!--             </Style> -->
-            <!--         </dendrograms:ClusterControl.Styles> -->
-            <!--         <dendrograms:ClusterControl.ItemTemplate> -->
-            <!--             <DataTemplate> -->
-            <!--                 <TextBlock x:DataType="x:String" Text="" /> -->
-            <!--             </DataTemplate> -->
-            <!--         </dendrograms:ClusterControl.ItemTemplate> -->
-            <!--     </dendrograms:ClusterControl> -->
-            <!-- </Viewbox> -->
-            <LayoutTransformControl Grid.Row="0" Grid.Column="1" Margin="45 0">
-                <LayoutTransformControl.LayoutTransform>
-                    <TransformGroup>
-                        <!-- <RotateTransform Angle="-90" /> -->
-                        <!-- <ScaleTransform ScaleX="-1" /> -->
-                    </TransformGroup>
-                </LayoutTransformControl.LayoutTransform>
-                <dendrograms:DendrogramLinesControl LineBrush="Black" Cluster="{Binding Model.ColumnsCluster}" />
-            </LayoutTransformControl>
+            <dendrograms:DendrogramLinesControl Grid.Row="0" Grid.Column="1" LineBrush="Black" Cluster="{Binding Model.ColumnsCluster}">
+
+                <dendrograms:DendrogramLinesControl.Margin>
+                    <MultiBinding Converter="{x:Static testApp:ThicknessConverters.ColumnsMarginConverter}"> 
+                        <Binding Path="#HeatmapControl.Bounds.Width" /> 
+                        <Binding Path="#HeatmapControl.Table.Columns" /> 
+                    </MultiBinding>
+                </dendrograms:DendrogramLinesControl.Margin>
+            </dendrograms:DendrogramLinesControl>
             <ItemsControl Grid.Row="1" Grid.Column="2"
                           ItemsSource="{Binding Model.Table.RowLabels}">
                 <ItemsControl.ItemTemplate>
