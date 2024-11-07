@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using Avalonia.Controls.Selection;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Control;
+using Zafiro.Avalonia.DataViz.Graphs.Control;
 using Zafiro.DataAnalysis.Clustering;
 using Zafiro.DataAnalysis.Graphs;
 using Zafiro.DataAnalysis.Graphs.ForceDirected;

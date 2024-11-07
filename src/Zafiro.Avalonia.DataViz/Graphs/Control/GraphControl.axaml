@@ -17,18 +17,18 @@
     <ControlTheme x:Key="{x:Type control1:GraphControl}" TargetType="control1:GraphControl">
         <Setter Property="EdgeTemplate">
             <Setter.Value>
-                <DataTemplate>
+                <DataTemplate x:DataType="graphs:IMutableEdge">
                     <Line x:CompileBindings="False" Stroke="Gray" StrokeThickness="2">
                         <Line.StartPoint>
                             <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
-                                <Binding Path="Source.X" />
-                                <Binding Path="Source.Y" />
+                                <Binding Path="From.X" />
+                                <Binding Path="From.Y" />
                             </MultiBinding>
                         </Line.StartPoint>
                         <Line.EndPoint>
                             <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
-                                <Binding Path="Target.X" />
-                                <Binding Path="Target.Y" />
+                                <Binding Path="To.X" />
+                                <Binding Path="To.Y" />
                             </MultiBinding>
                         </Line.EndPoint>
                     </Line>
