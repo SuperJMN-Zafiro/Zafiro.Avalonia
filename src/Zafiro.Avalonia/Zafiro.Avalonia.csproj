@@ -11,11 +11,8 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.1.0.5" />
         <PackageReference Include="CSharpFunctionalExtensions" Version="2.42.0" />
-        <PackageReference Include="DynamicData" Version="8.4.1" />
+        <PackageReference Include="DynamicData" Version="9.0.4" />
         <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Zafiro" Version="11.0.6" />
-        <PackageReference Include="Zafiro.FileSystem" Version="11.0.6" />
-        <PackageReference Include="Zafiro.UI" Version="11.0.6" />
     </ItemGroup>
 </Project>

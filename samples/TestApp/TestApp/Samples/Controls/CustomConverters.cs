@@ -12,7 +12,7 @@ public static class CustomConverters
         {
             var list = objects.ToList();
             
-            if (list[0] is ControlsSampleViewModel { Graph: IGraph2D graph } && list[1] is INode2D node)
+            if (list[0] is ControlsSampleViewModel { MutableGraph: IMutableGraph graph } && list[1] is IMutableNode node)
             {
                 return graph.RelativeDegreeCentrality(node) * 50;
             }

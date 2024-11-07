@@ -9,6 +9,7 @@
              xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
              xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -67,10 +68,10 @@
             </c:ProportionalCanvas>
         </TabItem>
         <TabItem Header="Graph">
-            <control:GraphControl Margin="-1000"
+            <control1:GraphControl Margin="-1000"
                                   DragButton="Right"
-                                  Graph="{Binding Graph}">
-                <control:GraphControl.ItemTemplate>
+                                  Graph="{Binding MutableGraph}">
+                <control1:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
                         <Ellipse Height="{Binding $self.Width}" Fill="Red">
                             <Ellipse.Width>
@@ -86,8 +87,8 @@
                             </Interaction.Behaviors>
                         </Ellipse>
                     </DataTemplate>
-                </control:GraphControl.ItemTemplate>
-                <control:GraphControl.EdgeTemplate>
+                </control1:GraphControl.ItemTemplate>
+                <control1:GraphControl.EdgeTemplate>
                     <DataTemplate DataType="vm:Friendship">
                         <Line Stroke="Black" StrokeThickness="3">
                             <Line.StartPoint>
@@ -104,14 +105,14 @@
                             </Line.EndPoint>
                         </Line>
                     </DataTemplate>
-                </control:GraphControl.EdgeTemplate>
-            </control:GraphControl>
+                </control1:GraphControl.EdgeTemplate>
+            </control1:GraphControl>
         </TabItem>
         <TabItem Header="GradualGraph">
             <DockPanel>
                 <Button ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
-                <control:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
-                    <control:GraphControl.ItemTemplate>
+                <control1:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
+                    <control1:GraphControl.ItemTemplate>
                         <DataTemplate DataType="vm:Person">
                             <Ellipse Height="{Binding $self.Width}" Fill="Red">
                                 <Ellipse.Width>
@@ -123,8 +124,8 @@
                                 </Ellipse.Width>
                             </Ellipse>
                         </DataTemplate>
-                    </control:GraphControl.ItemTemplate>
-                    <control:GraphControl.EdgeTemplate>
+                    </control1:GraphControl.ItemTemplate>
+                    <control1:GraphControl.EdgeTemplate>
                         <DataTemplate DataType="vm:Friendship">
                             <Line Stroke="Black" StrokeThickness="3">
                                 <Line.StartPoint>
@@ -141,8 +142,8 @@
                                 </Line.EndPoint>
                             </Line>
                         </DataTemplate>
-                    </control:GraphControl.EdgeTemplate>
-                </control:GraphControl>
+                    </control1:GraphControl.EdgeTemplate>
+                </control1:GraphControl>
             </DockPanel>
         </TabItem>
     </TabControl>

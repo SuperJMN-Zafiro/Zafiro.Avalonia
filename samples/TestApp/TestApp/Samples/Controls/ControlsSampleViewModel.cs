@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
@@ -6,8 +7,9 @@ using System.Reactive.Linq;
 using Avalonia.Controls.Selection;
 using ReactiveUI;
 using Zafiro.Avalonia.DataViz.Graph.Control;
-using Zafiro.Avalonia.DataViz.Graph.Core;
+using Zafiro.Avalonia.DataViz.Graphs.Core;
 using Zafiro.DataAnalysis.Clustering;
+using Zafiro.DataAnalysis.Graphs;
 
 namespace TestApp.Samples.Controls;
 
@@ -16,19 +18,19 @@ public class ControlsSampleViewModel
     public ControlsSampleViewModel()
     {
         SelectionModel = new SelectionModel<Item> { SingleSelect = false };
-        Items = new List<Item> { new Item(1), new Item(2), new Item(3) };
+        Items = new List<Item> { new(1), new(2), new(3) };
         //SelectionHandler = new SelectionHandler<Item, int>(SelectionModel, arg => arg.Id);
 
         var graph = new RandomGraphGenerator().GenerateRandomGraph(30, 3);
 
-        var edge2Ds = graph.edges.Cast<IEdge2D>();
+        var edge2Ds = graph.edges.Cast<IMutableEdge>();
 
-        var graph2D = new Graph2D(graph.nodes.Cast<INode2D>().ToList(), edge2Ds.ToList());
+        var graph2D = new MutableGraph(graph.nodes.Cast<IMutableNode>().ToList(), edge2Ds.ToList());
 
         var engine1 = new ForceDirectedEngine(graph2D);
 
         engine1.Distribute(5000, 3000);
-        Graph = graph2D;
+        MutableGraph = graph2D;
 
         Play = ReactiveCommand
             .CreateFromObservable(() => Observable.Interval(TimeSpan.FromMilliseconds(12), RxApp.MainThreadScheduler).Do(_ => engine1.Step()));
@@ -36,17 +38,17 @@ public class ControlsSampleViewModel
         Play.Execute().Subscribe();
 
         var randomGraph = new RandomGraphGenerator().GenerateRandomGraph(30, 10);
-        var graph2d = new Graph2D(randomGraph.nodes.Cast<INode2D>().ToList(), randomGraph.edges.Cast<IEdge2D>().ToList());
+        var graph2d = new MutableGraph(randomGraph.nodes.Cast<IMutableNode>().ToList(), randomGraph.edges.Cast<IMutableEdge>().ToList());
 
         var engine2 = new ForceDirectedEngine(graph2d);
 
         engine2.Distribute(2000, 2000);
-        GradualGraph = new GradualGraph<INode2D, IEdge2D>(graph2D, new LoadOptions());
+        GradualGraph = new GradualGraph<IMutableNode, IMutableEdge>(graph2D, new LoadOptions());
 
         Cluster<string> cluster = new Internal<string>(
             new Internal<string>(
                 new Internal<string>(
-                    new Leaf<string>("A"), 
+                    new Leaf<string>("A"),
                     new Leaf<string>("B"), 1),
                 new Leaf<string>("F"), 2),
             new Internal<string>(
@@ -64,7 +66,25 @@ public class ControlsSampleViewModel
     //public SelectionHandler<Item, int> SelectionHandler { get; }
 
     public SelectionModel<Item> SelectionModel { get; }
-    public IGraph2D Graph { get; }
-    public GradualGraph<INode2D, IEdge2D> GradualGraph { get; }
+    public IMutableGraph MutableGraph { get; }
+    public GradualGraph<IMutableNode, IMutableEdge> GradualGraph { get; }
     public ClusterNode Cluster { get; }
+}
+
+public class MutableGraph : IMutableGraph, IGraph<IMutableNode, IMutableEdge>
+{
+    public MutableGraph(IEnumerable<IMutableNode> nodes, IEnumerable<IMutableEdge> edges)
+    {
+        Edges = edges;
+        Nodes = nodes;
+    }
+
+    IEnumerable<IMutableEdge> IGraph<IMutableNode, IMutableEdge>.Edges => Edges.Cast<IMutableEdge>();
+
+    IEnumerable IGraph.Nodes => Nodes;
+
+    public IEnumerable<IWeightedEdge<IMutableNode>> Edges { get; }
+    public IEnumerable<IMutableNode> Nodes { get; }
+
+    IEnumerable IGraph.Edges => Edges;
 }

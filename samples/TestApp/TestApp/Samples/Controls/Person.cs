@@ -3,10 +3,11 @@ using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Controls.Diagrams;
 using Zafiro.Avalonia.DataViz.Graph.Core;
+using Zafiro.DataAnalysis.Graphs;
 
 namespace TestApp.Samples.Controls;
 
-public partial class Person : ReactiveObject, IHaveLocation, INode2D
+public partial class Person : ReactiveObject, IHaveLocation, IMutableNode
 {
     public string Name { get; }
     public double ForceX { get; set; }

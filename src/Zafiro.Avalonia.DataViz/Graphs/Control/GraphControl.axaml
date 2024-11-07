@@ -3,17 +3,19 @@
                     xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
                     xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control"
                     xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Core"
-                    xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia">
+                    xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
+                    xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control"
+                    xmlns:graphs="clr-namespace:Zafiro.DataAnalysis.Graphs;assembly=Zafiro">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
-                <control:GraphControl />
+                <control1:GraphControl />
             </StackPanel>
         </StackPanel>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type control:GraphControl}" TargetType="control:GraphControl">
+    <ControlTheme x:Key="{x:Type control1:GraphControl}" TargetType="control1:GraphControl">
         <Setter Property="EdgeTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -61,14 +63,14 @@
                                     <ControlTheme TargetType="ListBoxItem">
                                         <Setter Property="Background" Value="{x:Null}" />
                                         <Setter Property="ClipToBounds" Value="False" />
-                                        <Setter x:DataType="g:INode2D" Property="Canvas.Left" Value="{Binding X}" />
-                                        <Setter x:DataType="g:INode2D" Property="Canvas.Top" Value="{Binding Y}" />
-                                        <Setter x:DataType="g:INode2D" Property="ZIndex" Value="{Binding Weight}" />
+                                        <Setter x:DataType="graphs:IMutableNode" Property="Canvas.Left" Value="{Binding X}" />
+                                        <Setter x:DataType="graphs:IMutableNode" Property="Canvas.Top" Value="{Binding Y}" />
+                                        <Setter x:DataType="graphs:IMutableNode" Property="ZIndex" Value="{Binding Weight}" />
                                         <Setter Property="Interaction.Behaviors">
                                             <BehaviorCollectionTemplate>
                                                 <BehaviorCollection>
                                                     <diagrams:DragDeltaBehavior x:DataType="diagrams:IHaveLocation"
-                                                        DragButton="{Binding $parent[control:GraphControl].DragButton}"
+                                                        DragButton="{Binding $parent[control1:GraphControl].DragButton}"
                                                         Left="{Binding Left}"
                                                         Top="{Binding Top}"/>
                                                 </BehaviorCollection>
@@ -79,7 +81,7 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <ContentControl Background="{x:Null}" ClipToBounds="False" Content="{Binding}"
-                                                        ContentTemplate="{Binding $parent[control:GraphControl].ItemTemplate}" />
+                                                        ContentTemplate="{Binding $parent[control1:GraphControl].ItemTemplate}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>

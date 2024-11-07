@@ -5,22 +5,24 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.DataViz.Graph.Core;
+using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.DataAnalysis.Graphs;
+using Zafiro.DataAnalysis.Graphs.Core;
 using Zafiro.Reactive;
 using Zafiro.UI;
 
-namespace Zafiro.Avalonia.DataViz.Graph.Control;
+namespace Zafiro.Avalonia.DataViz.Graphs.Control;
 
 public class AnimatedGraph<TNode, TEdge> : ReactiveObject, IGraph where TEdge : IWeightedEdge<TNode> where TNode : notnull
 {
-    public AnimatedGraph(IGraph<TNode, TEdge> graph2D, IEngine engine, double width, double height, LoadOptions options,
+    public AnimatedGraph(IGraph<TNode, TEdge> graph, IEngine engine, double width, double height, LoadOptions options,
         IScheduler? scheduler = default)
     {
+        Graph = graph;
         Width = width;
         Height = height;
 
-        GradualGraph = new GradualGraph<TNode, TEdge>(graph2D, options);
+        GradualGraph = new GradualGraph<TNode, TEdge>(graph, options);
 
         Animate = StoppableCommand.Create(
             () => Observable.Interval(SteppingInterval)
@@ -39,6 +41,7 @@ public class AnimatedGraph<TNode, TEdge> : ReactiveObject, IGraph where TEdge : 
 
     public TimeSpan SteppingInterval { get; } = TimeSpan.FromMilliseconds(60);
 
+    public IGraph<TNode, TEdge> Graph { get; }
     public double Width { get; }
     public double Height { get; }
     public GradualGraph<TNode, TEdge> GradualGraph { get; }
