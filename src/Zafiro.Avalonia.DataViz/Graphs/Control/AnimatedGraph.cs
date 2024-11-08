@@ -5,7 +5,6 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.DataAnalysis.Graphs;
 using Zafiro.Reactive;
 using Zafiro.UI;

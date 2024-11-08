@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zafiro.Avalonia.DataViz.Graph.Control;
+namespace Zafiro.Avalonia.DataViz.Graphs.Control;
 
 public class LoadOptions
 {

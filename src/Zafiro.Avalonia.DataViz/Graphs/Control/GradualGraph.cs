@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Aggregation;
 using ReactiveUI;
-using Zafiro.Avalonia.DataViz.Graph.Control;
 using Zafiro.DataAnalysis.Graphs;
 using Zafiro.Reactive;
 

@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Data.Converters;
 using Zafiro.DataAnalysis.Graphs;
 
-namespace Zafiro.Avalonia.DataViz.Graph.Control;
+namespace Zafiro.Avalonia.DataViz.Graphs.Control;
 
 public class Converters
 {

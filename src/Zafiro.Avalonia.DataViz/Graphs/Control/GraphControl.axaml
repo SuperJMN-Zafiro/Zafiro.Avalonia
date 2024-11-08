@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-                    xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control"
                     xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
                     xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control"
                     xmlns:graphs="clr-namespace:Zafiro.DataAnalysis.Graphs;assembly=Zafiro">
@@ -20,13 +19,13 @@
                 <DataTemplate x:DataType="graphs:IMutableEdge">
                     <Line x:CompileBindings="False" Stroke="Gray" StrokeThickness="2">
                         <Line.StartPoint>
-                            <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                            <MultiBinding Converter="{x:Static control1:Converters.CoordinatesToPoint}">
                                 <Binding Path="From.X" />
                                 <Binding Path="From.Y" />
                             </MultiBinding>
                         </Line.StartPoint>
                         <Line.EndPoint>
-                            <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                            <MultiBinding Converter="{x:Static control1:Converters.CoordinatesToPoint}">
                                 <Binding Path="To.X" />
                                 <Binding Path="To.Y" />
                             </MultiBinding>
