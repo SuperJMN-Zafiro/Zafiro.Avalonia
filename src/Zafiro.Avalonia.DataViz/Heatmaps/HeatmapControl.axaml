@@ -4,7 +4,17 @@
                     xmlns:tables="clr-namespace:Zafiro.Avalonia.DataViz.Tables"
                     xmlns:dv="clr-namespace:Zafiro.Tables;assembly=Zafiro"
                     xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
-                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
+                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+                    xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia">
+
+
+    <Design.PreviewWith>
+        <heatmaps:HeatmapControl CellBorderBrush="#2856AC" UseLayoutRounding="False" CellBorderThickness="0.5">
+            <heatmaps:HeatmapControl.Table>
+                <dataViz:DesignTable />
+            </heatmaps:HeatmapControl.Table>
+        </heatmaps:HeatmapControl>
+    </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type heatmaps:HeatmapControl}" TargetType="heatmaps:HeatmapControl">
         <Setter Property="ColorList">
@@ -29,7 +39,9 @@
                     Table="{TemplateBinding Table}">
                     <tables:TableControl.CellTemplate>
                         <DataTemplate x:DataType="dv:ICell">
-                            <Border>
+                            <Border 
+                                BorderThickness="{Binding $parent[heatmaps:HeatmapControl].CellBorderThickness, Converter={x:Static converters:ThicknessConverters.DoubleToThickness}}"
+                                BorderBrush="{Binding $parent[heatmaps:HeatmapControl].CellBorderBrush}">
                                 <ToolTip.Tip>
                                     <StackPanel Grid.IsSharedSizeScope="True">
                                         <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Row" Content="{Binding Row}" />

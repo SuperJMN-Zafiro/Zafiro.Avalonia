@@ -27,12 +27,17 @@
         <Setter Property="Template">
             <ControlTemplate>
 
-                <StackPanel Spacing="30" Orientation="Horizontal">
+                <DockPanel>
+                    <hm:GradientControl VerticalAlignment="Center" BorderBrush="#8E999999"
+                                        BorderThickness="1" Height="200"
+                                        Maximum="{Binding #HeatmapControl.MaximumValue}"
+                                        ColorList="{Binding #HeatmapControl.ColorList}"
+                                        Theme="{StaticResource Vertical}" DockPanel.Dock="Right" Margin="30 0 0 0" />
                     <controls:AspectRatioDecorator>
                         <Grid ColumnDefinitions="1* 10* Auto" RowDefinitions="1* 10* Auto">
 
-
                             <ItemsControl x:Name="RowLabels"
+                                          IsVisible="{TemplateBinding DisplayLabels}"
                                           Grid.Row="1" Grid.Column="2"
                                           ItemsSource="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table.RowLabels}">
                                 <ItemsControl.ItemTemplate>
@@ -54,6 +59,7 @@
                             </ItemsControl>
 
                             <ItemsControl x:Name="ColumnLabels"
+                                          IsVisible="{TemplateBinding DisplayLabels}"
                                           Grid.Row="2" Grid.Column="1"
                                           ItemsSource="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table.ColumnLabels}">
                                 <ItemsControl.ItemTemplate>
@@ -100,6 +106,8 @@
                             <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False" Grid.Row="1" Grid.Column="1"
                                                ShowHeaders="False"
                                                ColorList="{TemplateBinding ColorList}"
+                                               CellBorderBrush="{TemplateBinding CellBorderBrush}"
+                                               CellBorderThickness="{TemplateBinding CellBorderThickness}"
                                                Table="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table}">
                                 <hm:HeatmapControl.ColumnTemplate>
                                     <DataTemplate x:DataType="x:String">
@@ -122,12 +130,7 @@
                             </hm:HeatmapControl>
                         </Grid>
                     </controls:AspectRatioDecorator>
-                    <hm:GradientControl VerticalAlignment="Center" BorderBrush="#8E999999"
-                                        BorderThickness="1" Height="200"
-                                        Maximum="{Binding #HeatmapControl.MaximumValue}"
-                                        ColorList="{Binding #HeatmapControl.ColorList}"
-                                        Theme="{StaticResource Vertical}" />
-                </StackPanel>
+                </DockPanel>
             </ControlTemplate>
         </Setter>
     </ControlTheme>
