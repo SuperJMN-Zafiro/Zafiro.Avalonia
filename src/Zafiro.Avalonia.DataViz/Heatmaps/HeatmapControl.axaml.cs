@@ -12,11 +12,22 @@ namespace Zafiro.Avalonia.DataViz.Heatmaps;
 
 public class HeatmapControl : TemplatedControl
 {
-    public static readonly StyledProperty<Color> LowColorProperty =
-        AvaloniaProperty.Register<HeatmapControl, Color>(nameof(LowColor));
+    public static readonly StyledProperty<IBrush> CellBorderBrushProperty = AvaloniaProperty.Register<HeatmapControl, IBrush>(nameof(CellBorderBrush));
 
-    public static readonly StyledProperty<Color> HighColorProperty =
-        AvaloniaProperty.Register<HeatmapControl, Color>(nameof(HighColor));
+    public IBrush CellBorderBrush
+    {
+        get => GetValue(CellBorderBrushProperty);
+        set => SetValue(CellBorderBrushProperty, value);
+    }
+
+    public static readonly StyledProperty<double> CellBorderThicknessProperty = AvaloniaProperty.Register<HeatmapControl, double>(
+        nameof(CellBorderThickness));
+
+    public double CellBorderThickness
+    {
+        get => GetValue(CellBorderThicknessProperty);
+        set => SetValue(CellBorderThicknessProperty, value);
+    }
 
     public static readonly StyledProperty<ITable> TableProperty =
         AvaloniaProperty.Register<HeatmapControl, ITable>(nameof(Table));
@@ -82,18 +93,6 @@ public class HeatmapControl : TemplatedControl
             .WhereNotNull()
             .Select(x => x.Cells.Select(c => (double) c.Item).Max())
             .BindTo(this, x => x.MaximumValue);
-    }
-
-    public Color LowColor
-    {
-        get => GetValue(LowColorProperty);
-        set => SetValue(LowColorProperty, value);
-    }
-
-    public Color HighColor
-    {
-        get => GetValue(HighColorProperty);
-        set => SetValue(HighColorProperty, value);
     }
 
     public ITable Table

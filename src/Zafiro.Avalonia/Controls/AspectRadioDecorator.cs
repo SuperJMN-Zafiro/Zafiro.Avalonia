@@ -19,23 +19,65 @@ public class AspectRatioDecorator : Decorator
         set => SetValue(ContentAlignmentProperty, value);
     }
 
-    public double AspectRatio { get; set; } = 1.0; // Ancho / Alto
+    public static readonly StyledProperty<double> AspectRatioProperty =
+        AvaloniaProperty.Register<AspectRatioDecorator, double>(
+            nameof(AspectRatio), 1.0);
+
+    public double AspectRatio
+    {
+        get => GetValue(AspectRatioProperty);
+        set => SetValue(AspectRatioProperty, value);
+    }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         if (Child != null)
         {
-            double width = availableSize.Width;
-            double height = width / AspectRatio;
+            double desiredWidth = double.PositiveInfinity;
+            double desiredHeight = double.PositiveInfinity;
 
-            if (height > availableSize.Height)
+            // Caso cuando ambos anchos y altos disponibles son finitos
+            if (!double.IsInfinity(availableSize.Width) && !double.IsInfinity(availableSize.Height))
             {
-                height = availableSize.Height;
-                width = height * AspectRatio;
+                double availableAspectRatio = availableSize.Width / availableSize.Height;
+
+                if (availableAspectRatio > AspectRatio)
+                {
+                    // Espacio sobrante horizontalmente
+                    desiredHeight = availableSize.Height;
+                    desiredWidth = desiredHeight * AspectRatio;
+                }
+                else
+                {
+                    // Espacio sobrante verticalmente
+                    desiredWidth = availableSize.Width;
+                    desiredHeight = desiredWidth / AspectRatio;
+                }
+            }
+            else if (!double.IsInfinity(availableSize.Width))
+            {
+                // Ancho limitado, alto infinito
+                desiredWidth = availableSize.Width;
+                desiredHeight = desiredWidth / AspectRatio;
+            }
+            else if (!double.IsInfinity(availableSize.Height))
+            {
+                // Alto limitado, ancho infinito
+                desiredHeight = availableSize.Height;
+                desiredWidth = desiredHeight * AspectRatio;
+            }
+            else
+            {
+                // Ambos anchos y altos son infinitos
+                // Podemos definir un tamaño por defecto o usar el tamaño deseado del hijo
+                desiredWidth = 100; // Tamaño por defecto
+                desiredHeight = desiredWidth / AspectRatio;
             }
 
-            Child.Measure(new Size(width, height));
-            return new Size(width, height);
+            // Medir el hijo con el tamaño calculado
+            Child.Measure(new Size(desiredWidth, desiredHeight));
+
+            return new Size(desiredWidth, desiredHeight);
         }
 
         return new Size();
@@ -54,7 +96,7 @@ public class AspectRatioDecorator : Decorator
 
             if (finalAspectRatio > AspectRatio)
             {
-                // Hay espacio sobrante horizontalmente
+                // Espacio sobrante horizontalmente
                 height = finalSize.Height;
                 width = height * AspectRatio;
                 double remainingWidth = finalSize.Width - width;
@@ -77,7 +119,7 @@ public class AspectRatioDecorator : Decorator
             }
             else
             {
-                // Hay espacio sobrante verticalmente
+                // Espacio sobrante verticalmente
                 width = finalSize.Width;
                 height = width / AspectRatio;
                 double remainingHeight = finalSize.Height - height;
@@ -100,6 +142,7 @@ public class AspectRatioDecorator : Decorator
             }
 
             Child.Arrange(new Rect(offsetX, offsetY, width, height));
+            return finalSize;
         }
 
         return finalSize;
