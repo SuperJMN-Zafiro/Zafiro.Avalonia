@@ -25,12 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleFileExplorer", "sampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.DataViz", "src\Zafiro.Avalonia.DataViz\Zafiro.Avalonia.DataViz.csproj", "{ACAFB523-C9C0-47BA-9870-7148DE5C0835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro", "..\Zafiro\src\Zafiro\Zafiro.csproj", "{DA3D6E15-CF9F-48C2-A3D2-AA861B23EA57}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.UI", "..\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj", "{DCC688E2-314E-4CF9-89B9-16E494DF5FA6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.FileSystem", "..\Zafiro\src\Zafiro.FileSystem\Zafiro.FileSystem.csproj", "{82046769-2B65-4611-9CFF-7D68F53B30A0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,18 +61,6 @@ Global
 		{ACAFB523-C9C0-47BA-9870-7148DE5C0835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACAFB523-C9C0-47BA-9870-7148DE5C0835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACAFB523-C9C0-47BA-9870-7148DE5C0835}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA3D6E15-CF9F-48C2-A3D2-AA861B23EA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA3D6E15-CF9F-48C2-A3D2-AA861B23EA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA3D6E15-CF9F-48C2-A3D2-AA861B23EA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA3D6E15-CF9F-48C2-A3D2-AA861B23EA57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCC688E2-314E-4CF9-89B9-16E494DF5FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCC688E2-314E-4CF9-89B9-16E494DF5FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCC688E2-314E-4CF9-89B9-16E494DF5FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCC688E2-314E-4CF9-89B9-16E494DF5FA6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82046769-2B65-4611-9CFF-7D68F53B30A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82046769-2B65-4611-9CFF-7D68F53B30A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82046769-2B65-4611-9CFF-7D68F53B30A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82046769-2B65-4611-9CFF-7D68F53B30A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

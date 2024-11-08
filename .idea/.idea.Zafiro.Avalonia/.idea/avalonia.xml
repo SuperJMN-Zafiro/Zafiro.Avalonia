@@ -5,6 +5,7 @@
       <map>
         <entry key="samples/TestApp/TestApp/App.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/Controls/ControlsSampleView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
+        <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/DataAnalysisView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/Dendrograms/DendrogramLinesView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/Dendrograms/DendrogramView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
         <entry key="samples/TestApp/TestApp/Samples/DataAnalysis/Heatmaps/HeatmapWithDendrogramView.axaml" value="samples/TestApp/TestApp.Desktop/TestApp.Desktop.csproj" />
