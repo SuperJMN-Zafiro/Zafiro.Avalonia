@@ -1,13 +1,14 @@
 using System.Reactive.Linq;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.Reactive;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia.FileExplorer.Core.Navigator;
 
-public class PathNavigatorViewModel : ReactiveObject, IPathNavigator
+public partial class PathNavigatorViewModel : ReactiveObject, IPathNavigator
 {
+    [Reactive] private string requestedPathString;
     private readonly ObservableAsPropertyHelper<Maybe<IRooted<IMutableDirectory>>> currentDirectory;
 
     public PathNavigatorViewModel(IMutableFileSystem mutableFileSystem, INotificationService notificationService)
@@ -47,8 +48,7 @@ public class PathNavigatorViewModel : ReactiveObject, IPathNavigator
     public ReactiveCommand<Unit, Unit> GoBack { get; }
     public ReactiveCommand<Unit, Unit> GoUp { get; }
 
-    [Reactive]
-    public string RequestedPathString { get; set; }
+   
 
     private History History { get; }
 

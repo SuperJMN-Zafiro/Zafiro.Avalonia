@@ -1,14 +1,14 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.Reactive;
+using ReactiveUI.SourceGenerators;
 
 namespace Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 
-public class CreateDirectoryViewModel : ReactiveValidationObject
+public partial class CreateDirectoryViewModel : ReactiveValidationObject
 {
     private readonly ObservableAsPropertyHelper<ReactiveCommand<Unit, Result<IMutableDirectory>>> command;
     private readonly CompositeDisposable disposable = new();
@@ -33,7 +33,7 @@ public class CreateDirectoryViewModel : ReactiveValidationObject
 
     public IObservable<bool> IsBusy { get; }
 
-    [Reactive] public string DirectoryName { get; set; } = "";
+    [Reactive] private string directoryName = "";
 
     public ReactiveCommand<Unit, Result<IMutableDirectory>> CreateNewDirectory => command.Value;
 
