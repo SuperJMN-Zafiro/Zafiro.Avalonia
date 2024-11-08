@@ -1,35 +1,34 @@
 ﻿using System.Collections.Generic;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 
-namespace TestApp.Samples.MasterDetails
+namespace TestApp.Samples.MasterDetails;
+
+public partial class MasterDetailsSampleViewModel : ReactiveObject
 {
-    internal class MasterDetailsSampleViewModel
+    [Reactive] private SampleSection? selectedSection;
+        
+    public MasterDetailsSampleViewModel()
     {
-        public MasterDetailsSampleViewModel()
+        Sections = new List<SampleSection>()
         {
-            Sections = new List<SampleSection>()
+            new SampleSection()
             {
-                new SampleSection()
-                {
-                    Title = "Sample 1",
-                    Content = "This is a sample 1"
-                },
-                new SampleSection()
-                {
-                    Title = "Sample 2",
-                    Content = "This is a sample 2"
-                },
-                new SampleSection()
-                {
-                    Title = "Sample 3",
-                    Content = "This is a sample 3"
-                },
-            };
-        }
-
-        [Reactive]
-        public SampleSection? SelectedSection { get; set; }
-
-        public IEnumerable<SampleSection> Sections { get; }
+                Title = "Sample 1",
+                Content = "This is a sample 1"
+            },
+            new SampleSection()
+            {
+                Title = "Sample 2",
+                Content = "This is a sample 2"
+            },
+            new SampleSection()
+            {
+                Title = "Sample 3",
+                Content = "This is a sample 3"
+            },
+        };
     }
+
+    public IEnumerable<SampleSection> Sections { get; }
 }

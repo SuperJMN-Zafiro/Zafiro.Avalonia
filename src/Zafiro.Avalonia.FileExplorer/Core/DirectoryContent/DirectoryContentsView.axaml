@@ -7,8 +7,6 @@
              xmlns:directoryContent="clr-namespace:Zafiro.Avalonia.FileExplorer.Core.DirectoryContent"
              x:Class="Zafiro.Avalonia.FileExplorer.Core.DirectoryContent.DirectoryContentsView"
              x:CompileBindings="True"
-             xmlns:core="clr-namespace:Zafiro.Avalonia.FileExplorer.Core"
-             xmlns:pr="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
              x:DataType="directoryContent:DirectoryContentsViewModel">
 
     <UserControl.DataTemplates>

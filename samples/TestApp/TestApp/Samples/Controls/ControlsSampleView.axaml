@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:vm="clr-namespace:TestApp.Samples.Controls"
-             xmlns:control="clr-namespace:Zafiro.Avalonia.DataViz.Graph.Control;assembly=Zafiro.Avalonia.DataViz"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
-             xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
              xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control;assembly=Zafiro.Avalonia.DataViz"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -67,10 +66,10 @@
             </c:ProportionalCanvas>
         </TabItem>
         <TabItem Header="Graph">
-            <control:GraphControl Margin="-1000"
+            <g:GraphControl Margin="-1000"
                                   DragButton="Right"
-                                  Graph="{Binding Graph}">
-                <control:GraphControl.ItemTemplate>
+                                  Graph="{Binding MutableGraph}">
+                <g:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
                         <Ellipse Height="{Binding $self.Width}" Fill="Red">
                             <Ellipse.Width>
@@ -86,32 +85,32 @@
                             </Interaction.Behaviors>
                         </Ellipse>
                     </DataTemplate>
-                </control:GraphControl.ItemTemplate>
-                <control:GraphControl.EdgeTemplate>
+                </g:GraphControl.ItemTemplate>
+                <g:GraphControl.EdgeTemplate>
                     <DataTemplate DataType="vm:Friendship">
                         <Line Stroke="Black" StrokeThickness="3">
                             <Line.StartPoint>
-                                <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
                                     <Binding Path="From.X" />
                                     <Binding Path="From.Y" />
                                 </MultiBinding>
                             </Line.StartPoint>
                             <Line.EndPoint>
-                                <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
                                     <Binding Path="To.X" />
                                     <Binding Path="To.Y" />
                                 </MultiBinding>
                             </Line.EndPoint>
                         </Line>
                     </DataTemplate>
-                </control:GraphControl.EdgeTemplate>
-            </control:GraphControl>
+                </g:GraphControl.EdgeTemplate>
+            </g:GraphControl>
         </TabItem>
         <TabItem Header="GradualGraph">
             <DockPanel>
                 <Button ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
-                <control:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
-                    <control:GraphControl.ItemTemplate>
+                <g:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
+                    <g:GraphControl.ItemTemplate>
                         <DataTemplate DataType="vm:Person">
                             <Ellipse Height="{Binding $self.Width}" Fill="Red">
                                 <Ellipse.Width>
@@ -123,26 +122,26 @@
                                 </Ellipse.Width>
                             </Ellipse>
                         </DataTemplate>
-                    </control:GraphControl.ItemTemplate>
-                    <control:GraphControl.EdgeTemplate>
+                    </g:GraphControl.ItemTemplate>
+                    <g:GraphControl.EdgeTemplate>
                         <DataTemplate DataType="vm:Friendship">
                             <Line Stroke="Black" StrokeThickness="3">
                                 <Line.StartPoint>
-                                    <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                    <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
                                         <Binding Path="From.X" />
                                         <Binding Path="From.Y" />
                                     </MultiBinding>
                                 </Line.StartPoint>
                                 <Line.EndPoint>
-                                    <MultiBinding Converter="{x:Static control:Converters.CoordinatesToPoint}">
+                                    <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
                                         <Binding Path="To.X" />
                                         <Binding Path="To.Y" />
                                     </MultiBinding>
                                 </Line.EndPoint>
                             </Line>
                         </DataTemplate>
-                    </control:GraphControl.EdgeTemplate>
-                </control:GraphControl>
+                    </g:GraphControl.EdgeTemplate>
+                </g:GraphControl>
             </DockPanel>
         </TabItem>
     </TabControl>

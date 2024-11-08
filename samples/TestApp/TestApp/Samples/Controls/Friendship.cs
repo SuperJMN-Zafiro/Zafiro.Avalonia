@@ -1,9 +1,8 @@
-using Zafiro.Avalonia.DataViz.Graph.Core;
 using Zafiro.DataAnalysis.Graphs;
 
 namespace TestApp.Samples.Controls;
 
-public class Friendship : IWeightedEdge<Person>, IEdge2D
+public class Friendship : IWeightedEdge<Person>, IMutableEdge
 {
     public Friendship(Person from, Person to, double weight)
     {
@@ -13,9 +12,9 @@ public class Friendship : IWeightedEdge<Person>, IEdge2D
     }
 
     public Person From { get; }
-    INode2D IEdge<INode2D>.To => To;
+    IMutableNode IEdge<IMutableNode>.To => To;
 
-    INode2D IEdge<INode2D>.From => From;
+    IMutableNode IEdge<IMutableNode>.From => From;
 
     public Person To { get; }
     public double Weight { get; }

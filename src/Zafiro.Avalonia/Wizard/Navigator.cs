@@ -1,10 +1,11 @@
 ﻿using System.Reactive;
-using ReactiveUI.Fody.Helpers;
 
 namespace Zafiro.Avalonia.Wizard;
 
 internal class Navigator<T> : ReactiveObject where T : IValidatable
 {
+    private LinkedListNode<T>? current;
+
     public Navigator(IEnumerable<T> pagesList)
     {
         var linkedList = new LinkedList<T>(pagesList);
@@ -24,6 +25,12 @@ internal class Navigator<T> : ReactiveObject where T : IValidatable
     public IObservable<T> CurrentItems { get; set; }
     public ReactiveCommand<Unit, LinkedListNode<T>?> GoBack { get; }
     public ReactiveCommand<Unit, LinkedListNode<T>?> GoNext { get; }
-    [Reactive] private LinkedListNode<T>? Current { get; set; }
+
+    public LinkedListNode<T>? Current
+    {
+        get => current;
+        set => this.RaiseAndSetIfChanged(ref current, value);
+    }
+
     public IObservable<LinkedListNode<T>> CurrentNodes { get; }
 }

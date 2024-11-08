@@ -2,7 +2,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Aggregation;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 using Zafiro.Avalonia.Misc;
 using Zafiro.Reactive;
@@ -10,8 +10,9 @@ using Zafiro.UI;
 
 namespace Zafiro.Avalonia.FileExplorer.Core;
 
-public class SelectionContext : ReactiveObject, ISelectionHandler
+public partial class SelectionContext : ReactiveObject, ISelectionHandler
 {
+    [Reactive] private bool isTouchFriendlySelectionEnabled;
     private readonly CompositeDisposable disposables = new();
     private readonly ObservableAsPropertyHelper<ReactiveCommand<Unit,Unit>> selectAll;
     private readonly ObservableAsPropertyHelper<ReactiveCommand<Unit,Unit>> selectNone;
@@ -38,9 +39,6 @@ public class SelectionContext : ReactiveObject, ISelectionHandler
     }
 
     public IObservable<bool> IsPasting { get; }
-
-    
-    [Reactive] public bool IsTouchFriendlySelectionEnabled { get; set; }
     
     public ReactiveCommand<Unit, Unit> SelectNone => selectNone.Value;
     public ReactiveCommand<Unit, Unit> SelectAll => selectAll.Value;

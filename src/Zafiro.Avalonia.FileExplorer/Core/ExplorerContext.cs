@@ -1,7 +1,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.Avalonia.FileExplorer.Core.Clipboard;
@@ -14,8 +14,10 @@ using Zafiro.UI;
 
 namespace Zafiro.Avalonia.FileExplorer.Core;
 
-public class ExplorerContext : ReactiveObject, IDisposable
+public partial class ExplorerContext : ReactiveObject, IDisposable
 {
+    [Reactive] private bool isSelectionEnabled;
+    
     private readonly CompositeDisposable disposable = new();
     public IPathNavigator PathNavigator { get; }
     public ITransferManager TransferManager { get; }
@@ -23,6 +25,7 @@ public class ExplorerContext : ReactiveObject, IDisposable
     public IMutableFileSystem MutableFileSystem { get; }
     public IDialog Dialog { get; }
     public FileSystemConnection Connection { get; }
+
 
     public ExplorerContext(IPathNavigator pathNavigator, ITransferManager transferManager,
         INotificationService notificationService, IDialog dialog, IClipboardService clipboardService, FileSystemConnection connection)
@@ -72,8 +75,6 @@ public class ExplorerContext : ReactiveObject, IDisposable
 
     public IObservable<DirectoryContentsViewModel> Directory { get; }
 
-    [Reactive]
-    public bool IsSelectionEnabled { get; set; }
 
     public IObservable<ReactiveCommand<Unit, Result>> Delete { get; }
 
