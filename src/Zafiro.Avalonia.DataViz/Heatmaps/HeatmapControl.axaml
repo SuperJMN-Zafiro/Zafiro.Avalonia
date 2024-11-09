@@ -5,13 +5,14 @@
                     xmlns:dv="clr-namespace:Zafiro.Tables;assembly=Zafiro"
                     xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
                     xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-                    xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia">
+                    xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
+                    xmlns:design="clr-namespace:Zafiro.Avalonia.DataViz.Design">
 
 
     <Design.PreviewWith>
         <heatmaps:HeatmapControl CellBorderBrush="#2856AC" UseLayoutRounding="False" CellBorderThickness="0.5">
             <heatmaps:HeatmapControl.Table>
-                <dataViz:DesignTable />
+                <design:DesignTable />
             </heatmaps:HeatmapControl.Table>
         </heatmaps:HeatmapControl>
     </Design.PreviewWith>

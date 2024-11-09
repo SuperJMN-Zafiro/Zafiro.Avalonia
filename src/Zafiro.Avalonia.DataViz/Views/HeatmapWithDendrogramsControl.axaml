@@ -4,20 +4,18 @@
                     xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
                     xmlns:views="clr-namespace:Zafiro.Avalonia.DataViz.Views"
                     xmlns:c="clr-namespace:Zafiro.Avalonia.DataViz"
-                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+                    xmlns:design="clr-namespace:Zafiro.Avalonia.DataViz.Design">
 
-    <!--
-    Additional resources 
-    Using Control Themes:
-         https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
-    Using Theme Variants:
-         https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
-  -->
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
-                <views:HeatmapWithDendrogramsControl />
+                <views:HeatmapWithDendrogramsControl DisplayLabels="True">
+                    <views:HeatmapWithDendrogramsControl.Source>
+                        <design:DesignHeatmapWithDendrograms />
+                    </views:HeatmapWithDendrogramsControl.Source>
+                </views:HeatmapWithDendrogramsControl>
             </StackPanel>
         </StackPanel>
     </Design.PreviewWith>
@@ -26,8 +24,13 @@
                   TargetType="views:HeatmapWithDendrogramsControl">
         <Setter Property="Template">
             <ControlTemplate>
-
                 <DockPanel>
+                    <DockPanel.Styles>
+                        <Style Selector="ItemsControl">
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis" />
+                        </Style>
+                    </DockPanel.Styles>
                     <hm:GradientControl VerticalAlignment="Center" BorderBrush="#8E999999"
                                         BorderThickness="1" Height="200"
                                         Maximum="{Binding #HeatmapControl.MaximumValue}"
@@ -46,8 +49,7 @@
                                             <LayoutTransformControl.LayoutTransform>
                                                 <RotateTransform Angle="-90" />
                                             </LayoutTransformControl.LayoutTransform>
-                                            <TextBlock TextAlignment="Center" Text="{Binding}"
-                                                       TextTrimming="CharacterEllipsis" />
+                                            <ContentControl ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}" Content="{Binding}" />
                                         </LayoutTransformControl>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -64,8 +66,9 @@
                                           ItemsSource="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table.ColumnLabels}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock TextAlignment="Center" Text="{Binding}"
-                                                   TextTrimming="CharacterEllipsis" />
+                                        <ContentControl 
+                                            ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}" 
+                                            Content="{Binding}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemsPanel>
@@ -109,24 +112,6 @@
                                                CellBorderBrush="{TemplateBinding CellBorderBrush}"
                                                CellBorderThickness="{TemplateBinding CellBorderThickness}"
                                                Table="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table}">
-                                <hm:HeatmapControl.ColumnTemplate>
-                                    <DataTemplate x:DataType="x:String">
-                                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
-                                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Center"
-                                                       FontWeight="Bold"
-                                                       Text="{Binding}" />
-                                        </Border>
-                                    </DataTemplate>
-                                </hm:HeatmapControl.ColumnTemplate>
-                                <hm:HeatmapControl.RowTemplate>
-                                    <DataTemplate x:DataType="x:String">
-                                        <Border BorderBrush="#A0C9D6" Margin="2" BorderThickness="1">
-                                            <TextBlock Margin="10" VerticalAlignment="Center" TextAlignment="Right"
-                                                       FontWeight="Bold"
-                                                       Text="{Binding}" />
-                                        </Border>
-                                    </DataTemplate>
-                                </hm:HeatmapControl.RowTemplate>
                             </hm:HeatmapControl>
                         </Grid>
                     </controls:AspectRatioDecorator>

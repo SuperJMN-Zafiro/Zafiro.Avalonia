@@ -1,9 +1,7 @@
-﻿using System.Collections;
 using System.Collections.Generic;
-using Zafiro.DataModel;
 using Zafiro.Tables;
 
-namespace Zafiro.Avalonia.DataViz;
+namespace Zafiro.Avalonia.DataViz.Design;
 
 public static class DesignData
 {
@@ -23,21 +21,4 @@ public static class DesignData
         var sut = new Table<string, string, double>(matrix, rows, columns);
         return sut;
     }
-}
-
-public class DesignTable : ITable
-{
-    private readonly ITable tableImplementation = DesignData.GetTable();
-
-    public object[,] Matrix => tableImplementation.Matrix;
-
-    public IEnumerable RowLabels => tableImplementation.RowLabels;
-
-    public IEnumerable ColumnLabels => tableImplementation.ColumnLabels;
-
-    public int Rows => tableImplementation.Rows;
-
-    public int Columns => tableImplementation.Columns;
-
-    public IEnumerable<ICell> Cells => tableImplementation.Cells;
 }
