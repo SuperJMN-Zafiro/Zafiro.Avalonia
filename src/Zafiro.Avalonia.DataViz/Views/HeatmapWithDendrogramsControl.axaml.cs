@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using Zafiro.DataAnalysis;
 
@@ -27,6 +28,15 @@ public class HeatmapWithDendrogramsControl : TemplatedControl
     public static readonly StyledProperty<double> CellBorderThicknessProperty =
         AvaloniaProperty.Register<HeatmapWithDendrogramsControl, double>(
             nameof(CellBorderThickness));
+
+    public static readonly StyledProperty<IDataTemplate> LabelTemplateProperty = AvaloniaProperty.Register<HeatmapWithDendrogramsControl, IDataTemplate>(
+        nameof(LabelTemplate));
+
+    public IDataTemplate LabelTemplate
+    {
+        get => GetValue(LabelTemplateProperty);
+        set => SetValue(LabelTemplateProperty, value);
+    }
 
     public IHeatmapWithDendrograms Source
     {
