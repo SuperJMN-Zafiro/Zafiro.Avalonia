@@ -27,7 +27,6 @@
                 <DockPanel>
                     <DockPanel.Styles>
                         <Style Selector="ItemsControl">
-                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
                             <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis" />
                         </Style>
                     </DockPanel.Styles>
@@ -47,9 +46,11 @@
                                     <DataTemplate>
                                         <LayoutTransformControl>
                                             <LayoutTransformControl.LayoutTransform>
-                                                <RotateTransform Angle="-90" />
+                                                <RotateTransform Angle="0" />
                                             </LayoutTransformControl.LayoutTransform>
-                                            <ContentControl ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}" Content="{Binding}" />
+                                            <ContentControl VerticalAlignment="Center"
+                                                            ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}"
+                                                            Content="{Binding}" />
                                         </LayoutTransformControl>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -66,9 +67,13 @@
                                           ItemsSource="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table.ColumnLabels}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ContentControl 
-                                            ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}" 
-                                            Content="{Binding}" />
+                                        <LayoutTransformControl HorizontalAlignment="Center">
+                                            <LayoutTransformControl.LayoutTransform>
+                                                <RotateTransform Angle="-90" />
+                                            </LayoutTransformControl.LayoutTransform>
+                                            <ContentControl ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}"
+                                                            Content="{Binding}" />
+                                        </LayoutTransformControl>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemsPanel>
@@ -99,20 +104,21 @@
                                                                 Cluster="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.ColumnsCluster}">
 
                                 <dendrograms:DendrogramLinesControl.Margin>
-                                    <MultiBinding Converter="{x:Static c:ThicknessConverters.ColumnsMarginConverter}">
+                                    <MultiBinding
+                                        Converter="{x:Static c:ThicknessConverters.ColumnsMarginConverter}">
                                         <Binding Path="#HeatmapControl.Bounds.Width" />
                                         <Binding Path="#HeatmapControl.Table.Columns" />
                                     </MultiBinding>
                                 </dendrograms:DendrogramLinesControl.Margin>
                             </dendrograms:DendrogramLinesControl>
 
-                            <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False" Grid.Row="1" Grid.Column="1"
+                            <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False" Grid.Row="1"
+                                               Grid.Column="1"
                                                ShowHeaders="False"
                                                ColorList="{TemplateBinding ColorList}"
                                                CellBorderBrush="{TemplateBinding CellBorderBrush}"
                                                CellBorderThickness="{TemplateBinding CellBorderThickness}"
-                                               Table="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table}">
-                            </hm:HeatmapControl>
+                                               Table="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.Table}" />
                         </Grid>
                     </controls:AspectRatioDecorator>
                 </DockPanel>
