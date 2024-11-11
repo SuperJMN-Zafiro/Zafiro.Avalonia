@@ -6,8 +6,6 @@
                     xmlns:c="clr-namespace:Zafiro.Avalonia.DataViz"
                     xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
                     xmlns:design="clr-namespace:Zafiro.Avalonia.DataViz.Design">
-
-
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
@@ -49,7 +47,7 @@
                                                 <RotateTransform Angle="0" />
                                             </LayoutTransformControl.LayoutTransform>
                                             <ContentControl VerticalAlignment="Center"
-                                                            ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}"
+                                                            ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].RowLabelTemplate}"
                                                             Content="{Binding}" />
                                         </LayoutTransformControl>
                                     </DataTemplate>
@@ -71,7 +69,7 @@
                                             <LayoutTransformControl.LayoutTransform>
                                                 <RotateTransform Angle="-90" />
                                             </LayoutTransformControl.LayoutTransform>
-                                            <ContentControl ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].LabelTemplate}"
+                                            <ContentControl ContentTemplate="{Binding $parent[views:HeatmapWithDendrogramsControl].ColumnLabelTemplate}"
                                                             Content="{Binding}" />
                                         </LayoutTransformControl>
                                     </DataTemplate>

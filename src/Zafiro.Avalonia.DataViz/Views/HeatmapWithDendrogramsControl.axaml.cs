@@ -29,13 +29,24 @@ public class HeatmapWithDendrogramsControl : TemplatedControl
         AvaloniaProperty.Register<HeatmapWithDendrogramsControl, double>(
             nameof(CellBorderThickness));
 
-    public static readonly StyledProperty<IDataTemplate> LabelTemplateProperty = AvaloniaProperty.Register<HeatmapWithDendrogramsControl, IDataTemplate>(
-        nameof(LabelTemplate));
+    public static readonly StyledProperty<IDataTemplate> ColumnLabelTemplateProperty =
+        AvaloniaProperty.Register<HeatmapWithDendrogramsControl, IDataTemplate>(
+            nameof(ColumnLabelTemplate));
 
-    public IDataTemplate LabelTemplate
+    public static readonly StyledProperty<IDataTemplate> RowLabelTemplateProperty =
+        AvaloniaProperty.Register<HeatmapWithDendrogramsControl, IDataTemplate>(
+            nameof(RowLabelTemplate));
+
+    public IDataTemplate RowLabelTemplate
     {
-        get => GetValue(LabelTemplateProperty);
-        set => SetValue(LabelTemplateProperty, value);
+        get => GetValue(RowLabelTemplateProperty);
+        set => SetValue(RowLabelTemplateProperty, value);
+    }
+
+    public IDataTemplate ColumnLabelTemplate
+    {
+        get => GetValue(ColumnLabelTemplateProperty);
+        set => SetValue(ColumnLabelTemplateProperty, value);
     }
 
     public IHeatmapWithDendrograms Source
