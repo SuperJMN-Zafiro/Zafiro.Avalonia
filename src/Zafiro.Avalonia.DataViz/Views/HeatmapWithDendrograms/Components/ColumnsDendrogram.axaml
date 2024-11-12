@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dendrograms="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms"
+             xmlns:dataViz="clr-namespace:Zafiro.Avalonia.DataViz"
+             xmlns:views="clr-namespace:Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms"
+             xmlns:components="clr-namespace:Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms.Components"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms.Components.ColumnsDendrogram">
+  
+    <dendrograms:DendrogramLinesControl LineBrush="Black"
+                                        Cluster="{Binding $parent[views:HeatmapWithDendrogramsControl].Source.ColumnsCluster}">
+
+        <dendrograms:DendrogramLinesControl.Margin>
+            <MultiBinding
+                Converter="{x:Static dataViz:ThicknessConverters.ColumnsMarginConverter}">
+                <Binding Path="$parent[components:ColumnsDendrogram].Heatmap.Bounds.Width" />
+                <Binding Path="$parent[components:ColumnsDendrogram].Heatmap.Table.Columns" />
+            </MultiBinding>
+        </dendrograms:DendrogramLinesControl.Margin>
+    </dendrograms:DendrogramLinesControl>
+
+</UserControl>

@@ -1,0 +1,100 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
+        xmlns:cn="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+        xmlns:design="clr-namespace:Zafiro.Avalonia.DataViz.Design"
+        xmlns:hmd="clr-namespace:Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms"
+        xmlns:c="clr-namespace:Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms.Components">
+    <Design.PreviewWith>
+        <StackPanel Background="{DynamicResource SystemRegionBrush}">
+            <hmd:HeatmapWithDendrogramsControl DisplayLabels="True">
+                <hmd:HeatmapWithDendrogramsControl.Source>
+                    <design:DesignHeatmapWithDendrograms />
+                </hmd:HeatmapWithDendrogramsControl.Source>
+            </hmd:HeatmapWithDendrogramsControl>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <!--ROWS-->
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl /template/ c|Rows">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Right" />
+    </Style>
+       
+    <Style Selector="hmd|HeatmapWithDendrogramsControl.ReverseRows /template/ c|Rows">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Left" />
+    </Style>
+
+    <!--COLUMNS-->
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl /template/ c|Columns">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Bottom" />
+    </Style>
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl.ReverseColumns /template/ c|Columns">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Top" />
+    </Style>
+
+    <!--ROWS DENDROGRAM-->
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl /template/ c|RowsDendrogram">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Left" />
+    </Style>
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl.ReverseRows /template/ c|RowsDendrogram">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Right" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="-1" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--COLUMNS DENDROGRAM-->
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl /template/ c|ColumnsDendrogram">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Top" />
+    </Style>
+
+    <Style Selector="hmd|HeatmapWithDendrogramsControl.ReverseColumns /template/ c|ColumnsDendrogram">
+        <Setter Property="cn:CentralizedDockPanel.Position" Value="Bottom" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleY="-1" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type hmd:HeatmapWithDendrogramsControl}"
+                      TargetType="hmd:HeatmapWithDendrogramsControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <DockPanel>
+                        <hm:GradientControl VerticalAlignment="Center" BorderBrush="#8E999999"
+                                            BorderThickness="1" Height="200"
+                                            Maximum="{Binding #HeatmapControl.MaximumValue}"
+                                            ColorList="{Binding #HeatmapControl.ColorList}"
+                                            Theme="{StaticResource Vertical}" DockPanel.Dock="Right" Margin="30 0 0 0" />
+                        <cn:CentralizedDockPanel>
+                            <c:Rows />
+                            <c:RowsDendrogram Heatmap="{Binding #HeatmapControl}" Width="{TemplateBinding DendrogramsSize}" />
+                            <c:Columns />
+                            <c:ColumnsDendrogram Heatmap="{Binding #HeatmapControl}" Height="{TemplateBinding DendrogramsSize}">
+                            </c:ColumnsDendrogram>
+                            <hm:HeatmapControl x:Name="HeatmapControl" ShowValues="False"
+                                               cn:CentralizedDockPanel.Position="Center"
+                                               ShowHeaders="False"
+                                               ColorList="{TemplateBinding ColorList}"
+                                               CellBorderBrush="{TemplateBinding CellBorderBrush}"
+                                               CellBorderThickness="{TemplateBinding CellBorderThickness}"
+                                               Table="{Binding $parent[hmd:HeatmapWithDendrogramsControl].Source.Table}" />
+                        </cn:CentralizedDockPanel>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+
+</Styles>

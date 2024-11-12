@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:hmd="clr-namespace:Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms.Components.Columns">
+    <ItemsControl x:Name="ColumnLabels"
+                  IsVisible="{Binding $parent[hmd:HeatmapWithDendrogramsControl].DisplayLabels}"
+                  controls:CentralizedDockPanel.Position="Bottom"
+                  ItemsSource="{Binding $parent[hmd:HeatmapWithDendrogramsControl].Source.Table.ColumnLabels}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <LayoutTransformControl HorizontalAlignment="Center">
+                    <LayoutTransformControl.LayoutTransform>
+                        <RotateTransform Angle="-90" />
+                    </LayoutTransformControl.LayoutTransform>
+                    <ContentControl ContentTemplate="{Binding $parent[hmd:HeatmapWithDendrogramsControl].ColumnLabelTemplate}"
+                                    Content="{Binding}" />
+                </LayoutTransformControl>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="1" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
+</UserControl>

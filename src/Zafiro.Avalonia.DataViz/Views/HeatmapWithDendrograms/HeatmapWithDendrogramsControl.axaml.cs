@@ -5,7 +5,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using Zafiro.DataAnalysis;
 
-namespace Zafiro.Avalonia.DataViz.Views;
+namespace Zafiro.Avalonia.DataViz.Views.HeatmapWithDendrograms;
 
 public class HeatmapWithDendrogramsControl : TemplatedControl
 {
@@ -36,6 +36,14 @@ public class HeatmapWithDendrogramsControl : TemplatedControl
     public static readonly StyledProperty<IDataTemplate> RowLabelTemplateProperty =
         AvaloniaProperty.Register<HeatmapWithDendrogramsControl, IDataTemplate>(
             nameof(RowLabelTemplate));
+
+    public static readonly StyledProperty<double> DendrogramsSizeProperty = AvaloniaProperty.Register<HeatmapWithDendrogramsControl, double>(nameof(DendrogramsSize), 100d);
+
+    public double DendrogramsSize
+    {
+        get => GetValue(DendrogramsSizeProperty);
+        set => SetValue(DendrogramsSizeProperty, value);
+    }
 
     public IDataTemplate RowLabelTemplate
     {
