@@ -69,7 +69,7 @@ public class NameCollapsingProperties : TextCollapsingProperties
 
             if (width <= Width)
             {
-                return new[] { shapedTextRun };
+                return [shapedTextRun];
             }
 
             // Store the shortest option
