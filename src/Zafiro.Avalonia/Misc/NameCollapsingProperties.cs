@@ -33,46 +33,58 @@ public class NameCollapsingProperties : TextCollapsingProperties
 
         ShapedTextRun? shortestOptionRun = null;
 
+        // Retrieve the IGlyphTypeface
         var glyphTypeface = textRunProperties.Typeface.GlyphTypeface;
+        if (glyphTypeface == null)
+        {
+            return null; // Handle the case where glyphTypeface is null
+        }
 
+        // Determine the bidiLevel based on FlowDirection
         sbyte bidiLevel = (sbyte)(FlowDirection == FlowDirection.RightToLeft ? 1 : 0);
 
         foreach (var option in options)
         {
+            // Create TextShaperOptions
             var textShaperOptions = new TextShaperOptions(
                 glyphTypeface,
                 textRunProperties.FontRenderingEmSize,
                 bidiLevel,
                 culture);
 
+            // Use TextShaper to shape the text
             var textShaper = TextShaper.Current;
 
             var shapedBuffer = textShaper.ShapeText(
                 option.AsMemory(),
                 textShaperOptions);
 
+            // Create the ShapedTextRun
             var shapedTextRun = new ShapedTextRun(
                 shapedBuffer,
                 textRunProperties);
 
+            // Measure the ShapedTextRun width
             var width = shapedTextRun.Size.Width;
 
             if (width <= Width)
             {
-                return [shapedTextRun];
+                return new[] { shapedTextRun };
             }
 
+            // Store the shortest option
             if (shortestOptionRun == null || option.Length < shortestOptionRun.ShapedBuffer.Length)
             {
                 shortestOptionRun = shapedTextRun;
             }
         }
 
-        return [shortestOptionRun!];
+        // If no option fits, use standard truncation
+        var defaultCollapsingProperties = TextTrimming.CharacterEllipsis.CreateCollapsingProperties(new TextCollapsingCreateInfo(Width, textRunProperties, FlowDirection));
+        return defaultCollapsingProperties.Collapse(textLine);
     }
 
-
-    private static string GetTextFromTextLine(TextLine textLine)
+    private string GetTextFromTextLine(TextLine textLine)
     {
         var stringBuilder = new StringBuilder();
 
@@ -92,7 +104,7 @@ public class NameCollapsingProperties : TextCollapsingProperties
         return stringBuilder.ToString();
     }
 
-    private static IEnumerable<string> GenerateNameOptions(string fullName)
+    private IEnumerable<string> GenerateNameOptions(string fullName)
     {
         var names = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         var options = new List<string>();
@@ -100,26 +112,25 @@ public class NameCollapsingProperties : TextCollapsingProperties
         // Option 1: Full name
         options.Add(fullName);
 
-        // Option 2: Initials of first names, full last name (e.g., "J.M. Nieto")
         if (names.Length >= 2)
         {
+            // Option 2: Initials of first names, full last name (e.g., "J.M. Nieto")
             var initials = string.Join(".", names.Take(names.Length - 1).Select(n => n[0])) + ".";
             var lastName = names.Last();
             options.Add($"{initials} {lastName}");
-        }
 
-        // Option 3: Full first name, initial of the middle name, full last name (e.g., "José M. Nieto")
-        if (names.Length >= 3)
-        {
-            var firstName = names[0];
-            var middleInitials = string.Join(".", names.Skip(1).Take(names.Length - 2).Select(n => n[0])) + ".";
-            var lastName = names.Last();
-            options.Add($"{firstName} {middleInitials} {lastName}");
-        }
+            // Option 3: First full name, initials of middle names, full last name
+            if (names.Length >= 3)
+            {
+                var firstName = names[0];
+                var middleInitials = string.Join(".", names.Skip(1).Take(names.Length - 2).Select(n => n[0])) + ".";
+                options.Add($"{firstName} {middleInitials} {lastName}");
+            }
 
-        // Option 4: Initials only (e.g., "J.M.N.")
-        var allInitials = string.Join(".", names.Select(n => n[0])) + ".";
-        options.Add(allInitials);
+            // Option 4: Only initials (e.g., "J.M.N.")
+            var allInitials = string.Join(".", names.Select(n => n[0])) + ".";
+            options.Add(allInitials);
+        }
 
         return options;
     }
