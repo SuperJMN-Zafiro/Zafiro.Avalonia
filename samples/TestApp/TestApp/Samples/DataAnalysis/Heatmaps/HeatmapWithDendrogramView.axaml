@@ -12,22 +12,22 @@
         <heatmaps:HeatmapWithDendrogramsViewModel />
     </Design.DataContext>
 
-    <hmd:HeatmapWithDendrogramsControl Width="800" Height="580" Classes="ReverseRows ReverseColumns"
-        DendrogramsSize="50"
-        HorizontalAlignment="Center" 
-        VerticalAlignment="Center"
-        UseLayoutRounding="False"
-        CellBorderThickness="0.5"
-        CellBorderBrush="#313131"
-        Source="{Binding Model}">
+    <hmd:HeatmapWithDendrogramsControl Classes="ReverseRows ReverseColumns"
+                                       MaxWidth="800"
+                                       MaxHeight="600"
+                                       DendrogramsSize="40"
+                                       UseLayoutRounding="False"
+                                       CellBorderThickness="0.5"
+                                       CellBorderBrush="#313131"
+                                       Source="{Binding Model}">
         <hmd:HeatmapWithDendrogramsControl.RowLabelTemplate>
-            <DataTemplate x:DataType="x:String"> 
-                <TextBlock Margin="10" MaxWidth="120" TextAlignment="Right" Text="{Binding}" />
+            <DataTemplate x:DataType="x:String">
+                <TextBlock MaxWidth="120" TextAlignment="Right" Text="{Binding}" />
             </DataTemplate>
         </hmd:HeatmapWithDendrogramsControl.RowLabelTemplate>
         <hmd:HeatmapWithDendrogramsControl.ColumnLabelTemplate>
-            <DataTemplate x:DataType="x:String"> 
-                <TextBlock Margin="10" MaxWidth="120" TextAlignment="Left" Text="{Binding}" />
+            <DataTemplate x:DataType="x:String">
+                <TextBlock MaxWidth="120" TextAlignment="Left" Text="{Binding}" />
             </DataTemplate>
         </hmd:HeatmapWithDendrogramsControl.ColumnLabelTemplate>
     </hmd:HeatmapWithDendrogramsControl>
