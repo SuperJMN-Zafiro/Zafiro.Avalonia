@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.VisualTree;
 using DynamicData.Binding;
 using ReactiveUI;
+using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.DataViz.Monitoring;
 
@@ -18,15 +19,72 @@ public class Grapher : Control
     public static readonly StyledProperty<IEnumerable<double>?> ValuesProperty = AvaloniaProperty.Register<Grapher, IEnumerable<double>?>(
         nameof(Values));
 
+    public static readonly StyledProperty<double> XSpacingProperty = AvaloniaProperty.Register<Grapher, double>(
+        nameof(XSpacing));
+
+    public static readonly StyledProperty<double> StrokeThicknessProperty = AvaloniaProperty.Register<Grapher, double>(
+        nameof(StrokeThickness), 1d);
+
+    public static readonly StyledProperty<IBrush> StrokeProperty = AvaloniaProperty.Register<Grapher, IBrush>(
+        nameof(Stroke), Brushes.Black);
+
+    private readonly CompositeDisposable disposables = new();
+
+    static Grapher()
+    {
+        AffectsRender<Grapher>(ValuesProperty, XSpacingProperty, StrokeThicknessProperty, StrokeProperty);
+        AffectsMeasure<Grapher>(ValuesProperty, XSpacingProperty);
+    }
+
+    public Grapher()
+    {
+        InvalidateWhenCollectionChanges().DisposeWith(disposables);
+        
+        this.EffectiveScale(TimeSpan.FromMilliseconds(500))
+            .BindTo(this, x => x.EffectiveScale)
+            .DisposeWith(disposables);
+
+        this.WhenAnyValue(x => x.EffectiveScale)
+            .Do(_ => InvalidateVisual())
+            .Subscribe();
+    }
+
+    private Vector effectiveScale;
+
+    public static readonly DirectProperty<Grapher, Vector> EffectiveScaleProperty = AvaloniaProperty.RegisterDirect<Grapher, Vector>(
+        nameof(EffectiveScale), o => o.EffectiveScale, (o, v) => o.EffectiveScale = v);
+
+    public Vector EffectiveScale
+    {
+        get => effectiveScale;
+        private set => SetAndRaise(EffectiveScaleProperty, ref effectiveScale, value);
+    }
+
     public IEnumerable<double>? Values
     {
         get => GetValue(ValuesProperty);
         set => SetValue(ValuesProperty, value);
     }
 
-    private readonly IDisposable collectionChangesSubscription;
+    public double XSpacing
+    {
+        get => GetValue(XSpacingProperty);
+        set => SetValue(XSpacingProperty, value);
+    }
 
-    public Grapher()
+    public double StrokeThickness
+    {
+        get => GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+
+    public IBrush Stroke
+    {
+        get => GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
+
+    private IDisposable InvalidateWhenCollectionChanges()
     {
         var collections = this
             .WhenAnyValue(x => x.Values)
@@ -37,7 +95,7 @@ public class Grapher : Control
             .Select(a => a.ObserveCollectionChanges())
             .Switch();
 
-        collectionChangesSubscription = changes
+        return changes
             .ObserveOn(AvaloniaScheduler.Instance)
             .Do(_ =>
             {
@@ -50,16 +108,7 @@ public class Grapher : Control
     protected override void OnUnloaded(RoutedEventArgs e)
     {
         base.OnUnloaded(e);
-        collectionChangesSubscription.Dispose();
-    }
-
-    public static readonly StyledProperty<double> XSpacingProperty = AvaloniaProperty.Register<Grapher, double>(
-        nameof(XSpacing));
-
-    public double XSpacing
-    {
-        get => GetValue(XSpacingProperty);
-        set => SetValue(XSpacingProperty, value);
+        disposables.Dispose();
     }
 
     protected override Size MeasureOverride(Size availableSize)
@@ -84,17 +133,16 @@ public class Grapher : Control
 
         var valuesArray = Values.ToArray();
 
-        double minValue = valuesArray.Min();
-        double maxValue = valuesArray.Max();
-        double valueRange = maxValue - minValue;
+        var minValue = valuesArray.Min();
+        var maxValue = valuesArray.Max();
+        var valueRange = maxValue - minValue;
 
         if (valueRange == 0)
         {
-            valueRange = 1; // Evitar división por cero
+            valueRange = 1; // Avoid division by zero
         }
 
         var height = Bounds.Height;
-        var width = Bounds.Width;
 
         var yScale = height / valueRange;
 
@@ -102,15 +150,15 @@ public class Grapher : Control
         using (var geometryContext = streamGeometry.Open())
         {
             var startX = 0;
-            var startY = height - ((valuesArray[0] - minValue) * yScale);
+            var startY = height - (valuesArray[0] - minValue) * yScale;
             var origin = new Point(startX, startY);
 
             geometryContext.BeginFigure(origin, false);
 
-            for (int i = 1; i < valuesArray.Length; i++)
+            for (var i = 1; i < valuesArray.Length; i++)
             {
                 var x = i * XSpacing;
-                var y = height - ((valuesArray[i] - minValue) * yScale);
+                var y = height - (valuesArray[i] - minValue) * yScale;
                 var point = new Point(x, y);
                 geometryContext.LineTo(point, true);
             }
@@ -118,27 +166,7 @@ public class Grapher : Control
             geometryContext.EndFigure(false);
         }
 
-        var scale = GetEffectiveScale();
-        
-        var pen = new Pen(Brushes.Black, 1 / scale.Y);
+        var pen = new Pen(Stroke, StrokeThickness / EffectiveScale.Y);
         context.DrawGeometry(null, pen, streamGeometry);
     }
-    
-    private Vector GetEffectiveScale()
-    {
-        var transform = this.GetTransformedBounds();
-        if (transform == null)
-            return new Vector(1, 1);
-
-        var matrix = transform.Value.Transform;
-        var scaleX = Math.Sqrt(matrix.M11 * matrix.M11 + matrix.M12 * matrix.M12);
-        var scaleY = Math.Sqrt(matrix.M21 * matrix.M21 + matrix.M22 * matrix.M22);
-
-        // Evitar divisiones por cero
-        scaleX = scaleX == 0 ? 1 : scaleX;
-        scaleY = scaleY == 0 ? 1 : scaleY;
-
-        return new Vector(scaleX, scaleY);
-    }
-
 }

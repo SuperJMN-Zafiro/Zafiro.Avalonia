@@ -46,8 +46,8 @@
     <Style Selector="controls|SamplerControl">
         <Setter Property="Template">
             <ControlTemplate>
-                <DockPanel Background="{TemplateBinding Background}" Margin="10">
-                    <controls:YValues ClipToBounds="False" HorizontalAlignment="Left" Values="{TemplateBinding Values}" LineInterval="{TemplateBinding VerticalStepInterval}" />
+                <DockPanel Background="{TemplateBinding Background}">
+                    <controls:YValues ClipToBounds="True" HorizontalAlignment="Left" Values="{TemplateBinding Values}" LineInterval="{TemplateBinding VerticalStepInterval}" />
                     <Panel>
                         <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                             <Viewbox Stretch="Uniform" HorizontalAlignment="Left">
