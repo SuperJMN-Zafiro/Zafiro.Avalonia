@@ -16,7 +16,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 class Build : NukeBuild
 {
-    [Parameter("GitHub Authentication Token")] [Secret] readonly string GitHubAuthenticationToken;
+    [Parameter("GitHub Authentication Token")] [Secret] readonly string GitHubApiKey;
     [Parameter("NuGet Authentication Token")] [Secret] readonly string NuGetApiKey;
 
     [Solution] readonly Solution Solution;
@@ -75,14 +75,14 @@ class Build : NukeBuild
         });
 
     Target PublishSite => d => d
-        .Requires(() => GitHubAuthenticationToken)
+        .Requires(() => GitHubApiKey)
         .DependsOn(Clean)
         .DependsOn(RestoreWorkloads)
         .Executes(async () =>
         {
             var client = new GitHubClient(new ProductHeaderValue("Zafiro.Avalonia"))
             {
-                Credentials = new Credentials(GitHubAuthenticationToken),
+                Credentials = new Credentials(GitHubApiKey),
             };
 
             var github = new GitHub(client, "SuperJMN-Zafiro.github.io", "SuperJMN-Zafiro");
