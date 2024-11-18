@@ -1,23 +1,23 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
+using CSharpFunctionalExtensions;
 using Nuke.Common;
-using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Octokit;
 using Serilog;
+using Zafiro.FileSystem.Core;
+using Zafiro.Nuke;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tooling.ProcessTasks;
-using Project = Nuke.Common.ProjectModel.Project;
 
-
-[AzurePipelines(AzurePipelinesImage.WindowsLatest, ImportSecrets = new[] { nameof(NuGetApiKey) }, AutoGenerate = false)]
 class Build : NukeBuild
 {
-    [Parameter] [Secret] readonly string NuGetApiKey;
+    [Parameter("GitHub Authentication Token")] [Secret] readonly string GitHubApiKey;
+    [Parameter("NuGet Authentication Token")] [Secret] readonly string NuGetApiKey;
 
     [Solution] readonly Solution Solution;
 
@@ -40,8 +40,15 @@ class Build : NukeBuild
         ? Configuration.Release
         : Configuration.Debug;
 
+    Actions Actions;
+
     AbsolutePath OutputDirectory => RootDirectory / "output";
 
+    protected override void OnBuildInitialized()
+    {
+        Actions = new Actions(Solution, Repository, RootDirectory, GitVersion, Configuration);
+    }
+    
     Target Clean => _ => _
         .Executes(() =>
         {
@@ -51,53 +58,46 @@ class Build : NukeBuild
             absolutePaths.DeleteDirectories();
         });
 
-    Target Pack => _ => _
-        .DependsOn(Clean)
+    Target RestoreWorkloads => td => td
         .Executes(() =>
         {
-            var packableProjects = Solution.AllProjects.Where(x => x.GetProperty<bool>("IsPackable")).ToList();
-
-            packableProjects.ForEach(project =>
-            {
-                Log.Information("Restoring workloads of {Input}", project);
-                RestoreProjectWorkload(project);
-            });
-
-            DotNetPack(settings => settings
-                .SetConfiguration(Configuration)
-                .SetVersion(GitVersion.NuGetVersion)
-                .SetOutputDirectory(OutputDirectory)
-                .CombineWith(packableProjects, (packSettings, project) =>
-                    packSettings.SetProject(project)));
+            DotNetWorkloadRestore(x => x.SetProject(Solution));
         });
 
-    Target Publish => _ => _
-        .DependsOn(Pack)
+    Target PublishNugetPackages => d => d
         .Requires(() => NuGetApiKey)
+        .DependsOn(Clean)
         .OnlyWhenStatic(() => Repository.IsOnMainOrMasterBranch())
         .Executes(() =>
         {
-            Log.Information("Commit = {Value}", Repository.Commit);
-            Log.Information("Branch = {Value}", Repository.Branch);
-            Log.Information("Tags = {Value}", Repository.Tags);
-
-            Log.Information("main branch = {Value}", Repository.IsOnMainBranch());
-            Log.Information("main/master branch = {Value}", Repository.IsOnMainOrMasterBranch());
-            Log.Information("release/* branch = {Value}", Repository.IsOnReleaseBranch());
-            Log.Information("hotfix/* branch = {Value}", Repository.IsOnHotfixBranch());
-
-            Log.Information("Https URL = {Value}", Repository.HttpsUrl);
-            Log.Information("SSH URL = {Value}", Repository.SshUrl);
-
-            DotNetNuGetPush(settings => settings
-                    .SetSource("https://api.nuget.org/v3/index.json")
-                    .SetApiKey(NuGetApiKey)
-                    .CombineWith(
-                        OutputDirectory.GlobFiles("*.nupkg").NotEmpty(), (s, v) => s.SetTargetPath(v)),
-                degreeOfParallelism: 5, completeOnFailure: true);
+            Actions.PushNuGetPackages(NuGetApiKey)
+                .TapError(error => throw new ApplicationException(error));
         });
 
-    public static int Main() => Execute<Build>(x => x.Publish);
+    Target PublishSite => d => d
+        .Requires(() => GitHubApiKey)
+        .DependsOn(Clean)
+        .DependsOn(RestoreWorkloads)
+        .Executes(async () =>
+        {
+            var client = new GitHubClient(new ProductHeaderValue("Zafiro.Avalonia"))
+            {
+                Credentials = new Credentials(GitHubApiKey),
+            };
 
-    void RestoreProjectWorkload(Project project) => StartShell($@"dotnet workload restore --project {project.Path}").AssertZeroExitCode();
+            var github = new GitHub(client, "SuperJMN-Zafiro.github.io", "SuperJMN-Zafiro");
+
+            var project = Solution.AllProjects.TryFirst(project => project.Name.EndsWith(".Browser"))
+                .ToResult("Browser project not found");
+
+            await project
+                .Map(project1 => (ZafiroPath)project1.Path.ToString())
+                .Bind(zafiroPath => github.PublishToPages(zafiroPath))
+                .TapError(error => throw new ApplicationException(error));
+        });
+
+    Target Publish => td => td
+        .DependsOn(PublishNugetPackages, PublishSite);
+
+    public static int Main() => Execute<Build>(x => x.Publish);
 }
