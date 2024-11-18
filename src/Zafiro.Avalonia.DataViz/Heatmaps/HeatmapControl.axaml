@@ -27,8 +27,6 @@
                 </generic:List>
             </Setter.Value>
         </Setter>
-
-        <Setter Property="TextElement.Foreground" Value="{TemplateBinding Foreground}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <tables:TableControl 

@@ -8,11 +8,19 @@
       "properties": {
         "Configuration": {
           "type": "string",
-          "description": "configuration"
+          "enum": [
+            "Debug",
+            "Release"
+          ]
         },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "GitHubAuthenticationToken": {
+          "type": "string",
+          "description": "GitHub Authentication Token",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Help": {
           "type": "boolean",
@@ -45,6 +53,7 @@
         },
         "NuGetApiKey": {
           "type": "string",
+          "description": "NuGet Authentication Token",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Partition": {
@@ -89,8 +98,10 @@
             "type": "string",
             "enum": [
               "Clean",
-              "Pack",
-              "Publish"
+              "Publish",
+              "PublishNugetPackages",
+              "PublishSite",
+              "RestoreWorkloads"
             ]
           }
         },
@@ -105,8 +116,10 @@
             "type": "string",
             "enum": [
               "Clean",
-              "Pack",
-              "Publish"
+              "Publish",
+              "PublishNugetPackages",
+              "PublishSite",
+              "RestoreWorkloads"
             ]
           }
         },
