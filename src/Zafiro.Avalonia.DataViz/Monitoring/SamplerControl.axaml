@@ -1,0 +1,63 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Zafiro.Avalonia.DataViz.Monitoring"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
+
+    <Styles.Resources>
+        <generic:List x:Key="List" x:TypeArguments="x:Double">
+            <x:Double>-100</x:Double>
+            <x:Double>0</x:Double>
+            <x:Double>100</x:Double>
+            <x:Double>0</x:Double>
+            <x:Double>-100</x:Double>
+            <x:Double>40</x:Double>
+            <x:Double>60</x:Double>
+            <x:Double>100</x:Double>
+            <x:Double>70</x:Double>
+            <x:Double>60</x:Double>
+            <x:Double>120</x:Double>
+            <x:Double>150</x:Double>
+            <x:Double>200</x:Double>
+            <x:Double>180</x:Double>
+            <x:Double>170</x:Double>
+            <x:Double>190</x:Double>
+            <x:Double>180</x:Double>
+            <x:Double>200</x:Double>
+            <x:Double>260</x:Double>
+            <x:Double>240</x:Double>
+            <x:Double>220</x:Double>
+            <x:Double>200</x:Double>
+            <x:Double>200</x:Double>
+            <x:Double>180</x:Double>
+            <x:Double>170</x:Double>
+            <x:Double>190</x:Double>
+            <x:Double>180</x:Double>
+            <x:Double>200</x:Double>
+            <x:Double>260</x:Double>
+        </generic:List>
+    </Styles.Resources>
+
+    <Design.PreviewWith>
+        <Border Margin="20">
+            <controls:SamplerControl Background="LightYellow" Width="300" Height="200" Values="{StaticResource List}" />
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|SamplerControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel Background="{TemplateBinding Background}">
+                    <controls:YValues ClipToBounds="True" HorizontalAlignment="Left" Values="{TemplateBinding Values}" LineInterval="{TemplateBinding VerticalStepInterval}" />
+                    <Panel>
+                        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                            <Viewbox Stretch="Uniform" HorizontalAlignment="Left">
+                                <controls:Grapher XSpacing="{TemplateBinding XStep}" Values="{TemplateBinding Values}" />
+                            </Viewbox>
+                        </ScrollViewer>
+                        <controls:VerticalScale ClipToBounds="True" LineInterval="{TemplateBinding VerticalStepInterval}" XSpacing="{TemplateBinding XStep}" Values="{TemplateBinding Values}" />
+                    </Panel>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
