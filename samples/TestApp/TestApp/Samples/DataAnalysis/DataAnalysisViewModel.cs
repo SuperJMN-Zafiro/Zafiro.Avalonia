@@ -2,7 +2,6 @@
 using CSharpFunctionalExtensions;
 using TestApp.Samples.DataAnalysis.Dendrograms;
 using TestApp.Samples.DataAnalysis.Heatmaps;
-using TestApp.Samples.DataAnalysis.Monitoring;
 using TestApp.Samples.DataAnalysis.Tables;
 using Zafiro.UI;
 
@@ -19,7 +18,6 @@ public class DataAnalysisViewModel
             new Section("Dendrogram lines", new DendrogramLinesViewModel(), Maybe<object>.None),
             new Section("Heatmap", new HeatmapViewModel(), Maybe<object>.None),
             new Section("Heatmap with dendrograms", new HeatmapWithDendrogramsViewModel(), Maybe<object>.None),
-            new Section("Sampler", new SamplerViewModel(), Maybe<object>.None),
         };
     }
 
