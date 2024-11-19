@@ -1,14 +1,16 @@
 ﻿using System.Reactive.Concurrency;
+using System.Runtime.InteropServices;
 using Avalonia.Platform.Storage;
 using CSharpFunctionalExtensions;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.DataModel;
 using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Mutable;
+using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Storage;
 
-internal class MutableStorageFile : IMutableFile, IRooted
+public class MutableStorageFile : IMutableFile, IRooted
 {
     public MutableStorageFile(IStorageFile storageFile)
     {
@@ -25,15 +27,33 @@ internal class MutableStorageFile : IMutableFile, IRooted
         throw new NotImplementedException();
     }
 
-    public async Task<Result<IData>> GetContents()
+    public Task<Result<IData>> GetContents()
     {
-        return await Result.Try(async () =>
+        if (RuntimeInformation.ProcessArchitecture == Architecture.Wasm)
         {
-            var size = MaybeEx.FromNullableStruct((await StorageFile.GetBasicPropertiesAsync().ConfigureAwait(false)).Size);
+            return GetDataWasm();
+        }
 
-            var openReadAsync = StorageFile.OpenReadAsync;
-            return size.Match(s => Data.FromStream(openReadAsync, (long)s), () => new Data(Observable.Empty<byte[]>(), 0));
-        }).ConfigureAwait(false);
+        return GetDataNoWasm();
+    }
+
+    private Task<Result<IData>> GetDataWasm()
+    {
+        return Result.Try(async () =>
+        {
+            var readAsync = await StorageFile.OpenReadAsync().ConfigureAwait(false);
+            var bytes = await readAsync.ReadBytes().ConfigureAwait(false);
+            return Data.FromByteArray(bytes);
+        });
+    }
+
+    private async Task<Result<IData>> GetDataNoWasm()
+    {
+        var properties = await StorageFile.GetBasicPropertiesAsync();
+        var size = properties.Size;
+        var maybeSize = size.AsMaybe().ToResult($"Cannot get size of a file {Name} for {GetType()}");
+
+        return maybeSize.Map(s => Data.FromStream(StorageFile.OpenReadAsync, (long)s));
     }
 
     public Task<Result> SetContents(IData data, CancellationToken cancellationToken = default, IScheduler? scheduler = null)

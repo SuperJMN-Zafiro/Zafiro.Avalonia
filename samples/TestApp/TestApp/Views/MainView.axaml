@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:TestApp.ViewModels"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+             xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -29,10 +30,10 @@
 		</DataTemplate>
 		<DataTemplate DataType="vm:StorageSampleViewModel">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-				<Button Content="Open a file..."
-						Theme="{StaticResource TransparentButton}"
-                        Command="{Binding OpenFile}" />
+				<Button Content="Pick an image..."
+						Command="{Binding OpenFile}" />
 				<TextBlock Text="{Binding SelectedPaths^}" />
+				<Image Source="{Binding SelectedBytes^, Converter={x:Static converters:ImageConverters.ByteArrayToBitmapImage}}" />
 			</StackPanel>
 		</DataTemplate>
 	</UserControl.DataTemplates>
