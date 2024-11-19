@@ -92,7 +92,7 @@ class Build : NukeBuild
 
             await project
                 .Map(project1 => (ZafiroPath)project1.Path.ToString())
-                .Bind(zafiroPath => github.PublishToPages(zafiroPath))
+                .Bind(zafiroPath => github.PublishAvaloniaAppToPages(zafiroPath))
                 .TapError(error => throw new ApplicationException(error));
         });
 
