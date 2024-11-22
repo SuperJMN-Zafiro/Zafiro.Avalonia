@@ -19,15 +19,15 @@ public class StorageDirectory : IMutableDirectory, IRooted
 
     public async Task<Result<IEnumerable<IMutableNode>>> MutableChildren()
     {
-        var mutableChildren = await Result.Try(() => folder.GetItemsAsync())
+        return await Result.Try(() => folder.GetItemsAsync())
             .Map(async a =>
             {
                 var storageItems = await a.ToListAsync().ConfigureAwait(false);
                 return storageItems.AsEnumerable();
             })
-            .MapEach(ToMutableNode).ConfigureAwait(false);
-            
-        return mutableChildren;
+            .MapEach(ToMutableNode)
+            .Map(Task.WhenAll)
+            .Map(nodes => nodes.AsEnumerable());
     }
 
     public Task<Result> AddOrUpdate(IFile data, ISubject<double>? progress = null)
