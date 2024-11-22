@@ -31,7 +31,7 @@ class Build : NukeBuild
     Target PublishNugetPackages => d => d
         .Requires(() => NuGetApiKey)
         .DependsOn(RestoreWorkloads)
-        .OnlyWhenStatic(() => Repository.IsOnMainOrMasterBranch())
+        .OnlyWhenStatic(() => Repository.IsOnMainOrMasterBranch() || Force)
         .Executes(async () =>
         {
             var version = GitVersion.NuGetVersion;
@@ -44,6 +44,7 @@ class Build : NukeBuild
     Target PublishSite => d => d
         .Requires(() => GitHubApiKey)
         .DependsOn(RestoreWorkloads)
+        .OnlyWhenStatic(() => Repository.IsOnMainOrMasterBranch() || Force)
         .Executes(async () =>
         {
             await Solution.AllProjects.TryFirst(project => project.Name.EndsWith(".Browser"))
