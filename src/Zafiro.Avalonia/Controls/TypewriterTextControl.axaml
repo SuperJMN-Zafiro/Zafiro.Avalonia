@@ -1,0 +1,40 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors"
+                    xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls"
+                    xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
+    <Design.PreviewWith>
+        <controls1:TypewriterControl Width="200" Height="200" FontSize="20" TextWrapping="Wrap" Foreground="Red" CaretBrush="Aquamarine">
+            <controls1:TypewriterControl.Strings>
+                <avalonia:Strings>
+                    <x:String>VERY LONG SENTENCE</x:String>
+                    <x:String>DEUX</x:String>
+                    <x:String>TROIS</x:String>
+                </avalonia:Strings>
+            </controls1:TypewriterControl.Strings>
+        </controls1:TypewriterControl>
+    </Design.PreviewWith>
+
+    <ControlTheme TargetType="controls1:TypewriterControl" x:Key="{x:Type controls1:TypewriterControl}">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <TextBlock TextWrapping="{TemplateBinding TextWrapping}">
+                    <TextBlock.Inlines>
+                        <Run DataContext="{Binding $parent[controls1:TypewriterControl]}">
+                            <Interaction.Behaviors>
+                                <behaviors:CyclingTypewriterBehavior x:DataType="controls1:TypewriterControl"
+                                                                    InBetweenPause="{Binding InBetweenPause}"
+                                                                    TypingLatency="{Binding TypingLatency}" Strings="{Binding Strings}">
+                                </behaviors:CyclingTypewriterBehavior>
+                            </Interaction.Behaviors>
+                        </Run>
+                        <InlineUIContainer>
+                            <controls1:CaretControl Width="4" />
+                        </InlineUIContainer>
+                    </TextBlock.Inlines>
+                </TextBlock>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

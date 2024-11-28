@@ -8,6 +8,7 @@
              xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
              xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:avalonia="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Controls.ControlsSampleView"
              x:DataType="vm:ControlsSampleViewModel">
@@ -19,6 +20,17 @@
             </Style>
         </TabControl.Styles>
 
+        <TabItem Header="TypewriterControl">
+            <c:TypewriterControl FontSize="40" VerticalAlignment="Center" TypingLatency="0:0:0.03" TextWrapping="Wrap">
+                <c:TypewriterControl.Strings>
+                    <avalonia:Strings>
+                        <x:String>Yeah! this is Zafiro.Avalonia</x:String>
+                        <x:String>Crema for developers</x:String>
+                        <x:String>Duro, durísimo</x:String>
+                    </avalonia:Strings>
+                </c:TypewriterControl.Strings>
+            </c:TypewriterControl>
+        </TabItem>
         <TabItem Header="EasyListBox">
             <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
             <ListBox x:Name="ListBox"
