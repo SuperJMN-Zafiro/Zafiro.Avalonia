@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="9.0.1" />
-    <PackageReference Include="Zafiro.Deployment" Version="14.0.2" />
+    <PackageReference Include="Zafiro.Deployment" Version="14.0.3" />
   </ItemGroup>
 
   <ItemGroup>
