@@ -14,6 +14,8 @@
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/DiagramView.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/ItemsCanvas.axaml" />
+                <ResourceInclude Source="Controls/CaretControl.axaml" />
+                <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />
                 <ResourceInclude Source="Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

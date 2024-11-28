@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    <Design.PreviewWith>
+        <Border Height="100">
+            <controls:CaretControl Width="4" Foreground="Blue" />
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme TargetType="controls:CaretControl" x:Key="{x:Type controls:CaretControl}">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border VerticalAlignment="Stretch" Background="{TemplateBinding Foreground}" x:Name="PART_Caret">
+                    <Border.Styles>
+                        <Style Selector="Border">
+                            <Style.Animations>
+                                <Animation Duration="0:0:1" IterationCount="Infinite">
+                                    <KeyFrame Cue="0%">
+                                        <Setter Property="Opacity" Value="0.0" />
+                                    </KeyFrame>
+                                    <KeyFrame Cue="50%">
+                                        <Setter Property="Opacity" Value="1.0" />
+                                    </KeyFrame>
+                                    <KeyFrame Cue="100%">
+                                        <Setter Property="Opacity" Value="0.0" />
+                                    </KeyFrame>
+                                </Animation>
+                            </Style.Animations>
+                        </Style>
+                    </Border.Styles>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
