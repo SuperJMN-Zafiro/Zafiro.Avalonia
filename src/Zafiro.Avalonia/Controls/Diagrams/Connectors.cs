@@ -117,13 +117,13 @@ public class Connectors : Control
         var edges = Edges.Cast<IEdge<object>>().ToList();
         var pen = new Pen(Stroke, StrokeThickness);
 
-        // Diccionario para almacenar las conexiones de cada rect·ngulo
+        // Diccionario para almacenar las conexiones de cada rect√°ngulo
         var rectangleConnections = new Dictionary<Control, RectangleConnections>();
 
         // Nuevo diccionario para almacenar los lados asignados a cada arista
         var edgeSides = new Dictionary<IEdge<object>, Tuple<Side, Side>>();
 
-        // Primera pasada: determinar los lados m·s cercanos y recopilar las conexiones
+        // Primera pasada: determinar los lados m√°s cercanos y recopilar las conexiones
         foreach (var edge in edges)
         {
             var from = Host.ContainerFromItem(edge.From);
@@ -131,11 +131,11 @@ public class Connectors : Control
 
             if (from == null || to == null) continue;
 
-            // Asegurarse de que cada rect·ngulo tenga una entrada en el diccionario
+            // Asegurarse de que cada rect√°ngulo tenga una entrada en el diccionario
             if (!rectangleConnections.ContainsKey(from)) rectangleConnections[from] = new RectangleConnections();
             if (!rectangleConnections.ContainsKey(to)) rectangleConnections[to] = new RectangleConnections();
 
-            // Obtener los centros de los rect·ngulos
+            // Obtener los centros de los rect√°ngulos
             var fromBounds = from.Bounds;
             var toBounds = to.Bounds;
 
@@ -146,37 +146,37 @@ public class Connectors : Control
             var dx = toCenter.X - fromCenter.X;
             var dy = toCenter.Y - fromCenter.Y;
 
-            // Determinar los lados m·s cercanos
+            // Determinar los lados m√°s cercanos
             Side fromSide, toSide;
 
             if (Math.Abs(dx) >= Math.Abs(dy))
             {
-                // ConexiÛn horizontal
+                // Conexi√≥n horizontal
                 if (dx >= 0)
                 {
-                    // 'To' est· a la derecha de 'From'
+                    // 'To' est√° a la derecha de 'From'
                     fromSide = Side.Right;
                     toSide = Side.Left;
                 }
                 else
                 {
-                    // 'To' est· a la izquierda de 'From'
+                    // 'To' est√° a la izquierda de 'From'
                     fromSide = Side.Left;
                     toSide = Side.Right;
                 }
             }
             else
             {
-                // ConexiÛn vertical
+                // Conexi√≥n vertical
                 if (dy >= 0)
                 {
-                    // 'To' est· debajo de 'From'
+                    // 'To' est√° debajo de 'From'
                     fromSide = Side.Bottom;
                     toSide = Side.Top;
                 }
                 else
                 {
-                    // 'To' est· encima de 'From'
+                    // 'To' est√° encima de 'From'
                     fromSide = Side.Top;
                     toSide = Side.Bottom;
                 }
@@ -184,16 +184,16 @@ public class Connectors : Control
 
             // Agregar la arista a las listas correspondientes
             rectangleConnections[from].ConnectionsPerSide[fromSide].Add(edge);
-            rectangleConnections[from].EdgeIndicesPerSide[fromSide][edge] = 0; // Õndice temporal
+            rectangleConnections[from].EdgeIndicesPerSide[fromSide][edge] = 0; // √çndice temporal
 
             rectangleConnections[to].ConnectionsPerSide[toSide].Add(edge);
-            rectangleConnections[to].EdgeIndicesPerSide[toSide][edge] = 0; // Õndice temporal
+            rectangleConnections[to].EdgeIndicesPerSide[toSide][edge] = 0; // √çndice temporal
 
             // Guardar el lado asignado en el diccionario 'edgeSides'
             edgeSides[edge] = new Tuple<Side, Side>(fromSide, toSide);
         }
 
-        // Segunda pasada: ordenar y asignar Ìndices a las conexiones
+        // Segunda pasada: ordenar y asignar √≠ndices a las conexiones
         foreach (var kvp in rectangleConnections)
         {
             var control = kvp.Key;
@@ -206,7 +206,7 @@ public class Connectors : Control
                 var side = sideKvp.Key;
                 var edgesOnSide = sideKvp.Value;
 
-                // Ordenar las conexiones bas·ndose en la posiciÛn del centro del rect·ngulo conectado
+                // Ordenar las conexiones bas√°ndose en la posici√≥n del centro del rect√°ngulo conectado
                 edgesOnSide.Sort((e1, e2) =>
                 {
                     var otherControl1 = GetConnectedControl(e1, control);
@@ -222,12 +222,12 @@ public class Connectors : Control
                     return otherCenter1.X.CompareTo(otherCenter2.X);
                 });
 
-                // Asignar Ìndices despuÈs de ordenar
+                // Asignar √≠ndices despu√©s de ordenar
                 for (var i = 0; i < edgesOnSide.Count; i++) connections.EdgeIndicesPerSide[side][edgesOnSide[i]] = i;
             }
         }
 
-        // Tercera pasada: distribuir los puntos de conexiÛn y dibujar las lÌneas
+        // Tercera pasada: distribuir los puntos de conexi√≥n y dibujar las l√≠neas
         foreach (var edge in edges)
         {
             var from = Host.ContainerFromItem(edge.From);
@@ -246,20 +246,20 @@ public class Connectors : Control
             var fromSide = sides.Item1;
             var toSide = sides.Item2;
 
-            // Obtener el Ìndice y total de conexiones en cada lado
+            // Obtener el √≠ndice y total de conexiones en cada lado
             var fromIndex = fromConnections.EdgeIndicesPerSide[fromSide][edge];
             var fromTotal = fromConnections.ConnectionsPerSide[fromSide].Count;
 
             var toIndex = toConnections.EdgeIndicesPerSide[toSide][edge];
             var toTotal = toConnections.ConnectionsPerSide[toSide].Count;
 
-            // Calcular el punto de conexiÛn en 'from'
+            // Calcular el punto de conexi√≥n en 'from'
             var fromPoint = GetConnectionPoint(fromBounds, fromSide, fromIndex, fromTotal);
 
-            // Calcular el punto de conexiÛn en 'to'
+            // Calcular el punto de conexi√≥n en 'to'
             var toPoint = GetConnectionPoint(toBounds, toSide, toIndex, toTotal);
 
-            // Dibujar la lÌnea
+            // Dibujar la l√≠nea
             ConnectionStyle.Draw(context, pen, fromPoint, fromSide, toPoint, toSide, false, true);
         }
     }
@@ -297,7 +297,7 @@ public class Connectors : Control
         return new Point(x, y);
     }
 
-    // Clase para almacenar las conexiones de cada rect·ngulo
+    // Clase para almacenar las conexiones de cada rect√°ngulo
     private class RectangleConnections
     {
         public readonly Dictionary<Side, List<IEdge<object>>> ConnectionsPerSide = new();

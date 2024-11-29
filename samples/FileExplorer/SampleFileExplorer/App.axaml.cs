@@ -56,7 +56,7 @@ public class App : Application
                 ITransferManager transferManager = new TransferManager();
                 List<FileSystemConnection> connections = 
                 [
-                    new FileSystemConnection("local", "Local", new  FileSystem(new System.IO.Abstractions.FileSystem())),
+                    new FileSystemConnection("local", "Local", new FileSystem(new System.IO.Abstractions.FileSystem())),
                     new FileSystemConnection("seaweedfs", "SeaweedFS", seaweedfs)
                 ];
                 var clipboardService = new ClipboardService(topLevel.Clipboard!, transferManager, connections);
