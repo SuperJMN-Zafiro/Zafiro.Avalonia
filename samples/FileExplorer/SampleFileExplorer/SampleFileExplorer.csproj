@@ -30,8 +30,8 @@
         <PackageReference Include="HttpClient.Extensions.LoggingHttpMessageHandler" Version="1.0.3" />
         <PackageReference Include="Serilog" Version="4.0.1" />
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-        <PackageReference Include="Zafiro.FileSystem.Local" Version="14.0.4" />
-        <PackageReference Include="Zafiro.FileSystem.SeaweedFS" Version="14.0.4" />
+        <PackageReference Include="Zafiro.FileSystem.Local" Version="14.0.5" />
+        <PackageReference Include="Zafiro.FileSystem.SeaweedFS" Version="14.0.5" />
     </ItemGroup>
 
     <ItemGroup>
