@@ -5,6 +5,7 @@ using CSharpFunctionalExtensions;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Zafiro.Deployment;
@@ -22,11 +23,25 @@ class Build : NukeBuild
 
     public static int Main() => Execute<Build>(x => x.Publish);
 
-    Target RestoreWorkloads => td => td
+    Target RestoreWorkloads => _ => _
         .Executes(() =>
         {
             DotNetWorkloadRestore(x => x.SetProject(Solution));
+
+            if (!IsWasmToolsInstalled())
+            {
+                DotNetWorkloadInstall(x => x.SetWorkloadId("wasm-tools"));
+            }
         });
+
+    bool IsWasmToolsInstalled()
+    {
+        var result = ProcessTasks.StartProcess("dotnet", "workload list")
+            .AssertZeroExitCode()
+            .Output
+            .Any(line => line.Text.Contains("wasm-tools"));
+        return result;
+    }
 
     Target PublishNugetPackages => d => d
         .Requires(() => NuGetApiKey)
