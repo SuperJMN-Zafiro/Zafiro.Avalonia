@@ -1,0 +1,50 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+                    xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
+    <Design.PreviewWith>
+        <controls:CircularProgressBar Foreground="Black" Value="91" Height="200" Width="200" />
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:CircularProgressBar}" TargetType="controls:CircularProgressBar">
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="Background" Value="LightGray" />
+        <Setter Property="StrokeThickness" Value="10" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <!-- Arco de fondo -->
+                    <Arc StartAngle="0"
+                         SweepAngle="360"
+                         Stroke="{TemplateBinding Background}"
+                         StrokeThickness="{TemplateBinding StrokeThickness}"
+                         StrokeLineCap="Round"
+                         Width="{TemplateBinding Size}"
+                         Height="{TemplateBinding Size}" />
+
+                    <!-- Arco de progreso -->
+                    <Arc StartAngle="-90"
+                         Stroke="{TemplateBinding Foreground}"
+                         StrokeThickness="{TemplateBinding StrokeThickness}"
+                         StrokeLineCap="Round"
+                         Width="{TemplateBinding Size}"
+                         Height="{TemplateBinding Size}">
+                        <Arc.SweepAngle>
+                            <MultiBinding Converter="{x:Static converters:MiscConverters.RangeToDegrees}">
+                                <TemplateBinding Property="Minimum" />
+                                <TemplateBinding Property="Maximum" />
+                                <TemplateBinding Property="Value" />
+                            </MultiBinding>
+                        </Arc.SweepAngle>
+                        <Arc.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="SweepAngle" Easing="{Binding $parent[controls:CircularProgressBar].AnimationEasing}" Duration="{Binding $parent[controls:CircularProgressBar].AnimationDuration}" />
+                            </Transitions>
+                        </Arc.Transitions>
+                    </Arc>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

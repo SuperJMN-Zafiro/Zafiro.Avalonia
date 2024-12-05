@@ -22,4 +22,28 @@ public class MiscConverters
             _ => i.ToString()
         };
     });
+    
+    public static FuncMultiValueConverter<double, double> RangeToDegrees { get; } = new(doubles =>
+    {
+        var list = doubles.ToList();
+        
+        if (list is [var minimum, var maximum, var value])
+        {
+            return (value - minimum) / (maximum - minimum) * 360;
+        }
+
+        return 0;
+    });
+    
+    public static FuncMultiValueConverter<double, double> Minimum { get; } = new(doubles =>
+    {
+        var list = doubles.ToList();
+        
+        if (list is [var a, var b])
+        {
+            return Math.Min(a, b);
+        }
+
+        return 0;
+    });
 }

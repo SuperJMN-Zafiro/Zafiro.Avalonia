@@ -31,6 +31,30 @@
                 </c:TypewriterControl.Strings>
             </c:TypewriterControl>
         </TabItem>
+        <TabItem Header="CircularProgressBar">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock>For your circular needs!</TextBlock>
+                <TextBlock>Move the slider to see how it soothes your mind with smooth animations.</TextBlock>
+                <Slider x:Name="Slider" Maximum="1" />
+                <UniformGrid Rows="1" Height="200">
+                    <UniformGrid.Styles>
+                        <Style Selector="UniformGrid > :is(Control)">
+                            <Setter Property="Margin" Value="20"></Setter>
+                        </Style>
+                        <Style Selector="c|CircularProgressBar">
+                            <Setter Property="Maximum" Value="1" />
+                        </Style>
+                    </UniformGrid.Styles>
+                    <c:CircularProgressBar Value="{Binding #Slider.Value}" Foreground="Red" Background="LightGray" />
+                    <c:CircularProgressBar Value="{Binding #Slider.Value}" Foreground="Green" Background="LightGray" />
+                    <Viewbox>
+                        <Panel >
+                            <c:CircularProgressBar Width="200" Height="200" Value="{Binding #Slider.Value}" Foreground="Blue" Background="LightGray" />
+                            <TextBlock FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding #Slider.Value, StringFormat={}{0:P0}}"></TextBlock>
+                        </Panel></Viewbox>
+                </UniformGrid>
+            </StackPanel>
+        </TabItem>
         <TabItem Header="EasyListBox">
             <!-- <controls:SelectionControl DockPanel.Dock="Top" Selection="{Binding SelectionHandler}" /> -->
             <ListBox x:Name="ListBox"
@@ -42,7 +66,7 @@
         </TabItem>
         <TabItem Header="GradientControl">
             <StackPanel>
-                <heatmaps:GradientControl NumberOfDivisions="4" Width="500" >
+                <heatmaps:GradientControl NumberOfDivisions="4" Width="500">
                     <heatmaps:GradientControl.ColorList>
                         <generic:List x:TypeArguments="Color">
                             <Color>Blue</Color>
@@ -79,8 +103,8 @@
         </TabItem>
         <TabItem Header="Graph">
             <g:GraphControl Margin="-1000"
-                                  DragButton="Right"
-                                  Graph="{Binding MutableGraph}">
+                            DragButton="Right"
+                            Graph="{Binding MutableGraph}">
                 <g:GraphControl.ItemTemplate>
                     <DataTemplate DataType="vm:Person">
                         <Ellipse Height="{Binding $self.Width}" Fill="Red">
