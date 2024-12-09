@@ -17,6 +17,7 @@
                 <ResourceInclude Source="Controls/CaretControl.axaml" />
                 <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />
                 <ResourceInclude Source="Controls/CircularProgressBar.axaml" />
+                <ResourceInclude Source="Controls/Navigation/Frame.axaml" />
                 <ResourceInclude Source="Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

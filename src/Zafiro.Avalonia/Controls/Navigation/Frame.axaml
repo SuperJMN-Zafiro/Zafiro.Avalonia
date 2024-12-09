@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation">
+        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
+        xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
     <Design.PreviewWith>
         <navigation:Frame />
     </Design.PreviewWith>
