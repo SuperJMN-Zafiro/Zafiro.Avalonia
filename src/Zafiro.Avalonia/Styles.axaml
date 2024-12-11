@@ -28,5 +28,6 @@
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/WizardControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
+    <StyleInclude Source="avares://Zafiro.Avalonia/Controls/DataGrid/DataGrid.axaml" />
 
 </Styles>

@@ -1,0 +1,45 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dataGrid="clr-namespace:Zafiro.Avalonia.Controls.DataGrid;assembly=Zafiro.Avalonia"
+             xmlns:samples="clr-namespace:TestApp.Samples.ControlsNew.DataGrid"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.ControlsNew.DataGrid.DataGridView"
+             x:DataType="samples:DataGridViewModel">
+
+    <Design.DataContext>
+        <samples:DataGridViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="NameTemplate">
+            <TextBlock Foreground="#283337" x:DataType="x:String" Text="{Binding }" />
+        </DataTemplate>
+        <DataTemplate x:Key="SurnameTemplate">
+            <TextBlock Foreground="#536A72" x:DataType="x:String" Text="{Binding }" />
+        </DataTemplate>
+        <ControlTheme x:Key="RowTheme" TargetType="dataGrid:DataRow" BasedOn="{StaticResource {x:Type dataGrid:DataRow}}">
+            <Setter Property="BorderThickness" Value="0 0 0 1" />
+            <Setter Property="BorderBrush" Value="#4F000000" />
+            <Setter Property="Padding" Value="10 5" />
+            <Setter Property="Background" Value="#06000000" />
+        </ControlTheme>
+    </UserControl.Resources>
+    <dataGrid:DataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
+                       HeaderBackground="#20000000" BorderThickness="2"
+                       BorderBrush="Black" CornerRadius="10" 
+                       ItemsSource="{Binding People}" HeaderPadding="10 10" RowTheme="{StaticResource RowTheme}">
+        <dataGrid:DataGrid.DataColumns>
+            <dataGrid:DataColumns>
+                <dataGrid:DataColumn Header="Name" Binding="{Binding Name}" 
+                                     CellTemplate="{StaticResource NameTemplate}" />
+                <dataGrid:DataColumn Header="Surname" 
+                                     Binding="{Binding Surname}" 
+                                     CellTemplate="{StaticResource SurnameTemplate}" />
+            </dataGrid:DataColumns>
+        </dataGrid:DataGrid.DataColumns>
+    </dataGrid:DataGrid>
+
+
+</UserControl>

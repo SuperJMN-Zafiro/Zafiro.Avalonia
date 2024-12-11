@@ -41,6 +41,68 @@
     <None Update="Samples\DataAnalysis\Heatmaps\Synthetic_Heatmap_Data.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Samples\Controls\DataAnalysis\Heatmaps\Synthetic_Heatmap_Data.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Samples\Controls\DataAnalysis\Dendrograms\DendrogramLinesView.axaml.cs">
+      <DependentUpon>DendrogramLinesView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Dendrograms\DendrogramView.axaml.cs">
+      <DependentUpon>DendrogramView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Dendrograms\DendrogramLinesView.axaml.cs">
+      <DependentUpon>DendrogramLinesView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Dendrograms\DendrogramView.axaml.cs">
+      <DependentUpon>DendrogramView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Heatmaps\HeatmapView.axaml.cs">
+      <DependentUpon>HeatmapView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Heatmaps\HeatmapWithDendrogramView.axaml.cs">
+      <DependentUpon>HeatmapWithDendrogramView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Heatmaps\HeatmapView.axaml.cs">
+      <DependentUpon>HeatmapView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Heatmaps\HeatmapWithDendrogramView.axaml.cs">
+      <DependentUpon>HeatmapWithDendrogramView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Monitoring\SamplerView.axaml.cs">
+      <DependentUpon>SamplerView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Monitoring\SamplerView.axaml.cs">
+      <DependentUpon>SamplerView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Tables\TableView.axaml.cs">
+      <DependentUpon>TableView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\Tables\TableView.axaml.cs">
+      <DependentUpon>TableView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\DataAnalysisView.axaml.cs">
+      <DependentUpon>DataAnalysisView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Controls\DataAnalysis\DataAnalysisView.axaml.cs">
+      <DependentUpon>DataAnalysisView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
