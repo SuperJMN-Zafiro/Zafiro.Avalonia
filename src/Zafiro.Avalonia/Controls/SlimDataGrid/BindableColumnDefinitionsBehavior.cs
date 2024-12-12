@@ -2,7 +2,7 @@ using System.Reactive.Disposables;
 using Avalonia.Data;
 using Avalonia.Xaml.Interactivity;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
 public class BindableColumnDefinitionsBehavior : Behavior<Grid>
 {

@@ -4,7 +4,6 @@
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs;assembly=Zafiro.Avalonia.Dialogs"
              xmlns:wizard="clr-namespace:Zafiro.Avalonia.Wizard;assembly=Zafiro.Avalonia"
-             xmlns:dataGrid="clr-namespace:Zafiro.Avalonia.Controls.DataGrid;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
 

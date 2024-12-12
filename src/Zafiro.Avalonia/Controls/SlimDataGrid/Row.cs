@@ -1,17 +1,17 @@
 using Avalonia.Controls.Primitives;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
-public class DataRow : TemplatedControl
+public class Row : TemplatedControl
 {
-    public DataRow(object data, DataColumns columns)
+    public Row(object data, Columns columns)
     {
         properties = columns.Select((column, i) => new Cell(data, column, i));
     }
 
     private IEnumerable<Cell> properties;
 
-    public static readonly DirectProperty<DataRow, IEnumerable<Cell>> PropertiesProperty = AvaloniaProperty.RegisterDirect<DataRow, IEnumerable<Cell>>(
+    public static readonly DirectProperty<Row, IEnumerable<Cell>> PropertiesProperty = AvaloniaProperty.RegisterDirect<Row, IEnumerable<Cell>>(
         nameof(Properties), o => o.Properties, (o, v) => o.Properties = v);
 
     public IEnumerable<Cell> Properties

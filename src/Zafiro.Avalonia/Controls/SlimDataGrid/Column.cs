@@ -2,14 +2,14 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Metadata;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
-public class DataColumn : AvaloniaObject
+public class Column : AvaloniaObject
 {
-    public static readonly StyledProperty<IDataTemplate?> TemplateProperty = AvaloniaProperty.Register<DataColumn, IDataTemplate?>(
+    public static readonly StyledProperty<IDataTemplate?> TemplateProperty = AvaloniaProperty.Register<Column, IDataTemplate?>(
         nameof(CellTemplate));
 
-    public static readonly StyledProperty<IDataTemplate?> HeaderTemplateProperty = AvaloniaProperty.Register<DataColumn, IDataTemplate?>(
+    public static readonly StyledProperty<IDataTemplate?> HeaderTemplateProperty = AvaloniaProperty.Register<Column, IDataTemplate?>(
         nameof(HeaderTemplate));
 
     [Content]

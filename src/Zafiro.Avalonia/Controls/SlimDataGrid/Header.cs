@@ -3,7 +3,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
 public class Header : TemplatedControl
 {
@@ -16,7 +16,7 @@ public class Header : TemplatedControl
         set => SetValue(ItemTemplateProperty, value);
     }
     
-    public Header(DataColumn column, int index)
+    public Header(Column column, int index)
     {
         Column = column;
         Index = index;
@@ -45,6 +45,6 @@ public class Header : TemplatedControl
         base.OnUnloaded(e);
     }
 
-    public DataColumn Column { get; init; }
+    public Column Column { get; init; }
     public int Index { get; init; }
 }

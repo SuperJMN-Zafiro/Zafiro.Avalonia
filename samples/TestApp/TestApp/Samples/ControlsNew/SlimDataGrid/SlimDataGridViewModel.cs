@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using ReactiveUI;
 
-namespace TestApp.Samples.ControlsNew.DataGrid;
+namespace TestApp.Samples.ControlsNew.SlimDataGrid;
 
-public class DataGridViewModel : ReactiveObject
+public class SlimDataGridViewModel : ReactiveObject
 {
-    public DataGridViewModel()
+    public SlimDataGridViewModel()
     {
         People = GetPeople();
     }

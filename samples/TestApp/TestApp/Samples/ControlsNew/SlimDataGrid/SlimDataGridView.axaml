@@ -2,14 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dataGrid="clr-namespace:Zafiro.Avalonia.Controls.DataGrid;assembly=Zafiro.Avalonia"
-             xmlns:samples="clr-namespace:TestApp.Samples.ControlsNew.DataGrid"
+             xmlns:slimDataGrid="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid;assembly=Zafiro.Avalonia"
+             xmlns:samples="clr-namespace:TestApp.Samples.ControlsNew.SlimDataGrid"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TestApp.Samples.ControlsNew.DataGrid.DataGridView"
-             x:DataType="samples:DataGridViewModel">
+             x:Class="TestApp.Samples.ControlsNew.SlimDataGrid.SlimDataGridView"
+             x:DataType="samples:SlimDataGridViewModel">
 
     <Design.DataContext>
-        <samples:DataGridViewModel />
+        <samples:SlimDataGridViewModel />
     </Design.DataContext>
 
     <UserControl.Resources>
@@ -19,27 +19,25 @@
         <DataTemplate x:Key="SurnameTemplate">
             <TextBlock Foreground="#536A72" x:DataType="x:String" Text="{Binding }" />
         </DataTemplate>
-        <ControlTheme x:Key="RowTheme" TargetType="dataGrid:DataRow" BasedOn="{StaticResource {x:Type dataGrid:DataRow}}">
+        <ControlTheme x:Key="RowTheme" TargetType="slimDataGrid:Row" BasedOn="{StaticResource {x:Type slimDataGrid:Row}}">
             <Setter Property="BorderThickness" Value="0 0 0 1" />
             <Setter Property="BorderBrush" Value="#4F000000" />
             <Setter Property="Padding" Value="10 5" />
             <Setter Property="Background" Value="#06000000" />
         </ControlTheme>
     </UserControl.Resources>
-    <dataGrid:DataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
+    <slimDataGrid:DataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
                        HeaderBackground="#20000000" BorderThickness="2"
-                       BorderBrush="Black" CornerRadius="10" 
+                       BorderBrush="Black" CornerRadius="10"
                        ItemsSource="{Binding People}" HeaderPadding="10 10" RowTheme="{StaticResource RowTheme}">
-        <dataGrid:DataGrid.DataColumns>
-            <dataGrid:DataColumns>
-                <dataGrid:DataColumn Header="Name" Binding="{Binding Name}" 
-                                     CellTemplate="{StaticResource NameTemplate}" />
-                <dataGrid:DataColumn Header="Surname" 
-                                     Binding="{Binding Surname}" 
-                                     CellTemplate="{StaticResource SurnameTemplate}" />
-            </dataGrid:DataColumns>
-        </dataGrid:DataGrid.DataColumns>
-    </dataGrid:DataGrid>
+        <slimDataGrid:DataGrid.Columns>
+            <slimDataGrid:Column Header="Name" Binding="{Binding Name}"
+                                 CellTemplate="{StaticResource NameTemplate}" />
+            <slimDataGrid:Column Header="Surname"
+                                 Binding="{Binding Surname}"
+                                 CellTemplate="{StaticResource SurnameTemplate}" />
+        </slimDataGrid:DataGrid.Columns>
+    </slimDataGrid:DataGrid>
 
 
 </UserControl>

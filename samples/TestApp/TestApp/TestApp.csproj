@@ -103,6 +103,9 @@
       <DependentUpon>DataAnalysisView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\ControlsNew\SlimDataGrid\SlimDataGridView.axaml.cs">
+      <DependentUpon>SlimDataGridView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

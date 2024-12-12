@@ -1,9 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:a1="clr-namespace:Zafiro.Avalonia.Controls.DataGrid">
+        xmlns:a1="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid">
     <Styles.Resources>
 
-        <ControlTheme x:Key="{x:Type a1:DataRow}" TargetType="a1:DataRow">
+        <ControlTheme x:Key="{x:Type a1:Row}" TargetType="a1:Row">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Padding="{TemplateBinding Padding}"
@@ -20,7 +20,7 @@
                                 <ItemsPanelTemplate>
                                     <Grid>
                                         <Interaction.Behaviors>
-                                            <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:DataGrid].DataColumns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
+                                            <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:DataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
                                         </Interaction.Behaviors>
                                     </Grid>
                                 </ItemsPanelTemplate>
@@ -86,7 +86,7 @@
                                             <ItemsPanelTemplate>
                                                 <Grid>
                                                     <Interaction.Behaviors>
-                                                        <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:DataGrid].DataColumns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
+                                                        <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:DataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
                                                     </Interaction.Behaviors>
                                                 </Grid>
                                             </ItemsPanelTemplate>

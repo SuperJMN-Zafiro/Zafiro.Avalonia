@@ -2,15 +2,16 @@ using System.Collections;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
+using DynamicData.Binding;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
 public class DataGrid : TemplatedControl
 {
     public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty = AvaloniaProperty.Register<DataGrid, IEnumerable?>(
         nameof(ItemsSource));
 
-    public static readonly DirectProperty<DataGrid, IEnumerable<DataRow>?> DataRowsProperty = AvaloniaProperty.RegisterDirect<DataGrid, IEnumerable<DataRow>?>(
+    public static readonly DirectProperty<DataGrid, IEnumerable<Row>?> DataRowsProperty = AvaloniaProperty.RegisterDirect<DataGrid, IEnumerable<Row>?>(
         nameof(DataRows), o => o.DataRows, (o, v) => o.DataRows = v);
 
     public static readonly DirectProperty<DataGrid, ColumnDefinitions?> ColumnDefinitionsProperty = AvaloniaProperty.RegisterDirect<DataGrid, ColumnDefinitions?>(
@@ -18,9 +19,6 @@ public class DataGrid : TemplatedControl
 
     public static readonly DirectProperty<DataGrid, IEnumerable<Header>?> HeadersProperty = AvaloniaProperty.RegisterDirect<DataGrid, IEnumerable<Header>?>(
         nameof(Headers), o => o.Headers, (o, v) => o.Headers = v);
-
-    public static readonly StyledProperty<DataColumns?> DataColumnsProperty = AvaloniaProperty.Register<DataGrid, DataColumns?>(
-        nameof(DataColumns));
 
     public static readonly StyledProperty<Thickness> HeaderBorderThicknessProperty = AvaloniaProperty.Register<DataGrid, Thickness>(
         nameof(HeaderBorderThickness));
@@ -39,20 +37,23 @@ public class DataGrid : TemplatedControl
 
     private ColumnDefinitions? columnDefinitions;
 
-    private IEnumerable<DataRow>? dataRows;
+    private IEnumerable<Row>? dataRows;
 
     private IEnumerable<Header>? headers;
 
     public DataGrid()
     {
-        this.WhenAnyValue(x => x.DataColumns)
+        var changes = Columns.ObserveCollectionChanges()
+            .Select(_ => Columns);
+        
+        this.WhenAnyValue(x => x.Columns)
             .WhereNotNull()
-            .Select(GetHeaders)
+            .Select(columns => GetHeaders(columns))
             .Subscribe(h => Headers = h);
 
-        this.WhenAnyValue(x => x.ItemsSource, x => x.DataColumns, (items, dataColumns) => (items, dataColumns))
-            .Where(tuple => tuple is { items: not null, dataColumns: not null })
-            .Select(tuple => GetRows(tuple.items!.Cast<object>().ToList(), tuple.dataColumns!))
+        this.WhenAnyValue(x => x.ItemsSource).WhereNotNull()
+            .CombineLatest(changes, (items, dataColumns) => (items, dataColumns))
+            .Select(tuple => GetRows(tuple.items.Cast<object>().ToList(), tuple.dataColumns))
             .Subscribe(rows => DataRows = rows);
     }
 
@@ -62,7 +63,7 @@ public class DataGrid : TemplatedControl
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public IEnumerable<DataRow>? DataRows
+    public IEnumerable<Row>? DataRows
     {
         get => dataRows;
         private set => SetAndRaise(DataRowsProperty, ref dataRows, value);
@@ -74,11 +75,7 @@ public class DataGrid : TemplatedControl
         private set => SetAndRaise(ColumnDefinitionsProperty, ref columnDefinitions, value);
     }
 
-    public DataColumns? DataColumns
-    {
-        get => GetValue(DataColumnsProperty);
-        set => SetValue(DataColumnsProperty, value);
-    }
+    public Columns Columns { get; } = new();
 
     public IEnumerable<Header>? Headers
     {
@@ -116,15 +113,15 @@ public class DataGrid : TemplatedControl
         set => SetValue(HeaderPaddingProperty, value);
     }
 
-    private IEnumerable<DataRow> GetRows(IList<object> items, DataColumns columns)
+    private IEnumerable<Row> GetRows(IList<object> items, Columns columns)
     {
-        return items.Select(o => new DataRow(o, columns)
+        return items.Select(o => new Row(o, columns)
         {
             Theme = RowTheme
         });
     }
 
-    private static IEnumerable<Header> GetHeaders(DataColumns columns)
+    private static IEnumerable<Header> GetHeaders(Columns columns)
     {
         var cols = columns;
 
