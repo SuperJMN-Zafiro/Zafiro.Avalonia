@@ -1,10 +1,10 @@
 using Avalonia.Data.Converters;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
 public class Converters
 {
-    public static FuncValueConverter<IEnumerable<DataColumn>, ColumnDefinitions> ColumnDefsConverter { get; } = new(o =>
+    public static FuncValueConverter<IEnumerable<Column>, ColumnDefinitions> ColumnDefsConverter { get; } = new(o =>
     {
         var columnDefinitions = new ColumnDefinitions();
 

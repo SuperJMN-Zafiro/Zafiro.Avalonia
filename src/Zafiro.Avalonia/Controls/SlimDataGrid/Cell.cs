@@ -3,7 +3,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 
-namespace Zafiro.Avalonia.Controls.DataGrid;
+namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
 public class Cell : TemplatedControl
 {
@@ -23,7 +23,7 @@ public class Cell : TemplatedControl
     private object? value;
     private readonly CompositeDisposable compositeDisposable = new();
 
-    public Cell(object data, DataColumn column, int index)
+    public Cell(object data, Column column, int index)
     {
         Data = data;
         Column = column;
@@ -49,7 +49,7 @@ public class Cell : TemplatedControl
     }
 
     public object Data { get; }
-    public DataColumn Column { get; }
+    public Column Column { get; }
     public int Index { get; }
     
     public object? Value

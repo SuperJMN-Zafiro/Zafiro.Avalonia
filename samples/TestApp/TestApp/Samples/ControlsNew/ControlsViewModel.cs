@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CSharpFunctionalExtensions;
-using TestApp.Samples.ControlsNew.DataGrid;
+using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
 using Zafiro.UI;
 
@@ -13,7 +13,7 @@ public class ControlsViewModel
         Sections = new List<Section>
         {
             new("Typewriter", new TypewriterViewModel(), Maybe<object>.None),
-            new("DataGrid", new DataGridViewModel(), Maybe<object>.None),
+            new("DataGrid", new SlimDataGridViewModel(), Maybe<object>.None),
         };
     }
 
