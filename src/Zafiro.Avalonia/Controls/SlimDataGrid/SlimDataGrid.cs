@@ -6,33 +6,33 @@ using DynamicData.Binding;
 
 namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
-public class DataGrid : TemplatedControl
+public class SlimDataGrid : TemplatedControl
 {
-    public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty = AvaloniaProperty.Register<DataGrid, IEnumerable?>(
+    public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty = AvaloniaProperty.Register<SlimDataGrid, IEnumerable?>(
         nameof(ItemsSource));
 
-    public static readonly DirectProperty<DataGrid, IEnumerable<Row>?> DataRowsProperty = AvaloniaProperty.RegisterDirect<DataGrid, IEnumerable<Row>?>(
+    public static readonly DirectProperty<SlimDataGrid, IEnumerable<Row>?> DataRowsProperty = AvaloniaProperty.RegisterDirect<SlimDataGrid, IEnumerable<Row>?>(
         nameof(DataRows), o => o.DataRows, (o, v) => o.DataRows = v);
 
-    public static readonly DirectProperty<DataGrid, ColumnDefinitions?> ColumnDefinitionsProperty = AvaloniaProperty.RegisterDirect<DataGrid, ColumnDefinitions?>(
+    public static readonly DirectProperty<SlimDataGrid, ColumnDefinitions?> ColumnDefinitionsProperty = AvaloniaProperty.RegisterDirect<SlimDataGrid, ColumnDefinitions?>(
         nameof(ColumnDefinitions), o => o.ColumnDefinitions, (o, v) => o.ColumnDefinitions = v);
 
-    public static readonly DirectProperty<DataGrid, IEnumerable<Header>?> HeadersProperty = AvaloniaProperty.RegisterDirect<DataGrid, IEnumerable<Header>?>(
+    public static readonly DirectProperty<SlimDataGrid, IEnumerable<Header>?> HeadersProperty = AvaloniaProperty.RegisterDirect<SlimDataGrid, IEnumerable<Header>?>(
         nameof(Headers), o => o.Headers, (o, v) => o.Headers = v);
 
-    public static readonly StyledProperty<Thickness> HeaderBorderThicknessProperty = AvaloniaProperty.Register<DataGrid, Thickness>(
+    public static readonly StyledProperty<Thickness> HeaderBorderThicknessProperty = AvaloniaProperty.Register<SlimDataGrid, Thickness>(
         nameof(HeaderBorderThickness));
 
-    public static readonly StyledProperty<IBrush?> HeaderBorderBrushProperty = AvaloniaProperty.Register<DataGrid, IBrush?>(
+    public static readonly StyledProperty<IBrush?> HeaderBorderBrushProperty = AvaloniaProperty.Register<SlimDataGrid, IBrush?>(
         nameof(HeaderBorderBrush));
 
-    public static readonly StyledProperty<IBrush?> HeaderBackgroundProperty = AvaloniaProperty.Register<DataGrid, IBrush?>(
+    public static readonly StyledProperty<IBrush?> HeaderBackgroundProperty = AvaloniaProperty.Register<SlimDataGrid, IBrush?>(
         nameof(HeaderBackground));
 
-    public static readonly StyledProperty<ControlTheme?> RowThemeProperty = AvaloniaProperty.Register<DataGrid, ControlTheme?>(
+    public static readonly StyledProperty<ControlTheme?> RowThemeProperty = AvaloniaProperty.Register<SlimDataGrid, ControlTheme?>(
         nameof(RowTheme));
 
-    public static readonly StyledProperty<Thickness> HeaderPaddingProperty = AvaloniaProperty.Register<DataGrid, Thickness>(
+    public static readonly StyledProperty<Thickness> HeaderPaddingProperty = AvaloniaProperty.Register<SlimDataGrid, Thickness>(
         nameof(HeaderPadding));
 
     private ColumnDefinitions? columnDefinitions;
@@ -41,7 +41,7 @@ public class DataGrid : TemplatedControl
 
     private IEnumerable<Header>? headers;
 
-    public DataGrid()
+    public SlimDataGrid()
     {
         var changes = Columns.ObserveCollectionChanges()
             .Select(_ => Columns);

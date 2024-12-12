@@ -13,7 +13,7 @@ public class Column : AvaloniaObject
         nameof(HeaderTemplate));
 
     [Content]
-    [InheritDataTypeFromItems(nameof(DataGrid.ItemsSource), AncestorType = typeof(DataGrid))]
+    [InheritDataTypeFromItems(nameof(SlimDataGrid.ItemsSource), AncestorType = typeof(SlimDataGrid))]
     public IDataTemplate? CellTemplate
     {
         get => GetValue(TemplateProperty);
@@ -21,7 +21,7 @@ public class Column : AvaloniaObject
     }
 
     [AssignBinding]
-    [InheritDataTypeFromItems(nameof(DataGrid.ItemsSource), AncestorType = typeof(DataGrid))]
+    [InheritDataTypeFromItems(nameof(SlimDataGrid.ItemsSource), AncestorType = typeof(SlimDataGrid))]
     public IBinding? Binding { get; set; }
 
     public object? Header { get; set; }

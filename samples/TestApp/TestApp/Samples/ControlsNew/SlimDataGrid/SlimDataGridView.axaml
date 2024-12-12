@@ -26,18 +26,18 @@
             <Setter Property="Background" Value="#06000000" />
         </ControlTheme>
     </UserControl.Resources>
-    <slimDataGrid:DataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
+    <slimDataGrid:SlimDataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
                        HeaderBackground="#20000000" BorderThickness="2"
                        BorderBrush="Black" CornerRadius="10"
                        ItemsSource="{Binding People}" HeaderPadding="10 10" RowTheme="{StaticResource RowTheme}">
-        <slimDataGrid:DataGrid.Columns>
+        <slimDataGrid:SlimDataGrid.Columns>
             <slimDataGrid:Column Header="Name" Binding="{Binding Name}"
                                  CellTemplate="{StaticResource NameTemplate}" />
             <slimDataGrid:Column Header="Surname"
                                  Binding="{Binding Surname}"
                                  CellTemplate="{StaticResource SurnameTemplate}" />
-        </slimDataGrid:DataGrid.Columns>
-    </slimDataGrid:DataGrid>
+        </slimDataGrid:SlimDataGrid.Columns>
+    </slimDataGrid:SlimDataGrid>
 
 
 </UserControl>

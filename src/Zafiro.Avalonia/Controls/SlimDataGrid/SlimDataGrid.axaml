@@ -20,7 +20,7 @@
                                 <ItemsPanelTemplate>
                                     <Grid>
                                         <Interaction.Behaviors>
-                                            <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:DataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
+                                            <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
                                         </Interaction.Behaviors>
                                     </Grid>
                                 </ItemsPanelTemplate>
@@ -62,7 +62,7 @@
             </Setter>
         </ControlTheme>
 
-        <ControlTheme x:Key="{x:Type a1:DataGrid}" TargetType="a1:DataGrid">
+        <ControlTheme x:Key="{x:Type a1:SlimDataGrid}" TargetType="a1:SlimDataGrid">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel>
@@ -86,7 +86,7 @@
                                             <ItemsPanelTemplate>
                                                 <Grid>
                                                     <Interaction.Behaviors>
-                                                        <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:DataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
+                                                        <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
                                                     </Interaction.Behaviors>
                                                 </Grid>
                                             </ItemsPanelTemplate>
