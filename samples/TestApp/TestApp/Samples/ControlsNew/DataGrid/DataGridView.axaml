@@ -28,16 +28,14 @@
     </UserControl.Resources>
     <dataGrid:DataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
                        HeaderBackground="#20000000" BorderThickness="2"
-                       BorderBrush="Black" CornerRadius="10" 
+                       BorderBrush="Black" CornerRadius="10"
                        ItemsSource="{Binding People}" HeaderPadding="10 10" RowTheme="{StaticResource RowTheme}">
         <dataGrid:DataGrid.DataColumns>
-            <dataGrid:DataColumns>
-                <dataGrid:DataColumn Header="Name" Binding="{Binding Name}" 
-                                     CellTemplate="{StaticResource NameTemplate}" />
-                <dataGrid:DataColumn Header="Surname" 
-                                     Binding="{Binding Surname}" 
-                                     CellTemplate="{StaticResource SurnameTemplate}" />
-            </dataGrid:DataColumns>
+            <dataGrid:DataColumn Header="Name" Binding="{Binding Name}"
+                                 CellTemplate="{StaticResource NameTemplate}" />
+            <dataGrid:DataColumn Header="Surname"
+                                 Binding="{Binding Surname}"
+                                 CellTemplate="{StaticResource SurnameTemplate}" />
         </dataGrid:DataGrid.DataColumns>
     </dataGrid:DataGrid>
 

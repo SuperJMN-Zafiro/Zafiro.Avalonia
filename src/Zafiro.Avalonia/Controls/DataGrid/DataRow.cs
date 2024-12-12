@@ -1,10 +1,11 @@
+using System.Collections;
 using Avalonia.Controls.Primitives;
 
 namespace Zafiro.Avalonia.Controls.DataGrid;
 
 public class DataRow : TemplatedControl
 {
-    public DataRow(object data, DataColumns columns)
+    public DataRow(object data, IEnumerable<DataColumn> columns)
     {
         properties = columns.Select((column, i) => new Cell(data, column, i));
     }

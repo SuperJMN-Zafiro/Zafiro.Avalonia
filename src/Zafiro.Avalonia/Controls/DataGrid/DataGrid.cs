@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.ObjectModel;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
+using DynamicData.Binding;
 
 namespace Zafiro.Avalonia.Controls.DataGrid;
 
@@ -18,9 +20,6 @@ public class DataGrid : TemplatedControl
 
     public static readonly DirectProperty<DataGrid, IEnumerable<Header>?> HeadersProperty = AvaloniaProperty.RegisterDirect<DataGrid, IEnumerable<Header>?>(
         nameof(Headers), o => o.Headers, (o, v) => o.Headers = v);
-
-    public static readonly StyledProperty<DataColumns?> DataColumnsProperty = AvaloniaProperty.Register<DataGrid, DataColumns?>(
-        nameof(DataColumns));
 
     public static readonly StyledProperty<Thickness> HeaderBorderThicknessProperty = AvaloniaProperty.Register<DataGrid, Thickness>(
         nameof(HeaderBorderThickness));
@@ -45,14 +44,17 @@ public class DataGrid : TemplatedControl
 
     public DataGrid()
     {
+        var changes = DataColumns.ObserveCollectionChanges()
+            .Select(_ => DataColumns);
+        
         this.WhenAnyValue(x => x.DataColumns)
             .WhereNotNull()
-            .Select(GetHeaders)
+            .Select(columns => GetHeaders(columns))
             .Subscribe(h => Headers = h);
 
-        this.WhenAnyValue(x => x.ItemsSource, x => x.DataColumns, (items, dataColumns) => (items, dataColumns))
-            .Where(tuple => tuple is { items: not null, dataColumns: not null })
-            .Select(tuple => GetRows(tuple.items!.Cast<object>().ToList(), tuple.dataColumns!))
+        this.WhenAnyValue(x => x.ItemsSource).WhereNotNull()
+            .CombineLatest(changes, (items, dataColumns) => (items, dataColumns))
+            .Select(tuple => GetRows(tuple.items.Cast<object>().ToList(), tuple.dataColumns))
             .Subscribe(rows => DataRows = rows);
     }
 
@@ -74,11 +76,7 @@ public class DataGrid : TemplatedControl
         private set => SetAndRaise(ColumnDefinitionsProperty, ref columnDefinitions, value);
     }
 
-    public DataColumns? DataColumns
-    {
-        get => GetValue(DataColumnsProperty);
-        set => SetValue(DataColumnsProperty, value);
-    }
+    public ObservableCollection<DataColumn> DataColumns { get; } = new();
 
     public IEnumerable<Header>? Headers
     {
@@ -116,7 +114,7 @@ public class DataGrid : TemplatedControl
         set => SetValue(HeaderPaddingProperty, value);
     }
 
-    private IEnumerable<DataRow> GetRows(IList<object> items, DataColumns columns)
+    private IEnumerable<DataRow> GetRows(IList<object> items, IEnumerable<DataColumn> columns)
     {
         return items.Select(o => new DataRow(o, columns)
         {
@@ -124,7 +122,7 @@ public class DataGrid : TemplatedControl
         });
     }
 
-    private static IEnumerable<Header> GetHeaders(DataColumns columns)
+    private static IEnumerable<Header> GetHeaders(IEnumerable<DataColumn> columns)
     {
         var cols = columns;
 
