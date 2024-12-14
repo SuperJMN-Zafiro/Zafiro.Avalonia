@@ -8,6 +8,6 @@
     </Design.PreviewWith>
 
     <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
-    <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles/DialogView.axaml" />
-    <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles/DialogViewContainer.axaml" />
+    <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Views/DialogView.axaml" />
+    <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Views/DialogViewContainer.axaml" />
 </Styles>

@@ -32,7 +32,7 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        var dialogService = new DesktopDialog(Maybe<DataTemplates>.None);
+        var dialogService = new DesktopDialog();
         // Enable if you want to force the Single Dialog Service
         //var dialogService = new SingleViewDialogService(view);
 

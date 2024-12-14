@@ -1,0 +1,19 @@
+using Zafiro.Avalonia.Commands;
+
+namespace Zafiro.Avalonia.Dialogs;
+
+public interface IOption<T, Q> : IOption
+{
+    IEnhancedCommandOf<T, Q> TypedCommand { get; }
+}
+
+public interface IOption
+{
+    string Title { get; }
+
+    IEnhancedCommand Command { get; }
+
+    bool IsDefault { get; }
+
+    bool IsCancel { get; }
+}

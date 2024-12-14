@@ -6,9 +6,9 @@ namespace Zafiro.Avalonia.Dialogs;
 public class DialogViewModel : IDialogViewModel
 {
     public object ViewModel { get; }
-    public IEnumerable<Option> Options { get; }
+    public IEnumerable<IOption> Options { get; }
 
-    public DialogViewModel(object viewModel, params Option[] options)
+    public DialogViewModel(object viewModel, params IOption[] options)
     {
         ViewModel = viewModel;
         Options = options;

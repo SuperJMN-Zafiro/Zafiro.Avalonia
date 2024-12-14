@@ -1,6 +1,8 @@
-﻿using System.Reactive.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
+using Zafiro.Avalonia.Commands;
 using Zafiro.Avalonia.Dialogs.Simple;
 
 namespace Zafiro.Avalonia.Dialogs;
@@ -8,37 +10,29 @@ namespace Zafiro.Avalonia.Dialogs;
 public static class DialogExtensions
 {
     public static Task<bool> Show(this IDialog dialogService, object viewModel, string title,
-        Func<ICloseable, Option[]> optionsFactory)
+        Func<ICloseable, IOption[]> optionsFactory)
     {
         return dialogService.Show(viewModel, title, optionsFactory);
     }
 
     public static Task Show(this IDialog dialogService, object viewModel, string title,
-        IObservable<bool> canSubmit, Maybe<Action<ConfigureSizeContext>> configureDialogAction)
+        IObservable<bool> canSubmit)
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            new Option("Cancel", ReactiveCommand.Create(closeable.Close, canSubmit), false, true),
-            new Option("OK", ReactiveCommand.Create(closeable.Close, Observable.Return(true)), true)
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canSubmit)), false, true),
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
         ]);
     }
 
-    public static Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
-        TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
-        Func<TViewModel, TResult> getResult)
-    {
-        return ShowAndGetResult(dialogService, viewModel, title, canSubmit, getResult,
-            Maybe<Action<ConfigureSizeContext>>.None);
-    }
-
     public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
-        TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
-        Func<TViewModel, TResult> getResult, Maybe<Action<ConfigureSizeContext>> configureDialogAction)
+        [DisallowNull] TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
+        Func<TViewModel, TResult> getResult)
     {
         var dialogResult = await dialogService.Show(viewModel, title, dialog =>
         [
-            new Option("Cancel", ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true)), false, true),
-            new Option("OK", ReactiveCommand.Create(dialog.Close, canSubmit(viewModel)), true)
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true))), false, true),
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Close, canSubmit(viewModel))), true)
         ]);
 
         if (dialogResult == false) return Maybe<TResult>.None;
@@ -50,11 +44,11 @@ public static class DialogExtensions
     {
         var messageDialogViewModel = new MessageDialogViewModel(text, DialogSizeCalculator.CalculateDialogWidth(text));
 
-        return dialogService.Show(messageDialogViewModel, title, closeable => new []
-        {
-            new Option("Yes", ReactiveCommand.Create(() => closeable.Close())),
-            new Option("No", ReactiveCommand.Create(() => closeable.Dismiss()))
-        });
+        return dialogService.Show(messageDialogViewModel, title, closeable =>
+        [
+            OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close()))),
+            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Dismiss())))
+        ]);
     }
 
     public static Task ShowMessage(this IDialog dialogService, string title, string text,
@@ -64,13 +58,7 @@ public static class DialogExtensions
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            new Option(dismissText, ReactiveCommand.Create(closeable.Close, Observable.Return(true)), true)
+            OptionBuilder.Create(dismissText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
         ]);
-    }
-
-    private static void ConfigureForMessage(ConfigureSizeContext context, string text)
-    {
-        context.Height = double.NaN;
-        context.Width = DialogSizeCalculator.CalculateDialogWidth(text);
     }
 }

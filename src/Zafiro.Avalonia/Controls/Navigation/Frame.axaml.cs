@@ -1,5 +1,6 @@
 using System.Reactive;
 using Avalonia.Controls.Primitives;
+using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Controls.Navigation;
 
@@ -31,5 +32,14 @@ public class Frame : TemplatedControl
         this.WhenAnyValue(x => x.Navigator.Back).Subscribe(o => Back = o);
     }
 
-    public ReactiveCommand<Unit,Unit> Back { get; set; }
+    public IEnhancedCommandOf<Unit,Unit> Back { get; set; }
+
+    public static readonly StyledProperty<bool> IsBackButtonVisibleProperty = AvaloniaProperty.Register<Frame, bool>(
+        nameof(IsBackButtonVisible));
+
+    public bool IsBackButtonVisible
+    {
+        get => GetValue(IsBackButtonVisibleProperty);
+        set => SetValue(IsBackButtonVisibleProperty, value);
+    }
 }
