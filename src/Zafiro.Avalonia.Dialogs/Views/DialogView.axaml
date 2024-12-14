@@ -1,6 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:z="clr-namespace:Zafiro.Avalonia.Dialogs">
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Dialogs"
+        xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views">
     <Design.PreviewWith>
         <z:DialogView Padding="20" DataContext="" />
     </Design.PreviewWith>
@@ -12,7 +13,7 @@
                 <DockPanel Margin="0 6 0 0" x:DataType="z:DialogViewModel" x:CompileBindings="True">
                     <DockPanel.DataTemplates>
                         <DataTemplate DataType="z:MessageDialogViewModel">
-                            <z:MessageDialogView />
+                            <views:MessageDialogView />
                         </DataTemplate>
                     </DockPanel.DataTemplates>
                     <ItemsControl Margin="0 10 0 0" HorizontalAlignment="Right" ItemsSource="{TemplateBinding Options}"

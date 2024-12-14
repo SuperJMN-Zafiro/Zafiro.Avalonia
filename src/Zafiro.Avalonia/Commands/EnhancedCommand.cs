@@ -4,46 +4,48 @@ namespace Zafiro.Avalonia.Commands;
 
 public static class EnhancedCommand
 {
-    public static EnhancedCommandOf<T, Q> Create<T, Q>(ReactiveCommandBase<T, Q> reactiveCommand)
+    public static EnhancedCommand<T, Q> Create<T, Q>(ReactiveCommandBase<T, Q> reactiveCommand)
     {
-        return new EnhancedCommandOf<T, Q>(reactiveCommand);
+        return new EnhancedCommand<T, Q>(reactiveCommand);
+    }
+}
+
+public class EnhancedCommand<TParam, TResult> : IEnhancedCommandOf<TParam, TResult>
+{
+    private readonly ICommand command;
+    private readonly ReactiveCommandBase<TParam, TResult> reactiveCommand;
+
+    public EnhancedCommand(ReactiveCommandBase<TParam, TResult> reactiveCommandBase)
+    {
+        command = reactiveCommandBase;
+        reactiveCommand = reactiveCommandBase;
     }
     
-    public class EnhancedCommandOf<T, Q> : IEnhancedCommandOf<T, Q>
+
+    bool ICommand.CanExecute(object? parameter) => command.CanExecute(parameter);
+
+    public void Execute(object? parameter) => command.Execute(parameter);
+
+    public event EventHandler? CanExecuteChanged
     {
-        private readonly ICommand command;
-        private readonly ReactiveCommandBase<T, Q> reactiveCommand;
+        add => command.CanExecuteChanged += value;
+        remove => command.CanExecuteChanged -= value;
+    }
 
-        public EnhancedCommandOf(ReactiveCommandBase<T, Q> reactiveCommandBase)
-        {
-            command = reactiveCommandBase;
-            reactiveCommand = reactiveCommandBase;
-        }
+    public IObservable<Exception> ThrownExceptions => reactiveCommand.ThrownExceptions;
 
-        public void Dispose()
-        {
-        }
+    public IObservable<bool> IsExecuting => reactiveCommand.IsExecuting;
 
-        bool ICommand.CanExecute(object? parameter) => command.CanExecute(parameter);
+    public IObservable<bool> CanExecute => ((IReactiveCommand) command).CanExecute;
 
-        public void Execute(object? parameter) => command.Execute(parameter);
+    public IDisposable Subscribe(IObserver<TResult> observer) => reactiveCommand.Subscribe(observer);
 
-        public event EventHandler? CanExecuteChanged
-        {
-            add => command.CanExecuteChanged += value;
-            remove => command.CanExecuteChanged -= value;
-        }
+    public IObservable<TResult> Execute(TParam parameter) => reactiveCommand.Execute(parameter);
 
-        public IObservable<Exception> ThrownExceptions => reactiveCommand.ThrownExceptions;
+    public IObservable<TResult> Execute() => reactiveCommand.Execute();
 
-        public IObservable<bool> IsExecuting => reactiveCommand.IsExecuting;
-
-        public IObservable<bool> CanExecute => ((IReactiveCommand) command).CanExecute;
-
-        public IDisposable Subscribe(IObserver<Q> observer) => reactiveCommand.Subscribe(observer);
-
-        public IObservable<Q> Execute(T parameter) => reactiveCommand.Execute(parameter);
-
-        public IObservable<Q> Execute() => reactiveCommand.Execute();
+    public void Dispose()
+    {
+        reactiveCommand.Dispose();
     }
 }

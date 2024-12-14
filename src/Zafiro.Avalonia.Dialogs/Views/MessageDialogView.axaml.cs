@@ -1,12 +1,11 @@
 using Avalonia.Controls;
 
-namespace Zafiro.Avalonia.Dialogs
+namespace Zafiro.Avalonia.Dialogs.Views;
+
+public partial class MessageDialogView : UserControl
 {
-    public partial class MessageDialogView : UserControl
+    public MessageDialogView()
     {
-        public MessageDialogView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

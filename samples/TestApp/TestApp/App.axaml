@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs;assembly=Zafiro.Avalonia.Dialogs"
+             xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
 
@@ -19,7 +20,7 @@
 	<Application.DataTemplates>
         <misc:NamingConventionViewLocator />
         <DataTemplate DataType="dialogs:MessageDialogViewModel">
-            <dialogs:MessageDialogView />
+            <views:MessageDialogView />
         </DataTemplate>
         <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
     </Application.DataTemplates>
