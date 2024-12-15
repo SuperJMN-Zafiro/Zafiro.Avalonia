@@ -1,0 +1,48 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Dialogs"
+        xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views">
+    <Design.PreviewWith>
+        <z:DialogView Padding="20" DataContext="" />
+    </Design.PreviewWith>
+
+    <Style Selector="z|DialogView">
+        <Setter Property="OptionsPanelHeight" Value="30" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="z:DialogView">
+                <DockPanel Margin="0 6 0 0" x:DataType="z:DialogViewModel" x:CompileBindings="True">
+                    <DockPanel.DataTemplates>
+                        <DataTemplate DataType="z:MessageDialogViewModel">
+                            <views:MessageDialogView />
+                        </DataTemplate>
+                    </DockPanel.DataTemplates>
+                    <ItemsControl Margin="0 10 0 0" HorizontalAlignment="Right" ItemsSource="{TemplateBinding Options}"
+                                  DockPanel.Dock="Bottom">
+                        <ItemsControl.ItemContainerTheme>
+                            <ControlTheme TargetType="ContentPresenter">
+                                <Setter x:DataType="z:IOption" Property="IsVisible" Value="{Binding Command.CanExecute^}" />
+                            </ControlTheme>
+                        </ItemsControl.ItemContainerTheme>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Height="{Binding $parent[z:DialogView].OptionsPanelHeight}" Orientation="Horizontal" Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="z:IOption">
+                                <Button HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{Binding Command}"
+                                        IsDefault="{Binding IsDefault}"
+                                        IsCancel="{Binding IsCancel}"
+                                        Content="{Binding Title}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ContentControl Margin="0 4" Content="{TemplateBinding Content}" />
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

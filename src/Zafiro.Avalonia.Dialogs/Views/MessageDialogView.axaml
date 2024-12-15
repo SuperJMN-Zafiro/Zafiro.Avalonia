@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Zafiro.Avalonia.Dialogs.MessageDialogView"
+             x:Class="Zafiro.Avalonia.Dialogs.Views.MessageDialogView"
              x:DataType="dialogs:MessageDialogViewModel"
              x:CompileBindings="True">
   <TextBlock TextAlignment="Center" VerticalAlignment="Center" MinWidth="400" Width="{Binding Width}" TextWrapping="Wrap" Text="{Binding Message}" />

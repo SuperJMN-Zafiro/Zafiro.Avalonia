@@ -1,5 +1,6 @@
 using System.Reactive;
 using ReactiveUI.SourceGenerators;
+using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Controls.Navigation;
 
@@ -9,7 +10,7 @@ public partial class Navigator : ReactiveObject, INavigator
     
     public Navigator()
     {
-        Back = ReactiveCommand.CreateFromTask(async () => await GoBack(), stack.Count.Select(b => b > 1));
+        Back = EnhancedCommand.Create(ReactiveCommand.CreateFromTask(async () => await GoBack(), stack.Count.Select(b => b > 1)));
     }
 
     private async Task GoBack()
@@ -19,7 +20,7 @@ public partial class Navigator : ReactiveObject, INavigator
         Content = await previous(this);
     }
 
-    public ReactiveCommand<Unit, Unit> Back { get; }
+    public IEnhancedCommandOf<Unit, Unit> Back { get; }
 
     public async Task Go(Func<INavigator, Task<object>> target)
     {

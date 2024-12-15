@@ -3,5 +3,5 @@
 public interface IDialogViewModel
 {
     object ViewModel { get; }
-    IEnumerable<Option> Options { get; }
+    IEnumerable<IOption> Options { get; }
 }

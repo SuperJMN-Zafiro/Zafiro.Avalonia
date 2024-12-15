@@ -21,11 +21,7 @@ public class ToolBarViewModel : ReactiveValidationObject
         CreateDirectory = ReactiveCommand.CreateFromTask(async () =>
         {
             var createDirectoryViewModel = new CreateDirectoryViewModel(context);
-            var result = await context.Dialog.ShowAndGetResult(createDirectoryViewModel, "Create directory", x => x.IsValid(), model => model.DirectoryName, Maybe<Action<ConfigureSizeContext>>.From(x =>
-            {
-                x.Width = 300;
-                x.Height = double.NaN;
-            }));
+            var result = await context.Dialog.ShowAndGetResult(createDirectoryViewModel, "Create directory", x => x.IsValid(), model => model.DirectoryName);
             
             return await result.Map(name => CurrentDirectory.RootedDir.Value.CreateSubdirectory(name));
         });

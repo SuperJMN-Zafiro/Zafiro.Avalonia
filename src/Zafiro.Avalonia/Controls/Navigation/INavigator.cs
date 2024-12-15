@@ -1,10 +1,11 @@
 using System.Reactive;
+using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Controls.Navigation;
 
 public interface INavigator
 {
-    ReactiveCommand<Unit, Unit> Back { get; }
+    IEnhancedCommandOf<Unit, Unit> Back { get; }
 
     object Content { get; set; }
 

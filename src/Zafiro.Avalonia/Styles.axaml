@@ -1,7 +1,7 @@
 <Styles xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns="https://github.com/avaloniaui">
-
-   <Styles.Resources>
+    
+    <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="Styles/Common.axaml" />
@@ -26,8 +26,8 @@
     <StyleInclude Source="avares://Zafiro.Avalonia/Styles/Button.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/AdaptiveControl.axaml" />
-    <StyleInclude Source="avares://Zafiro.Avalonia/Controls/WizardControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/SlimDataGrid/SlimDataGrid.axaml" />
+    <StyleInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardControl.axaml" />
 
 </Styles>

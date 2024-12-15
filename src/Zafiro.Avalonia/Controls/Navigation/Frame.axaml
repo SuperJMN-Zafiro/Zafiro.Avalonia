@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
-                    <Button Command="{Binding $parent[navigation:Frame].Navigator.Back}" DockPanel.Dock="Top">BACK</Button>
+                    <Button IsVisible="{TemplateBinding IsBackButtonVisible}" Command="{Binding $parent[navigation:Frame].Navigator.Back}" DockPanel.Dock="Top">BACK</Button>
                     <ContentControl Content="{Binding $parent[navigation:Frame].Navigator.Content}" />
                 </DockPanel>
             </ControlTemplate>

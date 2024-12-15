@@ -1,104 +1,80 @@
-﻿using System.Reactive.Linq;
+﻿using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Templates;
 using CSharpFunctionalExtensions;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Simple;
 
-public class DesktopDialogService : IDialogService
+public class DesktopDialog : IDialog
 {
-    private readonly Maybe<Action<ConfigureSizeContext>> configureWindowAction;
-
-    public DesktopDialogService(Maybe<Action<ConfigureSizeContext>> configureWindowAction)
+    public DesktopDialog(DataTemplates? dataTemplates = null, IChildSizingAlgorithm? algorithm = null)
     {
-        this.configureWindowAction = configureWindowAction;
+        DataTemplates = dataTemplates.AsMaybe();
+        Algorithm = algorithm ?? OptimalSizeAlgorithm.Instance;
     }
 
-    public async Task<Maybe<TResult>> ShowDialog<TViewModel, TResult>(TViewModel viewModel, string title, Func<TViewModel, IObservable<TResult>> results, Maybe<Action<ConfigureSizeContext>> configureWindowActionOverride, params OptionConfiguration<TViewModel, TResult>[] options) where TViewModel : UI.IResult<TResult>
+    private static Window MainWindow =>
+        ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
+
+    public Maybe<DataTemplates> DataTemplates { get; }
+    public IChildSizingAlgorithm Algorithm { get; }
+
+    public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IOption[]> optionsFactory)
     {
-        if (viewModel == null)
-        {
-            throw new ArgumentNullException(nameof(viewModel));
-        }
+        if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
         var window = new Window
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             CanResize = false,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            Icon = MainWindow.Icon,
+            Icon = MainWindow.Icon
         };
 
-        configureWindowActionOverride
-            .Or(configureWindowAction)
-            .Or(DefaultWindowConfigurator)
-            .Execute(action => ConfigureSize(action, window));
+        var closeable = new CloseableWrapper(window);
+        var options = optionsFactory(closeable);
+        var content = new DialogView
+        {
+            Content = viewModel,
+            Options = options,
+        };
 
-        window.Content = new DialogViewContainer()
+        content.DataTemplates.AddRange(GetDialogTemplates());
+
+        window.Content = new DialogViewContainer
         {
             Classes = { "Desktop" },
-            Content = new DialogView { DataContext = new DialogViewModel(viewModel, options.Select(x => new Option(x.Title, command: x.Factory(viewModel))).ToArray()) }
+            Content = content,
         };
 
-#if DEBUG        
-        window.AttachDevTools();
-#endif
+        SetWindowSize(window, content);
 
-        Maybe<TResult> result = Maybe.None;
-        results(viewModel).Take(1)
-            .ObserveOn(AvaloniaScheduler.Instance)
-            .Do(r =>
+        if (Debugger.IsAttached)
         {
-            result = Maybe.From(r);
-            window.Close();
-        }).Subscribe();
+            window.AttachDevTools();
+        }
 
-        await window.ShowDialog(MainWindow);
-
-        return result;
+        var result = await window.ShowDialog<bool?>(MainWindow).ConfigureAwait(false);
+        return result is not (null or false);
     }
 
-    private static void ConfigureSize(Action<ConfigureSizeContext> action, Window window)
+    private DataTemplates GetDialogTemplates()
     {
-        var configureSizeContext = new ConfigureSizeContext()
-        {
-            ParentBounds = window.Bounds
-        };
+        var map = Application.Current.AsMaybe().Map(Dialog.GetTemplates);
+        var templates = DataTemplates.Or(map);
+        return templates.GetValueOrDefault(new DataTemplates());
+    }
+
+    private void SetWindowSize(Window window, Control content)
+    {
+        var screenFromWindow = MainWindow.Screens.ScreenFromWindow(window)!;
+        var screenSize = new Size(screenFromWindow.Bounds.Size.Width, screenFromWindow.Bounds.Size.Height);
+        var parentWindowSize = MainWindow.Bounds.Size;
+        var size = Algorithm.GetWindowSize(content, screenSize, parentWindowSize);
         
-        action(configureSizeContext);
-        if (double.IsNaN(configureSizeContext.Width) && double.IsNaN(configureSizeContext.Height))
-        {
-            window.SizeToContent = SizeToContent.WidthAndHeight;
-        }
-
-        else if (double.IsNaN(configureSizeContext.Width))
-        {
-            window.SizeToContent = SizeToContent.Width;
-            window.Height = configureSizeContext.Height;
-        }
-
-        else if (double.IsNaN(configureSizeContext.Height))
-        {
-            window.SizeToContent = SizeToContent.Height;
-            window.Width = configureSizeContext.Width;
-        }
-        else
-        {
-            window.Height = configureSizeContext.Height;
-            window.Width = configureSizeContext.Width;
-        }
+        window.Width = size.Width;
+        window.Height = size.Height;
     }
-
-    private static Action<ConfigureSizeContext> DefaultWindowConfigurator()
-    {
-        return context =>
-        {
-            context.Width = context.ParentBounds.Width / 3;
-            context.Height = context.ParentBounds.Width / 3;
-        };
-    }
-
-    private static Window MainWindow => ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
 }

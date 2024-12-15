@@ -1,0 +1,10 @@
+<DataTemplates xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:w="clr-namespace:Zafiro.Avalonia.Controls.Wizards"
+                    x:CompileBindings="True">
+    
+    <DataTemplate DataType="w:Wizard">
+        <w:WizardControl Wizard="{Binding}" />
+    </DataTemplate>
+
+</DataTemplates>

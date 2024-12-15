@@ -52,7 +52,7 @@ public class App : Application
                 {
                     BaseAddress = new Uri("http://192.168.1.29:8888"),
                 }));
-                var dialogService = new DesktopDialog(Maybe<DataTemplates>.None);
+                var dialogService = new DesktopDialog();
                 ITransferManager transferManager = new TransferManager();
                 List<FileSystemConnection> connections = 
                 [
