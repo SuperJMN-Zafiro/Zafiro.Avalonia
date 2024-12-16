@@ -4,7 +4,7 @@ using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI;
 
-namespace TestApp.Samples.ControlsNew.Wizard.Pages;
+namespace TestApp.Samples.ControlsNew.Wizards.Pages;
 
 public partial class FirstPageViewModel : ReactiveValidationObject, IValidatable
 {

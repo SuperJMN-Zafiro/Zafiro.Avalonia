@@ -2,39 +2,34 @@ namespace Zafiro.Avalonia.Controls.Wizards.Builder;
 
 public static class WizardBuilder
 {
-    public static WizardBuilder<TOutput> StartWith<TOutput>(Func<TOutput> factory)
-        where TOutput : IValidatable
+    public static WizardBuilder<T> StartWith<T>(Func<T> start) where T : IValidatable
     {
-        var pages = new List<PageFactory>();
-        pages.Add(new PageFactory(() => factory()));
-        return new WizardBuilder<TOutput>(pages);
+        return new WizardBuilder<T>(start);
     }
 }
 
-public class WizardBuilder<TPrevious> where TPrevious : IValidatable
+public class WizardBuilder<TCurrent> where TCurrent : IValidatable
 {
-    private readonly List<PageFactory> pages;
+    private readonly List<Func<IValidatable?, IValidatable>> steps;
 
-    internal WizardBuilder(List<PageFactory> pages)
+    internal WizardBuilder(Func<TCurrent> start)
     {
-        this.pages = pages;
+        steps = new List<Func<IValidatable?, IValidatable>> { _ => start() };
     }
 
-    public WizardBuilder<TNext> Then<TNext>(Func<TPrevious, TNext> factory)
-        where TNext : IValidatable
+    private WizardBuilder(List<Func<IValidatable?, IValidatable>> steps)
     {
-        var previousPageIndex = pages.Count - 1;
-        
-        pages.Add(new PageFactory(() => {
-            var previousPage = (TPrevious)pages[previousPageIndex].GetInstance();
-            return factory(previousPage);
-        }));
-        
-        return new WizardBuilder<TNext>(pages);
+        this.steps = steps;
     }
 
-    public IList<Func<IValidatable>> Build()
+    public WizardBuilder<TNext> Then<TNext>(Func<TCurrent, TNext> factory) where TNext : IValidatable
     {
-        return pages.Select(p => new Func<IValidatable>(() => p.GetInstance())).ToList();
+        steps.Add(prev => factory((TCurrent)prev!));
+        return new WizardBuilder<TNext>(steps);
+    }
+
+    public List<Func<IValidatable?, IValidatable>> Build()
+    {
+        return steps;
     }
 }

@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI;
 
-namespace TestApp.Samples.ControlsNew.Wizard.Pages;
+namespace TestApp.Samples.ControlsNew.Wizards.Pages;
 
 public class ThirdPageViewModel : ReactiveValidationObject, IValidatable
 {

@@ -3,76 +3,76 @@ using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Controls.Wizards;
 
-public interface IWizard
-{
-    IEnhancedCommand Back { get; }
-    IEnhancedCommand Next { get; }
-    object Content { get; }
-}
-
 public partial class Wizard : ReactiveObject, IWizard
 {
-    [Reactive] private LinkedListNode<Func<IValidatable>>? currentNode;
-    private object content;
+    private readonly IList<Func<IValidatable?, IValidatable>> pageFactories;
+    private readonly IList<IValidatable?> createdPages;
+
+    [Reactive] private int currentIndex = -1;
+    private IValidatable content;
 
     public IEnhancedCommand Back { get; }
     public IEnhancedCommand Next { get; }
 
-    public object Content
+    public IValidatable Content
     {
         get => content;
         set => this.RaiseAndSetIfChanged(ref content, value);
     }
 
-    public Wizard(IList<Func<IValidatable>> pages)
+    public Wizard(List<Func<IValidatable?, IValidatable>> pages)
     {
-        LinkedList<Func<IValidatable>> list = new(pages);
+        pageFactories = pages;
+        // Al inicio, ninguna instancia está creada, así que iniciamos con null
+        createdPages = pages.Select(_ => (IValidatable?)null).ToList();
 
-        // Observa si hay siguiente página
-        var hasNext = this.WhenAnyValue(x => x.CurrentNode)
-                          .Select(node => node == null ? list.First : node.Next)
-                          .Select(next => next != null);
+        // Para saber si hay siguiente página: CurrentIndex < pages.Count - 1
+        var hasNext = this.WhenAnyValue(x => x.CurrentIndex)
+            .Select(i => i < pages.Count - 1);
 
-        // Observa la validez del contenido actual
+        // Validez del contenido actual
         var isValid = this.WhenAnyValue(x => x.Content)
-                          .WhereNotNull()
-                          .Cast<IValidatable>()
-                          .Select(x => x.IsValid)
-                          .Switch()
-                          .StartWith(false);
+            .WhereNotNull()
+            .Select(x => x.IsValid)
+            .Switch()
+            .StartWith(false);
 
+        // Podemos ir al siguiente si existe un paso más y si el actual es válido
         var canGoNext = hasNext.CombineLatest(isValid, (h, v) => h && v);
 
         var nextCommand = ReactiveCommand.Create(() =>
         {
-            if (CurrentNode == null)
+            // Avanzamos el índice
+            CurrentIndex++;
+
+            if (createdPages[CurrentIndex] == null)
             {
-                CurrentNode = list.First;
-            }
-            else
-            {
-                CurrentNode = CurrentNode.Next;
+                // Obtenemos la página anterior (si existe)
+                var previousPage = CurrentIndex > 0 ? createdPages[CurrentIndex - 1] : null;
+                // Creamos la nueva página pasando la anterior
+                createdPages[CurrentIndex] = pageFactories[CurrentIndex](previousPage);
             }
 
-            var page = CurrentNode!.Value();
-            Content = page;
+            Content = createdPages[CurrentIndex]!;
         }, canGoNext);
+
+        // Podemos volver atrás si currentIndex > 0
+        var canGoBack = this.WhenAnyValue(x => x.CurrentIndex)
+            .Select(i => i > 0);
 
         var backCommand = ReactiveCommand.Create(() =>
         {
-            if (CurrentNode?.Previous != null)
-            {
-                CurrentNode = CurrentNode.Previous;
-                var page = CurrentNode.Value();
-                Content = page;
-            }
-        }, this.WhenAnyValue(x => x.CurrentNode)
-          .Select(node => node?.Previous != null));
+            createdPages[CurrentIndex] = null;
+            
+            CurrentIndex--;
+            // La instancia ya existe, así que la reutilizamos
+            Content = createdPages[CurrentIndex]!;
+        }, canGoBack);
 
         Back = EnhancedCommand.Create(backCommand);
         Next = EnhancedCommand.Create(nextCommand);
 
-        // Ejecuta Next para cargar la primera página
+        // Forzamos la carga de la primera página
         nextCommand.Execute().Subscribe();
     }
 }

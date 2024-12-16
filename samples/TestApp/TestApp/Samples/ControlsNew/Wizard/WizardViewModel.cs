@@ -1,14 +1,18 @@
 using System.Reactive;
 using ReactiveUI;
-using TestApp.Samples.ControlsNew.Wizard.Pages;
+using TestApp.Samples.ControlsNew.Wizards.Pages;
 using Zafiro.Avalonia.Commands;
+using Zafiro.Avalonia.Controls.Wizards;
 using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Simple;
-using FirstPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.FirstPageViewModel;
-using SecondPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.SecondPageViewModel;
+using FirstPageViewModel = TestApp.Samples.ControlsNew.Wizards.Pages.FirstPageViewModel;
+using SecondPageViewModel = TestApp.Samples.ControlsNew.Wizards.Pages.SecondPageViewModel;
 
-namespace TestApp.Samples.ControlsNew.Wizard;
+namespace TestApp.Samples.ControlsNew.Wizards;
+
+using FirstPageViewModel = Pages.FirstPageViewModel;
+using SecondPageViewModel = Pages.SecondPageViewModel;
 
 public class WizardViewModel : ReactiveObject
 {
@@ -22,7 +26,7 @@ public class WizardViewModel : ReactiveObject
                 .Then(second => new ThirdPageViewModel())
                 .Build();
             
-            var wizard = new Zafiro.Avalonia.Controls.Wizards.Wizard(pages);
+            var wizard = new Wizard(pages);
 
             return dialog.Show(wizard, "Welcome to Avalonia!", closeable =>
             [
