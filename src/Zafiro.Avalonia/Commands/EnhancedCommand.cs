@@ -20,7 +20,6 @@ public class EnhancedCommand<TParam, TResult> : IEnhancedCommand<TParam, TResult
         command = reactiveCommandBase;
         reactiveCommand = reactiveCommandBase;
     }
-    
 
     bool ICommand.CanExecute(object? parameter) => command.CanExecute(parameter);
 

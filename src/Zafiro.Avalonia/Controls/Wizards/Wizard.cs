@@ -1,16 +1,12 @@
-using System.Reactive;
-using System.Windows.Input;
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Commands;
-using Zafiro.Avalonia.Controls.Navigation;
-using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.Wizards;
 
 public interface IWizard
 {
-    IEnhancedCommand<Unit, Unit> Back { get; }
-    IEnhancedCommand<Unit, Unit> Next { get; }
+    IEnhancedCommand Back { get; }
+    IEnhancedCommand Next { get; }
     object Content { get; }
 }
 
@@ -19,8 +15,8 @@ public partial class Wizard : ReactiveObject, IWizard
     [Reactive] private LinkedListNode<Func<IValidatable>>? currentNode;
     private object content;
 
-    public IEnhancedCommand<Unit, Unit> Back { get; }
-    public IEnhancedCommand<Unit, Unit> Next { get; }
+    public IEnhancedCommand Back { get; }
+    public IEnhancedCommand Next { get; }
 
     public object Content
     {

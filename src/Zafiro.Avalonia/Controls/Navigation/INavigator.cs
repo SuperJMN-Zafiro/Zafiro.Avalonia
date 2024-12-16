@@ -5,7 +5,7 @@ namespace Zafiro.Avalonia.Controls.Navigation;
 
 public interface INavigator
 {
-    IEnhancedCommand<Unit, Unit> Back { get; }
+    IEnhancedCommand Back { get; }
 
     object Content { get; set; }
 

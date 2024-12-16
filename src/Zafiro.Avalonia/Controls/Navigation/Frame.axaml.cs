@@ -32,7 +32,7 @@ public class Frame : TemplatedControl
         this.WhenAnyValue(x => x.Navigator.Back).Subscribe(o => Back = o);
     }
 
-    public IEnhancedCommand<Unit,Unit> Back { get; set; }
+    public IEnhancedCommand Back { get; set; }
 
     public static readonly StyledProperty<bool> IsBackButtonVisibleProperty = AvaloniaProperty.Register<Frame, bool>(
         nameof(IsBackButtonVisible));

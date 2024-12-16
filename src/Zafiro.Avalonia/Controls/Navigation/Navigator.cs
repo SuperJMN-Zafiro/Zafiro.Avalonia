@@ -20,7 +20,7 @@ public partial class Navigator : ReactiveObject, INavigator
         Content = await previous(this);
     }
 
-    public IEnhancedCommand<Unit, Unit> Back { get; }
+    public IEnhancedCommand Back { get; }
 
     public async Task Go(Func<INavigator, Task<object>> target)
     {
