@@ -38,19 +38,3 @@ public class WizardBuilder<TPrevious> where TPrevious : IValidatable
         return pages.Select(p => new Func<IValidatable>(() => p.GetInstance())).ToList();
     }
 }
-
-internal class PageFactory
-{
-    private readonly Func<IValidatable> factory;
-    private IValidatable? instance;
-
-    public PageFactory(Func<IValidatable> factory)
-    {
-        this.factory = factory;
-    }
-
-    public IValidatable GetInstance()
-    {
-        return instance ??= factory();
-    }
-}

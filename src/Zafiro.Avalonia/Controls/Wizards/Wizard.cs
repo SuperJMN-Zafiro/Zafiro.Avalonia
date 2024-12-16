@@ -9,8 +9,8 @@ namespace Zafiro.Avalonia.Controls.Wizards;
 
 public interface IWizard
 {
-    IEnhancedCommandOf<Unit, Unit> Back { get; }
-    IEnhancedCommandOf<Unit, Unit> Next { get; }
+    IEnhancedCommand<Unit, Unit> Back { get; }
+    IEnhancedCommand<Unit, Unit> Next { get; }
     object Content { get; }
 }
 
@@ -19,8 +19,8 @@ public partial class Wizard : ReactiveObject, IWizard
     [Reactive] private LinkedListNode<Func<IValidatable>>? currentNode;
     private object content;
 
-    public IEnhancedCommandOf<Unit, Unit> Back { get; }
-    public IEnhancedCommandOf<Unit, Unit> Next { get; }
+    public IEnhancedCommand<Unit, Unit> Back { get; }
+    public IEnhancedCommand<Unit, Unit> Next { get; }
 
     public object Content
     {

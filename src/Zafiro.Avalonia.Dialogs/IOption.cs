@@ -4,7 +4,7 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public interface IOption<T, Q> : IOption
 {
-    IEnhancedCommandOf<T, Q> TypedCommand { get; }
+    IEnhancedCommand<T, Q> TypedCommand { get; }
 }
 
 public interface IOption
