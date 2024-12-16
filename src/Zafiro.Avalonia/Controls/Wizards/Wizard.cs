@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Windows.Input;
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Commands;
 using Zafiro.Avalonia.Controls.Navigation;
@@ -6,22 +7,47 @@ using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.Wizards;
 
-public partial class Wizard : ReactiveObject
+public interface IWizard
 {
-    public INavigator Navigator { get; }
+    IEnhancedCommandOf<Unit, Unit> Back { get; }
+    IEnhancedCommandOf<Unit, Unit> Next { get; }
+    object Content { get; }
+}
+
+public partial class Wizard : ReactiveObject, IWizard
+{
+    [Reactive] private LinkedListNode<Func<IValidatable>>? currentNode;
+    private object content;
+
+    public IEnhancedCommandOf<Unit, Unit> Back { get; }
     public IEnhancedCommandOf<Unit, Unit> Next { get; }
 
-    public Wizard(IList<Func<IValidatable>> pages, INavigator navigator)
+    public object Content
     {
-        Navigator = navigator;
+        get => content;
+        set => this.RaiseAndSetIfChanged(ref content, value);
+    }
+
+    public Wizard(IList<Func<IValidatable>> pages)
+    {
         LinkedList<Func<IValidatable>> list = new(pages);
 
-        var hasNext = this.WhenAnyValue<Wizard, LinkedListNode<Func<IValidatable>>?>(x => x.CurrentNode.Next).NotNull();
-        var isValid = this.WhenAnyValue(x => x.Navigator.Content).WhereNotNull().Cast<IValidatable>().Select(x => x.IsValid).Switch();
-        
-        var canGoNext = hasNext.CombineLatest(isValid, (a, b) => a && b);
+        // Observa si hay siguiente página
+        var hasNext = this.WhenAnyValue(x => x.CurrentNode)
+                          .Select(node => node == null ? list.First : node.Next)
+                          .Select(next => next != null);
 
-        var reactiveCommand = ReactiveCommand.Create(() =>
+        // Observa la validez del contenido actual
+        var isValid = this.WhenAnyValue(x => x.Content)
+                          .WhereNotNull()
+                          .Cast<IValidatable>()
+                          .Select(x => x.IsValid)
+                          .Switch()
+                          .StartWith(false);
+
+        var canGoNext = hasNext.CombineLatest(isValid, (h, v) => h && v);
+
+        var nextCommand = ReactiveCommand.Create(() =>
         {
             if (CurrentNode == null)
             {
@@ -31,22 +57,26 @@ public partial class Wizard : ReactiveObject
             {
                 CurrentNode = CurrentNode.Next;
             }
-            
-            navigator.Go(CurrentNode!.Value);
-            
+
+            var page = CurrentNode!.Value();
+            Content = page;
         }, canGoNext);
 
-        Next = EnhancedCommand.Create(reactiveCommand);
-        navigator.Back.Subscribe(_ => CurrentNode = CurrentNode!.Previous);
+        var backCommand = ReactiveCommand.Create(() =>
+        {
+            if (CurrentNode?.Previous != null)
+            {
+                CurrentNode = CurrentNode.Previous;
+                var page = CurrentNode.Value();
+                Content = page;
+            }
+        }, this.WhenAnyValue(x => x.CurrentNode)
+          .Select(node => node?.Previous != null));
 
-        reactiveCommand.Execute().Subscribe();
-        IsLastPage = this.WhenAnyValue<Wizard, LinkedListNode<Func<IValidatable>>?>(x => x.CurrentNode).Select(x => x == list.Last);
-        Back = navigator.Back;
+        Back = EnhancedCommand.Create(backCommand);
+        Next = EnhancedCommand.Create(nextCommand);
+
+        // Ejecuta Next para cargar la primera página
+        nextCommand.Execute().Subscribe();
     }
-
-    public IEnhancedCommandOf<Unit, Unit> Back { get; }
-
-    public IObservable<bool> IsLastPage { get; }
-
-    [Reactive] private LinkedListNode<Func<IValidatable>>? currentNode;
 }

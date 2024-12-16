@@ -6,6 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.ControlsNew.Wizard.Pages.SecondPageView" x:DataType="pages:SecondPageViewModel">
     <StackPanel VerticalAlignment="Center">
+        <TextBlock Text="{Binding Number, StringFormat=You selected {0:0} in the previous step}" />
         <TextBlock VerticalAlignment="Center">Mark the check before moving next</TextBlock>
         <CheckBox IsChecked="{Binding IsChecked}"></CheckBox>
     </StackPanel>

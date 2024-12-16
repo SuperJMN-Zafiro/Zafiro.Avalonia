@@ -8,12 +8,15 @@ namespace TestApp.Samples.ControlsNew.Wizard.Pages;
 
 public partial class SecondPageViewModel : ReactiveValidationObject, IValidatable
 {
+    public int Number { get;  }
+    
     public IObservable<bool> IsValid => this.IsValid();
     
     [Reactive] private bool isChecked;
 
-    public SecondPageViewModel()
+    public SecondPageViewModel(int number)
     {
-        this.ValidationRule<SecondPageViewModel, bool>(x => x.IsChecked, b => b, "Is must be checked");
+        Number = number;
+        this.ValidationRule(x => x.IsChecked, b => b, "Is must be checked");
     }
 }

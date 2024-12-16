@@ -8,4 +8,9 @@ namespace TestApp.Samples.ControlsNew.Wizard.Pages;
 public class ThirdPageViewModel : ReactiveValidationObject, IValidatable
 {
     public IObservable<bool> IsValid { get; } = Observable.Return(true);
+
+    public ThirdPageViewModel()
+    {
+        
+    }
 }
