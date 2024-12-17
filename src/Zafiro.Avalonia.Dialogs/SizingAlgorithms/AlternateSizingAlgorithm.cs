@@ -5,8 +5,6 @@ namespace Zafiro.Avalonia.Dialogs.Simple;
 
 public class AlternateSizingAlgorithm : IChildSizingAlgorithm
 {
-    public static AlternateSizingAlgorithm Instance { get; } = new AlternateSizingAlgorithm();
-
     // Tamaño mínimo absoluto (nunca más pequeño que esto)
     private const double AbsoluteMinimumWidth = 400;
     private const double AbsoluteMinimumHeight = 300;
@@ -15,20 +13,21 @@ public class AlternateSizingAlgorithm : IChildSizingAlgorithm
     private const double MinimumParentWindowPercentage = 0.3;
 
     // Porcentajes máximos
-    private const double MaximumScreenPercentage = 0.95;
-    private const double PreferredParentWindowPercentage = 0.85;
+    private const double MaximumScreenPercentage = 0.85;
+    private const double PreferredParentWindowPercentage = 0.5;
 
     // Escala de contenido y margen
     private const double ContentScaleFactor = 1.3;
     private const double ContentPadding = 40;
+    public static AlternateSizingAlgorithm Instance { get; } = new();
 
     public Size GetWindowSize(
         Control content,
         Size? screenSize = null,
         Size? parentWindowSize = null)
     {
-        double maxWidth = double.PositiveInfinity;
-        double maxHeight = double.PositiveInfinity;
+        var maxWidth = double.PositiveInfinity;
+        var maxHeight = double.PositiveInfinity;
 
         // Limitar al tamaño de la pantalla
         if (screenSize.HasValue)
@@ -45,8 +44,8 @@ public class AlternateSizingAlgorithm : IChildSizingAlgorithm
         }
 
         // Calcular tamaños mínimos dinámicos basados en el tamaño de la ventana padre
-        double minimumWidth = AbsoluteMinimumWidth;
-        double minimumHeight = AbsoluteMinimumHeight;
+        var minimumWidth = AbsoluteMinimumWidth;
+        var minimumHeight = AbsoluteMinimumHeight;
         if (parentWindowSize.HasValue)
         {
             minimumWidth = Math.Max(minimumWidth, parentWindowSize.Value.Width * MinimumParentWindowPercentage);
@@ -58,8 +57,8 @@ public class AlternateSizingAlgorithm : IChildSizingAlgorithm
         var desiredSize = content.DesiredSize;
 
         // Escalar el tamaño base
-        double finalWidth = Math.Max(desiredSize.Width * ContentScaleFactor + ContentPadding * 2, minimumWidth);
-        double finalHeight = Math.Max(desiredSize.Height * ContentScaleFactor + ContentPadding * 2, minimumHeight);
+        var finalWidth = Math.Max(desiredSize.Width * ContentScaleFactor + ContentPadding * 2, minimumWidth);
+        var finalHeight = Math.Max(desiredSize.Height * ContentScaleFactor + ContentPadding * 2, minimumHeight);
 
         // Aplicar restricciones máximas
         finalWidth = Math.Min(finalWidth, maxWidth);

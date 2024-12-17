@@ -31,6 +31,23 @@ public class CircularProgressBar : TemplatedControl
     public CircularProgressBar()
     {
         this.WhenAnyValue(x => x.Bounds).Select(x => Math.Min(x.Height, x.Width)).BindTo(this, x => x.Size);
+        this.WhenAnyValue(x => x.Value, x => x.Maximum, x => x.Minimum, (v, max, min) =>
+        {
+            var range = max - min;
+            var max1 = v / range;
+            return max1;
+        }).BindTo(this, x => x.Proportion);
+    }
+
+    private double proportion;
+
+    public static readonly DirectProperty<CircularProgressBar, double> ProportionProperty = AvaloniaProperty.RegisterDirect<CircularProgressBar, double>(
+        nameof(Proportion), o => o.Proportion, (o, v) => o.Proportion = v);
+
+    public double Proportion
+    {
+        get => proportion;
+        set => SetAndRaise(ProportionProperty, ref proportion, value);
     }
 
     public Easing AnimationEasing
