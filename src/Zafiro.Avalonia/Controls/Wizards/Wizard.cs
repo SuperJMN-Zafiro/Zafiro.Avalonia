@@ -1,52 +1,78 @@
-using System.Reactive;
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Commands;
-using Zafiro.Avalonia.Controls.Navigation;
-using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.Wizards;
 
-public partial class Wizard : ReactiveObject
+public partial class Wizard : ReactiveObject, IWizard
 {
-    public INavigator Navigator { get; }
-    public IEnhancedCommandOf<Unit, Unit> Next { get; }
+    private readonly IList<Func<IValidatable?, IValidatable>> pageFactories;
+    private readonly IList<IValidatable?> createdPages;
 
-    public Wizard(IList<Func<IValidatable>> pages, INavigator navigator)
+    [Reactive] private int currentIndex = -1;
+    private IValidatable content;
+
+    public IEnhancedCommand Back { get; }
+    public IEnhancedCommand Next { get; }
+
+    public IValidatable Content
     {
-        Navigator = navigator;
-        LinkedList<Func<IValidatable>> list = new(pages);
-
-        var hasNext = this.WhenAnyValue<Wizard, LinkedListNode<Func<IValidatable>>?>(x => x.CurrentNode.Next).NotNull();
-        var isValid = this.WhenAnyValue(x => x.Navigator.Content).WhereNotNull().Cast<IValidatable>().Select(x => x.IsValid).Switch();
-        
-        var canGoNext = hasNext.CombineLatest(isValid, (a, b) => a && b);
-
-        var reactiveCommand = ReactiveCommand.Create(() =>
-        {
-            if (CurrentNode == null)
-            {
-                CurrentNode = list.First;
-            }
-            else
-            {
-                CurrentNode = CurrentNode.Next;
-            }
-            
-            navigator.Go(CurrentNode!.Value);
-            
-        }, canGoNext);
-
-        Next = EnhancedCommand.Create(reactiveCommand);
-        navigator.Back.Subscribe(_ => CurrentNode = CurrentNode!.Previous);
-
-        reactiveCommand.Execute().Subscribe();
-        IsLastPage = this.WhenAnyValue<Wizard, LinkedListNode<Func<IValidatable>>?>(x => x.CurrentNode).Select(x => x == list.Last);
-        Back = navigator.Back;
+        get => content;
+        set => this.RaiseAndSetIfChanged(ref content, value);
     }
 
-    public IEnhancedCommandOf<Unit, Unit> Back { get; }
+    public Wizard(List<Func<IValidatable?, IValidatable>> pages)
+    {
+        pageFactories = pages;
+        // Al inicio, ninguna instancia está creada, así que iniciamos con null
+        createdPages = pages.Select(_ => (IValidatable?)null).ToList();
 
-    public IObservable<bool> IsLastPage { get; }
+        // Para saber si hay siguiente página: CurrentIndex < pages.Count - 1
+        var hasNext = this.WhenAnyValue(x => x.CurrentIndex)
+            .Select(i => i < pages.Count - 1);
 
-    [Reactive] private LinkedListNode<Func<IValidatable>>? currentNode;
+        // Validez del contenido actual
+        var isValid = this.WhenAnyValue(x => x.Content)
+            .WhereNotNull()
+            .Select(x => x.IsValid)
+            .Switch()
+            .StartWith(false);
+
+        // Podemos ir al siguiente si existe un paso más y si el actual es válido
+        var canGoNext = hasNext.CombineLatest(isValid, (h, v) => h && v);
+
+        var nextCommand = ReactiveCommand.Create(() =>
+        {
+            // Avanzamos el índice
+            CurrentIndex++;
+
+            if (createdPages[CurrentIndex] == null)
+            {
+                // Obtenemos la página anterior (si existe)
+                var previousPage = CurrentIndex > 0 ? createdPages[CurrentIndex - 1] : null;
+                // Creamos la nueva página pasando la anterior
+                createdPages[CurrentIndex] = pageFactories[CurrentIndex](previousPage);
+            }
+
+            Content = createdPages[CurrentIndex]!;
+        }, canGoNext);
+
+        // Podemos volver atrás si currentIndex > 0
+        var canGoBack = this.WhenAnyValue(x => x.CurrentIndex)
+            .Select(i => i > 0);
+
+        var backCommand = ReactiveCommand.Create(() =>
+        {
+            createdPages[CurrentIndex] = null;
+            
+            CurrentIndex--;
+            // La instancia ya existe, así que la reutilizamos
+            Content = createdPages[CurrentIndex]!;
+        }, canGoBack);
+
+        Back = EnhancedCommand.Create(backCommand);
+        Next = EnhancedCommand.Create(nextCommand);
+
+        // Forzamos la carga de la primera página
+        nextCommand.Execute().Subscribe();
+    }
 }

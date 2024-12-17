@@ -2,13 +2,13 @@ using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class Option<T, Q>(string title, IEnhancedCommandOf<T, Q> command, bool isDefault = false, bool isCancel = false) : IOption<T, Q>
+public class Option<T, Q>(string title, IEnhancedCommand<T, Q> command, bool isDefault = false, bool isCancel = false) : IOption<T, Q>
 {
     public string Title => title;
     public IEnhancedCommand Command => command;
     public bool IsDefault => isDefault;
     public bool IsCancel => isCancel;
-    public IEnhancedCommandOf<T, Q> TypedCommand => command;
+    public IEnhancedCommand<T, Q> TypedCommand => command;
 }
 
 public class Option : IOption

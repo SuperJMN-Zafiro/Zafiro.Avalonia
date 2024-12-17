@@ -3,7 +3,7 @@
                     xmlns:w="clr-namespace:Zafiro.Avalonia.Controls.Wizards"
                     x:CompileBindings="True">
     
-    <DataTemplate DataType="w:Wizard">
+    <DataTemplate DataType="w:IWizard">
         <w:WizardControl Wizard="{Binding}" />
     </DataTemplate>
 

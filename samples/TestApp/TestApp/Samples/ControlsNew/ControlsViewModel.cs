@@ -2,7 +2,7 @@
 using CSharpFunctionalExtensions;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
-using TestApp.Samples.ControlsNew.Wizard;
+using TestApp.Samples.ControlsNew.Wizards;
 using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.UI;
 

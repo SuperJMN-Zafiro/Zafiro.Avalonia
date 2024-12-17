@@ -10,7 +10,7 @@
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <z:Frame IsBackButtonVisible="False" Navigator="{Binding $parent[wizards:WizardControl].Wizard.Navigator}" />
+                <ContentControl Content="{Binding $parent[wizards:WizardControl].Wizard.Content}" />
             </ControlTemplate>
         </Setter>
     </Style>

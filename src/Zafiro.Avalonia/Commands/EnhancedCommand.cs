@@ -10,7 +10,7 @@ public static class EnhancedCommand
     }
 }
 
-public class EnhancedCommand<TParam, TResult> : IEnhancedCommandOf<TParam, TResult>
+public class EnhancedCommand<TParam, TResult> : IEnhancedCommand<TParam, TResult>
 {
     private readonly ICommand command;
     private readonly ReactiveCommandBase<TParam, TResult> reactiveCommand;
@@ -20,7 +20,6 @@ public class EnhancedCommand<TParam, TResult> : IEnhancedCommandOf<TParam, TResu
         command = reactiveCommandBase;
         reactiveCommand = reactiveCommandBase;
     }
-    
 
     bool ICommand.CanExecute(object? parameter) => command.CanExecute(parameter);
 

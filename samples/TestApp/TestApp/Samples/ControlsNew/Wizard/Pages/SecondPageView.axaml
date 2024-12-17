@@ -2,10 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pages="clr-namespace:TestApp.Samples.ControlsNew.Wizard.Pages"
+             xmlns:pages="clr-namespace:TestApp.Samples.ControlsNew.Wizards.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TestApp.Samples.ControlsNew.Wizard.Pages.SecondPageView" x:DataType="pages:SecondPageViewModel">
+             x:Class="TestApp.Samples.ControlsNew.Wizards.Pages.SecondPageView" x:DataType="pages:SecondPageViewModel">
     <StackPanel VerticalAlignment="Center">
+        <TextBlock Text="{Binding Number, StringFormat=You selected {0:0} in the previous step}" />
         <TextBlock VerticalAlignment="Center">Mark the check before moving next</TextBlock>
         <CheckBox IsChecked="{Binding IsChecked}"></CheckBox>
     </StackPanel>
