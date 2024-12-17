@@ -28,8 +28,8 @@ public class WizardBuilder<TCurrent> where TCurrent : IValidatable
         return new WizardBuilder<TNext>(steps);
     }
 
-    public List<Func<IValidatable?, IValidatable>> Build()
+    public Wizard Build()
     {
-        return steps;
+        return new Wizard(steps);
     }
 }

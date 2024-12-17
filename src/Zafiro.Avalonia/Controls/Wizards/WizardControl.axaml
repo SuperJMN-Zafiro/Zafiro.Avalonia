@@ -1,13 +1,11 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia"
         xmlns:wizards="clr-namespace:Zafiro.Avalonia.Controls.Wizards">
     <Design.PreviewWith>
         <wizards:WizardControl />
     </Design.PreviewWith>
 
     <Style Selector="wizards|WizardControl">
-        <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
                 <ContentControl Content="{Binding $parent[wizards:WizardControl].Wizard.Content}" />

@@ -1,5 +1,6 @@
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Commands;
+using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.Wizards;
 
@@ -20,6 +21,8 @@ public partial class Wizard : ReactiveObject, IWizard
         set => this.RaiseAndSetIfChanged(ref content, value);
     }
 
+    public IObservable<bool> IsLastPage { get; }
+
     public Wizard(List<Func<IValidatable?, IValidatable>> pages)
     {
         pageFactories = pages;
@@ -39,6 +42,8 @@ public partial class Wizard : ReactiveObject, IWizard
 
         // Podemos ir al siguiente si existe un paso más y si el actual es válido
         var canGoNext = hasNext.CombineLatest(isValid, (h, v) => h && v);
+        
+        IsLastPage = hasNext.Not();
 
         var nextCommand = ReactiveCommand.Create(() =>
         {
