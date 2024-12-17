@@ -8,7 +8,6 @@ using TestApp.Samples.Drag;
 using TestApp.Samples.MasterDetails;
 using TestApp.Samples.StringEditor;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.UI;
 
 namespace TestApp.ViewModels;

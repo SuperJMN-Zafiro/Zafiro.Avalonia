@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Commands;
-using Zafiro.Avalonia.Dialogs.Simple;
+using Zafiro.Avalonia.Dialogs.SizingAlgorithms;
 
 namespace Zafiro.Avalonia.Dialogs;
 

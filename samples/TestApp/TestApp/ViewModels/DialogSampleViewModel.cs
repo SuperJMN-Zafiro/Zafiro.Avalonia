@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Dialogs.Simple;
 
 namespace TestApp.ViewModels;
 

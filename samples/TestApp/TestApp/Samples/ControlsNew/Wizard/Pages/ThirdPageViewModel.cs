@@ -1,16 +1,15 @@
 using System;
 using System.Reactive.Linq;
 using ReactiveUI.Validation.Helpers;
+using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.UI;
 
-namespace TestApp.Samples.ControlsNew.Wizards.Pages;
+namespace TestApp.Samples.ControlsNew.Wizard.Pages;
 
-public class ThirdPageViewModel : ReactiveValidationObject, IValidatable
+public class ThirdPageViewModel : ReactiveValidationObject, IStep
 {
     public IObservable<bool> IsValid { get; } = Observable.Return(true);
 
-    public ThirdPageViewModel()
-    {
-        
-    }
+    public IObservable<bool> IsBusy => Observable.Return(false);
+    public bool AutoAdvance => false;
 }

@@ -1,18 +1,15 @@
 using System.Reactive;
 using ReactiveUI;
-using TestApp.Samples.ControlsNew.Wizards.Pages;
-using Zafiro.Avalonia.Commands;
-using Zafiro.Avalonia.Controls.Wizards;
+using TestApp.Samples.ControlsNew.Wizard.Pages;
 using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Dialogs.Simple;
-using FirstPageViewModel = TestApp.Samples.ControlsNew.Wizards.Pages.FirstPageViewModel;
-using SecondPageViewModel = TestApp.Samples.ControlsNew.Wizards.Pages.SecondPageViewModel;
+using FirstPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.FirstPageViewModel;
+using SecondPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.SecondPageViewModel;
 
-namespace TestApp.Samples.ControlsNew.Wizards;
+namespace TestApp.Samples.ControlsNew.Wizard;
 
-using FirstPageViewModel = Pages.FirstPageViewModel;
-using SecondPageViewModel = Pages.SecondPageViewModel;
+using FirstPageViewModel = FirstPageViewModel;
+using SecondPageViewModel = SecondPageViewModel;
 
 public class WizardViewModel : ReactiveObject
 {
@@ -26,12 +23,7 @@ public class WizardViewModel : ReactiveObject
                 .Then(second => new ThirdPageViewModel())
                 .Build();
             
-            return dialog.Show(wizard, "Welcome to Avalonia!", closeable =>
-            [
-                OptionBuilder.Create("Back", wizard.Back),
-                OptionBuilder.Create("Next", wizard.Next),
-                OptionBuilder.Create("Close", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, wizard.IsLastPage)))
-            ]);
+            return dialog.Show(wizard, "Welcome to Avalonia!", closeable => wizard.OptionsForCloseable(closeable));
         });
     }
 

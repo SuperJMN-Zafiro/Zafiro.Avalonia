@@ -4,8 +4,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using CSharpFunctionalExtensions;
+using Zafiro.Avalonia.Dialogs.SizingAlgorithms;
 
-namespace Zafiro.Avalonia.Dialogs.Simple;
+namespace Zafiro.Avalonia.Dialogs;
 
 public class DesktopDialog : IDialog
 {
@@ -21,7 +22,7 @@ public class DesktopDialog : IDialog
     public Maybe<DataTemplates> DataTemplates { get; }
     public IChildSizingAlgorithm Algorithm { get; }
 
-    public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IOption[]> optionsFactory)
+    public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
     {
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 

@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
-using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.UI;
 
 namespace Zafiro.Avalonia.Dialogs;

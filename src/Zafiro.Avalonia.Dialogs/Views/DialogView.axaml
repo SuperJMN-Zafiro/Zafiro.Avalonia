@@ -20,12 +20,12 @@
                                   DockPanel.Dock="Bottom">
                         <ItemsControl.ItemContainerTheme>
                             <ControlTheme TargetType="ContentPresenter">
-                                <Setter x:DataType="z:IOption" Property="IsVisible" Value="{Binding Command.CanExecute^}" />
+                                <Setter x:DataType="z:IOption" Property="IsVisible" Value="{Binding IsVisible^}" />
                             </ControlTheme>
                         </ItemsControl.ItemContainerTheme>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Height="{Binding $parent[z:DialogView].OptionsPanelHeight}" Orientation="Horizontal" Spacing="8" />
+                                <StackPanel Orientation="Horizontal" Spacing="8" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>

@@ -3,7 +3,6 @@ using System.Reactive.Linq;
 using DynamicData;
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.Avalonia.FileExplorer.Core.Clipboard;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;
 using Zafiro.Avalonia.FileExplorer.Core.Navigator;

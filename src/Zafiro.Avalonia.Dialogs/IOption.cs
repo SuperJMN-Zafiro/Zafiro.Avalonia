@@ -16,4 +16,5 @@ public interface IOption
     bool IsDefault { get; }
 
     bool IsCancel { get; }
+    public IObservable<bool> IsVisible { get; }
 }

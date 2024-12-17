@@ -6,7 +6,6 @@ using CSharpFunctionalExtensions;
 using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;

@@ -1,14 +1,10 @@
-using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
-using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
-using CSharpFunctionalExtensions;
 using TestApp.ViewModels;
 using TestApp.Views;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Dialogs.Simple;
 using Zafiro.Avalonia.Mixins;
 using Zafiro.Avalonia.Notifications;
 using Zafiro.Avalonia.Storage;

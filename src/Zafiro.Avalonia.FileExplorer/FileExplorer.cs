@@ -1,4 +1,4 @@
-using Zafiro.Avalonia.Dialogs.Simple;
+using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.Clipboard;
 using Zafiro.Avalonia.FileExplorer.Core.DirectoryContent;

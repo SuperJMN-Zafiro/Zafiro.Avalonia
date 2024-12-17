@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Zafiro.Avalonia.Dialogs.Simple;
+using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.FileExplorer;
 using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.Clipboard;

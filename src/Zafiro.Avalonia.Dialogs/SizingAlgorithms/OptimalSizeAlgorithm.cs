@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 
-namespace Zafiro.Avalonia.Dialogs.Simple;
+namespace Zafiro.Avalonia.Dialogs.SizingAlgorithms;
 
 public class OptimalSizeAlgorithm : IChildSizingAlgorithm
 {

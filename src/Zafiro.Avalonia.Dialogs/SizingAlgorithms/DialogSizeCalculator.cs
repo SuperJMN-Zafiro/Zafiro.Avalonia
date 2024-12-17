@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.Dialogs;
+﻿namespace Zafiro.Avalonia.Dialogs.SizingAlgorithms;
 
 public static class DialogSizeCalculator
 {
