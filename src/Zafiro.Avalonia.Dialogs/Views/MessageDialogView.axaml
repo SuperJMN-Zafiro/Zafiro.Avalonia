@@ -7,5 +7,5 @@
              x:Class="Zafiro.Avalonia.Dialogs.Views.MessageDialogView"
              x:DataType="dialogs:MessageDialogViewModel"
              x:CompileBindings="True">
-  <TextBlock TextAlignment="Center" VerticalAlignment="Center" MinWidth="400" Width="{Binding Width}" TextWrapping="Wrap" Text="{Binding Message}" />
+  <TextBlock TextAlignment="Center" VerticalAlignment="Center" MaxWidth="400" TextWrapping="Wrap" Text="{Binding Message}" />
 </UserControl>

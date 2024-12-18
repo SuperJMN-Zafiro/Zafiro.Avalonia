@@ -4,23 +4,20 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.Dialogs.SizingAlgorithms;
 
 namespace Zafiro.Avalonia.Dialogs;
 
 public class DesktopDialog : IDialog
 {
-    public DesktopDialog(DataTemplates? dataTemplates = null, IChildSizingAlgorithm? algorithm = null)
+    public DesktopDialog(DataTemplates? dataTemplates = null)
     {
         DataTemplates = dataTemplates.AsMaybe();
-        Algorithm = algorithm ?? OptimalSizeAlgorithm.Instance;
     }
 
     private static Window MainWindow =>
         ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
 
     public Maybe<DataTemplates> DataTemplates { get; }
-    public IChildSizingAlgorithm Algorithm { get; }
 
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
     {
@@ -30,8 +27,13 @@ public class DesktopDialog : IDialog
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = false,
-            Icon = MainWindow.Icon
+            CanResize = true,
+            Icon = MainWindow.Icon,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            MaxWidth = 800,
+            MaxHeight = 600,
+            MinWidth = 300,
+            MinHeight = 200
         };
 
         var closeable = new CloseableWrapper(window);
@@ -50,7 +52,6 @@ public class DesktopDialog : IDialog
             Content = content,
         };
 
-        SetWindowSize(window, content);
 
         if (Debugger.IsAttached)
         {
@@ -66,16 +67,5 @@ public class DesktopDialog : IDialog
         var map = Application.Current.AsMaybe().Map(Dialog.GetTemplates);
         var templates = DataTemplates.Or(map);
         return templates.GetValueOrDefault(new DataTemplates());
-    }
-
-    private void SetWindowSize(Window window, Control content)
-    {
-        var screenFromWindow = MainWindow.Screens.ScreenFromWindow(window)!;
-        var screenSize = new Size(screenFromWindow.Bounds.Size.Width, screenFromWindow.Bounds.Size.Height);
-        var parentWindowSize = MainWindow.Bounds.Size;
-        var size = Algorithm.GetWindowSize(content, screenSize, parentWindowSize);
-        
-        window.Width = size.Width;
-        window.Height = size.Height;
     }
 }

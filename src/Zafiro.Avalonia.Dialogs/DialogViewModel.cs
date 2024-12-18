@@ -13,6 +13,4 @@ public class DialogViewModel : IDialogViewModel
         ViewModel = viewModel;
         Options = options;
     }
-
-    public ReactiveCommand<Unit, Unit> Close { get; set; }
 }

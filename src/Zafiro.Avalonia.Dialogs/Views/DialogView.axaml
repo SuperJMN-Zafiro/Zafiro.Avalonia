@@ -40,7 +40,9 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ContentControl Margin="0 4" Content="{TemplateBinding Content}" />
+                    <ScrollViewer x:Name="PART_ContentScrollViewer" HorizontalScrollBarVisibility="Auto">
+                        <ContentPresenter Margin="0 4" Content="{TemplateBinding Content}" />
+                    </ScrollViewer>
                 </DockPanel>
             </ControlTemplate>
         </Setter>

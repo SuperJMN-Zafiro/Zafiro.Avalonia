@@ -3,7 +3,6 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Commands;
-using Zafiro.Avalonia.Dialogs.SizingAlgorithms;
 
 namespace Zafiro.Avalonia.Dialogs;
 
@@ -42,7 +41,7 @@ public static class DialogExtensions
     
     public static Task<bool> ShowConfirmation(this IDialog dialogService, string title, string text)
     {
-        var messageDialogViewModel = new MessageDialogViewModel(text, DialogSizeCalculator.CalculateDialogWidth(text));
+        var messageDialogViewModel = new MessageDialogViewModel(text);
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
@@ -54,7 +53,7 @@ public static class DialogExtensions
     public static Task ShowMessage(this IDialog dialogService, string title, string text,
         string dismissText = "OK")
     {
-        var messageDialogViewModel = new MessageDialogViewModel(text, DialogSizeCalculator.CalculateDialogWidth(text));
+        var messageDialogViewModel = new MessageDialogViewModel(text);
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [

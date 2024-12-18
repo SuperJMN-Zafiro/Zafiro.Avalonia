@@ -1,31 +1,31 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs">
-	<Design.PreviewWith>
-		<Border Padding="20">
-			<dialogs:DialogViewContainer Width="400" Height="400" />
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <dialogs:DialogViewContainer Width="400" Height="400" />
         </Border>
-	</Design.PreviewWith>
+    </Design.PreviewWith>
 
-	<Style Selector="dialogs|DialogViewContainer.Mobile">
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Panel>
-					<Border Background="Black" Opacity="0.4" />
-					<Border Padding="12" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center"
+    <Style Selector="dialogs|DialogViewContainer.Mobile">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Background="Black" Opacity="0.4" />
+                    <Border Padding="12" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center"
                             Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-						<DockPanel>
-							<Panel DockPanel.Dock="Top">
-								<TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{TemplateBinding Title}"  />
-								<Button Theme="{StaticResource TransparentButton}" HorizontalAlignment="Right" Content="x" Command="{TemplateBinding Close}"></Button>
-							</Panel>
-							<ContentPresenter Content="{TemplateBinding Content}" />
-						</DockPanel>
-					</Border>
-				</Panel>
-			</ControlTemplate>
-		</Setter>
-	</Style>
+                        <DockPanel>
+                            <Panel DockPanel.Dock="Top">
+                                <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{TemplateBinding Title}" />
+                                <Button Theme="{StaticResource TransparentButton}" HorizontalAlignment="Right" Content="x" Command="{TemplateBinding Close}"></Button>
+                            </Panel>
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </DockPanel>
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 
     <Style Selector="dialogs|DialogViewContainer.Desktop">
         <Setter Property="Template">
