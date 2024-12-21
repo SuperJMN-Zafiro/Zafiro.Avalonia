@@ -12,7 +12,7 @@ using Zafiro.Avalonia.FileExplorer.Core;
 using Zafiro.Avalonia.FileExplorer.Core.Clipboard;
 using Zafiro.Avalonia.FileExplorer.Core.Transfers;
 using Zafiro.Avalonia.Mixins;
-using Zafiro.Avalonia.Notifications;
+using Zafiro.Avalonia.Services;
 using Zafiro.FileSystem.SeaweedFS.Filer.Client;
 using FileSystem = Zafiro.FileSystem.Local.FileSystem;
 

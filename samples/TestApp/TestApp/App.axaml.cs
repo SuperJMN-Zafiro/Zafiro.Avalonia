@@ -6,7 +6,7 @@ using TestApp.ViewModels;
 using TestApp.Views;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Mixins;
-using Zafiro.Avalonia.Notifications;
+using Zafiro.Avalonia.Services;
 using Zafiro.Avalonia.Storage;
 using Zafiro.UI;
 
@@ -30,7 +30,7 @@ public class App : Application
     {
         var dialogService = new DesktopDialog();
         // Enable if you want to force the Single Dialog Service
-        //var dialogService = new SingleViewDialogService(view);
+        //var dialogService = new AdornerDialog(view);
 
         var topLevel = TopLevel.GetTopLevel(view)!;
         var avaloniaFilePicker = new AvaloniaFileSystemPicker(topLevel.StorageProvider);

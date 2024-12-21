@@ -1,8 +1,9 @@
 ﻿using Avalonia.Controls.Notifications;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
+using Zafiro.Avalonia.Mixins;
 
-namespace Zafiro.Avalonia.Notifications;
+namespace Zafiro.Avalonia.Services;
 
 [PublicAPI]
 public class NotificationService : INotificationService
@@ -13,6 +14,11 @@ public class NotificationService : INotificationService
     {
         this.managedNotification = managedNotification;
     }
+
+    public static INotificationService Instance = new NotificationService(new WindowNotificationManager(Application.Current!.TopLevel().Value)
+    {
+        Position = NotificationPosition.BottomCenter,
+    });
 
     public Task Show(string message, Maybe<string> title)
     {

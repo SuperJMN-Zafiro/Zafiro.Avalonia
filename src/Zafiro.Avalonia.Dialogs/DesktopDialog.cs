@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using CSharpFunctionalExtensions;
+using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.Dialogs;
 
@@ -14,8 +15,7 @@ public class DesktopDialog : IDialog
         DataTemplates = dataTemplates.AsMaybe();
     }
 
-    private static Window MainWindow =>
-        ((IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
+    private static Result<Window> MainWindow => Application.Current!.TopLevel().Map(level => level as Window).EnsureNotNull("TopLevel is not a Window!");
 
     public Maybe<DataTemplates> DataTemplates { get; }
 
@@ -28,7 +28,7 @@ public class DesktopDialog : IDialog
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             CanResize = true,
-            Icon = MainWindow.Icon,
+            Icon = MainWindow.Value.Icon,
             SizeToContent = SizeToContent.WidthAndHeight,
             MaxWidth = 800,
             MaxHeight = 600,
@@ -58,7 +58,7 @@ public class DesktopDialog : IDialog
             window.AttachDevTools();
         }
 
-        var result = await window.ShowDialog<bool?>(MainWindow).ConfigureAwait(false);
+        var result = await window.ShowDialog<bool?>(MainWindow.Value).ConfigureAwait(false);
         return result is not (null or false);
     }
 

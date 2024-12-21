@@ -19,7 +19,7 @@ public static class DialogExtensions
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canSubmit)), false, true),
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canSubmit)), false, true),
             OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
         ]);
     }
@@ -46,18 +46,18 @@ public static class DialogExtensions
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
             OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close()))),
-            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Dismiss())))
+            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close())))
         ]);
     }
 
     public static Task ShowMessage(this IDialog dialogService, string title, string text,
-        string dismissText = "OK")
+        string okText = "OK")
     {
         var messageDialogViewModel = new MessageDialogViewModel(text);
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            OptionBuilder.Create(dismissText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
+            OptionBuilder.Create(okText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
         ]);
     }
 }

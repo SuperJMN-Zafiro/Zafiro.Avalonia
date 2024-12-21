@@ -37,7 +37,7 @@ public class DialogSampleViewModel : IViewModel
 
     private static Task OnShowMessage(IDialog dialogService)
     {
-        return dialogService.ShowMessage("Dialog Title", "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate", "Dismiss");
+        return dialogService.ShowMessage("Dialog Title", "Hi, this is the text of the dialog. The View is connected to the ViewModel using a DataTemplate");
     }
 
     public ReactiveCommand<Unit, Unit> ShowMessage { get; set; }
