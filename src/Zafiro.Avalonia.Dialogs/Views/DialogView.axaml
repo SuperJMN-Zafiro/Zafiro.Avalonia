@@ -1,9 +1,18 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:z="clr-namespace:Zafiro.Avalonia.Dialogs"
-        xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views">
+        xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
     <Design.PreviewWith>
-        <z:DialogView Padding="20" DataContext="" />
+        <z:DialogView Padding="20" Width="200" Height="200">
+            <z:DialogView.Options>
+                <generic:List x:TypeArguments="z:IOption">
+                    <z:OptionDesign Title="OK" />
+                    <z:OptionDesign Title="Cancel" />
+                </generic:List>
+            </z:DialogView.Options>
+            <TextBlock>Hola</TextBlock>
+        </z:DialogView>
     </Design.PreviewWith>
 
     <Style Selector="z|DialogView">

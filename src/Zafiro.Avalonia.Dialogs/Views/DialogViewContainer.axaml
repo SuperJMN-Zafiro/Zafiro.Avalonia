@@ -1,9 +1,36 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs">
+        xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
     <Design.PreviewWith>
         <Border Padding="20">
-            <dialogs:DialogViewContainer Width="400" Height="400" />
+            <StackPanel Spacing="20">
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <dialogs:DialogViewContainer Title="Title" Classes="Desktop" Width="400" Height="400">
+                        <dialogs:DialogView Content="Text message">
+                            <dialogs:DialogView.Options>
+                                <generic:List x:TypeArguments="dialogs:IOption">
+                                    <dialogs:OptionDesign Title="OK" />
+                                    <dialogs:OptionDesign Title="Cancel" />
+                                </generic:List>
+                            </dialogs:DialogView.Options>
+                        </dialogs:DialogView>
+                    </dialogs:DialogViewContainer>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <dialogs:DialogViewContainer Title="Title"
+                                                 Classes="Mobile" Width="400" Height="400">
+                        <dialogs:DialogView Content="Text message">
+                            <dialogs:DialogView.Options>
+                                <generic:List x:TypeArguments="dialogs:IOption">
+                                    <dialogs:OptionDesign Title="OK" />
+                                    <dialogs:OptionDesign Title="Cancel" />
+                                </generic:List>
+                            </dialogs:DialogView.Options>
+                        </dialogs:DialogView>
+                    </dialogs:DialogViewContainer>
+                </Border>
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
 

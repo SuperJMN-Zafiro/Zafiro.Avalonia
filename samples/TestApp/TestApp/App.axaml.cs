@@ -28,9 +28,9 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        var dialogService = new DesktopDialog();
+        //var dialogService = new DesktopDialog();
         // Enable if you want to force the Single Dialog Service
-        //var dialogService = new AdornerDialog(view);
+        var dialogService = new AdornerDialog(view);
 
         var topLevel = TopLevel.GetTopLevel(view)!;
         var avaloniaFilePicker = new AvaloniaFileSystemPicker(topLevel.StorageProvider);
