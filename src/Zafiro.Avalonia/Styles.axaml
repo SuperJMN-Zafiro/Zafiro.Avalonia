@@ -24,10 +24,11 @@
     </Styles.Resources>
 
     <StyleInclude Source="avares://Zafiro.Avalonia/Styles/Button.axaml" />
+    <StyleInclude Source="avares://Zafiro.Avalonia/Styles/Untouched.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/SlimDataGrid/SlimDataGrid.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardControl.axaml" />
-
+    
 </Styles>
