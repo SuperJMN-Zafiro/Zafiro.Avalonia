@@ -18,19 +18,7 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<Design.PreviewWith>
-		<StackPanel>
-			<HeaderedContentControl Header="Hola">
-				<StackPanel>
-					<Button Content="Hi" />
-					<Button Content="How" />
-					<Button Content="Are you?" />
-				</StackPanel>
-			</HeaderedContentControl>
-		</StackPanel>
-	</Design.PreviewWith>
-
-	<ControlTheme x:Key="InlineHeaderedContentControl" TargetType="HeaderedContentControl">
+	<ControlTheme x:Key="Inline" TargetType="HeaderedContentControl">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
@@ -42,7 +30,7 @@
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 							<Label VerticalAlignment="Center" TextElement.FontWeight="Bold" DockPanel.Dock="Left"
-                                   Padding="0" Target="{Binding #ContentPresenter}" Margin="8 0 8 0"
+                                   Padding="0" Target="{Binding #ContentPresenter}" Margin="0 0 8 0"
                                    Content="{TemplateBinding Header}"
                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
 							<ContentPresenter Grid.Column="1" x:Name="ContentPresenter"
@@ -62,8 +50,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
 						<Grid RowDefinitions="Auto *">
 							<Label Padding="0" VerticalAlignment="Center" TextElement.FontWeight="Bold" DockPanel.Dock="Left"
-								   Target="{Binding #ContentPresenter}"
-								   Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+							       Target="{Binding #ContentPresenter}"
+							       Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding ContentTemplate}" />
 							<ContentPresenter Grid.Row="1" Margin="0 4 0 0" x:Name="ContentPresenter" Content="{TemplateBinding Content}" />
 						</Grid>
 					</Border>
@@ -71,5 +59,18 @@
 			</Setter.Value>
 		</Setter>
 	</ControlTheme>
+	
+	<Design.PreviewWith>
+		<StackPanel>
+			<HeaderedContentControl Header="Hola">
+				<StackPanel>
+					<Button Content="Hi" />
+					<Button Content="How" />
+					<Button Content="Are you?" />
+				</StackPanel>
+			</HeaderedContentControl>
+			<HeaderedContentControl Theme="{StaticResource Inline}" Header="Title" Content="Content" />
+		</StackPanel>
+	</Design.PreviewWith>
 
 </ResourceDictionary>
