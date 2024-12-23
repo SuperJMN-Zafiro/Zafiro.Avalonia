@@ -30,7 +30,7 @@ public class MainViewModel : ViewModelBase
         new("MasterDetailsView", new MasterDetailsSampleViewModel()),
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
         new("Controls", new ControlsSampleViewModel()),
-        new("More controls", new ControlsViewModel(new DesktopDialog())),
+        new("More controls", new ControlsViewModel(dialogService)),
         new("StringEditor", new StringEditorSampleViewModel()),
         new("Adorners", new AdornerSampleViewModel()),
         new("Storage", new StorageSampleViewModel(storage)),
