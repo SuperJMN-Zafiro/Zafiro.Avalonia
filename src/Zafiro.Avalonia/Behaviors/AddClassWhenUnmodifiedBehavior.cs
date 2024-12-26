@@ -1,12 +1,14 @@
+using System.Reactive.Disposables;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+using Zafiro.Avalonia.MigrateToZafiro;
 
 namespace Zafiro.Avalonia.Behaviors;
 
 public class UntouchedClassBehavior : Behavior<Control>
 {
-    private bool hasBeenModified = false;
-    private IDisposable? textSubscription;
+    private bool hasBeenModified;
+    private readonly CompositeDisposable disposables = new();
 
     public static readonly StyledProperty<string> ClassNameProperty = AvaloniaProperty.Register<UntouchedClassBehavior, string>(
         nameof(ClassName), "untouched");
@@ -24,29 +26,56 @@ public class UntouchedClassBehavior : Behavior<Control>
         if (AssociatedObject != null)
         {
             AssociatedObject.Classes.Add(ClassName);
-            
-            var textProperty = AssociatedObject switch
-            {
-                NumericUpDown => NumericUpDown.TextProperty,
-                TextBox => TextBox.TextProperty,
-                _ => null
-            };
 
-            if (textProperty != null)
+            if (AssociatedObject is IModifiable modifiable)
             {
-                textSubscription = AssociatedObject.GetObservable(textProperty)
-                    .Subscribe(_ => OnTextChanged());
+                HandleModifiable(modifiable);
             }
+            else
+            {
+                DefaultHandle();
+            }
+        }
+    }
+
+    private void HandleModifiable(IModifiable modifiable)
+    {
+        if (AssociatedObject == null)
+        {
+            return;
+        }
+        
+        modifiable.Modified.Do(_ => AssociatedObject.Classes.Remove(ClassName)).Subscribe().DisposeWith(disposables);
+    }
+
+    private void DefaultHandle()
+    {
+        if (AssociatedObject == null)
+        {
+            return;
+        }
+        
+        var textProperty = AssociatedObject switch
+        {
+            NumericUpDown => NumericUpDown.TextProperty,
+            TextBox => TextBox.TextProperty,
+            _ => null
+        };
+
+        if (textProperty != null)
+        {
+            AssociatedObject.GetObservable(textProperty)
+                .Subscribe(_ => OnTextChanged())
+                .DisposeWith(disposables);
         }
     }
 
     protected override void OnDetaching()
     {
         base.OnDetaching();
-        
+        disposables.Dispose();
         if (AssociatedObject != null)
         {
-            textSubscription?.Dispose();
             if (AssociatedObject.GetVisualRoot() is {})
             {
                 AssociatedObject.Classes.Remove(ClassName);
