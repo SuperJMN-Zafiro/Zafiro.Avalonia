@@ -15,10 +15,20 @@ public class NotificationService : INotificationService
         this.managedNotification = managedNotification;
     }
 
-    public static INotificationService Instance = new NotificationService(new WindowNotificationManager(Application.Current!.TopLevel().Value)
+    public static INotificationService Instance = GetNotificationService();
+
+    private static INotificationService GetNotificationService()
     {
-        Position = NotificationPosition.BottomCenter,
-    });
+        if (Design.IsDesignMode)
+        {
+            return new DummyNotificationService();
+        }
+
+        return new NotificationService(new WindowNotificationManager(Application.Current!.TopLevel().Value)
+        {
+            Position = NotificationPosition.BottomCenter,
+        });
+    }
 
     public Task Show(string message, Maybe<string> title)
     {
