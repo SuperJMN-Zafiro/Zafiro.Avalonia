@@ -27,11 +27,11 @@ public class DesktopDialog : IDialog
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = true,
+            CanResize = false,
             Icon = MainWindow.Value.Icon,
             SizeToContent = SizeToContent.WidthAndHeight,
             MaxWidth = 800,
-            MaxHeight = 600,
+            MaxHeight = 800,
             MinWidth = 300,
             MinHeight = 200
         };
@@ -51,8 +51,7 @@ public class DesktopDialog : IDialog
             Classes = { "Desktop" },
             Content = content,
         };
-
-
+        
         if (Debugger.IsAttached)
         {
             window.AttachDevTools();
