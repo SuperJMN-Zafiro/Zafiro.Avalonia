@@ -3,26 +3,27 @@ using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class Option<T, Q>(string title, IEnhancedCommand<T, Q> command, bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null) : IOption<T, Q>
+public class Option<T, Q>(string title, IEnhancedCommand<T, Q> command, Settings settings) : IOption<T, Q>
 {
     public string Title => title;
     public IEnhancedCommand Command => command;
-    public bool IsDefault => isDefault;
-    public bool IsCancel => isCancel;
-    
-    public IObservable<bool> IsVisible => isVisible ?? Observable.Return(true);
+    public bool IsDefault => settings.IsDefault;
+    public bool IsCancel => settings.IsCancel;
+    public IObservable<bool> IsVisible => settings.IsVisible;
+    public OptionRole Role { get; set; } = settings.Role;
     public IEnhancedCommand<T, Q> TypedCommand => command;
 }
 
 public class Option : IOption
 {
-    public Option(string title, IEnhancedCommand command, bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null)
+    public Option(string title, IEnhancedCommand command, Settings settings)
     {
         Title = title;
         Command = command;
-        IsDefault = isDefault;
-        IsCancel = isCancel;
-        IsVisible = isVisible ?? Observable.Return(true);
+        IsDefault = settings.IsDefault;
+        IsCancel = settings.IsCancel;
+        IsVisible = settings.IsVisible;
+        Role = settings.Role;
     }
 
     public string Title { get; }
@@ -30,4 +31,5 @@ public class Option : IOption
     public bool IsDefault { get; }
     public bool IsCancel { get; }
     public IObservable<bool> IsVisible { get; }
+    public OptionRole Role { get; }
 }

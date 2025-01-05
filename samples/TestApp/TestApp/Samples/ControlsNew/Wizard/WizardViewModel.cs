@@ -23,7 +23,7 @@ public class WizardViewModel : ReactiveObject
                 .Then(second => new ThirdPageViewModel())
                 .Build();
             
-            return dialog.Show(wizard, "Welcome to Avalonia!", closeable => wizard.OptionsForCloseable(closeable));
+            return dialog.Show(wizard, "Such a nice wizard this is!", closeable => wizard.OptionsForCloseable(closeable));
         });
     }
 

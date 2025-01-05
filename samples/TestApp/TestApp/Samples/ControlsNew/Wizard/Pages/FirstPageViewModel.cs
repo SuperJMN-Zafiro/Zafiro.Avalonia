@@ -1,5 +1,6 @@
 using System;
 using System.Reactive.Linq;
+using CSharpFunctionalExtensions;
 using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
@@ -19,4 +20,5 @@ public partial class FirstPageViewModel : ReactiveValidationObject, IStep
     public IObservable<bool> IsValid => this.IsValid();
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
+    public Maybe<string> Title => Maybe<string>.None;
 }

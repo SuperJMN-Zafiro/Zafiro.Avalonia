@@ -1,0 +1,195 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Dialogs.Views"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+        xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs"
+        xmlns:wizards="clr-namespace:Zafiro.Avalonia.Controls.Wizards;assembly=Zafiro.Avalonia">
+
+
+    <Styles.Resources>
+
+        <!-- Estilos para los botones según rol -->
+        <ControlTheme x:Key="PrimaryButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
+            <Setter Property="Foreground" Value="White" />
+        </ControlTheme>
+
+        <ControlTheme x:Key="DestructiveButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource SystemErrorTextColor}" />
+            <Setter Property="Foreground" Value="White" />
+        </ControlTheme>
+
+        <ControlTheme x:Key="SecondaryButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemBaseMediumColor}" />
+        </ControlTheme>
+
+        <ControlTheme x:Key="CancelButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </ControlTheme>
+
+        <ControlTheme TargetType="c:DialogControl" x:Key="{x:Type c:DialogControl}">
+            <Setter Property="Padding" Value="16"></Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <Border.DataTemplates>
+                            <DataTemplate DataType="dialogs:IOption">
+                                <Button Content="{Binding Title}"
+                                        Command="{Binding Command}"
+                                        IsVisible="{Binding IsVisible^}"
+                                        IsCancel="{Binding IsCancel}"
+                                        IsDefault="{Binding IsDefault}"
+                                        Padding="16 8"
+                                        CornerRadius="4">
+                                    <Interaction.Behaviors>
+                                        <DataTriggerBehavior Binding="{Binding Role}" Value="Primary">
+                                            <ChangeAvaloniaPropertyAction TargetProperty="{x:Static StyledElement.ThemeProperty}" Value="{StaticResource PrimaryButton}" />
+                                        </DataTriggerBehavior>
+                                        <DataTriggerBehavior Binding="{Binding Role}" Value="Secondary">
+                                            <ChangeAvaloniaPropertyAction TargetProperty="{x:Static StyledElement.ThemeProperty}" Value="{StaticResource SecondaryButton}" />
+                                        </DataTriggerBehavior>
+                                        <DataTriggerBehavior Binding="{Binding Role}" Value="Destructive">
+                                            <ChangeAvaloniaPropertyAction TargetProperty="{x:Static StyledElement.ThemeProperty}" Value="{StaticResource DestructiveButton}" />
+                                        </DataTriggerBehavior>
+                                        <DataTriggerBehavior Binding="{Binding Role}" Value="Cancel">
+                                            <ChangeAvaloniaPropertyAction TargetProperty="{x:Static StyledElement.ThemeProperty}" Value="{StaticResource CancelButton}" />
+                                        </DataTriggerBehavior>
+                                    </Interaction.Behaviors>
+                                </Button>
+                            </DataTemplate>
+                        </Border.DataTemplates>
+
+                        <Border.Styles>
+                            <Style Selector="ItemsControl:empty">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
+                            <Style Selector="ItemsControl">
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Spacing="2" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style Selector="StackPanel.ButtonGroup">
+                                <Setter Property="Spacing" Value="8" />
+                            </Style>
+                        </Border.Styles>
+
+                        <Grid RowDefinitions="Auto,*,Auto">
+                            <!-- Title -->
+                            <TextBlock Grid.Row="0"
+                                       FontWeight="Bold"
+                                       Margin="0 0 0 10" 
+                                       Text="{Binding $parent[c:DialogControl].Title.Value}"
+                                       IsVisible="{Binding $parent[c:DialogControl].Title.HasValue}" />
+
+                            <!-- Content -->
+                            <ContentPresenter Grid.Row="1"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Content="{TemplateBinding Content}" />
+
+                            <!-- Buttons -->
+                            <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Margin="0 16 0 0">
+
+                                <!-- Cancel y Secondary a la izquierda -->
+                                <StackPanel Grid.Column="0"
+                                            Classes="ButtonGroup"
+                                            Orientation="Horizontal"
+                                            Spacing="8">
+                                    <!-- Cancel siempre va primero -->
+                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].CancelOptions}" />
+                                    <!-- Secondary después de Cancel -->
+                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].SecondaryOptions}" />
+                                </StackPanel>
+
+                                <!-- Info en el centro -->
+                                <ItemsControl Grid.Column="1"
+                                              HorizontalAlignment="Center"
+                                              ItemsSource="{Binding $parent[c:DialogControl].InfoOptions}" />
+
+                                <!-- Primary/Destructive a la derecha -->
+                                <StackPanel Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Classes="ButtonGroup"
+                                            Spacing="8">
+                                    <!-- Primary primero -->
+                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].PrimaryOptions}" />
+                                    <!-- Destructive al final -->
+                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].DestructiveOptions}" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+    </Styles.Resources>
+    
+    
+    <Design.PreviewWith>
+        <StackPanel>
+            <Border BorderThickness="1" BorderBrush="Black">
+                <c:DialogControl Title="TITLE" Width="700" Height="400">
+                    <c:DialogControl.DataTemplates>
+                        <DataTemplate DataType="wizards:StepDesign">
+                            <Border Background="GreenYellow" />
+                        </DataTemplate>
+                    </c:DialogControl.DataTemplates>
+                    <c:DialogControl.Content>
+                        <wizards:WizardControl>
+                            <wizards:WizardControl.Wizard>
+                                <wizards:WizardDesign />
+                            </wizards:WizardControl.Wizard>
+                        </wizards:WizardControl>
+                    </c:DialogControl.Content>
+                    <c:DialogControl.Options>
+                        <generic:List x:TypeArguments="dialogs:IOption">
+                            <dialogs:OptionDesign Role="Destructive" Title="Nuke" />
+                            <dialogs:OptionDesign Role="Info" Title="Info" />
+                            <dialogs:OptionDesign Role="Cancel" Title="Cancel" />
+                            <dialogs:OptionDesign Role="Primary" Title="Next" />
+                            <dialogs:OptionDesign Role="Primary" Title="Print" />
+                            <dialogs:OptionDesign Role="Secondary" Title="Secondary1" />
+                            <dialogs:OptionDesign Role="Secondary" Title="Secondary2" />
+                        </generic:List>
+                    </c:DialogControl.Options>
+                </c:DialogControl>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black">
+                <c:DialogControl Title="TITLE" Width="700" Height="400">
+                    <c:DialogControl.Content>
+                        <TextBlock>THIS IS MY FUCKING CONTENT</TextBlock>
+                    </c:DialogControl.Content>
+                    <c:DialogControl.Options>
+                        <generic:List x:TypeArguments="dialogs:IOption">
+                            <dialogs:OptionDesign Role="Cancel" Title="Cancel" />
+                            <dialogs:OptionDesign Role="Primary" Title="Next" />
+                        </generic:List>
+                    </c:DialogControl.Options>
+                </c:DialogControl>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black">
+                <c:DialogControl Theme="{StaticResource Mobile}" Title="TITLE" Width="700" Height="400">
+                    <c:DialogControl.Content>
+                        <TextBlock>THIS IS MY FUCKING CONTENT</TextBlock>
+                    </c:DialogControl.Content>
+                    <c:DialogControl.Options>
+                        <generic:List x:TypeArguments="dialogs:IOption">
+                            <dialogs:OptionDesign Role="Cancel" Title="Cancel" />
+                            <dialogs:OptionDesign Role="Primary" Title="Next" />
+                        </generic:List>
+                    </c:DialogControl.Options>
+                </c:DialogControl>
+            </Border>
+        </StackPanel>
+    </Design.PreviewWith>
+</Styles>

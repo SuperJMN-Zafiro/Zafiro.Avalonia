@@ -1,22 +1,40 @@
 using System.Reactive;
+using System.Reactive.Linq;
 using Zafiro.Avalonia.Commands;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public static class OptionBuilder
+public class Settings
 {
-    public static Option<T, Q> Create<T, Q>(string title, IEnhancedCommand<T, Q> command, bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null, bool autoAdvance = false)
+    public Settings(bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null, bool autoAdvance = false)
     {
-        return new Option<T, Q>(title, command, isDefault, isCancel, isVisible);
-    }
-    
-    public static Option<Unit, Unit> Create<T, Q>(string title, IEnhancedCommand<Unit, Unit> command, bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null, bool autoAdvance = false)
-    {
-        return new Option<Unit, Unit>(title, command, isDefault, isCancel, isVisible);
+        IsDefault = isDefault;
+        IsCancel = isCancel;
+        IsVisible = isVisible ?? Observable.Return(true);
+        AutoAdvance = autoAdvance;
     }
 
-    public static Option Create(string title, IEnhancedCommand command, bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null, bool autoAdvance = false)
+    public bool IsDefault { get; init;}
+    public bool IsCancel { get; init;}
+    public IObservable<bool> IsVisible { get; init;}
+    public bool AutoAdvance { get; init; }
+    public OptionRole Role { get; init; }
+}
+
+public static class OptionBuilder
+{
+    public static Option<T, Q> Create<T, Q>(string title, IEnhancedCommand<T, Q> command, Settings settings)
     {
-        return new Option(title, command, isDefault, isCancel, isVisible);
+        return new Option<T, Q>(title, command, settings);
+    }
+
+    public static Option<Unit, Unit> Create<T, Q>(string title, IEnhancedCommand<Unit, Unit> command, Settings settings)
+    {
+        return new Option<Unit, Unit>(title, command, settings);
+}
+
+    public static Option Create(string title, IEnhancedCommand command, Settings settings)
+    {
+        return new Option(title, command, settings);
     }
 }

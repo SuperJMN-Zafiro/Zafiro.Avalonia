@@ -11,4 +11,6 @@ public interface IWizard
     IObservable<bool> IsLastPage { get; }
     IObservable<bool> IsValid { get; }
     IObservable<bool> IsBusy { get; }
+    IObservable<int> PageIndex { get; }
+    int TotalPages { get; }
 }

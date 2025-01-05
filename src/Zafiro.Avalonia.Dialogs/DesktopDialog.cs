@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using CSharpFunctionalExtensions;
+using Zafiro.Avalonia.Dialogs.Views;
 using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.Dialogs;
@@ -38,18 +39,12 @@ public class DesktopDialog : IDialog
 
         var closeable = new CloseableWrapper(window);
         var options = optionsFactory(closeable);
-        var content = new DialogView
+        
+        window.Content = new DialogControl
         {
-            Content = viewModel,
-            Options = options,
-        };
-
-        content.DataTemplates.AddRange(GetDialogTemplates());
-
-        window.Content = new DialogViewContainer
-        {
-            Classes = { "Desktop" },
-            Content = content,
+            Title = Maybe<string>.None,
+            Content = viewModel, 
+            Options = options
         };
         
         if (Debugger.IsAttached)

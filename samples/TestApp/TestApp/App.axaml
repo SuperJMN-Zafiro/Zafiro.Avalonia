@@ -15,11 +15,15 @@
 		<StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.DataViz/Styles.axaml" />
 		<FluentTheme />
+		<Style Selector="views|DialogControl">
+			<Setter Property="Width" Value="500" />
+			<Setter Property="Height" Value="400" />
+		</Style>
 	</Application.Styles>
 
 	<Application.DataTemplates>
         <misc:NamingConventionViewLocator />
-        <DataTemplate DataType="dialogs:MessageDialogViewModel">
+        <DataTemplate DataType="views:MessageDialogViewModel">
             <views:MessageDialogView />
         </DataTemplate>
         <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />

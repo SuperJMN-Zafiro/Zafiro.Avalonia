@@ -15,10 +15,12 @@ public static class Wizard
 
         return
         [
-            OptionBuilder.Create("Previous", wizard.Back, isVisible: ((IReactiveCommand)wizard.Back).CanExecute.CombineLatest(wizard.IsLastPage, (a, b) => a && !b)),
-            OptionBuilder.Create("Next", wizard.Next, isVisible: ((IReactiveCommand)wizard.Next).CanExecute, isDefault: true),
-            OptionBuilder.Create("Cancel", cancel, isVisible: canCancel, isCancel: true),
-            OptionBuilder.Create("Close", close, isVisible: wizard.IsLastPage, isDefault: true)
+            OptionBuilder.Create("Next", wizard.Next, new Settings(isVisible: ((IReactiveCommand)wizard.Next).CanExecute, isDefault: true)),
+            OptionBuilder.Create("Cancel", cancel, new Settings(isVisible: canCancel, isCancel: true)
+            {
+                Role = OptionRole.Cancel,
+            }),
+            OptionBuilder.Create("Close", close, new Settings(isVisible: wizard.IsLastPage, isDefault: true))
         ];
     }
 }

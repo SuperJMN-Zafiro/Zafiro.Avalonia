@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Commands;
+using Zafiro.Avalonia.Dialogs.Views;
 
 namespace Zafiro.Avalonia.Dialogs;
 
@@ -19,8 +20,11 @@ public static class DialogExtensions
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canSubmit)), false, true),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canSubmit)), new Settings(false, true)
+            {
+                Role = OptionRole.Cancel,
+            }),
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings(true))
         ]);
     }
 
@@ -30,8 +34,11 @@ public static class DialogExtensions
     {
         var dialogResult = await dialogService.Show(viewModel, title, dialog =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true))), false, true),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Close, canSubmit(viewModel))), true)
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true))), new Settings(false, true)
+            {
+                Role = OptionRole.Cancel
+            }),
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Close, canSubmit(viewModel))), new Settings(true))
         ]);
 
         if (dialogResult == false) return Maybe<TResult>.None;
@@ -45,8 +52,8 @@ public static class DialogExtensions
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close()))),
-            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close())))
+            OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close())), new Settings()),
+            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close())), new Settings())
         ]);
     }
 
@@ -57,7 +64,7 @@ public static class DialogExtensions
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            OptionBuilder.Create(okText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), true)
+            OptionBuilder.Create(okText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings(true))
         ]);
     }
 }

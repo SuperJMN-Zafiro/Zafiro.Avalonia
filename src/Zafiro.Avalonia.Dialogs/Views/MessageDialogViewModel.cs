@@ -1,7 +1,4 @@
-﻿using System.Reactive;
-using Zafiro.UI;
-
-namespace Zafiro.Avalonia.Dialogs;
+﻿namespace Zafiro.Avalonia.Dialogs.Views;
 
 public class MessageDialogViewModel(string message)
 {

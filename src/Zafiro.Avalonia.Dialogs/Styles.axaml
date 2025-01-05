@@ -9,5 +9,6 @@
 
     <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Views/DialogView.axaml" />
+    <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Views/DialogControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Views/DialogViewContainer.axaml" />
 </Styles>

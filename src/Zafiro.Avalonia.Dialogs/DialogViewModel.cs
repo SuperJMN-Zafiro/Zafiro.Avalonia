@@ -1,9 +1,6 @@
-﻿using System.Reactive;
-using ReactiveUI;
+﻿namespace Zafiro.Avalonia.Dialogs;
 
-namespace Zafiro.Avalonia.Dialogs;
-
-public class DialogViewModel : IDialogViewModel
+public class DialogViewModel
 {
     public object ViewModel { get; }
     public IEnumerable<IOption> Options { get; }

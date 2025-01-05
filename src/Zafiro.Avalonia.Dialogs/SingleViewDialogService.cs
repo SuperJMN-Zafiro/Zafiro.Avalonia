@@ -5,9 +5,11 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
+using Avalonia.Styling;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Dialogs.Views;
 
 public class AdornerDialog : IDialog, ICloseable
 {
@@ -30,20 +32,17 @@ public class AdornerDialog : IDialog, ICloseable
 
         currentDialog = new TaskCompletionSource<bool>();
         var options = optionsFactory(this);
-
-        var content = new DialogView
-        {
-            Content = viewModel,
-            Options = options
-        };
-
-        content.DataTemplates.AddRange(GetDialogTemplates());
+        
 
         var dialog = new DialogViewContainer
         {
             Title = title,
-            Classes = { "Mobile" },
-            Content = content,
+            Content = new DialogControl()
+            {
+                Content = viewModel,
+                Options = options,
+                Title = Maybe<string>.None,
+            },
             Close = ReactiveCommand.Create(() => Dismiss()),
             VerticalAlignment = VerticalAlignment.Stretch,
             HorizontalAlignment = HorizontalAlignment.Stretch,

@@ -21,7 +21,7 @@
             <ControlTemplate TargetType="z:DialogView">
                 <DockPanel Margin="0 6 0 0" x:DataType="z:DialogViewModel" x:CompileBindings="True">
                     <DockPanel.DataTemplates>
-                        <DataTemplate DataType="z:MessageDialogViewModel">
+                        <DataTemplate DataType="views:MessageDialogViewModel">
                             <views:MessageDialogView />
                         </DataTemplate>
                     </DockPanel.DataTemplates>
