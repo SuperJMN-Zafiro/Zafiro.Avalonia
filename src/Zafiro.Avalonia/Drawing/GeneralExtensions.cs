@@ -1,7 +1,7 @@
 using Avalonia.Layout;
 using Avalonia.Media;
 
-namespace Zafiro.Avalonia.Controls.Diagrams.Drawing;
+namespace Zafiro.Avalonia.Drawing;
 
 public static class GeneralExtensions
 {

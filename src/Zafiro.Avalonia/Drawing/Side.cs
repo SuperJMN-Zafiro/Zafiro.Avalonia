@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.Controls.Diagrams.Drawing;
+namespace Zafiro.Avalonia.Drawing;
 
 public enum Side
 {

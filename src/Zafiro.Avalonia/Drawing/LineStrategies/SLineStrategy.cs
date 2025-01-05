@@ -1,6 +1,6 @@
 using Avalonia.Media;
 
-namespace Zafiro.Avalonia.Controls.Diagrams.Drawing.LineStrategies;
+namespace Zafiro.Avalonia.Drawing.LineStrategies;
 
 public class SLineStrategy : ILineStrategy
 {

@@ -3,11 +3,11 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Zafiro.Avalonia.Controls.Diagrams.Drawing;
-using Zafiro.Avalonia.Controls.Diagrams.Drawing.RectConnectorStrategies;
+using Zafiro.Avalonia.Drawing;
+using Zafiro.Avalonia.Drawing.RectConnectorStrategies;
 using Zafiro.DataAnalysis.Graphs;
 
-namespace Zafiro.Avalonia.Controls.Diagrams;
+namespace Zafiro.Avalonia.Controls.Diagrams.Simple;
 
 public class Connectors : Control
 {

@@ -12,8 +12,8 @@
                 <ResourceInclude Source="Controls/Shell.axaml" />
                 <ResourceInclude Source="Controls/ListBox.axaml" />
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
-                <ResourceInclude Source="Controls/Diagrams/DiagramView.axaml" />
-                <ResourceInclude Source="Controls/Diagrams/ItemsCanvas.axaml" />
+                <ResourceInclude Source="Controls/ItemsCanvas.axaml" />
+                <ResourceInclude Source="Controls/Diagrams/Simple/DiagramView.axaml" />
                 <ResourceInclude Source="Controls/CaretControl.axaml" />
                 <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />
                 <ResourceInclude Source="Controls/CircularProgressBar.axaml" />
@@ -30,5 +30,6 @@
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/StoppableControl.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/SlimDataGrid/SlimDataGrid.axaml" />
     <StyleInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardControl.axaml" />
+    <StyleInclude Source="Controls/Diagrams/Enhanced/EnhancedDiagramView.axaml" />
     
 </Styles>

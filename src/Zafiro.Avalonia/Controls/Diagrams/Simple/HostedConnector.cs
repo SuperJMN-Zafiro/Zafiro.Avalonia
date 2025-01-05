@@ -2,10 +2,10 @@ using System.Linq.Expressions;
 using System.Reactive.Disposables;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Zafiro.Avalonia.Controls.Diagrams.Drawing;
-using Zafiro.Avalonia.Controls.Diagrams.Drawing.LineStrategies;
+using Zafiro.Avalonia.Drawing;
+using Zafiro.Avalonia.Drawing.LineStrategies;
 
-namespace Zafiro.Avalonia.Controls.Diagrams;
+namespace Zafiro.Avalonia.Controls.Diagrams.Simple;
 
 public class HostedConnector : Control
 {

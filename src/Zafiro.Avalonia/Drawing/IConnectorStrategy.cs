@@ -1,6 +1,6 @@
 using Avalonia.Media;
 
-namespace Zafiro.Avalonia.Controls.Diagrams.Drawing;
+namespace Zafiro.Avalonia.Drawing;
 
 public interface IConnectorStrategy
 {

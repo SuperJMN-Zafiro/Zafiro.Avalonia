@@ -7,7 +7,7 @@ using Avalonia.Xaml.Interactions.Custom;
 using Zafiro.Avalonia.Mixins;
 using Zafiro.Reactive;
 
-namespace Zafiro.Avalonia.Controls.Diagrams;
+namespace Zafiro.Avalonia.Controls.Diagrams.Simple;
 
 public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
 {

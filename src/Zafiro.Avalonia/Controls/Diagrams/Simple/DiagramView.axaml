@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams">
+        xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
+        xmlns:simple="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple">
 
   <!--
     Additional resources 
@@ -13,14 +14,14 @@
   <Design.PreviewWith>
     <StackPanel Width="400" Spacing="10">      
         <StackPanel Background="{DynamicResource SystemRegionBrush}">
-          <diagrams:DiagramView />
+          <simple:DiagramView />
         </StackPanel>
     </StackPanel>
   </Design.PreviewWith>
  
-  <ControlTheme x:Key="{x:Type diagrams:DiagramView}" TargetType="diagrams:DiagramView">
+  <ControlTheme x:Key="{x:Type simple:DiagramView}" TargetType="simple:DiagramView">
     <Setter Property="Template">
-      <ControlTemplate TargetType="diagrams:DiagramView">
+      <ControlTemplate TargetType="simple:DiagramView">
           <Panel>
               <ItemsControl x:Name="ItemsControl" ItemsSource="{TemplateBinding Nodes}" ItemTemplate="{TemplateBinding ItemTemplate}">
                   <ItemsControl.ItemContainerTheme>
@@ -28,7 +29,7 @@
                           <Setter Property="Interaction.Behaviors">
                               <BehaviorCollectionTemplate>
                                   <BehaviorCollection>
-                                      <diagrams:DragDeltaBehavior 
+                                      <simple:DragDeltaBehavior 
                                           Left="{Binding Left}"
                                           Top="{Binding Top}"/>
                                   </BehaviorCollection>
@@ -47,10 +48,10 @@
               <ItemsControl ItemsSource="{TemplateBinding Edges}">
                   <ItemsControl.ItemTemplate>
                       <DataTemplate DataType="diagrams:IHaveFromTo">
-                          <diagrams:HostedConnector 
-                              ConnectionStroke="{Binding $parent[diagrams:DiagramView].ConnectionStroke}"
-                              ConnectionStrokeThickness="{Binding $parent[diagrams:DiagramView].ConnectionStrokeThickness}"
-                              ConnectionStyle="{Binding $parent[diagrams:DiagramView].ConnectionStyle}" Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
+                          <simple:HostedConnector 
+                              ConnectionStroke="{Binding $parent[simple:DiagramView].ConnectionStroke}"
+                              ConnectionStrokeThickness="{Binding $parent[simple:DiagramView].ConnectionStrokeThickness}"
+                              ConnectionStyle="{Binding $parent[simple:DiagramView].ConnectionStyle}" Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
                       </DataTemplate>
                   </ItemsControl.ItemTemplate>
               </ItemsControl>

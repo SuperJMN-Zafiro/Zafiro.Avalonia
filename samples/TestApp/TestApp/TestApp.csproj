@@ -31,4 +31,11 @@
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Samples\Diagrams\Simple\DiagramsView.axaml.cs">
+      <DependentUpon>DiagramsView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

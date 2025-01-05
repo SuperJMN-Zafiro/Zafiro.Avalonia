@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:e="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Enhanced;assembly=Zafiro.Avalonia"
+             xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Diagrams.Enhanced.EnhancedDiagram">
+    
+    <UserControl.Resources>
+        <generic:List x:Key="List" x:TypeArguments="diagrams:INode">
+            <e:NodeDesign Left="40" Top="100" Name="A" />
+            <e:NodeDesign Left="340" Top="100" Name="B" />
+            <e:NodeDesign Left="70" Top="200" Name="C" />
+        </generic:List>
+    </UserControl.Resources>
+    
+    <e:EnhancedDiagramView Width="500" Height="400"
+                           ConnectorBrush="#0078A7"
+                           ConnectorThickness="2"
+                           Nodes="{StaticResource List}">
+        <e:EnhancedDiagramView.Edges>
+            <e:Edges List="{StaticResource List}">
+                <diagrams:EdgeItem From="A" To="B" />
+                <diagrams:EdgeItem From="B" To="C" />
+            </e:Edges>
+        </e:EnhancedDiagramView.Edges>
+        <e:EnhancedDiagramView.NodeTemplate>
+            <DataTemplate DataType="diagrams:INode">
+                <Border Background="#97FFF8" Padding="10" CornerRadius="10">
+                    <TextBlock Text="{Binding Name}" />
+                </Border>
+            </DataTemplate>
+        </e:EnhancedDiagramView.NodeTemplate>
+    </e:EnhancedDiagramView>
+
+</UserControl>

@@ -1,6 +1,6 @@
 using Avalonia.Media;
 
-namespace Zafiro.Avalonia.Controls.Diagrams.Drawing;
+namespace Zafiro.Avalonia.Drawing;
 
 public static class ConnectorExtensions
 {
@@ -12,7 +12,7 @@ public static class ConnectorExtensions
         Point controlPoint1 = from;
         Point controlPoint2 = to;
 
-        // Ajustar los puntos de control dependiendo del lado de conexión
+        // Ajustar los puntos de control dependiendo del lado de conexiÃ³n
         switch (sideFrom)
         {
             case Side.Top:
@@ -45,7 +45,7 @@ public static class ConnectorExtensions
                 break;
         }
 
-        // Crear la curva de Bézier
+        // Crear la curva de Bï¿½zier
         var segment = new BezierSegment
         {
             Point1 = controlPoint1,
@@ -68,7 +68,7 @@ public static class ConnectorExtensions
         // Dibujar la curva
         context.DrawGeometry(null, pen, geometry);
 
-        // Dibujar flechas si están habilitadas
+        // Dibujar flechas si estï¿½n habilitadas
         if (startArrow)
         {
             DrawArrowHead(context, controlPoint1, from, pen);
@@ -83,17 +83,17 @@ public static class ConnectorExtensions
 
     private static void DrawArrowHead(DrawingContext context, Point controlPoint, Point endPoint, Pen pen)
     {
-        // Cálculo de la dirección en el punto final
+        // Cï¿½lculo de la direcciï¿½n en el punto final
         Vector direction = endPoint - controlPoint;
         direction = direction.Normalize();
 
         // Vector perpendicular para la base de la flecha
         Vector perpendicular = new Vector(-direction.Y, direction.X);
 
-        // Tamaño de la punta de la flecha
+        // Tamaï¿½o de la punta de la flecha
         double arrowSize = 10;
 
-        // Puntos para el triángulo de la flecha
+        // Puntos para el triï¿½ngulo de la flecha
         Point arrowPoint1 = endPoint - direction * arrowSize + perpendicular * (arrowSize / 2);
         Point arrowPoint2 = endPoint - direction * arrowSize - perpendicular * (arrowSize / 2);
 

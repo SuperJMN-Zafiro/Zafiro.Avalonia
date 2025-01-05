@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media;
 
-namespace Zafiro.Avalonia.Controls.Diagrams.Drawing.RectConnectorStrategies;
+namespace Zafiro.Avalonia.Drawing.RectConnectorStrategies;
 
 public class SLineConnectorStrategy : IConnectorStrategy
 {

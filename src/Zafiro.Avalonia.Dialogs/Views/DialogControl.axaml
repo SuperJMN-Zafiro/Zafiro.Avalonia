@@ -30,7 +30,7 @@
         </ControlTheme>
 
         <ControlTheme TargetType="c:DialogControl" x:Key="{x:Type c:DialogControl}">
-            <Setter Property="Padding" Value="16"></Setter>
+            <Setter Property="Padding" Value="16" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
@@ -68,7 +68,7 @@
                             <Style Selector="ItemsControl:empty">
                                 <Setter Property="IsVisible" Value="False" />
                             </Style>
-                            <Style Selector="ItemsControl">
+                            <Style Selector="ItemsControl.Horizontal">
                                 <Setter Property="ItemsPanel">
                                     <Setter.Value>
                                         <ItemsPanelTemplate>
@@ -105,13 +105,14 @@
                                             Orientation="Horizontal"
                                             Spacing="8">
                                     <!-- Cancel siempre va primero -->
-                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].CancelOptions}" />
+                                    <ItemsControl Classes="Horizontal" ItemsSource="{Binding $parent[c:DialogControl].CancelOptions}" />
                                     <!-- Secondary después de Cancel -->
-                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].SecondaryOptions}" />
+                                    <ItemsControl Classes="Horizontal" ItemsSource="{Binding $parent[c:DialogControl].SecondaryOptions}" />
                                 </StackPanel>
 
                                 <!-- Info en el centro -->
-                                <ItemsControl Grid.Column="1"
+                                <ItemsControl Classes="Horizontal"
+                                              Grid.Column="1"
                                               HorizontalAlignment="Center"
                                               ItemsSource="{Binding $parent[c:DialogControl].InfoOptions}" />
 
@@ -121,9 +122,9 @@
                                             Classes="ButtonGroup"
                                             Spacing="8">
                                     <!-- Primary primero -->
-                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].PrimaryOptions}" />
+                                    <ItemsControl Classes="Horizontal" ItemsSource="{Binding $parent[c:DialogControl].PrimaryOptions}" />
                                     <!-- Destructive al final -->
-                                    <ItemsControl ItemsSource="{Binding $parent[c:DialogControl].DestructiveOptions}" />
+                                    <ItemsControl Classes="Horizontal" ItemsSource="{Binding $parent[c:DialogControl].DestructiveOptions}" />
                                 </StackPanel>
                             </Grid>
                         </Grid>
@@ -178,7 +179,7 @@
                 </c:DialogControl>
             </Border>
             <Border BorderThickness="1" BorderBrush="Black">
-                <c:DialogControl Theme="{StaticResource Mobile}" Title="TITLE" Width="700" Height="400">
+                <c:DialogControl Title="TITLE" Width="700" Height="400">
                     <c:DialogControl.Content>
                         <TextBlock>THIS IS MY FUCKING CONTENT</TextBlock>
                     </c:DialogControl.Content>
