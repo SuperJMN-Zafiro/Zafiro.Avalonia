@@ -10,7 +10,7 @@ public static class Wizard
     public static IEnumerable<IOption> OptionsForCloseable(this IWizard wizard, ICloseable closeable)
     {
         var canCancel = wizard.IsBusy.CombineLatest(wizard.IsLastPage, (a, b) => !a && !b);
-        var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canCancel));
+        var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canCancel));
         var close = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, wizard.IsLastPage));
 
         return
