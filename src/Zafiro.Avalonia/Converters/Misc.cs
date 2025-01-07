@@ -46,4 +46,7 @@ public class MiscConverters
 
         return 0;
     });
+
+    public static FuncValueConverter<int, IEnumerable<int>> Range { get; } = new(i => Enumerable.Range(1, i));
+    public static FuncValueConverter<int, int> AddOne { get; } = new(i => i + 1);
 }

@@ -1,0 +1,53 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
+
+    <Styles.Resources>
+        
+        <ControlTheme x:Key="Indicator" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Background" Value="{Binding $parent[c:StepIndicator].Background}" />
+            <Style Selector="^:selected">
+                <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="{Binding $parent[c:StepIndicator].Foreground}" />
+                </Style>
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme TargetType="c:StepIndicator" x:Key="{x:Type c:StepIndicator}">
+            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ListBox
+                        ItemContainerTheme="{StaticResource Indicator}"
+                        VerticalAlignment="Center"
+                        ItemsSource="{Binding $parent[c:StepIndicator].Total, Converter={x:Static converters:MiscConverters.Range}}"
+                        SelectedIndex="{Binding $parent[c:StepIndicator].Current}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate />
+                        </ListBox.ItemTemplate>
+                        <ListBox.Styles>
+                            <Style Selector="ListBox">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+    <Design.PreviewWith>
+        <c:StepIndicator Current="2" Total="6" />
+    </Design.PreviewWith>
+</Styles>

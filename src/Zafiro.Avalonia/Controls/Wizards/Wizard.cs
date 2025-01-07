@@ -94,6 +94,6 @@ public partial class Wizard : ReactiveObject, IWizard
     public IObservable<bool> IsLastPage { get; }
     public IObservable<bool> IsValid { get; }
     public IObservable<bool> IsBusy { get; }
-    public IObservable<int> PageIndex => this.WhenAnyValue(x => x.CurrentIndex, i => i+1);
+    public IObservable<int> PageIndex => this.WhenAnyValue(x => x.CurrentIndex);
     public int TotalPages => pageFactories.Count;
 }

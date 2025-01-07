@@ -10,7 +10,7 @@
 
         <!-- Estilos para los botones según rol -->
         <ControlTheme x:Key="PrimaryButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
+            <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush}" />
             <Setter Property="Foreground" Value="White" />
         </ControlTheme>
 
