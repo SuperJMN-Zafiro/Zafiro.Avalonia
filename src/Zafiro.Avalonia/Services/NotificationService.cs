@@ -26,7 +26,7 @@ public class NotificationService : INotificationService
 
         return new NotificationService(new WindowNotificationManager(Application.Current!.TopLevel().Value)
         {
-            Position = NotificationPosition.BottomCenter,
+            Position = NotificationPosition.BottomRight,
         });
     }
 
