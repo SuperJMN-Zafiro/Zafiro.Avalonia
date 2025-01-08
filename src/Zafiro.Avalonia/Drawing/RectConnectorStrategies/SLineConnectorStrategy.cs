@@ -10,4 +10,10 @@ public class SLineConnectorStrategy : IConnectorStrategy
     {
         context.ConnectWithSLine(from, fromSide, to, toSide, pen, startArrow, endArrow);
     }
+    
+    public Point LabelPosition(Point from, Side fromSide, Point to, Side toSide)
+    {
+        var midPoint = new Point((from.X + to.X) / 2, (from.Y + to.Y) / 2);
+        return midPoint;
+    }
 }

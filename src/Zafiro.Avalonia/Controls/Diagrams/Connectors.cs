@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
@@ -10,37 +9,10 @@ using Zafiro.DataAnalysis.Graphs;
 
 namespace Zafiro.Avalonia.Controls.Diagrams;
 
-public static class ContainerExtensions
-{
-    public static IObservable<T> ContainerOnChanged<T>(this ItemsControl itemsControl, AvaloniaProperty<T> property)
-    {
-        return WhenAnyContainerCreated(itemsControl)
-            .SelectMany(container =>
-                container.GetObservable(property)
-                    .TakeUntil(WhenContainerClearing(itemsControl, container))
-            );
-    }
-
-    private static IObservable<Control> WhenAnyContainerCreated(ItemsControl itemsControl)
-    {
-        return Observable.FromEventPattern<ContainerPreparedEventArgs>(
-                h => itemsControl.ContainerPrepared += h,
-                h => itemsControl.ContainerPrepared -= h)
-            .Select(pattern => pattern.EventArgs.Container);
-    }
-
-    private static IObservable<Unit> WhenContainerClearing(ItemsControl itemsControl, Control container)
-    {
-        return Observable.FromEventPattern<ContainerClearingEventArgs>(
-                h => itemsControl.ContainerClearing += h,
-                h => itemsControl.ContainerClearing -= h)
-            .Where(pattern => pattern.EventArgs.Container == container)
-            .Select(_ => Unit.Default);
-    }
-}
-
 public class Connectors : Control
 {
+    private readonly ConnectionLayoutManager layoutManager = new();
+    
     public static readonly StyledProperty<IConnectorStrategy> ConnectionStyleProperty =
         AvaloniaProperty.Register<Connectors, IConnectorStrategy>(
             nameof(ConnectionStyle), SLineConnectorStrategy.Instance);
@@ -66,7 +38,6 @@ public class Connectors : Control
     public Connectors()
     {
         AffectsRender<Connectors>(EdgesProperty, HostProperty);
-
         InvalidateWhenContainersLocationChanges();
     }
 
@@ -133,232 +104,208 @@ public class Connectors : Control
 
     public override void Render(DrawingContext context)
     {
-        base.Render(context);
-
-        if (Host == null || Edges == null)
-        {
-            return;
-        }
+        if (Host == null || Edges == null) return;
 
         var edges = Edges.Cast<IEdge<object>>().ToList();
         var pen = new Pen(Stroke, StrokeThickness);
+        
+        var layout = layoutManager.CalculateLayout(edges, Host);
+        foreach (var connection in layout.Connections)
+        {
+            ConnectionStyle.Draw(
+                context, 
+                pen,
+                connection.FromPoint,
+                connection.FromSide,
+                connection.ToPoint,
+                connection.ToSide,
+                false, 
+                true);
+        }
+    }
+}
 
-        // Diccionario para almacenar las conexiones de cada rectángulo
-        var rectangleConnections = new Dictionary<Control, RectangleConnections>();
+public class ConnectionLayoutManager 
+{
+    public Layout CalculateLayout(IReadOnlyList<IEdge<object>> edges, ItemsControl host)
+    {
+        var rectangleConnections = GatherConnections(edges, host);
+        AssignConnectionIndices(rectangleConnections, host);
+        return CreateLayout(edges, host, rectangleConnections);
+    }
 
-        // Nuevo diccionario para almacenar los lados asignados a cada arista
-        var edgeSides = new Dictionary<IEdge<object>, Tuple<Side, Side>>();
-
-        // Primera pasada: determinar los lados más cercanos y recopilar las conexiones
+    private Dictionary<Control, RectangleConnections> GatherConnections(
+        IReadOnlyList<IEdge<object>> edges, 
+        ItemsControl host)
+    {
+        var connections = new Dictionary<Control, RectangleConnections>();
+        
         foreach (var edge in edges)
         {
-            var from = Host.ContainerFromItem(edge.From);
-            var to = Host.ContainerFromItem(edge.To);
+            var (from, to) = GetControls(edge, host);
+            if (from == null || to == null) continue;
 
-            if (from == null || to == null)
-            {
-                continue;
-            }
+            connections.GetOrAdd(from, () => new RectangleConnections());
+            connections.GetOrAdd(to, () => new RectangleConnections());
 
-            // Asegurarse de que cada rectángulo tenga una entrada en el diccionario
-            if (!rectangleConnections.ContainsKey(from))
-            {
-                rectangleConnections[from] = new RectangleConnections();
-            }
-
-            if (!rectangleConnections.ContainsKey(to))
-            {
-                rectangleConnections[to] = new RectangleConnections();
-            }
-
-            // Obtener los centros de los rectángulos
-            var fromBounds = from.Bounds;
-            var toBounds = to.Bounds;
-
-            var fromCenter = fromBounds.Center;
-            var toCenter = toBounds.Center;
-
-            // Calcular las diferencias en X y Y
-            var dx = toCenter.X - fromCenter.X;
-            var dy = toCenter.Y - fromCenter.Y;
-
-            // Determinar los lados más cercanos
-            Side fromSide, toSide;
-
-            if (Math.Abs(dx) >= Math.Abs(dy))
-            {
-                // Conexión horizontal
-                if (dx >= 0)
-                {
-                    // 'To' está a la derecha de 'From'
-                    fromSide = Side.Right;
-                    toSide = Side.Left;
-                }
-                else
-                {
-                    // 'To' está a la izquierda de 'From'
-                    fromSide = Side.Left;
-                    toSide = Side.Right;
-                }
-            }
-            else
-            {
-                // Conexión vertical
-                if (dy >= 0)
-                {
-                    // 'To' está debajo de 'From'
-                    fromSide = Side.Bottom;
-                    toSide = Side.Top;
-                }
-                else
-                {
-                    // 'To' está encima de 'From'
-                    fromSide = Side.Top;
-                    toSide = Side.Bottom;
-                }
-            }
-
-            // Agregar la arista a las listas correspondientes
-            rectangleConnections[from].ConnectionsPerSide[fromSide].Add(edge);
-            rectangleConnections[from].EdgeIndicesPerSide[fromSide][edge] = 0; // Índice temporal
-
-            rectangleConnections[to].ConnectionsPerSide[toSide].Add(edge);
-            rectangleConnections[to].EdgeIndicesPerSide[toSide][edge] = 0; // Índice temporal
-
-            // Guardar el lado asignado en el diccionario 'edgeSides'
-            edgeSides[edge] = new Tuple<Side, Side>(fromSide, toSide);
+            var sides = DetermineBestSides(from.Bounds.Center, to.Bounds.Center);
+            
+            connections[from].AddConnection(edge, sides.From);
+            connections[to].AddConnection(edge, sides.To);
         }
 
-        // Segunda pasada: ordenar y asignar índices a las conexiones
-        foreach (var kvp in rectangleConnections)
+        return connections;
+    }
+
+    private SidePair DetermineBestSides(Point fromCenter, Point toCenter)
+    {
+        var dx = toCenter.X - fromCenter.X;
+        var dy = toCenter.Y - fromCenter.Y;
+        
+        return Math.Abs(dx) >= Math.Abs(dy)
+            ? new SidePair(dx >= 0 ? Side.Right : Side.Left, dx >= 0 ? Side.Left : Side.Right)
+            : new SidePair(dy >= 0 ? Side.Bottom : Side.Top, dy >= 0 ? Side.Top : Side.Bottom);
+    }
+
+    private void AssignConnectionIndices(Dictionary<Control, RectangleConnections> connections, ItemsControl host)
+    {
+        foreach (var (control, rectConnections) in connections)
         {
-            var control = kvp.Key;
-            var connections = kvp.Value;
-            var bounds = control.Bounds;
-            var center = bounds.Center;
-
-            foreach (var sideKvp in connections.ConnectionsPerSide)
+            foreach (var side in Enum.GetValues<Side>())
             {
-                var side = sideKvp.Key;
-                var edgesOnSide = sideKvp.Value;
-
-                // Ordenar las conexiones basándose en la posición del centro del rectángulo conectado
-                edgesOnSide.Sort((e1, e2) =>
-                {
-                    var otherControl1 = GetConnectedControl(e1, control);
-                    var otherControl2 = GetConnectedControl(e2, control);
-
-                    var otherCenter1 = otherControl1.Bounds.Center;
-                    var otherCenter2 = otherControl2.Bounds.Center;
-
-                    if (side == Side.Left || side == Side.Right)
-                        // Ordenar por coordenada Y
-                    {
-                        return otherCenter1.Y.CompareTo(otherCenter2.Y);
-                    }
-
-                    // Ordenar por coordenada X
-                    return otherCenter1.X.CompareTo(otherCenter2.X);
-                });
-
-                // Asignar índices después de ordenar
-                for (var i = 0; i < edgesOnSide.Count; i++) connections.EdgeIndicesPerSide[side][edgesOnSide[i]] = i;
+                var edgesOnSide = rectConnections.GetConnectionsForSide(side);
+                var sortedEdges = SortEdgesByPosition(edgesOnSide, control, host);
+                rectConnections.AssignIndices(sortedEdges, side);
             }
         }
+    }
 
-        // Tercera pasada: distribuir los puntos de conexión y dibujar las líneas
+    private (Control? from, Control? to) GetControls(IEdge<object> edge, ItemsControl host) => 
+        (host.ContainerFromItem(edge.From), host.ContainerFromItem(edge.To));
+
+    private Control GetConnectedControl(IEdge<object> edge, Control currentControl, ItemsControl host)
+    {
+        var (from, to) = GetControls(edge, host);
+        return from == currentControl ? to! : from!;
+    }
+
+    private Layout CreateLayout(
+        IReadOnlyList<IEdge<object>> edges,
+        ItemsControl host,
+        Dictionary<Control, RectangleConnections> connections)
+    {
+        var layoutConnections = new List<Connection>();
+
         foreach (var edge in edges)
         {
-            var from = Host.ContainerFromItem(edge.From);
-            var to = Host.ContainerFromItem(edge.To);
+            var (from, to) = GetControls(edge, host);
+            if (from == null || to == null) continue;
 
-            if (from == null || to == null)
-            {
-                continue;
-            }
+            var fromConnection = connections[from].GetConnectionDetails(edge);
+            var toConnection = connections[to].GetConnectionDetails(edge);
 
-            var fromBounds = from.Bounds;
-            var toBounds = to.Bounds;
+            layoutConnections.Add(new Connection(
+                GetConnectionPoint(from.Bounds, fromConnection),
+                fromConnection.Side,
+                GetConnectionPoint(to.Bounds, toConnection),
+                toConnection.Side));
+        }
 
-            var fromConnections = rectangleConnections[from];
-            var toConnections = rectangleConnections[to];
+        return new Layout(layoutConnections);
+    }
 
-            // Obtener los lados asignados desde el diccionario 'edgeSides'
-            var sides = edgeSides[edge];
-            var fromSide = sides.Item1;
-            var toSide = sides.Item2;
+    private IEnumerable<IEdge<object>> SortEdgesByPosition(
+        IEnumerable<ConnectionDetails> connections,
+        Control sourceControl,
+        ItemsControl host)
+    {
+        return connections
+            .OrderBy(c => GetConnectedControl(c.Edge, sourceControl, host).Bounds.Center.Y)
+            .Select(c => c.Edge);
+    }
 
-            // Obtener el índice y total de conexiones en cada lado
-            var fromIndex = fromConnections.EdgeIndicesPerSide[fromSide][edge];
-            var fromTotal = fromConnections.ConnectionsPerSide[fromSide].Count;
+    private Point GetConnectionPoint(Rect bounds, ConnectionDetails connection)
+    {
+        var offset = (connection.Index + 1.0) / (connection.TotalConnections + 1);
+        return connection.Side switch
+        {
+            Side.Left => new Point(bounds.Left, bounds.Top + bounds.Height * offset),
+            Side.Right => new Point(bounds.Right, bounds.Top + bounds.Height * offset),
+            Side.Top => new Point(bounds.Left + bounds.Width * offset, bounds.Top),
+            Side.Bottom => new Point(bounds.Left + bounds.Width * offset, bounds.Bottom),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+}
 
-            var toIndex = toConnections.EdgeIndicesPerSide[toSide][edge];
-            var toTotal = toConnections.ConnectionsPerSide[toSide].Count;
+public record SidePair(Side From, Side To);
+public record Connection(Point FromPoint, Side FromSide, Point ToPoint, Side ToSide);
+public record Layout(IReadOnlyList<Connection> Connections);
 
-            // Calcular el punto de conexión en 'from'
-            var fromPoint = GetConnectionPoint(fromBounds, fromSide, fromIndex, fromTotal);
-
-            // Calcular el punto de conexión en 'to'
-            var toPoint = GetConnectionPoint(toBounds, toSide, toIndex, toTotal);
-
-            // Dibujar la línea
-            ConnectionStyle.Draw(context, pen, fromPoint, fromSide, toPoint, toSide, false, true);
+public class RectangleConnections
+{
+    private readonly Dictionary<Side, List<ConnectionDetails>> connectionsBySide = new();
+    
+    public RectangleConnections()
+    {
+        foreach (var side in Enum.GetValues<Side>())
+        {
+            connectionsBySide[side] = new List<ConnectionDetails>();
         }
     }
 
-    private Control GetConnectedControl(IEdge<object> edge, Control currentControl)
+    public void AddConnection(IEdge<object> edge, Side side) =>
+        connectionsBySide[side].Add(new ConnectionDetails(edge, side));
+
+    public IEnumerable<ConnectionDetails> GetConnectionsForSide(Side side) => 
+        connectionsBySide[side];
+
+    public void AssignIndices(IEnumerable<IEdge<object>> sortedEdges, Side side)
     {
-        var from = Host!.ContainerFromItem(edge.From);
-        var to = Host.ContainerFromItem(edge.To);
+        var connections = connectionsBySide[side];
+        var edgeToIndex = sortedEdges
+            .Select((edge, index) => (edge, index))
+            .ToDictionary(x => x.edge, x => x.index);
 
-        if (from == currentControl)
+        foreach (var connection in connections)
         {
-            return to;
+            connection.Index = edgeToIndex[connection.Edge];
+            connection.TotalConnections = connections.Count;
         }
-
-        return from;
     }
 
-    private Point GetConnectionPoint(Rect bounds, Side side, int index, int totalConnections)
+    public ConnectionDetails GetConnectionDetails(IEdge<object> edge) =>
+        connectionsBySide.Values
+            .SelectMany(x => x)
+            .First(x => x.Edge == edge);
+}
+
+public class ConnectionDetails
+{
+    public IEdge<object> Edge { get; }
+    public Side Side { get; }
+    public int Index { get; set; }
+    public int TotalConnections { get; set; }
+
+    public ConnectionDetails(IEdge<object> edge, Side side)
     {
-        double x = 0;
-        double y = 0;
-
-        if (side == Side.Left || side == Side.Right)
-        {
-            // Lado vertical, distribuir en Y
-            var offset = (index + 1) * bounds.Height / (totalConnections + 1);
-            y = bounds.Top + offset;
-            x = side == Side.Left ? bounds.Left : bounds.Right;
-        }
-        else // Top o Bottom
-        {
-            // Lado horizontal, distribuir en X
-            var offset = (index + 1) * bounds.Width / (totalConnections + 1);
-            x = bounds.Left + offset;
-            y = side == Side.Top ? bounds.Top : bounds.Bottom;
-        }
-
-        return new Point(x, y);
+        Edge = edge;
+        Side = side;
     }
+}
 
-    // Clase para almacenar las conexiones de cada rectángulo
-    private class RectangleConnections
+public static class DictionaryExtensions 
+{
+    public static TValue GetOrAdd<TKey, TValue>(
+        this Dictionary<TKey, TValue> dict,
+        TKey key,
+        Func<TValue> valueFactory) where TKey : notnull
     {
-        public readonly Dictionary<Side, List<IEdge<object>>> ConnectionsPerSide = new();
-        public readonly Dictionary<Side, Dictionary<IEdge<object>, int>> EdgeIndicesPerSide = new();
-
-        public RectangleConnections()
+        if (!dict.TryGetValue(key, out var value))
         {
-            ConnectionsPerSide[Side.Left] = new List<IEdge<object>>();
-            ConnectionsPerSide[Side.Right] = new List<IEdge<object>>();
-            ConnectionsPerSide[Side.Top] = new List<IEdge<object>>();
-            ConnectionsPerSide[Side.Bottom] = new List<IEdge<object>>();
-
-            EdgeIndicesPerSide[Side.Left] = new Dictionary<IEdge<object>, int>();
-            EdgeIndicesPerSide[Side.Right] = new Dictionary<IEdge<object>, int>();
-            EdgeIndicesPerSide[Side.Top] = new Dictionary<IEdge<object>, int>();
-            EdgeIndicesPerSide[Side.Bottom] = new Dictionary<IEdge<object>, int>();
+            value = valueFactory();
+            dict[key] = value;
         }
+        return value;
     }
 }

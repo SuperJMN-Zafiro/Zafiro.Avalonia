@@ -2,7 +2,7 @@
 using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Controls.Diagrams;
 
-namespace TestApp.Samples.Diagrams;
+namespace TestApp.Samples.Diagrams.Simple;
 
 public partial class Node(string name) : ReactiveObject, IHaveLocation
 {

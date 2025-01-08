@@ -23,6 +23,16 @@ public class EnhancedDiagramView : TemplatedControl
     public static readonly StyledProperty<IEnumerable<INode>> NodesProperty = AvaloniaProperty.Register<EnhancedDiagramView, IEnumerable<INode>>(
         nameof(Nodes));
 
+    public static readonly StyledProperty<IDataTemplate> LabelTemplateProperty = AvaloniaProperty.Register<EnhancedDiagramView, IDataTemplate>(
+        nameof(LabelTemplate));
+
+    [InheritDataTypeFromItems(nameof(Edges), AncestorType = typeof(EnhancedDiagramView))]
+    public IDataTemplate LabelTemplate
+    {
+        get => GetValue(LabelTemplateProperty);
+        set => SetValue(LabelTemplateProperty, value);
+    }
+
     public IEnumerable<INode> Nodes
     {
         get => GetValue(NodesProperty);

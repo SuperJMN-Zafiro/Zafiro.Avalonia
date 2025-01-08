@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Samples\Diagrams\Simple\DiagramsView.axaml.cs">
+    <Compile Update="Samples\Diagrams\Simple\SimpleDiagramView.axaml.cs">
       <DependentUpon>DiagramsView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

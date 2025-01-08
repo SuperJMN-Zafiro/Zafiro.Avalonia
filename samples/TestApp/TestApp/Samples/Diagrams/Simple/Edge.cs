@@ -1,6 +1,6 @@
 ﻿using Zafiro.Avalonia.Controls.Diagrams;
 
-namespace TestApp.Samples.Diagrams;
+namespace TestApp.Samples.Diagrams.Simple;
 
 public class Edge : IHaveFromTo
 {
