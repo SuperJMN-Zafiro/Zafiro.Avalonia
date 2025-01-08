@@ -1,13 +1,43 @@
 using System.Collections;
 using System.Reactive;
 using System.Reactive.Disposables;
+using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Zafiro.Avalonia.Drawing;
 using Zafiro.Avalonia.Drawing.RectConnectorStrategies;
 using Zafiro.DataAnalysis.Graphs;
 
-namespace Zafiro.Avalonia.Controls.Diagrams.Simple;
+namespace Zafiro.Avalonia.Controls.Diagrams;
+
+public static class ContainerExtensions
+{
+    public static IObservable<T> ContainerOnChanged<T>(this ItemsControl itemsControl, AvaloniaProperty<T> property)
+    {
+        return WhenAnyContainerCreated(itemsControl)
+            .SelectMany(container =>
+                container.GetObservable(property)
+                    .TakeUntil(WhenContainerClearing(itemsControl, container))
+            );
+    }
+
+    private static IObservable<Control> WhenAnyContainerCreated(ItemsControl itemsControl)
+    {
+        return Observable.FromEventPattern<ContainerPreparedEventArgs>(
+                h => itemsControl.ContainerPrepared += h,
+                h => itemsControl.ContainerPrepared -= h)
+            .Select(pattern => pattern.EventArgs.Container);
+    }
+
+    private static IObservable<Unit> WhenContainerClearing(ItemsControl itemsControl, Control container)
+    {
+        return Observable.FromEventPattern<ContainerClearingEventArgs>(
+                h => itemsControl.ContainerClearing += h,
+                h => itemsControl.ContainerClearing -= h)
+            .Where(pattern => pattern.EventArgs.Container == container)
+            .Select(_ => Unit.Default);
+    }
+}
 
 public class Connectors : Control
 {
@@ -28,14 +58,16 @@ public class Connectors : Control
         AvaloniaProperty.Register<Connectors, double>(
             nameof(StrokeThickness), 1D);
 
+    public static readonly StyledProperty<IDataTemplate?> EdgeLabelTemplateProperty =
+        AvaloniaProperty.Register<Connectors, IDataTemplate?>(nameof(EdgeLabelTemplate));
+
     private readonly CompositeDisposable disposables = new();
 
     public Connectors()
     {
         AffectsRender<Connectors>(EdgesProperty, HostProperty);
 
-        ForContainerProperty(Canvas.LeftProperty).Do(_ => InvalidateVisual()).Subscribe().DisposeWith(disposables);
-        ForContainerProperty(Canvas.TopProperty).Do(_ => InvalidateVisual()).Subscribe().DisposeWith(disposables);
+        InvalidateWhenContainersLocationChanges();
     }
 
     public IBrush Stroke
@@ -68,51 +100,45 @@ public class Connectors : Control
         set => SetValue(EdgesProperty, value);
     }
 
+    public IDataTemplate? EdgeLabelTemplate
+    {
+        get => GetValue(EdgeLabelTemplateProperty);
+        set => SetValue(EdgeLabelTemplateProperty, value);
+    }
+
+    private void InvalidateWhenContainersLocationChanges()
+    {
+        this.WhenAnyValue(x => x.Host)
+            .WhereNotNull()
+            .Select(x => x.ContainerOnChanged(Canvas.LeftProperty))
+            .Switch()
+            .Do(_ => InvalidateVisual())
+            .Subscribe()
+            .DisposeWith(disposables);
+
+        this.WhenAnyValue(x => x.Host)
+            .WhereNotNull()
+            .Select(x => x.ContainerOnChanged(Canvas.TopProperty))
+            .Switch()
+            .Do(_ => InvalidateVisual())
+            .Subscribe()
+            .DisposeWith(disposables);
+    }
+
     protected override void OnUnloaded(RoutedEventArgs e)
     {
         disposables.Dispose();
         base.OnUnloaded(e);
     }
 
-    private IObservable<T> ForContainerProperty<T>(AvaloniaProperty<T> property)
-    {
-        return WhenAnyContainerCreated()
-            .SelectMany(container =>
-                container.GetObservable(property)
-                    .TakeUntil(WhenContainerClearing(container))
-            );
-    }
-
-    private IObservable<Control> WhenAnyContainerCreated()
-    {
-        return this.WhenAnyValue(connectors => connectors.Host)
-            .WhereNotNull()
-            .SelectMany(itemsControl =>
-                Observable.FromEventPattern<ContainerPreparedEventArgs>(
-                        h => itemsControl.ContainerPrepared += h,
-                        h => itemsControl.ContainerPrepared -= h)
-                    .Select(pattern => pattern.EventArgs.Container)
-            );
-    }
-
-    private IObservable<Unit> WhenContainerClearing(Control container)
-    {
-        return this.WhenAnyValue(connectors => connectors.Host)
-            .WhereNotNull()
-            .SelectMany(itemsControl =>
-                Observable.FromEventPattern<ContainerClearingEventArgs>(
-                        h => itemsControl.ContainerClearing += h,
-                        h => itemsControl.ContainerClearing -= h)
-                    .Where(pattern => pattern.EventArgs.Container == container)
-                    .Select(_ => Unit.Default)
-            );
-    }
-
     public override void Render(DrawingContext context)
     {
         base.Render(context);
 
-        if (Host == null || Edges == null) return;
+        if (Host == null || Edges == null)
+        {
+            return;
+        }
 
         var edges = Edges.Cast<IEdge<object>>().ToList();
         var pen = new Pen(Stroke, StrokeThickness);
@@ -129,11 +155,21 @@ public class Connectors : Control
             var from = Host.ContainerFromItem(edge.From);
             var to = Host.ContainerFromItem(edge.To);
 
-            if (from == null || to == null) continue;
+            if (from == null || to == null)
+            {
+                continue;
+            }
 
             // Asegurarse de que cada rectángulo tenga una entrada en el diccionario
-            if (!rectangleConnections.ContainsKey(from)) rectangleConnections[from] = new RectangleConnections();
-            if (!rectangleConnections.ContainsKey(to)) rectangleConnections[to] = new RectangleConnections();
+            if (!rectangleConnections.ContainsKey(from))
+            {
+                rectangleConnections[from] = new RectangleConnections();
+            }
+
+            if (!rectangleConnections.ContainsKey(to))
+            {
+                rectangleConnections[to] = new RectangleConnections();
+            }
 
             // Obtener los centros de los rectángulos
             var fromBounds = from.Bounds;
@@ -217,7 +253,10 @@ public class Connectors : Control
 
                     if (side == Side.Left || side == Side.Right)
                         // Ordenar por coordenada Y
+                    {
                         return otherCenter1.Y.CompareTo(otherCenter2.Y);
+                    }
+
                     // Ordenar por coordenada X
                     return otherCenter1.X.CompareTo(otherCenter2.X);
                 });
@@ -233,7 +272,10 @@ public class Connectors : Control
             var from = Host.ContainerFromItem(edge.From);
             var to = Host.ContainerFromItem(edge.To);
 
-            if (from == null || to == null) continue;
+            if (from == null || to == null)
+            {
+                continue;
+            }
 
             var fromBounds = from.Bounds;
             var toBounds = to.Bounds;
@@ -269,7 +311,10 @@ public class Connectors : Control
         var from = Host!.ContainerFromItem(edge.From);
         var to = Host.ContainerFromItem(edge.To);
 
-        if (from == currentControl) return to;
+        if (from == currentControl)
+        {
+            return to;
+        }
 
         return from;
     }

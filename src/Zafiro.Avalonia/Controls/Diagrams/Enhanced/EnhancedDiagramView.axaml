@@ -3,7 +3,6 @@
         xmlns:controls="using:Zafiro.Avalonia.Controls.Diagrams.Enhanced"
         xmlns:av="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:v="clr-namespace:Zafiro.Avalonia"
         xmlns:s="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple"
         xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls">
 
@@ -47,17 +46,26 @@
                                     <BehaviorCollectionTemplate>
                                         <BehaviorCollection>
                                             <s:DragDeltaBehavior DragButton="Left" x:DataType="av:IHaveLocation"
-                                                                      Left="{Binding Left}"
-                                                                      Top="{Binding Top}" />
+                                                                 Left="{Binding Left}"
+                                                                 Top="{Binding Top}" />
                                         </BehaviorCollection>
                                     </BehaviorCollectionTemplate>
                                 </Setter>
                             </ControlTheme>
                         </controls1:ItemsCanvas.ItemContainerTheme>
                     </controls1:ItemsCanvas>
-                    <s:Connectors Stroke="{TemplateBinding ConnectorBrush}"
-                                       StrokeThickness="{TemplateBinding ConnectorThickness}"
-                                       Host="{Binding #ItemsCanvas}" Edges="{TemplateBinding Edges}" />
+                    <av:Connectors Stroke="{TemplateBinding ConnectorBrush}"
+                                   StrokeThickness="{TemplateBinding ConnectorThickness}"
+                                   Host="{Binding #ItemsCanvas}" Edges="{TemplateBinding Edges}" />
+                    <!-- <av:Labels Host="{Binding #ItemsCanvas}" -->
+                    <!--            ConnectionStyle="{x:Static rectConnectorStrategies:SLineConnectorStrategy.Instance}" -->
+                    <!--            Edges="{TemplateBinding Edges}"> -->
+                    <!--     <av:Labels.EdgeLabelTemplate> -->
+                    <!--         <DataTemplate> -->
+                    <!--             <Border Background="Red" Width="10" Height="10"></Border> -->
+                    <!--         </DataTemplate> -->
+                    <!--     </av:Labels.EdgeLabelTemplate> -->
+                    <!-- </av:Labels> -->
                 </Panel>
             </ControlTemplate>
         </Setter>

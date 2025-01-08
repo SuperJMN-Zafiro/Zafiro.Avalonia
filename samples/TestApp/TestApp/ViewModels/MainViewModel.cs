@@ -4,6 +4,7 @@ using TestApp.Samples.Controls;
 using TestApp.Samples.ControlsNew;
 using TestApp.Samples.DataAnalysis;
 using TestApp.Samples.Diagrams;
+using TestApp.Samples.Diagrams.Enhanced;
 using TestApp.Samples.Drag;
 using TestApp.Samples.MasterDetails;
 using TestApp.Samples.StringEditor;
@@ -15,8 +16,8 @@ namespace TestApp.ViewModels;
 public class MainViewModel : ViewModelBase
 {
     private readonly IDialog dialogService;
-    private readonly IFileSystemPicker storage;
     private readonly INotificationService notificationService;
+    private readonly IFileSystemPicker storage;
 
     public MainViewModel(IDialog dialogService, IFileSystemPicker storage, INotificationService notificationService)
     {
@@ -36,7 +37,8 @@ public class MainViewModel : ViewModelBase
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
         new("Diagrams", new DiagramsViewModel()),
+        new("Diagrams (enhanced)", new EnhancedDiagramViewModel()),
         new("Data Analysis", new DataAnalysisViewModel()),
-        new("Drag", new DragViewModel()),
+        new("Drag", new DragViewModel())
     };
 }
