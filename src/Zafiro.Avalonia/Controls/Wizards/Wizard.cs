@@ -56,8 +56,10 @@ public partial class Wizard : ReactiveObject, IWizard
         }, canGoNext);
 
         // Podemos volver atrás si currentIndex > 0
-        var canGoBack = this.WhenAnyValue(x => x.CurrentIndex)
-            .Select(i => i > 0).CombineLatest(IsBusy, (hasPrev, b) => hasPrev && !b);
+        var isFirstPage = this.WhenAnyValue(x => x.CurrentIndex)
+            .Select(i => i == 0);
+        
+        var canGoBack = Observable.CombineLatest(isFirstPage, IsBusy, IsLastPage, (first, busy, last) => !first && !busy && !last);
 
         var backCommand = ReactiveCommand.Create(() =>
         {

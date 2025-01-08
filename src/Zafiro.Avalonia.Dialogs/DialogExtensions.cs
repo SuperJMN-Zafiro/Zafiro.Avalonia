@@ -20,11 +20,16 @@ public static class DialogExtensions
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canSubmit)), new Settings(false, true)
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canSubmit)), new Settings
             {
+                IsDefault = false,
+                IsCancel = true,
                 Role = OptionRole.Cancel,
             }),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings(true))
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings()
+            {
+                IsDefault = true,
+            })
         ]);
     }
 
@@ -32,13 +37,18 @@ public static class DialogExtensions
         [DisallowNull] TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
         Func<TViewModel, TResult> getResult)
     {
-        var dialogResult = await dialogService.Show(viewModel, title, dialog =>
+        var dialogResult = await dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Dismiss, Observable.Return(true))), new Settings(false, true)
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss)), new Settings
             {
-                Role = OptionRole.Cancel
+                IsDefault = false,
+                IsCancel = true,
+                Role = OptionRole.Cancel,
             }),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(dialog.Close, canSubmit(viewModel))), new Settings(true))
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canSubmit(viewModel))), new Settings()
+            {
+                IsDefault = true,
+            })
         ]);
 
         if (dialogResult == false) return Maybe<TResult>.None;
@@ -52,8 +62,8 @@ public static class DialogExtensions
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close())), new Settings()),
-            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(() => closeable.Close())), new Settings())
+            OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close)), new Settings()),
+            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close)), new Settings())
         ]);
     }
 
@@ -64,7 +74,10 @@ public static class DialogExtensions
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            OptionBuilder.Create(okText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings(true))
+            OptionBuilder.Create(okText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings()
+            {
+                IsDefault = true
+            })
         ]);
     }
 }

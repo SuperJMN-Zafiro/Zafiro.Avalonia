@@ -2,10 +2,11 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using Zafiro.Avalonia.Commands;
 using Zafiro.Avalonia.Controls.Wizards;
+using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public static class Wizard
+public static class WizardMixin
 {
     public static IEnumerable<IOption> OptionsForCloseable(this IWizard wizard, ICloseable closeable)
     {
@@ -15,12 +16,22 @@ public static class Wizard
 
         return
         [
-            OptionBuilder.Create("Next", wizard.Next, new Settings(isVisible: ((IReactiveCommand)wizard.Next).CanExecute, isDefault: true)),
-            OptionBuilder.Create("Cancel", cancel, new Settings(isVisible: canCancel, isCancel: true)
+            OptionBuilder.Create("Next", wizard.Next, new Settings
             {
+                IsDefault = true,
+                IsVisible = wizard.IsLastPage.Not(),
+            }),
+            OptionBuilder.Create("Cancel", cancel, new Settings
+            {
+                IsCancel = true,
+                IsVisible = canCancel,
                 Role = OptionRole.Cancel,
             }),
-            OptionBuilder.Create("Close", close, new Settings(isVisible: wizard.IsLastPage, isDefault: true))
+            OptionBuilder.Create("Close", close, new Settings
+            {
+                IsDefault = true,
+                IsVisible = wizard.IsLastPage
+            })
         ];
     }
 }

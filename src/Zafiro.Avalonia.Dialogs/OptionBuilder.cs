@@ -6,17 +6,10 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public class Settings
 {
-    public Settings(bool isDefault = false, bool isCancel = false, IObservable<bool>? isVisible = null, bool autoAdvance = false)
-    {
-        IsDefault = isDefault;
-        IsCancel = isCancel;
-        IsVisible = isVisible ?? Observable.Return(true);
-        AutoAdvance = autoAdvance;
-    }
-
     public bool IsDefault { get; init;}
     public bool IsCancel { get; init;}
-    public IObservable<bool> IsVisible { get; init;}
+    public IObservable<bool> IsVisible { get; init; } = Observable.Return(true);
+    
     public bool AutoAdvance { get; init; }
     public OptionRole Role { get; init; }
 }
