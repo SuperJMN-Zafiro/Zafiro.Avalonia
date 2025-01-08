@@ -2,7 +2,7 @@ using Avalonia.Data.Converters;
 
 namespace Zafiro.Avalonia.Converters;
 
-public static class BoolOpacityConverters
+public static class OpacityConverters
 {
     public static readonly IValueConverter BoolToOpacity =
         new FuncValueConverter<bool, double>(x => x ? 1.0 : 0.0);

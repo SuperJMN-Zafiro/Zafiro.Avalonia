@@ -22,8 +22,8 @@ public class LabelsControl : TemplatedControl
             nameof(ConnectorStyle), SLineConnectorStrategy.Instance);
 
 
-    public static readonly StyledProperty<IDataTemplate> LabelTemplateProperty =
-        AvaloniaProperty.Register<LabelsControl, IDataTemplate>(
+    public static readonly StyledProperty<IDataTemplate?> LabelTemplateProperty =
+        AvaloniaProperty.Register<LabelsControl, IDataTemplate?>(
             nameof(LabelTemplate));
 
     private IEnumerable labels;
@@ -38,7 +38,7 @@ public class LabelsControl : TemplatedControl
 
                 var canvasItem = new CanvasContent(positionUpdated)
                 {
-                    Content = LabelTemplate.Build(edge)
+                    Content = LabelTemplate?.Build(edge)
                 };
 
                 return canvasItem;
@@ -47,7 +47,7 @@ public class LabelsControl : TemplatedControl
             .Subscribe();
     }
 
-    public IDataTemplate LabelTemplate
+    public IDataTemplate? LabelTemplate
     {
         get => GetValue(LabelTemplateProperty);
         set => SetValue(LabelTemplateProperty, value);

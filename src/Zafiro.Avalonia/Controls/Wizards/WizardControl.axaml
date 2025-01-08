@@ -41,7 +41,7 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto" >
-                        <Button Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}" 
+                        <Button Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}" 
                                 Command="{Binding $parent[wizards:WizardHeader].Back}"
                                 Theme="{StaticResource TransparentButton}">
                             <PathIcon Width="15" Data="{StaticResource LeftArrow}" />

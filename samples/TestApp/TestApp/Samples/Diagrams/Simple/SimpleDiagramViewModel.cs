@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using TestApp.ViewModels;
 
-namespace TestApp.Samples.Diagrams;
+namespace TestApp.Samples.Diagrams.Simple;
 
-public class DiagramsViewModel : ViewModelBase
+public class SimpleDiagramViewModel : ViewModelBase
 {
-    public DiagramsViewModel()
+    public SimpleDiagramViewModel()
     {
        
         var a = new Node("A") { Left = 50, Top = 50 };

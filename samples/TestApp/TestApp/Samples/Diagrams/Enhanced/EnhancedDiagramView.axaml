@@ -5,6 +5,7 @@
              xmlns:e="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Enhanced;assembly=Zafiro.Avalonia"
              xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             xmlns:f="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Diagrams.Enhanced.EnhancedDiagramView">
 
@@ -19,6 +20,23 @@
     <e:EnhancedDiagramView ConnectorBrush="#0078A7"
                            ConnectorThickness="2"
                            Nodes="{StaticResource List}">
+        <e:EnhancedDiagramView.LabelTemplate>
+            <DataTemplate>
+                <Border Background="Transparent" Padding="20" Opacity="{Binding $self.IsPointerOver, Converter={x:Static f:OpacityConverters.BoolToOpacity}}">
+                    <Border TextElement.FontSize="12" Background="WhiteSmoke" BorderThickness="1" CornerRadius="10" Padding="4">
+                        <StackPanel>
+                            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property1" Content="Value1" />
+                            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property2" Content="Value2" />
+                        </StackPanel>
+                    </Border>
+                    <Border.Transitions>
+                        <Transitions>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </DataTemplate>
+        </e:EnhancedDiagramView.LabelTemplate>
         <e:EnhancedDiagramView.Edges>
             <e:Edges List="{StaticResource List}">
                 <diagrams:EdgeItem From="A" To="B" />

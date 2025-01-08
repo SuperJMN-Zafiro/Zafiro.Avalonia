@@ -162,7 +162,7 @@
         <controls:SelectionControl Selection="{Binding Context.SelectionContext}"
                                    IsVisible="{Binding #ToggleButton.IsChecked}" />
         <Button IsEnabled="{Binding IsTransferring^}" 
-                Opacity="{Binding IsTransferring^, FallbackValue=0, Converter={x:Static converters:BoolOpacityConverters.BoolToOpacity}}" DataContext="{Binding Context.TransferManager}" 
+                Opacity="{Binding IsTransferring^, FallbackValue=0, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}" DataContext="{Binding Context.TransferManager}" 
                 Theme="{StaticResource TransparentButton}" 
                 x:Name="TransfersButton">
             <Button.Flyout>

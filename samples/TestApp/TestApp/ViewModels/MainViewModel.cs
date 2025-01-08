@@ -37,7 +37,6 @@ public class MainViewModel : ViewModelBase
         new("Storage", new StorageSampleViewModel(storage)),
         new("Behaviors", new BehaviorsSampleViewModel()),
         new("Diagrams", new DiagramsViewModel()),
-        new("Diagrams (enhanced)", new EnhancedDiagramViewModel()),
         new("Data Analysis", new DataAnalysisViewModel()),
         new("Drag", new DragViewModel())
     };
