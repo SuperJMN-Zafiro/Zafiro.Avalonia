@@ -4,7 +4,8 @@
         xmlns:av="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:s="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple"
-        xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:st="clr-namespace:Zafiro.Avalonia.Drawing.RectConnectorStrategies">
 
     <Styles.Resources>
         <generic:List x:Key="List" x:TypeArguments="av:INode">
@@ -39,8 +40,8 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <controls1:ItemsCanvas x:Name="ItemsCanvas" ItemsSource="{TemplateBinding Nodes}" ItemTemplate="{TemplateBinding NodeTemplate}">
-                        <controls1:ItemsCanvas.ItemContainerTheme>
+                    <c:ItemsCanvas x:Name="ItemsCanvas" ItemsSource="{TemplateBinding Nodes}" ItemTemplate="{TemplateBinding NodeTemplate}">
+                        <c:ItemsCanvas.ItemContainerTheme>
                             <ControlTheme TargetType="ContentPresenter" BasedOn="{StaticResource LeftAndTopContainer}">
                                 <Setter Property="Interaction.Behaviors">
                                     <BehaviorCollectionTemplate>
@@ -52,20 +53,23 @@
                                     </BehaviorCollectionTemplate>
                                 </Setter>
                             </ControlTheme>
-                        </controls1:ItemsCanvas.ItemContainerTheme>
-                    </controls1:ItemsCanvas>
+                        </c:ItemsCanvas.ItemContainerTheme>
+                    </c:ItemsCanvas>
                     <av:Connectors Stroke="{TemplateBinding ConnectorBrush}"
                                    StrokeThickness="{TemplateBinding ConnectorThickness}"
                                    Host="{Binding #ItemsCanvas}" Edges="{TemplateBinding Edges}" />
-                    <!-- <av:Labels Host="{Binding #ItemsCanvas}" -->
-                    <!--            ConnectionStyle="{x:Static rectConnectorStrategies:SLineConnectorStrategy.Instance}" -->
-                    <!--            Edges="{TemplateBinding Edges}"> -->
-                    <!--     <av:Labels.EdgeLabelTemplate> -->
-                    <!--         <DataTemplate> -->
-                    <!--             <Border Background="Red" Width="10" Height="10"></Border> -->
-                    <!--         </DataTemplate> -->
-                    <!--     </av:Labels.EdgeLabelTemplate> -->
-                    <!-- </av:Labels> -->
+                    <av:LabelsControl Edges="{TemplateBinding Edges}">
+                        <av:LabelsControl.LabelTemplate>
+                            <DataTemplate>
+                                <Border TextElement.FontSize="12" Background="WhiteSmoke" BorderThickness="1" CornerRadius="10" Padding="4">
+                                    <StackPanel>
+                                        <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property1" Content="Value1" />
+                                        <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property2" Content="Value2" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </av:LabelsControl.LabelTemplate>
+                    </av:LabelsControl>
                 </Panel>
             </ControlTemplate>
         </Setter>
