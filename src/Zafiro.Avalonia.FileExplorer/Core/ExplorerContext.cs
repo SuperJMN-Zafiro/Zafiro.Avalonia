@@ -53,8 +53,8 @@ public partial class ExplorerContext : ReactiveObject, IDisposable
         
         Delete = directories.Select(d => ReactiveCommand.CreateFromTask(async () =>
         {
-            var confirm = await Dialog.ShowConfirmation($"Delete", $"Do you really want to delete the selected items?");
-            if (confirm)
+            var show = await Dialog.ShowConfirmation($"Delete", $"Do you really want to delete the selected items?");
+            if (show.HasValue && show.Value)
             {
                 var deletes = selectedItems.Select(item => item.Delete).ToList();
                 var executes = deletes.Select(x => x.Execute());
