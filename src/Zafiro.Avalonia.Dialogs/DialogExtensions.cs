@@ -37,7 +37,7 @@ public static class DialogExtensions
         [DisallowNull] TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
         Func<TViewModel, TResult> getResult)
     {
-        var dialogResult = await dialogService.Show(viewModel, title, closeable =>
+        bool showed = await dialogService.Show(viewModel, title, closeable =>
         [
             OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss)), new Settings
             {
@@ -51,20 +51,43 @@ public static class DialogExtensions
             })
         ]);
 
-        if (dialogResult == false) return Maybe<TResult>.None;
-
-        return getResult(viewModel);
+        if (showed)
+        {
+            return getResult(viewModel);
+        }
+        
+        return Maybe<TResult>.None;
     }
     
-    public static Task<bool> ShowConfirmation(this IDialog dialogService, string title, string text)
+    public static async Task<Maybe<bool>> ShowConfirmation(this IDialog dialogService, string title, string text, string yesText = "Yes", string noText = "No")
     {
-        var messageDialogViewModel = new MessageDialogViewModel(text);
+        var result = false;
+        
+        var show = await dialogService.Show(new MessageDialogViewModel(text), title, closeable =>
+        {
+            List<IOption> options =
+            [
+                OptionBuilder.Create(yesText, EnhancedCommand.Create(ReactiveCommand.Create(() =>
+                {
+                    result = true;
+                    closeable.Close();
+                })), new Settings()),
+                OptionBuilder.Create(noText, EnhancedCommand.Create(ReactiveCommand.Create(() =>
+                {
+                    result = false;
+                    closeable.Close();
+                })), new Settings())
+            ];
+            
+            return options;
+        });
 
-        return dialogService.Show(messageDialogViewModel, title, closeable =>
-        [
-            OptionBuilder.Create("Yes", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close)), new Settings()),
-            OptionBuilder.Create("No", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close)), new Settings())
-        ]);
+        if (show)
+        {
+            return result;
+        }
+
+        return Maybe<bool>.None;
     }
 
     public static Task ShowMessage(this IDialog dialogService, string title, string text,
