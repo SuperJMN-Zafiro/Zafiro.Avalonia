@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
              x:Class="TestApp.Samples.ControlsNew.Wizard.Pages.FirstPageView"
              x:DataType="pages1:FirstPageViewModel">
-    <StackPanel Spacing="10" VerticalAlignment="Center">
+    <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
         <TextBlock>
             <Run>This is the first page of the wizard</Run>
             <LineBreak />

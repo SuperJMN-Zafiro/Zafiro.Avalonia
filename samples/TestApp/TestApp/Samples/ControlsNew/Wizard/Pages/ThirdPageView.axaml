@@ -4,5 +4,5 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.ControlsNew.Wizard.Pages.ThirdPageView">
-    <TextBlock VerticalAlignment="Center">The wizard is over!</TextBlock>
+    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">The wizard is over!</TextBlock>
 </UserControl>

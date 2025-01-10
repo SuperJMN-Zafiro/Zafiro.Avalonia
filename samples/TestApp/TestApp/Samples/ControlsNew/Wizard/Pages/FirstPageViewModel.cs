@@ -20,5 +20,5 @@ public partial class FirstPageViewModel : ReactiveValidationObject, IStep
     public IObservable<bool> IsValid => this.IsValid();
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
-    public Maybe<string> Title => Maybe<string>.None;
+    public Maybe<string> Title => "First page";
 }

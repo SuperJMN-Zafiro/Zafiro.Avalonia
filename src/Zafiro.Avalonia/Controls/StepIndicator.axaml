@@ -8,7 +8,7 @@
         <ControlTheme x:Key="Indicator" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="Padding" Value="5" />
-            <Setter Property="Margin" Value="10" />
+            <Setter Property="Margin" Value="10 5" />
             <Setter Property="IsHitTestVisible" Value="False" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Background" Value="{Binding $parent[c:StepIndicator].Background}" />

@@ -3,7 +3,6 @@ using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 using Avalonia.Styling;
 using CSharpFunctionalExtensions;
@@ -11,20 +10,13 @@ using ReactiveUI;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Views;
 
-public class AdornerDialog : IDialog, ICloseable
+public class AdornerDialog(Visual control) : IDialog, ICloseable
 {
-    private readonly AdornerLayer layer;
+    private readonly AdornerLayer layer = AdornerLayer.GetAdornerLayer(control) 
+                                          ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
     private readonly Stack<Control> dialogs = new();
     private TaskCompletionSource<bool>? currentDialog;
 
-    public AdornerDialog(Visual control, DataTemplates? dataTemplates = null)
-    {
-        layer = AdornerLayer.GetAdornerLayer(control) 
-            ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
-        DataTemplates = dataTemplates.AsMaybe();
-    }
-
-    public Maybe<DataTemplates> DataTemplates { get; }
 
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
     {
@@ -64,13 +56,6 @@ public class AdornerDialog : IDialog, ICloseable
 
         var result = await currentDialog.Task.ConfigureAwait(false);
         return result;
-    }
-
-    private DataTemplates GetDialogTemplates()
-    {
-        var map = Application.Current.AsMaybe().Map(Dialog.GetTemplates);
-        var templates = DataTemplates.Or(map);
-        return templates.GetValueOrDefault(new DataTemplates());
     }
 
     public void Close()

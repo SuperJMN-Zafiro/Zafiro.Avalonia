@@ -14,8 +14,8 @@
         <StyleInclude Source="avares://Zafiro.Avalonia.DataViz/Styles.axaml" />
 		<FluentTheme />
 		<Style Selector="views|DialogControl">
-			<Setter Property="Width" Value="500" />
-			<Setter Property="Height" Value="400" />
+			<Setter Property="Width" Value="400" />
+			<Setter Property="Height" Value="300" />
 		</Style>
 	</Application.Styles>
 

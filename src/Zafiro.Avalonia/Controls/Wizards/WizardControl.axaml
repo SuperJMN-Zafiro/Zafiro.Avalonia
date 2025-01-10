@@ -5,7 +5,7 @@
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Design.PreviewWith>
-        <wizards:WizardControl Width="400" Height="500">
+        <wizards:WizardControl Width="400" Height="300">
             <wizards:WizardControl.DataTemplates>
                 <DataTemplate DataType="wizards:StepDesign">
                     <TextBlock TextWrapping="Wrap">HI, THIS IS THE CONTENT OF THE WIZARD</TextBlock>
@@ -36,45 +36,37 @@
             </Setter>
         </ControlTheme>
 
-
         <ControlTheme TargetType="wizards:WizardHeader" x:Key="{x:Type wizards:WizardHeader}">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto" >
-                        <Button Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}" 
-                                Command="{Binding $parent[wizards:WizardHeader].Back}"
-                                Theme="{StaticResource TransparentButton}">
-                            <PathIcon Width="15" Data="{StaticResource LeftArrow}" />
-                        </Button>
-                        <TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" FontWeight="Bold" FontSize="20"
-                                   Text="{Binding $parent[wizards:WizardHeader].Title.Value}" IsVisible="{Binding $parent[wizards:WizardHeader].Title.HasValue}" />
-                        <c:StepIndicator x:Name="StepIndicator" HorizontalAlignment="Center" 
-                                         Current="{Binding $parent[wizards:WizardHeader].CurrentPageIndex}"
-                                         Classes.AsTitle="{Binding $parent[wizards:WizardHeader].Title.HasNoValue}"
-                                         Total="{Binding $parent[wizards:WizardHeader].TotalPages}">
+                    <Border Background="{TemplateBinding Background}">
+                        <c:TrueCenterPanel>
+                            <Button c:TrueCenterPanel.Dock="Left" Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
+                                    Command="{Binding $parent[wizards:WizardHeader].Back}"
+                                    Theme="{StaticResource TransparentButton}">
+                                <PathIcon Width="15" Data="{StaticResource LeftArrow}" />
+                            </Button>
                             
-                            <c:StepIndicator.Styles>
-                                <Style Selector="c|StepIndicator">
-                                    <Setter Property="Grid.Row" Value="1" />
-                                    <Setter Property="Grid.ColumnSpan" Value="3" />
-                                </Style>
-                                <Style Selector="c|StepIndicator.AsTitle">
-                                    <Setter Property="Grid.Row" Value="0" />
-                                    <Setter Property="Grid.Column" Value="1" />
-                                </Style>
-                            </c:StepIndicator.Styles>
-                            
-                        </c:StepIndicator>
+                            <StackPanel c:TrueCenterPanel.Dock="Center" Spacing="5">
+                                <TextBlock c:TrueCenterPanel.Dock="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
+                                           TextAlignment="Center"
+                                           Text="{Binding $parent[wizards:WizardHeader].Title.Value}" IsVisible="{Binding $parent[wizards:WizardHeader].Title.HasValue}" />
+                                <c:StepIndicator x:Name="StepIndicator" HorizontalAlignment="Center"
+                                                 Current="{Binding $parent[wizards:WizardHeader].CurrentPageIndex}"
+                                                 Classes.AsTitle="{Binding $parent[wizards:WizardHeader].Title.HasNoValue}"
+                                                 Total="{Binding $parent[wizards:WizardHeader].TotalPages}">
+                                </c:StepIndicator>
+                            </StackPanel>
 
-                        <TextBlock FontSize="12" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="Step {0} of {1}">
-                                    <Binding Path="#StepIndicator.Current" Converter="{x:Static converters:MiscConverters.AddOne}" />
-                                    <Binding Path="#StepIndicator.Total" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Grid>
+                            <TextBlock FontSize="12" VerticalAlignment="Center" c:TrueCenterPanel.Dock="Right">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Step {0} of {1}">
+                                        <Binding Path="#StepIndicator.Current" Converter="{x:Static converters:MiscConverters.AddOne}" />
+                                        <Binding Path="#StepIndicator.Total" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </c:TrueCenterPanel></Border>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>

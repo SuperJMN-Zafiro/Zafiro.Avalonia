@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -28,13 +29,9 @@ public class App : Application
 
     private static MainViewModel MainViewModel(Control view)
     {
-        //var dialogService = new DesktopDialog();
-        // Enable if you want to force the Single Dialog Service
-        var dialogService = new AdornerDialog(view);
-
         var topLevel = TopLevel.GetTopLevel(view)!;
         var avaloniaFilePicker = new AvaloniaFileSystemPicker(topLevel.StorageProvider);
         INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));
-        return new MainViewModel(dialogService, avaloniaFilePicker, notificationService);
+        return new MainViewModel(DialogService.Create(), avaloniaFilePicker, notificationService);
     }
 }
