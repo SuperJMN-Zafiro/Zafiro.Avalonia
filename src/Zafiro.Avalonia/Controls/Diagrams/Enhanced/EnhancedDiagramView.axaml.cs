@@ -49,7 +49,7 @@ public class EnhancedDiagramView : TemplatedControl
     }
 
     public static readonly StyledProperty<IBrush> ConnectorBrushProperty = AvaloniaProperty.Register<EnhancedDiagramView, IBrush>(
-        nameof(ConnectorBrush));
+        nameof(ConnectorBrush), defaultValue: Brushes.Black);
 
     public IBrush ConnectorBrush
     {
@@ -58,7 +58,7 @@ public class EnhancedDiagramView : TemplatedControl
     }
 
     public static readonly StyledProperty<double> ConnectorThicknessProperty = AvaloniaProperty.Register<EnhancedDiagramView, double>(
-        nameof(ConnectorThickness));
+        nameof(ConnectorThickness), defaultValue: 1.0D);
 
     public double ConnectorThickness
     {

@@ -36,9 +36,16 @@ public class LabelsControl : TemplatedControl
             {
                 var positionUpdated = PositionUpdated(edge);
 
+                var content = LabelTemplate?.Build(null);
+
+                if (content != null)
+                {
+                    content.DataContext = edge;
+                }
+                
                 var canvasItem = new CanvasContent(positionUpdated)
                 {
-                    Content = LabelTemplate?.Build(edge)
+                    Content = content
                 };
 
                 return canvasItem;

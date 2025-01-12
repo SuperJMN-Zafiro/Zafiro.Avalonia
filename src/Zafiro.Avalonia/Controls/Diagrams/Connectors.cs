@@ -24,11 +24,11 @@ public class Connectors : Control
         AvaloniaProperty.Register<Connectors, IEnumerable?>(nameof(Edges));
 
     public static readonly StyledProperty<IBrush> StrokeProperty = AvaloniaProperty.Register<Connectors, IBrush>(
-        nameof(Stroke), Brushes.Black);
+        nameof(Stroke), defaultValue: Brushes.Black);
 
     public static readonly StyledProperty<double> StrokeThicknessProperty =
         AvaloniaProperty.Register<Connectors, double>(
-            nameof(StrokeThickness), 1D);
+            nameof(StrokeThickness), defaultValue: 1D);
 
     public static readonly StyledProperty<IDataTemplate?> EdgeLabelTemplateProperty =
         AvaloniaProperty.Register<Connectors, IDataTemplate?>(nameof(EdgeLabelTemplate));
@@ -37,8 +37,11 @@ public class Connectors : Control
 
     public Connectors()
     {
-        AffectsRender<Connectors>(EdgesProperty, HostProperty);
+        AffectsRender<Connectors>(EdgesProperty, HostProperty, StrokeThicknessProperty, StrokeProperty);
         InvalidateWhenContainersLocationChanges();
+
+        // StrokeThickness = 1;
+        // Stroke = Brushes.Black;
     }
 
     public IBrush Stroke
