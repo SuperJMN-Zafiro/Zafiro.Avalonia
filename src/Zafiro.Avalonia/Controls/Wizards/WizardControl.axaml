@@ -50,6 +50,7 @@
                             <StackPanel c:TrueCenterPanel.Dock="Center" Spacing="5">
                                 <TextBlock c:TrueCenterPanel.Dock="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
                                            TextAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
                                            Text="{Binding $parent[wizards:WizardHeader].Title.Value}" IsVisible="{Binding $parent[wizards:WizardHeader].Title.HasValue}" />
                                 <c:StepIndicator x:Name="StepIndicator" HorizontalAlignment="Center"
                                                  Current="{Binding $parent[wizards:WizardHeader].CurrentPageIndex}"
@@ -58,7 +59,7 @@
                                 </c:StepIndicator>
                             </StackPanel>
 
-                            <TextBlock FontSize="12" VerticalAlignment="Center" c:TrueCenterPanel.Dock="Right">
+                            <TextBlock FontSize="12" VerticalAlignment="Center" c:TrueCenterPanel.Dock="Right" Margin="5 0">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="Step {0} of {1}">
                                         <Binding Path="#StepIndicator.Current" Converter="{x:Static converters:MiscConverters.AddOne}" />

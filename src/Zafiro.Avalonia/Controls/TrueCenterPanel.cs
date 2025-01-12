@@ -1,13 +1,11 @@
-namespace Zafiro.Avalonia.Controls;
-
 using System;
 using System.Linq;
-using static global::Avalonia.Layout.VerticalAlignment;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Layout;
 
+namespace Zafiro.Avalonia.Controls;
 
-/// <summary>
-/// Specifies where to position the content
-/// </summary>
 public enum TrueCenterDock
 {
     Left,
@@ -15,36 +13,15 @@ public enum TrueCenterDock
     Right
 }
 
-/// <summary>
-/// A panel that arranges its children in three zones: left, center, and right.
-/// The center element is always centered relative to the total width of the panel,
-/// while being clipped if it overlaps with the side elements.
-/// Each element can be vertically aligned independently.
-/// </summary>
-/// <remarks>
-/// This panel is particularly useful for layouts where you need a centered element
-/// that maintains its center position relative to the total width, even when
-/// side elements might cause overlapping. In such cases, the center element will
-/// be clipped while maintaining its centered position.
-/// </remarks>
-/// <example>
-/// <code>
-/// <a:TrueCenterPanel>
-///     <Button a:TrueCenterPanel.Dock="Left" Content="Left" />
-///     <TextBlock a:TrueCenterPanel.Dock="Center" Text="Centered text" TextTrimming="CharacterEllipsis" />
-///     <Button a:TrueCenterPanel.Dock="Right" Content="Right" />
-/// </a:TrueCenterPanel>
-/// </code>
-/// </example>
 public class TrueCenterPanel : Panel
 {
     public static readonly AttachedProperty<TrueCenterDock> DockProperty =
         AvaloniaProperty.RegisterAttached<TrueCenterPanel, Control, TrueCenterDock>(
             "Dock",
-            TrueCenterDock.Left
+            defaultValue: TrueCenterDock.Left
         );
 
-    public static TrueCenterDock GetDock(Control element) 
+    public static TrueCenterDock GetDock(Control element)
         => element.GetValue(DockProperty);
 
     public static void SetDock(Control element, TrueCenterDock value)
@@ -52,45 +29,36 @@ public class TrueCenterPanel : Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        // Find children (if they exist)
         var leftChild = Children.FirstOrDefault(c => GetDock(c) == TrueCenterDock.Left);
         var centerChild = Children.FirstOrDefault(c => GetDock(c) == TrueCenterDock.Center);
         var rightChild = Children.FirstOrDefault(c => GetDock(c) == TrueCenterDock.Right);
 
-        // First measure the left button with the total width offered by the container
-        // (You could limit it somehow, but typically there's no need)
+        // 1) Mide Left y Right libremente con el tamaño ofrecido
         leftChild?.Measure(availableSize);
         var leftSize = leftChild?.DesiredSize ?? new Size();
 
-        // Also measure the right button
         rightChild?.Measure(availableSize);
         var rightSize = rightChild?.DesiredSize ?? new Size();
 
-        // Calculate remaining space for the center content
-        double remainingWidth = availableSize.Width - leftSize.Width - rightSize.Width;
-        if (remainingWidth < 0)
-            remainingWidth = 0;
+        // 2) side = máximo ancho de left vs right
+        double side = Math.Max((double)leftSize.Width, rightSize.Width);
 
-        // Now measure the center with that limited space (so it can apply Trimming if needed)
+        // 3) El ancho disponible para el centro = total - 2*side (clamp >=0)
+        double centerAvailWidth = Math.Max(0, availableSize.Width - 2 * side);
+
+        // Mide el centro con ese ancho
         if (centerChild != null)
         {
-            var centerAvailable = new Size(remainingWidth, availableSize.Height);
-            centerChild.Measure(centerAvailable);
+            centerChild.Measure(new Size(centerAvailWidth, availableSize.Height));
         }
+
         var centerSize = centerChild?.DesiredSize ?? new Size();
 
-        // The final height needed by the panel is the maximum of the three children
-        double neededHeight = new[] { 
-            leftSize.Height, 
-            centerSize.Height, 
-            rightSize.Height 
-        }.Max();
-
-        // Don't exceed available height
+        // 4) La altura necesaria = la máxima de los tres
+        double neededHeight = new double[] { leftSize.Height, centerSize.Height, rightSize.Height }.Max();
         double finalHeight = Math.Min(neededHeight, availableSize.Height);
 
-        // Request full width
-        // (If the parent container can't give it all, it will be clipped)
+        // Pedimos todo el ancho que haya
         return new Size(availableSize.Width, finalHeight);
     }
 
@@ -104,100 +72,73 @@ public class TrueCenterPanel : Panel
         var centerSize = centerChild?.DesiredSize ?? new Size();
         var rightSize = rightChild?.DesiredSize ?? new Size();
 
-        // Helper function to calculate vertical position based on alignment
-        double GetVerticalPosition(Control? child, double elementHeight)
-        {
-            if (child == null) return 0;
-            
-            return child.VerticalAlignment switch
-            {
-                Top => 0,
-                Bottom => Math.Max(0, finalSize.Height - elementHeight),
-                Stretch => 0, // For Stretch, start from top
-                _ => Math.Max(0, (finalSize.Height - elementHeight) / 2) // Center is default
-            };
-        }
+        // side = mayor ancho de Left / Right
+        double side = Math.Max(leftSize.Width, rightSize.Width);
 
-        // Helper function to get height based on alignment
-        double GetVerticalHeight(Control? child, double elementHeight)
-        {
-            if (child == null) return 0;
-            
-            return child.VerticalAlignment == Stretch 
-                ? Math.Max(1, finalSize.Height)
-                : Math.Max(1, Math.Min(elementHeight, finalSize.Height));
-        }
-
-        // 1. Left button: x=0
+        // --- LEFT ---
         if (leftChild != null)
         {
-            double topLeft = GetVerticalPosition(leftChild, leftSize.Height);
-            double height = GetVerticalHeight(leftChild, leftSize.Height);
-            
-            leftChild.Arrange(new Rect(0, topLeft, 
-                Math.Max(0, Math.Min(leftSize.Width, finalSize.Width)),
-                height));
+            double w = Math.Min(leftSize.Width, finalSize.Width);
+            // Calculamos la altura final que va a usar
+            double h = GetArrangedHeight(leftChild, finalSize.Height, leftSize.Height);
+            // Calculamos el top en función del VerticalAlignment
+            double top = GetTop(leftChild, finalSize.Height, h);
+
+            leftChild.Arrange(new Rect(0, top, w, h));
         }
 
-        // 2. Right button: aligned to the right
+        // --- RIGHT ---
         if (rightChild != null)
         {
-            double rightX = Math.Max(0, finalSize.Width - rightSize.Width);
-            double topRight = GetVerticalPosition(rightChild, rightSize.Height);
-            double height = GetVerticalHeight(rightChild, rightSize.Height);
-            
-            rightChild.Arrange(new Rect(rightX, topRight, 
-                Math.Max(0, Math.Min(rightSize.Width, finalSize.Width - rightX)),
-                height));
+            double w = Math.Min(rightSize.Width, finalSize.Width);
+            double x = Math.Max(0, finalSize.Width - w);
+
+            double h = GetArrangedHeight(rightChild, finalSize.Height, rightSize.Height);
+            double top = GetTop(rightChild, finalSize.Height, h);
+
+            rightChild.Arrange(new Rect(x, top, w, h));
         }
 
-        // 3. Center: centered relative to total width, but clipped if overlapping
+        // --- CENTER ---
         if (centerChild != null)
         {
-            // First calculate ideal centered position relative to total width
-            double idealCenterX = Math.Max(0, (finalSize.Width - centerSize.Width) / 2);
-            double topCenter = GetVerticalPosition(centerChild, centerSize.Height);
-            double height = GetVerticalHeight(centerChild, centerSize.Height);
-            
-            // Calculate boundaries imposed by side elements
-            double leftBoundary = Math.Max(0, leftSize.Width);
-            double rightBoundary = Math.Max(leftBoundary, finalSize.Width - rightSize.Width);
-            
-            // Calculate real available space
-            double availableWidth = Math.Max(1, rightBoundary - leftBoundary);
-            
-            // Determine final width and X position
-            double finalWidth;
-            double finalX;
-            
-            if (idealCenterX < leftBoundary)
-            {
-                finalX = leftBoundary;
-                finalWidth = Math.Max(1, Math.Min(centerSize.Width - (leftBoundary - idealCenterX), availableWidth));
-            }
-            else if (idealCenterX + centerSize.Width > rightBoundary)
-            {
-                finalWidth = Math.Max(1, rightBoundary - idealCenterX);
-                finalX = Math.Min(idealCenterX, rightBoundary - 1);
-            }
-            else
-            {
-                finalX = idealCenterX;
-                finalWidth = Math.Min(centerSize.Width, rightBoundary - finalX);
-            }
-            
-            // Ensure values are valid
-            finalX = Math.Max(0, Math.Min(finalX, finalSize.Width - 1));
-            finalWidth = Math.Max(1, Math.Min(finalWidth, finalSize.Width - finalX));
-            
-            centerChild.Arrange(new Rect(
-                finalX,
-                topCenter,
-                finalWidth,
-                height
-            ));
+            // Franja central = [side .. (finalSize.Width - side)]
+            double sliceWidth = Math.Max(0, finalSize.Width - 2 * side);
+            double cWidth = Math.Min(centerSize.Width, sliceWidth);
+
+            double cHeight = GetArrangedHeight(centerChild, finalSize.Height, centerSize.Height);
+            double top = GetTop(centerChild, finalSize.Height, cHeight);
+
+            // centrar dentro de esa franja
+            double cX = side + (sliceWidth - cWidth) / 2;
+            centerChild.Arrange(new Rect(cX, top, cWidth, cHeight));
         }
 
         return finalSize;
+    }
+
+    /// <summary>
+    /// Calcula la posición vertical (Top) según el VerticalAlignment del control.
+    /// </summary>
+    private double GetTop(Control child, double containerHeight, double arrangedHeight)
+    {
+        return child.VerticalAlignment switch
+        {
+            VerticalAlignment.Top => 0,
+            VerticalAlignment.Bottom => containerHeight - arrangedHeight,
+            VerticalAlignment.Center => (containerHeight - arrangedHeight) / 2,
+            VerticalAlignment.Stretch => 0, // y el alto se lleva todo
+            _ => 0
+        };
+    }
+
+    /// <summary>
+    /// Calcula el alto final que debe ocupar el child, según su VerticalAlignment.
+    /// </summary>
+    private double GetArrangedHeight(Control child, double containerHeight, double measuredHeight)
+    {
+        return child.VerticalAlignment == VerticalAlignment.Stretch
+            ? containerHeight
+            : measuredHeight;
     }
 }

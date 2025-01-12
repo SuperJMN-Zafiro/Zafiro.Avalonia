@@ -21,5 +21,5 @@ public class StepDesign : IStep
     public IObservable<bool> IsValid => Observable.Return(true);
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
-    public Maybe<string> Title => "Sample step";
+    public Maybe<string> Title => "Sample step with a very long title";
 }
