@@ -16,13 +16,19 @@
             <e:NodeDesign Left="70" Top="200" Name="C" />
         </generic:List>
     </UserControl.Resources>
+    
+    <UserControl.Styles>
+        <Style Selector="diagrams|CanvasContent">
+            <Setter Property="ZIndex" Value="{Binding $self.IsPointerOver, Converter={x:Static f:MiscConverters.TrueToOne}}" />
+        </Style>
+    </UserControl.Styles>
 
     <e:EnhancedDiagramView ConnectorBrush="#0078A7"
                            ConnectorThickness="2"
                            Nodes="{StaticResource List}">
         <e:EnhancedDiagramView.LabelTemplate>
             <DataTemplate>
-                <Border Background="Transparent" Padding="20" Opacity="{Binding $self.IsPointerOver, Converter={x:Static f:OpacityConverters.BoolToOpacity}}">
+                <Border Background="Transparent" Padding="20">
                     <Border TextElement.FontSize="12" Background="WhiteSmoke" BorderThickness="1" CornerRadius="10" Padding="4">
                         <StackPanel>
                             <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property1" Content="Value1" />
@@ -41,6 +47,7 @@
             <e:Edges List="{StaticResource List}">
                 <diagrams:EdgeItem From="A" To="B" />
                 <diagrams:EdgeItem From="B" To="C" />
+                <diagrams:EdgeItem From="C" To="B" />
             </e:Edges>
         </e:EnhancedDiagramView.Edges>
         <e:EnhancedDiagramView.NodeTemplate>

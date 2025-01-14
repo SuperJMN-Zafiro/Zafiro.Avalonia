@@ -11,8 +11,6 @@ namespace Zafiro.Avalonia.Controls.Diagrams;
 
 public class Connectors : Control
 {
-    private readonly ConnectionLayoutManager layoutManager = new();
-    
     public static readonly StyledProperty<IConnectorStrategy> ConnectionStyleProperty =
         AvaloniaProperty.Register<Connectors, IConnectorStrategy>(
             nameof(ConnectionStyle), SLineConnectorStrategy.Instance);
@@ -33,16 +31,53 @@ public class Connectors : Control
     public static readonly StyledProperty<IDataTemplate?> EdgeLabelTemplateProperty =
         AvaloniaProperty.Register<Connectors, IDataTemplate?>(nameof(EdgeLabelTemplate));
 
+    private readonly ConnectionLayoutManager layoutManager = new();
     private readonly CompositeDisposable disposables = new();
+    private Layout? currentLayout;
+
 
     public Connectors()
     {
         AffectsRender<Connectors>(EdgesProperty, HostProperty, StrokeThicknessProperty, StrokeProperty);
         InvalidateWhenContainersLocationChanges();
-
-        // StrokeThickness = 1;
-        // Stroke = Brushes.Black;
+        SetupLayoutSubscription();
     }
+    
+    private void SetupLayoutSubscription()
+    {
+        var hostAndEdgesChanged = this.WhenAnyValue(x => x.Host, x => x.Edges)
+            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null);
+
+        var containerPositionsChanged = this.WhenAnyValue(x => x.Host)
+            .WhereNotNull()
+            .SelectMany(host => Observable.Merge(
+                host.ContainerOnChanged(Canvas.LeftProperty),
+                host.ContainerOnChanged(Canvas.TopProperty)
+            ))
+            .Select(_ => (Host, Edges)); // Proyecto al mismo tipo que hostAndEdgesChanged
+
+        Observable.Merge(hostAndEdgesChanged, containerPositionsChanged)
+            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null)
+            .Select(tuple => 
+            {
+                var (host, edges) = tuple;
+                return layoutManager
+                    .CalculateLayout(edges.Cast<IEdge<object>>().ToList(), host)
+                    .Catch<Layout, Exception>(ex => 
+                    {
+                        return Observable.Empty<Layout>();
+                    });
+            })
+            .Switch()
+            .Subscribe(layout =>
+            {
+                currentLayout = layout;
+                InvalidateVisual();
+            })
+            .DisposeWith(disposables);
+    }
+
+
 
     public IBrush Stroke
     {
@@ -107,13 +142,12 @@ public class Connectors : Control
 
     public override void Render(DrawingContext context)
     {
-        if (Host == null || Edges == null) return;
+        if (Host == null || Edges == null || currentLayout == null) 
+            return;
 
-        var edges = Edges.Cast<IEdge<object>>().ToList();
         var pen = new Pen(Stroke, StrokeThickness);
         
-        var layout = layoutManager.CalculateLayout(edges, Host);
-        foreach (var connection in layout.Connections)
+        foreach (var connection in currentLayout.Connections)
         {
             ConnectionStyle.Draw(
                 context, 
@@ -128,121 +162,8 @@ public class Connectors : Control
     }
 }
 
-public class ConnectionLayoutManager 
-{
-    public Layout CalculateLayout(IReadOnlyList<IEdge<object>> edges, ItemsControl host)
-    {
-        var rectangleConnections = GatherConnections(edges, host);
-        AssignConnectionIndices(rectangleConnections, host);
-        return CreateLayout(edges, host, rectangleConnections);
-    }
-
-    private Dictionary<Control, RectangleConnections> GatherConnections(
-        IReadOnlyList<IEdge<object>> edges, 
-        ItemsControl host)
-    {
-        var connections = new Dictionary<Control, RectangleConnections>();
-        
-        foreach (var edge in edges)
-        {
-            var (from, to) = GetControls(edge, host);
-            if (from == null || to == null) continue;
-
-            connections.GetOrAdd(from, () => new RectangleConnections());
-            connections.GetOrAdd(to, () => new RectangleConnections());
-
-            var sides = DetermineBestSides(from.Bounds.Center, to.Bounds.Center);
-            
-            connections[from].AddConnection(edge, sides.From);
-            connections[to].AddConnection(edge, sides.To);
-        }
-
-        return connections;
-    }
-
-    private SidePair DetermineBestSides(Point fromCenter, Point toCenter)
-    {
-        var dx = toCenter.X - fromCenter.X;
-        var dy = toCenter.Y - fromCenter.Y;
-        
-        return Math.Abs(dx) >= Math.Abs(dy)
-            ? new SidePair(dx >= 0 ? Side.Right : Side.Left, dx >= 0 ? Side.Left : Side.Right)
-            : new SidePair(dy >= 0 ? Side.Bottom : Side.Top, dy >= 0 ? Side.Top : Side.Bottom);
-    }
-
-    private void AssignConnectionIndices(Dictionary<Control, RectangleConnections> connections, ItemsControl host)
-    {
-        foreach (var (control, rectConnections) in connections)
-        {
-            foreach (var side in Enum.GetValues<Side>())
-            {
-                var edgesOnSide = rectConnections.GetConnectionsForSide(side);
-                var sortedEdges = SortEdgesByPosition(edgesOnSide, control, host);
-                rectConnections.AssignIndices(sortedEdges, side);
-            }
-        }
-    }
-
-    private (Control? from, Control? to) GetControls(IEdge<object> edge, ItemsControl host) => 
-        (host.ContainerFromItem(edge.From), host.ContainerFromItem(edge.To));
-
-    private Control GetConnectedControl(IEdge<object> edge, Control currentControl, ItemsControl host)
-    {
-        var (from, to) = GetControls(edge, host);
-        return from == currentControl ? to! : from!;
-    }
-
-    private Layout CreateLayout(
-        IReadOnlyList<IEdge<object>> edges,
-        ItemsControl host,
-        Dictionary<Control, RectangleConnections> connections)
-    {
-        var layoutConnections = new List<Connection>();
-
-        foreach (var edge in edges)
-        {
-            var (from, to) = GetControls(edge, host);
-            if (from == null || to == null) continue;
-
-            var fromConnection = connections[from].GetConnectionDetails(edge);
-            var toConnection = connections[to].GetConnectionDetails(edge);
-
-            layoutConnections.Add(new Connection(
-                GetConnectionPoint(from.Bounds, fromConnection),
-                fromConnection.Side,
-                GetConnectionPoint(to.Bounds, toConnection),
-                toConnection.Side));
-        }
-
-        return new Layout(layoutConnections);
-    }
-
-    private IEnumerable<IEdge<object>> SortEdgesByPosition(
-        IEnumerable<ConnectionDetails> connections,
-        Control sourceControl,
-        ItemsControl host)
-    {
-        return connections
-            .OrderBy(c => GetConnectedControl(c.Edge, sourceControl, host).Bounds.Center.Y)
-            .Select(c => c.Edge);
-    }
-
-    private Point GetConnectionPoint(Rect bounds, ConnectionDetails connection)
-    {
-        var offset = (connection.Index + 1.0) / (connection.TotalConnections + 1);
-        return connection.Side switch
-        {
-            Side.Left => new Point(bounds.Left, bounds.Top + bounds.Height * offset),
-            Side.Right => new Point(bounds.Right, bounds.Top + bounds.Height * offset),
-            Side.Top => new Point(bounds.Left + bounds.Width * offset, bounds.Top),
-            Side.Bottom => new Point(bounds.Left + bounds.Width * offset, bounds.Bottom),
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
-}
-
 public record SidePair(Side From, Side To);
-public record Connection(Point FromPoint, Side FromSide, Point ToPoint, Side ToSide);
+public record Connection(IEdge<object> Edge, Point FromPoint, Side FromSide, Point ToPoint, Side ToSide);
 public record Layout(IReadOnlyList<Connection> Connections);
 
 public class RectangleConnections

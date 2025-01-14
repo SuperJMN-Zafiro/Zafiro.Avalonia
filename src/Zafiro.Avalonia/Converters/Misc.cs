@@ -49,4 +49,5 @@ public class MiscConverters
 
     public static FuncValueConverter<int, IEnumerable<int>> Range { get; } = new(i => Enumerable.Range(1, i));
     public static FuncValueConverter<int, int> AddOne { get; } = new(i => i + 1);
+    public static FuncValueConverter<bool, int> TrueToOne { get; } = new(i => i ? 1 : 0); 
 }

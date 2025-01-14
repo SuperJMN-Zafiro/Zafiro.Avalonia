@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Collections.ObjectModel;
+using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Zafiro.Avalonia.Drawing;
@@ -13,8 +14,8 @@ public class LabelsControl : TemplatedControl
         AvaloniaProperty.Register<LabelsControl, IEnumerable<IEdge<INode>>>(
             nameof(Edges));
 
-    public static readonly DirectProperty<LabelsControl, IEnumerable> LabelsProperty =
-        AvaloniaProperty.RegisterDirect<LabelsControl, IEnumerable>(
+    public static readonly DirectProperty<LabelsControl, ReadOnlyObservableCollection<CanvasContent>> LabelsProperty =
+        AvaloniaProperty.RegisterDirect<LabelsControl, ReadOnlyObservableCollection<CanvasContent>>(
             nameof(Labels), o => o.Labels, (o, v) => o.Labels = v);
 
     public static readonly StyledProperty<IConnectorStrategy> ConnectorStyleProperty =
@@ -26,32 +27,40 @@ public class LabelsControl : TemplatedControl
         AvaloniaProperty.Register<LabelsControl, IDataTemplate?>(
             nameof(LabelTemplate));
 
-    private IEnumerable labels;
+    public static readonly StyledProperty<ItemsControl> HostProperty = AvaloniaProperty.Register<LabelsControl, ItemsControl>(
+        nameof(Host));
+
+    public ItemsControl Host
+    {
+        get => GetValue(HostProperty);
+        set => SetValue(HostProperty, value);
+    }
+
+    private ReadOnlyObservableCollection<CanvasContent> labels;
+    private readonly CompositeDisposable disposables = new();
 
     public LabelsControl()
     {
-        this.WhenAnyValue(x => x.Edges)
-            .WhereNotNull()
-            .Select(edges => edges.Select(edge =>
+        this.WhenAnyValue(x => x.Edges, x => x.LabelTemplate, x => x.Host, x => x.ConnectorStyle)
+            .Where(a =>
             {
-                var positionUpdated = PositionUpdated(edge);
+                var any = new object[] { a.Item1, a.Item2, a.Item3, a.Item4 }.Any(o => o is null);
+                return !any;
+            })
+            .Select(tuple => new ConnectionController(tuple.Item1, tuple.Item2, tuple.Item3, tuple.Item4))
+            .BindTo(this, x => x.Controller)
+            .DisposeWith(disposables);
+    }
 
-                var content = LabelTemplate?.Build(null);
+    private ConnectionController controller;
 
-                if (content != null)
-                {
-                    content.DataContext = edge;
-                }
-                
-                var canvasItem = new CanvasContent(positionUpdated)
-                {
-                    Content = content
-                };
+    public static readonly DirectProperty<LabelsControl, ConnectionController> ControllerProperty = AvaloniaProperty.RegisterDirect<LabelsControl, ConnectionController>(
+        nameof(Controller), o => o.Controller, (o, v) => o.Controller = v);
 
-                return canvasItem;
-            }))
-            .Do(node => Labels = node)
-            .Subscribe();
+    public ConnectionController Controller
+    {
+        get => controller;
+        set => SetAndRaise(ControllerProperty, ref controller, value);
     }
 
     public IDataTemplate? LabelTemplate
@@ -66,7 +75,7 @@ public class LabelsControl : TemplatedControl
         set => SetValue(EdgesProperty, value);
     }
 
-    public IEnumerable Labels
+    public ReadOnlyObservableCollection<CanvasContent> Labels
     {
         get => labels;
         private set => SetAndRaise(LabelsProperty, ref labels, value);
@@ -76,11 +85,5 @@ public class LabelsControl : TemplatedControl
     {
         get => GetValue(ConnectorStyleProperty);
         set => SetValue(ConnectorStyleProperty, value);
-    }
-
-    private IObservable<Point> PositionUpdated(IEdge<INode> edge)
-    {
-        return edge.BoundsChanged().Select(_ =>
-            ConnectorStyle.LabelPosition(edge.From.Location(), Side.Right, edge.To.Location(), Side.Bottom));
     }
 }
