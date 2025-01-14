@@ -11,8 +11,6 @@ namespace Zafiro.Avalonia.Controls.Diagrams;
 
 public class Connectors : Control
 {
-    private readonly ConnectionLayoutManager layoutManager = new();
-    
     public static readonly StyledProperty<IConnectorStrategy> ConnectionStyleProperty =
         AvaloniaProperty.Register<Connectors, IConnectorStrategy>(
             nameof(ConnectionStyle), SLineConnectorStrategy.Instance);
@@ -33,16 +31,53 @@ public class Connectors : Control
     public static readonly StyledProperty<IDataTemplate?> EdgeLabelTemplateProperty =
         AvaloniaProperty.Register<Connectors, IDataTemplate?>(nameof(EdgeLabelTemplate));
 
+    private readonly ConnectionLayoutManager layoutManager = new();
     private readonly CompositeDisposable disposables = new();
+    private Layout? currentLayout;
+
 
     public Connectors()
     {
         AffectsRender<Connectors>(EdgesProperty, HostProperty, StrokeThicknessProperty, StrokeProperty);
         InvalidateWhenContainersLocationChanges();
-
-        // StrokeThickness = 1;
-        // Stroke = Brushes.Black;
+        SetupLayoutSubscription();
     }
+    
+    private void SetupLayoutSubscription()
+    {
+        var hostAndEdgesChanged = this.WhenAnyValue(x => x.Host, x => x.Edges)
+            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null);
+
+        var containerPositionsChanged = this.WhenAnyValue(x => x.Host)
+            .WhereNotNull()
+            .SelectMany(host => Observable.Merge(
+                host.ContainerOnChanged(Canvas.LeftProperty),
+                host.ContainerOnChanged(Canvas.TopProperty)
+            ))
+            .Select(_ => (Host, Edges)); // Proyecto al mismo tipo que hostAndEdgesChanged
+
+        Observable.Merge(hostAndEdgesChanged, containerPositionsChanged)
+            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null)
+            .Select(tuple => 
+            {
+                var (host, edges) = tuple;
+                return layoutManager
+                    .CalculateLayout(edges.Cast<IEdge<object>>().ToList(), host)
+                    .Catch<Layout, Exception>(ex => 
+                    {
+                        return Observable.Empty<Layout>();
+                    });
+            })
+            .Switch()
+            .Subscribe(layout =>
+            {
+                currentLayout = layout;
+                InvalidateVisual();
+            })
+            .DisposeWith(disposables);
+    }
+
+
 
     public IBrush Stroke
     {
@@ -107,13 +142,12 @@ public class Connectors : Control
 
     public override void Render(DrawingContext context)
     {
-        if (Host == null || Edges == null) return;
+        if (Host == null || Edges == null || currentLayout == null) 
+            return;
 
-        var edges = Edges.Cast<IEdge<object>>().ToList();
         var pen = new Pen(Stroke, StrokeThickness);
         
-        var layout = layoutManager.CalculateLayout(edges, Host);
-        foreach (var connection in layout.Connections)
+        foreach (var connection in currentLayout.Connections)
         {
             ConnectionStyle.Draw(
                 context, 
