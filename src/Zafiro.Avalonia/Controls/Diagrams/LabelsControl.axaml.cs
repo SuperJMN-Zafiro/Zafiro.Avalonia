@@ -4,6 +4,7 @@ using Avalonia.Controls.Templates;
 using Zafiro.Avalonia.Drawing;
 using Zafiro.Avalonia.Drawing.RectConnectorStrategies;
 using Zafiro.DataAnalysis.Graphs;
+using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.Diagrams;
 
@@ -26,6 +27,15 @@ public class LabelsControl : TemplatedControl
         AvaloniaProperty.Register<LabelsControl, IDataTemplate?>(
             nameof(LabelTemplate));
 
+    public static readonly StyledProperty<ItemsControl> HostProperty = AvaloniaProperty.Register<LabelsControl, ItemsControl>(
+        nameof(Host));
+
+    public ItemsControl Host
+    {
+        get => GetValue(HostProperty);
+        set => SetValue(HostProperty, value);
+    }
+
     private IEnumerable labels;
 
     public LabelsControl()
@@ -34,7 +44,7 @@ public class LabelsControl : TemplatedControl
             .WhereNotNull()
             .Select(edges => edges.Select(edge =>
             {
-                var positionUpdated = PositionUpdated(edge);
+                var positionUpdated = PositionUpdated(edge, edges);
 
                 var content = LabelTemplate?.Build(null);
 
@@ -50,7 +60,7 @@ public class LabelsControl : TemplatedControl
 
                 return canvasItem;
             }))
-            .Do(node => Labels = node)
+            .Do(canvasContents => Labels = canvasContents)
             .Subscribe();
     }
 
@@ -78,9 +88,21 @@ public class LabelsControl : TemplatedControl
         set => SetValue(ConnectorStyleProperty, value);
     }
 
-    private IObservable<Point> PositionUpdated(IEdge<INode> edge)
+    private IObservable<Point> PositionUpdated(IEdge<INode> edge, IEnumerable<IEdge<INode>> edges)
     {
+        var manager = new ConnectionLayoutManager();
+        
         return edge.BoundsChanged().Select(_ =>
-            ConnectorStyle.LabelPosition(edge.From.Location(), Side.Right, edge.To.Location(), Side.Bottom));
+        {
+            if (Host != null)
+            {
+                var layout = manager.CalculateLayout(edges.ToList(), Host);
+
+                var found = layout.Connections.First(x => x.Edge == edge);
+                return ConnectorStyle.LabelPosition(found.FromPoint, found.FromSide, found.ToPoint, found.ToSide);
+            }
+            
+            return ConnectorStyle.LabelPosition(edge.From.Location(), Side.Right, edge.To.Location(), Side.Bottom);
+        });
     }
 }

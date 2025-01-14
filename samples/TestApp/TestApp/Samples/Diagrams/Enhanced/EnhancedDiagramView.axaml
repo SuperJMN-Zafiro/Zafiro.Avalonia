@@ -41,6 +41,7 @@
             <e:Edges List="{StaticResource List}">
                 <diagrams:EdgeItem From="A" To="B" />
                 <diagrams:EdgeItem From="B" To="C" />
+                <diagrams:EdgeItem From="C" To="B" />
             </e:Edges>
         </e:EnhancedDiagramView.Edges>
         <e:EnhancedDiagramView.NodeTemplate>
