@@ -1,36 +1,51 @@
+using System.Collections.Specialized;
+using System.Reactive.Disposables;
+
 namespace Zafiro.Avalonia.Controls;
-
-using System;
-using System.Collections.Generic;
-
-using Avalonia;
-using Avalonia.Controls;
-using System;
-using System.Collections.Generic;
 
 public class NonOverlappingCanvas : Panel
 {
-    public static readonly AttachedProperty<double> LeftProperty =
-        AvaloniaProperty.RegisterAttached<NonOverlappingCanvas, Control, double>("Left", double.NaN);
+    private readonly CompositeDisposable _disposables = new CompositeDisposable();
+    private readonly Dictionary<Control, IDisposable> _childSubscriptions = new Dictionary<Control, IDisposable>();
 
-    public static readonly AttachedProperty<double> TopProperty =
-        AvaloniaProperty.RegisterAttached<NonOverlappingCanvas, Control, double>("Top", double.NaN);
+    protected override void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        base.ChildrenChanged(sender, e);
+        
+        if (e.OldItems != null)
+        {
+            foreach (Control child in e.OldItems)
+            {
+                if (_childSubscriptions.TryGetValue(child, out var subscription))
+                {
+                    subscription.Dispose();
+                    _childSubscriptions.Remove(child);
+                }
+            }
+        }
 
-    public static readonly AttachedProperty<double> RightProperty =
-        AvaloniaProperty.RegisterAttached<NonOverlappingCanvas, Control, double>("Right", double.NaN);
+        if (e.NewItems != null)
+        {
+            foreach (Control child in e.NewItems)
+            {
+                ObserveChildProperties(child);
+            }
+        }
+    }
 
-    public static readonly AttachedProperty<double> BottomProperty =
-        AvaloniaProperty.RegisterAttached<NonOverlappingCanvas, Control, double>("Bottom", double.NaN);
+    private void ObserveChildProperties(Control child)
+    {
+        var subscription = Observable.FromEventPattern<AvaloniaPropertyChangedEventArgs>(
+                h => child.PropertyChanged += h,
+                h => child.PropertyChanged -= h)
+            .Where(pattern => 
+                pattern.EventArgs.Property == Canvas.LeftProperty || 
+                pattern.EventArgs.Property == Canvas.TopProperty)
+            .Subscribe(_ => InvalidateArrange());
 
-    // Métodos estáticos estándar para las propiedades
-    public static void SetLeft(Control element, double value) => element.SetValue(LeftProperty, value);
-    public static double GetLeft(Control element) => element.GetValue(LeftProperty);
-    public static void SetTop(Control element, double value) => element.SetValue(TopProperty, value);
-    public static double GetTop(Control element) => element.GetValue(TopProperty);
-    public static void SetRight(Control element, double value) => element.SetValue(RightProperty, value);
-    public static double GetRight(Control element) => element.GetValue(RightProperty);
-    public static void SetBottom(Control element, double value) => element.SetValue(BottomProperty, value);
-    public static double GetBottom(Control element) => element.GetValue(BottomProperty);
+        _childSubscriptions[child] = subscription;
+        _disposables.Add(subscription);
+    }
 
     protected override Size MeasureOverride(Size availableSize)
     {
@@ -45,8 +60,8 @@ public class NonOverlappingCanvas : Panel
         // Calculamos el tamaño necesario
         foreach (var child in Children)
         {
-            var left = GetLeft(child);
-            var top = GetTop(child);
+            var left = Canvas.GetLeft(child);
+            var top = Canvas.GetTop(child);
             
             if (!double.IsNaN(left))
             {
@@ -71,8 +86,8 @@ public class NonOverlappingCanvas : Panel
         // Recopilamos las posiciones iniciales y tamaños
         foreach (var child in Children)
         {
-            var left = GetLeft(child);
-            var top = GetTop(child);
+            var left = Canvas.GetLeft(child);
+            var top = Canvas.GetTop(child);
 
             // Si no tiene Left o Top, lo colocamos en 0,0
             if (double.IsNaN(left)) left = 0;
@@ -129,9 +144,16 @@ public class NonOverlappingCanvas : Panel
                         
                         // Normalizamos el vector
                         double distance = Math.Sqrt(dx * dx + dy * dy);
-                        if (distance < 1) distance = 1;
-                        dx /= distance;
-                        dy /= distance;
+                        if (distance < 0.0001) // Si la distancia es muy pequeña, forzamos una dirección
+                        {
+                            dx = 1;
+                            dy = 0;
+                        }
+                        else
+                        {
+                            dx /= distance;
+                            dy /= distance;
+                        }
 
                         // Calculamos la distancia de solapamiento
                         double overlapX = (pos1.Width + pos2.Width) / 2 - Math.Abs((pos1.Left + pos1.Width / 2) - (pos2.Left + pos2.Width / 2));
@@ -140,10 +162,15 @@ public class NonOverlappingCanvas : Panel
 
                         // Aplicamos el desplazamiento
                         double moveDistance = overlap / 2 + 1; // Añadimos 1 de margen
-                        pos1.Left -= dx * moveDistance;
-                        pos1.Top -= dy * moveDistance;
-                        pos2.Left += dx * moveDistance;
-                        pos2.Top += dy * moveDistance;
+                        var newPos1Left = pos1.Left - dx * moveDistance;
+                        var newPos1Top = pos1.Top - dy * moveDistance;
+                        var newPos2Left = pos2.Left + dx * moveDistance;
+                        var newPos2Top = pos2.Top + dy * moveDistance;
+                        
+                        pos1.Left = newPos1Left;
+                        pos1.Top = newPos1Top;
+                        pos2.Left = newPos2Left;
+                        pos2.Top = newPos2Top;
                     }
                 }
             }
@@ -153,10 +180,16 @@ public class NonOverlappingCanvas : Panel
 
     private bool IsOverlapping(ControlPosition pos1, ControlPosition pos2)
     {
+        // Primero verificamos que no sea el mismo control (por referencia)
+        if (ReferenceEquals(pos1.Control, pos2.Control))
+        {
+            return false;
+        }
+
         return !(pos1.Left + pos1.Width <= pos2.Left ||
-                pos2.Left + pos2.Width <= pos1.Left ||
-                pos1.Top + pos1.Height <= pos2.Top ||
-                pos2.Top + pos2.Height <= pos1.Top);
+                 pos2.Left + pos2.Width <= pos1.Left ||
+                 pos1.Top + pos1.Height <= pos2.Top ||
+                 pos2.Top + pos2.Height <= pos1.Top);
     }
 
     private class ControlPosition
@@ -166,5 +199,11 @@ public class NonOverlappingCanvas : Panel
         public double Top { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        _disposables.Dispose();
     }
 }

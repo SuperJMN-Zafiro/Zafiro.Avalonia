@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams" 
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
     <Design.PreviewWith>
         <c:LabelsControl />
@@ -10,10 +10,19 @@
         <ControlTheme x:Key="{x:Type c:LabelsControl}" TargetType="c:LabelsControl">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <ItemsControl ItemsSource="{Binding $parent[c:LabelsControl].Controller.Labels}">
+                    <ItemsControl
+                        ItemsSource="{Binding $parent[c:LabelsControl].Controller.Labels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="c:Label">
+                                <ContentControl Content="{Binding Edge}" ContentTemplate="{Binding $parent[c:LabelsControl].LabelTemplate}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerTheme>
+                            <ControlTheme TargetType="ContentPresenter" BasedOn="{StaticResource LeftAndTopContainer}" />
+                        </ItemsControl.ItemContainerTheme>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <controls:MidpointCanvas />
+                                <controls:NonOverlappingCanvas />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
