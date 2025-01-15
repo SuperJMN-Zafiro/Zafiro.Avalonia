@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
-                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+                    xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
@@ -20,7 +21,7 @@
         <Setter Property="ItemContainerTheme" Value="{StaticResource LeftAndTopContainer}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
-                <controls:MidpointCanvas />
+                <superCanvas:MidpointCanvas />
             </ItemsPanelTemplate>
         </Setter>
     </ControlTheme>
