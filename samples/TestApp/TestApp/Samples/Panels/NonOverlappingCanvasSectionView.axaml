@@ -4,17 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:panels="clr-namespace:TestApp.Samples.Panels"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Panels.NonOverlappingCanvasSectionView" x:DataType="panels:NonOverlappingCanvasSectionViewModel">
-    <c:NonOverlappingCanvas>
-        <Button Content="Botón 1"
-                c:NonOverlappingCanvas.Left="0"
-                c:NonOverlappingCanvas.Top="20"/>
-        <Button Content="Botón 2"
-                c:NonOverlappingCanvas.Left="10"
-                c:NonOverlappingCanvas.Top="30" />
-        <Button Content="Botón 2"
-                c:NonOverlappingCanvas.Left="40"
-                c:NonOverlappingCanvas.Top="60" />
-    </c:NonOverlappingCanvas>
+    <superCanvas:NonOverlappingCanvas>
+        <Button Content="HOLA"
+                Canvas.Left="100"
+                Canvas.Top="20">
+        </Button>
+        <Button Content="HOLA" 
+            Canvas.Left="100"
+            Canvas.Top="20">
+        </Button>
+    </superCanvas:NonOverlappingCanvas>
 </UserControl>

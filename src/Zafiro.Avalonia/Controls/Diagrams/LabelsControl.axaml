@@ -1,7 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams" 
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:conv="clr-namespace:Zafiro.Avalonia.Converters"
+        xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas">
     <Design.PreviewWith>
         <c:LabelsControl />
     </Design.PreviewWith>
@@ -10,10 +12,31 @@
         <ControlTheme x:Key="{x:Type c:LabelsControl}" TargetType="c:LabelsControl">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <ItemsControl ItemsSource="{Binding $parent[c:LabelsControl].Controller.Labels}">
+                    <ItemsControl
+                        ItemsSource="{Binding $parent[c:LabelsControl].Controller.Labels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="c:Label">
+                                <ContentControl Opacity="{Binding $self.IsPointerOver, Converter={x:Static conv:OpacityConverters.BoolToOpacity}}"
+                                                Background="Transparent" Content="{Binding Edge}" ContentTemplate="{Binding $parent[c:LabelsControl].LabelTemplate}">
+                                    <ContentControl.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
+                                        </Transitions>
+                                    </ContentControl.Transitions>
+                                </ContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerTheme>
+                            <ControlTheme TargetType="ContentPresenter" BasedOn="{StaticResource LeftAndTopContainer}" />
+                        </ItemsControl.ItemContainerTheme>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <controls:MidpointCanvas />
+                                <superCanvas:SuperCanvas>
+                                    <superCanvas:SuperCanvas.Layouters>
+                                        <superCanvas:MidpointLayoutManager />
+                                        <superCanvas:NonOverlappingLayoutManager />
+                                    </superCanvas:SuperCanvas.Layouters>
+                                </superCanvas:SuperCanvas>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>

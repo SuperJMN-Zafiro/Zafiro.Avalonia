@@ -28,18 +28,11 @@
                            Nodes="{StaticResource List}">
         <e:EnhancedDiagramView.LabelTemplate>
             <DataTemplate>
-                <Border Background="Transparent" Padding="20">
-                    <Border TextElement.FontSize="12" Background="WhiteSmoke" BorderThickness="1" CornerRadius="10" Padding="4">
-                        <StackPanel>
-                            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property1" Content="Value1" />
-                            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property2" Content="Value2" />
-                        </StackPanel>
-                    </Border>
-                    <Border.Transitions>
-                        <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
-                        </Transitions>
-                    </Border.Transitions>
+                <Border TextElement.FontSize="12" Background="WhiteSmoke" BorderThickness="1" CornerRadius="10" Padding="4">
+                    <StackPanel>
+                        <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property1" Content="Value1" />
+                        <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property2" Content="Value2" />
+                    </StackPanel>
                 </Border>
             </DataTemplate>
         </e:EnhancedDiagramView.LabelTemplate>
