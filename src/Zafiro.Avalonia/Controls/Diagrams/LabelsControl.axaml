@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:conv="clr-namespace:Zafiro.Avalonia.Converters">
     <Design.PreviewWith>
         <c:LabelsControl />
     </Design.PreviewWith>
@@ -14,7 +15,14 @@
                         ItemsSource="{Binding $parent[c:LabelsControl].Controller.Labels}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="c:Label">
-                                <ContentControl Content="{Binding Edge}" ContentTemplate="{Binding $parent[c:LabelsControl].LabelTemplate}" />
+                                <ContentControl Opacity="{Binding $self.IsPointerOver, Converter={x:Static conv:OpacityConverters.BoolToOpacity}}"
+                                                Background="Transparent" Content="{Binding Edge}" ContentTemplate="{Binding $parent[c:LabelsControl].LabelTemplate}">
+                                    <ContentControl.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
+                                        </Transitions>
+                                    </ContentControl.Transitions>
+                                </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemContainerTheme>
@@ -22,7 +30,12 @@
                         </ItemsControl.ItemContainerTheme>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <controls:NonOverlappingCanvas />
+                                <controls:CustomCanvas>
+                                    <controls:CustomCanvas.Layouters>
+                                        <controls:MidpointLayoutManager />
+                                        <controls:NonOverlappingLayoutManager />
+                                    </controls:CustomCanvas.Layouters>
+                                </controls:CustomCanvas>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>

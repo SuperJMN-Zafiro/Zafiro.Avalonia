@@ -20,7 +20,7 @@
         <Setter Property="ItemContainerTheme" Value="{StaticResource LeftAndTopContainer}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
-                <Canvas />
+                <controls:MidpointCanvas />
             </ItemsPanelTemplate>
         </Setter>
     </ControlTheme>
