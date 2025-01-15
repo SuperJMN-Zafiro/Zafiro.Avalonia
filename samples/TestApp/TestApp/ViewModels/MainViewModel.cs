@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using CSharpFunctionalExtensions;
 using TestApp.Samples.Adorners;
 using TestApp.Samples.Controls;
 using TestApp.Samples.ControlsNew;
 using TestApp.Samples.DataAnalysis;
 using TestApp.Samples.Diagrams;
-using TestApp.Samples.Diagrams.Enhanced;
 using TestApp.Samples.Drag;
 using TestApp.Samples.MasterDetails;
+using TestApp.Samples.Panels;
 using TestApp.Samples.StringEditor;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.UI;
@@ -28,16 +29,17 @@ public class MainViewModel : ViewModelBase
 
     public IEnumerable<Section> Sections => new List<Section>
     {
-        new("MasterDetailsView", new MasterDetailsSampleViewModel()),
-        new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService)),
-        new("Controls", new ControlsSampleViewModel()),
-        new("More controls", new ControlsViewModel(dialogService)),
-        new("StringEditor", new StringEditorSampleViewModel()),
-        new("Adorners", new AdornerSampleViewModel()),
-        new("Storage", new StorageSampleViewModel(storage)),
-        new("Behaviors", new BehaviorsSampleViewModel()),
-        new("Diagrams", new DiagramsViewModel()),
-        new("Data Analysis", new DataAnalysisViewModel()),
-        new("Drag", new DragViewModel())
+        new("MasterDetailsView", new MasterDetailsSampleViewModel(), Maybe<object>.None),
+        new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService), Maybe<object>.None),
+        new("Controls", new ControlsSampleViewModel(), Maybe<object>.None),
+        new("More controls", new ControlsViewModel(dialogService), Maybe<object>.None),
+        new("Panel", new PanelsSectionViewModel(), Maybe<object>.None),
+        new("StringEditor", new StringEditorSampleViewModel(), Maybe<object>.None),
+        new("Adorners", new AdornerSampleViewModel(), Maybe<object>.None),
+        new("Storage", new StorageSampleViewModel(storage), Maybe<object>.None),
+        new("Behaviors", new BehaviorsSampleViewModel(), Maybe<object>.None),
+        new("Diagrams", new DiagramsViewModel(), Maybe<object>.None),
+        new("Data Analysis", new DataAnalysisViewModel(), Maybe<object>.None),
+        new("Drag", new DragViewModel(), Maybe<object>.None)
     };
 }
