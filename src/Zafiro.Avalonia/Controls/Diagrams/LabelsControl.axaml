@@ -1,8 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:conv="clr-namespace:Zafiro.Avalonia.Converters"
         xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas">
     <Design.PreviewWith>
         <c:LabelsControl />
@@ -16,8 +14,13 @@
                         ItemsSource="{Binding $parent[c:LabelsControl].Controller.Labels}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="c:Label">
-                                <ContentControl Opacity="{Binding $self.IsPointerOver, Converter={x:Static conv:OpacityConverters.BoolToOpacity}}"
-                                                Background="Transparent" Content="{Binding Edge}" ContentTemplate="{Binding $parent[c:LabelsControl].LabelTemplate}">
+                                <ContentControl x:Name="Root" Background="Transparent" Content="{Binding Edge}" ContentTemplate="{Binding $parent[c:LabelsControl].LabelTemplate}">
+                                    <ContentControl.Opacity>
+                                        <MultiBinding Converter="{x:Static c:OpacityConverter.Instance}">
+                                            <Binding Path="$parent[c:LabelsControl].LabelDisplayMode" />
+                                            <Binding Path="$self.IsPointerOver" />
+                                        </MultiBinding>
+                                    </ContentControl.Opacity>
                                     <ContentControl.Transitions>
                                         <Transitions>
                                             <DoubleTransition Property="Opacity" Duration="0:0:0.4" />

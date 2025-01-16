@@ -1,5 +1,6 @@
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Zafiro.Avalonia.Controls.Diagrams.Enhanced;
 using Zafiro.DataAnalysis.Graphs;
 
 namespace Zafiro.Avalonia.Controls.Diagrams;
@@ -35,6 +36,15 @@ public class LabelsControl : TemplatedControl
     {
         get => GetValue(EdgesProperty);
         set => SetValue(EdgesProperty, value);
+    }
+
+    public static readonly StyledProperty<LabelDisplayMode> LabelDisplayModeProperty = AvaloniaProperty.Register<LabelsControl, LabelDisplayMode>(
+        nameof(LabelDisplayMode));
+
+    public LabelDisplayMode LabelDisplayMode
+    {
+        get => GetValue(LabelDisplayModeProperty);
+        set => SetValue(LabelDisplayModeProperty, value);
     }
 
     public LabelsControl()

@@ -62,7 +62,10 @@
                     <av:Connectors Stroke="{TemplateBinding ConnectorBrush}"
                                    StrokeThickness="{TemplateBinding ConnectorThickness}"
                                    Host="{Binding #ItemsCanvas}" Edges="{TemplateBinding Edges}" />
-                    <av:LabelsControl Edges="{TemplateBinding Edges}" LabelTemplate="{TemplateBinding LabelTemplate}" />
+                    <av:LabelsControl 
+                        LabelDisplayMode="{TemplateBinding LabelDisplayMode}" 
+                        Edges="{TemplateBinding Edges}" 
+                        LabelTemplate="{TemplateBinding LabelTemplate}" />
                 </Panel>
             </ControlTemplate>
         </Setter>

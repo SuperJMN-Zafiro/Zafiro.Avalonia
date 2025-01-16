@@ -33,6 +33,15 @@ public class EnhancedDiagramView : TemplatedControl
         set => SetValue(LabelTemplateProperty, value);
     }
 
+    public static readonly StyledProperty<LabelDisplayMode> LabelDisplayModeProperty = AvaloniaProperty.Register<EnhancedDiagramView, LabelDisplayMode>(
+        nameof(LabelDisplayMode));
+
+    public LabelDisplayMode LabelDisplayMode
+    {
+        get => GetValue(LabelDisplayModeProperty);
+        set => SetValue(LabelDisplayModeProperty, value);
+    }
+
     public IEnumerable<INode> Nodes
     {
         get => GetValue(NodesProperty);
