@@ -4,7 +4,8 @@
                     xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control"
                     xmlns:graphs="clr-namespace:Zafiro.DataAnalysis.Graphs;assembly=Zafiro"
                     xmlns:simple="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple;assembly=Zafiro.Avalonia"
-                    xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas;assembly=Zafiro.Avalonia">
+                    xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas;assembly=Zafiro.Avalonia"
+                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
@@ -68,7 +69,7 @@
                                         <Setter Property="Interaction.Behaviors">
                                             <BehaviorCollectionTemplate>
                                                 <BehaviorCollection>
-                                                    <simple:DragDeltaBehavior x:DataType="diagrams:IHaveLocation"
+                                                    <behaviors:DragDeltaBehavior x:DataType="diagrams:IHaveLocation"
                                                         DragButton="{Binding $parent[control1:GraphControl].DragButton}"
                                                         Left="{Binding Left}"
                                                         Top="{Binding Top}"/>

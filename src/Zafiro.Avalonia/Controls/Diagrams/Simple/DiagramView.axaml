@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
-        xmlns:simple="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple">
+        xmlns:simple="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple"
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
 
   <!--
     Additional resources 
@@ -29,7 +30,7 @@
                           <Setter Property="Interaction.Behaviors">
                               <BehaviorCollectionTemplate>
                                   <BehaviorCollection>
-                                      <simple:DragDeltaBehavior 
+                                      <behaviors:DragDeltaBehavior 
                                           Left="{Binding Left}"
                                           Top="{Binding Top}"/>
                                   </BehaviorCollection>

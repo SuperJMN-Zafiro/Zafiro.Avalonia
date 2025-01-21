@@ -12,7 +12,7 @@
     <Canvas>
         <Button Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
             <Interaction.Behaviors>
-                <simple:DragDeltaBehavior Left="{Binding Left}"  />
+                <behaviors:DragDeltaBehavior Left="{Binding Left}"  />
                 <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Command="{Binding Disable}" />
                 <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Command="{Binding Enable}" />
             </Interaction.Behaviors>

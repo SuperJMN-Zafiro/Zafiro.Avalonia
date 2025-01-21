@@ -4,7 +4,8 @@
         xmlns:av="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:s="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
 
     <Styles.Resources>
         <generic:List x:Key="List" x:TypeArguments="av:INode">
@@ -50,7 +51,7 @@
                                 <Setter Property="Interaction.Behaviors">
                                     <BehaviorCollectionTemplate>
                                         <BehaviorCollection>
-                                            <s:DragDeltaBehavior DragButton="Left" x:DataType="av:IHaveLocation"
+                                            <behaviors:DragDeltaBehavior DragButton="Left" x:DataType="av:IHaveLocation"
                                                                  Left="{Binding Left}"
                                                                  Top="{Binding Top}" />
                                         </BehaviorCollection>
