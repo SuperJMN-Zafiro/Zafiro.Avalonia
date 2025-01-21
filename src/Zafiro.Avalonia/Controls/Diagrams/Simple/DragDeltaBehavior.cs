@@ -1,8 +1,8 @@
-using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.Custom;
 using Zafiro.Avalonia.Mixins;
 using Zafiro.Reactive;
@@ -11,18 +11,16 @@ namespace Zafiro.Avalonia.Controls.Diagrams.Simple;
 
 public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    public static readonly StyledProperty<RoutingStrategies> RoutingStrategyProperty =
-        AvaloniaProperty.Register<DragDeltaBehavior, RoutingStrategies>(nameof(RoutingStrategy),
-            RoutingStrategies.Tunnel);
+    public static readonly StyledProperty<RoutingStrategies> RoutingStrategyProperty = AvaloniaProperty.Register<DragDeltaBehavior, RoutingStrategies>(nameof(RoutingStrategy), RoutingStrategies.Tunnel);
 
-    public static readonly StyledProperty<double> LeftProperty =
-        AvaloniaProperty.Register<DragDeltaBehavior, double>(nameof(Left), defaultBindingMode: BindingMode.TwoWay);
+    public static readonly StyledProperty<double> LeftProperty = AvaloniaProperty.Register<DragDeltaBehavior, double>(nameof(Left), defaultBindingMode: BindingMode.TwoWay);
 
-    public static readonly StyledProperty<double> TopProperty =
-        AvaloniaProperty.Register<DragDeltaBehavior, double>(nameof(Top), defaultBindingMode: BindingMode.TwoWay);
+    public static readonly StyledProperty<double> TopProperty = AvaloniaProperty.Register<DragDeltaBehavior, double>(nameof(Top), defaultBindingMode: BindingMode.TwoWay);
 
-    public static readonly StyledProperty<MouseButton> DragButtonProperty =
-        AvaloniaProperty.Register<DragDeltaBehavior, MouseButton>(nameof(DragButton), MouseButton.Left);
+    public static readonly StyledProperty<MouseButton> DragButtonProperty = AvaloniaProperty.Register<DragDeltaBehavior, MouseButton>(nameof(DragButton), MouseButton.Left);
+
+
+    private Point? lastPosition;
 
     public RoutingStrategies RoutingStrategy
     {
@@ -50,23 +48,56 @@ public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
 
     protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
     {
-        if (AssociatedObject == null) return;
+        if (AssociatedObject is null)
+        {
+            return;
+        }
 
-        var pointerPressed = PointerDownPoints(AssociatedObject);
-        var pointerMoved = AssociatedObject.OnEvent(InputElement.PointerMovedEvent, RoutingStrategy)
-            .Select(e => e.EventArgs.GetCurrentPoint(AssociatedObject).Position);
-        var pointerReleased = PointerReleased(AssociatedObject);
+        // Usamos el primer ancestro que sea un Visual como sistema de coordenadas estable
+        var container = AssociatedObject.FindAncestorOfType<Visual>();
+        if (container is null)
+        {
+            return;
+        }
+
+        // Observables básicos
+        var pointerPressed = AssociatedObject
+            .OnEvent(InputElement.PointerPressedEvent, RoutingStrategy)
+            .Select(e => e.EventArgs.GetCurrentPoint(container))
+            .Where(point => point.Properties.IsButtonPressed(DragButton));
+
+        var pointerMoved = AssociatedObject
+            .OnEvent(InputElement.PointerMovedEvent, RoutingStrategy)
+            .Select(e => e.EventArgs.GetCurrentPoint(container).Position);
+
+        var pointerReleased = AssociatedObject.OnEvent(InputElement.PointerReleasedEvent, RoutingStrategy);
         var captureLost = AssociatedObject.OnEvent(InputElement.PointerCaptureLostEvent);
 
         pointerPressed
-            .Do(point => point.Pointer.Capture(AssociatedObject))
-            .SelectMany(startPoint =>
+            .Do(point =>
+            {
+                point.Pointer.Capture(AssociatedObject);
+                lastPosition = point.Position;
+            })
+            .SelectMany(_ =>
                 pointerMoved
-                    .TakeUntil(pointerReleased
-                        .Do(x => x.EventArgs.Pointer.Capture(null))
-                        .ToSignal()
-                        .Merge(captureLost.ToSignal()))
-                    .Select(movePoint => startPoint.Position - movePoint)
+                    .TakeUntil(
+                        pointerReleased
+                            .Do(__ =>
+                            {
+                                _.Pointer.Capture(null);
+                                lastPosition = null;
+                            })
+                            .ToSignal()
+                            .Merge(captureLost.ToSignal())
+                    )
+                    .Where(_ => lastPosition.HasValue)
+                    .Select(currentPosition =>
+                    {
+                        var delta = currentPosition - lastPosition!.Value;
+                        lastPosition = currentPosition;
+                        return delta;
+                    })
                     .Do(ApplyDelta)
             )
             .Repeat()
@@ -74,28 +105,14 @@ public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
             .DisposeWith(disposable);
     }
 
-    private void ApplyDelta(Point diff)
+    private void ApplyDelta(Point delta)
     {
         if (!IsEnabled)
         {
             return;
         }
 
-        var current = new Point(Left, Top);
-        var next = current - diff;
-        Left = next.X;
-        Top = next.Y;
-    }
-
-    private IObservable<EventPattern<PointerReleasedEventArgs>> PointerReleased(Control control)
-    {
-        return control.OnEvent(InputElement.PointerReleasedEvent, RoutingStrategy);
-    }
-
-    private IObservable<PointerPoint> PointerDownPoints(Control control)
-    {
-        return control.OnEvent(InputElement.PointerPressedEvent, RoutingStrategy)
-            .Select(x => x.EventArgs.GetCurrentPoint(control))
-            .Where(point => point.Properties.IsButtonPressed(DragButton));
+        Left += delta.X;
+        Top += delta.Y;
     }
 }
