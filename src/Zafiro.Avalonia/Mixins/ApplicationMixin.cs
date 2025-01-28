@@ -27,20 +27,27 @@ public static class ApplicationMixin
 
         return Result.Failure<TopLevel>("No top-level application available");
     }
-
     
-    public static void Connect(this Application application, Func<Control> createMainView, Func<Control, object> createDataContext, Func<Window>? createApplicationWindow = default)
+    public static void Connect(this Application application, Func<Control> createMainView, 
+        Func<Control, object> createDataContext, Func<Window>? createApplicationWindow = default)
+    {
+        ConnectImpl(application, createMainView, control => Task.FromResult(createDataContext(control)), createApplicationWindow);
+    }
+
+    public static void Connect(this Application application, Func<Control> createMainView, 
+        Func<Control, Task<object>> createDataContext, Func<Window>? createApplicationWindow = default)
+        => ConnectImpl(application, createMainView, createDataContext, createApplicationWindow);
+
+    private static void ConnectImpl(Application application, Func<Control> createMainView, 
+        Func<Control, Task<object>> createDataContext, Func<Window>? createApplicationWindow)
     {
         var mainView = createMainView();
-
         switch (application.ApplicationLifetime)
         {
             case IClassicDesktopStyleApplicationLifetime desktop:
             {
                 var window = createApplicationWindow?.Invoke() ?? new Window();
-
                 window.Content = mainView;
-
                 desktop.MainWindow = window;
                 break;
             }
@@ -48,10 +55,9 @@ public static class ApplicationMixin
                 singleViewPlatform.MainView = mainView;
                 break;
         }
-
-        mainView.Loaded += (_, _) =>
+        mainView.Loaded += async (_, _) =>
         {
-            var dataContext = createDataContext(mainView);
+            var dataContext = await createDataContext(mainView);
             mainView.DataContext = dataContext;
         };
     }
