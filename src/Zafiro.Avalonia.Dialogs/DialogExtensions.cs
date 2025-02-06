@@ -20,13 +20,13 @@ public static class DialogExtensions
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canSubmit)), new Settings
+            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, Observable.Return(true))), new Settings
             {
                 IsDefault = false,
                 IsCancel = true,
                 Role = OptionRole.Cancel,
             }),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings()
+            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canSubmit)), new Settings()
             {
                 IsDefault = true,
             })
