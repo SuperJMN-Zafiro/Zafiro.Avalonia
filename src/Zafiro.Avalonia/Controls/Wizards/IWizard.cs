@@ -5,12 +5,17 @@ namespace Zafiro.Avalonia.Controls.Wizards;
 
 public interface IWizard
 {
-    public IEnhancedCommand Back { get; }
-    public IEnhancedCommand Next { get; }
-    public IStep Content { get; }
+    IEnhancedCommand Back { get; }
+    IEnhancedCommand Next { get; }
+    IStep Content { get; }
     IObservable<bool> IsLastPage { get; }
     IObservable<bool> IsValid { get; }
     IObservable<bool> IsBusy { get; }
     IObservable<int> PageIndex { get; }
     int TotalPages { get; }
+}
+
+public interface IWizard<out TResult> : IWizard
+{
+    TResult Result { get; }
 }

@@ -7,7 +7,7 @@ using Zafiro.UI;
 
 namespace TestApp.Samples.ControlsNew.Wizard.Pages;
 
-public class ThirdPageViewModel : ReactiveValidationObject, IStep
+public class ThirdPageViewModel(SecondPageViewModel second) : ReactiveValidationObject, IStep
 {
     public IObservable<bool> IsValid { get; } = Observable.Return(true);
 
