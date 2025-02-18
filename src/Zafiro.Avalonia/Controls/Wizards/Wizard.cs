@@ -1,101 +1,143 @@
 using System.Reactive;
-using ReactiveUI.SourceGenerators;
+using System.Reactive.Subjects;
 using Zafiro.Avalonia.Commands;
+using Zafiro.Avalonia.Controls.Wizards;
 using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.Reactive;
 
-namespace Zafiro.Avalonia.Controls.Wizards;
-
-public partial class Wizard : ReactiveObject, IWizard
+public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
 {
     private readonly IList<IStep?> createdPages;
     private readonly IList<Func<IStep?, IStep>> pageFactories;
+    private readonly Func<IStep, TResult> resultFactory;
     private IStep content;
+    private readonly BehaviorSubject<TResult?> result = new(default);
+    private int currentIndex = -1;
 
-    [Reactive] private int currentIndex = -1;
-
-    public Wizard(List<Func<IStep?, IStep>> pages)
+    public Wizard(List<Func<IStep?, IStep>> pages, Func<IStep, TResult> resultFactory)
     {
+        this.resultFactory = resultFactory;
         pageFactories = pages;
         createdPages = pages.Select(_ => (IStep?)null).ToList();
 
-        var hasNext = this.WhenAnyValue(x => x.CurrentIndex)
-            .Select(i => i < pages.Count - 1);
+        var hasNext = CreateHasNextObservable();
+        IsValid = CreateIsValidObservable();
+        IsBusy = CreateIsBusyObservable();
+        IsLastPage = hasNext.Not();
 
-        IsValid = this.WhenAnyValue(x => x.Content)
+        var nextCommand = CreateNextCommand(hasNext, IsValid);
+        var backCommand = CreateBackCommand();
+
+        ConfigureResultGeneration(hasNext);
+        SetupCommands(nextCommand, backCommand);
+        InitializeWizard(nextCommand);
+    }
+    
+    private IObservable<bool> CreateHasNextObservable() =>
+        this.WhenAnyValue(x => x.CurrentIndex)
+            .Select(i => i < pageFactories.Count - 1);
+    
+    private IObservable<bool> CreateIsValidObservable() =>
+        this.WhenAnyValue(x => x.Content)
             .WhereNotNull()
             .Select(x => x.IsValid)
             .Switch()
             .StartWith(false);
-
-        IsBusy = this.WhenAnyValue(x => x.Content)
+    
+    private IObservable<bool> CreateIsBusyObservable() =>
+        this.WhenAnyValue(x => x.Content)
             .WhereNotNull()
             .Select(x => x.IsBusy)
             .Switch()
             .StartWith(false);
-
-        // Podemos ir al siguiente si existe un paso más y si el actual es válido
-        var canGoNext = hasNext.CombineLatest(IsValid, (h, v) => h && v);
-
-        IsLastPage = hasNext.Not();
-
-        var nextCommand = ReactiveCommand.Create(() =>
-        {
-            // Avanzamos el índice
-            CurrentIndex++;
-
-            if (createdPages[CurrentIndex] == null)
-            {
-                // Obtenemos la página anterior (si existe)
-                var previousPage = CurrentIndex > 0 ? createdPages[CurrentIndex - 1] : null;
-                // Creamos la nueva página pasando la anterior
-                createdPages[CurrentIndex] = pageFactories[CurrentIndex](previousPage);
-            }
-
-            Content = createdPages[CurrentIndex]!;
-        }, canGoNext);
-
-        // Podemos volver atrás si currentIndex > 0
-        var isFirstPage = this.WhenAnyValue(x => x.CurrentIndex)
-            .Select(i => i == 0);
+    
+    private ReactiveCommand<Unit, Unit> CreateNextCommand(IObservable<bool> hasNext, IObservable<bool> isValid)
+    {
+        var canGoNext = hasNext.CombineLatest(isValid, (h, v) => h && v);
+        return ReactiveCommand.Create(NavigateNext, canGoNext);
+    }
+    
+    private void NavigateNext()
+    {
+        CurrentIndex++;
+        EnsurePageCreated();
+        Content = createdPages[CurrentIndex]!;
+    }
+    
+    private void EnsurePageCreated()
+    {
+        if (createdPages[CurrentIndex] != null) return;
         
-        var canGoBack = Observable.CombineLatest(isFirstPage, IsBusy, IsLastPage, (first, busy, last) => !first && !busy && !last);
+        var previousPage = CurrentIndex > 0 ? createdPages[CurrentIndex - 1] : null;
+        createdPages[CurrentIndex] = pageFactories[CurrentIndex](previousPage);
+    }
+    
+    private ReactiveCommand<Unit, Unit> CreateBackCommand()
+    {
+        var isFirstPage = this.WhenAnyValue(x => x.CurrentIndex).Select(i => i == 0);
+        var canGoBack = Observable.CombineLatest(isFirstPage, IsBusy, IsLastPage, 
+            (first, busy, last) => !first && !busy && !last);
 
-        var backCommand = ReactiveCommand.Create(() =>
-        {
-            createdPages[CurrentIndex] = null;
+        return ReactiveCommand.Create(NavigateBack, canGoBack);
+    }
 
-            CurrentIndex--;
-            // La instancia ya existe, así que la reutilizamos
-            Content = createdPages[CurrentIndex]!;
-        }, canGoBack);
-
-        Back = EnhancedCommand.Create(backCommand);
-        Next = EnhancedCommand.Create(nextCommand);
-
+    private void NavigateBack()
+    {
+        createdPages[CurrentIndex] = null;
+        CurrentIndex--;
+        Content = createdPages[CurrentIndex]!;
+    }
+    
+    private void ConfigureResultGeneration(IObservable<bool> hasNext)
+    {
+        hasNext.CombineLatest(
+                this.WhenAnyValue(x => x.Content),
+                (next, content) => (next, content))
+            .Subscribe(tuple =>
+            {
+                if (!tuple.next && tuple.content != null)
+                {
+                    Result = resultFactory(tuple.content);
+                }
+            });
+    }
+    
+    private void SetupCommands(ReactiveCommand<Unit, Unit> next, ReactiveCommand<Unit, Unit> back)
+    {
+        Next = EnhancedCommand.Create(next);
+        Back = EnhancedCommand.Create(back);
+    }
+    
+    private void InitializeWizard(ReactiveCommand<Unit, Unit> nextCommand)
+    {
         SetupAutoAdvance(nextCommand);
-
-        // Forzamos la carga de la primera página
         nextCommand.Execute().Subscribe();
     }
+    
+    private IDisposable SetupAutoAdvance(ReactiveCommand<Unit, Unit> nextCommand) =>
+        IsValid.Trues()
+            .Where(_ => Content.AutoAdvance)
+            .ToSignal()
+            .InvokeCommand(nextCommand);
 
-    private IDisposable SetupAutoAdvance(ReactiveCommand<Unit, Unit> nextCommand)
-    {
-        return IsValid.Trues().Where(_ => Content.AutoAdvance).ToSignal().InvokeCommand(nextCommand);
-    }
-
-    public IEnhancedCommand Back { get; }
-    public IEnhancedCommand Next { get; }
+    public IEnhancedCommand Back { get; private set; }
+    public IEnhancedCommand Next { get; private set; }
 
     public IStep Content
     {
         get => content;
         set => this.RaiseAndSetIfChanged(ref content, value);
     }
-
     public IObservable<bool> IsLastPage { get; }
     public IObservable<bool> IsValid { get; }
     public IObservable<bool> IsBusy { get; }
     public IObservable<int> PageIndex => this.WhenAnyValue(x => x.CurrentIndex);
     public int TotalPages => pageFactories.Count;
+    public TResult Result { get; private set; }
+
+    public int CurrentIndex
+    {
+        get => currentIndex;
+        set => this.RaiseAndSetIfChanged(ref currentIndex, value);
+    }
 }

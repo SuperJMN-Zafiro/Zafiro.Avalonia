@@ -32,12 +32,27 @@ public static class DialogExtensions
             })
         ]);
     }
+    
+    public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
+        [DisallowNull] TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
+        Func<ICloseable, IEnumerable<IOption>> optionsFactory,
+        Func<TViewModel, TResult> getResult)
+    {
+        bool showed = await dialogService.Show(viewModel, title, optionsFactory);
+
+        if (showed)
+        {
+            return getResult(viewModel);
+        }
+        
+        return Maybe<TResult>.None;
+    }
 
     public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
         [DisallowNull] TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
         Func<TViewModel, TResult> getResult)
     {
-        bool showed = await dialogService.Show(viewModel, title, closeable =>
+        Func<ICloseable, IOption[]> optionsFactory = closeable =>
         [
             OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss)), new Settings
             {
@@ -49,14 +64,9 @@ public static class DialogExtensions
             {
                 IsDefault = true,
             })
-        ]);
-
-        if (showed)
-        {
-            return getResult(viewModel);
-        }
+        ];
         
-        return Maybe<TResult>.None;
+        return await dialogService.ShowAndGetResult(viewModel, title, canSubmit, optionsFactory, getResult);
     }
     
     public static async Task<Maybe<bool>> ShowConfirmation(this IDialog dialogService, string title, string text, string yesText = "Yes", string noText = "No")

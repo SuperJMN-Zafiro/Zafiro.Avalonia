@@ -1,4 +1,5 @@
 using System.Reactive.Linq;
+using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Commands;
 using Zafiro.Avalonia.Controls.Wizards;
@@ -8,6 +9,11 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public static class WizardMixin
 {
+    public static Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, IWizard<TResult> wizard, string title)
+    {
+        return dialog.ShowAndGetResult(wizard, title, x => x.IsLastPage, wizard.OptionsForCloseable, x => x.Result);
+    }
+    
     public static IEnumerable<IOption> OptionsForCloseable(this IWizard wizard, ICloseable closeable)
     {
         var canCancel = wizard.IsBusy.CombineLatest(wizard.IsLastPage, (a, b) => !a && !b);

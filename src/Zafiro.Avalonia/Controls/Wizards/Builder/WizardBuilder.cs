@@ -2,9 +2,9 @@ namespace Zafiro.Avalonia.Controls.Wizards.Builder;
 
 public static class WizardBuilder
 {
-    public static WizardBuilder<T> StartWith<T>(Func<T> start) where T : IStep
+    public static WizardBuilder<TFirst> StartWith<TFirst>(Func<TFirst> start) where TFirst : IStep
     {
-        return new WizardBuilder<T>(start);
+        return new WizardBuilder<TFirst>(start);
     }
 }
 
@@ -28,8 +28,8 @@ public class WizardBuilder<TCurrent> where TCurrent : IStep
         return new WizardBuilder<TNext>(steps);
     }
 
-    public Wizard Build()
+    public IWizard<TResult> FinishWith<TResult>(Func<IStep, TResult> resultFactory)
     {
-        return new Wizard(steps);
+        return new Wizard<TResult>(steps, resultFactory);
     }
 }
