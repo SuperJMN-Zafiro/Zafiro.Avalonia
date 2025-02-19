@@ -3,7 +3,6 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.Avalonia.Controls.Wizards.Builder;
-using Zafiro.UI;
 
 namespace TestApp.Samples.ControlsNew.Wizard.Pages;
 
@@ -15,4 +14,5 @@ public class ThirdPageViewModel(SecondPageViewModel second) : ReactiveValidation
     public bool AutoAdvance => false;
 
     public Maybe<string> Title => "Final page";
+    public string SomeProperty => "Hello!";
 }

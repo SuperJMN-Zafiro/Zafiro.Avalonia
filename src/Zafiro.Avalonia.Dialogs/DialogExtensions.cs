@@ -34,7 +34,7 @@ public static class DialogExtensions
     }
     
     public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
-        [DisallowNull] TViewModel viewModel, string title, Func<TViewModel, IObservable<bool>> canSubmit,
+        [DisallowNull] TViewModel viewModel, string title,
         Func<ICloseable, IEnumerable<IOption>> optionsFactory,
         Func<TViewModel, TResult> getResult)
     {
@@ -66,7 +66,7 @@ public static class DialogExtensions
             })
         ];
         
-        return await dialogService.ShowAndGetResult(viewModel, title, canSubmit, optionsFactory, getResult);
+        return await dialogService.ShowAndGetResult(viewModel, title, optionsFactory, getResult);
     }
     
     public static async Task<Maybe<bool>> ShowConfirmation(this IDialog dialogService, string title, string text, string yesText = "Yes", string noText = "No")

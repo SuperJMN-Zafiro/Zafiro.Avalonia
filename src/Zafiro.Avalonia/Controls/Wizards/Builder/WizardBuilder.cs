@@ -28,8 +28,11 @@ public class WizardBuilder<TCurrent> where TCurrent : IStep
         return new WizardBuilder<TNext>(steps);
     }
 
-    public IWizard<TResult> FinishWith<TResult>(Func<IStep, TResult> resultFactory)
+    public IWizard<TResult> FinishWith<TResult>(Func<TCurrent, TResult> resultFactory)
     {
-        return new Wizard<TResult>(steps, resultFactory);
+        return new Wizard<TResult>(
+            steps, 
+            last => resultFactory((TCurrent)last)
+        );
     }
 }

@@ -11,10 +11,10 @@ public static class WizardMixin
 {
     public static Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, IWizard<TResult> wizard, string title)
     {
-        return dialog.ShowAndGetResult(wizard, title, x => x.IsLastPage, wizard.OptionsForCloseable, x => x.Result);
+        return dialog.ShowAndGetResult(wizard, title, closeable => GetOptions(wizard, closeable), x => x.GetResult());
     }
-    
-    public static IEnumerable<IOption> OptionsForCloseable(this IWizard wizard, ICloseable closeable)
+
+    private static IEnumerable<IOption> GetOptions(IWizard wizard, ICloseable closeable)
     {
         var canCancel = wizard.IsBusy.CombineLatest(wizard.IsLastPage, (a, b) => !a && !b);
         var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canCancel));

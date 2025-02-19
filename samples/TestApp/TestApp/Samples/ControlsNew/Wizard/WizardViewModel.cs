@@ -25,7 +25,7 @@ public class WizardViewModel : ReactiveObject
                 .StartWith(() => new FirstPageViewModel())
                 .Then(first => new SecondPageViewModel(first.Number!.Value))
                 .Then(second => new ThirdPageViewModel(second))
-                .FinishWith(third => "Hello!");
+                .FinishWith(third => third.SomeProperty);
             
             return dialog.ShowWizard(wizard, "Such a nice wizard this is!");
         });

@@ -11,7 +11,6 @@ public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
     private readonly IList<Func<IStep?, IStep>> pageFactories;
     private readonly Func<IStep, TResult> resultFactory;
     private IStep content;
-    private readonly BehaviorSubject<TResult?> result = new(default);
     private int currentIndex = -1;
 
     public Wizard(List<Func<IStep?, IStep>> pages, Func<IStep, TResult> resultFactory)
@@ -28,7 +27,7 @@ public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
         var nextCommand = CreateNextCommand(hasNext, IsValid);
         var backCommand = CreateBackCommand();
 
-        ConfigureResultGeneration(hasNext);
+        // Se elimina la suscripción reactiva a la generación del resultado.
         SetupCommands(nextCommand, backCommand);
         InitializeWizard(nextCommand);
     }
@@ -88,20 +87,6 @@ public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
         Content = createdPages[CurrentIndex]!;
     }
     
-    private void ConfigureResultGeneration(IObservable<bool> hasNext)
-    {
-        hasNext.CombineLatest(
-                this.WhenAnyValue(x => x.Content),
-                (next, content) => (next, content))
-            .Subscribe(tuple =>
-            {
-                if (!tuple.next && tuple.content != null)
-                {
-                    Result = resultFactory(tuple.content);
-                }
-            });
-    }
-    
     private void SetupCommands(ReactiveCommand<Unit, Unit> next, ReactiveCommand<Unit, Unit> back)
     {
         Next = EnhancedCommand.Create(next);
@@ -119,6 +104,11 @@ public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
             .Where(_ => Content.AutoAdvance)
             .ToSignal()
             .InvokeCommand(nextCommand);
+
+    public TResult GetResult()
+    {
+        return resultFactory(Content);
+    }
 
     public IEnhancedCommand Back { get; private set; }
     public IEnhancedCommand Next { get; private set; }

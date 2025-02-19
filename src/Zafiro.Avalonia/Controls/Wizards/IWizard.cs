@@ -17,5 +17,5 @@ public interface IWizard
 
 public interface IWizard<out TResult> : IWizard
 {
-    TResult Result { get; }
+    TResult GetResult();
 }
