@@ -22,9 +22,14 @@ public class WizardBuilder<TCurrent> where TCurrent : IStep
         this.steps = steps;
     }
 
-    public WizardBuilder<TNext> Then<TNext>(Func<TCurrent, TNext> factory) where TNext : IStep
+    public WizardBuilder<TNext> Then<TNext>(Func<TCurrent, TNext> factory, Action<TCurrent>? action = null) where TNext : IStep
     {
-        steps.Add(prev => factory((TCurrent)prev!));
+        steps.Add(prev =>
+        {
+            var current = (TCurrent)prev!;
+            action?.Invoke(current);
+            return factory(current);
+        });
         return new WizardBuilder<TNext>(steps);
     }
 

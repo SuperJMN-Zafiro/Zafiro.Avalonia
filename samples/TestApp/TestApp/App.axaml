@@ -17,7 +17,6 @@
 		<FluentTheme />
 		<Style Selector="views|DialogControl">
 			<Setter Property="Width" Value="400" />
-			<Setter Property="Height" Value="300" />
 		</Style>
 	</Application.Styles>
 

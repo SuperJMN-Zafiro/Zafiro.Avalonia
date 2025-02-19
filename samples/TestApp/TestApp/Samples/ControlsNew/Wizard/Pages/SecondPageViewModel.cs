@@ -25,4 +25,6 @@ public partial class SecondPageViewModel : ReactiveValidationObject, IStep
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
     public Maybe<string> Title => "Second Page";
+    
+    [Reactive] private string? text;
 }

@@ -21,19 +21,23 @@ public class WizardViewModel : ReactiveObject
     {
         LaunchWizard = ReactiveCommand.CreateFromTask(() =>
         {
+            // This is the data we want to gather from the wizard
+            int number = 0;
+            string? text = "";
+            
             var wizard = WizardBuilder
                 .StartWith(() => new FirstPageViewModel())
-                .Then(first => new SecondPageViewModel(first.Number!.Value))
-                .Then(second => new ThirdPageViewModel(second))
-                .FinishWith(third => third.SomeProperty);
+                .Then(prev => new SecondPageViewModel(prev.Number!.Value), x => number = x.Number!.Value)
+                .Then(prev => new ThirdPageViewModel(prev), x => text = x.Text)
+                .FinishWith(prev => (prev.SomeProperty, number, text));
             
             return dialog.ShowWizard(wizard, "Such a nice wizard this is!");
         });
 
         LaunchWizard.Values()
-            .SelectMany(x => Observable.FromAsync(() => dialog.ShowMessage("Wizard finished", $"Wizard result='{x}'")))
+            .SelectMany(x => Observable.FromAsync(() => dialog.ShowMessage("Wizard finished", $"This is the data we gathered from it: '{x}'")))
             .Subscribe();
     }
 
-    public ReactiveCommand<Unit, Maybe<string>> LaunchWizard { get; set; }
+    public ReactiveCommand<Unit, Maybe<(string SomeProperty, int number, string text)>> LaunchWizard { get; set; }
 }
