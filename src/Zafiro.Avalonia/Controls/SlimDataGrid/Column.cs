@@ -12,6 +12,15 @@ public class Column : AvaloniaObject
     public static readonly StyledProperty<IDataTemplate?> HeaderTemplateProperty = AvaloniaProperty.Register<Column, IDataTemplate?>(
         nameof(HeaderTemplate));
 
+    public static readonly StyledProperty<GridLength> WidthProperty = AvaloniaProperty.Register<Column, GridLength>(
+        nameof(Width), GridLength.Star);
+
+    public GridLength Width
+    {
+        get => GetValue(WidthProperty);
+        set => SetValue(WidthProperty, value);
+    }
+
     [Content]
     [InheritDataTypeFromItems(nameof(SlimDataGrid.ItemsSource), AncestorType = typeof(SlimDataGrid))]
     public IDataTemplate? CellTemplate
