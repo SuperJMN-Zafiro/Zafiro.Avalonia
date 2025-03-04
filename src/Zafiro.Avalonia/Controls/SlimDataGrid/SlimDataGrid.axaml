@@ -1,9 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:a1="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid">
+        xmlns:a="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid">
     <Styles.Resources>
 
-        <ControlTheme x:Key="{x:Type a1:Row}" TargetType="a1:Row">
+        <ControlTheme x:Key="{x:Type a:Row}" TargetType="a:Row">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Padding="{TemplateBinding Padding}"
@@ -12,7 +12,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <ItemsControl ItemsSource="{TemplateBinding Properties}">
                             <ItemsControl.ItemContainerTheme>
-                                <ControlTheme TargetType="a1:Cell" BasedOn="{StaticResource {x:Type a1:Cell}}">
+                                <ControlTheme TargetType="a:Cell" BasedOn="{StaticResource {x:Type a:Cell}}">
                                     <Setter Property="Grid.Column" Value="{Binding $self.Index}" />
                                 </ControlTheme>
                             </ItemsControl.ItemContainerTheme>
@@ -20,7 +20,7 @@
                                 <ItemsPanelTemplate>
                                     <Grid>
                                         <Interaction.Behaviors>
-                                            <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
+                                            <a:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a:Converters.ColumnDefsConverter}}" />
                                         </Interaction.Behaviors>
                                     </Grid>
                                 </ItemsPanelTemplate>
@@ -32,7 +32,7 @@
             </Setter>
         </ControlTheme>
         
-        <ControlTheme x:Key="{x:Type a1:Cell}" TargetType="a1:Cell">
+        <ControlTheme x:Key="{x:Type a:Cell}" TargetType="a:Cell">
             <Setter Property="BorderBrush" Value="{DynamicResource ChromeBlackMediumLow}" />
             <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
             <Setter Property="Template">
@@ -47,7 +47,7 @@
             </Setter>
         </ControlTheme>
 
-        <ControlTheme x:Key="{x:Type a1:Header}" TargetType="a1:Header">
+        <ControlTheme x:Key="{x:Type a:Header}" TargetType="a:Header">
             <Setter Property="BorderBrush" Value="{DynamicResource ChromeBlackMediumLow}" />
             <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
             <Setter Property="Template">
@@ -62,7 +62,7 @@
             </Setter>
         </ControlTheme>
 
-        <ControlTheme x:Key="{x:Type a1:SlimDataGrid}" TargetType="a1:SlimDataGrid">
+        <ControlTheme x:Key="{x:Type a:SlimDataGrid}" TargetType="a:SlimDataGrid">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel>
@@ -70,7 +70,7 @@
                                 ClipToBounds="True"
                                 Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
-                            <DockPanel>
+                            <DockPanel Grid.IsSharedSizeScope="True">
                                 <Border DockPanel.Dock="Top" x:Name="Header"
                                         BorderThickness="{TemplateBinding HeaderBorderThickness}"
                                         BorderBrush="{TemplateBinding HeaderBorderBrush}"
@@ -78,7 +78,7 @@
                                         Background="{TemplateBinding HeaderBackground}">
                                     <ItemsControl TextElement.FontWeight="Bold" ItemsSource="{TemplateBinding Headers}">
                                         <ItemsControl.ItemContainerTheme>
-                                            <ControlTheme TargetType="a1:Header" x:DataType="a1:Header" BasedOn="{StaticResource {x:Type a1:Header}}">
+                                            <ControlTheme TargetType="a:Header" x:DataType="a:Header" BasedOn="{StaticResource {x:Type a:Header}}">
                                                 <Setter Property="Grid.Column" Value="{Binding $self.Index}" />
                                             </ControlTheme>
                                         </ItemsControl.ItemContainerTheme>
@@ -86,7 +86,7 @@
                                             <ItemsPanelTemplate>
                                                 <Grid>
                                                     <Interaction.Behaviors>
-                                                        <a1:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a1:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a1:Converters.ColumnDefsConverter}}" />
+                                                        <a:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a:Converters.ColumnDefsConverter}}" />
                                                     </Interaction.Behaviors>
                                                 </Grid>
                                             </ItemsPanelTemplate>

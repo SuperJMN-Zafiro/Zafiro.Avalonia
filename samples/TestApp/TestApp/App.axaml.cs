@@ -3,6 +3,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.FontAwesome;
 using TestApp.ViewModels;
 using TestApp.Views;
 using Zafiro.Avalonia.Dialogs;
@@ -22,6 +24,9 @@ public class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        IconProvider.Current
+            .Register<FontAwesomeIconProvider>();
+
         this.Connect(() => new MainView(), view => MainViewModel(view), () => new MainWindow());
 
         base.OnFrameworkInitializationCompleted();

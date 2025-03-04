@@ -12,19 +12,27 @@ public class BindableColumnDefinitionsBehavior : Behavior<Grid>
         AvaloniaProperty.Register<BindableColumnDefinitionsBehavior, ColumnDefinitions>(
             nameof(ColumnDefinitions), defaultBindingMode: BindingMode.TwoWay);
 
+    public ColumnDefinitions ColumnDefinitions
+    {
+        get => GetValue(ColumnDefinitionsProperty);
+        set => SetValue(ColumnDefinitionsProperty, value);
+    }
+
     protected override void OnAttached()
     {
         base.OnAttached();
 
         disposables = new CompositeDisposable();
-        
+
         this.WhenAnyValue(x => x.ColumnDefinitions)
             .WhereNotNull()
-            .Subscribe(definition =>
+            .Subscribe(columnDefinitions =>
             {
-                if (AssociatedObject != null)
+                if (AssociatedObject != null && IsEnabled)
                 {
-                    AssociatedObject.ColumnDefinitions = definition;
+                    AssociatedObject.ColumnDefinitions.Clear();
+
+                    AssociatedObject.ColumnDefinitions.AddRange(columnDefinitions);
                 }
             })
             .DisposeWith(disposables);
@@ -34,11 +42,5 @@ public class BindableColumnDefinitionsBehavior : Behavior<Grid>
     {
         disposables?.Dispose();
         base.OnDetaching();
-    }
-
-    public ColumnDefinitions ColumnDefinitions
-    {
-        get => GetValue(ColumnDefinitionsProperty);
-        set => SetValue(ColumnDefinitionsProperty, value);
     }
 }

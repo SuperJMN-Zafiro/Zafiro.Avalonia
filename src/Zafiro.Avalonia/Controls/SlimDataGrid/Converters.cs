@@ -1,17 +1,23 @@
 using Avalonia.Data.Converters;
+using MoreLinq;
 
 namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
-public class Converters
+public static class Converters
 {
-    public static FuncValueConverter<IEnumerable<Column>, ColumnDefinitions> ColumnDefsConverter { get; } = new(o =>
+    public static FuncValueConverter<IEnumerable<Column>, ColumnDefinitions> ColumnDefsConverter { get; } = new(columns =>
     {
         var columnDefinitions = new ColumnDefinitions();
 
-        foreach (var columnDefinition in o.Select(column => new ColumnDefinition(1, GridUnitType.Star)))
+        columns?.ForEach((column, i) =>
         {
+            var columnDefinition = new ColumnDefinition(column.Width.Value, column.Width.GridUnitType);
+            if (column.Width.GridUnitType == GridUnitType.Auto)
+            {
+                columnDefinition.SharedSizeGroup = $"Column{i}";
+            }
             columnDefinitions.Add(columnDefinition);
-        };
+        });
 
         return columnDefinitions;
     });
