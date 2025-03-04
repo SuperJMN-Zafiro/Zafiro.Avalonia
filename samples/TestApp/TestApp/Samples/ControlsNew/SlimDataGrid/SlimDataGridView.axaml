@@ -19,25 +19,37 @@
         <DataTemplate x:Key="SurnameTemplate">
             <TextBlock Foreground="#536A72" x:DataType="x:String" Text="{Binding }" />
         </DataTemplate>
-        <ControlTheme x:Key="RowTheme" TargetType="slimDataGrid:Row" BasedOn="{StaticResource {x:Type slimDataGrid:Row}}">
+        <ControlTheme x:Key="RowTheme" TargetType="slimDataGrid:Row"
+                      BasedOn="{StaticResource {x:Type slimDataGrid:Row}}">
             <Setter Property="BorderThickness" Value="0 0 0 1" />
             <Setter Property="BorderBrush" Value="#4F000000" />
             <Setter Property="Padding" Value="10 5" />
             <Setter Property="Background" Value="#06000000" />
         </ControlTheme>
     </UserControl.Resources>
-    <slimDataGrid:SlimDataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
-                       HeaderBackground="#20000000" BorderThickness="2"
-                       BorderBrush="Black" CornerRadius="10"
-                       ItemsSource="{Binding People}" HeaderPadding="10 10" RowTheme="{StaticResource RowTheme}">
-        <slimDataGrid:SlimDataGrid.Columns>
-            <slimDataGrid:Column Header="Name" Binding="{Binding Name}"
-                                 CellTemplate="{StaticResource NameTemplate}" />
-            <slimDataGrid:Column Header="Surname"
-                                 Binding="{Binding Surname}"
-                                 CellTemplate="{StaticResource SurnameTemplate}" />
-        </slimDataGrid:SlimDataGrid.Columns>
-    </slimDataGrid:SlimDataGrid>
-
-
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Spacing="10" Grid.IsSharedSizeScope="True">
+            <TextBlock FontWeight="Bold">Add new</TextBlock>
+            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Name">
+                <TextBox Text="{Binding PersonName}" />
+            </HeaderedContentControl>
+            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Surname">
+                <TextBox Text="{Binding PersonSurname}" />
+            </HeaderedContentControl>
+            <Button Content="Add" Command="{Binding Add}" />
+        </StackPanel>
+        <slimDataGrid:SlimDataGrid Background="#FFC9EC" Padding="10" VerticalAlignment="Top"
+                                   HeaderBackground="#20000000" BorderThickness="2"
+                                   BorderBrush="Black" CornerRadius="10"
+                                   ItemsSource="{Binding People}" HeaderPadding="10 10"
+                                   RowTheme="{StaticResource RowTheme}">
+            <slimDataGrid:SlimDataGrid.Columns>
+                <slimDataGrid:Column Header="Name" Binding="{Binding Name}"
+                                     CellTemplate="{StaticResource NameTemplate}" />
+                <slimDataGrid:Column Header="Surname"
+                                     Binding="{Binding Surname}"
+                                     CellTemplate="{StaticResource SurnameTemplate}" />
+            </slimDataGrid:SlimDataGrid.Columns>
+        </slimDataGrid:SlimDataGrid>
+    </DockPanel>
 </UserControl>

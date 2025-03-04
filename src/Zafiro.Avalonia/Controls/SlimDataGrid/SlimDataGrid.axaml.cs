@@ -2,7 +2,9 @@ using System.Collections;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
+using DynamicData;
 using DynamicData.Binding;
+using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.SlimDataGrid;
 
@@ -43,18 +45,21 @@ public class SlimDataGrid : TemplatedControl
 
     public SlimDataGrid()
     {
-        var changes = Columns.ObserveCollectionChanges()
-            .Select(_ => Columns);
-        
+        // Actualizamos Headers cuando cambien las columnas.
         this.WhenAnyValue(x => x.Columns)
             .WhereNotNull()
-            .Select(columns => GetHeaders(columns))
+            .Select(cols => cols.Select((col, index) => new Header(col, index)))
             .Subscribe(h => Headers = h);
 
-        this.WhenAnyValue(x => x.ItemsSource).WhereNotNull()
-            .CombineLatest(changes, (items, dataColumns) => (items, dataColumns))
-            .Select(tuple => GetRows(tuple.items.Cast<object>().ToList(), tuple.dataColumns))
-            .Subscribe(rows => DataRows = rows);
+        // Convertimos el ItemsSource a un ChangeSet, lo transformamos y lo bindemos.
+        this.WhenAnyValue(x => x.ItemsSource)
+            .WhereNotNull()
+            .Select(source => source.Cast<object>()
+                .ToObservableChangeSetIfPossible<object>()
+                .Transform(item => new Row(item, Columns) { Theme = RowTheme }))
+            .Switch()
+            .Bind(out var rows)
+            .Subscribe(_ => DataRows = rows);
     }
 
     public IEnumerable? ItemsSource
