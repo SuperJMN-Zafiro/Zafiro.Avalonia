@@ -6,5 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Dialogs.MyView"
              x:DataType="dialogs:MyViewModel">
-  <TextBox VerticalAlignment="Center" Width="200" Text="{Binding Text, Mode=TwoWay}" Watermark="Enter something" />
+    <DockPanel>
+        <Button Margin="20" HorizontalAlignment="Center" Command="{Binding OpenAnotherDialog}" Content="Open another dialog" DockPanel.Dock="Bottom" />
+        <TextBox VerticalAlignment="Center" Width="200" Text="{Binding Text, Mode=TwoWay}" Watermark="Enter something" />
+    </DockPanel>
 </UserControl>

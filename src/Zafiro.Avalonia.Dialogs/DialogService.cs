@@ -15,7 +15,7 @@ public static class DialogService
         return Application.Current.ApplicationLifetime switch
         {
             ISingleViewApplicationLifetime singleViewApplicationLifetime => DialogForSingleView(singleViewApplicationLifetime),
-            _ => new DesktopDialog()
+            _ => new StackedDialog()
         };
     }
 

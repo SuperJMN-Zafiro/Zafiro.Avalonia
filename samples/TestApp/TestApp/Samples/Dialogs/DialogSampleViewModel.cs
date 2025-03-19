@@ -18,7 +18,7 @@ public class DialogSampleViewModel : IViewModel
     {
         ShowDialog = ReactiveCommand.CreateFromTask(async () =>
         {
-            return await dialogService.ShowAndGetResult(new MyViewModel(), "Dale durity", model => model.IsValid(),
+            return await dialogService.ShowAndGetResult(new MyViewModel(dialogService), "Dale durity", model => model.IsValid(),
                 model => model.Text);
         });
 
