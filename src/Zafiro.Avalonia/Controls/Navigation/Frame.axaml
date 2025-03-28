@@ -1,21 +1,26 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation">
+        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia">
     <Design.PreviewWith>
-        <navigation:Frame />
+        <navigation:Frame Width="200" Height="200" />
     </Design.PreviewWith>
 
     <Styles.Resources>
         <ControlTheme TargetType="navigation:Frame" x:Key="{x:Type navigation:Frame}">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <DockPanel>
-                        <Button IsVisible="{TemplateBinding IsBackButtonVisible}" Command="{Binding $parent[navigation:Frame].Navigator.Back}" DockPanel.Dock="Top">BACK</Button>
-                        <ContentControl Content="{Binding $parent[navigation:Frame].Navigator.Content}" />
-                    </DockPanel>
+                    <Panel>
+                        <ScrollViewer>
+                            <ContentControl Content="{Binding $parent[navigation:Frame].Navigator.Content}" />
+                        </ScrollViewer>
+                        <Button Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                Command="{Binding $parent[navigation:Frame].Navigator.Back}"
+                                IsVisible="{Binding $self.IsEffectivelyEnabled}">
+                            BACK
+                        </Button>
+                    </Panel>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>
     </Styles.Resources>
-
 </Styles>

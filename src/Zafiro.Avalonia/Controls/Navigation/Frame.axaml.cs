@@ -36,7 +36,7 @@ public class Frame : TemplatedControl
     public IEnhancedCommand Back { get; set; }
 
     public static readonly StyledProperty<bool> IsBackButtonVisibleProperty = AvaloniaProperty.Register<Frame, bool>(
-        nameof(IsBackButtonVisible));
+        nameof(IsBackButtonVisible), defaultValue: true);
 
     public bool IsBackButtonVisible
     {
