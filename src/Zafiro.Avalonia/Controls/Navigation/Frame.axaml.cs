@@ -1,6 +1,7 @@
 using System.Reactive;
 using Avalonia.Controls.Primitives;
-using Zafiro.Avalonia.Commands;
+using Zafiro.UI.Commands;
+using Zafiro.UI.Navigation;
 
 namespace Zafiro.Avalonia.Controls.Navigation;
 

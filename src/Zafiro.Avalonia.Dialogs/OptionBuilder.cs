@@ -1,6 +1,6 @@
 using System.Reactive;
 using System.Reactive.Linq;
-using Zafiro.Avalonia.Commands;
+using Zafiro.UI.Commands;
 
 namespace Zafiro.Avalonia.Dialogs;
 

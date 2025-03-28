@@ -14,8 +14,8 @@
         <PackageReference Include="DynamicData" Version="9.0.4" />
         <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Zafiro" Version="14.0.9" />
-        <PackageReference Include="Zafiro.UI" Version="14.0.7" />
+        <PackageReference Include="Zafiro" Version="15.0.12" />
+        <PackageReference Include="Zafiro.UI" Version="15.0.12" />
         <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.0.9">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

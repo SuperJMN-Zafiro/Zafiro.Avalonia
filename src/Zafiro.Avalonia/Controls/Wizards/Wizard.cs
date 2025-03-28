@@ -1,9 +1,9 @@
 using System.Reactive;
 using System.Reactive.Subjects;
-using Zafiro.Avalonia.Commands;
 using Zafiro.Avalonia.Controls.Wizards;
 using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.Reactive;
+using Zafiro.UI.Commands;
 
 public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
 {

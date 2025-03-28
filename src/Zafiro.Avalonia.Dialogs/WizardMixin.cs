@@ -1,9 +1,9 @@
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.Commands;
 using Zafiro.Avalonia.Controls.Wizards;
 using Zafiro.Reactive;
+using Zafiro.UI.Commands;
 
 namespace Zafiro.Avalonia.Dialogs;
 

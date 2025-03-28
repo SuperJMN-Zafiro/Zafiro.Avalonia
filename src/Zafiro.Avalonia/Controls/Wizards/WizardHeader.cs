@@ -1,6 +1,6 @@
 using Avalonia.Controls.Primitives;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.Commands;
+using Zafiro.UI.Commands;
 
 namespace Zafiro.Avalonia.Controls.Wizards;
 

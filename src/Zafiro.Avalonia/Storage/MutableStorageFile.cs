@@ -42,7 +42,7 @@ public class MutableStorageFile : IMutableFile, IRooted
         return Result.Try(async () =>
         {
             var readAsync = await StorageFile.OpenReadAsync().ConfigureAwait(false);
-            var bytes = await readAsync.ReadBytes().ConfigureAwait(false);
+            var bytes = await readAsync.ReadBytesToEnd().ConfigureAwait(false);
             return Data.FromByteArray(bytes);
         });
     }
