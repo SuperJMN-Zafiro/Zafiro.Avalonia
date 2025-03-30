@@ -1,0 +1,14 @@
+<DataTemplates xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:navigation="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
+        xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <DataTemplate DataType="navigation:NavigationViewModel">
+        <nv:Frame Navigator="{Binding Navigator}" />
+    </DataTemplate>
+</DataTemplates>

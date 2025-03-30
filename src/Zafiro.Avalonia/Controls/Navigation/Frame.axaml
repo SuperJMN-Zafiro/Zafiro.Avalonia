@@ -7,18 +7,28 @@
 
     <Styles.Resources>
         <ControlTheme TargetType="navigation:Frame" x:Key="{x:Type navigation:Frame}">
+            <Setter Property="BackButtonContent">
+                <Setter.Value>
+                    <Template>
+                        <Template.Content>
+                            <TextBlock>Go back!</TextBlock>
+                        </Template.Content>
+                    </Template>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" Value="0 10 0 0"></Setter>
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Panel>
-                        <ScrollViewer>
+                    <DockPanel>
+                        <Button Command="{Binding $parent[navigation:Frame].Navigator.Back}"
+                                IsVisible="{Binding $self.IsEffectivelyEnabled}" 
+                                DockPanel.Dock="Top" 
+                                Content="{TemplateBinding BackButtonContent}">
+                        </Button>
+                        <ScrollViewer Margin="{TemplateBinding Padding}">
                             <ContentControl Content="{Binding $parent[navigation:Frame].Navigator.Content}" />
                         </ScrollViewer>
-                        <Button Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left"
-                                Command="{Binding $parent[navigation:Frame].Navigator.Back}"
-                                IsVisible="{Binding $self.IsEffectivelyEnabled}">
-                            BACK
-                        </Button>
-                    </Panel>
+                    </DockPanel>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>

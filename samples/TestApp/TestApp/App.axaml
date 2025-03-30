@@ -7,9 +7,8 @@
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
 	
-	<Application.Resources>
-		
-	</Application.Resources>
+	
+	
 	<Application.Styles>
 		<StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
 		<StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
@@ -22,6 +21,8 @@
 
 	<Application.DataTemplates>
 
+		<misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Navigation/DataTemplates.axaml" />
+		
 		<DataTemplate DataType="panels:ISectionNode">
 	        <TabControl ItemsSource="{Binding Sections}">
 		        <TabControl.ContentTemplate>

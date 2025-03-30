@@ -1,5 +1,6 @@
 using System.Reactive;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Navigation;
 
@@ -42,5 +43,14 @@ public class Frame : TemplatedControl
     {
         get => GetValue(IsBackButtonVisibleProperty);
         set => SetValue(IsBackButtonVisibleProperty, value);
+    }
+
+    public static readonly StyledProperty<object> BackButtonContentProperty = AvaloniaProperty.Register<Frame, object>(
+        nameof(BackButtonContent));
+
+    public object BackButtonContent
+    {
+        get => GetValue(BackButtonContentProperty);
+        set => SetValue(BackButtonContentProperty, value);
     }
 }
