@@ -1,6 +1,7 @@
 using System.Reactive;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Interactivity;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Navigation;
 
@@ -25,7 +26,15 @@ public class Frame : TemplatedControl
     public object Content
     {
         get => content;
-        private set => SetAndRaise(ContentProperty, ref content, value);
+        private set
+        {
+            if (content is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+            
+            SetAndRaise(ContentProperty, ref content, value);
+        }
     }
 
     public Frame()
@@ -52,5 +61,15 @@ public class Frame : TemplatedControl
     {
         get => GetValue(BackButtonContentProperty);
         set => SetValue(BackButtonContentProperty, value);
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        if (content is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+        
+        base.OnUnloaded(e);
     }
 }
