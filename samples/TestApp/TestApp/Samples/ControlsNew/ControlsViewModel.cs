@@ -1,29 +1,27 @@
 ﻿using System.Collections.Generic;
-using CSharpFunctionalExtensions;
 using TestApp.Samples.ControlsNew.Navigation;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
 using TestApp.Samples.ControlsNew.Wizard;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.UI;
-using Zafiro.UI.Navigation;
+using Zafiro.Avalonia.Shell;
+using Zafiro.Avalonia.Shell.Sections;
+using Section = Zafiro.Avalonia.Shell.Sections.Section;
 
 namespace TestApp.Samples.ControlsNew;
 
 public class ControlsViewModel
 {
-    public ControlsViewModel(IDialog dialog)
+    public ControlsViewModel()
     {
-        var navigator = new Navigator(Maybe<ITypeResolver>.None);
-        
-        Sections = new List<Section>
+        Sections = new List<SectionBase>
         {
-            new("Typewriter", new TypewriterViewModel(), Maybe<object>.None),
-            new("DataGrid", new SlimDataGridViewModel(), Maybe<object>.None),
-            new("Wizard", new WizardViewModel(dialog), Maybe<object>.None),
-            new("Navigation", new NavigationViewModel(navigator, () => new NavigationSampleViewModel(navigator)), Maybe<object>.None),
+            Section.Create("Typewriter", () => new TypewriterViewModel()),
+            Section.Create("DataGrid", () => new SlimDataGridViewModel()),
+            Section.Create("Wizard", () => new WizardViewModel(DialogService.Create())),
+            //Section.Create("Navigation", () => new NavigationSampleViewModel()),
         };
     }
 
-    public IEnumerable<ISection> Sections { get; }
+    public List<SectionBase> Sections { get; }
 }

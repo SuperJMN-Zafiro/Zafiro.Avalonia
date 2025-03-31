@@ -5,6 +5,7 @@
              xmlns:dataAnalysis="clr-namespace:TestApp.Samples.DataAnalysis"
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              xmlns:controlsNew="clr-namespace:TestApp.Samples.ControlsNew"
+             xmlns:sections1="clr-namespace:Zafiro.Avalonia.Shell.Sections;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.ControlsNew.ControlsView"
              x:DataType="controlsNew:ControlsViewModel">
@@ -15,13 +16,13 @@
 
     <TabControl ItemsSource="{Binding Sections}">
       <TabControl.ContentTemplate>
-          <DataTemplate DataType="ui:Section">
+          <DataTemplate DataType="sections1:IContentSection">
               <ContentControl Content="{Binding Content}" />
           </DataTemplate>
       </TabControl.ContentTemplate>
       <TabControl.ItemTemplate>
-          <DataTemplate DataType="ui:Section">
-              <TextBlock Text="{Binding Title}" />
+          <DataTemplate DataType="sections1:IContentSection">
+              <TextBlock Text="{Binding Name}" />
           </DataTemplate>
       </TabControl.ItemTemplate>
   </TabControl>
