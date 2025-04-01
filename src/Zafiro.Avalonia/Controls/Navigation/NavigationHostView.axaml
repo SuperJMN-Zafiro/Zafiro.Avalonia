@@ -8,9 +8,5 @@
              x:Class="Zafiro.Avalonia.Controls.Navigation.NavigationHostView"
              x:CompileBindings="True"
              x:DataType="navigation1:INavigationHost">
-    <Panel>
-        <navigation:Frame Navigator="{Binding Navigator}" IsVisible="{Binding !IsLoading^}" />
-        <ProgressBar VerticalAlignment="Center" HorizontalAlignment="Center"
-                     IsVisible="{Binding IsLoading^}" />
-    </Panel>
+    <navigation:Frame Navigator="{Binding Navigator}" />
 </UserControl>
