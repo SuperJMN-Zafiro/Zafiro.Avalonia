@@ -1,14 +1,11 @@
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Zafiro.UI.Navigation;
 
 namespace Zafiro.Avalonia.Controls.Navigation;
 
-public partial class NavigationHostView : UserControl
+public partial class SectionScopeView : UserControl
 {
-    public NavigationHostView()
+    public SectionScopeView()
     {
         InitializeComponent();
     }
@@ -19,7 +16,7 @@ public partial class NavigationHostView : UserControl
         base.OnUnloaded(e);
     }
 
-    public static readonly StyledProperty<ISectionScope> SectionScopeProperty = AvaloniaProperty.Register<NavigationHostView, ISectionScope>(
+    public static readonly StyledProperty<ISectionScope> SectionScopeProperty = AvaloniaProperty.Register<SectionScopeView, ISectionScope>(
         nameof(SectionScope));
 
     public ISectionScope SectionScope

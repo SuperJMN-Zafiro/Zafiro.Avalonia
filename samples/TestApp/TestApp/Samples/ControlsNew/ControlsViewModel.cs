@@ -36,10 +36,10 @@ namespace TestApp.Samples.ControlsNew
             });
 
             var buildServiceProvider = serviceCollection.BuildServiceProvider();
-            var requiredService = buildServiceProvider.GetRequiredService<IEnumerable<SectionBase>>();
+            var requiredService = buildServiceProvider.GetRequiredService<IEnumerable<Section>>();
             Sections = requiredService.ToList();
         }
         
-        public List<SectionBase> Sections { get; }
+        public List<Section> Sections { get; }
     }
 }

@@ -86,7 +86,7 @@
             </ListBox.DataTemplates>
 
             <ListBox.ItemContainerTheme>
-                <ControlTheme x:DataType="sections:SectionBase" TargetType="ListBoxItem"
+                <ControlTheme x:DataType="sections:Section" TargetType="ListBoxItem"
                               BasedOn="{StaticResource {x:Type ListBoxItem}}">
                     <Setter Property="CornerRadius" Value="10" />
                     <Setter Property="Margin" Value="2" />

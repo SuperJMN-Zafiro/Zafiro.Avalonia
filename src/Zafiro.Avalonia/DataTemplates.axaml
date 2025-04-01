@@ -2,13 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
         xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
 
     <DataTemplate DataType="nav:ISectionScope">
-        <nv:NavigationHostView SectionScope="{Binding}" />
+        <nv:SectionScopeView SectionScope="{Binding}" />
     </DataTemplate>
 </DataTemplates>

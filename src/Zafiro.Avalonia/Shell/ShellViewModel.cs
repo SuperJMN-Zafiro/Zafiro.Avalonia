@@ -1,5 +1,6 @@
 ﻿using ReactiveUI.SourceGenerators;
 using Zafiro.UI.Navigation.Sections;
+using Section = Zafiro.UI.Navigation.Sections.Section;
 
 namespace Zafiro.Avalonia.Shell;
 
@@ -7,7 +8,7 @@ public partial class ShellViewModel : ReactiveObject, IMainViewModel
 {
     [Reactive] private IContentSection? selectedSection;
 
-    public ShellViewModel(IEnumerable<SectionBase> sections)
+    public ShellViewModel(IEnumerable<Section> sections)
     {
         Sections = sections;
         CurrentContent = this.WhenAnyValue<ShellViewModel, IContentSection>(x => x.SelectedSection)
@@ -16,7 +17,7 @@ public partial class ShellViewModel : ReactiveObject, IMainViewModel
         SelectedSection = Sections.OfType<IContentSection>().FirstOrDefault();
     }
 
-    public IEnumerable<SectionBase> Sections { get; }
+    public IEnumerable<Section> Sections { get; }
     public IObservable<object?> CurrentContent { get; }
 
     public void GoToSection(string sectionName)

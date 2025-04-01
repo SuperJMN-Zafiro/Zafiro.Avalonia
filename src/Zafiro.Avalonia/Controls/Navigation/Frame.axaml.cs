@@ -77,15 +77,11 @@ namespace Zafiro.Avalonia.Controls.Navigation
                 .ObserveOn(RxApp.MainThreadScheduler)  // Ensure UI thread
                 .Subscribe(newContent => Content = newContent)
                 .DisposeWith(disposables);
+            
+            Back = navigator.Back;
         }
 
-        public Frame()
-        {
-            // No need to subscribe to NavigatorProperty changes as it's a DirectProperty
-            // and we handle changes in the Navigator setter
-        }
-
-        public IEnhancedCommand Back => Navigator?.Back;
+        public IEnhancedCommand? Back { get; private set; }
 
         public static readonly StyledProperty<bool> IsBackButtonVisibleProperty = 
             AvaloniaProperty.Register<Frame, bool>(
