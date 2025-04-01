@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using TestApp.Samples.ControlsNew.Navigation;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
@@ -15,12 +17,27 @@ namespace TestApp.Samples.ControlsNew
 {
     public class ControlsViewModel
     {
-        private readonly IServiceProvider serviceProvider;
-
         public ControlsViewModel()
         {
             var serviceCollection = new ServiceCollection();
             
+            // Register your view models
+            serviceCollection.AddScoped<NavigationSampleViewModel>();
+            serviceCollection.AddScoped<TargetViewModel>();
+            serviceCollection.AddScoped<TypewriterViewModel>();
+            serviceCollection.AddScoped<SlimDataGridViewModel>();
+            serviceCollection.AddScoped<WizardViewModel>();
+            serviceCollection.AddSingleton<IDialog>(DialogService.Create());
+            
+            RegisterSections(serviceCollection);
+
+            var buildServiceProvider = serviceCollection.BuildServiceProvider();
+            var requiredService = buildServiceProvider.GetRequiredService<IEnumerable<SectionBase>>();
+            Sections = requiredService.ToList();
+        }
+
+        private IServiceCollection RegisterSections(IServiceCollection serviceCollection)
+        {
             // Register the ServiceProviderTypeResolver factory
             serviceCollection.AddScoped<ITypeResolver>(provider => 
                 new ServiceProviderTypeResolver(provider));
@@ -29,34 +46,32 @@ namespace TestApp.Samples.ControlsNew
             serviceCollection.AddScoped<INavigator>(provider => 
                 new Navigator(provider.GetRequiredService<ITypeResolver>()));
             
-            // Register your view models
-            serviceCollection.AddScoped<NavigationSampleViewModel>();
-            serviceCollection.AddScoped<TargetViewModel>();
-            
-            // Build the provider
-            serviceProvider = serviceCollection.BuildServiceProvider();
-            
-            Sections = new List<SectionBase>
+            return serviceCollection.AddSingleton<IEnumerable<SectionBase>>(provider => new List<SectionBase>
             {
-                Section.Create("Typewriter", () => new TypewriterViewModel()),
-                Section.Create("DataGrid", () => new SlimDataGridViewModel()),
-                Section.Create("Wizard", () => new WizardViewModel(DialogService.Create())),
-                CreateNavigation<NavigationSampleViewModel>("Navigation")
-            };
+                CreateWithoutNavigation<TypewriterViewModel>("Typewriter", provider),
+                CreateWithoutNavigation<SlimDataGridViewModel>("SlimDataGrid", provider),
+                CreateWithoutNavigation<WizardViewModel>("Wizard", provider),
+                CreateNavigation<NavigationSampleViewModel>("Navigation", provider)
+            });
         }
 
-        private SectionBase CreateNavigation<T>(string name) where T : notnull
+        private static SectionBase CreateNavigation<T>(string name, IServiceProvider provider) where T : notnull
         {
             return Section.Create(name, () => {
                 // Create a new NavigationHost with a scoped resolver
                 return new NavigationHost(
                     // Factory to create a scoped resolver
-                    () => new ScopedTypeResolver(serviceProvider),
+                    () => new ScopedTypeResolver(provider),
                     
                     // Factory to create initial content using the resolver
                     resolver => resolver.Resolve<T>()
                 );
             });
+        }
+        
+        private SectionBase CreateWithoutNavigation<T>(string name, IServiceProvider serviceProvider) where T : notnull
+        {
+            return Section.Create(name,() =>  serviceProvider.GetRequiredService<T>());
         }
 
         public List<SectionBase> Sections { get; }
