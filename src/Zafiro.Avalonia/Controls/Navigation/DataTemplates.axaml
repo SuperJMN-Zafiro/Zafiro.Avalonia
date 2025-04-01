@@ -8,7 +8,7 @@
         </Border>
     </Design.PreviewWith>
 
-    <DataTemplate DataType="nav:INavigationHost">
-        <nv:NavigationHostView NavigationHost="{Binding}" />
+    <DataTemplate DataType="nav:ISectionScope">
+        <nv:NavigationHostView SectionScope="{Binding}" />
     </DataTemplate>
 </DataTemplates>

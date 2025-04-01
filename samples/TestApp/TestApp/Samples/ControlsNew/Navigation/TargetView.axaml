@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.ControlsNew.Navigation.TargetView" x:DataType="navigation:TargetViewModel">
     <StackPanel>
-        <TextBlock Text="{Binding Parameter, StringFormat='Passed parameter: {0}'}" />
+        <!-- <TextBlock Text="{Binding Parameter, StringFormat='Passed parameter: {0}'}" /> -->
         <TextBlock>
             You navigated to another page. You can go back now.
         </TextBlock>

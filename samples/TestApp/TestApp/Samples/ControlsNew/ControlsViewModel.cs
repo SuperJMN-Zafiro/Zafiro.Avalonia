@@ -1,62 +1,45 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using TestApp.Samples.ControlsNew.Navigation;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
 using TestApp.Samples.ControlsNew.Wizard;
 using Zafiro.Avalonia.Dialogs;
-using Zafiro.Avalonia.Shell;
-using Zafiro.Avalonia.Shell.Sections;
 using Zafiro.UI.Navigation;
-using Zafiro.UI.Navigation.Zafiro.UI.Navigation;
-using Section = Zafiro.Avalonia.Shell.Sections.Section;
+using Zafiro.UI.Navigation.Sections;
 
-namespace TestApp.Samples.ControlsNew;
-
-public class ControlsViewModel
+namespace TestApp.Samples.ControlsNew
 {
-    public ControlsViewModel()
+    public class ControlsViewModel
     {
-        var serviceCollection = new ServiceCollection();
-        
-        // Register your view models first
-        serviceCollection.AddScoped<NavigationSampleViewModel>();
-        serviceCollection.AddScoped<IOtherDependency, OtherDependency>();
-        
-        // Build the initial provider
-        var provider = serviceCollection.BuildServiceProvider();
-        
-        // Create a ServiceProviderTypeResolver with parameter support
-        var typeResolver = new ServiceProviderTypeResolver(provider);
-        
-        // Register any custom factories if needed
-        // Example: typeResolver.RegisterFactory<DetailViewModel, string>((sp, id) => new DetailViewModel(id, sp.GetService<IOtherDependency>()));
-        typeResolver.RegisterFactory<TargetViewModel, string>((sp, id) => new TargetViewModel(id, sp.GetRequiredService<IOtherDependency>()));
-        
-        // Register the Navigator with the resolver
-        serviceCollection.AddScoped<INavigator>(_ => new Navigator(typeResolver));
-        
-        // Build the final provider with the Navigator
-        provider = serviceCollection.BuildServiceProvider();
-        
-        Sections = new List<SectionBase>
+        public ControlsViewModel()
         {
-            Section.Create("Typewriter", () => new TypewriterViewModel()),
-            Section.Create("DataGrid", () => new SlimDataGridViewModel()),
-            Section.Create("Wizard", () => new WizardViewModel(DialogService.Create())),
-            CreateNavigation<NavigationSampleViewModel>("Navigation", provider),
-        };
+            var serviceCollection = new ServiceCollection();
+            
+            // Register your view models
+            serviceCollection.AddScoped<NavigationSampleViewModel>();
+            serviceCollection.AddScoped<TargetViewModel>();
+            serviceCollection.AddScoped<TypewriterViewModel>();
+            serviceCollection.AddScoped<SlimDataGridViewModel>();
+            serviceCollection.AddScoped<WizardViewModel>();
+            serviceCollection.AddSingleton(DialogService.Create());
+
+            serviceCollection.RegisterSections(sections =>
+            {
+                sections
+                    .Add<TypewriterViewModel>("Typewriter", Maybe<object>.None)
+                    .Add<SlimDataGridViewModel>("Slim DataGrid", Maybe<object>.None)
+                    .Add<WizardViewModel>("Wizard", Maybe<object>.None)
+                    .Add<NavigationSampleViewModel>("Navigation", Maybe<object>.None);
+            });
+
+            var buildServiceProvider = serviceCollection.BuildServiceProvider();
+            var requiredService = buildServiceProvider.GetRequiredService<IEnumerable<SectionBase>>();
+            Sections = requiredService.ToList();
+        }
+        
+        public List<SectionBase> Sections { get; }
     }
-
-    private SectionBase CreateNavigation<T>(string name, ServiceProvider provider) where T : notnull
-    {
-        return Section.Create(name, () => new NavigationHost(provider, serviceProvider => 
-            serviceProvider.GetRequiredService<T>()));
-    }
-
-    public List<SectionBase> Sections { get; }
-}
-
-public class OtherDependency : IOtherDependency
-{
 }

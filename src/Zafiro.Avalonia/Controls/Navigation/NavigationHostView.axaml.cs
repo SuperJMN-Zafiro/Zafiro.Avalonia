@@ -15,16 +15,16 @@ public partial class NavigationHostView : UserControl
 
     protected override void OnUnloaded(RoutedEventArgs e)
     {
-        NavigationHost.Dispose();
+        SectionScope.Dispose();
         base.OnUnloaded(e);
     }
 
-    public static readonly StyledProperty<INavigationHost> NavigationHostProperty = AvaloniaProperty.Register<NavigationHostView, INavigationHost>(
-        nameof(NavigationHost));
+    public static readonly StyledProperty<ISectionScope> SectionScopeProperty = AvaloniaProperty.Register<NavigationHostView, ISectionScope>(
+        nameof(SectionScope));
 
-    public INavigationHost NavigationHost
+    public ISectionScope SectionScope
     {
-        get => GetValue(NavigationHostProperty);
-        set => SetValue(NavigationHostProperty, value);
+        get => GetValue(SectionScopeProperty);
+        set => SetValue(SectionScopeProperty, value);
     }
 }

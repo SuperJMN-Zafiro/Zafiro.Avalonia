@@ -1,5 +1,5 @@
 ﻿using ReactiveUI.SourceGenerators;
-using Zafiro.Avalonia.Shell.Sections;
+using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Shell;
 

@@ -6,6 +6,7 @@
              xmlns:navigation1="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Zafiro.Avalonia.Controls.Navigation.NavigationHostView"
-             x:DataType="navigation1:INavigationHost">
+             x:CompileBindings="True"
+             x:DataType="navigation1:ISectionScope">
     <navigation:Frame Navigator="{Binding Navigator}" />
 </UserControl>

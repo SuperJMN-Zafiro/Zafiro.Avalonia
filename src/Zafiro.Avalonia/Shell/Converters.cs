@@ -1,5 +1,5 @@
 ﻿using Avalonia.Data.Converters;
-using Zafiro.Avalonia.Shell.Sections;
+using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Shell;
 
