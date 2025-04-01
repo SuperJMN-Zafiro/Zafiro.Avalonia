@@ -32,7 +32,7 @@ public class MainViewModel : ViewModelBase
         new("MasterDetailsView", new MasterDetailsSampleViewModel(), Maybe<object>.None),
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService), Maybe<object>.None),
         new("Controls", new ControlsSampleViewModel(), Maybe<object>.None),
-        new("More controls", new ControlsViewModel(dialogService), Maybe<object>.None),
+        new("More controls", new ControlsViewModel(), Maybe<object>.None),
         new("Panel", new PanelsSectionViewModel(), Maybe<object>.None),
         new("StringEditor", new StringEditorSampleViewModel(), Maybe<object>.None),
         new("Adorners", new AdornerSampleViewModel(), Maybe<object>.None),

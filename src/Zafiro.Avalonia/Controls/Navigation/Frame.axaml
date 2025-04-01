@@ -20,13 +20,13 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <DockPanel>
-                        <Button Command="{Binding $parent[navigation:Frame].Navigator.Back}"
+                        <Button Command="{Binding $parent[navigation:Frame].Back}"
                                 IsVisible="{Binding $self.IsEffectivelyEnabled}" 
                                 DockPanel.Dock="Top" 
                                 Content="{TemplateBinding BackButtonContent}">
                         </Button>
                         <ScrollViewer Margin="{TemplateBinding Padding}">
-                            <ContentControl Content="{Binding $parent[navigation:Frame].Navigator.Content}" />
+                            <ContentControl Content="{Binding $parent[navigation:Frame].Content}" />
                         </ScrollViewer>
                     </DockPanel>
                 </ControlTemplate>
