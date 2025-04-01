@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using TestApp.Samples.ControlsNew.Navigation;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
@@ -28,10 +29,11 @@ namespace TestApp.Samples.ControlsNew
             serviceCollection.RegisterSections(sections =>
             {
                 sections
-                    .Add<TypewriterViewModel>("Typewriter")
-                    .Add<SlimDataGridViewModel>("Slim DataGrid")
-                    .Add<WizardViewModel>("Wizard")
-                    .Add<NavigationSampleViewModel>("Navigation");
+                    .Add<TypewriterViewModel>("Typewriter", Maybe<object>.None)
+                    .Add<SlimDataGridViewModel>("Slim DataGrid", Maybe<object>.None)
+                    .Add<WizardViewModel>("Wizard", Maybe<object>.None)
+                    .Separator()
+                    .Add<NavigationSampleViewModel>("Navigation", Maybe<object>.None);
             });
 
             var buildServiceProvider = serviceCollection.BuildServiceProvider();
