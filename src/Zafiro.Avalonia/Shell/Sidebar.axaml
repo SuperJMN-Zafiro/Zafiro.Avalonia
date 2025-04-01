@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sections1="clr-namespace:Zafiro.Avalonia.Shell.Sections"
              xmlns:sh="clr-namespace:Zafiro.Avalonia.Shell"
+             xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="Zafiro.Avalonia.Shell.Sidebar" x:DataType="sh:IMainViewModel">
     
@@ -65,14 +65,14 @@
             </ListBox.ItemsPanel>
 
             <ListBox.DataTemplates>
-                <DataTemplate DataType="sections1:IContentSection">
+                <DataTemplate DataType="sections:IContentSection">
                     <DockPanel Margin="8">
                         <ContentControl Margin="10 0 10 0"
                                          />
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
                     </DockPanel>
                 </DataTemplate>
-                <DataTemplate DataType="sections1:CommandSection">
+                <DataTemplate DataType="sections:CommandSection">
                     <Button Command="{Binding Command}" Background="Transparent"
                                          HorizontalAlignment="Stretch" >
                         <Button.Content>
@@ -80,13 +80,13 @@
                         </Button.Content>
                     </Button>
                 </DataTemplate>
-                <DataTemplate DataType="sections1:SectionSeparator">
+                <DataTemplate DataType="sections:SectionSeparator">
                     <Separator />
                 </DataTemplate>
             </ListBox.DataTemplates>
 
             <ListBox.ItemContainerTheme>
-                <ControlTheme x:DataType="sections1:SectionBase" TargetType="ListBoxItem"
+                <ControlTheme x:DataType="sections:SectionBase" TargetType="ListBoxItem"
                               BasedOn="{StaticResource {x:Type ListBoxItem}}">
                     <Setter Property="CornerRadius" Value="10" />
                     <Setter Property="Margin" Value="2" />

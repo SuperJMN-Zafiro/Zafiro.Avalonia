@@ -19,12 +19,12 @@ public partial class NavigationHostView : UserControl
         base.OnUnloaded(e);
     }
 
-    public static readonly StyledProperty<ISectionScope> NavigationHostProperty = AvaloniaProperty.Register<NavigationHostView, ISectionScope>(
+    public static readonly StyledProperty<ISectionScope> SectionScopeProperty = AvaloniaProperty.Register<NavigationHostView, ISectionScope>(
         nameof(SectionScope));
 
     public ISectionScope SectionScope
     {
-        get => GetValue(NavigationHostProperty);
-        set => SetValue(NavigationHostProperty, value);
+        get => GetValue(SectionScopeProperty);
+        set => SetValue(SectionScopeProperty, value);
     }
 }
