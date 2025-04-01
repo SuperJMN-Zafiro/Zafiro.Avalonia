@@ -21,6 +21,7 @@ public class ControlsViewModel
         
         // Register your view models first
         serviceCollection.AddScoped<NavigationSampleViewModel>();
+        serviceCollection.AddScoped<IOtherDependency, OtherDependency>();
         
         // Build the initial provider
         var provider = serviceCollection.BuildServiceProvider();
@@ -30,6 +31,7 @@ public class ControlsViewModel
         
         // Register any custom factories if needed
         // Example: typeResolver.RegisterFactory<DetailViewModel, string>((sp, id) => new DetailViewModel(id, sp.GetService<IOtherDependency>()));
+        typeResolver.RegisterFactory<TargetViewModel, string>((sp, id) => new TargetViewModel(id, sp.GetRequiredService<IOtherDependency>()));
         
         // Register the Navigator with the resolver
         serviceCollection.AddScoped<INavigator>(serviceProvider => new Navigator(typeResolver));
@@ -53,4 +55,8 @@ public class ControlsViewModel
     }
 
     public List<SectionBase> Sections { get; }
+}
+
+public class OtherDependency : IOtherDependency
+{
 }
