@@ -32,7 +32,6 @@ namespace TestApp.Samples.ControlsNew
                     .Add<TypewriterViewModel>("Typewriter", Maybe<object>.None)
                     .Add<SlimDataGridViewModel>("Slim DataGrid", Maybe<object>.None)
                     .Add<WizardViewModel>("Wizard", Maybe<object>.None)
-                    .Separator()
                     .Add<NavigationSampleViewModel>("Navigation", Maybe<object>.None);
             });
 
