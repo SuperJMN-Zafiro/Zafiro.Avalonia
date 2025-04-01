@@ -34,7 +34,7 @@ public class ControlsViewModel
         typeResolver.RegisterFactory<TargetViewModel, string>((sp, id) => new TargetViewModel(id, sp.GetRequiredService<IOtherDependency>()));
         
         // Register the Navigator with the resolver
-        serviceCollection.AddScoped<INavigator>(serviceProvider => new Navigator(typeResolver));
+        serviceCollection.AddScoped<INavigator>(_ => new Navigator(typeResolver));
         
         // Build the final provider with the Navigator
         provider = serviceCollection.BuildServiceProvider();
