@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using TestApp.Samples.ControlsNew.Navigation;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
@@ -38,40 +39,20 @@ namespace TestApp.Samples.ControlsNew
 
         private IServiceCollection RegisterSections(IServiceCollection serviceCollection)
         {
-            // Register the ServiceProviderTypeResolver factory
-            serviceCollection.AddScoped<ITypeResolver>(provider => 
-                new ServiceProviderTypeResolver(provider));
-                
-            // Register the Navigator with the resolver
-            serviceCollection.AddScoped<INavigator>(provider => 
-                new Navigator(provider.GetRequiredService<ITypeResolver>()));
+            serviceCollection.AddScoped<INavigator>(provider => new Navigator(provider, Maybe<ILogger>.None));
             
             return serviceCollection.AddSingleton<IEnumerable<SectionBase>>(provider => new List<SectionBase>
             {
-                CreateWithoutNavigation<TypewriterViewModel>("Typewriter", provider),
-                CreateWithoutNavigation<SlimDataGridViewModel>("SlimDataGrid", provider),
-                CreateWithoutNavigation<WizardViewModel>("Wizard", provider),
-                CreateNavigation<NavigationSampleViewModel>("Navigation", provider)
+                CreateSection<TypewriterViewModel>("Typewriter", provider),
+                CreateSection<SlimDataGridViewModel>("SlimDataGrid", provider),
+                CreateSection<WizardViewModel>("Wizard", provider),
+                CreateSection<NavigationSampleViewModel>("Navigation", provider)
             });
         }
 
-        private static SectionBase CreateNavigation<T>(string name, IServiceProvider provider) where T : notnull
+        private static SectionBase CreateSection<T>(string name, IServiceProvider provider) where T : notnull
         {
-            return Section.Create(name, () => {
-                // Create a new NavigationHost with a scoped resolver
-                return new NavigationHost(
-                    // Factory to create a scoped resolver
-                    () => new ScopedTypeResolver(provider),
-                    
-                    // Factory to create initial content using the resolver
-                    resolver => resolver.Resolve<T>()
-                );
-            });
-        }
-        
-        private SectionBase CreateWithoutNavigation<T>(string name, IServiceProvider serviceProvider) where T : notnull
-        {
-            return Section.Create(name,() =>  serviceProvider.GetRequiredService<T>());
+            return Section.Create(name, () => new SectionScope(provider, typeof(T)));
         }
 
         public List<SectionBase> Sections { get; }
