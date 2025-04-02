@@ -1,12 +1,26 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<Styles xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
-             xmlns:navigation1="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Zafiro.Avalonia.Controls.Navigation.SectionScopeView"
-             x:CompileBindings="True"
-             x:DataType="navigation1:ISectionScope">
-    <navigation:Frame Navigator="{Binding Navigator}" />
-</UserControl>
+             x:CompileBindings="True">
+    
+    <Styles.Resources>
+        
+        <ControlTheme TargetType="navigation:SectionScopeView" x:Key="{x:Type navigation:SectionScopeView}">
+            <Setter Property="BackButtonContent">
+                <Template>
+                    <Image Source="{StaticResource BackArrow}" />
+                </Template>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="navigation:SectionScopeView">
+                    <navigation:Frame BackButtonContent="{Binding $parent[navigation:SectionScopeView].BackButtonContent}" 
+                                      Navigator="{Binding $parent[navigation:SectionScopeView].SectionScope.Navigator}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+    
+</Styles>

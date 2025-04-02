@@ -21,6 +21,7 @@
                 <ControlTemplate>
                     <DockPanel>
                         <Button Command="{Binding $parent[navigation:Frame].Back}"
+                                x:Name="BackButton"
                                 IsVisible="{Binding $self.IsEffectivelyEnabled}" 
                                 DockPanel.Dock="Top" 
                                 Content="{TemplateBinding BackButtonContent}">
@@ -31,6 +32,9 @@
                     </DockPanel>
                 </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ Button#BackButton">
+                <Setter Property="Height" Value="40" />
+            </Style>
         </ControlTheme>
     </Styles.Resources>
 </Styles>

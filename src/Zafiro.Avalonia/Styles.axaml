@@ -34,4 +34,5 @@
     <StyleInclude Source="Controls/Diagrams/LabelsControl.axaml" />
     <StyleInclude Source="Controls/StepIndicator.axaml" />
     <StyleInclude Source="Controls/Navigation/Frame.axaml" />
+    <StyleInclude Source="Controls/Navigation/SectionScopeView.axaml" />
 </Styles>

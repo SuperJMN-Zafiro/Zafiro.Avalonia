@@ -1,8 +1,19 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StreamGeometry x:Key="Delete">M 11 1.99998 C 9.35497 1.99998 7.99998 3.35497 7.99998 4.99998 L 7.99998 6 L 4.00002 6 A 1 1 0 0 0 3 7.00002 A 1 1 0 0 0 4.00002 7.99998 L 4.99998 7.99998 L 4.99998 18 C 4.99998 20.1973 6.80273 22 9 22 L 15 22 C 17.1973 22 19 20.1973 19 18 L 19 7.99998 L 20 7.99998 A 1 1 0 0 0 21 7.00002 A 1 1 0 0 0 20 6 L 16 6 L 16 4.99998 C 16 3.35499 14.645 1.99998 13 1.99998 L 11 1.99998 z M 11 4.00002 L 13 4.00002 C 13.5642 4.00002 14 4.43583 14 4.99998 L 14 6 L 12 6 L 10 6 L 10 4.99998 C 10 4.43585 10.4359 4.00002 11 4.00002 z M 7.00002 7.99998 L 9 7.99998 L 12 7.99998 L 15 7.99998 L 17 7.99998 L 17 18 C 17 19.1165 16.1165 20 15 20 L 9 20 C 7.88358 20 7.00002 19.1165 7.00002 18 L 7.00002 7.99998 z</StreamGeometry>
+    <DrawingImage x:Key="BackArrow">
+        <DrawingGroup>
+            <GeometryDrawing Brush="Transparent" Geometry="F1M0,0L800,0L800,800L0,800z" />
+            <DrawingGroup>
+                <DrawingGroup.Transform>
+                    <MatrixTransform Matrix="0.78125,0,0,0.78125,0,0" />
+                </DrawingGroup.Transform>
+                <GeometryDrawing Brush="{DynamicResource ArrowColor}"
+                                 Geometry="F1 M669.6 849.6C678.4 857.6 692 856.8 700 848C708 839.2 707.2 825.6 698.4 817.6L388.8 537.6C380.8 530.4 380.8 520 388.8 512.8L698.4 242.4C707.2 234.4 708 220.8 700.8 212C692.8 203.2 679.2 202.4 670.4 209.6L360.8 480.8C333.6 504.8 332.8 544.8 360 569.6L669.6 849.6Z" />
+            </DrawingGroup>
+        </DrawingGroup>
+    </DrawingImage>
     
     <Design.PreviewWith>
         <WrapPanel>
