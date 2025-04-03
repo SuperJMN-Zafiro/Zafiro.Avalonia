@@ -1,0 +1,25 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    
+    <Design.PreviewWith>
+        <controls:FlexEdgePanel StartContent="Start" 
+        MainContent="Main" 
+        EndContent="End" />
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+        <ControlTheme TargetType="{x:Type controls:FlexEdgePanel}" x:Key="{x:Type controls:FlexEdgePanel}">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <DockPanel>
+                        <ContentPresenter DockPanel.Dock="Left" Content="{TemplateBinding StartContent}" />
+                        <ContentPresenter DockPanel.Dock="Right" Content="{TemplateBinding EndContent}" />
+                        <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding MainContent}" />
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+
+</Styles>

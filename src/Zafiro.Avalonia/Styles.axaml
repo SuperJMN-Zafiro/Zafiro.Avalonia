@@ -35,4 +35,7 @@
     <StyleInclude Source="Controls/StepIndicator.axaml" />
     <StyleInclude Source="Controls/Navigation/Frame.axaml" />
     <StyleInclude Source="Controls/Navigation/SectionScopeView.axaml" />
+    <StyleInclude Source="Controls/FlexEdgePanel.axaml" />
+    <StyleInclude Source="Controls/Pane.axaml" />
+    <StyleInclude Source="Controls/IconButton.axaml" />
 </Styles>
