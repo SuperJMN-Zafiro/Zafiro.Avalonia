@@ -17,10 +17,4 @@
     <ItemGroup>
         <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Compile Update="Views\MessageDialogView.axaml.cs">
-        <DependentUpon>MessageDialogView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-    </ItemGroup>
 </Project>
