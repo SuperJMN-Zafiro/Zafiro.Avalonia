@@ -15,7 +15,7 @@
         <PackageReference Include="DynamicData" Version="9.2.1" />
         <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Zafiro" Version="17.0.0" />
+        <!--<PackageReference Include="Zafiro" Version="17.0.0" />-->
         <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.1.27">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
