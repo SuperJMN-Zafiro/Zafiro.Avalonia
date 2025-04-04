@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
+using Avalonia.Layout;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.Custom;
 
@@ -29,7 +29,7 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
         get => GetValue(DisableHorizontalScrollProperty);
         set => SetValue(DisableHorizontalScrollProperty, value);
     }
-    
+
     private string? associatedObjectName;
 
     protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
@@ -38,36 +38,49 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
         {
             return;
         }
-        
+
         associatedObjectName = AssociatedObject.Name ?? AssociatedObject.GetType().Name ?? "UnknownScrollViewer";
-
-        Observable.FromEventPattern(h => AssociatedObject.LayoutUpdated += h, h => AssociatedObject.LayoutUpdated -= h)
-            .Select(_ => AssociatedObject.FindDescendantOfType<ScrollViewer>())
-            .DistinctUntilChanged()
-            .Where(_ => IsEnabled)
-            .Subscribe(nestedViewer =>
-            {
-                var hasNestedScrollViewer = nestedViewer != null;
-                var scrollBarVisibility = hasNestedScrollViewer ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
-
-                if (DisableHorizontalScroll)
-                {
-                    AssociatedObject.HorizontalScrollBarVisibility = scrollBarVisibility;
-                    LogScrollChange("Horizontal", hasNestedScrollViewer);
-                }
-
-                if (DisableVerticalScroll)
-                {
-                    AssociatedObject.VerticalScrollBarVisibility = scrollBarVisibility;
-                    LogScrollChange("Vertical", hasNestedScrollViewer);
-                }
-            })
+        
+        HandleNestedScrollBar()
             .DisposeWith(disposable);
     }
 
-    private void LogScrollChange(string direction, bool isDisabled)
+    private IDisposable HandleNestedScrollBar()
     {
-        var state = isDisabled ? "disabled" : "enabled";
-        Debug.WriteLine($"[NestedScrollViewer] {direction} scroll for '{associatedObjectName}' has been {state} at {DateTime.Now:HH:mm:ss.fff}");
+        return Observable.FromEventPattern(h => AssociatedObject.LayoutUpdated += h, h =>
+            {
+                if (AssociatedObject != null)
+                {
+                    AssociatedObject.LayoutUpdated -= h;
+                }
+            })
+            .Select(_ => AssociatedObject.FindDescendantOfType<ScrollBar>())
+            .DistinctUntilChanged()
+            .Where(_ => IsEnabled)
+            .Subscribe(scrollBar =>
+            {
+                if (scrollBar is null)
+                {
+                    return;
+                }
+
+                // if (scrollBar.Orientation == Orientation.Horizontal && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableHorizontalScroll)
+                // {
+                //     AssociatedObject.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                // }
+                // else
+                // {
+                //     AssociatedObject.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                // }
+
+                if (scrollBar.Orientation == Orientation.Vertical && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableVerticalScroll)
+                {
+                    AssociatedObject.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                }
+                else
+                {
+                    AssociatedObject.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                }
+            });
     }
 }
