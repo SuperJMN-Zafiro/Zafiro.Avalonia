@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+             xmlns:conv="clr-namespace:Zafiro.Avalonia.Converters"
+             xmlns:nt="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.NotificationTypes"
+             xmlns:s="clr-namespace:Zafiro.Avalonia.Controls.StatusBar"
+             xmlns:j="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Jobs"
+             xmlns:design="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Design"
+             mc:Ignorable="d" d:DesignWidth="500"
+             x:Class="Zafiro.Avalonia.Controls.StatusBar.StatusBarView" x:DataType="s:IStatusBar">
+    
+    <Design.DataContext>
+        <design:StatusBarDesign />
+    </Design.DataContext>
+
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="nt:MessageWithPathContent">
+            <DockPanel>
+                <DockPanel.Resources>
+                    <conv:EnumMappingConverter x:Key="EnumConverter">
+                        <conv:EnumMappingConverter.EnumMappings>
+                            <SolidColorBrush x:Key="{x:Static nt:Valence.Good}">Green</SolidColorBrush>
+                            <SolidColorBrush x:Key="{x:Static nt:Valence.Bad}">Red</SolidColorBrush>
+                            <SolidColorBrush x:Key="{x:Static nt:Valence.Neutral}">Black</SolidColorBrush>
+                        </conv:EnumMappingConverter.EnumMappings>
+                    </conv:EnumMappingConverter>
+                </DockPanel.Resources>
+                <PathIcon VerticalAlignment="Center" Margin="6 0" Data="{Binding PathResourceName, Converter={x:Static conv:ResourceNameConverter.Instance}}" Foreground="{Binding Valence, Converter={StaticResource EnumConverter}}"
+                          Width="15" Height="15" />
+                <TextBlock Text="{Binding Message}" VerticalAlignment="Center" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate DataType="nt:LoadingMessage">
+            <DockPanel>
+                <avaloniaProgressRing:ProgressRing Width="15" Height="15"
+                                                   IsActive="true"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource SystemAccentColorLight1}"
+                                                   Margin="4 0 0 0" />
+                <TextBlock Text="{Binding Message}" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate DataType="nt:ImageContent">
+            <Image RenderOptions.BitmapInterpolationMode="HighQuality" Source="{Binding Source, Converter={x:Static conv:ImageConverters.UriToBitmap}}" />
+        </DataTemplate>
+        <DataTemplate DataType="nt:PathContent">
+            <PathIcon Foreground="Black" Data="{Binding ResourceName, Converter={x:Static conv:ResourceNameConverter.Instance}}" />
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <Border x:Name="LayoutRoot">
+        <DockPanel>
+            <HeaderedContentControl DockPanel.Dock="Right" Margin="40 0 0 0" Theme="{StaticResource InlinePadded}">
+                <HeaderedContentControl.HeaderTemplate>
+                    <DataTemplate DataType="x:Object">
+                        <ContentControl Content="{Binding}" />
+                    </DataTemplate>
+                </HeaderedContentControl.HeaderTemplate>
+                <ItemsControl VerticalAlignment="Center" ItemsSource="{Binding PermanentJobs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <j:PermanentJob Margin="1 0" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel ItemWidth="26" ItemHeight="25" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </HeaderedContentControl>
+            <ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding TransientJobs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <j:TransientJob Margin="0" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <ContentControl Content="{Binding Statuses^}" VerticalAlignment="Center" />
+        </DockPanel>
+    </Border>
+</UserControl>

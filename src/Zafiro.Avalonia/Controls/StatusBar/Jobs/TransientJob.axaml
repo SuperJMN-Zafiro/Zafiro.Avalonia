@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTime="clr-namespace:Zafiro.Avalonia.DesignTime;assembly=Zafiro.Avalonia"
+             xmlns:pr="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+             xmlns:jobs1="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Jobs"
+             xmlns:design="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Design"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="30"
+             x:Class="Zafiro.Avalonia.Controls.StatusBar.Jobs.TransientJob" x:DataType="jobs1:IJobViewModel">
+    
+    <Design.DataContext>
+        <design:JobViewModelDesign  Status="{designTime:Return Value='My status'}">
+            <design:JobViewModelDesign.Icon>
+               <Button Content="Icon" />
+            </design:JobViewModelDesign.Icon>
+        </design:JobViewModelDesign>
+    </Design.DataContext>
+    
+    <Border x:Name="RootPane">
+        <DockPanel>
+            <ToolTip.Tip>
+                <TextBlock>
+                    <Run Text="{Binding Name}" />
+                    <Run FontWeight="Bold" Text="{Binding Status^}" />
+                </TextBlock>
+            </ToolTip.Tip>
+            <DockPanel.ContextFlyout>
+                <MenuFlyout>
+                    <MenuItem Header="Start" Command="{Binding Execution.Start}" />
+                    <MenuItem Header="Stop" Command="{Binding Execution.Stop}" />
+                </MenuFlyout>
+            </DockPanel.ContextFlyout>
+            <ContentControl Content="{Binding Icon}" />
+            <pr:ProgressRing Foreground="{DynamicResource SystemAccentColorLight1}" IsVisible="{Binding Execution.Start.IsExecuting^}" Height="15" Width="15" Margin="4 0 " />
+            <ContentControl VerticalAlignment="Center" Content="{Binding Status^}" />
+        </DockPanel>
+    </Border>
+</UserControl>
