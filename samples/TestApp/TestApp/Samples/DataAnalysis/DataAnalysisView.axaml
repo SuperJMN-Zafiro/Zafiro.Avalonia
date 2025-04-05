@@ -15,12 +15,12 @@
 
     <TabControl ItemsSource="{Binding Sections}">
       <TabControl.ContentTemplate>
-          <DataTemplate DataType="ui:Section">
+          <DataTemplate DataType="ui:SectionOld">
               <ContentControl Content="{Binding Content}" />
           </DataTemplate>
       </TabControl.ContentTemplate>
       <TabControl.ItemTemplate>
-          <DataTemplate DataType="ui:Section">
+          <DataTemplate DataType="ui:SectionOld">
               <TextBlock Text="{Binding Title}" />
           </DataTemplate>
       </TabControl.ItemTemplate>

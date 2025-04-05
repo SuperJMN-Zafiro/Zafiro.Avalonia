@@ -12,16 +12,16 @@ public class DataAnalysisViewModel
 {
     public DataAnalysisViewModel()
     {
-        Sections = new List<Section>()
+        Sections = new List<SectionOld>()
         {
-            new Section("Table", new TableViewModel(), Maybe<object>.None),
-            new Section("Dendrogram", new DendrogramViewModel(), Maybe<object>.None),
-            new Section("Dendrogram lines", new DendrogramLinesViewModel(), Maybe<object>.None),
-            new Section("Heatmap", new HeatmapViewModel(), Maybe<object>.None),
-            new Section("Heatmap with dendrograms", new HeatmapWithDendrogramsViewModel(), Maybe<object>.None),
-            new Section("Sampler", new SamplerViewModel(), Maybe<object>.None),
+            new SectionOld("Table", new TableViewModel(), Maybe<object>.None),
+            new SectionOld("Dendrogram", new DendrogramViewModel(), Maybe<object>.None),
+            new SectionOld("Dendrogram lines", new DendrogramLinesViewModel(), Maybe<object>.None),
+            new SectionOld("Heatmap", new HeatmapViewModel(), Maybe<object>.None),
+            new SectionOld("Heatmap with dendrograms", new HeatmapWithDendrogramsViewModel(), Maybe<object>.None),
+            new SectionOld("Sampler", new SamplerViewModel(), Maybe<object>.None),
         };
     }
 
-    public IEnumerable<ISection> Sections { get; }
+    public IEnumerable<ISectionOld> Sections { get; }
 }

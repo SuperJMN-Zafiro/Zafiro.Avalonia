@@ -46,12 +46,12 @@
 				<TextBlock TextAlignment="Center" Margin="10" FontWeight="Bold">Samples</TextBlock>
             </c:MasterDetailsView.Header>
             <c:MasterDetailsView.DetailsTemplate>
-                <DataTemplate DataType="ui:ISection">
+                <DataTemplate DataType="ui:ISectionOld">
                     <ContentControl Content="{Binding Content}" />
                 </DataTemplate>
             </c:MasterDetailsView.DetailsTemplate>
             <c:MasterDetailsView.ItemTemplate>
-                <DataTemplate DataType="ui:ISection">
+                <DataTemplate DataType="ui:ISectionOld">
                     <TextBlock Text="{Binding Title}" />
                 </DataTemplate>
             </c:MasterDetailsView.ItemTemplate>

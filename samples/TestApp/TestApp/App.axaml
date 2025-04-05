@@ -24,12 +24,12 @@
 		<DataTemplate DataType="panels:ISectionNode">
 	        <TabControl ItemsSource="{Binding Sections}">
 		        <TabControl.ContentTemplate>
-			        <DataTemplate DataType="ui:ISection">
+			        <DataTemplate DataType="ui:ISectionOld">
 				        <ContentControl Content="{Binding Content}" />
 			        </DataTemplate>
 		        </TabControl.ContentTemplate>
 		        <TabControl.ItemTemplate>
-			        <DataTemplate DataType="ui:ISection">
+			        <DataTemplate DataType="ui:ISectionOld">
 				        <TextBlock Text="{Binding Title}" />
 			        </DataTemplate>
 		        </TabControl.ItemTemplate>

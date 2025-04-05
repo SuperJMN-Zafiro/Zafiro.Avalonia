@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sh="clr-namespace:Zafiro.Avalonia.Shell"
              xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
+             xmlns:shell="clr-namespace:Zafiro.UI.Shell;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
-             x:Class="Zafiro.Avalonia.Shell.Sidebar" x:DataType="sh:IMainViewModel">
+             x:Class="Zafiro.Avalonia.Shell.Sidebar" x:DataType="shell:IShell">
     
     <UserControl.Resources>
         <x:Double x:Key="IconSize">25</x:Double>

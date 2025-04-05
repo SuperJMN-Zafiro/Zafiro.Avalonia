@@ -27,7 +27,7 @@ public class MainViewModel : ViewModelBase
         this.notificationService = notificationService;
     }
 
-    public IEnumerable<Section> Sections => new List<Section>
+    public IEnumerable<SectionOld> Sections => new List<SectionOld>
     {
         new("MasterDetailsView", new MasterDetailsSampleViewModel(), Maybe<object>.None),
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService), Maybe<object>.None),
