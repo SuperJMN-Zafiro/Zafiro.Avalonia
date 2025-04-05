@@ -27,12 +27,7 @@
                                 DockPanel.Dock="Top"
                                 Content="{TemplateBinding BackButtonContent}">
                         </Button>
-                        <!-- <ScrollViewer Margin="{TemplateBinding Padding}"> -->
-                        <!--     <Interaction.Behaviors> -->
-                        <!-- <behaviors:NestedScrollViewerBehavior /> -->
-                        <!-- </Interaction.Behaviors> -->
-                        <ContentControl Content="{Binding $parent[navigation:Frame].Content}" />
-                        <!-- </ScrollViewer> -->
+                        <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[navigation:Frame].Content}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter>
