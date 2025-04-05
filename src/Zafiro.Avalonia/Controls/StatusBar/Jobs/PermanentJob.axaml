@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTime="clr-namespace:Zafiro.Avalonia.DesignTime;assembly=Zafiro.Avalonia"
+             xmlns:jobs1="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Jobs"
+             xmlns:design="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Design"
+             d:DesignHeight="50" d:DesignWidth="50"
+             mc:Ignorable="d" x:Class="Zafiro.Avalonia.Controls.StatusBar.Jobs.PermanentJob" x:DataType="jobs1:IJobViewModel">
+
+    <Design.DataContext>
+        <design:JobViewModelDesign Status="{designTime:Return Value='My status'}">
+            <design:JobViewModelDesign.Icon>
+                <Button Content="Hi" />
+            </design:JobViewModelDesign.Icon>
+        </design:JobViewModelDesign>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="jobs1|PermanentJob > Border#RootPane">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+        <Style Selector="Border#RootPane:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+        </Style>
+        <Style Selector="MenuItem">
+            <Setter Property="IsVisible" Value="{Binding $self.IsEffectivelyEnabled}" />
+        </Style>
+    </UserControl.Styles>
+
+    <Border x:Name="RootPane">
+        <Grid RowDefinitions="20* 1* 2*">
+            <ToolTip.Tip>
+                <TextBlock>
+                    <Run Text="{Binding Name}" />
+                    <Run FontWeight="Bold" Text="{Binding Status^}" />
+                </TextBlock>
+            </ToolTip.Tip>
+            <Grid.ContextFlyout>
+                <MenuFlyout>
+                    <MenuItem Header="Start" Command="{Binding Execution.Start}" />
+                    <MenuItem Header="Stop" Command="{Binding Execution.Stop}" />
+                </MenuFlyout>
+            </Grid.ContextFlyout>
+            <ContentControl Content="{Binding Icon}" />
+            <ProgressBar Grid.Row="2" VerticalAlignment="Stretch" MinHeight="0" MinWidth="0"
+                         IsIndeterminate="True"
+                         Classes.Opaque="{Binding IsExecuting^}" DockPanel.Dock="Bottom">
+                <ProgressBar.Styles>
+                    <Style Selector="ProgressBar">
+                        <Setter Property="Opacity" Value="0" />
+                    </Style>
+                    <Style Selector="ProgressBar.Opaque">
+                        <Setter Property="Opacity" Value="1" />
+                    </Style>
+                </ProgressBar.Styles>
+            </ProgressBar>
+             <Interaction.Behaviors> 
+                 <ExecuteCommandOnDoubleTappedBehavior Command="{Binding ActivateCommand}" /> 
+             </Interaction.Behaviors> 
+        </Grid>
+    </Border>
+</UserControl>

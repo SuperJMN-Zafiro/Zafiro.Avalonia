@@ -2,6 +2,7 @@
 using System.Linq;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
+using TestApp.Samples.ControlsNew.Loading;
 using TestApp.Samples.ControlsNew.Navigation;
 using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
@@ -24,22 +25,25 @@ namespace TestApp.Samples.ControlsNew
             serviceCollection.AddScoped<TypewriterViewModel>();
             serviceCollection.AddScoped<SlimDataGridViewModel>();
             serviceCollection.AddScoped<WizardViewModel>();
+            serviceCollection.AddScoped<LoadingSampleViewModel>();
+            
             serviceCollection.AddSingleton(DialogService.Create());
 
             serviceCollection.RegisterSections(sections =>
             {
                 sections
-                    .Add<TypewriterViewModel>("Typewriter", Maybe<object>.None)
-                    .Add<SlimDataGridViewModel>("Slim DataGrid", Maybe<object>.None)
-                    .Add<WizardViewModel>("Wizard", Maybe<object>.None)
-                    .Add<NavigationSampleViewModel>("Navigation", Maybe<object>.None);
+                    .Add<TypewriterViewModel>("Typewriter", null)
+                    .Add<SlimDataGridViewModel>("Slim DataGrid", null)
+                    .Add<WizardViewModel>("Wizard", null)
+                    .Add<NavigationSampleViewModel>("Navigation", null)
+                    .Add<LoadingSampleViewModel>("Loading", null);
             });
 
             var buildServiceProvider = serviceCollection.BuildServiceProvider();
-            var requiredService = buildServiceProvider.GetRequiredService<IEnumerable<Section>>();
+            var requiredService = buildServiceProvider.GetRequiredService<IEnumerable<ISection>>();
             Sections = requiredService.ToList();
         }
         
-        public List<Section> Sections { get; }
+        public List<ISection> Sections { get; }
     }
 }

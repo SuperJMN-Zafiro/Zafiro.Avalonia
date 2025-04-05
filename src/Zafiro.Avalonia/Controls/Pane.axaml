@@ -1,0 +1,41 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    <Design.PreviewWith>
+        <controls:Pane Width="100" Height="100"
+                       Content="CONTENT"
+                       Header="Header"
+                       Subheader="Subheader"
+                       HeaderStartContent="L"
+                       HeaderEndContent="R" />
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type controls:Pane}" TargetType="controls:Pane">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <DockPanel>
+                            <controls:FlexEdgePanel x:Name="PART_Header" DockPanel.Dock="Top"
+                                                    Margin="{TemplateBinding HeaderPadding}"
+                                                    StartContent="{TemplateBinding HeaderStartContent}"
+                                                    EndContent="{TemplateBinding HeaderEndContent}">
+                                <controls:FlexEdgePanel.MainContent>
+                                    <StackPanel>
+                                        <ContentPresenter x:Name="PART_HeaderTitle" Content="{Binding $parent[controls:Pane].Header}" />
+                                        <ContentPresenter x:Name="PART_HeaderSubtitle" Content="{Binding $parent[controls:Pane].Subheader}" />
+                                    </StackPanel>
+                                </controls:FlexEdgePanel.MainContent>
+                            </controls:FlexEdgePanel>
+                            <ContentPresenter Padding="{TemplateBinding ContentPadding}" Content="{TemplateBinding Content}" />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>

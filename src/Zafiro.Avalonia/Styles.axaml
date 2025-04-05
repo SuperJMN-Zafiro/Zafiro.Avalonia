@@ -9,7 +9,6 @@
                 <ResourceInclude Source="Controls/MasterDetailsNavigator.axaml" />
                 <ResourceInclude Source="Controls/Info.axaml" />
                 <ResourceInclude Source="Controls/StringEditor/EditControl.axaml" />
-                <ResourceInclude Source="Controls/Shell.axaml" />
                 <ResourceInclude Source="Controls/ListBox.axaml" />
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
                 <ResourceInclude Source="Controls/ItemsCanvas.axaml" />
@@ -22,6 +21,7 @@
         </ResourceDictionary>
     </Styles.Resources>
 
+    <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
     <StyleInclude Source="Styles/Untouched.axaml" />
     <StyleInclude Source="Styles/Button.axaml" />
     <StyleInclude Source="Styles/TextBox.axaml" />
@@ -35,4 +35,8 @@
     <StyleInclude Source="Controls/StepIndicator.axaml" />
     <StyleInclude Source="Controls/Navigation/Frame.axaml" />
     <StyleInclude Source="Controls/Navigation/SectionScopeView.axaml" />
+    <StyleInclude Source="Controls/FlexEdgePanel.axaml" />
+    <StyleInclude Source="Controls/Pane.axaml" />
+    <StyleInclude Source="Controls/IconButton.axaml" />
+    <StyleInclude Source="Controls/Loading.axaml" />
 </Styles>

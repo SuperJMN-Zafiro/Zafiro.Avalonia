@@ -10,12 +10,12 @@ public class DiagramsViewModel
 {
     public DiagramsViewModel()
     {
-        Sections = new List<Section>
+        Sections = new List<SectionOld>
         {
             new("Regular", new SimpleDiagramViewModel(), Maybe<object>.None),
             new("Enhanced", new EnhancedDiagramViewModel(), Maybe<object>.None),
         };
     }
 
-    public IEnumerable<ISection> Sections { get; }
+    public IEnumerable<ISectionOld> Sections { get; }
 }

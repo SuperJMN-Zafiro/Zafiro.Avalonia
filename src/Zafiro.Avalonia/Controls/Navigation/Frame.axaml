@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia">
+        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia"
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
     <Design.PreviewWith>
         <navigation:Frame Width="200" Height="200" />
     </Design.PreviewWith>
@@ -22,13 +23,11 @@
                     <DockPanel>
                         <Button Command="{Binding $parent[navigation:Frame].Back}"
                                 x:Name="BackButton"
-                                IsVisible="{Binding $self.IsEffectivelyEnabled}" 
-                                DockPanel.Dock="Top" 
+                                IsVisible="{Binding $self.IsEffectivelyEnabled}"
+                                DockPanel.Dock="Top"
                                 Content="{TemplateBinding BackButtonContent}">
                         </Button>
-                        <ScrollViewer Margin="{TemplateBinding Padding}">
-                            <ContentControl Content="{Binding $parent[navigation:Frame].Content}" />
-                        </ScrollViewer>
+                        <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[navigation:Frame].Content}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter>

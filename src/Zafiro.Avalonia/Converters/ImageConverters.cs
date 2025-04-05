@@ -16,4 +16,14 @@ public class ImageConverters
         using var stream = new MemoryStream(imageData); // El Stream solo vive durante este bloque
         return new Bitmap(stream); // Bitmap copia los datos y ya no necesita el Stream
     }
+    
+    public static readonly FuncValueConverter<Uri, Bitmap?> UriToBitmap = new(uri =>
+    {
+        if (uri == null)
+        {
+            return null;
+        }
+
+        return ImageExtensions.ImageHelper.LoadFromResource(uri);
+    });
 }

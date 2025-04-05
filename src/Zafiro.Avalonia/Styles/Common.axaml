@@ -41,6 +41,30 @@
 			</Setter.Value>
 		</Setter>
 	</ControlTheme>
+	
+	<ControlTheme x:Key="InlinePadded" TargetType="HeaderedContentControl">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+					        BorderThickness="{TemplateBinding BorderThickness}">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition SharedSizeGroup="Header" Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Label x:Name="Header" VerticalAlignment="Center" DockPanel.Dock="Left"
+							       Padding="0" Target="{Binding #ContentPresenter}" Margin="6 0 8 0"
+							       Content="{TemplateBinding Header}"
+							       ContentTemplate="{TemplateBinding HeaderTemplate}" />
+							<ContentPresenter Grid.Column="1" x:Name="ContentPresenter"
+							                  Content="{TemplateBinding Content}" />
+						</Grid>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</ControlTheme>
 
 	<ControlTheme x:Key="{x:Type HeaderedContentControl}" TargetType="HeaderedContentControl">
 		<Setter Property="Template">

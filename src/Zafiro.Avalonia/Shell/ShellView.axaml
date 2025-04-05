@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
              xmlns:shell="clr-namespace:Zafiro.Avalonia.Shell"
+             xmlns:s="clr-namespace:Zafiro.UI.Shell;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
              x:Class="Zafiro.Avalonia.Shell.ShellView"
-             x:DataType="shell:ShellViewModel">
+             x:DataType="s:IShell">
 
     <DockPanel Margin="10">
         <shell:Sidebar Margin="10 20 10 20" />
