@@ -73,10 +73,10 @@
             <StackPanel Spacing="20"
                         Grid.IsSharedSizeScope="True">
                 <TextBlock FontWeight="Bold">Add new</TextBlock>
-                <HeaderedContentControl Theme="{StaticResource Inline}" Header="Name">
+                <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Name">
                     <TextBox Text="{Binding PersonName}" />
                 </HeaderedContentControl>
-                <HeaderedContentControl Theme="{StaticResource Inline}" Header="Surname">
+                <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Surname">
                     <TextBox Text="{Binding PersonSurname}" />
                 </HeaderedContentControl>
                 <Button HorizontalAlignment="Right" Content="Add" Command="{Binding Add}" />

@@ -53,7 +53,7 @@
 
     <Border x:Name="LayoutRoot">
         <DockPanel>
-            <HeaderedContentControl DockPanel.Dock="Right" Margin="40 0 0 0" Theme="{StaticResource InlinePadded}">
+            <HeaderedContentControl DockPanel.Dock="Right" Margin="40 0 0 0" Theme="{StaticResource InlinePaddedHeaderedContentControl}">
                 <HeaderedContentControl.HeaderTemplate>
                     <DataTemplate DataType="x:Object">
                         <ContentControl Content="{Binding}" />

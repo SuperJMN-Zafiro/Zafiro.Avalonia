@@ -27,7 +27,7 @@
     </UserControl.Styles>
 
     <DockPanel Margin="10">
-        <HeaderedContentControl DockPanel.Dock="Top" Theme="{StaticResource Inline}" Header="Label Display Mode">
+        <HeaderedContentControl DockPanel.Dock="Top" Theme="{StaticResource InlineHeaderedContentControl}" Header="Label Display Mode">
             <ComboBox Width="150" SelectedValue="{Binding #Diagram.LabelDisplayMode}" 
                       ItemsSource="{StaticResource LabelDisplayModes}"
                       x:DataType="ext:EnumItem"
@@ -43,8 +43,8 @@
                 <DataTemplate>
                     <Border TextElement.FontSize="12" Background="WhiteSmoke" BorderThickness="1" CornerRadius="10" Padding="4">
                         <StackPanel>
-                            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property1" Content="Value1" />
-                            <HeaderedContentControl Theme="{StaticResource Inline}" Header="Property2" Content="Value2" />
+                            <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Property1" Content="Value1" />
+                            <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Property2" Content="Value2" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

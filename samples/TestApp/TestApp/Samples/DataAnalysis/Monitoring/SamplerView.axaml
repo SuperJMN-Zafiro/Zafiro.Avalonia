@@ -48,14 +48,16 @@
                 The SamplerControl can be used to monitor values from a data source. It represents the whole range of values and update as values change.
             </TextBlock.Inlines>
         </TextBlock>
-        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" ItemWidth="500" ItemHeight="400">
-            <HeaderedContentControl Header="Static">
-                <monitoring:SamplerControl Values="{StaticResource List}" />
-            </HeaderedContentControl>
-            <HeaderedContentControl Header="Dynamic">
-                <monitoring:SamplerControl Values="{Binding Values}" />
-            </HeaderedContentControl>
-        </WrapPanel>
+        <ScrollViewer>
+            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" ItemWidth="500" ItemHeight="400">
+                <HeaderedContentControl Header="Static">
+                    <monitoring:SamplerControl Values="{StaticResource List}" />
+                </HeaderedContentControl>
+                <HeaderedContentControl Header="Dynamic">
+                    <monitoring:SamplerControl Values="{Binding Values}" />
+                </HeaderedContentControl>
+            </WrapPanel>
+        </ScrollViewer>
     </StackPanel>
 
 </UserControl>

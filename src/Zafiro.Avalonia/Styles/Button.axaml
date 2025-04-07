@@ -20,7 +20,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SoftBorder}" />
             </Style>
         </ControlTheme>
-        <ControlTheme x:Key="TransparentButton2" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <ControlTheme x:Key="FullTransparentButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Margin" Value="1" />
             <Setter Property="Padding" Value="0" />

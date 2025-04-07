@@ -18,7 +18,7 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<ControlTheme x:Key="Inline" TargetType="HeaderedContentControl">
+	<ControlTheme x:Key="InlineHeaderedContentControl" TargetType="HeaderedContentControl">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
@@ -42,7 +42,7 @@
 		</Setter>
 	</ControlTheme>
 	
-	<ControlTheme x:Key="InlinePadded" TargetType="HeaderedContentControl">
+	<ControlTheme x:Key="InlinePaddedHeaderedContentControl" TargetType="HeaderedContentControl">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
@@ -93,7 +93,7 @@
 					<Button Content="Are you?" />
 				</StackPanel>
 			</HeaderedContentControl>
-			<HeaderedContentControl Theme="{StaticResource Inline}" Header="Title" Content="Content" />
+			<HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Title" Content="Content" />
 		</StackPanel>
 	</Design.PreviewWith>
 
