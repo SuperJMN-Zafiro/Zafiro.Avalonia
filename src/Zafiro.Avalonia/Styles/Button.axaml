@@ -43,7 +43,21 @@
                 <Setter Property="Opacity" Value="0.8" />
             </Style>
         </ControlTheme>
-
+        <ControlTheme x:Key="TransparentToggleButton" TargetType="ToggleButton"
+                      BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^:checked:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </ControlTheme>
     </Styles.Resources>
 
     <Design.PreviewWith>
