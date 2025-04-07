@@ -13,13 +13,10 @@ namespace Zafiro.Avalonia.DataViz.Graphs.Control;
 
 public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNode> where TNode : notnull
 {
-    public LoadOptions Options { get; }
-    private readonly IGraph<TNode, TEdge> inner;
-
     public GradualGraph(IGraph<TNode, TEdge> inner, LoadOptions options)
     {
         Options = options;
-        this.inner = inner;
+        InnerGraph = inner;
         var vertexList = new SourceList<TNode>();
         var edgesList = new SourceList<TEdge>();
 
@@ -48,14 +45,12 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNo
         Load = ReactiveCommand.CreateFromObservable(() => Combined(vertexList, edgesList));
     }
 
+    public LoadOptions Options { get; }
 
+    public IGraph<TNode,TEdge> InnerGraph { get; }
     public IObservable<double> Progress { get; }
-
-
     public ReactiveCommand<Unit, Unit> Load { get; set; }
-
     public IEnumerable Nodes { get; }
-
     public IEnumerable Edges { get; }
 
     private IObservable<Unit> Combined(SourceList<TNode> vertexList, SourceList<TEdge> edgesList)
@@ -67,7 +62,7 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNo
 
     private IObservable<Unit> AddEdges(SourceList<TEdge> edgesList)
     {
-        return inner.Edges.OrderByDescending(edge => edge.Weight)
+        return InnerGraph.Edges.OrderByDescending(edge => edge.Weight)
             .ToObservable()
             .Buffer(Options.EdgeBufferCount)
             .Select(list => Observable.Return(list).Delay(Options.AddDelay))
@@ -79,7 +74,7 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNo
 
     private IObservable<Unit> AddVertices(SourceList<TNode> vertexList)
     {
-        return inner.Nodes.OrderByDescending(inner.DegreeCentrality)
+        return InnerGraph.Nodes.OrderByDescending(InnerGraph.DegreeCentrality)
             .ToObservable()
             .Buffer(Options.VertexBufferCount)
             .Select(list => Observable.Return(list).Delay(Options.AddDelay))
