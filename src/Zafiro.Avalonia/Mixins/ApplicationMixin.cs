@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input.Platform;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 
@@ -7,8 +8,18 @@ namespace Zafiro.Avalonia.Mixins;
 [PublicAPI]
 public static class ApplicationMixin
 {
-    public static Result<TopLevel> TopLevel(this Application app)
+    public static Result<IClipboard> GetClipboard()
     {
+        return TopLevel(Application.Current).Bind(x => x.Clipboard.AsMaybe().ToResult("Clipboard is null"));
+    }
+    
+    public static Result<TopLevel> TopLevel(this Application? app)
+    {
+        if (app == null)
+        {
+            return Result.Failure<TopLevel>("Application is null");
+        }
+        
         if (app.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: { } window })
         {
             return window;
