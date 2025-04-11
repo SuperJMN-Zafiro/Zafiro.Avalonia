@@ -19,6 +19,12 @@ public class SortDataGridColumnBehavior : Behavior<DataGrid>
             .DisposeWith(disposable);
     }
 
+    protected override void OnDetaching()
+    {
+        disposable.Dispose();
+        base.OnDetaching();
+    }
+
     private void Sort()
     {
         var byColumnName = AssociatedObject.AsMaybe()
