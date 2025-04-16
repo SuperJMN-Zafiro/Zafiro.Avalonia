@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:pr="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing">
+        xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
     <Design.PreviewWith>
         <controls:Loading IsLoading="True">
             ¡HOLA!
@@ -12,9 +12,11 @@
        <ControlTheme x:Key="{x:Type controls:Loading}" TargetType="{x:Type controls:Loading}">
            <Setter Property="LoadingTemplate">
                <ControlTemplate>
-                   <StackPanel Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                       <pr:ProgressRing Width="64" Height="64" />
-                       <TextBlock Text="Loading..." />
+                   <StackPanel x:DataType="controls:Loading" DataContext="{Binding $parent[controls:Loading]}" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                       <c:ProgressRing IsIndeterminate="True"  
+                                       Width="{Binding ProgressIndicatorSize}" 
+                                       Height="{Binding ProgressIndicatorSize}" />
+                       <TextBlock TextAlignment="Center" Text="{Binding LoadingText}" />
                    </StackPanel>
                </ControlTemplate>
            </Setter>

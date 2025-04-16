@@ -11,7 +11,7 @@
             <TextBlock>This control can be used show a loading indicator easily in your views</TextBlock>
             <CheckBox IsChecked="{Binding IsLoading}" />
         </StackPanel>
-        <controls:Loading IsLoading="{Binding IsLoading}">
+        <controls:Loading LoadingText="Doing stuff..." ProgressIndicatorSize="80" IsLoading="{Binding IsLoading}">
             <TextBlock Text="Loaded!" />
         </controls:Loading>
     </DockPanel>

@@ -17,6 +17,7 @@
                 <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />
                 <ResourceInclude Source="Controls/CircularProgressBar.axaml" />
                 <ResourceInclude Source="Icons.axaml" />
+                <ResourceInclude Source="avares://FluentAvalonia/Styling/ControlThemes/FAControls/ProgressRingStyles.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
