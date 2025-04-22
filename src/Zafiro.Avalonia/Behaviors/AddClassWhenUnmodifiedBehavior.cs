@@ -7,11 +7,11 @@ namespace Zafiro.Avalonia.Behaviors;
 
 public class UntouchedClassBehavior : Behavior<Control>
 {
-    private bool hasBeenModified;
-    private readonly CompositeDisposable disposables = new();
-
     public static readonly StyledProperty<string> ClassNameProperty = AvaloniaProperty.Register<UntouchedClassBehavior, string>(
-        nameof(ClassName), "untouched");
+        nameof(ClassName), "Untouched");
+
+    private readonly CompositeDisposable disposables = new();
+    private bool hasBeenModified;
 
     public string ClassName
     {
@@ -22,7 +22,7 @@ public class UntouchedClassBehavior : Behavior<Control>
     protected override void OnAttached()
     {
         base.OnAttached();
-        
+
         if (AssociatedObject != null)
         {
             AssociatedObject.Classes.Add(ClassName);
@@ -44,7 +44,7 @@ public class UntouchedClassBehavior : Behavior<Control>
         {
             return;
         }
-        
+
         modifiable.Modified.Do(_ => AssociatedObject.Classes.Remove(ClassName)).Subscribe().DisposeWith(disposables);
     }
 
@@ -54,7 +54,7 @@ public class UntouchedClassBehavior : Behavior<Control>
         {
             return;
         }
-        
+
         var textProperty = AssociatedObject switch
         {
             NumericUpDown => NumericUpDown.TextProperty,
@@ -76,7 +76,7 @@ public class UntouchedClassBehavior : Behavior<Control>
         disposables.Dispose();
         if (AssociatedObject != null)
         {
-            if (AssociatedObject.GetVisualRoot() is {})
+            if (AssociatedObject.GetVisualRoot() is { })
             {
                 AssociatedObject.Classes.Remove(ClassName);
             }
@@ -85,7 +85,7 @@ public class UntouchedClassBehavior : Behavior<Control>
 
     private void OnTextChanged()
     {
-        if (!hasBeenModified && AssociatedObject?.GetVisualRoot() is {})
+        if (!hasBeenModified && AssociatedObject?.GetVisualRoot() is { })
         {
             hasBeenModified = true;
             AssociatedObject.Classes.Remove(ClassName);

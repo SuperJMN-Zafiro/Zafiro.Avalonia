@@ -1,35 +1,45 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="clr-namespace:Zafiro.Avalonia.Styles">
 
-    <Style Selector="TextBox.untouched /template/ Border#PART_BorderElement">
+    <Style Selector="TextBox.Untouched /template/ Border#PART_BorderElement">
         <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
     </Style>
-    <Style Selector="TextBox.untouched:focus /template/ Border#PART_BorderElement">
+    <Style Selector="TextBox.Untouched /template/ Button#PART_ErrorButton">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="TextBox.Untouched:focus /template/ Border#PART_BorderElement">
         <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushFocused}" />
     </Style>
-    <Style Selector="TextBox.untouched /template/ DataValidationErrors">
+    <Style Selector="TextBox.Untouched /template/ DataValidationErrors">
         <Setter Property="ErrorTemplate">
             <Setter.Value>
                 <DataTemplate />
             </Setter.Value>
         </Setter>
     </Style>
-    <Style Selector="NumericUpDown.untouched /template/ Border#PART_BorderElement">
+    <Style Selector="NumericUpDown.Untouched /template/ Border#PART_BorderElement">
         <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
     </Style>
-    <Style Selector="NumericUpDown.untouched:focus /template/ Border#PART_BorderElement">
+    <Style Selector="NumericUpDown.Untouched:focus /template/ Border#PART_BorderElement">
         <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushFocused}" />
     </Style>
-    <Style Selector="NumericUpDown.untouched /template/ DataValidationErrors">
+    <Style Selector="NumericUpDown.Untouched /template/ DataValidationErrors">
         <Setter Property="ErrorTemplate">
             <Setter.Value>
                 <DataTemplate />
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Design.PreviewWith>
+        <TextBox Classes="Untouched" Theme="{StaticResource EnhancedTextBox}"
+                 Watermark="32345345"
+                 Text="{Binding First}"
+                 x:DataType="m:ErrorViewModel">
+            <TextBox.DataContext>
+                <m:ErrorViewModel />
+            </TextBox.DataContext>
+        </TextBox>
+    </Design.PreviewWith>
 </Styles>

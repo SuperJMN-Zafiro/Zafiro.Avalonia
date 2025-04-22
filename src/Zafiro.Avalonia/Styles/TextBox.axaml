@@ -149,7 +149,6 @@
                                                   Content="{TemplateBinding InnerRightContent}" />
                                 <Button Theme="{StaticResource ErrorButton}"
                                         x:Name="PART_ErrorButton"
-                                        IsVisible="{Binding $parent[TextBox].(DataValidationErrors.HasErrors)}"
                                         Grid.Column="3"
                                         Margin="0 0 8 0" Background="{DynamicResource SystemErrorTextColor}" />
                             </Grid>
@@ -157,6 +156,9 @@
                     </Panel>
                 </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ Button#PART_ErrorButton">
+                <Setter Property="IsVisible" Value="{Binding $parent[TextBox].(DataValidationErrors.HasErrors)}" />
+            </Style>
         </ControlTheme>
 
     </Styles.Resources>
