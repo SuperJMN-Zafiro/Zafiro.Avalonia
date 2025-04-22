@@ -44,7 +44,7 @@
             </Setter>
             <Setter Property="Content">
                 <Template>
-                    <avalonia:Icon Foreground="{DynamicResource SystemAltHighColor}" Value="fa-exclamation" />
+                    <avalonia:Icon FontSize="10" Foreground="{DynamicResource SystemAltHighColor}" Value="fa-exclamation" />
                 </Template>
             </Setter>
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -118,7 +118,7 @@
                                                     </MultiBinding>
                                                 </TextBlock.IsVisible>
                                             </TextBlock>
-                                            <TextPresenter Name="PART_TextPresenter"
+                                            <TextPresenter x:Name="PART_TextPresenter"
                                                            Text="{TemplateBinding Text, Mode=TwoWay}"
                                                            CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
                                                            CaretIndex="{TemplateBinding CaretIndex}"
@@ -148,7 +148,10 @@
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   Content="{TemplateBinding InnerRightContent}" />
                                 <Button Theme="{StaticResource ErrorButton}"
-                                        IsVisible="{Binding $parent[TextBox].(DataValidationErrors.HasErrors)}" Grid.Column="3" Padding="2" Margin="4" Background="{DynamicResource SystemErrorTextColor}" />
+                                        x:Name="PART_ErrorButton"
+                                        IsVisible="{Binding $parent[TextBox].(DataValidationErrors.HasErrors)}"
+                                        Grid.Column="3"
+                                        Margin="0 0 8 0" Background="{DynamicResource SystemErrorTextColor}" />
                             </Grid>
                         </Border>
                     </Panel>
@@ -167,7 +170,9 @@
                     <m:ErrorViewModel First="2" />
                 </TextBox.DataContext>
             </TextBox>
-            <TextBox Theme="{StaticResource EnhancedTextBox}" Text="{Binding First}"
+            <TextBox Theme="{StaticResource EnhancedTextBox}"
+                     Watermark="32345345"
+                     Text="{Binding First}"
                      x:DataType="m:ErrorViewModel">
                 <TextBox.DataContext>
                     <m:ErrorViewModel />
