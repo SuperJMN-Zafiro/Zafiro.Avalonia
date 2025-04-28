@@ -1,54 +1,54 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:Zafiro.Avalonia.Controls.StringEditor">
-	<Design.PreviewWith>
-		<StackPanel>
-			<controls:EditControl IsEditing="True" />
-			<controls:EditControl IsEditing="False" />
-		</StackPanel>
-	</Design.PreviewWith>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls.StringEditor">
+    <Design.PreviewWith>
+        <StackPanel>
+            <controls:EditControl IsEditing="True" />
+            <controls:EditControl IsEditing="False" />
+        </StackPanel>
+    </Design.PreviewWith>
 
-	<ControlTheme x:Key="{x:Type controls:EditControl}" TargetType="controls:EditControl">
-		<!-- Set Defaults -->
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Panel Margin="0 0 6 0">
-					<Panel.Styles>
-						<Style Selector="Button">
-							<Setter Property="Padding" Value="2" />
-						</Style>
+    <ControlTheme x:Key="{x:Type controls:EditControl}" TargetType="controls:EditControl">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Margin="0 0 6 0">
+                    <Panel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Padding" Value="2" />
+                        </Style>
 
-						<Style Selector="Image">
-							<Setter Property="Height" Value="14" />
-							<Setter Property="Width" Value="14" />
-						</Style>
-					</Panel.Styles>
+                        <Style Selector="Image">
+                            <Setter Property="Height" Value="14" />
+                            <Setter Property="Width" Value="14" />
+                        </Style>
+                    </Panel.Styles>
 
-					<Button Theme="{StaticResource TransparentButton}"
-							x:Name="PART_EditButton"
-							IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}">
-						<Button.Content>
-							<Image Source="{StaticResource di_edit_svgrepo_com}" />
-						</Button.Content>
-					</Button>
-					<StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{TemplateBinding IsEditing}">
-						<Button Theme="{StaticResource TransparentButton}"
+                    <Button Theme="{StaticResource TransparentButton}"
+                            x:Name="PART_EditButton"
+                            IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=!IsEditing}">
+                        <Button.Content>
+                            <Image Source="{StaticResource di_edit_svgrepo_com}" />
+                        </Button.Content>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" Spacing="2" IsVisible="{TemplateBinding IsEditing}">
+                        <Button Theme="{StaticResource TransparentButton}"
                                 x:Name="PART_AcceptButton"
-								Command="{TemplateBinding AcceptCommand}">
-							<Button.Content>
-								<Image Source="{StaticResource di_ok_svgrepo_com}" />
-							</Button.Content>
-						</Button>
-						<Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
+                                Command="{TemplateBinding AcceptCommand}">
+                            <Button.Content>
+                                <Image Source="{StaticResource di_ok_svgrepo_com}" />
+                            </Button.Content>
+                        </Button>
+                        <Button Opacity="0.5" Theme="{StaticResource TransparentButton}"
                                 x:Name="PART_CancelButton"
-								Command="{TemplateBinding CancelCommand}">
-							<Button.Content>
-								<Image Source="{StaticResource di_cancel_svgrepo_com}" />
-							</Button.Content>
-						</Button>
-					</StackPanel>
-				</Panel>
-			</ControlTemplate>
-		</Setter>
-	</ControlTheme>
+                                Command="{TemplateBinding CancelCommand}">
+                            <Button.Content>
+                                <Image Source="{StaticResource di_cancel_svgrepo_com}" />
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
 </ResourceDictionary>

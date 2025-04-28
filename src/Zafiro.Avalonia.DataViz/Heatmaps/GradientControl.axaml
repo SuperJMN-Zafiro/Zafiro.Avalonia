@@ -1,12 +1,12 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Zafiro.Avalonia.DataViz"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.DataViz"
                     xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
                     xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
                     xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
     <Design.PreviewWith>
         <StackPanel>
-            <heatmaps:GradientControl NumberOfDivisions="4" Width="500" >
+            <heatmaps:GradientControl NumberOfDivisions="4" Width="500">
                 <heatmaps:GradientControl.ColorList>
                     <generic:List x:TypeArguments="Color">
                         <Color>Blue</Color>
@@ -16,7 +16,7 @@
                 </heatmaps:GradientControl.ColorList>
             </heatmaps:GradientControl>
             <heatmaps:GradientControl Height="500" BorderBrush="Black" BorderThickness="1"
-                Theme="{StaticResource Vertical}" NumberOfDivisions="3">
+                                      Theme="{StaticResource Vertical}" NumberOfDivisions="3">
                 <heatmaps:GradientControl.ColorList>
                     <generic:List x:TypeArguments="Color">
                         <Color>Blue</Color>
@@ -33,7 +33,7 @@
             <ControlTemplate>
                 <Border Padding="15">
                     <StackPanel ClipToBounds="False">
-                        <Border Height="10" ClipToBounds="False" 
+                        <Border Height="10" ClipToBounds="False"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <Border.Background>
