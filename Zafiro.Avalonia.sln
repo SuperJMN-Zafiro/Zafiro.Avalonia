@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.DataViz", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Browser", "samples\TestApp\TestApp.Browser\TestApp.Browser.csproj", "{CAABEB4C-9AFC-4DDB-A7A3-D3E22EA2FEA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro", "..\Zafiro\src\Zafiro\Zafiro.csproj", "{B5D919D2-A36B-48D3-99ED-2D76808F44A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.UI", "..\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj", "{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,14 @@ Global
 		{CAABEB4C-9AFC-4DDB-A7A3-D3E22EA2FEA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAABEB4C-9AFC-4DDB-A7A3-D3E22EA2FEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAABEB4C-9AFC-4DDB-A7A3-D3E22EA2FEA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5D919D2-A36B-48D3-99ED-2D76808F44A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5D919D2-A36B-48D3-99ED-2D76808F44A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5D919D2-A36B-48D3-99ED-2D76808F44A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5D919D2-A36B-48D3-99ED-2D76808F44A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

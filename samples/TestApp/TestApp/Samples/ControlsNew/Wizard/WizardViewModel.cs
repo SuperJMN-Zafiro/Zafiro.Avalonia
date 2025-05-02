@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using TestApp.Samples.ControlsNew.Wizard.Pages;
-using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.CSharpFunctionalExtensions;
 using FirstPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.FirstPageViewModel;
@@ -24,13 +23,13 @@ public class WizardViewModel : ReactiveObject
             // This is the data we want to gather from the wizard
             int number = 0;
             string? text = "";
-            
-            var wizard = WizardBuilder
+
+            var wizard = Zafiro.Avalonia.Controls.Wizards.Builder.WizardBuilder
                 .StartWith(() => new FirstPageViewModel())
                 .Then(prev => new SecondPageViewModel(prev.Number!.Value), x => number = x.Number!.Value)
                 .Then(prev => new ThirdPageViewModel(prev), x => text = x.Text)
                 .FinishWith(prev => (prev.SomeProperty, number, text));
-            
+
             return dialog.ShowWizard(wizard, "Such a nice wizard this is!");
         });
 
