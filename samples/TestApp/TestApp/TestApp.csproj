@@ -32,4 +32,31 @@
     <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
   </ItemGroup>
 
+    <ItemGroup>
+        <Compile Update="Samples\ControlsNew\SlimWizard\Pages\Page1View.axaml.cs">
+            <DependentUpon>FirstPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Samples\ControlsNew\SlimWizard\Pages\Page2View.axaml.cs">
+            <DependentUpon>SecondPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Samples\ControlsNew\SlimWizard\Pages\Page3View.axaml.cs">
+            <DependentUpon>ThirdPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Samples\ControlsNew\SlimWizard\Pages\FirstPageView.axaml.cs">
+            <DependentUpon>FirstPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Samples\ControlsNew\SlimWizard\Pages\SecondPageView.axaml.cs">
+            <DependentUpon>SecondPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Samples\ControlsNew\SlimWizard\Pages\ThirdPageView.axaml.cs">
+            <DependentUpon>ThirdPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
+
 </Project>
