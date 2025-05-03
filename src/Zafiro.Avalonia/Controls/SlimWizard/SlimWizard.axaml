@@ -1,0 +1,25 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard">
+    <Design.PreviewWith>
+        <controls:SlimWizard>
+            <controls:SlimWizard.Wizard>
+                <controls:WizardDesign />
+            </controls:SlimWizard.Wizard>
+        </controls:SlimWizard>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|SlimWizard">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel>
+                    <Button Content="Back" DockPanel.Dock="Top"
+                            Command="{Binding $parent[controls:SlimWizard].Wizard.BackCommand}" />
+                    <TextBlock IsVisible="{Binding $parent[controls:SlimWizard].Wizard.CurrentTitle.HasValue}" Text="{Binding $parent[controls:SlimWizard].Wizard.CurrentTitle.Value}" DockPanel.Dock="Top" />
+                    <ContentPresenter Content="{Binding $parent[controls:SlimWizard].Wizard.CurrentPage}" />
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

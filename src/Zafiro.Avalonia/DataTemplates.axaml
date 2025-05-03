@@ -1,9 +1,14 @@
 <DataTemplates xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
-        xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation">
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
+               xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
+               xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc">
 
     <DataTemplate DataType="nav:ISectionScope">
         <nv:SectionScopeView SectionScope="{Binding}" />
     </DataTemplate>
+
+    <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
+    <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
+
 </DataTemplates>

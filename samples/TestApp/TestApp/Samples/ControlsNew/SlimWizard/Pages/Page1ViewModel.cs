@@ -1,14 +1,13 @@
 using System;
 using System.Reactive.Linq;
-using CSharpFunctionalExtensions;
 using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Controls.Wizards.Builder;
+using Zafiro.UI.Wizard;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 
-public partial class Page1ViewModel : ReactiveValidationObject, IStep
+public partial class Page1ViewModel : ReactiveValidationObject, ITitled
 {
     [Reactive] private int? number;
 
@@ -20,5 +19,5 @@ public partial class Page1ViewModel : ReactiveValidationObject, IStep
     public IObservable<bool> IsValid => this.IsValid();
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
-    public Maybe<string> Title => "First page";
+    public string Title => "First page";
 }
