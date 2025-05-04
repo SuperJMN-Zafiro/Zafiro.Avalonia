@@ -4,8 +4,6 @@
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
              xmlns:panels="clr-namespace:TestApp.Samples.Panels"
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
-             xmlns:wizard="clr-namespace:Zafiro.UI.Wizard;assembly=Zafiro.UI"
-             xmlns:slimWizard="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
 
@@ -23,9 +21,6 @@
 
         <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
 
-        <DataTemplate DataType="wizard:IWizard">
-            <slimWizard:SlimWizard Wizard="{Binding}" />
-        </DataTemplate>
 
         <DataTemplate DataType="panels:ISectionNode">
             <TabControl ItemsSource="{Binding Sections}">

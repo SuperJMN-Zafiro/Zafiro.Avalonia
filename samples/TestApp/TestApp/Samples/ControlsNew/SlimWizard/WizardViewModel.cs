@@ -11,20 +11,15 @@ public class WizardViewModel
 {
     public WizardViewModel(IDialog dialog)
     {
-        var wizard = WizardBuilder
-            .StartWith(() => new Page1ViewModel(), model => model.Number, model => model.IsValid)
-            .FinishWith(number => new Page2ViewModel(number!.Value), _ => 12, model => model.IsValid);
-
-        this.Wizard = wizard;
-
         LaunchWizard = ReactiveCommand.CreateFromTask(async () =>
         {
-            var showWizard = await dialog.ShowWizard(wizard, "Such a nice wizard this is!");
+            var wizard = WizardBuilder
+                .StartWith(() => new Page1ViewModel(), model => model.Number, model => model.IsValid, "Continue")
+                .FinishWith(number => new Page2ViewModel(number!.Value), _ => 12, model => model.IsValid, "Finish!");
+            var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
             return showWizard;
         });
     }
 
     public ReactiveCommand<Unit, Maybe<int>> LaunchWizard { get; }
-
-    public Wizard<int> Wizard { get; }
 }

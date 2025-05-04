@@ -1,8 +1,11 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard">
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard"
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia">
     <Design.PreviewWith>
-        <controls:SlimWizard>
+        <controls:SlimWizard Width="400">
             <controls:SlimWizard.Wizard>
                 <controls:WizardDesign />
             </controls:SlimWizard.Wizard>
@@ -10,14 +13,39 @@
     </Design.PreviewWith>
 
     <Style Selector="controls|SlimWizard">
-        <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
-                    <Button Content="Back" DockPanel.Dock="Top"
-                            Command="{Binding $parent[controls:SlimWizard].Wizard.BackCommand}" />
-                    <TextBlock IsVisible="{Binding $parent[controls:SlimWizard].Wizard.CurrentTitle.HasValue}" Text="{Binding $parent[controls:SlimWizard].Wizard.CurrentTitle.Value}" DockPanel.Dock="Top" />
-                    <ContentPresenter Content="{Binding $parent[controls:SlimWizard].Wizard.CurrentPage}" />
+                    <c:TrueCenterPanel DockPanel.Dock="Top">
+                        <Button Theme="{StaticResource TransparentButton}"
+                                c:TrueCenterPanel.Dock="Left"
+                                Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
+                                Command="{Binding $parent[controls:SlimWizard].Wizard.BackCommand}">
+                            <Button.Content>
+                                <DockPanel>
+                                    <avalonia:Icon Value="fa-angle-left" />
+                                    <TextBlock>Back</TextBlock>
+                                </DockPanel>
+                            </Button.Content>
+                        </Button>
+                        <TextBlock FontWeight="Black" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" c:TrueCenterPanel.Dock="Center"
+                                   IsVisible="{Binding $parent[controls:SlimWizard].Wizard.CurrentTitle.HasValue}"
+                                   Text="{Binding $parent[controls:SlimWizard].Wizard.CurrentTitle.Value}" DockPanel.Dock="Top" />
+                        <TextBlock FontSize="12" VerticalAlignment="Center" c:TrueCenterPanel.Dock="Right" Margin="5 0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Step {0} of {1}">
+                                    <Binding Path="#StepIndicator.Current" Converter="{x:Static converters:MiscConverters.AddOne}" />
+                                    <Binding Path="#StepIndicator.Total" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </c:TrueCenterPanel>
+                    <c:StepIndicator DockPanel.Dock="Top" x:Name="StepIndicator" HorizontalAlignment="Center"
+                                     c:TrueCenterPanel.Dock="Center"
+                                     Current="{Binding $parent[controls:SlimWizard].Wizard.CurrentPageIndex}"
+                                     Total="{Binding $parent[controls:SlimWizard].Wizard.TotalPages}">
+                    </c:StepIndicator>
+                    <ContentPresenter Padding="{TemplateBinding Padding}" Content="{Binding $parent[controls:SlimWizard].Wizard.CurrentPage}" />
                 </DockPanel>
             </ControlTemplate>
         </Setter>

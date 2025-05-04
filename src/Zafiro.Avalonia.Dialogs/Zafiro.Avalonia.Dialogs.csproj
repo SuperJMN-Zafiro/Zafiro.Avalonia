@@ -13,6 +13,7 @@
         <PackageReference Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Include="ReactiveUI" Version="20.1.1" />
+        <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.1.27"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
