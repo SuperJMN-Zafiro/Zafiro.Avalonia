@@ -10,7 +10,7 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public static class SlimWizardMixin
 {
-    public static async Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, Wizard<TResult> wizard, string title)
+    public static async Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, IWizard<TResult> wizard, string title)
     {
         var disposables = new CompositeDisposable();
 
@@ -19,7 +19,7 @@ public static class SlimWizardMixin
         Func<ICloseable, IEnumerable<IOption>> optionsFactory = closeable =>
         {
             var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss));
-            wizard.Finished.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
+            wizard.FinishedOfT.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
 
             return
             [
@@ -32,7 +32,7 @@ public static class SlimWizardMixin
             ];
         };
 
-        var showAndGetResult = await dialog.ShowAndGetResult(wizard, title, optionsFactory, x => x.Finished.FirstAsync().ToTask());
+        var showAndGetResult = await dialog.ShowAndGetResult(wizard, title, optionsFactory, x => x.FinishedOfT.FirstAsync().ToTask());
 
         disposables.Dispose();
 

@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using TestApp.Samples.ControlsNew.SlimWizard.Pages;
@@ -14,8 +15,12 @@ public class WizardViewModel
         LaunchWizard = ReactiveCommand.CreateFromTask(async () =>
         {
             var wizard = WizardBuilder
-                .StartWith(() => new Page1ViewModel(), model => model.Number, model => model.IsValid, "Continue")
-                .FinishWith(number => new Page2ViewModel(number!.Value), _ => 12, model => model.IsValid, "Finish!");
+                .StartWith(() => new Page1ViewModel(), async model =>
+                {
+                    await Task.Delay(2000);
+                    return Result.Failure<int?>("Fallaco");
+                }, model => model.IsValid, "Continue")
+                .FinishWith(number => new Page2ViewModel(number!.Value), _ => Task.FromResult(Result.Success(12)), model => model.IsValid, "Finish!");
 
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
             return showWizard;

@@ -12,4 +12,5 @@ public class WizardDesign : IWizard
     public ReactiveCommand<Unit, Unit> BackCommand { get; } = ReactiveCommand.Create(() => { });
     public ReactiveCommand<Unit, Unit> NextCommand { get; } = ReactiveCommand.Create(() => { });
     public string NextText { get; } = "Next";
+    public IObservable<object> Finished => Finished.Cast<object>();
 }
