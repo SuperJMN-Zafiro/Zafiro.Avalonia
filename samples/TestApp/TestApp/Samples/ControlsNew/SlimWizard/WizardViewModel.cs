@@ -18,7 +18,7 @@ public class WizardViewModel
                 .StartWith(() => new Page1ViewModel(), async model =>
                 {
                     await Task.Delay(2000);
-                    return Result.Failure<int?>("Fallaco");
+                    return Result.Success<int?>(1234);
                 }, model => model.IsValid, "Continue")
                 .FinishWith(number => new Page2ViewModel(number!.Value), _ => Task.FromResult(Result.Success(12)), model => model.IsValid, "Finish!");
 

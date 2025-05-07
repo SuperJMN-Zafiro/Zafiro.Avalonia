@@ -19,7 +19,7 @@ public static class SlimWizardMixin
         Func<ICloseable, IEnumerable<IOption>> optionsFactory = closeable =>
         {
             var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss));
-            wizard.FinishedOfT.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
+            wizard.Finished.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
 
             return
             [
@@ -32,7 +32,7 @@ public static class SlimWizardMixin
             ];
         };
 
-        var showAndGetResult = await dialog.ShowAndGetResult(wizard, title, optionsFactory, x => x.FinishedOfT.FirstAsync().ToTask());
+        var showAndGetResult = await dialog.ShowAndGetResult(wizard, title, optionsFactory, x => x.Finished.FirstAsync().ToTask());
 
         disposables.Dispose();
 

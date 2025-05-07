@@ -1,5 +1,8 @@
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
+using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
@@ -14,7 +17,14 @@ public partial class Page1ViewModel : ReactiveValidationObject, ITitled
     public Page1ViewModel()
     {
         this.ValidationRule(x => x.Number, i => i % 2 == 0, "Number must be even");
+        DoSomething = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await Task.Delay(1000);
+            return Number;
+        });
     }
+
+    public ReactiveCommand<Unit, int?> DoSomething { get; set; }
 
     public IObservable<bool> IsValid => this.IsValid();
     public IObservable<bool> IsBusy => Observable.Return(false);
