@@ -1,6 +1,6 @@
 <Styles xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns="https://github.com/avaloniaui">
-    
+
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,12 +17,12 @@
                 <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />
                 <ResourceInclude Source="Controls/CircularProgressBar.axaml" />
                 <ResourceInclude Source="Icons.axaml" />
-                <ResourceInclude Source="avares://FluentAvalonia/Styling/ControlThemes/FAControls/ProgressRingStyles.axaml"/>
+                <ResourceInclude Source="avares://FluentAvalonia/Styling/ControlThemes/FAControls/ProgressRingStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
 
-    <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
+    <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
     <StyleInclude Source="Styles/Untouched.axaml" />
     <StyleInclude Source="Styles/Button.axaml" />
     <StyleInclude Source="Styles/TextBox.axaml" />
@@ -40,4 +40,5 @@
     <StyleInclude Source="Controls/Pane.axaml" />
     <StyleInclude Source="Controls/IconButton.axaml" />
     <StyleInclude Source="Controls/Loading.axaml" />
+    <StyleInclude Source="Controls/ReactiveButton.axaml" />
 </Styles>
