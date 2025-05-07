@@ -1,0 +1,33 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+        xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
+    <Design.PreviewWith>
+        <StackPanel>
+            <StackPanel.DataContext>
+                <avalonia:CommandViewModel />
+            </StackPanel.DataContext>
+            <controls:ReactiveButton Foreground="Red" ButtonTheme="{StaticResource TransparentButton}" HorizontalAlignment="Stretch" Content="This is my church" Command="{Binding NeverEndingCommand}" />
+            <controls:ReactiveButton Content="This is where I heal my hurt" Command="{Binding RegularCommand}" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|ReactiveButton">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Button Theme="{TemplateBinding ButtonTheme}" HorizontalAlignment="Stretch" Command="{Binding $parent[controls:ReactiveButton].Command}">
+                    <Button.Content>
+                        <DockPanel HorizontalAlignment="Center">
+                            <Viewbox Stretch="UniformToFill" StretchDirection="DownOnly">
+                                <c:ProgressRing Foreground="{TemplateBinding Foreground}" Margin="5 0" IsVisible="{Binding $parent[controls:ReactiveButton].Command.IsExecuting^}" />
+                            </Viewbox>
+                            <ContentPresenter Foreground="{TemplateBinding Foreground}" VerticalContentAlignment="Center" Padding="0 0 6 0" VerticalAlignment="Center" Content="{TemplateBinding Content}" />
+                        </DockPanel>
+                    </Button.Content>
+                </Button>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
