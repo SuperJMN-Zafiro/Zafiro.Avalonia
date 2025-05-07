@@ -43,7 +43,7 @@
                     <c:StepIndicator DockPanel.Dock="Top" x:Name="StepIndicator" HorizontalAlignment="Center"
                                      c:TrueCenterPanel.Dock="Center"
                                      Current="{Binding $parent[controls:SlimWizard].Wizard.CurrentPageIndex}"
-                                     Total="{Binding $parent[controls:SlimWizard].Wizard.TotalPages}">
+                                     Total="{Binding $parent[controls:SlimWizard].Wizard.TotalPages}" Margin="0 0 0 10">
                     </c:StepIndicator>
                     <ContentPresenter Padding="{TemplateBinding Padding}" Content="{Binding $parent[controls:SlimWizard].Wizard.CurrentPage}" />
                 </DockPanel>

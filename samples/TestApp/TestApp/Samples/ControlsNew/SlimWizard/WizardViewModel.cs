@@ -16,6 +16,7 @@ public class WizardViewModel
             var wizard = WizardBuilder
                 .StartWith(() => new Page1ViewModel(), model => model.Number, model => model.IsValid, "Continue")
                 .FinishWith(number => new Page2ViewModel(number!.Value), _ => 12, model => model.IsValid, "Finish!");
+
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
             return showWizard;
         });
