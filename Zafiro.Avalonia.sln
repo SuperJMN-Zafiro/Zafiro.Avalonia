@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro", "..\Zafiro\src\Zaf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.UI", "..\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj", "{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.Tests", "..\Zafiro\test\Zafiro.Tests\Zafiro.Tests.csproj", "{1E60D397-048D-47CA-B8AA-8E2BA1EE4D5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8143B6F8-D0B2-4B71-B2ED-A584DBA05910}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E60D397-048D-47CA-B8AA-8E2BA1EE4D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E60D397-048D-47CA-B8AA-8E2BA1EE4D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E60D397-048D-47CA-B8AA-8E2BA1EE4D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E60D397-048D-47CA-B8AA-8E2BA1EE4D5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@ using System.Reactive.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizard;
+using Zafiro.UI.Wizards;
 
 namespace Zafiro.Avalonia.Dialogs;
 

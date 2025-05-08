@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizard;
+using Zafiro.UI.Wizards;
 
 namespace Zafiro.Avalonia.Controls.SlimWizard;
 

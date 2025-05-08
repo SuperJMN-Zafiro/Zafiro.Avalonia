@@ -7,7 +7,7 @@ using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizard;
+using Zafiro.UI.Wizards;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 
@@ -22,7 +22,7 @@ public partial class Page1ViewModel : ReactiveValidationObject, ITitled
         {
             await Task.Delay(1000);
             return Result.Success(Number);
-        }, Observable.Return(false)));
+        }, this.IsValid()));
 
         this.IsValid().Subscribe(b => { });
     }

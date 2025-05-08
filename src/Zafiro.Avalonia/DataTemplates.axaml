@@ -3,15 +3,15 @@
                xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
                xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
                xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc"
-               xmlns:wizard="clr-namespace:Zafiro.UI.Wizard;assembly=Zafiro.UI"
-               xmlns:slimWizard="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard">
+               xmlns:slimWizard="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard"
+               xmlns:wizards="clr-namespace:Zafiro.UI.Wizards;assembly=Zafiro.UI">
 
     <DataTemplate DataType="nav:ISectionScope">
         <nv:SectionScopeView SectionScope="{Binding}" />
     </DataTemplate>
 
     <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
-    <DataTemplate DataType="wizard:IWizard">
+    <DataTemplate DataType="wizards:IWizard">
         <slimWizard:SlimWizard Wizard="{Binding}" />
     </DataTemplate>
 

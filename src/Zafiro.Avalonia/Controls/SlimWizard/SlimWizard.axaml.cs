@@ -1,5 +1,5 @@
 using Avalonia.Controls.Primitives;
-using Zafiro.UI.Wizard;
+using Zafiro.UI.Wizards;
 
 namespace Zafiro.Avalonia.Controls.SlimWizard;
 

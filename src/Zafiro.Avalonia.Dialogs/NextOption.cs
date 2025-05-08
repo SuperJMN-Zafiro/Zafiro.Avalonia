@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizard;
+using Zafiro.UI.Wizards;
 
 namespace Zafiro.Avalonia.Dialogs;
 
