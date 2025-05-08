@@ -24,7 +24,7 @@ public partial class NextOption : ReactiveObject, IOption, IDisposable
         disposables.Dispose();
     }
 
-    public IEnhancedCommand Command => EnhancedCommand.Create(wizard.NextCommand);
+    public IEnhancedCommand Command => wizard.NextCommand;
     public bool IsDefault { get; } = true;
     public bool IsCancel { get; } = false;
     public IObservable<bool> IsVisible { get; } = Observable.Return(true);
