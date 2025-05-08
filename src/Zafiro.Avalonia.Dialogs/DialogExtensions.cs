@@ -24,13 +24,13 @@ public static class DialogExtensions
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, Observable.Return(true))), new Settings
+            OptionBuilder.Create("Cancel", EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Dismiss, Observable.Return(true))), new Settings
             {
                 IsDefault = false,
                 IsCancel = true,
                 Role = OptionRole.Cancel,
             }),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canSubmit)), new Settings()
+            OptionBuilder.Create("OK", EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Close, canSubmit)), new Settings()
             {
                 IsDefault = true,
             })
@@ -77,13 +77,13 @@ public static class DialogExtensions
     {
         Func<ICloseable, IOption[]> optionsFactory = closeable =>
         [
-            OptionBuilder.Create("Cancel", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss)), new Settings
+            OptionBuilder.Create("Cancel", EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Dismiss)), new Settings
             {
                 IsDefault = false,
                 IsCancel = true,
                 Role = OptionRole.Cancel,
             }),
-            OptionBuilder.Create("OK", EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, canSubmit(viewModel))), new Settings()
+            OptionBuilder.Create("OK", EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Close, canSubmit(viewModel))), new Settings()
             {
                 IsDefault = true,
             })
@@ -100,12 +100,12 @@ public static class DialogExtensions
         {
             List<IOption> options =
             [
-                OptionBuilder.Create(yesText, EnhancedCommand.Create(ReactiveCommand.Create(() =>
+                OptionBuilder.Create(yesText, EnhancedCommand.Enhance(ReactiveCommand.Create(() =>
                 {
                     result = true;
                     closeable.Close();
                 })), new Settings()),
-                OptionBuilder.Create(noText, EnhancedCommand.Create(ReactiveCommand.Create(() =>
+                OptionBuilder.Create(noText, EnhancedCommand.Enhance(ReactiveCommand.Create(() =>
                 {
                     result = false;
                     closeable.Close();
@@ -132,7 +132,7 @@ public static class DialogExtensions
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
         [
-            OptionBuilder.Create(okText, EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings()
+            OptionBuilder.Create(okText, EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Close, Observable.Return(true))), new Settings()
             {
                 IsDefault = true
             })

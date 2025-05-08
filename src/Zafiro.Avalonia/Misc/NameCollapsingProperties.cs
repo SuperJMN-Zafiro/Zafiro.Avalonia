@@ -7,16 +7,16 @@ namespace Zafiro.Avalonia.Misc;
 
 public class NameCollapsingProperties : TextCollapsingProperties
 {
-    public override double Width { get; }
-    public override TextRun Symbol { get; }
-    public override FlowDirection FlowDirection { get; }
-
     public NameCollapsingProperties(double width, FlowDirection flowDirection)
     {
         Width = width;
         FlowDirection = flowDirection;
         Symbol = null;
     }
+
+    public override double Width { get; }
+    public override TextRun Symbol { get; }
+    public override FlowDirection FlowDirection { get; }
 
     public override TextRun[]? Collapse(TextLine textLine)
     {
@@ -45,7 +45,7 @@ public class NameCollapsingProperties : TextCollapsingProperties
 
         foreach (var option in options)
         {
-            // Create TextShaperOptions
+            // Enhance TextShaperOptions
             var textShaperOptions = new TextShaperOptions(
                 glyphTypeface,
                 textRunProperties.FontRenderingEmSize,
@@ -59,7 +59,7 @@ public class NameCollapsingProperties : TextCollapsingProperties
                 option.AsMemory(),
                 textShaperOptions);
 
-            // Create the ShapedTextRun
+            // Enhance the ShapedTextRun
             var shapedTextRun = new ShapedTextRun(
                 shapedBuffer,
                 textRunProperties);

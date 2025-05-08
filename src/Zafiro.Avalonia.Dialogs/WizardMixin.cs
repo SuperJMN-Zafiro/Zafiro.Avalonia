@@ -17,8 +17,8 @@ public static class WizardMixin
     private static IEnumerable<IOption> GetOptions(IWizard wizard, ICloseable closeable)
     {
         var canCancel = wizard.IsBusy.CombineLatest(wizard.IsLastPage, (a, b) => !a && !b);
-        var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss, canCancel));
-        var close = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Close, wizard.IsLastPage));
+        var cancel = EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Dismiss, canCancel));
+        var close = EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Close, wizard.IsLastPage));
 
         return
         [

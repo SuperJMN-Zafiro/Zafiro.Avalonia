@@ -18,7 +18,7 @@ public static class SlimWizardMixin
 
         Func<ICloseable, IEnumerable<IOption>> optionsFactory = closeable =>
         {
-            var cancel = EnhancedCommand.Create(ReactiveCommand.Create(closeable.Dismiss));
+            var cancel = EnhancedCommand.Enhance(ReactiveCommand.Create(closeable.Dismiss));
             wizard.Finished.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
 
             return

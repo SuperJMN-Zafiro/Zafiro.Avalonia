@@ -18,11 +18,11 @@ public partial class Page1ViewModel : ReactiveValidationObject, ITitled
     public Page1ViewModel()
     {
         this.ValidationRule(x => x.Number, i => i % 2 == 0, "Number must be even");
-        DoSomething = EnhancedCommand.Create(ReactiveCommand.CreateFromTask(async () =>
+        DoSomething = ReactiveCommand.CreateFromTask(async () =>
         {
             await Task.Delay(1000);
             return Result.Success(Number);
-        }, this.IsValid()));
+        }, this.IsValid()).Enhance();
 
         this.IsValid().Subscribe(b => { });
     }
