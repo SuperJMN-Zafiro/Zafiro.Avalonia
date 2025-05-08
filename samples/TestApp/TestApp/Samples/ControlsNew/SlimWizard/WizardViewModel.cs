@@ -14,9 +14,9 @@ public class WizardViewModel
     {
         LaunchWizard = ReactiveCommand.CreateFromTask(async () =>
         {
-            var wizard = WizardBuilder
+            Wizard<string> wizard = WizardBuilder
                 .StartWith(() => new Page1ViewModel(), model => model.DoSomething)
-                .Then(prev => new Page2ViewModel(prev!.Value), model => EnhancedCommand.Create(ReactiveCommand.Create<Unit, Result<string>>(_ => Result.Success("123"))))
+                .Then(prev => new Page2ViewModel(prev!.Value), model => { return EnhancedCommand.Create(ReactiveCommand.Create<Unit, Result<string>>(_ => Result.Success("123"))); })
                 .Build();
 
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
