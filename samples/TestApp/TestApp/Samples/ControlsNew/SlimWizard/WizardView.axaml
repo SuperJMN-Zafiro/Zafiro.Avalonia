@@ -7,6 +7,6 @@
              x:Class="TestApp.Samples.ControlsNew.SlimWizard.WizardView"
              x:DataType="slimWizard:WizardViewModel">
 
-    <Button Content="Launch" Command="{Binding LaunchWizard}" />
+    <Button Content="Launch wizard" HorizontalAlignment="Center" Command="{Binding LaunchWizard}" />
 
 </UserControl>

@@ -6,7 +6,7 @@ using Zafiro.Avalonia.Controls.Wizards.Builder;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 
-public class Page3ViewModel(Page2ViewModel two) : ReactiveValidationObject, IStep
+public class Page3ViewModel() : ReactiveValidationObject, IStep
 {
     public string SomeProperty => "Hello!";
     public IObservable<bool> IsValid { get; } = Observable.Return(true);

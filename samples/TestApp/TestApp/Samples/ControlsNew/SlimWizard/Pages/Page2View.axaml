@@ -12,12 +12,11 @@
         </Style>
     </UserControl.Styles>
 
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Text="{Binding Number, StringFormat=You selected {0:0} in the previous step}" />
+    <StackPanel VerticalAlignment="Center" Spacing="10">
+        <TextBlock Text="{Binding Number, StringFormat=You selected {0} in the previous step}" />
         <Separator />
         <TextBlock Text="Type anything you want here"></TextBlock>
         <TextBox Text="{Binding Text, Mode=TwoWay}" />
-        <Separator />
         <TextBlock VerticalAlignment="Center">Mark the check before moving next</TextBlock>
         <CheckBox IsChecked="{Binding IsChecked}"></CheckBox>
     </StackPanel>
