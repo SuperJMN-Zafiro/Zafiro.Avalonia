@@ -10,7 +10,7 @@ namespace Zafiro.Avalonia.Dialogs;
 
 public static class SlimWizardMixin
 {
-    public static async Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, INewWizard<TResult> wizard, string title)
+    public static async Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, ISlimWizard<TResult> wizard, string title)
     {
         var disposables = new CompositeDisposable();
 

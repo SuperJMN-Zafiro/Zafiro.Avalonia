@@ -3,7 +3,7 @@ using Zafiro.UI.Wizards;
 
 namespace Zafiro.Avalonia.Controls.SlimWizard;
 
-public class WizardDesign : INewWizard
+public class WizardDesign : ISlimWizard
 {
     public IEnhancedCommand Next { get; } = ReactiveCommand.Create(() => { }).Enhance();
     public IEnhancedCommand Back { get; } = ReactiveCommand.Create(() => { }).Enhance();

@@ -10,11 +10,11 @@ namespace Zafiro.Avalonia.Dialogs;
 public partial class NextOption : ReactiveObject, IOption, IDisposable
 {
     private readonly CompositeDisposable disposables = new();
-    private readonly INewWizard wizard;
+    private readonly ISlimWizard wizard;
     [Reactive] private IEnhancedCommand command;
     [Reactive] private string? title;
 
-    public NextOption(INewWizard wizard)
+    public NextOption(ISlimWizard wizard)
     {
         this.wizard = wizard;
         this.WhenAnyValue(x => x.wizard.Next).BindTo(this, x => x.Command).DisposeWith(disposables);

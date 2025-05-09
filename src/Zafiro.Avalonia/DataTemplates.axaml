@@ -11,8 +11,8 @@
     </DataTemplate>
 
     <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
-    <DataTemplate DataType="wizards:INewWizard">
-        <slimWizard:SlimWizard Wizard="{Binding}" />
+    <DataTemplate DataType="wizards:ISlimWizard">
+        <slimWizard:SlimWizardContorl Wizard="{Binding}" />
     </DataTemplate>
 
 </DataTemplates>

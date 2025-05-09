@@ -3,12 +3,12 @@ using Zafiro.UI.Wizards;
 
 namespace Zafiro.Avalonia.Controls.SlimWizard;
 
-public class SlimWizard : TemplatedControl
+public class SlimWizardContorl : TemplatedControl
 {
-    public static readonly StyledProperty<INewWizard> WizardProperty = AvaloniaProperty.Register<SlimWizard, INewWizard>(
+    public static readonly StyledProperty<ISlimWizard> WizardProperty = AvaloniaProperty.Register<SlimWizardContorl, ISlimWizard>(
         nameof(Wizard));
 
-    public INewWizard Wizard
+    public ISlimWizard Wizard
     {
         get => GetValue(WizardProperty);
         set => SetValue(WizardProperty, value);
