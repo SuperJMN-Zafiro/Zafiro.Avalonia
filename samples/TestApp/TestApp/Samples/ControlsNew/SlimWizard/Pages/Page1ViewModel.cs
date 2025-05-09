@@ -23,8 +23,6 @@ public partial class Page1ViewModel : ReactiveValidationObject, ITitled
             await Task.Delay(1000);
             return Result.Success(Number);
         }, this.IsValid()).Enhance();
-
-        this.IsValid().Subscribe(b => { });
     }
 
     public IEnhancedCommand<Result<int?>> DoSomething { get; set; }

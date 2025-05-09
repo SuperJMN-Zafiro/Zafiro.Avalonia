@@ -7,6 +7,7 @@ using TestApp.Samples.ControlsNew.SlimDataGrid;
 using TestApp.Samples.ControlsNew.Typewriter;
 using TestApp.Samples.ControlsNew.Wizard;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Services;
 using Zafiro.UI.Navigation;
 using Zafiro.UI.Navigation.Sections;
 
@@ -28,6 +29,7 @@ namespace TestApp.Samples.ControlsNew
             serviceCollection.AddScoped<LoadingSampleViewModel>();
 
             serviceCollection.AddSingleton(DialogService.Create());
+            serviceCollection.AddSingleton(NotificationService.Instance);
 
             serviceCollection.RegisterSections(sections =>
             {
