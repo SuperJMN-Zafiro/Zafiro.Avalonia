@@ -102,7 +102,7 @@ public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
     private ReactiveCommand<Unit, Unit> CreateBackCommand()
     {
         var isFirstPage = this.WhenAnyValue(x => x.CurrentIndex).Select(i => i == 0);
-        var canGoBack = Observable.CombineLatest(isFirstPage, IsBusy, IsLastPage,
+        var canGoBack = isFirstPage.CombineLatest(IsBusy, IsLastPage,
             (first, busy, last) => !first && !busy && !last);
 
         return ReactiveCommand.Create(NavigateBack, canGoBack);
@@ -117,8 +117,8 @@ public class Wizard<TResult> : ReactiveObject, IWizard<TResult>
 
     private void SetupCommands(ReactiveCommand<Unit, Unit> next, ReactiveCommand<Unit, Unit> back)
     {
-        Next = EnhancedCommand.Enhance(next);
-        Back = EnhancedCommand.Enhance(back);
+        Next = next.Enhance();
+        Back = back.Enhance();
     }
 
     private void InitializeWizard(ReactiveCommand<Unit, Unit> nextCommand)

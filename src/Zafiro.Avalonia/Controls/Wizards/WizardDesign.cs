@@ -6,8 +6,8 @@ namespace Zafiro.Avalonia.Controls.Wizards;
 
 public class WizardDesign : IWizard
 {
-    public IEnhancedCommand Back { get; } = EnhancedCommand.Enhance(ReactiveCommand.Create(() => { }));
-    public IEnhancedCommand Next { get; } = EnhancedCommand.Enhance(ReactiveCommand.Create(() => { }));
+    public IEnhancedCommand Back { get; } = ReactiveCommand.Create(() => { }).Enhance();
+    public IEnhancedCommand Next { get; } = ReactiveCommand.Create(() => { }).Enhance();
     public IStep Content { get; } = new StepDesign();
     public IObservable<bool> IsLastPage => Observable.Return(false);
     public IObservable<bool> IsValid => Observable.Return(true);

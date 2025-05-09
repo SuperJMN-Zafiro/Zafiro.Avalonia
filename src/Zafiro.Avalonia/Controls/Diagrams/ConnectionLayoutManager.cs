@@ -5,7 +5,7 @@ using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.Diagrams;
 
-public class ConnectionLayoutManager 
+public class ConnectionLayoutManager
 {
     public IObservable<Layout> CalculateLayout(IReadOnlyList<IEdge<object>> edges, ItemsControl host)
     {
@@ -19,9 +19,9 @@ public class ConnectionLayoutManager
                 h => host.LayoutUpdated += h,
                 h => host.LayoutUpdated -= h);
 
-        return Observable
-            .Merge(containersPrepared.ToSignal(), layoutUpdated.ToSignal())
-            .StartWith(Unit.Default)  // Intentamos inmediatamente
+        return containersPrepared.ToSignal()
+            .Merge(layoutUpdated.ToSignal())
+            .StartWith(Unit.Default) // Intentamos inmediatamente
             .Select(_ => TryCalculateLayout(edges, host))
             .Where(layout => layout != null)
             .Take(1)
@@ -29,14 +29,14 @@ public class ConnectionLayoutManager
             .Publish()
             .RefCount();
     }
-    
+
     private Layout? TryCalculateLayout(IReadOnlyList<IEdge<object>> edges, ItemsControl host)
     {
         // Verificamos que todos los controles estén disponibles y tengan bounds válidos
-        if (!edges.All(edge => 
+        if (!edges.All(edge =>
             {
                 var (from, to) = GetControls(edge, host);
-                return from != null && to != null && 
+                return from != null && to != null &&
                        HasValidBounds(from) && HasValidBounds(to);
             }))
         {
@@ -47,19 +47,19 @@ public class ConnectionLayoutManager
         AssignConnectionIndices(rectangleConnections, host);
         return CreateLayout(edges, host, rectangleConnections);
     }
-    
+
     private bool HasValidBounds(Control control)
     {
-        return control.IsMeasureValid && 
+        return control.IsMeasureValid &&
                control.IsArrangeValid;
     }
-    
+
     private Dictionary<Control, RectangleConnections> GatherConnections(
-        IReadOnlyList<IEdge<object>> edges, 
+        IReadOnlyList<IEdge<object>> edges,
         ItemsControl host)
     {
         var connections = new Dictionary<Control, RectangleConnections>();
-        
+
         foreach (var edge in edges)
         {
             var (from, to) = GetControls(edge, host);
@@ -69,7 +69,7 @@ public class ConnectionLayoutManager
             connections.GetOrAdd(to, () => new RectangleConnections());
 
             var sides = DetermineBestSides(from.Bounds.Center, to.Bounds.Center);
-            
+
             connections[from].AddConnection(edge, sides.From);
             connections[to].AddConnection(edge, sides.To);
         }
@@ -81,7 +81,7 @@ public class ConnectionLayoutManager
     {
         var dx = toCenter.X - fromCenter.X;
         var dy = toCenter.Y - fromCenter.Y;
-        
+
         return Math.Abs(dx) >= Math.Abs(dy)
             ? new SidePair(dx >= 0 ? Side.Right : Side.Left, dx >= 0 ? Side.Left : Side.Right)
             : new SidePair(dy >= 0 ? Side.Bottom : Side.Top, dy >= 0 ? Side.Top : Side.Bottom);
@@ -100,7 +100,7 @@ public class ConnectionLayoutManager
         }
     }
 
-    private (Control? from, Control? to) GetControls(IEdge<object> edge, ItemsControl host) => 
+    private (Control? from, Control? to) GetControls(IEdge<object> edge, ItemsControl host) =>
         (host.ContainerFromItem(edge.From), host.ContainerFromItem(edge.To));
 
     private Control GetConnectedControl(IEdge<object> edge, Control currentControl, ItemsControl host)
