@@ -37,7 +37,7 @@ namespace TestApp.Samples.ControlsNew
                     .Add<TypewriterViewModel>("Typewriter", null)
                     .Add<SlimDataGridViewModel>("Slim DataGrid", null)
                     .Add<WizardViewModel>("Wizard", null)
-                    .Add<SlimWizard.WizardViewModel>("Wizard Slim", null)
+                    .Add<SlimWizard.WizardViewModel>("Slim Wizard", null)
                     .Add<NavigationSampleViewModel>("Navigation", null)
                     .Add<LoadingSampleViewModel>("Loading", null);
             });
