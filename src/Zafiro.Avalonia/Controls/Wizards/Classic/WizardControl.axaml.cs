@@ -1,6 +1,7 @@
 using Avalonia.Controls.Primitives;
+using Zafiro.UI.Wizards.Classic;
 
-namespace Zafiro.Avalonia.Controls.Wizards;
+namespace Zafiro.Avalonia.Controls.Wizards.Classic;
 
 public class WizardControl : TemplatedControl
 {

@@ -4,9 +4,9 @@ using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI.Wizards.Classic.Builder;
 
-namespace TestApp.Samples.ControlsNew.Wizard.Pages;
+namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 
-public class ThirdPageViewModel(SecondPageViewModel second) : ReactiveValidationObject, IStep
+public class Page3ViewModel() : ReactiveValidationObject, IStep
 {
     public string SomeProperty => "Hello!";
     public IObservable<bool> IsValid { get; } = Observable.Return(true);

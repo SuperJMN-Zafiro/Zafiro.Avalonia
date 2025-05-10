@@ -31,8 +31,9 @@ public class Connectors : Control
     public static readonly StyledProperty<IDataTemplate?> EdgeLabelTemplateProperty =
         AvaloniaProperty.Register<Connectors, IDataTemplate?>(nameof(EdgeLabelTemplate));
 
-    private readonly ConnectionLayoutManager layoutManager = new();
     private readonly CompositeDisposable disposables = new();
+
+    private readonly ConnectionLayoutManager layoutManager = new();
     private Layout? currentLayout;
 
 
@@ -42,41 +43,6 @@ public class Connectors : Control
         InvalidateWhenContainersLocationChanges();
         SetupLayoutSubscription();
     }
-    
-    private void SetupLayoutSubscription()
-    {
-        var hostAndEdgesChanged = this.WhenAnyValue(x => x.Host, x => x.Edges)
-            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null);
-
-        var containerPositionsChanged = this.WhenAnyValue(x => x.Host)
-            .WhereNotNull()
-            .SelectMany(host => Observable.Merge(
-                host.ContainerOnChanged(Canvas.LeftProperty),
-                host.ContainerOnChanged(Canvas.TopProperty)
-            ))
-            .Select(_ => (Host, Edges)); // Proyecto al mismo tipo que hostAndEdgesChanged
-
-        Observable.Merge(hostAndEdgesChanged, containerPositionsChanged)
-            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null)
-            .Select(tuple => 
-            {
-                var (host, edges) = tuple;
-                return layoutManager
-                    .CalculateLayout(edges.Cast<IEdge<object>>().ToList(), host)
-                    .Catch<Layout, Exception>(ex => 
-                    {
-                        return Observable.Empty<Layout>();
-                    });
-            })
-            .Switch()
-            .Subscribe(layout =>
-            {
-                currentLayout = layout;
-                InvalidateVisual();
-            })
-            .DisposeWith(disposables);
-    }
-
 
 
     public IBrush Stroke
@@ -115,6 +81,35 @@ public class Connectors : Control
         set => SetValue(EdgeLabelTemplateProperty, value);
     }
 
+    private void SetupLayoutSubscription()
+    {
+        var hostAndEdgesChanged = this.WhenAnyValue(x => x.Host, x => x.Edges)
+            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null);
+
+        var containerPositionsChanged = this.WhenAnyValue(x => x.Host)
+            .WhereNotNull()
+            .SelectMany(host => host.ContainerOnChanged(Canvas.LeftProperty).Merge(host.ContainerOnChanged(Canvas.TopProperty)
+            ))
+            .Select(_ => (Host, Edges)); // Proyecto al mismo tipo que hostAndEdgesChanged
+
+        hostAndEdgesChanged.Merge(containerPositionsChanged)
+            .Where(tuple => tuple.Item1 != null && tuple.Item2 != null)
+            .Select(tuple =>
+            {
+                var (host, edges) = tuple;
+                return layoutManager
+                    .CalculateLayout(edges.Cast<IEdge<object>>().ToList(), host)
+                    .Catch<Layout, Exception>(ex => { return Observable.Empty<Layout>(); });
+            })
+            .Switch()
+            .Subscribe(layout =>
+            {
+                currentLayout = layout;
+                InvalidateVisual();
+            })
+            .DisposeWith(disposables);
+    }
+
     private void InvalidateWhenContainersLocationChanges()
     {
         this.WhenAnyValue(x => x.Host)
@@ -142,34 +137,36 @@ public class Connectors : Control
 
     public override void Render(DrawingContext context)
     {
-        if (Host == null || Edges == null || currentLayout == null) 
+        if (Host == null || Edges == null || currentLayout == null)
             return;
 
         var pen = new Pen(Stroke, StrokeThickness);
-        
+
         foreach (var connection in currentLayout.Connections)
         {
             ConnectionStyle.Draw(
-                context, 
+                context,
                 pen,
                 connection.FromPoint,
                 connection.FromSide,
                 connection.ToPoint,
                 connection.ToSide,
-                false, 
+                false,
                 true);
         }
     }
 }
 
 public record SidePair(Side From, Side To);
+
 public record Connection(IEdge<object> Edge, Point FromPoint, Side FromSide, Point ToPoint, Side ToSide);
+
 public record Layout(IReadOnlyList<Connection> Connections);
 
 public class RectangleConnections
 {
     private readonly Dictionary<Side, List<ConnectionDetails>> connectionsBySide = new();
-    
+
     public RectangleConnections()
     {
         foreach (var side in Enum.GetValues<Side>())
@@ -181,7 +178,7 @@ public class RectangleConnections
     public void AddConnection(IEdge<object> edge, Side side) =>
         connectionsBySide[side].Add(new ConnectionDetails(edge, side));
 
-    public IEnumerable<ConnectionDetails> GetConnectionsForSide(Side side) => 
+    public IEnumerable<ConnectionDetails> GetConnectionsForSide(Side side) =>
         connectionsBySide[side];
 
     public void AssignIndices(IEnumerable<IEdge<object>> sortedEdges, Side side)
@@ -206,19 +203,19 @@ public class RectangleConnections
 
 public class ConnectionDetails
 {
-    public IEdge<object> Edge { get; }
-    public Side Side { get; }
-    public int Index { get; set; }
-    public int TotalConnections { get; set; }
-
     public ConnectionDetails(IEdge<object> edge, Side side)
     {
         Edge = edge;
         Side = side;
     }
+
+    public IEdge<object> Edge { get; }
+    public Side Side { get; }
+    public int Index { get; set; }
+    public int TotalConnections { get; set; }
 }
 
-public static class DictionaryExtensions 
+public static class DictionaryExtensions
 {
     public static TValue GetOrAdd<TKey, TValue>(
         this Dictionary<TKey, TValue> dict,
@@ -230,6 +227,7 @@ public static class DictionaryExtensions
             value = valueFactory();
             dict[key] = value;
         }
+
         return value;
     }
 }

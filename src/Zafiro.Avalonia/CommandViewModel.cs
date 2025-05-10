@@ -7,12 +7,12 @@ public class CommandViewModel : ReactiveObject
 {
     public CommandViewModel()
     {
-        NeverEndingCommand = EnhancedCommand.Create(ReactiveCommand.CreateFromObservable(Observable.Never<Unit>));
-        RegularCommand = EnhancedCommand.Create(ReactiveCommand.Create(() => 123));
+        NeverEndingCommand = ReactiveCommand.CreateFromObservable(Observable.Never<Unit>).Enhance();
+        RegularCommand = ReactiveCommand.Create(() => 123).Enhance();
         NeverEndingCommand.Execute().Subscribe();
     }
 
-    public EnhancedCommand<Unit, int> RegularCommand { get; set; }
+    public IEnhancedCommand<Unit, int> RegularCommand { get; set; }
 
-    public EnhancedCommand<Unit, Unit> NeverEndingCommand { get; set; }
+    public IEnhancedUnitCommand NeverEndingCommand { get; set; }
 }

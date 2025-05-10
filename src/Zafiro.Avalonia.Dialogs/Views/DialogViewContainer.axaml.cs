@@ -2,7 +2,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Views;
 
 public class DialogViewContainer : ContentControl
 {

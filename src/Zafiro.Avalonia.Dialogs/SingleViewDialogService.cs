@@ -1,21 +1,46 @@
-﻿using System.Diagnostics;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
-using Avalonia.Styling;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Views;
+
+namespace Zafiro.Avalonia.Dialogs;
 
 public class AdornerDialog(Visual control) : IDialog, ICloseable
 {
-    private readonly AdornerLayer layer = AdornerLayer.GetAdornerLayer(control) 
-                                          ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
     private readonly Stack<Control> dialogs = new();
+
+    private readonly AdornerLayer layer = AdornerLayer.GetAdornerLayer(control)
+                                          ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
+
     private TaskCompletionSource<bool>? currentDialog;
+
+    public void Close()
+    {
+        if (dialogs.Count > 0)
+        {
+            var dialog = dialogs.Pop();
+            layer.Children.Remove(dialog);
+        }
+
+        currentDialog?.TrySetResult(true);
+        currentDialog = null;
+    }
+
+    public void Dismiss()
+    {
+        if (dialogs.Count > 0)
+        {
+            var dialog = dialogs.Pop();
+            layer.Children.Remove(dialog);
+        }
+
+        currentDialog?.TrySetResult(false);
+        currentDialog = null;
+    }
 
 
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
@@ -24,7 +49,7 @@ public class AdornerDialog(Visual control) : IDialog, ICloseable
 
         currentDialog = new TaskCompletionSource<bool>();
         var options = optionsFactory(this);
-        
+
 
         var dialog = new DialogViewContainer
         {
@@ -56,29 +81,5 @@ public class AdornerDialog(Visual control) : IDialog, ICloseable
 
         var result = await currentDialog.Task.ConfigureAwait(false);
         return result;
-    }
-
-    public void Close()
-    {
-        if (dialogs.Count > 0)
-        {
-            var dialog = dialogs.Pop();
-            layer.Children.Remove(dialog);
-        }
-
-        currentDialog?.TrySetResult(true);
-        currentDialog = null;
-    }
-
-    public void Dismiss()
-    {
-        if (dialogs.Count > 0)
-        {
-            var dialog = dialogs.Pop();
-            layer.Children.Remove(dialog);
-        }
-
-        currentDialog?.TrySetResult(false);
-        currentDialog = null;
     }
 }

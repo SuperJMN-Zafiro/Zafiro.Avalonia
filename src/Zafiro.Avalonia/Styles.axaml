@@ -30,7 +30,8 @@
     <StyleInclude Source="Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="Controls/StoppableControl.axaml" />
     <StyleInclude Source="Controls/SlimDataGrid/SlimDataGrid.axaml" />
-    <StyleInclude Source="Controls/Wizards/WizardControl.axaml" />
+    <StyleInclude Source="Controls/Wizards/Classic/WizardControl.axaml" />
+    <StyleInclude Source="Controls/Wizards/Slim/SlimWizardControl.axaml" />
     <StyleInclude Source="Controls/Diagrams/Enhanced/EnhancedDiagramView.axaml" />
     <StyleInclude Source="Controls/Diagrams/LabelsControl.axaml" />
     <StyleInclude Source="Controls/StepIndicator.axaml" />

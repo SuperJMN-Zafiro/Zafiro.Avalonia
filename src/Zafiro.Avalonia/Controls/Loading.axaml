@@ -8,26 +8,46 @@
         </controls:Loading>
     </Design.PreviewWith>
 
-   <Styles.Resources>
-       <ControlTheme x:Key="{x:Type controls:Loading}" TargetType="{x:Type controls:Loading}">
-           <Setter Property="LoadingTemplate">
-               <ControlTemplate>
-                   <StackPanel x:DataType="controls:Loading" DataContext="{Binding $parent[controls:Loading]}" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                       <c:ProgressRing IsIndeterminate="True"  
-                                       Width="{Binding ProgressIndicatorSize}" 
-                                       Height="{Binding ProgressIndicatorSize}" />
-                       <TextBlock TextAlignment="Center" Text="{Binding LoadingText}" />
-                   </StackPanel>
-               </ControlTemplate>
-           </Setter>
-           <Setter Property="Template">
-               <ControlTemplate>
-                   <Panel>
-                       <ContentPresenter Content="{TemplateBinding Content}" IsVisible="{Binding !$parent[controls:Loading].IsLoading}" />
-                       <ContentControl IsVisible="{TemplateBinding IsLoading}" Template="{TemplateBinding LoadingTemplate}" />
-                   </Panel>
-               </ControlTemplate>
-           </Setter>
-       </ControlTheme>
-   </Styles.Resources>
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type controls:Loading}" TargetType="{x:Type controls:Loading}">
+            <Setter Property="LoadingTemplate">
+                <ControlTemplate>
+                    <StackPanel x:DataType="controls:Loading" DataContext="{Binding $parent[controls:Loading]}" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <c:ProgressRing IsIndeterminate="True"
+                                        Width="{Binding ProgressIndicatorSize}"
+                                        Height="{Binding ProgressIndicatorSize}" />
+                        <TextBlock TextAlignment="Center" Text="{Binding LoadingText}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel>
+                        <ContentPresenter Content="{TemplateBinding Content}" IsVisible="{Binding !$parent[controls:Loading].IsLoading}" />
+                        <ContentControl IsVisible="{TemplateBinding IsLoading}" Template="{TemplateBinding LoadingTemplate}" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+        <ControlTheme x:Key="Blur" TargetType="{x:Type controls:Loading}">
+            <Setter Property="LoadingTemplate">
+                <ControlTemplate>
+                    <StackPanel x:DataType="controls:Loading" DataContext="{Binding $parent[controls:Loading]}" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <c:ProgressRing IsIndeterminate="True"
+                                        Width="{Binding ProgressIndicatorSize}"
+                                        Height="{Binding ProgressIndicatorSize}" />
+                        <TextBlock TextAlignment="Center" Text="{Binding LoadingText}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel>
+                        <ContentPresenter Content="{TemplateBinding Content}" IsVisible="{Binding !$parent[controls:Loading].IsLoading}" />
+                        <ContentControl IsVisible="{TemplateBinding IsLoading}" Template="{TemplateBinding LoadingTemplate}" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
 </Styles>

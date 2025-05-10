@@ -6,41 +6,41 @@
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
-	
-	<Application.Styles>
-		<StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
-		<StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
+
+    <Application.Styles>
+        <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
+        <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.DataViz/Styles.axaml" />
-		<FluentTheme />
-		<Style Selector="views|DialogControl">
-			<Setter Property="Width" Value="400" />
-		</Style>
-	</Application.Styles>
+        <FluentTheme />
+        <Style Selector="views|DialogControl">
+            <Setter Property="Width" Value="400" />
+        </Style>
+    </Application.Styles>
 
-	<Application.DataTemplates>
+    <Application.DataTemplates>
 
-		<misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
-		
-		<DataTemplate DataType="panels:ISectionNode">
-	        <TabControl ItemsSource="{Binding Sections}">
-		        <TabControl.ContentTemplate>
-			        <DataTemplate DataType="ui:ISectionOld">
-				        <ContentControl Content="{Binding Content}" />
-			        </DataTemplate>
-		        </TabControl.ContentTemplate>
-		        <TabControl.ItemTemplate>
-			        <DataTemplate DataType="ui:ISectionOld">
-				        <TextBlock Text="{Binding Title}" />
-			        </DataTemplate>
-		        </TabControl.ItemTemplate>
-	        </TabControl>
+        <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
+
+
+        <DataTemplate DataType="panels:ISectionNode">
+            <TabControl ItemsSource="{Binding Sections}">
+                <TabControl.ContentTemplate>
+                    <DataTemplate DataType="ui:ISectionOld">
+                        <ContentControl Content="{Binding Content}" />
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+                <TabControl.ItemTemplate>
+                    <DataTemplate DataType="ui:ISectionOld">
+                        <TextBlock Text="{Binding Title}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+            </TabControl>
         </DataTemplate>
 
-		<DataTemplate DataType="views:MessageDialogViewModel">
+        <DataTemplate DataType="views:MessageDialogViewModel">
             <views:MessageDialogView />
         </DataTemplate>
-		<misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
         <misc:NamingConventionViewLocator />
-	</Application.DataTemplates>
+    </Application.DataTemplates>
 
 </Application>

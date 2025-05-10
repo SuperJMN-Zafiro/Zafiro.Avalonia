@@ -4,21 +4,21 @@
         xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
     <Design.PreviewWith>
-        <z:DialogView Padding="20" Width="200" Height="200">
-            <z:DialogView.Options>
+        <views:DialogView Padding="20" Width="200" Height="200">
+            <views:DialogView.Options>
                 <generic:List x:TypeArguments="z:IOption">
                     <z:OptionDesign Title="OK" />
                     <z:OptionDesign Title="Cancel" />
                 </generic:List>
-            </z:DialogView.Options>
+            </views:DialogView.Options>
             <TextBlock>Hola</TextBlock>
-        </z:DialogView>
+        </views:DialogView>
     </Design.PreviewWith>
 
-    <Style Selector="z|DialogView">
+    <Style Selector="views|DialogView">
         <Setter Property="OptionsPanelHeight" Value="30" />
         <Setter Property="Template">
-            <ControlTemplate TargetType="z:DialogView">
+            <ControlTemplate TargetType="views:DialogView">
                 <DockPanel Margin="0 6 0 0" x:DataType="z:DialogViewModel" x:CompileBindings="True">
                     <DockPanel.DataTemplates>
                         <DataTemplate DataType="views:MessageDialogViewModel">
