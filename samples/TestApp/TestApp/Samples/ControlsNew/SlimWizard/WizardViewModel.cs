@@ -27,7 +27,7 @@ public class WizardViewModel
                     text = model.Text;
                     return Result.Success(Unit.Default);
                 }, model.IsValid).Enhance("Next"), "Page 2")
-                .Then(_ => new Page3ViewModel(), model => ReactiveCommand.Create(() => Result.Success((number, text)), model.IsValid).Enhance("Close"), "Page 2")
+                .Then(_ => new Page3ViewModel(), model => ReactiveCommand.Create(() => Result.Success((number, text)), model.IsValid).Enhance("Close"), "Completed!")
                 .Build();
 
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
