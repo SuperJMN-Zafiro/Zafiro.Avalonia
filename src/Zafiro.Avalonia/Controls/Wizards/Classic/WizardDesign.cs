@@ -1,8 +1,9 @@
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.Controls.Wizards.Builder;
 using Zafiro.UI.Commands;
+using Zafiro.UI.Wizards.Classic;
+using Zafiro.UI.Wizards.Classic.Builder;
 
-namespace Zafiro.Avalonia.Controls.Wizards;
+namespace Zafiro.Avalonia.Controls.Wizards.Classic;
 
 public class WizardDesign : IWizard
 {

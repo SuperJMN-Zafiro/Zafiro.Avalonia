@@ -3,7 +3,7 @@
         xmlns:c="clr-namespace:Zafiro.Avalonia.Dialogs.Views"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs"
-        xmlns:wizards="clr-namespace:Zafiro.Avalonia.Controls.Wizards;assembly=Zafiro.Avalonia">
+        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic;assembly=Zafiro.Avalonia">
 
 
     <Styles.Resources>
@@ -86,7 +86,7 @@
                             <!-- Title -->
                             <TextBlock Grid.Row="0"
                                        FontWeight="Bold"
-                                       Margin="0 0 0 10" 
+                                       Margin="0 0 0 10"
                                        Text="{Binding $parent[c:DialogControl].Title.Value}"
                                        IsVisible="{Binding $parent[c:DialogControl].Title.HasValue}" />
 
@@ -134,23 +134,23 @@
         </ControlTheme>
 
     </Styles.Resources>
-    
-    
+
+
     <Design.PreviewWith>
         <StackPanel>
             <Border BorderThickness="1" BorderBrush="Black">
                 <c:DialogControl Title="TITLE" Width="700" Height="400">
                     <c:DialogControl.DataTemplates>
-                        <DataTemplate DataType="wizards:StepDesign">
+                        <DataTemplate DataType="classic:StepDesign">
                             <Border Background="GreenYellow" />
                         </DataTemplate>
                     </c:DialogControl.DataTemplates>
                     <c:DialogControl.Content>
-                        <wizards:WizardControl>
-                            <wizards:WizardControl.Wizard>
-                                <wizards:WizardDesign />
-                            </wizards:WizardControl.Wizard>
-                        </wizards:WizardControl>
+                        <classic:WizardControl>
+                            <classic:WizardControl.Wizard>
+                                <classic:WizardDesign />
+                            </classic:WizardControl.Wizard>
+                        </classic:WizardControl>
                     </c:DialogControl.Content>
                     <c:DialogControl.Options>
                         <generic:List x:TypeArguments="dialogs:IOption">

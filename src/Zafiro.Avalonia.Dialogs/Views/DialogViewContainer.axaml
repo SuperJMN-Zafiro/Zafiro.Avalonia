@@ -1,27 +1,28 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs"
-        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections">
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+        xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views">
     <Design.PreviewWith>
         <Border Padding="20">
             <StackPanel Spacing="20">
                 <Border BorderBrush="Black" BorderThickness="1">
-                    <dialogs:DialogViewContainer Title="Title" Classes="Desktop" Width="400" Height="400">
-                        <dialogs:DialogView Content="Text message">
-                            <dialogs:DialogView.Options>
+                    <views:DialogViewContainer Title="Title" Classes="Desktop" Width="400" Height="400">
+                        <views:DialogView Content="Text message">
+                            <views:DialogView.Options>
                                 <generic:List x:TypeArguments="dialogs:IOption">
                                     <dialogs:OptionDesign Title="OK" />
                                     <dialogs:OptionDesign Title="Cancel" />
                                 </generic:List>
-                            </dialogs:DialogView.Options>
-                        </dialogs:DialogView>
-                    </dialogs:DialogViewContainer>
+                            </views:DialogView.Options>
+                        </views:DialogView>
+                    </views:DialogViewContainer>
                 </Border>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
-    <Style Selector="dialogs|DialogViewContainer">
+    <Style Selector="views|DialogViewContainer">
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -30,7 +31,7 @@
                             Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                         <DockPanel>
                             <Panel DockPanel.Dock="Top">
-                                <TextBlock VerticalAlignment="Center" FontWeight="Bold"  TextAlignment="Center" Text="{TemplateBinding Title}" />
+                                <TextBlock VerticalAlignment="Center" FontWeight="Bold" TextAlignment="Center" Text="{TemplateBinding Title}" />
                                 <Button Theme="{StaticResource TransparentButton}" HorizontalAlignment="Right" Content="x" Command="{TemplateBinding Close}"></Button>
                             </Panel>
                             <ContentPresenter Content="{TemplateBinding Content}" />

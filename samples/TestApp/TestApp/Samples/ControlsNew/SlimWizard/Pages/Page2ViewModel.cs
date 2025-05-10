@@ -4,7 +4,7 @@ using CSharpFunctionalExtensions;
 using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Controls.Wizards.Builder;
+using Zafiro.UI.Wizards.Classic.Builder;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 

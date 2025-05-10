@@ -3,9 +3,9 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizards;
+using Zafiro.UI.Wizards.Slim;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Wizards.Slim;
 
 public partial class NextOption : ReactiveObject, IOption, IDisposable
 {
@@ -17,8 +17,8 @@ public partial class NextOption : ReactiveObject, IOption, IDisposable
     public NextOption(ISlimWizard wizard)
     {
         this.wizard = wizard;
-        this.WhenAnyValue(x => x.wizard.Next).BindTo(this, x => x.Command).DisposeWith(disposables);
-        this.WhenAnyValue(x => x.wizard.Next.Text).BindTo(this, x => x.Title).DisposeWith(disposables);
+        this.WhenAnyValue(x => x.wizard.Next).BindTo<IEnhancedCommand, NextOption, IEnhancedCommand>(this, x => x.Command).DisposeWith(disposables);
+        this.WhenAnyValue(x => x.wizard.Next.Text).BindTo<string?, NextOption, string>(this, x => x.Title).DisposeWith(disposables);
     }
 
     public void Dispose()

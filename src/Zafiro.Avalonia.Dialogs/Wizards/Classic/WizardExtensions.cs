@@ -1,13 +1,13 @@
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using Zafiro.Avalonia.Controls.Wizards;
 using Zafiro.Reactive;
 using Zafiro.UI.Commands;
+using Zafiro.UI.Wizards.Classic;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Wizards.Classic;
 
-public static class WizardMixin
+public static class WizardExtensions
 {
     public static Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, IWizard<TResult> wizard, string title)
     {

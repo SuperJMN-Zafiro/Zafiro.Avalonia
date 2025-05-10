@@ -7,11 +7,10 @@ using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizards;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 
-public partial class Page1ViewModel : ReactiveValidationObject, ITitled
+public partial class Page1ViewModel : ReactiveValidationObject
 {
     [Reactive] private int? number;
 
@@ -30,5 +29,4 @@ public partial class Page1ViewModel : ReactiveValidationObject, ITitled
     public IObservable<bool> IsValid => this.IsValid();
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
-    public string Title => "First page";
 }

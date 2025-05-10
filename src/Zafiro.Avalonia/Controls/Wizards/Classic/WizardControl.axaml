@@ -1,61 +1,61 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:wizards="clr-namespace:Zafiro.Avalonia.Controls.Wizards"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic">
 
     <Design.PreviewWith>
-        <wizards:WizardControl Width="400" Height="300">
-            <wizards:WizardControl.DataTemplates>
-                <DataTemplate DataType="wizards:StepDesign">
+        <classic:WizardControl Width="400" Height="300">
+            <classic:WizardControl.DataTemplates>
+                <DataTemplate DataType="classic:StepDesign">
                     <TextBlock TextWrapping="Wrap">HI, THIS IS THE CONTENT OF THE WIZARD</TextBlock>
                 </DataTemplate>
-            </wizards:WizardControl.DataTemplates>
-            <wizards:WizardControl.Wizard>
-                <wizards:WizardDesign />
-            </wizards:WizardControl.Wizard>
-        </wizards:WizardControl>
+            </classic:WizardControl.DataTemplates>
+            <classic:WizardControl.Wizard>
+                <classic:WizardDesign />
+            </classic:WizardControl.Wizard>
+        </classic:WizardControl>
     </Design.PreviewWith>
 
     <Styles.Resources>
 
         <StreamGeometry x:Key="LeftArrow">M12.7347,4.20949 C13.0332,3.92233 13.508,3.93153 13.7952,4.23005 C14.0823,4.52857 14.0731,5.00335 13.7746,5.29051 L5.50039,13.25 L24.2532,13.25 C24.6674,13.25 25.0032,13.5858 25.0032,13.9999982 C25.0032,14.4142 24.6674,14.75 24.2532,14.75 L5.50137,14.75 L13.7746,22.7085 C14.0731,22.9957 14.0823,23.4705 13.7952,23.769 C13.508,24.0675 13.0332,24.0767 12.7347,23.7896 L3.30673,14.7202 C2.89776,14.3268 2.89776,13.6723 3.30673,13.2788 L12.7347,4.20949 Z</StreamGeometry>
 
-        <ControlTheme TargetType="wizards:WizardControl" x:Key="{x:Type wizards:WizardControl}">
+        <ControlTheme TargetType="classic:WizardControl" x:Key="{x:Type classic:WizardControl}">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid RowDefinitions="Auto *">
-                        <wizards:WizardHeader 
-                            CurrentPageIndex="{Binding $parent[wizards:WizardControl].Wizard.PageIndex^}"
-                            TotalPages="{Binding $parent[wizards:WizardControl].Wizard.TotalPages}"
-                            Back="{Binding $parent[wizards:WizardControl].Wizard.Back}"
-                            Title="{Binding $parent[wizards:WizardControl].Wizard.Content.Title}" Margin="0 0 0 13" />
-                        <ContentControl Grid.Row="1" Content="{Binding $parent[wizards:WizardControl].Wizard.Content}" />
+                        <classic:WizardHeader
+                            CurrentPageIndex="{Binding $parent[classic:WizardControl].Wizard.PageIndex^}"
+                            TotalPages="{Binding $parent[classic:WizardControl].Wizard.TotalPages}"
+                            Back="{Binding $parent[classic:WizardControl].Wizard.Back}"
+                            Title="{Binding $parent[classic:WizardControl].Wizard.Content.Title}" Margin="0 0 0 13" />
+                        <ContentControl Grid.Row="1" Content="{Binding $parent[classic:WizardControl].Wizard.Content}" />
                     </Grid>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>
 
-        <ControlTheme TargetType="wizards:WizardHeader" x:Key="{x:Type wizards:WizardHeader}">
+        <ControlTheme TargetType="classic:WizardHeader" x:Key="{x:Type classic:WizardHeader}">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}">
                         <c:TrueCenterPanel>
                             <Button c:TrueCenterPanel.Dock="Left" Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
-                                    Command="{Binding $parent[wizards:WizardHeader].Back}"
+                                    Command="{Binding $parent[classic:WizardHeader].Back}"
                                     Theme="{StaticResource TransparentButton}">
                                 <PathIcon Width="15" Data="{StaticResource LeftArrow}" />
                             </Button>
-                            
+
                             <StackPanel c:TrueCenterPanel.Dock="Center" Spacing="5">
                                 <TextBlock c:TrueCenterPanel.Dock="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
                                            TextAlignment="Center"
                                            TextTrimming="CharacterEllipsis"
-                                           Text="{Binding $parent[wizards:WizardHeader].Title.Value}" IsVisible="{Binding $parent[wizards:WizardHeader].Title.HasValue}" />
+                                           Text="{Binding $parent[classic:WizardHeader].Title.Value}" IsVisible="{Binding $parent[classic:WizardHeader].Title.HasValue}" />
                                 <c:StepIndicator x:Name="StepIndicator" HorizontalAlignment="Center"
-                                                 Current="{Binding $parent[wizards:WizardHeader].CurrentPageIndex}"
-                                                 Classes.AsTitle="{Binding $parent[wizards:WizardHeader].Title.HasNoValue}"
-                                                 Total="{Binding $parent[wizards:WizardHeader].TotalPages}">
+                                                 Current="{Binding $parent[classic:WizardHeader].CurrentPageIndex}"
+                                                 Classes.AsTitle="{Binding $parent[classic:WizardHeader].Title.HasNoValue}"
+                                                 Total="{Binding $parent[classic:WizardHeader].TotalPages}">
                                 </c:StepIndicator>
                             </StackPanel>
 
@@ -67,7 +67,8 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                        </c:TrueCenterPanel></Border>
+                        </c:TrueCenterPanel>
+                    </Border>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>

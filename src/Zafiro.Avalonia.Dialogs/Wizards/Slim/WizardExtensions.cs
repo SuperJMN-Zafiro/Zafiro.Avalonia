@@ -4,11 +4,11 @@ using System.Reactive.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizards;
+using Zafiro.UI.Wizards.Slim;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Wizards.Slim;
 
-public static class SlimWizardMixin
+public static class WizardExtensions
 {
     public static async Task<Maybe<TResult>> ShowWizard<TResult>(this IDialog dialog, ISlimWizard<TResult> wizard, string title)
     {

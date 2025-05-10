@@ -1,18 +1,18 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
-        xmlns:avalonia="https://github.com/projektanker/icons.avalonia">
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+        xmlns:slim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim">
     <Design.PreviewWith>
-        <controls:SlimWizardContorl Width="400">
-            <controls:SlimWizardContorl.Wizard>
-                <controls:WizardDesign />
-            </controls:SlimWizardContorl.Wizard>
-        </controls:SlimWizardContorl>
+        <slim:SlimWizardControl Width="400">
+            <slim:SlimWizardControl.Wizard>
+                <slim:WizardDesign />
+            </slim:SlimWizardControl.Wizard>
+        </slim:SlimWizardControl>
     </Design.PreviewWith>
 
-    <Style Selector="controls|SlimWizardContorl">
+    <Style Selector="slim|SlimWizardControl">
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
@@ -20,7 +20,7 @@
                         <Button Theme="{StaticResource TransparentButton}"
                                 c:TrueCenterPanel.Dock="Left"
                                 Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
-                                Command="{Binding $parent[controls:SlimWizardContorl].Wizard.Back}">
+                                Command="{Binding $parent[slim:SlimWizardControl].Wizard.Back}">
                             <Button.Content>
                                 <DockPanel>
                                     <avalonia:Icon Value="fa-angle-left" />
@@ -29,7 +29,7 @@
                             </Button.Content>
                         </Button>
                         <TextBlock FontWeight="Black" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" c:TrueCenterPanel.Dock="Center"
-                                   Text="{Binding $parent[controls:SlimWizardContorl].Wizard.CurrentPage.Title}" DockPanel.Dock="Top" />
+                                   Text="{Binding $parent[slim:SlimWizardControl].Wizard.CurrentPage.Title}" DockPanel.Dock="Top" />
                         <TextBlock FontSize="12" VerticalAlignment="Center" c:TrueCenterPanel.Dock="Right" Margin="5 0">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="Step {0} of {1}">
@@ -41,10 +41,10 @@
                     </c:TrueCenterPanel>
                     <c:StepIndicator DockPanel.Dock="Top" x:Name="StepIndicator" HorizontalAlignment="Center"
                                      c:TrueCenterPanel.Dock="Center"
-                                     Current="{Binding $parent[controls:SlimWizardContorl].Wizard.CurrentPage.Index}"
-                                     Total="{Binding $parent[controls:SlimWizardContorl].Wizard.TotalPages}" Margin="0 0 0 10">
+                                     Current="{Binding $parent[slim:SlimWizardControl].Wizard.CurrentPage.Index}"
+                                     Total="{Binding $parent[slim:SlimWizardControl].Wizard.TotalPages}" Margin="0 0 0 10">
                     </c:StepIndicator>
-                    <ContentPresenter Padding="{TemplateBinding Padding}" Content="{Binding $parent[controls:SlimWizardContorl].Wizard.CurrentPage.Content}" />
+                    <ContentPresenter Padding="{TemplateBinding Padding}" Content="{Binding $parent[slim:SlimWizardControl].Wizard.CurrentPage.Content}" />
                 </DockPanel>
             </ControlTemplate>
         </Setter>

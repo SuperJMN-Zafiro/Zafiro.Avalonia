@@ -2,7 +2,7 @@ using System;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Controls.Wizards.Builder;
+using Zafiro.UI.Wizards.Classic.Builder;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
 

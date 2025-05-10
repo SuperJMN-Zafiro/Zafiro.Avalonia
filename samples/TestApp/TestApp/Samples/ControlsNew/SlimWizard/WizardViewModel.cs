@@ -3,9 +3,10 @@ using CSharpFunctionalExtensions;
 using ReactiveUI;
 using TestApp.Samples.ControlsNew.SlimWizard.Pages;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Dialogs.Wizards.Slim;
 using Zafiro.UI;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizards;
+using Zafiro.UI.Wizards.Slim;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard;
 

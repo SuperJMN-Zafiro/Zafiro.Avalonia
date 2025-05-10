@@ -2,17 +2,21 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
                xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
-               xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc"
-               xmlns:slimWizard="clr-namespace:Zafiro.Avalonia.Controls.SlimWizard"
-               xmlns:wizards="clr-namespace:Zafiro.UI.Wizards;assembly=Zafiro.UI">
+               xmlns:slim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim"
+               xmlns:classic="clr-namespace:Zafiro.UI.Wizards.Classic;assembly=Zafiro.UI"
+               xmlns:classic1="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
+               xmlns:slim1="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI">
 
     <DataTemplate DataType="nav:ISectionScope">
         <nv:SectionScopeView SectionScope="{Binding}" />
     </DataTemplate>
 
-    <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/Controls/Wizards/WizardTemplate.axaml" />
-    <DataTemplate DataType="wizards:ISlimWizard">
-        <slimWizard:SlimWizardContorl Wizard="{Binding}" />
+    <DataTemplate DataType="slim1:ISlimWizard">
+        <slim:SlimWizardControl Wizard="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="classic:IWizard">
+        <classic1:WizardControl Wizard="{Binding}" />
     </DataTemplate>
 
 </DataTemplates>

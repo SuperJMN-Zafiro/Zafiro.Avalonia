@@ -4,17 +4,15 @@ using CSharpFunctionalExtensions;
 using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using Zafiro.Avalonia.Controls.Wizards.Builder;
+using Zafiro.UI.Wizards.Classic.Builder;
 
 namespace TestApp.Samples.ControlsNew.Wizard.Pages;
 
 public partial class SecondPageViewModel : ReactiveValidationObject, IStep
 {
-    public int Number { get;  }
-    
-    public IObservable<bool> IsValid => this.IsValid();
-    
     [Reactive] private bool isChecked;
+
+    [Reactive] private string? text;
 
     public SecondPageViewModel(int number)
     {
@@ -22,9 +20,11 @@ public partial class SecondPageViewModel : ReactiveValidationObject, IStep
         this.ValidationRule(x => x.IsChecked, b => b, "Is must be checked");
     }
 
+    public int Number { get; }
+
+    public IObservable<bool> IsValid => this.IsValid();
+
     public IObservable<bool> IsBusy => Observable.Return(false);
     public bool AutoAdvance => false;
     public Maybe<string> Title => "Second Page";
-    
-    [Reactive] private string? text;
 }
