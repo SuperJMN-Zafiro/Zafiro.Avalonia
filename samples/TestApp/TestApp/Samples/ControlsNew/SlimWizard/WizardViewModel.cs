@@ -6,7 +6,7 @@ using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Wizards.Slim;
 using Zafiro.UI;
 using Zafiro.UI.Commands;
-using Zafiro.UI.Wizards.Slim;
+using Zafiro.UI.Wizards.Slim.Builder;
 
 namespace TestApp.Samples.ControlsNew.SlimWizard;
 
@@ -28,7 +28,7 @@ public class WizardViewModel
                     return Result.Success(Unit.Default);
                 }, model.IsValid).Enhance("Next"), "Page 2")
                 .Then(_ => new Page3ViewModel(), model => ReactiveCommand.Create(() => Result.Success((number, text)), model.IsValid).Enhance("Close"), "Completed!")
-                .Build();
+                .WithCompletionFinalStep();
 
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
             await showWizard.Execute(gatheredData => notification.Show($"This is the data we gathered from it: '{gatheredData}'", "Wizard finished"));

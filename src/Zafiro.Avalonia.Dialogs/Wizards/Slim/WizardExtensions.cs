@@ -18,7 +18,8 @@ public static class WizardExtensions
 
         Func<ICloseable, IEnumerable<IOption>> optionsFactory = closeable =>
         {
-            var cancel = ReactiveCommand.Create(closeable.Dismiss).Enhance();
+            var canCancel = wizard.WhenAnyValue(slimWizard => slimWizard.CurrentPage).Select(x => x.Index != wizard.TotalPages - 1);
+            var cancel = ReactiveCommand.Create(closeable.Dismiss, canCancel).Enhance();
             wizard.Finished.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
 
             return
@@ -28,6 +29,7 @@ public static class WizardExtensions
                 {
                     IsCancel = true,
                     Role = OptionRole.Cancel,
+                    IsVisible = canCancel,
                 }),
             ];
         };
