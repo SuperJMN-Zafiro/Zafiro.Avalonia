@@ -11,6 +11,12 @@ public class ReactiveButton : ContentControl
     public static readonly StyledProperty<ControlTheme> ButtonThemeProperty = AvaloniaProperty.Register<ReactiveButton, ControlTheme>(
         nameof(ButtonTheme));
 
+    public static readonly StyledProperty<bool> IsCancelProperty = AvaloniaProperty.Register<ReactiveButton, bool>(
+        nameof(IsCancel));
+
+    public static readonly StyledProperty<bool> IsDefaultProperty = AvaloniaProperty.Register<ReactiveButton, bool>(
+        nameof(IsDefault));
+
     public IEnhancedCommand Command
     {
         get => GetValue(CommandProperty);
@@ -21,5 +27,17 @@ public class ReactiveButton : ContentControl
     {
         get => GetValue(ButtonThemeProperty);
         set => SetValue(ButtonThemeProperty, value);
+    }
+
+    public bool IsCancel
+    {
+        get => GetValue(IsCancelProperty);
+        set => SetValue(IsCancelProperty, value);
+    }
+
+    public bool IsDefault
+    {
+        get => GetValue(IsDefaultProperty);
+        set => SetValue(IsDefaultProperty, value);
     }
 }
