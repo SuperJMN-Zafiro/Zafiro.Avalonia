@@ -8,6 +8,8 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Padding="{TemplateBinding Padding}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            ClipToBounds="{TemplateBinding ClipToBounds}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             Background="{TemplateBinding Background}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -39,6 +41,10 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border
+                        Padding="{TemplateBinding Padding}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="{TemplateBinding ClipToBounds}"
+                        Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentControl ContentTemplate="{TemplateBinding ItemTemplate}"
@@ -68,6 +74,7 @@
                 <ControlTemplate>
                     <Panel>
                         <Border CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 ClipToBounds="True"
                                 Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
