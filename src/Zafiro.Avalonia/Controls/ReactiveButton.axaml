@@ -15,15 +15,25 @@
 
     <Style Selector="controls|ReactiveButton">
         <!-- Set Defaults -->
+        <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Button Theme="{TemplateBinding ButtonTheme}" HorizontalAlignment="Stretch" Command="{Binding $parent[controls:ReactiveButton].Command}">
+                <Button Theme="{TemplateBinding ButtonTheme}"
+                        HorizontalAlignment="Stretch"
+                        IsDefault="{TemplateBinding IsDefault}"
+                        IsCancel="{TemplateBinding IsCancel}"
+                        Padding="{TemplateBinding Padding}"
+                        Foreground="{TemplateBinding Foreground}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Command="{Binding $parent[controls:ReactiveButton].Command}">
                     <Button.Content>
                         <DockPanel HorizontalAlignment="Center">
                             <Viewbox Stretch="UniformToFill" StretchDirection="DownOnly">
                                 <c:ProgressRing Foreground="{TemplateBinding Foreground}" Margin="5 0" IsVisible="{Binding $parent[controls:ReactiveButton].Command.IsExecuting^}" />
                             </Viewbox>
-                            <ContentPresenter Foreground="{TemplateBinding Foreground}" VerticalContentAlignment="Center" Padding="0 0 6 0" VerticalAlignment="Center" Content="{TemplateBinding Content}" />
+                            <ContentPresenter Foreground="{TemplateBinding Foreground}" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" />
                         </DockPanel>
                     </Button.Content>
                 </Button>
