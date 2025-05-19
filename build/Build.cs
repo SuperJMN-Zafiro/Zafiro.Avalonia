@@ -14,14 +14,12 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 class Build : NukeBuild
 {
-    [Parameter("GitHub Authentication Token")] [Secret] readonly string GitHubApiKey;
-    [Parameter("NuGet Authentication Token")] [Secret] readonly string NuGetApiKey;
     [Parameter] readonly bool Force;
-    [Solution] readonly Solution Solution;
+    [Parameter("GitHub Authentication Token")] [Secret] readonly string GitHubApiKey;
     [GitVersion] readonly GitVersion GitVersion;
+    [Parameter("NuGet Authentication Token")] [Secret] readonly string NuGetApiKey;
     [GitRepository] readonly GitRepository Repository;
-
-    public static int Main() => Execute<Build>(x => x.Publish);
+    [Solution] readonly Solution Solution;
 
     Target RestoreWorkloads => _ => _
         .Executes(() =>
@@ -34,23 +32,14 @@ class Build : NukeBuild
             }
         });
 
-    bool IsWasmToolsInstalled()
-    {
-        var result = ProcessTasks.StartProcess("dotnet", "workload list")
-            .AssertZeroExitCode()
-            .Output
-            .Any(line => line.Text.Contains("wasm-tools"));
-        return result;
-    }
-
     Target PublishNugetPackages => d => d
         .Requires(() => NuGetApiKey)
         .DependsOn(RestoreWorkloads)
         .OnlyWhenStatic(() => Repository.IsOnMainOrMasterBranch() || Force)
         .Executes(async () =>
         {
-            var version = GitVersion.NuGetVersion;
-            
+            var version = GitVersion.MajorMinorPatch;
+
             await Deployer.Instance.PublishPackages(PackableProjects, version, NuGetApiKey)
                 .TapError(error => Assert.Fail(error.ToString()))
                 .LogInfo("Nuget packages published");
@@ -78,4 +67,15 @@ class Build : NukeBuild
             .Where(x => x.GetProperty<bool>("IsPackable"))
             .Where(x => !(x.Path.ToString().Contains("Test", StringComparison.InvariantCultureIgnoreCase) || x.Path.ToString().Contains("Sample", StringComparison.InvariantCultureIgnoreCase)))
             .Select(x => x.Path.ToString());
+
+    public static int Main() => Execute<Build>(x => x.Publish);
+
+    bool IsWasmToolsInstalled()
+    {
+        var result = ProcessTasks.StartProcess("dotnet", "workload list")
+            .AssertZeroExitCode()
+            .Output
+            .Any(line => line.Text.Contains("wasm-tools"));
+        return result;
+    }
 }
