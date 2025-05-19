@@ -1,5 +1,4 @@
-﻿using System.Reactive.Disposables;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactions.Custom;
@@ -17,20 +16,19 @@ public class ExecuteCommandOnDoubleTappedBehavior : DisposingBehavior<Control>
         set => SetValue(CommandProperty, value);
     }
 
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
-        Gestures.DoubleTappedEvent.AddClassHandler<InputElement>(
-                (x, _) =>
+        return Gestures.DoubleTappedEvent.AddClassHandler<InputElement>(
+            (x, _) =>
+            {
+                if (Equals(x, AssociatedObject))
                 {
-                    if (Equals(x, AssociatedObject))
+                    if (Command is { } cmd && cmd.CanExecute(default))
                     {
-                        if (Command is { } cmd && cmd.CanExecute(default))
-                        {
-                            cmd.Execute(default);
-                        }
+                        cmd.Execute(default);
                     }
-                },
-                RoutingStrategies.Tunnel | RoutingStrategies.Bubble)
-            .DisposeWith(disposables);
+                }
+            },
+            RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
     }
 }

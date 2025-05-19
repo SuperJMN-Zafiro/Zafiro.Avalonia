@@ -37,16 +37,16 @@ public class ScrollToTargetBehavior : AttachedToVisualTreeBehavior<InputElement>
     }
 
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(DisposableMixins))]
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
         if (AssociatedObject is null)
         {
-            return;
+            return Disposable.Empty;
         }
 
         scrollSubscription = new SerialDisposable();
 
-        AssociatedObject.OnEvent(InputElement.PointerPressedEvent, RoutingStrategies.Tunnel)
+        return AssociatedObject.OnEvent(InputElement.PointerPressedEvent, RoutingStrategies.Tunnel)
             .Do(_ =>
             {
                 var scroller = GetScrollViewer(AssociatedObject)
@@ -58,10 +58,7 @@ public class ScrollToTargetBehavior : AttachedToVisualTreeBehavior<InputElement>
                     scrollSubscription.Disposable = scroller.Value.Subscribe(_ => { }, () => scrollSubscription.Disposable = null);
                 }
             })
-            .Subscribe()
-            .DisposeWith(disposable);
-
-        base.OnAttached(disposable);
+            .Subscribe();
     }
 
     private IObservable<Unit> Scroller(ScrollViewer scrollViewer, Visual target)

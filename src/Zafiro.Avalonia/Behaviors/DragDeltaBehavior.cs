@@ -46,18 +46,20 @@ public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
         set => SetValue(DragButtonProperty, value);
     }
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
+        var disposables = new CompositeDisposable();
+
         if (AssociatedObject is null)
         {
-            return;
+            return disposables;
         }
 
         // Usamos el primer ancestro que sea un Visual como sistema de coordenadas estable
         var container = AssociatedObject.FindAncestorOfType<Visual>();
         if (container is null)
         {
-            return;
+            return disposables;
         }
 
         // Observables básicos
@@ -102,7 +104,9 @@ public class DragDeltaBehavior : AttachedToVisualTreeBehavior<Control>
             )
             .Repeat()
             .Subscribe()
-            .DisposeWith(disposable);
+            .DisposeWith(disposables);
+
+        return disposables;
     }
 
     private void ApplyDelta(Point delta)

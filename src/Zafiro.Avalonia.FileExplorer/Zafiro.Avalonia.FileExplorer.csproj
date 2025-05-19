@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.10" />
-        <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.1.27">
+        <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>
+        <PackageReference Include="ReactiveUI.SourceGenerators">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ReactiveUI.Validation" Version="4.1.1" />
-        <PackageReference Include="Zafiro.FileSystem.Actions" Version="18.0.3" />
+        <PackageReference Include="ReactiveUI.Validation"/>
+        <PackageReference Include="Zafiro.FileSystem.Actions"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -46,9 +46,12 @@ public class ExecuteCommandOnPointerButtonPressedBehavior : DisposingBehavior<In
         set => SetValue(ButtonProperty, value);
     }
 
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
-        if (AssociatedObject == null) return;
+        if (AssociatedObject == null)
+        {
+            return Disposable.Empty;
+        }
 
         var pointerPressed = AssociatedObject.OnEvent(InputElement.PointerPressedEvent, RoutingStrategy);
 
@@ -63,12 +66,12 @@ public class ExecuteCommandOnPointerButtonPressedBehavior : DisposingBehavior<In
 
         var executionRequest = buttonWithCommand.Select(_ => CommandParameter);
 
-        executionRequest.Subscribe(o =>
+        return executionRequest.Subscribe(o =>
         {
             if (Command!.CanExecute(o))
             {
                 Command.Execute(o);
             }
-        }).DisposeWith(disposables);
+        });
     }
 }

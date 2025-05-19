@@ -25,18 +25,20 @@ public class ProximityRevealBehavior : AttachedToVisualTreeBehavior<Control>
         set => SetValue(ForceVisibleProperty, value);
     }
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
+        var disposable = new CompositeDisposable();
+
         if (AssociatedObject is null)
         {
-            return;
+            return disposable;
         }
 
         var mainView = GetMainView();
 
         if (mainView is null)
         {
-            return;
+            return disposable;
         }
 
         var pointerPos = Observable
@@ -56,11 +58,13 @@ public class ProximityRevealBehavior : AttachedToVisualTreeBehavior<Control>
         var isVisibilityForced = this.WhenAnyValue(x => x.ForceVisible);
 
         hits.CombineLatest(isVisibilityForced, (isHit, isForced) => (isHit, isForced))
-			.Select(tuple => tuple.isHit && AssociatedObject.IsEffectivelyEnabled || tuple.isForced)
-			.StartWith(false)
+            .Select(tuple => tuple.isHit && AssociatedObject.IsEffectivelyEnabled || tuple.isForced)
+            .StartWith(false)
             .Do(isVisible => Target!.IsVisible = isVisible)
             .Subscribe()
             .DisposeWith(disposable);
+
+        return disposable;
     }
 
     private static Control? GetMainView()

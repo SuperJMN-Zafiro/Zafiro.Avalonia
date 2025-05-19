@@ -1,5 +1,3 @@
-using System.Reactive;
-using System.Reactive.Disposables;
 using Avalonia.Xaml.Interactions.Custom;
 
 namespace Zafiro.Avalonia.Behaviors;
@@ -15,11 +13,9 @@ public class TypewriterBehavior : DisposingBehavior<TextBlock>
         set => SetValue(TextToTypeProperty, value);
     }
 
-    public IObservable<Unit> Done { get; }
-
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
-        this.WhenAnyValue(x => x.TextToType)
+        return this.WhenAnyValue(x => x.TextToType)
             .WhereNotNull()
             .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
             .Select(s => Remove(AssociatedObject.Text).Concat(Add(TextToType)))

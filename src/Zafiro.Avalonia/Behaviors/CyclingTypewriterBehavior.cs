@@ -1,4 +1,3 @@
-using System.Reactive.Disposables;
 using Avalonia.Controls.Documents;
 using Avalonia.Xaml.Interactions.Custom;
 
@@ -14,6 +13,9 @@ public class CyclingTypewriterBehavior : DisposingBehavior<Run>
 
     public static readonly StyledProperty<TimeSpan> InBetweenPauseProperty = AvaloniaProperty.Register<CyclingTypewriterBehavior, TimeSpan>(
         nameof(InBetweenPause), TimeSpan.FromSeconds(2));
+
+    public static readonly StyledProperty<object> SomeProperty = AvaloniaProperty.Register<CyclingTypewriterBehavior, object>(
+        nameof(Some));
 
     public Strings Strings
     {
@@ -33,19 +35,10 @@ public class CyclingTypewriterBehavior : DisposingBehavior<Run>
         set => SetValue(InBetweenPauseProperty, value);
     }
 
-    protected override void OnAttached(CompositeDisposable disposables)
+    public object Some
     {
-        this.WhenAnyValue(x => x.Some).Subscribe(obj => { });
-        
-        Observable.Defer(() => this.WhenAnyValue(x => x.Strings)
-                .WhereNotNull()
-                .Take(1)
-                .Select(strings => strings.ToObservable()) // Convierte IEnumerable<string> a IObservable<string>
-                .Switch() // Cambia a la nueva secuencia si Strings cambia
-                .Select(to => Observable.Defer(() => Observable.Timer(InBetweenPause, AvaloniaScheduler.Instance).SelectMany(_ => Type(AssociatedObject.Text ?? "", to)))) // Mapea cada string a su TypingSequence
-                .Concat())
-            .Repeat() // Repeats the sequence indefinitely
-            .Subscribe();
+        get => GetValue(SomeProperty);
+        set => SetValue(SomeProperty, value);
     }
 
     private IObservable<string> Type(string from, string to)
@@ -75,12 +68,16 @@ public class CyclingTypewriterBehavior : DisposingBehavior<Run>
             .Concat();
     }
 
-    public static readonly StyledProperty<object> SomeProperty = AvaloniaProperty.Register<CyclingTypewriterBehavior, object>(
-        nameof(Some));
-
-    public object Some
+    protected override IDisposable OnAttachedOverride()
     {
-        get => GetValue(SomeProperty);
-        set => SetValue(SomeProperty, value);
+        return Observable.Defer(() => this.WhenAnyValue(x => x.Strings)
+                .WhereNotNull()
+                .Take(1)
+                .Select(strings => strings.ToObservable()) // Convierte IEnumerable<string> a IObservable<string>
+                .Switch() // Cambia a la nueva secuencia si Strings cambia
+                .Select(to => Observable.Defer(() => Observable.Timer(InBetweenPause, AvaloniaScheduler.Instance).SelectMany(_ => Type(AssociatedObject.Text ?? "", to)))) // Mapea cada string a su TypingSequence
+                .Concat())
+            .Repeat() // Repeats the sequence indefinitely
+            .Subscribe();
     }
 }

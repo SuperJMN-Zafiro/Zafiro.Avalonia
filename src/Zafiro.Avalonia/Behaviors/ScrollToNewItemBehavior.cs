@@ -1,5 +1,4 @@
 ﻿using System.Collections.Specialized;
-using System.Reactive.Disposables;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.Custom;
 using DynamicData.Binding;
@@ -10,7 +9,7 @@ namespace Zafiro.Avalonia.Behaviors;
 [PublicAPI]
 public class ScrollToNewItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
         var itemCollectionChanges = this.WhenAnyValue(x => x.AssociatedObject, x => x.AssociatedObject!.DataContext, x => x.AssociatedObject!.Items, (associateControl, _, _) => associateControl)
             .WhereNotNull()
@@ -24,10 +23,9 @@ public class ScrollToNewItemBehavior : AttachedToVisualTreeBehavior<ItemsControl
             .Select(eventPattern => eventPattern.EventArgs.NewItems?.Cast<object>().FirstOrDefault())
             .WhereNotNull();
 
-        newItem
+        return newItem
             .Do(ScrollTo)
-            .Subscribe()
-            .DisposeWith(disposable);
+            .Subscribe();
     }
 
     private void ScrollTo(object obj)

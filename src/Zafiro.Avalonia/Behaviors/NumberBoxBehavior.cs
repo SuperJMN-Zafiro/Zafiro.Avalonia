@@ -13,6 +13,7 @@ public class NumberBoxBehavior : Behavior<TextBox>
     private static readonly string Separator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
     private readonly CompositeDisposable disposables = new();
 
+
     protected override void OnAttachedToVisualTree()
     {
         base.OnAttachedToVisualTree();
@@ -56,7 +57,7 @@ public class NumberBoxBehavior : Behavior<TextBox>
         {
             return;
         }
-        
+
         if (textBox.SelectedText == textBox.Text && toPaste.StartsWith(Separator))
         {
             pastingEventArgs.Handled = true;

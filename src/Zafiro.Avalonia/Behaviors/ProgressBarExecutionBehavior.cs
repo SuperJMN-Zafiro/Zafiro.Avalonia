@@ -15,16 +15,19 @@ public class ProgressBarExecutionBehavior : DisposingBehavior<ProgressBar>
         set => SetValue(ExecutionProperty, value);
     }
 
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
         if (AssociatedObject is null)
         {
-            return;
+            return Disposable.Empty;
         }
+
+        var disposable = new CompositeDisposable();
 
         this.WhenAnyObservable(x => x.Execution.Stop)
             .Do(_ => AssociatedObject.IsVisible = false)
-            .Subscribe();
+            .Subscribe()
+            .DisposeWith(disposable);
 
         this.WhenAnyObservable(x => x.Execution.Progress)
             .ObserveOn(RxApp.MainThreadScheduler)
@@ -38,7 +41,7 @@ public class ProgressBarExecutionBehavior : DisposingBehavior<ProgressBar>
                 {
                     AssociatedObject.IsVisible = true;
                 }
-                
+
                 if (progress is ProportionalProgress ratioProgress)
                 {
                     AssociatedObject.IsIndeterminate = false;
@@ -58,6 +61,8 @@ public class ProgressBarExecutionBehavior : DisposingBehavior<ProgressBar>
                 }
             })
             .Subscribe()
-            .DisposeWith(disposables);
+            .DisposeWith(disposable);
+
+        return disposable;
     }
 }

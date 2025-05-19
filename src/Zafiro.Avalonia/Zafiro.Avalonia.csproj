@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -6,21 +6,21 @@
     </PropertyGroup>
     <Import Project="..\Common.props" />
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.2.5" />
+        <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Avalonia.Controls.DataGrid"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.14" />
-        <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
-        <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.10" />
-        <PackageReference Include="DynamicData" Version="9.2.1" />
-        <PackageReference Include="FluentAvaloniaUI" Version="2.3.0" />
-        <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-        <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.6.1" />
-        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Zafiro" Version="20.0.0"/>
-        <PackageReference Include="Zafiro.UI" Version="20.0.0"/>
-        <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.1.27">
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
+        <PackageReference Include="Avalonia.Xaml.Behaviors"/>
+        <PackageReference Include="CSharpFunctionalExtensions"/>
+        <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>
+        <PackageReference Include="DynamicData"/>
+        <PackageReference Include="FluentAvaloniaUI"/>
+        <PackageReference Include="JetBrains.Annotations"/>
+        <PackageReference Include="Projektanker.Icons.Avalonia"/>
+        <PackageReference Include="System.Linq.Async"/>
+        <PackageReference Include="Zafiro"/>
+        <PackageReference Include="Zafiro.UI"/>
+        <PackageReference Include="ReactiveUI.SourceGenerators">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

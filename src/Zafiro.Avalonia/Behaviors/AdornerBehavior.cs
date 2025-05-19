@@ -20,8 +20,7 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
 {
     public static readonly StyledProperty<Alignment> PlacementModeProperty = AvaloniaProperty.Register<AdornerBehavior, Alignment>(nameof(PlacementMode));
 
-    [ResolveByName]
-    public Control? Adorner { get; set; }
+    [ResolveByName] public Control? Adorner { get; set; }
 
     public Alignment PlacementMode
     {
@@ -31,18 +30,20 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
 
     public DataContextMode AdornerDataContextMode { get; set; } = DataContextMode.TemplatedParent;
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
+        var disposables = new CompositeDisposable();
+
         if (AssociatedObject is null)
         {
-            return;
+            return disposables;
         }
 
         var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
 
         if (layer is null || Adorner is null)
         {
-            return;
+            return disposables;
         }
 
         Adorner.DataContext = AdornerDataContextMode == DataContextMode.TemplatedParent ? AssociatedObject.TemplatedParent : AssociatedObject.DataContext;
@@ -67,6 +68,8 @@ public class AdornerBehavior : AttachedToVisualTreeBehavior<Control>
             .DisposeWith(disposables);
 
         ArrangeAdorner(Adorner, AssociatedObject, layer);
+
+        return disposables;
     }
 
     private void ArrangeAdorner(Visual adorner, Visual adorned, Visual layer)
