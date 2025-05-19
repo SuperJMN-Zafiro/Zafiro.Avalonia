@@ -1,5 +1,5 @@
-mode: Mainline
-branches: {}
+workflow: TrunkBased/v1
+assembly-versioning-scheme: MajorMinorPatch
 ignore:
   sha: []
 merge-message-formats: {}
