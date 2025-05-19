@@ -18,6 +18,8 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
     public static readonly StyledProperty<bool> DisableHorizontalScrollProperty = AvaloniaProperty.Register<NestedScrollViewerBehavior, bool>(
         nameof(DisableHorizontalScroll));
 
+    private string? associatedObjectName;
+
     public bool DisableVerticalScroll
     {
         get => GetValue(DisableVerticalScrollProperty);
@@ -30,19 +32,21 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
         set => SetValue(DisableHorizontalScrollProperty, value);
     }
 
-    private string? associatedObjectName;
-
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
+        var disposable = new CompositeDisposable();
+
         if (AssociatedObject is null)
         {
-            return;
+            return disposable;
         }
 
         associatedObjectName = AssociatedObject.Name ?? AssociatedObject.GetType().Name ?? "UnknownScrollViewer";
-        
+
         HandleNestedScrollBar()
             .DisposeWith(disposable);
+
+        return disposable;
     }
 
     private IDisposable HandleNestedScrollBar()
@@ -63,15 +67,6 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
                 {
                     return;
                 }
-
-                // if (scrollBar.Orientation == Orientation.Horizontal && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableHorizontalScroll)
-                // {
-                //     AssociatedObject.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
-                // }
-                // else
-                // {
-                //     AssociatedObject.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-                // }
 
                 if (scrollBar.Orientation == Orientation.Vertical && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableVerticalScroll)
                 {

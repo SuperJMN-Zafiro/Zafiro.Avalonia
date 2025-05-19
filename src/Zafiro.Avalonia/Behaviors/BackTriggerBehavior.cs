@@ -18,8 +18,10 @@ public class BackTriggerBehavior : Trigger<Visual>
         set => SetValue(MarkAsHandledProperty, value);
     }
 
-    protected override void OnAttachedToVisualTree()
+    protected IDisposable OnAttachedToVisualTreeOverride()
     {
+        var disposables = new CompositeDisposable();
+
         var tl = TopLevel.GetTopLevel(AssociatedObject);
 
         if (tl != null)
@@ -31,6 +33,8 @@ public class BackTriggerBehavior : Trigger<Visual>
         }
 
         base.OnAttachedToVisualTree();
+
+        return disposables;
     }
 
     protected override void OnDetaching()

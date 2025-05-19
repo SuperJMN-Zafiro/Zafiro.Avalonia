@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -12,18 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+      <PackageReference Include="Avalonia"/>
+      <PackageReference Include="Avalonia.Themes.Fluent"/>
+      <PackageReference Include="Avalonia.Fonts.Inter"/>
+      <PackageReference Include="Avalonia.ReactiveUI"/>
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.1" />
-      <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.1.27">
+      <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
+      <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome"/>
+      <PackageReference Include="ReactiveUI.SourceGenerators">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ReactiveUI.Validation" Version="4.1.1" />
+      <PackageReference Include="ReactiveUI.Validation"/>
   </ItemGroup>
 
   <ItemGroup>

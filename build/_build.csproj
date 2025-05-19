@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -12,12 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="9.0.1" />
-      <PackageReference Include="Zafiro.Deployment" Version="18.0.6"/>
+      <PackageReference Include="Nuke.Common"/>
+      <PackageReference Include="Zafiro.Deployment"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.3.0]"/>
   </ItemGroup>
 
 </Project>
