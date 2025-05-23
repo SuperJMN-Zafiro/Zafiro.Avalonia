@@ -26,7 +26,11 @@
                                         SelectedSection="{Binding $parent[shell:ShellView].Shell.SelectedSection}" Sections="{Binding $parent[shell:ShellView].Shell.Sections}" />
                         </DockPanel>
                     </SplitView.Pane>
-                    <ContentControl Content="{Binding $parent[shell:ShellView].Shell.SelectedSection.Content^}" ClipToBounds="False" />
+                    <TransitioningContentControl Content="{Binding $parent[shell:ShellView].Shell.SelectedSection.Content^}" ClipToBounds="False">
+                        <TransitioningContentControl.PageTransition>
+                            <CrossFade Duration="0:0:0.5" />
+                        </TransitioningContentControl.PageTransition>
+                    </TransitioningContentControl>
                 </SplitView>
             </ControlTemplate>
         </Setter>
