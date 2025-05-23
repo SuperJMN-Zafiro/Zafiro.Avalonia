@@ -7,7 +7,7 @@ public class ShellDesign : IShell
 {
     public void GoToSection(string sectionName)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 
     public IEnumerable<ISection> Sections =>
