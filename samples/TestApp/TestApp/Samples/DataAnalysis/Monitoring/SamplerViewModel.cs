@@ -3,16 +3,18 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
 using DynamicData;
+using TestApp.Samples.Adorners;
 
 namespace TestApp.Samples.DataAnalysis.Monitoring;
 
+[Icon("mdi-chart-line")]
 public class SamplerViewModel
 {
     public SamplerViewModel()
     {
         var dataSource = DataSource();
         var ticker = Observable.Interval(TimeSpan.FromSeconds(1)).Select(l => Unit.Default);
-        var monitor = new MonitorViewModel(dataSource, ticker);
+        var monitor = new Monitor(dataSource, ticker);
         Values = monitor.ValueCollection;
     }
 
@@ -36,12 +38,9 @@ public class SamplerViewModel
     }
 }
 
-public class MonitorViewModel
+public class Monitor
 {
-    public IObservable<double> DataSource { get; }
-    public IObservable<Unit> Sampler { get; }
-
-    public MonitorViewModel(IObservable<double> dataSource, IObservable<Unit> sampler)
+    public Monitor(IObservable<double> dataSource, IObservable<Unit> sampler)
     {
         DataSource = dataSource;
         Sampler = sampler;
@@ -49,6 +48,9 @@ public class MonitorViewModel
         Values.ToObservableChangeSet().Bind(out var valueList).Subscribe();
         ValueCollection = valueList;
     }
+
+    public IObservable<double> DataSource { get; }
+    public IObservable<Unit> Sampler { get; }
 
     public ReadOnlyObservableCollection<double> ValueCollection { get; }
 

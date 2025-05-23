@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Misc.GradientControlView">
+    <StackPanel>
+        <heatmaps:GradientControl NumberOfDivisions="4" Width="500">
+            <heatmaps:GradientControl.ColorList>
+                <generic:List x:TypeArguments="Color">
+                    <Color>Blue</Color>
+                    <Color>White</Color>
+                    <Color>Red</Color>
+                </generic:List>
+            </heatmaps:GradientControl.ColorList>
+        </heatmaps:GradientControl>
+        <heatmaps:GradientControl Height="500" BorderBrush="Black" BorderThickness="1"
+                                  Theme="{StaticResource Vertical}" NumberOfDivisions="3">
+            <heatmaps:GradientControl.ColorList>
+                <generic:List x:TypeArguments="Color">
+                    <Color>Blue</Color>
+                    <Color>White</Color>
+                    <Color>Red</Color>
+                </generic:List>
+            </heatmaps:GradientControl.ColorList>
+        </heatmaps:GradientControl>
+    </StackPanel>
+</UserControl>

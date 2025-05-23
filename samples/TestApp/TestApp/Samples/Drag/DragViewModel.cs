@@ -5,26 +5,29 @@ using System.Windows.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using TestApp.Samples.Adorners;
 
 namespace TestApp.Samples.Drag;
 
+[Icon("mdi-cursor-pointer")]
 public partial class DragViewModel : ReactiveObject
 {
+    [Reactive] private bool isEnabled;
+    [Reactive] private double left;
+
     public DragViewModel()
     {
         Observable.Interval(TimeSpan.FromMilliseconds(24), AvaloniaScheduler.Instance).Subscribe(_ =>
         {
             if (IsEnabled)
             {
-                Left+=1;
+                Left += 1;
             }
         });
 
         this.WhenAnyValue(x => x.IsEnabled).Subscribe(b => Debug.WriteLine(b));
     }
 
-    [Reactive] private bool isEnabled;
-    [Reactive] private double left;
     public ICommand Enable => ReactiveCommand.Create(() => IsEnabled = true);
     public ICommand Disable => ReactiveCommand.Create(() => IsEnabled = false);
 }

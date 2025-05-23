@@ -8,8 +8,6 @@
     <ItemGroup>
         <PackageReference Include="Avalonia"/>
         <PackageReference Include="Avalonia.Controls.DataGrid"/>
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
         <PackageReference Include="Avalonia.Xaml.Behaviors"/>
         <PackageReference Include="CSharpFunctionalExtensions"/>
         <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>
@@ -19,10 +17,23 @@
         <PackageReference Include="Projektanker.Icons.Avalonia"/>
         <PackageReference Include="System.Linq.Async"/>
         <PackageReference Include="Zafiro"/>
-        <PackageReference Include="Zafiro.UI"/>
+        <!--        <PackageReference Include="Zafiro.UI"/>-->
         <PackageReference Include="ReactiveUI.SourceGenerators">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Controls\Shell\ShellView.axaml.cs">
+            <DependentUpon>ShellView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Controls\Shell\Sidebar.axaml.cs">
+            <DependentUpon>Sidebar.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj"/>
     </ItemGroup>
 </Project>

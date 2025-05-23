@@ -5,6 +5,7 @@ using ReactiveUI;
 
 namespace TestApp.Samples.Adorners;
 
+[Icon("fa-cog")]
 public class AdornerSampleViewModel : ReactiveObject
 {
     public AdornerSampleViewModel()
@@ -16,4 +17,9 @@ public class AdornerSampleViewModel : ReactiveObject
     public IObservable<bool> IsExecuting { get; set; }
 
     public ReactiveCommand<Unit, Unit> LengthyCommand { get; set; }
+}
+
+public class IconAttribute(string id) : Attribute
+{
+    public string Id { get; } = id;
 }

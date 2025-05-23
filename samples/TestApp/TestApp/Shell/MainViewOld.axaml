@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:TestApp.ViewModels"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+             xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
+             xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Shell.MainViewOld"
+             x:DataType="vm:MainViewModel">
+
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="vm:DialogSampleViewModel">
+            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Show dialog" Command="{Binding ShowMessageCommand}" />
+        </DataTemplate>
+        <DataTemplate DataType="vm:BehaviorsSampleViewModel">
+            <StackPanel Spacing="20">
+                <HeaderedContentControl Header="This is a TextBox that only accepts numbers">
+                    <TextBox>
+                        <Interaction.Behaviors>
+                            <behaviors:NumberBoxBehavior />
+                        </Interaction.Behaviors>
+                    </TextBox>
+                </HeaderedContentControl>
+                <Button x:Name="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Click me">
+                    <Button.Flyout>
+                        <Flyout>
+                            <Button Content="Close" Command="{Binding Close}" />
+                            <Interaction.Behaviors>
+                                <behaviors:OnSignalTriggerBehavior Trigger="{Binding Executed}">
+                                    <CallMethodAction TargetObject="{Binding #Button.Flyout}" MethodName="Hide" />
+                                </behaviors:OnSignalTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="vm:StorageSampleViewModel">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="Pick an image..."
+                        Command="{Binding OpenFile}" />
+                <TextBlock Text="{Binding SelectedPaths^}" />
+                <Image Source="{Binding SelectedBytes^, Converter={x:Static converters:ImageConverters.ByteArrayToBitmapImage}}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <DockPanel>
+        <c:MasterDetailsNavigator DockPanel.Dock="Top" />
+        <c:MasterDetailsView ItemsSource="{Binding Sections}" MasterPaneWidth="250" CompactWidth="500">
+            <c:MasterDetailsView.Header>
+                <TextBlock TextAlignment="Center" Margin="10" FontWeight="Bold">Samples</TextBlock>
+            </c:MasterDetailsView.Header>
+            <c:MasterDetailsView.DetailsTemplate>
+                <DataTemplate DataType="ui:ISectionOld">
+                    <ContentControl Content="{Binding Content}" />
+                </DataTemplate>
+            </c:MasterDetailsView.DetailsTemplate>
+            <c:MasterDetailsView.ItemTemplate>
+                <DataTemplate DataType="ui:ISectionOld">
+                    <TextBlock Text="{Binding Title}" />
+                </DataTemplate>
+            </c:MasterDetailsView.ItemTemplate>
+        </c:MasterDetailsView>
+    </DockPanel>
+</UserControl>

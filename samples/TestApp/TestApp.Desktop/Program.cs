@@ -19,5 +19,6 @@ class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
+            .WithDeveloperTools()
             .UseReactiveUI();
 }

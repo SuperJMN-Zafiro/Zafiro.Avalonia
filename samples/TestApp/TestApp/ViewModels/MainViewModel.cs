@@ -2,7 +2,6 @@
 using CSharpFunctionalExtensions;
 using TestApp.Samples.Adorners;
 using TestApp.Samples.Controls;
-using TestApp.Samples.ControlsNew;
 using TestApp.Samples.DataAnalysis;
 using TestApp.Samples.Diagrams;
 using TestApp.Samples.Drag;
@@ -30,7 +29,6 @@ public class MainViewModel : ViewModelBase
     public IEnumerable<SectionOld> Sections => new List<SectionOld>
     {
         new("Controls 1", new ControlsSampleViewModel(), Maybe<object>.None),
-        new("Controls 2", new ControlsViewModel(), Maybe<object>.None),
         new("MasterDetailsView", new MasterDetailsSampleViewModel(), Maybe<object>.None),
         new("Dialogs", new Samples.Dialogs.DialogSampleViewModel(notificationService, dialogService), Maybe<object>.None),
         new("Panel", new PanelsSectionViewModel(), Maybe<object>.None),

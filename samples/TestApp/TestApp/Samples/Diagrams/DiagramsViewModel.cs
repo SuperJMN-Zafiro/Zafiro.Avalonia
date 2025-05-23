@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using CSharpFunctionalExtensions;
+using TestApp.Samples.Adorners;
 using TestApp.Samples.Diagrams.Enhanced;
 using TestApp.Samples.Diagrams.Simple;
 using Zafiro.UI;
 
 namespace TestApp.Samples.Diagrams;
 
+[Icon("fa-diagram-project")]
 public class DiagramsViewModel
 {
     public DiagramsViewModel()
