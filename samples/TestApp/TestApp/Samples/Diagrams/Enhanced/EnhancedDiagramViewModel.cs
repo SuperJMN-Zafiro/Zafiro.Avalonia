@@ -1,4 +1,4 @@
-using TestApp.ViewModels;
+using TestApp.Shell;
 
 namespace TestApp.Samples.Diagrams.Enhanced;
 

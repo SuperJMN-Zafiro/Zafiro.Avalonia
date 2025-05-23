@@ -2,14 +2,14 @@ using System.Reactive;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using TestApp.Samples.Adorners;
-using TestApp.Samples.ControlsNew.SlimWizard.Pages;
+using TestApp.Samples.SlimWizard.Pages;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Wizards.Slim;
 using Zafiro.UI;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Wizards.Slim.Builder;
 
-namespace TestApp.Samples.ControlsNew.SlimWizard;
+namespace TestApp.Samples.SlimWizard;
 
 [Icon("mdi-wizard-hat")]
 public class WizardViewModel

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace TestApp.Samples.ControlsNew.Loading;
+namespace TestApp.Samples.Loading;
 
 public partial class LoadingSampleView : UserControl
 {

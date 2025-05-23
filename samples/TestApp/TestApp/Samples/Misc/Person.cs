@@ -8,15 +8,12 @@ namespace TestApp.Samples.Controls;
 
 public partial class Person : ReactiveObject, IHaveLocation, IMutableNode
 {
-    public string Name { get; }
-    public double ForceX { get; set; }
-    public double ForceY { get; set; }
+    [Reactive] private bool isFrozen;
+    [Reactive] private double left;
+    [Reactive] private double top;
 
     [Reactive] private double x;
     [Reactive] private double y;
-    [Reactive] private double left;
-    [Reactive] private double top;
-    [Reactive] private bool isFrozen;
 
     /// <inheritdoc/>
     public Person(string name, double weight)
@@ -29,8 +26,12 @@ public partial class Person : ReactiveObject, IHaveLocation, IMutableNode
         this.WhenAnyValue(person => person.Y).BindTo(this, person => person.Top);
     }
 
-    public double Weight { get; }
-    
+    public string Name { get; }
+
     public ICommand Unfreeze => ReactiveCommand.Create(() => IsFrozen = false);
     public ICommand Freeze => ReactiveCommand.Create(() => IsFrozen = true);
+    public double ForceX { get; set; }
+    public double ForceY { get; set; }
+
+    public double Weight { get; }
 }

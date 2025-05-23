@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace TestApp.Samples.ControlsNew.Typewriter;
+namespace TestApp.Samples.Typewriter;
 
 public partial class TypewriterView : UserControl
 {

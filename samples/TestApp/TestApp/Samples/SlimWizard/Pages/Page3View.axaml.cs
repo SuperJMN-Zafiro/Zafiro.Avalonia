@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
+namespace TestApp.Samples.SlimWizard.Pages;
 
 public partial class Page3View : UserControl
 {

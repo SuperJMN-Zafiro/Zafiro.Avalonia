@@ -15,10 +15,12 @@
     <Style Selector="shell|ShellView">
         <Setter Property="Template">
             <ControlTemplate>
-                <SplitView CompactPaneLength="40" OpenPaneLength="200" x:Name="SplitView" DisplayMode="CompactInline" IsPaneOpen="{Binding #ToggleButton.IsChecked}">
+                <SplitView CompactPaneLength="40" OpenPaneLength="200" x:Name="SplitView" DisplayMode="CompactInline">
                     <SplitView.Pane>
                         <DockPanel>
-                            <ToggleButton Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}" DockPanel.Dock="Top" x:Name="ToggleButton" avalonia:Attached.Icon="fa-bars" />
+                            <ToggleButton Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}"
+                                          IsChecked="{Binding #SplitView.IsPaneOpen, Mode=TwoWay}"
+                                          DockPanel.Dock="Top" x:Name="ToggleButton" avalonia:Attached.Icon="fa-bars" />
                             <sh:Sidebar IconWidth="{Binding #ToggleButton.Width}"
                                         IconHeight="{Binding #ToggleButton.Height}"
                                         SelectedSection="{Binding $parent[shell:ShellView].Shell.SelectedSection}" Sections="{Binding $parent[shell:ShellView].Shell.Sections}" />

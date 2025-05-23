@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace TestApp.Samples.ControlsNew.SlimDataGrid;
+namespace TestApp.Samples.SlimDataGrid;
 
 public partial class SlimDataGridView : UserControl
 {

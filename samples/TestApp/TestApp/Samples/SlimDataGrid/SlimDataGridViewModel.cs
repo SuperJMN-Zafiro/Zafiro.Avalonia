@@ -9,7 +9,7 @@ using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using TestApp.Samples.Adorners;
 
-namespace TestApp.Samples.ControlsNew.SlimDataGrid;
+namespace TestApp.Samples.SlimDataGrid;
 
 [Icon("mdi-grid")]
 public partial class SlimDataGridViewModel : ReactiveValidationObject
@@ -29,13 +29,13 @@ public partial class SlimDataGridViewModel : ReactiveValidationObject
         People = people;
 
 
-        var canAdd = this.WhenAnyValue(x => x.PersonName, x => x.PersonSurname,
+        var canAdd = this.WhenAnyValue<SlimDataGridViewModel, bool, string, string>(x => x.PersonName, x => x.PersonSurname,
             (name, surname) => !string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(surname));
 
         Add = ReactiveCommand.Create(() => sourceCache.AddOrUpdate(new Person { Name = personName!, Surname = personSurname! }), canAdd);
 
-        this.ValidationRule(x => x.PersonName, x => !string.IsNullOrWhiteSpace(x), "Name is required");
-        this.ValidationRule(x => x.PersonSurname, x => !string.IsNullOrWhiteSpace(x), "Surname is required");
+        this.ValidationRule<SlimDataGridViewModel, string>(x => x.PersonName, x => !string.IsNullOrWhiteSpace(x), "Name is required");
+        this.ValidationRule<SlimDataGridViewModel, string>(x => x.PersonSurname, x => !string.IsNullOrWhiteSpace(x), "Surname is required");
     }
 
     public ReactiveCommand<Unit, Unit> Add { get; }

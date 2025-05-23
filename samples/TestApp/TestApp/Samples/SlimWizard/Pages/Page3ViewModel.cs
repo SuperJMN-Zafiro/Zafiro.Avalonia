@@ -4,7 +4,7 @@ using CSharpFunctionalExtensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI.Wizards.Classic.Builder;
 
-namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
+namespace TestApp.Samples.SlimWizard.Pages;
 
 public class Page3ViewModel() : ReactiveValidationObject, IStep
 {

@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:slimWizard="clr-namespace:TestApp.Samples.ControlsNew.SlimWizard"
+             xmlns:slimWizard1="clr-namespace:TestApp.Samples.SlimWizard"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TestApp.Samples.ControlsNew.SlimWizard.WizardView"
-             x:DataType="slimWizard:WizardViewModel">
+             x:Class="TestApp.Samples.SlimWizard.WizardView"
+             x:DataType="slimWizard1:WizardViewModel">
 
     <Button Content="Launch wizard" HorizontalAlignment="Center" Command="{Binding LaunchWizard}" />
 

@@ -3,15 +3,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sdg="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid;assembly=Zafiro.Avalonia"
-             xmlns:samples="clr-namespace:TestApp.Samples.ControlsNew.SlimDataGrid"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+             xmlns:slimDataGrid="clr-namespace:TestApp.Samples.SlimDataGrid"
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
-             x:Class="TestApp.Samples.ControlsNew.SlimDataGrid.SlimDataGridView"
-             x:DataType="samples:SlimDataGridViewModel">
+             x:Class="TestApp.Samples.SlimDataGrid.SlimDataGridView"
+             x:DataType="slimDataGrid:SlimDataGridViewModel">
 
     <Design.DataContext>
-        <samples:SlimDataGridViewModel />
+        <slimDataGrid:SlimDataGridViewModel />
     </Design.DataContext>
 
     <UserControl.Resources>

@@ -6,7 +6,7 @@ using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI.Wizards.Classic.Builder;
 
-namespace TestApp.Samples.ControlsNew.Wizard.Pages;
+namespace TestApp.Samples.Wizard.Pages;
 
 public partial class SecondPageViewModel : ReactiveValidationObject, IStep
 {
@@ -17,7 +17,7 @@ public partial class SecondPageViewModel : ReactiveValidationObject, IStep
     public SecondPageViewModel(int number)
     {
         Number = number;
-        this.ValidationRule(x => x.IsChecked, b => b, "Is must be checked");
+        this.ValidationRule<SecondPageViewModel, bool>(x => x.IsChecked, b => b, "Is must be checked");
     }
 
     public int Number { get; }

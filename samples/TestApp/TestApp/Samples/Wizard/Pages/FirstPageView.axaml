@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pages1="clr-namespace:TestApp.Samples.ControlsNew.Wizard.Pages"
+             xmlns:pages="clr-namespace:TestApp.Samples.Wizard.Pages"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
-             x:Class="TestApp.Samples.ControlsNew.Wizard.Pages.FirstPageView"
-             x:DataType="pages1:FirstPageViewModel">
+             x:Class="TestApp.Samples.Wizard.Pages.FirstPageView"
+             x:DataType="pages:FirstPageViewModel">
     <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
         <TextBlock>
             <Run>This is the first page of the wizard</Run>

@@ -11,10 +11,11 @@ public class Friendship : IWeightedEdge<Person>, IMutableEdge
         Weight = weight;
     }
 
-    public Person From { get; }
     IMutableNode IEdge<IMutableNode>.To => To;
 
     IMutableNode IEdge<IMutableNode>.From => From;
+
+    public Person From { get; }
 
     public Person To { get; }
     public double Weight { get; }

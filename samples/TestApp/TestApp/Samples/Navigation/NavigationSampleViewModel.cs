@@ -3,7 +3,7 @@ using ReactiveUI;
 using TestApp.Samples.Adorners;
 using Zafiro.UI.Navigation;
 
-namespace TestApp.Samples.ControlsNew.Navigation;
+namespace TestApp.Samples.Navigation;
 
 [Icon("mdi-chevron-right")]
 public class NavigationSampleViewModel(INavigator navigator) : ReactiveObject

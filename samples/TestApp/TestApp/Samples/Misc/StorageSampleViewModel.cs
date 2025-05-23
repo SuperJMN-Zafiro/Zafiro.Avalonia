@@ -2,17 +2,13 @@
 using System.Reactive;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks;
 using ReactiveUI;
-using Zafiro.Avalonia.MigrateToZafiro;
-using Zafiro.Avalonia.Storage;
 using Zafiro.CSharpFunctionalExtensions;
-using Zafiro.FileSystem;
 using Zafiro.FileSystem.Core;
 using Zafiro.FileSystem.Readonly;
 using Zafiro.UI;
 
-namespace TestApp.ViewModels;
+namespace TestApp.Samples.Misc;
 
 public class StorageSampleViewModel
 {
@@ -26,7 +22,7 @@ public class StorageSampleViewModel
         });
 
         var files = OpenFile.Values().Publish().RefCount();
-        
+
         SelectedPaths = files.Select(file => file.Name);
         SelectedBytes = files.Select(file => file.Bytes());
     }

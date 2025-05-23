@@ -1,53 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-	  <IsPackable>False</IsPackable>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-      <PackageReference Include="Avalonia"/>
-      <PackageReference Include="Avalonia.Themes.Fluent"/>
-      <PackageReference Include="Avalonia.Fonts.Inter"/>
-      <PackageReference Include="Avalonia.ReactiveUI"/>
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-      <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
-      <PackageReference Include="AvaloniaUI.DiagnosticsSupport"/>
-      <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome"/>
-      <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign"/>
-      <PackageReference Include="ReactiveUI.SourceGenerators">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-      <PackageReference Include="ReactiveUI.Validation"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.DataViz\Zafiro.Avalonia.DataViz.csproj" />
-    <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
-    <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <IsPackable>False</IsPackable>
+    </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Samples\Loading\LoadingSampleView.axaml"/>
-        <AdditionalFiles Include="Samples\Navigation\NavigationSampleView.axaml"/>
-        <AdditionalFiles Include="Samples\Navigation\TargetView.axaml"/>
-        <AdditionalFiles Include="Samples\SlimDataGrid\SlimDataGridView.axaml"/>
-        <AdditionalFiles Include="Samples\SlimWizard\Pages\Page1View.axaml"/>
-        <AdditionalFiles Include="Samples\SlimWizard\Pages\Page2View.axaml"/>
-        <AdditionalFiles Include="Samples\SlimWizard\Pages\Page3View.axaml"/>
-        <AdditionalFiles Include="Samples\SlimWizard\WizardView.axaml"/>
-        <AdditionalFiles Include="Samples\Typewriter\TypewriterView.axaml"/>
-        <AdditionalFiles Include="Samples\Wizard\Pages\FirstPageView.axaml"/>
-        <AdditionalFiles Include="Samples\Wizard\Pages\SecondPageView.axaml"/>
-        <AdditionalFiles Include="Samples\Wizard\Pages\ThirdPageView.axaml"/>
-        <AdditionalFiles Include="Samples\Wizard\WizardView.axaml"/>
+        <AvaloniaResource Include="Assets\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Avalonia.Themes.Fluent"/>
+        <PackageReference Include="Avalonia.Fonts.Inter"/>
+        <PackageReference Include="Avalonia.ReactiveUI"/>
+        <PackageReference Include="AvaloniaUI.DiagnosticsSupport"/>
+        <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome"/>
+        <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign"/>
+        <PackageReference Include="ReactiveUI.SourceGenerators">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="ReactiveUI.Validation"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.DataViz\Zafiro.Avalonia.DataViz.csproj"/>
+        <ProjectReference Include="..\..\..\src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj"/>
+        <ProjectReference Include="..\..\..\src\Zafiro.Avalonia\Zafiro.Avalonia.csproj"/>
     </ItemGroup>
 
 </Project>

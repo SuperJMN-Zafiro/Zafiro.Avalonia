@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace TestApp.Samples.ControlsNew.Wizard.Pages;
+namespace TestApp.Samples.Wizard.Pages;
 
 public partial class ThirdPageView : UserControl
 {

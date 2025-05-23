@@ -8,7 +8,7 @@ using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Zafiro.UI.Commands;
 
-namespace TestApp.Samples.ControlsNew.SlimWizard.Pages;
+namespace TestApp.Samples.SlimWizard.Pages;
 
 public partial class Page1ViewModel : ReactiveValidationObject
 {
@@ -16,11 +16,11 @@ public partial class Page1ViewModel : ReactiveValidationObject
 
     public Page1ViewModel()
     {
-        this.ValidationRule(x => x.Number, i => i % 2 == 0, "Number must be even");
+        this.ValidationRule<Page1ViewModel, int?>(x => x.Number, i => i % 2 == 0, "Number must be even");
         DoSomething = ReactiveCommand.CreateFromTask(async () =>
         {
             await Task.Delay(1000);
-            return Result.Success(Number);
+            return Result.Success<int?>(Number);
         }, this.IsValid()).Enhance();
     }
 

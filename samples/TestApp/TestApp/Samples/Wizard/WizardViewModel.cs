@@ -3,21 +3,21 @@ using System.Reactive;
 using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
-using TestApp.Samples.ControlsNew.Wizard.Pages;
+using TestApp.Samples.Wizard.Pages;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Dialogs.Wizards.Classic;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI.Wizards.Classic.Builder;
-using FirstPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.FirstPageViewModel;
-using SecondPageViewModel = TestApp.Samples.ControlsNew.Wizard.Pages.SecondPageViewModel;
+using FirstPageViewModel = TestApp.Samples.Wizard.Pages.FirstPageViewModel;
+using SecondPageViewModel = TestApp.Samples.Wizard.Pages.SecondPageViewModel;
 
-namespace TestApp.Samples.ControlsNew.Wizard;
+namespace TestApp.Samples.Wizard;
 
 public class WizardViewModel : ReactiveObject
 {
     public WizardViewModel(IDialog dialog)
     {
-        LaunchWizard = ReactiveCommand.CreateFromTask(() =>
+        LaunchWizard = ReactiveCommand.CreateFromTask<Maybe<(string SomeProperty, int number, string text)>>(() =>
         {
             // This is the data we want to gather from the wizard
             int number = 0;

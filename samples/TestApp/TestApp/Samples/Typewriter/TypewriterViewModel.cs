@@ -1,6 +1,6 @@
 using TestApp.Samples.Adorners;
 
-namespace TestApp.Samples.ControlsNew.Typewriter;
+namespace TestApp.Samples.Typewriter;
 
 [Icon("fa-diagram-project")]
 public class TypewriterViewModel;

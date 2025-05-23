@@ -1,3 +1,3 @@
-namespace TestApp.Samples.ControlsNew.Navigation;
+namespace TestApp.Samples.Navigation;
 
 public class TargetViewModel;

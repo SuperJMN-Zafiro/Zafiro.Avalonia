@@ -15,9 +15,9 @@
                 <DataTemplate DataType="vm:Person">
                     <Ellipse Height="{Binding $self.Width}" Fill="Red">
                         <Ellipse.Width>
-                            <MultiBinding Converter="{x:Static vm:CustomConverters.Importance}">
-                                <Binding x:DataType="vm:ControlsSampleViewModel"
-                                         Path="$parent[vm:ControlsSampleView].DataContext" />
+                            <MultiBinding Converter="{x:Static misc:GraphConverters.Importance}">
+                                <Binding x:DataType="misc:GradualGraphViewModel"
+                                         Path="$parent[misc:GradualGraphView].DataContext" />
                                 <Binding />
                             </MultiBinding>
                         </Ellipse.Width>

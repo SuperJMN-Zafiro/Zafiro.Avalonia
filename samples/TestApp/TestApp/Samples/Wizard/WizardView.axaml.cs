@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace TestApp.Samples.ControlsNew.Wizard;
+namespace TestApp.Samples.Wizard;
 
 public partial class WizardView : UserControl
 {
