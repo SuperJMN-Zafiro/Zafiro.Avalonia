@@ -15,7 +15,7 @@
     <Style Selector="shell|ShellView">
         <Setter Property="Template">
             <ControlTemplate>
-                <SplitView CompactPaneLength="40" OpenPaneLength="200" x:Name="SplitView" DisplayMode="CompactInline">
+                <SplitView CompactPaneLength="40" OpenPaneLength="200" x:Name="SplitView" IsPaneOpen="True" DisplayMode="CompactInline">
                     <SplitView.Pane>
                         <DockPanel>
                             <ToggleButton Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}"
