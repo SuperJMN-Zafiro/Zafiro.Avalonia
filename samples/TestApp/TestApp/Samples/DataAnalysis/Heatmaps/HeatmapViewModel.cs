@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Zafiro.Tables;
 using Zafiro.UI.Shell.Utils;
 
@@ -17,26 +13,6 @@ public class HeatmapViewModel
     }
 
     public ITable Table { get; }
-
-    private ITable? GetTable2()
-    {
-        var lines = File.ReadAllLines("Samples/DataAnalysis/Heatmaps/Synthetic_Heatmap_Data.csv");
-        var dataLines = lines.Skip(1);
-
-        var csv = dataLines.Select(dataLine => dataLine.Split(",")).ToList();
-        var matrix = new double[csv.Count, csv.Count];
-        for (int i = 0; i < csv.Count; i++)
-        {
-            for (int j = 0; j < csv.Count; j++)
-            {
-                matrix[i, j] = Convert.ToDouble(csv[i][j], CultureInfo.InvariantCulture);
-            }
-        }
-
-        var labels = Enumerable.Range(1, csv.Count).Select(i => i.ToString()).ToList();
-
-        return new Table<string, double>(matrix, labels);
-    }
 
     public static Table<string, string, double> GetTable()
     {

@@ -5,7 +5,7 @@
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.CircularProgressBarView">
-    <c:Card Header="CircularProgressBarView">
+    <c:Card Header="CircularProgressBarView" Subheader="Shows progress in circular shape">
         <StackPanel VerticalAlignment="Center">
             <TextBlock>For your circular needs!</TextBlock>
             <TextBlock>Move the slider to see how it soothes your mind with smooth animations.</TextBlock>

@@ -3,15 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.NumberOnlyTextBox.NumberBoxBehaviorView">
-    <StackPanel Spacing="20">
-        <HeaderedContentControl Header="This is a TextBox that only accepts numbers">
-            <TextBox>
-                <Interaction.Behaviors>
-                    <behaviors:NumberBoxBehavior />
-                </Interaction.Behaviors>
-            </TextBox>
-        </HeaderedContentControl>
-    </StackPanel>
+    <c:Card Header="NumberBoxBehavior" Subheader="Allows number only">
+        <StackPanel Spacing="20">
+            <HeaderedContentControl Header="This is a TextBox that only accepts numbers">
+                <TextBox>
+                    <Interaction.Behaviors>
+                        <behaviors:NumberBoxBehavior />
+                    </Interaction.Behaviors>
+                </TextBox>
+            </HeaderedContentControl>
+        </StackPanel>
+    </c:Card>
 </UserControl>

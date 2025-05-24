@@ -4,7 +4,7 @@
     <Design.PreviewWith>
         <c:Card Width="400" Height="200" Margin="10"
                 Header="Gaze Method Order"
-                Subheader="Prioritize how gaze-tracking methods should be utilized"
+                Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah."
                 HeaderEndContent="⌄">
             <TextBlock Text="Card content goes here..." TextWrapping="Wrap" />
         </c:Card>
@@ -61,6 +61,7 @@
     <Style Selector="c|Card /template/ c|EdgePanel#PART_Header ContentPresenter#PART_HeaderSubtitle">
         <Setter Property="TextElement.FontSize" Value="12" />
         <Setter Property="TextElement.FontWeight" Value="Normal" />
+        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
         <Setter Property="Opacity" Value="0.8" />
     </Style>

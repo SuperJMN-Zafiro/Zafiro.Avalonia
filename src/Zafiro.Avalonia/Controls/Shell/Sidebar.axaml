@@ -3,14 +3,13 @@
         xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:avalonia="clr-namespace:Zafiro.Avalonia"
-        xmlns:avalonia1="https://github.com/projektanker/icons.avalonia">
-
+        xmlns:avalonia1="https://github.com/projektanker/icons.avalonia"
+        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
     <Design.PreviewWith>
         <StackPanel>
             <StackPanel.DataTemplates>
-                <DataTemplate DataType="avalonia:IconViewModel">
+                <DataTemplate DataType="ui:Icon">
                     <avalonia1:Icon Background="Green" Value="{Binding IconId}" />
                 </DataTemplate>
             </StackPanel.DataTemplates>
@@ -23,22 +22,22 @@
                     <generic:List x:TypeArguments="sections:ISection">
                         <sh:SectionDesign Name="Section 1" IsPrimary="True">
                             <sh:SectionDesign.Icon>
-                                <avalonia:IconViewModel IconId="fa-wallet" />
+                                <ui:Icon IconId="fa-wallet" />
                             </sh:SectionDesign.Icon>
                         </sh:SectionDesign>
                         <sh:SectionDesign Name="Hola4">
                             <sh:SectionDesign.Icon>
-                                <avalonia:IconViewModel IconId="fa-wallet" />
+                                <ui:Icon IconId="fa-wallet" />
                             </sh:SectionDesign.Icon>
                         </sh:SectionDesign>
                         <sh:SectionDesign Name="Hola3">
                             <sh:SectionDesign.Icon>
-                                <avalonia:IconViewModel IconId="fa-wallet" />
+                                <ui:Icon IconId="fa-wallet" />
                             </sh:SectionDesign.Icon>
                         </sh:SectionDesign>
                         <sh:SectionDesign Name="Settings" IsPrimary="False">
                             <sh:SectionDesign.Icon>
-                                <avalonia:IconViewModel IconId="mdi-cog" />
+                                <ui:Icon IconId="mdi-cog" />
                             </sh:SectionDesign.Icon>
                         </sh:SectionDesign>
                     </generic:List>

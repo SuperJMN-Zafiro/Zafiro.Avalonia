@@ -3,16 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-             xmlns:loading1="clr-namespace:TestApp.Samples.Loading"
+             xmlns:c="clr-namespace:TestApp.Samples.Loading"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TestApp.Samples.Loading.LoadingSampleView" x:DataType="loading1:LoadingSampleViewModel">
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top">
-            <TextBlock>This control can be used show a loading indicator easily in your views</TextBlock>
-            <CheckBox IsChecked="{Binding IsLoading}" />
-        </StackPanel>
-        <controls:Loading LoadingText="Doing stuff..." ProgressIndicatorSize="80" IsLoading="{Binding IsLoading}">
-            <TextBlock Text="Loaded!" />
-        </controls:Loading>
-    </DockPanel>
+             x:Class="TestApp.Samples.Loading.LoadingSampleView" x:DataType="c:LoadingSampleViewModel">
+    <controls:Card Header="Loading" Subheader="A control that provides feedback when some long-running progress is running">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock>Use the checkbox to control the state of the Loading control</TextBlock>
+                <CheckBox x:Name="CheckBox" IsChecked="True" />
+            </StackPanel>
+            <controls:Loading LoadingText="Doing stuff..." ProgressIndicatorSize="80"
+                              IsLoading="{Binding #CheckBox.IsChecked}">
+                <TextBlock Text="Loaded!" />
+            </controls:Loading>
+        </DockPanel>
+    </controls:Card>
 </UserControl>

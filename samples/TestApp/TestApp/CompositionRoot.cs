@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using TestApp.Samples.Navigation;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.Services;
 using Zafiro.UI.Shell;
@@ -12,13 +13,13 @@ public static class CompositionRoot
     {
         ServiceCollection services = new();
 
-
         services.AddSingleton<IShell, Zafiro.UI.Shell.Shell>();
         services.AddSingleton(DialogService.Create());
         services.AddSingleton(NotificationService.Instance);
         services.RegisterAllSections(typeof(MainViewModel).Assembly);
         services.AddAllSections(typeof(MainViewModel).Assembly);
         services.AddTransient<MainViewModel>();
+        services.AddTransient<TargetViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 
