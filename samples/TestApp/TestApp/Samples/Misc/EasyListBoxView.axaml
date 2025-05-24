@@ -7,10 +7,15 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.EasyListBoxView"
              x:DataType="misc:EasyListBoxViewModel">
-    <ListBox x:Name="ListBox"
-             ItemsSource="{Binding Items}"
-             Selection="{Binding SelectionModel}"
-             controls:Selection.EnableCheckBoxes="True" Theme="{StaticResource EasyListBox}"
-             SelectionMode="Multiple">
-    </ListBox>
+    <controls:Card Header="ListBox" Subheader="Extend your lists with superpowers!">
+        <DockPanel>
+            <CheckBox DockPanel.Dock="Top" x:Name="CheckBox" Content="Show item checkboxes" />
+            <ListBox x:Name="ListBox"
+                     ItemsSource="{Binding Items}"
+                     Selection="{Binding SelectionModel}"
+                     controls:Selection.EnableCheckBoxes="{Binding #CheckBox.IsChecked}" Theme="{StaticResource EasyListBox}"
+                     SelectionMode="Multiple">
+            </ListBox>
+        </DockPanel>
+    </controls:Card>
 </UserControl>

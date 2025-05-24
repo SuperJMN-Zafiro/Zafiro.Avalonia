@@ -6,46 +6,49 @@
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
              xmlns:vm="clr-namespace:TestApp.Samples.Controls"
              xmlns:misc="clr-namespace:TestApp.Samples.Misc"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.GraphView"
              x:DataType="misc:GraphViewModel">
-    <g:GraphControl Margin="-1000"
-                    DragButton="Right"
-                    Graph="{Binding MutableGraph}">
-        <g:GraphControl.ItemTemplate>
-            <DataTemplate DataType="vm:Person">
-                <Ellipse Height="{Binding $self.Width}" Fill="Red">
-                    <Ellipse.Width>
-                        <MultiBinding Converter="{x:Static misc:GraphConverters.Importance}">
-                            <Binding x:DataType="misc:GraphViewModel"
-                                     Path="$parent[misc:GraphView].DataContext" />
-                            <Binding />
-                        </MultiBinding>
-                    </Ellipse.Width>
-                    <Interaction.Behaviors>
-                        <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Freeze}" />
-                        <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Unfreeze}" />
-                    </Interaction.Behaviors>
-                </Ellipse>
-            </DataTemplate>
-        </g:GraphControl.ItemTemplate>
-        <g:GraphControl.EdgeTemplate>
-            <DataTemplate DataType="vm:Friendship">
-                <Line Stroke="Black" StrokeThickness="3">
-                    <Line.StartPoint>
-                        <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
-                            <Binding Path="From.X" />
-                            <Binding Path="From.Y" />
-                        </MultiBinding>
-                    </Line.StartPoint>
-                    <Line.EndPoint>
-                        <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
-                            <Binding Path="To.X" />
-                            <Binding Path="To.Y" />
-                        </MultiBinding>
-                    </Line.EndPoint>
-                </Line>
-            </DataTemplate>
-        </g:GraphControl.EdgeTemplate>
-    </g:GraphControl>
+    <c:Card Header="GraphView" Subheader="Control for graphs">
+        <g:GraphControl Margin="-1000"
+                        DragButton="Right"
+                        Graph="{Binding MutableGraph}">
+            <g:GraphControl.ItemTemplate>
+                <DataTemplate DataType="vm:Person">
+                    <Ellipse Height="{Binding $self.Width}" Fill="Red">
+                        <Ellipse.Width>
+                            <MultiBinding Converter="{x:Static misc:GraphConverters.Importance}">
+                                <Binding x:DataType="misc:GraphViewModel"
+                                         Path="$parent[misc:GraphView].DataContext" />
+                                <Binding />
+                            </MultiBinding>
+                        </Ellipse.Width>
+                        <Interaction.Behaviors>
+                            <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Freeze}" />
+                            <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Button="Right" Command="{Binding Unfreeze}" />
+                        </Interaction.Behaviors>
+                    </Ellipse>
+                </DataTemplate>
+            </g:GraphControl.ItemTemplate>
+            <g:GraphControl.EdgeTemplate>
+                <DataTemplate DataType="vm:Friendship">
+                    <Line Stroke="Black" StrokeThickness="3">
+                        <Line.StartPoint>
+                            <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
+                                <Binding Path="From.X" />
+                                <Binding Path="From.Y" />
+                            </MultiBinding>
+                        </Line.StartPoint>
+                        <Line.EndPoint>
+                            <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
+                                <Binding Path="To.X" />
+                                <Binding Path="To.Y" />
+                            </MultiBinding>
+                        </Line.EndPoint>
+                    </Line>
+                </DataTemplate>
+            </g:GraphControl.EdgeTemplate>
+        </g:GraphControl>
+    </c:Card>
 </UserControl>
