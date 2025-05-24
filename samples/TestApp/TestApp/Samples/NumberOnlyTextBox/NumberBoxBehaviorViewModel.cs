@@ -1,6 +1,6 @@
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.NumberOnlyTextBox;
 
-[Icon("mdi-numeric")]
+[Section("mdi-numeric")]
 public class NumberBoxBehaviorViewModel;

@@ -1,8 +1,8 @@
-﻿using TestApp.Samples.Adorners;
+﻿using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Layout;
 
-[Icon("fa-ruler-horizontal")]
+[Section("fa-ruler-horizontal")]
 public class HorizontalTickPanelViewModel
 {
 }

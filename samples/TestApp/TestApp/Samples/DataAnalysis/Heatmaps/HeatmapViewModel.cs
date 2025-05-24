@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using TestApp.Samples.Adorners;
 using Zafiro.Tables;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
-[Icon("mdi-fire")]
+[Section("mdi-fire")]
 public class HeatmapViewModel
 {
     public HeatmapViewModel()

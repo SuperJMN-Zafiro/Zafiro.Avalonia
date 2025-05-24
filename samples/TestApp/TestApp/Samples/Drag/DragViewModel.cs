@@ -5,11 +5,11 @@ using System.Windows.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Drag;
 
-[Icon("mdi-cursor-pointer")]
+[Section("mdi-cursor-pointer")]
 public partial class DragViewModel : ReactiveObject
 {
     [Reactive] private bool isEnabled;

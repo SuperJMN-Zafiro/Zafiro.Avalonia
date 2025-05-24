@@ -1,6 +1,6 @@
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Typewriter;
 
-[Icon("fa-diagram-project")]
+[Section("fa-diagram-project")]
 public class TypewriterViewModel;

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace TestApp.Samples.Layout;
 
-public partial class HorizontalTickView : UserControl
+public partial class HorizontalTickPanelView : UserControl
 {
-    public HorizontalTickView()
+    public HorizontalTickPanelView()
     {
         InitializeComponent();
     }

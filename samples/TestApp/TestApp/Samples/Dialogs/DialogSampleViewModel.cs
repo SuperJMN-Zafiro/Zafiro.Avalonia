@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
-using TestApp.Samples.Adorners;
 using Zafiro.Avalonia.Dialogs;
 using Zafiro.Avalonia.MigrateToZafiro;
 using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Dialogs;
 
-[Icon("fa-comment-dots")]
+[Section("fa-comment-dots")]
 public class DialogSampleViewModel : IViewModel
 {
     public DialogSampleViewModel(INotificationService notificationService, IDialog dialogService)

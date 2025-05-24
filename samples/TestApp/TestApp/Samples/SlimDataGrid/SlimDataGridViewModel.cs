@@ -7,11 +7,11 @@ using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.SlimDataGrid;
 
-[Icon("mdi-grid")]
+[Section("mdi-grid")]
 public partial class SlimDataGridViewModel : ReactiveValidationObject
 {
     [Reactive] private string? personName;

@@ -5,16 +5,16 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Controls.Selection;
 using ReactiveUI;
-using TestApp.Samples.Adorners;
 using TestApp.Samples.Controls;
 using Zafiro.Avalonia.DataViz.Graphs.Control;
 using Zafiro.DataAnalysis.Clustering;
 using Zafiro.DataAnalysis.Graphs;
 using Zafiro.DataAnalysis.Graphs.ForceDirected;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Icon("fa-list-check")]
+[Section("fa-list-check")]
 public class EasyListBoxViewModel
 {
     public EasyListBoxViewModel()

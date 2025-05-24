@@ -1,9 +1,9 @@
-﻿using TestApp.Samples.Adorners;
-using Zafiro.DataAnalysis.Clustering;
+﻿using Zafiro.DataAnalysis.Clustering;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Dendrograms;
 
-[Icon("mdi-family-tree")]
+[Section("mdi-family-tree")]
 public class DendrogramViewModel
 {
     public DendrogramViewModel()

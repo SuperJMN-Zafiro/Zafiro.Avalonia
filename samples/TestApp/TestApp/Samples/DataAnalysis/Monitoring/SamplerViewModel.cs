@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
 using DynamicData;
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Monitoring;
 
-[Icon("mdi-chart-line")]
+[Section("mdi-chart-line")]
 public class SamplerViewModel
 {
     public SamplerViewModel()

@@ -12,9 +12,9 @@ public class ShellDesign : IShell
 
     public IEnumerable<ISection> Sections =>
     [
-        new SectionDesign { Name = "Test section 1", Icon = new IconViewModel() { IconId = "fa-wallet" } },
-        new SectionDesign { Name = "Test section 2", Icon = new IconViewModel() { IconId = "fa-wallet" } },
-        new SectionDesign { Name = "Test section 3", Icon = new IconViewModel() { IconId = "fa-wallet" } }
+        new SectionDesign { Name = "Test section 1", Icon = new Icon() { IconId = "fa-wallet" } },
+        new SectionDesign { Name = "Test section 2", Icon = new Icon() { IconId = "fa-wallet" } },
+        new SectionDesign { Name = "Test section 3", Icon = new Icon() { IconId = "fa-wallet" } }
     ];
 
     public IContentSection SelectedSection { get; set; }

@@ -2,10 +2,11 @@
 using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Adorners;
 
-[Icon("fa-cog")]
+[Section("fa-cog")]
 public class AdornerSampleViewModel : ReactiveObject
 {
     public AdornerSampleViewModel()
@@ -17,9 +18,4 @@ public class AdornerSampleViewModel : ReactiveObject
     public IObservable<bool> IsExecuting { get; set; }
 
     public ReactiveCommand<Unit, Unit> LengthyCommand { get; set; }
-}
-
-public class IconAttribute(string id) : Attribute
-{
-    public string Id { get; } = id;
 }

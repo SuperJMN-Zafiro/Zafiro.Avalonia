@@ -2,27 +2,27 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
                xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
-               xmlns:slim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim"
+               xmlns:zslim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim"
                xmlns:classic="clr-namespace:Zafiro.UI.Wizards.Classic;assembly=Zafiro.UI"
                xmlns:classic1="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
-               xmlns:slim1="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI"
-               xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
-               xmlns:avalonia1="clr-namespace:Zafiro.Avalonia">
+               xmlns:slim="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI"
+               xmlns:pt="https://github.com/projektanker/icons.avalonia"
+               xmlns:av="clr-namespace:Zafiro.Avalonia;assembly=Zafiro.UI">
 
     <DataTemplate DataType="nav:ISectionScope">
         <nv:SectionScopeView SectionScope="{Binding}" />
     </DataTemplate>
 
-    <DataTemplate DataType="slim1:ISlimWizard">
-        <slim:SlimWizardControl Wizard="{Binding}" />
+    <DataTemplate DataType="slim:ISlimWizard">
+        <zslim:SlimWizardControl Wizard="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="classic:IWizard">
         <classic1:WizardControl Wizard="{Binding}" />
     </DataTemplate>
 
-    <DataTemplate DataType="avalonia1:IconViewModel">
-        <avalonia:Icon Value="{Binding IconId}" />
+    <DataTemplate DataType="av:Icon">
+        <pt:Icon Value="{Binding IconId}" />
     </DataTemplate>
 
 </DataTemplates>

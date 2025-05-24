@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using TestApp.Samples.Adorners;
 using Zafiro.DataAnalysis;
 using Zafiro.DataAnalysis.Clustering;
 using Zafiro.Tables;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
-[Icon("mdi-data-matrix")]
+[Section("mdi-data-matrix")]
 public class HeatmapWithDendrogramsViewModel
 {
     public HeatmapWithDendrogramsViewModel()

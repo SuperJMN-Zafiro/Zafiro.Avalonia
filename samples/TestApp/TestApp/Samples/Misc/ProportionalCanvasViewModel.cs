@@ -1,8 +1,8 @@
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Icon("mdi-fraction-one-half")]
+[Section("mdi-fraction-one-half")]
 internal class ProportionalCanvasViewModel
 {
 }

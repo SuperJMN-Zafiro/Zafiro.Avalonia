@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using TestApp.Samples.Adorners;
 using Zafiro.Tables;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Tables;
 
-[Icon("mdi-table")]
+[Section("mdi-table")]
 public class TableViewModel
 {
     public TableViewModel()

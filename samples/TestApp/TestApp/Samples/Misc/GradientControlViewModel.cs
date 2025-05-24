@@ -1,8 +1,8 @@
-using TestApp.Samples.Adorners;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Icon("mdi-gradient-vertical")]
+[Section("mdi-gradient-vertical")]
 internal class GradientControlViewModel
 {
 }
