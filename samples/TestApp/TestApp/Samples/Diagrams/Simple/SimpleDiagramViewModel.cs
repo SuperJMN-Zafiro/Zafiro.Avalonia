@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using TestApp.Shell;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Diagrams.Simple;
 
+[Section("mdi-graph")]
 public class SimpleDiagramViewModel : ViewModelBase
 {
     public SimpleDiagramViewModel()
