@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
     <Design.PreviewWith>
-        <c:Card Width="400" Height="200"
+        <c:Card Width="400" Height="200" Margin="10"
                 Header="Header"
                 Subheader="Subheader"
                 HeaderEndContent="R">
@@ -13,20 +13,24 @@
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type c:Card}" TargetType="c:Card">
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeAltLowColor}" />
-            <Setter Property="CornerRadius" Value="10" />
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="ContentPadding" Value="0 15" />
-            <Setter Property="HeaderSpacing" Value="10" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="ContentPadding" Value="0 12" />
+            <Setter Property="HeaderSpacing" Value="12" />
             <Setter Property="HeaderPadding" Value="0" />
-            <Setter Property="HeaderSubheaderSpacing" Value="2" />
+            <Setter Property="ClipToBounds" Value="False" />
+            <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                    <Border x:Name="PART_BorderRoot"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            ClipToBounds="False">
                         <DockPanel>
                             <c:EdgePanel x:Name="PART_Header" DockPanel.Dock="Top"
                                          Spacing="{TemplateBinding HeaderSpacing}"
@@ -47,11 +51,18 @@
     </Styles.Resources>
 
     <Style Selector="c|Card /template/ c|EdgePanel#PART_Header ContentPresenter#PART_HeaderTitle">
-        <Setter Property="TextElement.FontSize" Value="20" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
     <Style Selector="c|Card /template/ c|EdgePanel#PART_Header ContentPresenter#PART_HeaderTitle">
         <Setter Property="TextElement.FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="c|Card /template/ Border#PART_BorderRoot">
+        <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
     </Style>
 
 </Styles>
