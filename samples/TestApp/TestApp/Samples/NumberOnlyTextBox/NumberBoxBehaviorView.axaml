@@ -9,7 +9,7 @@
     <c:Card Header="NumberBoxBehavior" Subheader="Allows number only">
         <StackPanel Spacing="20">
             <HeaderedContentControl Header="This is a TextBox that only accepts numbers">
-                <TextBox>
+                <TextBox Width="200" HorizontalAlignment="Left" Margin="0 10">
                     <Interaction.Behaviors>
                         <behaviors:NumberBoxBehavior />
                     </Interaction.Behaviors>
