@@ -1,7 +1,9 @@
 ﻿using Zafiro.DataAnalysis.Clustering;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Dendrograms;
 
+[Section("mdi-family-tree", 2)]
 public class DendrogramViewModel
 {
     public DendrogramViewModel()
@@ -9,7 +11,7 @@ public class DendrogramViewModel
         Cluster<string> cluster = new Internal<string>(
             new Internal<string>(
                 new Internal<string>(
-                    new Leaf<string>("A"), 
+                    new Leaf<string>("A"),
                     new Leaf<string>("B"), 1),
                 new Leaf<string>("F"), 2),
             new Internal<string>(

@@ -5,7 +5,8 @@
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
              xmlns:monitoring="clr-namespace:Zafiro.Avalonia.DataViz.Monitoring;assembly=Zafiro.Avalonia.DataViz"
              xmlns:monitoring1="clr-namespace:TestApp.Samples.DataAnalysis.Monitoring"
-             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="1000"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
              x:Class="TestApp.Samples.DataAnalysis.Monitoring.SamplerView"
              x:DataType="monitoring1:SamplerViewModel">
     <UserControl.Resources>
@@ -42,22 +43,17 @@
         </generic:List>
     </UserControl.Resources>
 
-    <StackPanel Spacing="10">
-        <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="10">
-            <TextBlock.Inlines>
-                The SamplerControl can be used to monitor values from a data source. It represents the whole range of values and update as values change.
-            </TextBlock.Inlines>
-        </TextBlock>
+    <controls:Card Header="Sampler" Subheader="The SamplerControl can be used to monitor values from a data source. It represents the whole range of values and update as values change.">
         <ScrollViewer>
             <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" ItemWidth="500" ItemHeight="400">
-                <HeaderedContentControl Header="Static">
-                    <monitoring:SamplerControl Values="{StaticResource List}" />
+                <HeaderedContentControl Header="Static" Margin="10">
+                    <monitoring:SamplerControl Values="{StaticResource List}" Margin="20" />
                 </HeaderedContentControl>
                 <HeaderedContentControl Header="Dynamic">
                     <monitoring:SamplerControl Values="{Binding Values}" />
                 </HeaderedContentControl>
             </WrapPanel>
         </ScrollViewer>
-    </StackPanel>
+    </controls:Card>
 
 </UserControl>

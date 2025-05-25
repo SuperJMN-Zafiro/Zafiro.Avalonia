@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:c="clr-namespace:TestApp.Samples.Loading"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Loading.LoadingSampleView" x:DataType="c:LoadingSampleViewModel">
+    <controls:Card Header="Loading" Subheader="A control that provides feedback when some long-running progress is running">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock>Use the checkbox to control the state of the Loading control</TextBlock>
+                <CheckBox x:Name="CheckBox" IsChecked="True" />
+            </StackPanel>
+            <controls:Loading LoadingText="Doing stuff..." ProgressIndicatorSize="80"
+                              IsLoading="{Binding #CheckBox.IsChecked}">
+                <TextBlock Text="Loaded!" />
+            </controls:Loading>
+        </DockPanel>
+    </controls:Card>
+</UserControl>

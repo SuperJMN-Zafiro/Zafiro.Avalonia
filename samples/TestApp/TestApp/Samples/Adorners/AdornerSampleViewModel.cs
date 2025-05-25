@@ -2,9 +2,11 @@
 using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Adorners;
 
+[Section("mdi-bee", 21)]
 public class AdornerSampleViewModel : ReactiveObject
 {
     public AdornerSampleViewModel()

@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
-using TestApp.ViewModels;
+using TestApp.Shell;
+using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Diagrams.Simple;
 
+[Section("fa-diagram-project", 9)]
 public class SimpleDiagramViewModel : ViewModelBase
 {
     public SimpleDiagramViewModel()
     {
-       
         var a = new Node("A") { Left = 50, Top = 50 };
-        var b = new Node("B") { Left=200, Top=150d };
-        var c = new Node("C") { Left=300d, Top=50d };
-        var d = new Node("D") { Left=450d, Top=250d };
+        var b = new Node("B") { Left = 200, Top = 150d };
+        var c = new Node("C") { Left = 300d, Top = 50d };
+        var d = new Node("D") { Left = 450d, Top = 250d };
 
         Nodes = new List<Node>()
         {

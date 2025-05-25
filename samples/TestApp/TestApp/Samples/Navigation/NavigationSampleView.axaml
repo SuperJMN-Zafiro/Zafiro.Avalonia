@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:navigation="clr-namespace:TestApp.Samples.Navigation"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Navigation.NavigationSampleView" x:DataType="navigation:NavigationSampleViewModel">
+    <c:Card Header="Navigation sample" Subheader="You can navigate to other pages using INavigator ">
+        <Button Content="Go to another page" Command="{Binding Navigate}" />
+    </c:Card>
+</UserControl>

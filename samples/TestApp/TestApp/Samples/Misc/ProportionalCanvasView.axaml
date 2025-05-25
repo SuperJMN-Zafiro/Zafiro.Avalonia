@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Misc.ProportionalCanvasView">
+    <c:Card Header="ProportionalCanvas" Subheader="Lets you provide proportions instead of absolute sizes">
+        <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
+            <Rectangle Fill="Red"
+                       c:ProportionalCanvas.Left="0"
+                       c:ProportionalCanvas.Top="10"
+                       c:ProportionalCanvas.ProportionalWidth="40"
+                       c:ProportionalCanvas.ProportionalHeight="20" />
+            <Rectangle Fill="Green"
+                       c:ProportionalCanvas.Left="60"
+                       c:ProportionalCanvas.Top="50"
+                       c:ProportionalCanvas.ProportionalWidth="30"
+                       c:ProportionalCanvas.ProportionalHeight="20" />
+        </c:ProportionalCanvas>
+    </c:Card>
+</UserControl>

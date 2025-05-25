@@ -1,0 +1,38 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:Zafiro.Avalonia.Controls">
+
+    <Design.PreviewWith>
+        <StackPanel>
+            <conv:EdgePanel StartContent="Start"
+                            Content="Main"
+                            EndContent="End" />
+            <conv:EdgePanel Content="Main"
+                            EndContent="End" />
+            <conv:EdgePanel Content="Main"
+                            StartContent="Start" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ControlTheme TargetType="{x:Type conv:EdgePanel}" x:Key="{x:Type conv:EdgePanel}">
+            <Setter Property="Spacing" Value="10" />
+            <Setter Property="Template">
+
+                <ControlTemplate>
+                    <DockPanel>
+                        <ContentPresenter x:Name="PART_StartContent" DockPanel.Dock="Left"
+                                          Margin="{TemplateBinding Spacing, Converter={x:Static conv:SpacingConverters.SpacingToRightMargin}}"
+                                          Content="{TemplateBinding StartContent}" IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <ContentPresenter x:Name="PART_EndContent" DockPanel.Dock="Right"
+                                          Margin="{TemplateBinding Spacing, Converter={x:Static conv:SpacingConverters.SpacingToLeftMargin}}"
+                                          IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                          Content="{TemplateBinding EndContent}" />
+                        <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding Content}" />
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+
+</Styles>

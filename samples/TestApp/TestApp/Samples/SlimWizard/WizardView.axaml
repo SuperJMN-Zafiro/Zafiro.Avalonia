@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:slimWizard1="clr-namespace:TestApp.Samples.SlimWizard"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.SlimWizard.WizardView"
+             x:DataType="slimWizard1:WizardViewModel">
+
+    <c:Card Header="SlimWizard" Subheader="Create wizard flow from your ViewModels that are completely decuopled from the GUI">
+        <Button Content="Launch wizard" HorizontalAlignment="Center" Command="{Binding LaunchWizard}" />
+    </c:Card>
+
+</UserControl>

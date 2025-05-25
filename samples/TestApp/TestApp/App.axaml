@@ -2,8 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
-             xmlns:panels="clr-namespace:TestApp.Samples.Panels"
-             xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
 
@@ -18,25 +16,7 @@
     </Application.Styles>
 
     <Application.DataTemplates>
-
         <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
-
-
-        <DataTemplate DataType="panels:ISectionNode">
-            <TabControl ItemsSource="{Binding Sections}">
-                <TabControl.ContentTemplate>
-                    <DataTemplate DataType="ui:ISectionOld">
-                        <ContentControl Content="{Binding Content}" />
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-                <TabControl.ItemTemplate>
-                    <DataTemplate DataType="ui:ISectionOld">
-                        <TextBlock Text="{Binding Title}" />
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-            </TabControl>
-        </DataTemplate>
-
         <DataTemplate DataType="views:MessageDialogViewModel">
             <views:MessageDialogView />
         </DataTemplate>

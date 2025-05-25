@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:vm="clr-namespace:TestApp.Samples.Controls"
+             xmlns:misc="clr-namespace:TestApp.Samples.Misc"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Misc.GradualGraphView"
+             x:DataType="misc:GradualGraphViewModel">
+    <DockPanel>
+        <Button ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
+        <g:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
+            <g:GraphControl.ItemTemplate>
+                <DataTemplate DataType="vm:Person">
+                    <Ellipse Height="{Binding $self.Width}" Fill="Red">
+                        <Ellipse.Width>
+                            <MultiBinding Converter="{x:Static misc:GraphConverters.Importance}">
+                                <Binding x:DataType="misc:GradualGraphViewModel"
+                                         Path="$parent[misc:GradualGraphView].DataContext" />
+                                <Binding />
+                            </MultiBinding>
+                        </Ellipse.Width>
+                    </Ellipse>
+                </DataTemplate>
+            </g:GraphControl.ItemTemplate>
+            <g:GraphControl.EdgeTemplate>
+                <DataTemplate DataType="vm:Friendship">
+                    <Line Stroke="Black" StrokeThickness="3">
+                        <Line.StartPoint>
+                            <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
+                                <Binding Path="From.X" />
+                                <Binding Path="From.Y" />
+                            </MultiBinding>
+                        </Line.StartPoint>
+                        <Line.EndPoint>
+                            <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">
+                                <Binding Path="To.X" />
+                                <Binding Path="To.Y" />
+                            </MultiBinding>
+                        </Line.EndPoint>
+                    </Line>
+                </DataTemplate>
+            </g:GraphControl.EdgeTemplate>
+        </g:GraphControl>
+    </DockPanel>
+</UserControl>

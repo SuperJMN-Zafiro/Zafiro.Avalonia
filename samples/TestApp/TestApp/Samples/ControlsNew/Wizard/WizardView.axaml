@@ -1,9 +1,0 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:wizard1="clr-namespace:TestApp.Samples.ControlsNew.Wizard"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TestApp.Samples.ControlsNew.Wizard.WizardView" x:DataType="wizard1:WizardViewModel">
-    <Button Command="{Binding LaunchWizard}" Content="Click here to lauch the wizard" HorizontalAlignment="Center" VerticalAlignment="Center" />
-</UserControl>

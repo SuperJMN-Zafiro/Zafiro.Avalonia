@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:s="clr-namespace:TestApp.Samples.DataAnalysis.Heatmaps"
              xmlns:hm="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps;assembly=Zafiro.Avalonia.DataViz"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapView"
              x:DataType="s:HeatmapViewModel">
@@ -12,5 +13,16 @@
         <s:HeatmapViewModel />
     </Design.DataContext>
 
-    <hm:HeatmapControl ShowHeaders="False" ShowValues="False" Foreground="White" Table="{Binding Table}" />
+    <c:Card Header="HeatmapControl" Subheader="Represent a table as a heatmap with ease">
+        <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
+            <c:AspectRatioDecorator c:ProportionalCanvas.ProportionalWidth="50"
+                                    c:ProportionalCanvas.ProportionalHeight="50"
+                                    c:ProportionalCanvas.Left="25"
+                                    c:ProportionalCanvas.Top="25">
+                <hm:HeatmapControl ShowHeaders="False" ShowValues="False"
+                                   Foreground="White"
+                                   Table="{Binding Table}" />
+            </c:AspectRatioDecorator>
+        </c:ProportionalCanvas>
+    </c:Card>
 </UserControl>

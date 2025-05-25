@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Misc.CircularProgressBarView">
+    <c:Card Header="CircularProgressBarView" Subheader="Shows progress in circular shape">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock>For your circular needs!</TextBlock>
+            <TextBlock>Move the slider to see how it soothes your mind with smooth animations.</TextBlock>
+            <Slider x:Name="Slider" Maximum="1" />
+            <UniformGrid Rows="1" Height="200">
+                <UniformGrid.Styles>
+                    <Style Selector="UniformGrid > :is(Control)">
+                        <Setter Property="Margin" Value="20"></Setter>
+                    </Style>
+                    <Style Selector="c|CircularProgressBar">
+                        <Setter Property="Maximum" Value="1" />
+                    </Style>
+                </UniformGrid.Styles>
+                <c:CircularProgressBar Value="{Binding #Slider.Value}" Foreground="Red" Background="LightGray" />
+                <c:CircularProgressBar Value="{Binding #Slider.Value}" Foreground="Green" Background="LightGray" />
+                <Viewbox>
+                    <Panel>
+                        <c:CircularProgressBar Width="200" Height="200" Value="{Binding #Slider.Value}" Foreground="Blue" Background="LightGray" />
+                        <TextBlock FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding #Slider.Value, StringFormat={}{0:P0}}"></TextBlock>
+                    </Panel>
+                </Viewbox>
+            </UniformGrid>
+        </StackPanel>
+    </c:Card>
+</UserControl>
