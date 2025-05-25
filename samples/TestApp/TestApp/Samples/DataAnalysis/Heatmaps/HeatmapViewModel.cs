@@ -4,7 +4,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
-[Section("mdi-fire")]
+[Section("mdi-fire", 5)]
 public class HeatmapViewModel
 {
     public HeatmapViewModel()

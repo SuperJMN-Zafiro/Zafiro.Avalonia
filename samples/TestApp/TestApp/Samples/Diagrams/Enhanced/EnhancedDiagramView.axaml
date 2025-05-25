@@ -17,7 +17,7 @@
             <e:NodeDesign Left="70" Top="200" Name="C" />
         </generic:List>
         <ext:EnumDescriptionsExtension EnumType="{x:Type e:LabelDisplayMode}"
-                                         x:Key="LabelDisplayModes"/>
+                                       x:Key="LabelDisplayModes" />
     </UserControl.Resources>
 
     <UserControl.Styles>
@@ -28,9 +28,9 @@
 
     <DockPanel Margin="10">
         <HeaderedContentControl DockPanel.Dock="Top" Theme="{StaticResource InlineHeaderedContentControl}" Header="Label Display Mode">
-            <ComboBox Width="150" SelectedValue="{Binding #Diagram.LabelDisplayMode}" 
+            <ComboBox Width="150" SelectedValue="{Binding #Diagram.LabelDisplayMode}"
+                      x:CompileBindings="False"
                       ItemsSource="{StaticResource LabelDisplayModes}"
-                      x:DataType="ext:EnumItem"
                       DisplayMemberBinding="{Binding Description}"
                       SelectedValueBinding="{Binding Value}">
             </ComboBox>

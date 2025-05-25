@@ -13,7 +13,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Dialogs;
 
-[Section("fa-comment-dots")]
+[Section("fa-comment-dots", 4)]
 public class DialogSampleViewModel : IViewModel
 {
     public DialogSampleViewModel(INotificationService notificationService, IDialog dialogService)

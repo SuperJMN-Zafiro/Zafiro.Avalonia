@@ -14,7 +14,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Section("fa-list-check")]
+[Section("fa-list-check", 20)]
 public class EasyListBoxViewModel
 {
     public EasyListBoxViewModel()

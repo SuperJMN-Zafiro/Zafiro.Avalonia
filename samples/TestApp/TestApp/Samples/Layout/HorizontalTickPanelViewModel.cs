@@ -2,7 +2,7 @@
 
 namespace TestApp.Samples.Layout;
 
-[Section("fa-ruler-horizontal")]
+[Section("fa-ruler-horizontal", 14)]
 public class HorizontalTickPanelViewModel
 {
 }

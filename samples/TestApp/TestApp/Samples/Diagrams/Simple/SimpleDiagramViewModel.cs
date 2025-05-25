@@ -4,7 +4,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Diagrams.Simple;
 
-[Section("fa-diagram-project")]
+[Section("fa-diagram-project", 9)]
 public class SimpleDiagramViewModel : ViewModelBase
 {
     public SimpleDiagramViewModel()
