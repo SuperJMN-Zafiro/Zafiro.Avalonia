@@ -19,12 +19,3 @@ public class ShellDesign : IShell
 
     public IContentSection SelectedSection { get; set; }
 }
-
-public class SectionDesign : IContentSection
-{
-    public Func<object?> GetViewModel { get; } = () => new object();
-    public bool IsPrimary { get; init; } = true;
-    public string Name { get; set; }
-    public object? Icon { get; set; }
-    public IObservable<object> Content => Observable.Return("DESIGN TIME");
-}
