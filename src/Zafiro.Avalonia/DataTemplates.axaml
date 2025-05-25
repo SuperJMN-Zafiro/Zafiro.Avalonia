@@ -27,4 +27,10 @@
         </Viewbox>
     </DataTemplate>
 
+    <DataTemplate DataType="ui:BigIcon">
+        <Viewbox Width="40" Height="40">
+            <pt:Icon Margin="4" Value="{Binding IconId}" />
+        </Viewbox>
+    </DataTemplate>
+
 </DataTemplates>

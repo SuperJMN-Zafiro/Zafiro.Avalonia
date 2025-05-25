@@ -3,22 +3,12 @@
         xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:avalonia1="https://github.com/projektanker/icons.avalonia"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
     <Design.PreviewWith>
         <StackPanel>
-            <StackPanel.DataTemplates>
-                <DataTemplate DataType="ui:Icon">
-                    <avalonia1:Icon Background="Green" Value="{Binding IconId}" />
-                </DataTemplate>
-            </StackPanel.DataTemplates>
             <sh:Sidebar Height="400" IconWidth="30">
                 <sh:Sidebar.Sections>
-                    <!-- <sh:SectionDesign Name="Hola1" /> -->
-                    <!-- <sh:SectionDesign Name="Hola2" /> -->
-                    <!-- <sh:SectionDesign Name="Hola3" /> -->
-                    <!-- <sh:SectionDesign Name="Hola4" /> -->
                     <generic:List x:TypeArguments="sections:ISection">
                         <sh:SectionDesign Name="Section 1" IsPrimary="True">
                             <sh:SectionDesign.Icon>
@@ -70,7 +60,7 @@
                                 <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
                                                 Height="{Binding $parent[sh:Sidebar].IconHeight}"
                                                 Content="{Binding Icon}" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" VerticalAlignment="Center" />
                             </DockPanel>
                         </DataTemplate>
                         <DataTemplate DataType="sections:ICommandSection">

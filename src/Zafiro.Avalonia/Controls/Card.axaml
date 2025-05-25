@@ -1,11 +1,22 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+        xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc">
+
     <Design.PreviewWith>
-        <c:Card Width="400" Height="200" Margin="10"
+        <c:Card Width="500" Height="200" Margin="10"
                 Header="Gaze Method Order"
-                Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah."
-                HeaderEndContent="⌄">
+                Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
+            <c:Card.DataTemplates>
+                <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
+            </c:Card.DataTemplates>
+            <c:Card.HeaderStartContent>
+                <ui:BigIcon IconId="fa-wallet" />
+            </c:Card.HeaderStartContent>
+            <c:Card.HeaderEndContent>
+                <ui:BigIcon IconId="fa-wallet" />
+            </c:Card.HeaderEndContent>
             <TextBlock Text="Card content goes here..." TextWrapping="Wrap" />
         </c:Card>
     </Design.PreviewWith>

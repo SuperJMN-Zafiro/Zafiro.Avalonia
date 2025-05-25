@@ -1,0 +1,51 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:av="https://github.com/projektanker/icons.avalonia"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    <Design.PreviewWith>
+        <controls:BulletList>
+
+            <x:String>Item 1</x:String>
+            <x:String>Item 2</x:String>
+            <x:String>Item 3</x:String>
+
+            <controls:BulletList.Header>
+                <DockPanel>
+                    <av:Icon Foreground="Orange" Margin="0 0 8 0" Value="fa-triangle-exclamation" />
+                    <TextBlock FontWeight="Bold" Text="Important Security Tips:" />
+                </DockPanel>
+            </controls:BulletList.Header>
+        </controls:BulletList>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|BulletList">
+        <!-- Propiedad custom -->
+        <Setter Property="Bullet" Value=" • " />
+        <Setter Property="HeaderPadding" Value="0 0 0 5" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <DockPanel LastChildFill="True">
+                        <!-- Binding al Bullet del control padre -->
+                        <TextBlock
+                            Text="{Binding $parent[controls:BulletList].Bullet}"
+                            Margin="0,0,4,0" />
+                        <ContentControl Content="{Binding}" />
+                    </DockPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate TargetType="controls:BulletList">
+                <StackPanel>
+                    <ContentPresenter Padding="{TemplateBinding HeaderPadding}"
+                                      x:Name="PART_Header"
+                                      Content="{TemplateBinding Header}" />
+                    <ItemsPresenter />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+</Styles>

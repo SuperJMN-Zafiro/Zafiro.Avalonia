@@ -32,6 +32,10 @@
             <DependentUpon>Sidebar.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Controls\BulletList.axaml.cs">
+            <DependentUpon>List.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj"/>
