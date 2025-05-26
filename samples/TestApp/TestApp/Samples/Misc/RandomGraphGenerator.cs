@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TestApp.Samples.Controls;
+namespace TestApp.Samples.Misc;
 
 public class RandomGraphGenerator
 {

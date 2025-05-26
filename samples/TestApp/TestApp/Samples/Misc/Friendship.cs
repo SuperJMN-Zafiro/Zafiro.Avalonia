@@ -1,6 +1,6 @@
 using Zafiro.DataAnalysis.Graphs;
 
-namespace TestApp.Samples.Controls;
+namespace TestApp.Samples.Misc;
 
 public class Friendship : IWeightedEdge<Person>, IMutableEdge
 {

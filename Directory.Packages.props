@@ -39,11 +39,11 @@
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.7" />
     <PackageVersion Include="xunit" Version="2.5.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
-    <PackageVersion Include="Zafiro" Version="21.0.0" />
+    <PackageVersion Include="Zafiro" Version="22.0.0" />
     <PackageVersion Include="Zafiro.Deployment" Version="20.0.2" />
-    <PackageVersion Include="Zafiro.FileSystem.Actions" Version="21.0.0" />
+    <PackageVersion Include="Zafiro.FileSystem.Actions" Version="22.0.0" />
     <PackageVersion Include="Zafiro.FileSystem.Local" Version="21.0.0" />
     <PackageVersion Include="Zafiro.FileSystem.SeaweedFS" Version="21.0.0" />
-    <PackageVersion Include="Zafiro.UI" Version="21.0.0" />
+    <PackageVersion Include="Zafiro.UI" Version="22.0.0" />
   </ItemGroup>
 </Project>

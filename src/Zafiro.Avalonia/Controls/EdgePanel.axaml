@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:conv="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:conv="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
 
     <Design.PreviewWith>
         <StackPanel>
@@ -22,10 +23,10 @@
                 <ControlTemplate>
                     <DockPanel>
                         <ContentPresenter x:Name="PART_StartContent" DockPanel.Dock="Left"
-                                          Margin="{TemplateBinding Spacing, Converter={x:Static conv:SpacingConverters.SpacingToRightMargin}}"
+                                          Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToRightMargin}}"
                                           Content="{TemplateBinding StartContent}" IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
                         <ContentPresenter x:Name="PART_EndContent" DockPanel.Dock="Right"
-                                          Margin="{TemplateBinding Spacing, Converter={x:Static conv:SpacingConverters.SpacingToLeftMargin}}"
+                                          Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToLeftMargin}}"
                                           IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}"
                                           Content="{TemplateBinding EndContent}" />
                         <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding Content}" />

@@ -1,22 +1,26 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:shell="clr-namespace:Zafiro.Avalonia.Shell"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Design.PreviewWith>
-        <shell:ShellView Width="400" Height="500">
-            <shell:ShellView.Shell>
+        <sh:ShellView Width="400" Height="500">
+            <sh:ShellView.Shell>
                 <sh:ShellDesign />
-            </shell:ShellView.Shell>
-        </shell:ShellView>
+            </sh:ShellView.Shell>
+        </sh:ShellView>
     </Design.PreviewWith>
 
-    <Style Selector="shell|ShellView">
+    <Style Selector="sh|ShellView">
+        <Setter Property="OpenPaneLength" Value="220" />
         <Setter Property="Template">
             <ControlTemplate>
-                <SplitView CompactPaneLength="40" OpenPaneLength="200" x:Name="SplitView" IsPaneOpen="True" DisplayMode="CompactInline">
+                <SplitView CompactPaneLength="40"
+                           x:Name="SplitView"
+                           OpenPaneLength="{TemplateBinding OpenPaneLength}"
+                           IsPaneOpen="True"
+                           DisplayMode="CompactInline">
                     <SplitView.Pane>
                         <DockPanel>
                             <controls:EdgePanel DockPanel.Dock="Top">
@@ -36,13 +40,13 @@
                                         </ToggleButton.Styles>
                                     </ToggleButton>
                                 </controls:EdgePanel.StartContent>
-                                <ContentControl VerticalAlignment="Center" Content="{Binding $parent[shell:ShellView].Shell.Header}" />
+                                <ContentPresenter x:Name="PART_Header" VerticalAlignment="Center" Content="{Binding $parent[sh:ShellView].Shell.Header}" />
                             </controls:EdgePanel>
                             <sh:Sidebar IconWidth="{Binding #ToggleButton.Width}"
                                         IconHeight="{Binding #ToggleButton.Height}"
                                         Classes.Expanded="{Binding #SplitView.IsPaneOpen}"
-                                        SelectedSection="{Binding $parent[shell:ShellView].Shell.SelectedSection}"
-                                        Sections="{Binding $parent[shell:ShellView].Shell.Sections}">
+                                        SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
+                                        Sections="{Binding $parent[sh:ShellView].Shell.Sections}">
                                 <sh:Sidebar.Transitions>
                                     <Transitions>
                                         <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
@@ -59,7 +63,7 @@
                             </sh:Sidebar>
                         </DockPanel>
                     </SplitView.Pane>
-                    <TransitioningContentControl Content="{Binding $parent[shell:ShellView].Shell.SelectedSection.Content^}" ClipToBounds="False">
+                    <TransitioningContentControl Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}" ClipToBounds="False">
                         <TransitioningContentControl.PageTransition>
                             <CrossFade Duration="0:0:0.5" />
                         </TransitioningContentControl.PageTransition>
@@ -67,5 +71,8 @@
                 </SplitView>
             </ControlTemplate>
         </Setter>
+    </Style>
+    <Style Selector="sh|ShellView ContentPresenter#PART_Header">
+        <Setter Property="TextElement.FontWeight" Value="Bold" />
     </Style>
 </Styles>

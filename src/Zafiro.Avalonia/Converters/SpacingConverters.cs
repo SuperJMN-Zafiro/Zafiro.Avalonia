@@ -1,6 +1,6 @@
 using Avalonia.Data.Converters;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Converters;
 
 public static class SpacingConverters
 {

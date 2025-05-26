@@ -4,7 +4,7 @@ using ReactiveUI.SourceGenerators;
 using Zafiro.Avalonia.Controls.Diagrams;
 using Zafiro.DataAnalysis.Graphs;
 
-namespace TestApp.Samples.Controls;
+namespace TestApp.Samples.Misc;
 
 public partial class Person : ReactiveObject, IHaveLocation, IMutableNode
 {
@@ -20,16 +20,16 @@ public partial class Person : ReactiveObject, IHaveLocation, IMutableNode
     {
         Name = name;
         Weight = weight;
-        this.WhenAnyValue(person => person.Left).BindTo(this, person => person.X);
-        this.WhenAnyValue(person => person.Top).BindTo(this, person => person.Y);
-        this.WhenAnyValue(person => person.X).BindTo(this, person => person.left);
-        this.WhenAnyValue(person => person.Y).BindTo(this, person => person.Top);
+        this.WhenAnyValue<Person, double>(person => person.Left).BindTo<double, Person, double>(this, person => person.X);
+        this.WhenAnyValue<Person, double>(person => person.Top).BindTo<double, Person, double>(this, person => person.Y);
+        this.WhenAnyValue<Person, double>(person => person.X).BindTo(this, person => person.left);
+        this.WhenAnyValue<Person, double>(person => person.Y).BindTo<double, Person, double>(this, person => person.Top);
     }
 
     public string Name { get; }
 
-    public ICommand Unfreeze => ReactiveCommand.Create(() => IsFrozen = false);
-    public ICommand Freeze => ReactiveCommand.Create(() => IsFrozen = true);
+    public ICommand Unfreeze => ReactiveCommand.Create<bool>(() => IsFrozen = false);
+    public ICommand Freeze => ReactiveCommand.Create<bool>(() => IsFrozen = true);
     public double ForceX { get; set; }
     public double ForceY { get; set; }
 
