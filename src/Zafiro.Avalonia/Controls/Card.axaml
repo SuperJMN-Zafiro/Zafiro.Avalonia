@@ -12,10 +12,10 @@
                 <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
             </c:Card.DataTemplates>
             <c:Card.HeaderStartContent>
-                <ui:BigIcon IconId="fa-wallet" />
+                <ui:BigIcon Source="fa-wallet" />
             </c:Card.HeaderStartContent>
             <c:Card.HeaderEndContent>
-                <ui:BigIcon IconId="fa-wallet" />
+                <ui:BigIcon Source="fa-wallet" />
             </c:Card.HeaderEndContent>
             <TextBlock Text="Card content goes here..." TextWrapping="Wrap" />
         </c:Card>

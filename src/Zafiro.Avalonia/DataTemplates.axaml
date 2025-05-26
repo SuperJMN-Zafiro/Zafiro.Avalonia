@@ -6,9 +6,9 @@
                xmlns:classic="clr-namespace:Zafiro.UI.Wizards.Classic;assembly=Zafiro.UI"
                xmlns:classic1="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
                xmlns:slim="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI"
-               xmlns:pt="https://github.com/projektanker/icons.avalonia"
-               xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
-
+               xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+               xmlns:z="clr-namespace:Zafiro.Avalonia">
+    
     <DataTemplate DataType="nav:ISectionScope">
         <nv:SectionScopeView SectionScope="{Binding}" />
     </DataTemplate>
@@ -23,13 +23,13 @@
 
     <DataTemplate DataType="ui:Icon">
         <Viewbox>
-            <pt:Icon Margin="4" Value="{Binding IconId}" />
+            <ContentControl Margin="4" ContentTemplate="{x:Static z:IconTemplate.Instance}" Content="{Binding }" />
         </Viewbox>
     </DataTemplate>
 
     <DataTemplate DataType="ui:BigIcon">
         <Viewbox Width="40" Height="40">
-            <pt:Icon Margin="4" Value="{Binding IconId}" />
+            <ContentControl Margin="4" ContentTemplate="{x:Static z:IconTemplate.Instance}" Content="{Binding }" />
         </Viewbox>
     </DataTemplate>
 
