@@ -3,115 +3,114 @@
         xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
+        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
+
+    <Styles.Resources>
+        <ControlTheme TargetType="sh:Sidebar" x:Key="{x:Type sh:Sidebar}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
+                             ItemsSource="{Binding $parent[sh:Sidebar].Sections}"
+                             SelectedItem="{Binding $parent[sh:Sidebar].SelectedSection}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <DockPanel LastChildFill="False" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.DataTemplates>
+                            <DataTemplate DataType="sections:IContentSection">
+                                <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
+                                    <z:EdgePanel.StartContent>
+                                        <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
+                                                        Height="{Binding $parent[sh:Sidebar].IconHeight}"
+                                                        Content="{Binding Icon}" />
+                                    </z:EdgePanel.StartContent>
+                                    <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" VerticalAlignment="Center" />
+                                </z:EdgePanel>
+                            </DataTemplate>
+                            <DataTemplate DataType="sections:ICommandSection">
+                                <Button Padding="0"
+                                        HorizontalContentAlignment="Left"
+                                        Theme="{StaticResource TransparentButton}" Command="{Binding Command}" Background="Transparent"
+                                        HorizontalAlignment="Stretch">
+                                    <Button.Content>
+                                        <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
+                                            <z:EdgePanel.StartContent>
+                                                <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
+                                                                Height="{Binding $parent[sh:Sidebar].IconHeight}"
+                                                                Content="{Binding Icon}" />
+                                            </z:EdgePanel.StartContent>
+                                            <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" VerticalAlignment="Center" />
+                                        </z:EdgePanel>
+                                    </Button.Content>
+                                </Button>
+                            </DataTemplate>
+                            <DataTemplate DataType="sections:SectionSeparator">
+                                <Separator />
+                            </DataTemplate>
+                        </ListBox.DataTemplates>
+
+                        <ListBox.ItemContainerTheme>
+                            <ControlTheme x:DataType="sections:IContentSection" TargetType="ListBoxItem"
+                                          BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="DockPanel.Dock"
+                                        x:DataType="sections:IContentSection"
+                                        Value="{Binding IsPrimary, Converter={x:Static sh:Converters.IsPrimaryToDock}}" />
+                                <Setter Property="IsHitTestVisible"
+                                        Value="{Binding Converter={x:Static sh:Converters.IsActivatable}}" />
+                            </ControlTheme>
+                        </ListBox.ItemContainerTheme>
+                    </ListBox>
+
+                </ControlTemplate>
+            </Setter>
+
+        </ControlTheme>
+
+    </Styles.Resources>
+
+    <Style Selector="sh|Sidebar ScrollViewer">
+        <Setter Property="Theme" Value="{StaticResource CuedScrollViewer}" />
+    </Style>
+
+    <Style Selector="sh|Sidebar ScrollViewer RepeatButton">
+        <Setter Property="Theme" Value="{StaticResource FullTransparentButton}" />
+    </Style>
 
     <Design.PreviewWith>
         <StackPanel>
             <sh:Sidebar Height="400" IconWidth="30">
                 <sh:Sidebar.Sections>
                     <generic:List x:TypeArguments="sections:ISection">
-                        <sh:SectionDesign Name="Section 1" IsPrimary="True">
-                            <sh:SectionDesign.Icon>
-                                <ui:Icon IconId="fa-wallet" />
-                            </sh:SectionDesign.Icon>
-                        </sh:SectionDesign>
-                        <sh:SectionDesign Name="Hola4">
-                            <sh:SectionDesign.Icon>
-                                <ui:Icon IconId="fa-wallet" />
-                            </sh:SectionDesign.Icon>
-                        </sh:SectionDesign>
-                        <sh:SectionDesign Name="Hola3">
-                            <sh:SectionDesign.Icon>
-                                <ui:Icon IconId="fa-wallet" />
-                            </sh:SectionDesign.Icon>
-                        </sh:SectionDesign>
-                        <sh:SectionDesign Name="Settings" IsPrimary="False">
-                            <sh:SectionDesign.Icon>
-                                <ui:Icon IconId="mdi-cog" />
-                            </sh:SectionDesign.Icon>
-                        </sh:SectionDesign>
+                        <sh:ContentSectionDesign Name="Section 1" IsPrimary="True">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola4">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:CommandSectionDesign Name="Command" />
+                        <sh:ContentSectionDesign Name="Settings" IsPrimary="False">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="mdi-cog" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
                     </generic:List>
                 </sh:Sidebar.Sections>
             </sh:Sidebar>
         </StackPanel>
-        <!-- <sh:Sidebar> -->
-        <!--     <sh:Sidebar.Sections> -->
-        <!--         <sh:SectionDesign Name="Hi" /> -->
-        <!--     </sh:Sidebar.Sections> -->
-        <!-- </sh:Sidebar> -->
     </Design.PreviewWith>
-
-    <Style Selector="sh|Sidebar">
-        <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="Template">
-            <ControlTemplate>
-                <ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
-                         ItemsSource="{Binding $parent[sh:Sidebar].Sections}"
-                         SelectedItem="{Binding $parent[sh:Sidebar].SelectedSection}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <DockPanel LastChildFill="False" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-
-                    <ListBox.DataTemplates>
-                        <DataTemplate DataType="sections:IContentSection">
-                            <DockPanel>
-                                <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
-                                                Height="{Binding $parent[sh:Sidebar].IconHeight}"
-                                                Content="{Binding Icon}" />
-                                <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" VerticalAlignment="Center" />
-                            </DockPanel>
-                        </DataTemplate>
-                        <DataTemplate DataType="sections:ICommandSection">
-                            <Button Command="{Binding Command}" Background="Transparent"
-                                    HorizontalAlignment="Stretch">
-                                <Button.Content>
-                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                                </Button.Content>
-                            </Button>
-                        </DataTemplate>
-                        <DataTemplate DataType="sections:SectionSeparator">
-                            <Separator />
-                        </DataTemplate>
-                    </ListBox.DataTemplates>
-
-                    <ListBox.ItemContainerTheme>
-                        <ControlTheme x:DataType="sections:IContentSection" TargetType="ListBoxItem"
-                                      BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                            <!-- <Setter Property="CornerRadius" Value="10" /> -->
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="DockPanel.Dock"
-                                    x:DataType="sections:IContentSection"
-                                    Value="{Binding IsPrimary, Converter={x:Static sh:Converters.IsPrimaryToDock}}" />
-                            <Setter Property="IsHitTestVisible"
-                                    Value="{Binding Converter={x:Static sh:Converters.IsActivatable}}" />
-                        </ControlTheme>
-                    </ListBox.ItemContainerTheme>
-                </ListBox>
-
-            </ControlTemplate>
-        </Setter>
-    </Style>
-
-    <!-- <UserControl.Styles> -->
-    <!--     <Style Selector="Button"> -->
-    <!--         <Setter Property="HorizontalAlignment" Value="Stretch" /> -->
-    <!--     </Style> -->
-    <!--     <Style Selector="Border TextBlock"> -->
-    <!--         <Setter Property="Opacity" Value="0" /> -->
-    <!--         <Setter Property="Transitions"> -->
-    <!--             <Transitions> -->
-    <!--                 <DoubleTransition Property="Opacity" Duration="{StaticResource ExpandToggleDuration}" /> -->
-    <!--             </Transitions> -->
-    <!--         </Setter> -->
-    <!--     </Style> -->
-    <!--     <Style Selector="Border:pointerover"> -->
-    <!--         <Setter Property="Width" Value="{StaticResource ExpandedWidth}" /> -->
-    <!--     </Style> -->
-    <!--     <Style Selector="Border:pointerover TextBlock"> -->
-    <!--         <Setter Property="Opacity" Value="1" /> -->
-    <!--     </Style> -->
-    <!-- </UserControl.Styles> -->
 
 </Styles>

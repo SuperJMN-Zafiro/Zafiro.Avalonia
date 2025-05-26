@@ -41,4 +41,13 @@ public class Sidebar : TemplatedControl
         get => GetValue(IconHeightProperty);
         set => SetValue(IconHeightProperty, value);
     }
+
+    public static readonly StyledProperty<double> SectionSpacingProperty = AvaloniaProperty.Register<Sidebar, double>(
+        nameof(SectionSpacing));
+
+    public double SectionSpacing
+    {
+        get => GetValue(SectionSpacingProperty);
+        set => SetValue(SectionSpacingProperty, value);
+    }
 }

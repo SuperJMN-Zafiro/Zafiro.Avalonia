@@ -6,10 +6,11 @@
              RequestedThemeVariant="Light">
 
     <Application.Styles>
+        <FluentTheme />
+
         <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.DataViz/Styles.axaml" />
-        <FluentTheme />
         <Style Selector="views|DialogControl">
             <Setter Property="Width" Value="400" />
         </Style>

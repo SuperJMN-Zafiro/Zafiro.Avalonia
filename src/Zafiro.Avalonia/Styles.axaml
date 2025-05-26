@@ -1,5 +1,6 @@
 <Styles xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns="https://github.com/avaloniaui">
+        xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
 
     <Styles.Resources>
         <ResourceDictionary>
@@ -20,6 +21,9 @@
                 <ResourceInclude Source="avares://FluentAvalonia/Styling/ControlThemes/FAControls/ProgressRingStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
+        <avalonia:IconTemplate x:Key="IconTemplate" />
+
     </Styles.Resources>
 
     <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
@@ -43,6 +47,7 @@
     <StyleInclude Source="Controls/Loading.axaml" />
     <StyleInclude Source="Controls/ReactiveButton.axaml" />
     <StyleInclude Source="Controls/Shell/ShellView.axaml" />
-    <StyleInclude Source="Controls/Shell/Sidebar.axaml" />
     <StyleInclude Source="Controls/BulletList.axaml" />
+    <StyleInclude Source="Styles/ScrollViewer.axaml" />
+    <StyleInclude Source="Controls/Shell/Sidebar.axaml" />
 </Styles>

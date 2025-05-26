@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:g="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control;assembly=Zafiro.Avalonia.DataViz"
              xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
-             xmlns:vm="clr-namespace:TestApp.Samples.Controls"
              xmlns:misc="clr-namespace:TestApp.Samples.Misc"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -15,7 +14,7 @@
                         DragButton="Right"
                         Graph="{Binding MutableGraph}">
             <g:GraphControl.ItemTemplate>
-                <DataTemplate DataType="vm:Person">
+                <DataTemplate DataType="misc:Person">
                     <Ellipse Height="{Binding $self.Width}" Fill="Red">
                         <Ellipse.Width>
                             <MultiBinding Converter="{x:Static misc:GraphConverters.Importance}">
@@ -32,7 +31,7 @@
                 </DataTemplate>
             </g:GraphControl.ItemTemplate>
             <g:GraphControl.EdgeTemplate>
-                <DataTemplate DataType="vm:Friendship">
+                <DataTemplate DataType="misc:Friendship">
                     <Line Stroke="Black" StrokeThickness="3">
                         <Line.StartPoint>
                             <MultiBinding Converter="{x:Static g:Converters.CoordinatesToPoint}">

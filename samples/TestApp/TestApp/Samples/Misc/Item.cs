@@ -1,4 +1,4 @@
-﻿namespace TestApp.Samples.Controls;
+﻿namespace TestApp.Samples.Misc;
 
 public class Item
 {

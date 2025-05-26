@@ -10,11 +10,14 @@ public class ShellDesign : IShell
         throw new NotSupportedException();
     }
 
+    public object Header { get; set; } = "Header";
+
     public IEnumerable<ISection> Sections =>
     [
-        new SectionDesign { Name = "Test section 1", Icon = new Icon() { IconId = "fa-wallet" } },
-        new SectionDesign { Name = "Test section 2", Icon = new Icon() { IconId = "fa-wallet" } },
-        new SectionDesign { Name = "Test section 3", Icon = new Icon() { IconId = "fa-wallet" } }
+        new ContentSectionDesign { Name = "H Test section 1", Icon = new Icon() { Source = "fa-wallet" } },
+        new ContentSectionDesign { Name = "Test section 2", Icon = new Icon() { Source = "fa-gear" } },
+        new ContentSectionDesign { Name = "Test section 3", Icon = new Icon() { Source = "fa-user" } },
+        new CommandSectionDesign { Name = "Test section 3", Icon = new Icon() { Source = "fa-user" } },
     ];
 
     public IContentSection SelectedSection { get; set; }

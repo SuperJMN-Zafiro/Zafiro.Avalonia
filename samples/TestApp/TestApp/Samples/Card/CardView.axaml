@@ -10,7 +10,7 @@
             Header="This is a card"
             Subheader="It helps you group related information in a convenient way. ">
         <c:Card.HeaderStartContent>
-            <ui:BigIcon IconId="fa-wallet" />
+            <ui:BigIcon Source="fa-wallet" />
         </c:Card.HeaderStartContent>
         <c:BulletList Header="It offers you special places to put your contents:">
             <x:String>Header</x:String>
