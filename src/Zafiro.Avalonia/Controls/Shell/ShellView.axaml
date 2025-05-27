@@ -1,78 +1,143 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
-        xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:pt="https://github.com/projektanker/icons.avalonia"
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Design.PreviewWith>
-        <sh:ShellView Width="400" Height="500">
+        <sh:ShellView Width="700" Height="500">
+            <sh:ShellView.ContentHeader>
+                <TextBlock VerticalAlignment="Center">This is the header content</TextBlock>
+            </sh:ShellView.ContentHeader>
             <sh:ShellView.Shell>
                 <sh:ShellDesign />
             </sh:ShellView.Shell>
         </sh:ShellView>
     </Design.PreviewWith>
 
-    <Style Selector="sh|ShellView">
-        <Setter Property="OpenPaneLength" Value="220" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <SplitView CompactPaneLength="40"
-                           x:Name="SplitView"
-                           OpenPaneLength="{TemplateBinding OpenPaneLength}"
-                           IsPaneOpen="True"
-                           DisplayMode="CompactInline">
-                    <SplitView.Pane>
-                        <DockPanel>
-                            <controls:EdgePanel DockPanel.Dock="Top">
-                                <controls:EdgePanel.StartContent>
-                                    <ToggleButton FontSize="25" Theme="{StaticResource TransparentToggleButton}"
-                                                  Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}"
-                                                  IsChecked="{Binding #SplitView.IsPaneOpen, Mode=TwoWay}"
-                                                  Classes.Expanded="{Binding #SplitView.IsPaneOpen}"
-                                                  x:Name="ToggleButton">
-                                        <ToggleButton.Styles>
-                                            <Style Selector="ToggleButton">
-                                                <Setter Property="avalonia:Attached.Icon" Value="mdi-menu" />
-                                            </Style>
-                                            <Style Selector="ToggleButton.Expanded">
-                                                <Setter Property="avalonia:Attached.Icon" Value="mdi-backburger" />
-                                            </Style>
-                                        </ToggleButton.Styles>
-                                    </ToggleButton>
-                                </controls:EdgePanel.StartContent>
-                                <ContentPresenter x:Name="PART_Header" VerticalAlignment="Center" Content="{Binding $parent[sh:ShellView].Shell.Header}" />
-                            </controls:EdgePanel>
-                            <sh:Sidebar IconWidth="{Binding #ToggleButton.Width}"
-                                        IconHeight="{Binding #ToggleButton.Height}"
-                                        Classes.Expanded="{Binding #SplitView.IsPaneOpen}"
-                                        SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
-                                        Sections="{Binding $parent[sh:ShellView].Shell.Sections}">
-                                <sh:Sidebar.Transitions>
-                                    <Transitions>
-                                        <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
-                                    </Transitions>
-                                </sh:Sidebar.Transitions>
-                                <sh:Sidebar.Styles>
-                                    <Style Selector="sh|Sidebar">
-                                        <Setter Property="SectionSpacing" Value="0" />
-                                    </Style>
-                                    <Style Selector="sh|Sidebar.Expanded">
-                                        <Setter Property="SectionSpacing" Value="10" />
-                                    </Style>
-                                </sh:Sidebar.Styles>
-                            </sh:Sidebar>
-                        </DockPanel>
-                    </SplitView.Pane>
-                    <TransitioningContentControl Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}" ClipToBounds="False">
-                        <TransitioningContentControl.PageTransition>
-                            <CrossFade Duration="0:0:0.5" />
-                        </TransitioningContentControl.PageTransition>
-                    </TransitioningContentControl>
-                </SplitView>
-            </ControlTemplate>
-        </Setter>
+    <Styles.Resources>
+        <ControlTheme TargetType="sh:ShellView" x:Key="{x:Type sh:ShellView}">
+            <Setter Property="OpenPaneLength" Value="220" />
+            <Setter Property="CompactPaneLength" Value="40" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel Classes.Expanded="{Binding #SplitView.IsPaneOpen}">
+                        <Interaction.Behaviors>
+                            <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=c:AdaptiveControl}}">
+                                <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
+                                <AdaptiveClassSetter ClassName="Wide" MinWidth="600" MaxWidth="Infinity" />
+                            </AdaptiveBehavior>
+                        </Interaction.Behaviors>
+
+                        <c:EdgePanel
+                            x:Name="PART_HeaderEdgePanel"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top" ZIndex="1">
+
+                            <c:EdgePanel.StartContent>
+                                <ToggleButton Theme="{StaticResource TransparentToggleButton}"
+                                              Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}"
+                                              IsChecked="{Binding #SplitView.IsPaneOpen, Mode=TwoWay}"
+                                              x:Name="ToggleButton">
+                                </ToggleButton>
+                            </c:EdgePanel.StartContent>
+                            <ContentPresenter x:Name="PART_Header"
+                                              VerticalAlignment="Center"
+                                              Content="{Binding $parent[sh:ShellView].Shell.Header}" />
+                        </c:EdgePanel>
+                        <SplitView ZIndex="0"
+                                   x:Name="SplitView"
+                                   OpenPaneLength="{TemplateBinding OpenPaneLength}"
+                                   IsPaneOpen="True">
+                            <SplitView.Pane>
+                                <sh:Sidebar Margin="0 40 0 0"
+                                            IconWidth="{Binding #ToggleButton.Width}"
+                                            IconHeight="{Binding #ToggleButton.Height}"
+                                            SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
+                                            Sections="{Binding $parent[sh:ShellView].Shell.Sections}">
+                                    <sh:Sidebar.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
+                                        </Transitions>
+                                    </sh:Sidebar.Transitions>
+                                    <!-- <sh:Sidebar.Styles> -->
+                                    <!--     <Style Selector="sh|Sidebar"> -->
+                                    <!--         <Setter Property="SectionSpacing" Value="0" /> -->
+                                    <!--     </Style> -->
+                                    <!--     <Style Selector="sh|Sidebar.Expanded"> -->
+                                    <!--         <Setter Property="SectionSpacing" Value="10" /> -->
+                                    <!--     </Style> -->
+                                    <!-- </sh:Sidebar.Styles> -->
+                                </sh:Sidebar>
+                            </SplitView.Pane>
+                            <DockPanel>
+                                <ContentPresenter x:Name="PART_ContentHeader"
+                                                  DockPanel.Dock="Top"
+                                                  Content="{TemplateBinding ContentHeader}"
+                                                  Height="{Binding #ToggleButton.Height}" />
+                                <TransitioningContentControl Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}" ClipToBounds="False">
+                                    <TransitioningContentControl.PageTransition>
+                                        <CrossFade Duration="0:0:0.5" />
+                                    </TransitioningContentControl.PageTransition>
+                                </TransitioningContentControl>
+                            </DockPanel>
+                        </SplitView>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^ /template/ Panel ContentPresenter#PART_Header">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+
+            <Style Selector="^ /template/ Panel.Expanded ContentPresenter#PART_Header">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+
+            <Style Selector="^ /template/ Panel.Expanded ContentPresenter#PART_Header">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+
+            <!-- <Style Selector="^ /template/ sh|Sidebar" > -->
+            <!--     <Setter Property="SectionSpacing" Value="0" /> -->
+            <!-- </Style> -->
+            <!-- -->
+            <!-- <Style Selector="^ /template/ Panel.Expanded sh|Sidebar" > -->
+            <!--     <Setter Property="SectionSpacing" Value="10" /> -->
+            <!-- </Style> -->
+
+            <Style Selector="^ /template/ Panel ContentPresenter#PART_Header">
+                <Setter Property="TextElement.FontWeight" Value="Bold" />
+                <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis" />
+                <Setter Property="Margin" Value="0 0 10 0" />
+            </Style>
+
+            <Style Selector="^ /template/ c|EdgePanel#PART_HeaderEdgePanel">
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentHeader">
+                <Setter Property="Margin" Value="10 0" />
+            </Style>
+
+            <Style Selector="^ /template/ Panel.Expanded c|EdgePanel#PART_HeaderEdgePanel">
+                <Setter Property="Width" Value="{Binding $parent[sh:ShellView].OpenPaneLength}" />
+            </Style>
+
+            <Style Selector="^ /template/ Panel.Narrow SplitView">
+                <Setter Property="DisplayMode" Value="Overlay" />
+            </Style>
+
+            <Style Selector="^ /template/ Panel.Wide SplitView">
+                <Setter Property="DisplayMode" Value="CompactInline" />
+            </Style>
+
+        </ControlTheme>
+    </Styles.Resources>
+
+    <Style Selector="c|EdgePanel ToggleButton">
+        <Setter Property="pt:Attached.Icon" Value="mdi-menu" />
+        <Setter Property="FontSize" Value="30" />
     </Style>
-    <Style Selector="sh|ShellView ContentPresenter#PART_Header">
-        <Setter Property="TextElement.FontWeight" Value="Bold" />
-    </Style>
+
 </Styles>

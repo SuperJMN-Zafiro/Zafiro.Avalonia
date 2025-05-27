@@ -21,7 +21,8 @@
             <Setter Property="Template">
 
                 <ControlTemplate>
-                    <DockPanel>
+                    <DockPanel
+                        Background="{TemplateBinding Background}">
                         <ContentPresenter x:Name="PART_StartContent" DockPanel.Dock="Left"
                                           Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToRightMargin}}"
                                           Content="{TemplateBinding StartContent}" IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />

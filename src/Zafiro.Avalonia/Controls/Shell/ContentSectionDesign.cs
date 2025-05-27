@@ -14,9 +14,9 @@ public class ContentSectionDesign : IContentSection
         Icon = icon;
         IsPrimary = isPrimary;
     }
-    
+
     public bool IsPrimary { get; init; } = true;
     public string Name { get; set; }
     public object? Icon { get; set; }
-    public IObservable<object> Content => Observable.Return("DESIGN TIME");
+    public IObservable<object> Content { get; set; }
 }
