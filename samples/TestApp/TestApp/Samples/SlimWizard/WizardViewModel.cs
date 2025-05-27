@@ -11,7 +11,7 @@ using Zafiro.UI.Wizards.Slim.Builder;
 
 namespace TestApp.Samples.SlimWizard;
 
-[Section("mdi-wizard-hat")]
+[Section("mdi-wizard-hat", 1, "Wizard")]
 public class WizardViewModel
 {
     public WizardViewModel(IDialog dialog, INotificationService notification)

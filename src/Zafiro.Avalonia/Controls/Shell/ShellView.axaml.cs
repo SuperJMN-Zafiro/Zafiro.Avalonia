@@ -1,4 +1,5 @@
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Zafiro.UI.Shell;
 
 namespace Zafiro.Avalonia.Controls.Shell;
@@ -11,11 +12,11 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<double> OpenPaneLengthProperty = AvaloniaProperty.Register<ShellView, double>(
         nameof(OpenPaneLength));
 
-    public static readonly StyledProperty<object> ContentHeaderProperty = AvaloniaProperty.Register<ShellView, object>(
-        nameof(ContentHeader));
-
     public static readonly StyledProperty<double> CompactPaneLengthProperty = AvaloniaProperty.Register<ShellView, double>(
         nameof(CompactPaneLength));
+
+    public static readonly StyledProperty<IDataTemplate> HeaderContentTemplateProperty = AvaloniaProperty.Register<ShellView, IDataTemplate>(
+        nameof(HeaderContentTemplate));
 
     public IShell Shell
     {
@@ -29,15 +30,15 @@ public class ShellView : TemplatedControl
         set => SetValue(OpenPaneLengthProperty, value);
     }
 
-    public object ContentHeader
-    {
-        get => GetValue(ContentHeaderProperty);
-        set => SetValue(ContentHeaderProperty, value);
-    }
-
     public double CompactPaneLength
     {
         get => GetValue(CompactPaneLengthProperty);
         set => SetValue(CompactPaneLengthProperty, value);
+    }
+
+    public IDataTemplate HeaderContentTemplate
+    {
+        get => GetValue(HeaderContentTemplateProperty);
+        set => SetValue(HeaderContentTemplateProperty, value);
     }
 }

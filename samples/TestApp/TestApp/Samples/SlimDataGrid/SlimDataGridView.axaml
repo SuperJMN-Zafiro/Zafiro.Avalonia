@@ -30,7 +30,7 @@
             <Setter Property="Background" Value="#06000000" />
         </ControlTheme>
     </UserControl.Resources>
-    <c:Card Header="SlimDataGrid" Subheader="A lightweight DataGrid that is easy to use and customizable">
+    <c:Card Theme="{StaticResource EmptyCard}" Header="SlimDataGrid" Subheader="A lightweight DataGrid that is easy to use and customizable">
         <Grid ColumnDefinitions="2* *">
             <sdg:SlimDataGrid Grid.Column="0" HorizontalAlignment="Center" Background="#FFC9EC" Padding="10"
                               VerticalAlignment="Center"

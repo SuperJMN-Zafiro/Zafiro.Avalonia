@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
+        xmlns:se="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
@@ -8,7 +8,11 @@
 
     <Styles.Resources>
         <ControlTheme TargetType="sh:Sidebar" x:Key="{x:Type sh:Sidebar}">
+            <Setter Property="IconWidth" Value="40" />
+            <Setter Property="IconHeight" Value="40" />
+            <Setter Property="SectionNameMargin" Value="0 0 10 0" />
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="SectionSpacing" Value="0" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
@@ -21,17 +25,20 @@
                         </ListBox.ItemsPanel>
 
                         <ListBox.DataTemplates>
-                            <DataTemplate DataType="sections:IContentSection">
+                            <DataTemplate DataType="se:IContentSection">
                                 <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
                                     <z:EdgePanel.StartContent>
                                         <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
                                                         Height="{Binding $parent[sh:Sidebar].IconHeight}"
                                                         Content="{Binding Icon}" />
                                     </z:EdgePanel.StartContent>
-                                    <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" VerticalAlignment="Center" />
+                                    <TextBlock ToolTip.Tip="{Binding $self.Text}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="{Binding $parent[sh:Sidebar].SectionNameMargin}"
+                                               Text="{Binding Name}" VerticalAlignment="Center" />
                                 </z:EdgePanel>
                             </DataTemplate>
-                            <DataTemplate DataType="sections:ICommandSection">
+                            <DataTemplate DataType="se:ICommandSection">
                                 <Button Padding="0"
                                         HorizontalContentAlignment="Left"
                                         Theme="{StaticResource TransparentButton}" Command="{Binding Command}" Background="Transparent"
@@ -43,22 +50,24 @@
                                                                 Height="{Binding $parent[sh:Sidebar].IconHeight}"
                                                                 Content="{Binding Icon}" />
                                             </z:EdgePanel.StartContent>
-                                            <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" VerticalAlignment="Center" />
+                                            <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis"
+                                                       Margin="{Binding $parent[sh:Sidebar].SectionNameMargin}"
+                                                       Text="{Binding Name}" VerticalAlignment="Center" />
                                         </z:EdgePanel>
                                     </Button.Content>
                                 </Button>
                             </DataTemplate>
-                            <DataTemplate DataType="sections:SectionSeparator">
+                            <DataTemplate DataType="se:ISectionSeparator">
                                 <Separator />
                             </DataTemplate>
                         </ListBox.DataTemplates>
 
                         <ListBox.ItemContainerTheme>
-                            <ControlTheme x:DataType="sections:IContentSection" TargetType="ListBoxItem"
+                            <ControlTheme x:DataType="se:IContentSection" TargetType="ListBoxItem"
                                           BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                 <Setter Property="Padding" Value="0" />
                                 <Setter Property="DockPanel.Dock"
-                                        x:DataType="sections:IContentSection"
+                                        x:DataType="se:IContentSection"
                                         Value="{Binding IsPrimary, Converter={x:Static sh:Converters.IsPrimaryToDock}}" />
                                 <Setter Property="IsHitTestVisible"
                                         Value="{Binding Converter={x:Static sh:Converters.IsActivatable}}" />
@@ -85,8 +94,8 @@
         <StackPanel>
             <sh:Sidebar Height="400" IconWidth="30">
                 <sh:Sidebar.Sections>
-                    <generic:List x:TypeArguments="sections:ISection">
-                        <sh:ContentSectionDesign Name="Section 1" IsPrimary="True">
+                    <generic:List x:TypeArguments="se:ISection">
+                        <sh:ContentSectionDesign Name="Section 1 with long name" IsPrimary="True">
                             <sh:ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
                             </sh:ContentSectionDesign.Icon>

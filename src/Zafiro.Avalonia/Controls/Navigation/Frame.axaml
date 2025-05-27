@@ -1,7 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia"
-        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
+        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia">
     <Design.PreviewWith>
         <navigation:Frame Width="200" Height="200" />
     </Design.PreviewWith>
@@ -17,7 +16,6 @@
                     </Template>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Padding" Value="0 10 0 0"></Setter>
             <Setter Property="Template">
                 <ControlTemplate>
                     <DockPanel>

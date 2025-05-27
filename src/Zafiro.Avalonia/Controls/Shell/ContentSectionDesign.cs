@@ -1,9 +1,12 @@
+using ReactiveUI.SourceGenerators;
 using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Controls.Shell;
 
-public class ContentSectionDesign : IContentSection
+public partial class ContentSectionDesign : ReactiveObject, IContentSection
 {
+    [Reactive] private object? icon;
+
     public ContentSectionDesign()
     {
     }
@@ -17,6 +20,6 @@ public class ContentSectionDesign : IContentSection
 
     public bool IsPrimary { get; init; } = true;
     public string Name { get; set; }
-    public object? Icon { get; set; }
+
     public IObservable<object> Content { get; set; }
 }
