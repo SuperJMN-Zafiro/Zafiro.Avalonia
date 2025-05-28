@@ -16,12 +16,12 @@
     <PackageVersion Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Svg" Version="11.3.0" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-    <PackageVersion Include="Avalonia.Xaml.Behaviors" Version="11.3.0.1" />
+    <PackageVersion Include="Avalonia.Xaml.Behaviors" Version="11.3.0.6" />
     <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.0.3" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="CSharpFunctionalExtensions" Version="3.6.0" />
     <PackageVersion Include="Deadpikle.AvaloniaProgressRing" Version="0.10.10" />
-    <PackageVersion Include="DynamicData" Version="9.3.1" />
+    <PackageVersion Include="DynamicData" Version="9.3.2" />
     <PackageVersion Include="FluentAvaloniaUI" Version="2.3.0" />
     <PackageVersion Include="HttpClient.Extensions.LoggingHttpMessageHandler" Version="1.0.3" />
     <PackageVersion Include="JetBrains.Annotations" Version="2024.3.0" />
@@ -39,11 +39,11 @@
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.7" />
     <PackageVersion Include="xunit" Version="2.5.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
-    <PackageVersion Include="Zafiro" Version="22.0.0" />
+    <PackageVersion Include="Zafiro" Version="23.0.0" />
     <PackageVersion Include="Zafiro.Deployment" Version="20.0.2" />
-    <PackageVersion Include="Zafiro.FileSystem.Actions" Version="22.0.0" />
-    <PackageVersion Include="Zafiro.FileSystem.Local" Version="21.0.0" />
-    <PackageVersion Include="Zafiro.FileSystem.SeaweedFS" Version="21.0.0" />
-    <PackageVersion Include="Zafiro.UI" Version="22.0.0" />
+    <PackageVersion Include="Zafiro.FileSystem.Actions" Version="23.0.0" />
+    <PackageVersion Include="Zafiro.FileSystem.Local" Version="23.0.0" />
+    <PackageVersion Include="Zafiro.FileSystem.SeaweedFS" Version="23.0.0" />
+    <PackageVersion Include="Zafiro.UI" Version="23.0.0" />
   </ItemGroup>
 </Project>
