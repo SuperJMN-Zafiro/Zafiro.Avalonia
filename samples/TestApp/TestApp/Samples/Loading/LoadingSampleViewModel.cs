@@ -3,5 +3,5 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Loading;
 
-[Section("mdi-timer-sand-complete", 3)]
+[Section(icon: "mdi-timer-sand-complete", sortIndex: 3)]
 public class LoadingSampleViewModel : ReactiveObject;

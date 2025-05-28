@@ -9,6 +9,10 @@
              x:Class="TestApp.Samples.DataAnalysis.Heatmaps.HeatmapView"
              x:DataType="s:HeatmapViewModel">
 
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <Design.DataContext>
         <s:HeatmapViewModel />
     </Design.DataContext>

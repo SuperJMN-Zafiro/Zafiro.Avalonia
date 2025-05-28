@@ -9,6 +9,11 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
              x:Class="TestApp.Samples.DataAnalysis.Monitoring.SamplerView"
              x:DataType="monitoring1:SamplerViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <UserControl.Resources>
         <generic:List x:Key="List" x:TypeArguments="x:Double">
             <x:Double>-100</x:Double>

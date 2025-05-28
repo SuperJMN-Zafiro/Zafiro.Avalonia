@@ -8,6 +8,10 @@
              x:Class="TestApp.Samples.SlimWizard.WizardView"
              x:DataType="slimWizard1:WizardViewModel">
 
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="SlimWizard" Subheader="Create wizard flow from your ViewModels that are completely decuopled from the GUI">
         <Button Content="Launch wizard" HorizontalAlignment="Center" Command="{Binding LaunchWizard}" />
     </c:Card>

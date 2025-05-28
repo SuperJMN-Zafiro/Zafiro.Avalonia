@@ -18,7 +18,10 @@
             <Setter Property="CompactPaneLength" Value="40" />
             <Setter Property="HeaderContentTemplate">
                 <DataTemplate>
-                    <ContentControl VerticalAlignment="Center" Content="{Binding}"></ContentControl>
+                    <ContentControl VerticalAlignment="Center"
+                                    TextElement.FontSize="18"
+                                    Content="{Binding}">
+                    </ContentControl>
                 </DataTemplate>
             </Setter>
             <Setter Property="Template">
@@ -55,6 +58,7 @@
                                     <sh:Sidebar
                                         IconWidth="{Binding #ToggleButton.Width}"
                                         IconHeight="{Binding #ToggleButton.Height}"
+                                        IconMargin="12"
                                         SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
                                         Sections="{Binding $parent[sh:ShellView].Shell.Sections}">
                                         <sh:Sidebar.Transitions>

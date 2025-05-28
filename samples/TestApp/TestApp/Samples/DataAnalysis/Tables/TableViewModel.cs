@@ -4,7 +4,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Tables;
 
-[Section("mdi-table", 1)]
+[Section(icon: "mdi-table", sortIndex: 1)]
 public class TableViewModel
 {
     public TableViewModel()

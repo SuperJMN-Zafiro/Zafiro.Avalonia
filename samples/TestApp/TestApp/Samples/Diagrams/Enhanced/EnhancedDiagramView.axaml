@@ -10,6 +10,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Diagrams.Enhanced.EnhancedDiagramView">
 
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <UserControl.Resources>
         <generic:List x:Key="List" x:TypeArguments="diagrams:INode">
             <e:NodeDesign Left="40" Top="100" Name="A" />

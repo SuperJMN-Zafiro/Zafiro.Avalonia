@@ -9,6 +9,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.GraphView"
              x:DataType="misc:GraphViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="GraphView" Subheader="Create graphs with moving nodes and vertices">
         <g:GraphControl Margin="-1000"
                         DragButton="Right"

@@ -2,5 +2,5 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Typewriter;
 
-[Section("mdi-typewriter", 3)]
+[Section(icon: "mdi-typewriter", sortIndex: 3)]
 public class TypewriterViewModel;

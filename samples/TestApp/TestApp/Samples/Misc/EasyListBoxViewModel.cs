@@ -13,7 +13,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Section("fa-list-check", 20)]
+[Section(icon: "fa-list-check", sortIndex: 20)]
 public class EasyListBoxViewModel
 {
     public EasyListBoxViewModel()

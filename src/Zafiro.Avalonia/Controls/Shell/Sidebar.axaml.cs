@@ -24,6 +24,9 @@ public class Sidebar : TemplatedControl
     public static readonly StyledProperty<Thickness> SectionNameMarginProperty = AvaloniaProperty.Register<Sidebar, Thickness>(
         nameof(SectionNameMargin));
 
+    public static readonly StyledProperty<Thickness> IconMarginProperty = AvaloniaProperty.Register<Sidebar, Thickness>(
+        nameof(IconMargin));
+
     public IEnumerable<ISection> Sections
     {
         get => GetValue(SectionsProperty);
@@ -58,5 +61,11 @@ public class Sidebar : TemplatedControl
     {
         get => GetValue(SectionNameMarginProperty);
         set => SetValue(SectionNameMarginProperty, value);
+    }
+
+    public Thickness IconMargin
+    {
+        get => GetValue(IconMarginProperty);
+        set => SetValue(IconMarginProperty, value);
     }
 }

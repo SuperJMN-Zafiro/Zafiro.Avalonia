@@ -2,7 +2,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Section("mdi-fraction-one-half", 16)]
+[Section(icon: "mdi-fraction-one-half", sortIndex: 16)]
 internal class ProportionalCanvasViewModel
 {
 }

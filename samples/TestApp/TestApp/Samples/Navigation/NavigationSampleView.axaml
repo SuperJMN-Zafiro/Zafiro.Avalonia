@@ -6,6 +6,11 @@
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Navigation.NavigationSampleView" x:DataType="navigation:NavigationSampleViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="Navigation sample" Subheader="You can navigate to other pages using INavigator ">
         <Button Content="Go to another page" Command="{Binding Navigate}" />
     </c:Card>

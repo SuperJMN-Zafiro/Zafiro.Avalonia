@@ -7,7 +7,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Monitoring;
 
-[Section("mdi-chart-line")]
+[Section(icon: "mdi-chart-line")]
 public class SamplerViewModel
 {
     public SamplerViewModel()
