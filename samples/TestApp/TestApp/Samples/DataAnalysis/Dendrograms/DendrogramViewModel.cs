@@ -3,7 +3,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Dendrograms;
 
-[Section("mdi-family-tree", 2)]
+[Section(icon: "mdi-family-tree", sortIndex: 2)]
 public class DendrogramViewModel
 {
     public DendrogramViewModel()

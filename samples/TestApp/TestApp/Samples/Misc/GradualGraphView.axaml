@@ -7,6 +7,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.GradualGraphView"
              x:DataType="misc:GradualGraphViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <DockPanel>
         <Button ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
         <g:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">

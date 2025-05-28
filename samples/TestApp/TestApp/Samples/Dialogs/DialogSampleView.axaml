@@ -6,8 +6,13 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Dialogs.DialogSampleView"
              x:DataType="dialogs:DialogSampleViewModel">
-	<StackPanel Spacing="10" VerticalAlignment="Center">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <StackPanel Spacing="10" VerticalAlignment="Center">
         <Button Content="Show simple message" HorizontalAlignment="Center" Command="{Binding ShowMessage}" />
         <Button Content="Open a user-interacting dialog" HorizontalAlignment="Center" Command="{Binding ShowDialog}" />
-	</StackPanel>
+    </StackPanel>
 </UserControl>

@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Light">
 
@@ -23,5 +24,23 @@
         </DataTemplate>
         <misc:NamingConventionViewLocator />
     </Application.DataTemplates>
+
+    <Application.Resources>
+        <ControlTheme x:Key="EmptyCard" TargetType="controls:Card">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel>
+                            <StackPanel>
+                                <ContentPresenter Content="{TemplateBinding Header}" HorizontalAlignment="Center" />
+                                <ContentPresenter Content="{TemplateBinding Subheader}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </ControlTheme>
+    </Application.Resources>
 
 </Application>

@@ -18,6 +18,15 @@ public class Sidebar : TemplatedControl
     public static readonly StyledProperty<double> IconHeightProperty = AvaloniaProperty.Register<Sidebar, double>(
         nameof(IconHeight));
 
+    public static readonly StyledProperty<double> SectionSpacingProperty = AvaloniaProperty.Register<Sidebar, double>(
+        nameof(SectionSpacing));
+
+    public static readonly StyledProperty<Thickness> SectionNameMarginProperty = AvaloniaProperty.Register<Sidebar, Thickness>(
+        nameof(SectionNameMargin));
+
+    public static readonly StyledProperty<Thickness> IconMarginProperty = AvaloniaProperty.Register<Sidebar, Thickness>(
+        nameof(IconMargin));
+
     public IEnumerable<ISection> Sections
     {
         get => GetValue(SectionsProperty);
@@ -42,12 +51,21 @@ public class Sidebar : TemplatedControl
         set => SetValue(IconHeightProperty, value);
     }
 
-    public static readonly StyledProperty<double> SectionSpacingProperty = AvaloniaProperty.Register<Sidebar, double>(
-        nameof(SectionSpacing));
-
     public double SectionSpacing
     {
         get => GetValue(SectionSpacingProperty);
         set => SetValue(SectionSpacingProperty, value);
+    }
+
+    public Thickness SectionNameMargin
+    {
+        get => GetValue(SectionNameMarginProperty);
+        set => SetValue(SectionNameMarginProperty, value);
+    }
+
+    public Thickness IconMargin
+    {
+        get => GetValue(IconMarginProperty);
+        set => SetValue(IconMarginProperty, value);
     }
 }

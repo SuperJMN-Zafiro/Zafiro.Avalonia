@@ -7,6 +7,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.EasyListBoxView"
              x:DataType="misc:EasyListBoxViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <controls:Card Header="ListBox" Subheader="Extend your lists with superpowers!">
         <DockPanel>
             <CheckBox DockPanel.Dock="Top" x:Name="CheckBox" Content="Show item checkboxes" />

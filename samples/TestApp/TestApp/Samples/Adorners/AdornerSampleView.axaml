@@ -9,6 +9,10 @@
              x:DataType="adorners:AdornerSampleViewModel"
              x:Class="TestApp.Samples.Adorners.AdornerSampleView">
 
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="AdornerBehavior" Subheader="Adorner that shows on pointerover">
         <Border Background="Blue" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Viewbox>

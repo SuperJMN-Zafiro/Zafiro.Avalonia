@@ -8,7 +8,12 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Drag.DragView"
              x:DataType="drag:DragViewModel">
-    <controls:Card Header="DragDeltaBehavior">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <controls:Card Header="DragDeltaBehavior" Subheader="Behaviors to move objects around in a Canvas">
         <Canvas>
             <Button Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
                 <Interaction.Behaviors>

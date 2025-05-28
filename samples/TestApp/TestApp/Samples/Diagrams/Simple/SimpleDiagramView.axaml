@@ -6,7 +6,12 @@
              xmlns:simple="clr-namespace:TestApp.Samples.Diagrams.Simple"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Diagrams.Simple.SimpleDiagramView" x:DataType="simple:SimpleDiagramViewModel">
-    <diagrams:DiagramView ConnectionStrokeThickness="2"  Edges="{Binding Edges}" Nodes="{Binding Nodes}">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <diagrams:DiagramView ConnectionStrokeThickness="2" Edges="{Binding Edges}" Nodes="{Binding Nodes}">
         <diagrams:DiagramView.ItemTemplate>
             <DataTemplate DataType="simple:Node">
                 <StackPanel Background="Transparent" Orientation="Horizontal">

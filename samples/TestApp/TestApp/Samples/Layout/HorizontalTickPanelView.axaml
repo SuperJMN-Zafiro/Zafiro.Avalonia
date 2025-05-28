@@ -5,6 +5,11 @@
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Layout.HorizontalTickPanelView">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
         <Border Padding="40">
             <Border Background="Green">

@@ -9,6 +9,10 @@
              x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramView"
              x:DataType="dendrograms1:DendrogramViewModel">
 
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <Design.DataContext>
         <dendrograms1:DendrogramViewModel />
     </Design.DataContext>

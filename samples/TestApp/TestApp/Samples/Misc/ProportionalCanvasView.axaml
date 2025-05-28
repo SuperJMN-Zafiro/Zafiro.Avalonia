@@ -5,6 +5,11 @@
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.ProportionalCanvasView">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="ProportionalCanvas" Subheader="Lets you provide proportions instead of absolute sizes">
         <c:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
             <Rectangle Fill="Red"

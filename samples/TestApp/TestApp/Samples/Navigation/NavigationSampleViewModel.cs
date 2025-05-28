@@ -5,7 +5,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Navigation;
 
-[Section("mdi-chevron-right")]
+[Section(icon: "mdi-chevron-right", sortIndex: 13)]
 public class NavigationSampleViewModel(INavigator navigator) : ReactiveObject
 {
     public ICommand Navigate => ReactiveCommand.CreateFromTask(() => navigator.Go<TargetViewModel>());

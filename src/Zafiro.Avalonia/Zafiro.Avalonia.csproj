@@ -8,7 +8,7 @@
     <ItemGroup>
         <PackageReference Include="Avalonia"/>
         <PackageReference Include="Avalonia.Controls.DataGrid"/>
-        <PackageReference Include="Avalonia.Svg" />
+        <PackageReference Include="Avalonia.Svg"/>
         <PackageReference Include="Avalonia.Xaml.Behaviors"/>
         <PackageReference Include="CSharpFunctionalExtensions"/>
         <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>

@@ -5,6 +5,11 @@
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.CircularProgressBarView">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
     <c:Card Header="CircularProgressBarView" Subheader="Shows progress in circular shape">
         <StackPanel VerticalAlignment="Center">
             <TextBlock>For your circular needs!</TextBlock>
