@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
     <Design.PreviewWith>
         <z:ShellSplitView Width="400" Height="300">
             <z:ShellSplitView.Pane>
@@ -21,7 +22,13 @@
                 <ControlTemplate>
                     <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *">
                         <ContentPresenter x:Name="PART_Content" Content="{TemplateBinding Content}" />
-                        <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" Content="{TemplateBinding Pane}" />
+                        <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" Content="{TemplateBinding Pane}">
+                            <Interaction.Behaviors>
+                                <behaviors:PointerPressedOutsideTriggerBehavior>
+                                    <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[z:ShellSplitView]}" TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}" Value="{x:False}" />
+                                </behaviors:PointerPressedOutsideTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </ContentPresenter>
                         <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
                     </Grid>
                 </ControlTemplate>
