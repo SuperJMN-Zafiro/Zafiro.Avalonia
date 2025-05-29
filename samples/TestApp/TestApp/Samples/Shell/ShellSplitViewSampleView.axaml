@@ -26,10 +26,12 @@
             </HeaderedContentControl>
             <controls:ShellSplitView x:Name="ShellSplitView" Width="400" Height="300">
                 <controls:ShellSplitView.Pane>
-                    <Rectangle Fill="Red" />
+                    <Border Background="LightGray" BorderThickness="2" BorderBrush="Gray">
+                        <TextBlock VerticalAlignment="Center">This is the pane</TextBlock>
+                    </Border>
                 </controls:ShellSplitView.Pane>
                 <Border Background="Blue">
-                    <TextBlock FontSize="30">THIS IS A BIG, BIG TEXT</TextBlock>
+                    <Image Source="/Assets/avalonia.png" />
                 </Border>
             </controls:ShellSplitView>
         </DockPanel>

@@ -20,6 +20,7 @@ namespace Zafiro.Avalonia.Behaviors
             var topLevel = TopLevel.GetTopLevel(target);
 
             topLevel?.OnEvent(InputElement.PointerPressedEvent)
+                .Where(_ => IsEnabled)
                 .Where(evt =>
                 {
                     if (evt.EventArgs.Source is not Visual src)

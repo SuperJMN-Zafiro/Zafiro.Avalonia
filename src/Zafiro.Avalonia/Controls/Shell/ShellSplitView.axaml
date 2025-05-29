@@ -1,14 +1,22 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:z="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
+        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors"
+        xmlns:shell="clr-namespace:Zafiro.Avalonia.Controls.Shell">
     <Design.PreviewWith>
-        <z:ShellSplitView Width="400" Height="300">
+        <z:ShellSplitView PaneBackground="#7AD3C9" PaneHeader="Title so duroasdfasdfas" x:Name="ShellSplitView" DisplayMode="Inline" Width="400" Height="300">
+            <z:ShellSplitView.PaneHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock TextAlignment="Left" TextTrimming="CharacterEllipsis" Margin="20 0" VerticalAlignment="Center" Text="{Binding}" />
+                </DataTemplate>
+            </z:ShellSplitView.PaneHeaderTemplate>
             <z:ShellSplitView.Pane>
-                <Rectangle Fill="Red" />
+                <Border BorderThickness="2">
+                    <TextBlock VerticalAlignment="Center" TextAlignment="Center">This is the pane content</TextBlock>
+                </Border>
             </z:ShellSplitView.Pane>
-            <Border Background="Blue">
-                <TextBlock FontSize="30">THIS IS A BIG, BIG TEXT</TextBlock>
+            <Border Background="#CDFFFA">
+                <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the content</TextBlock>
             </Border>
         </z:ShellSplitView>
     </Design.PreviewWith>
@@ -22,17 +30,31 @@
                 <ControlTemplate>
                     <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *">
                         <ContentPresenter x:Name="PART_Content" Content="{TemplateBinding Content}" />
-                        <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" Content="{TemplateBinding Pane}">
+                        <Border x:Name="PART_PaneBackground" Grid.RowSpan="2" Background="{TemplateBinding PaneBackground}" />
+                        <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Pane}">
                             <Interaction.Behaviors>
-                                <behaviors:PointerPressedOutsideTriggerBehavior>
+                                <behaviors:PointerPressedOutsideTriggerBehavior IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
                                     <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[z:ShellSplitView]}" TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}" Value="{x:False}" />
                                 </behaviors:PointerPressedOutsideTriggerBehavior>
                             </Interaction.Behaviors>
                         </ContentPresenter>
-                        <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
+                        <DockPanel MaxWidth="{TemplateBinding OpenPaneLength}">
+                            <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
+                            <ContentPresenter x:Name="PART_PaneHeader" ContentTemplate="{TemplateBinding PaneHeaderTemplate}" Content="{TemplateBinding PaneHeader}" />
+                        </DockPanel>
                     </Grid>
                 </ControlTemplate>
             </Setter>
+
+            <Style Selector="^ /template/ :is(Control)#PART_PaneHeader">
+                <Setter Property="Transitions">
+                    <Setter.Value>
+                        <Transitions>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
             <Style Selector="^ /template/ :is(Control)#PART_PaneRoot">
                 <Setter Property="Transitions">
@@ -42,6 +64,21 @@
                         </Transitions>
                     </Setter.Value>
                 </Setter>
+            </Style>
+
+            <Style Selector="^ /template/ :is(Control)#PART_PaneBackground">
+                <Setter Property="Transitions">
+                    <Setter.Value>
+                        <Transitions>
+                            <DoubleTransition Property="Width" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style Selector="^[IsPaneOpen=False] /template/ :is(Control)#PART_PaneHeader">
+                <Setter Property="Opacity" Value="0" />
+                <Setter Property="Width" Value="0" />
             </Style>
 
             <Style Selector="^[IsPaneOpen=True] /template/ :is(Control)#PART_PaneRoot">
@@ -64,6 +101,9 @@
                 <Setter Property="Grid.RowSpan" Value="2" />
             </Style>
             <Style Selector="^[DisplayMode=Inline][IsPaneOpen=False] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="0" />
+            </Style>
+            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PART_PaneBackground">
                 <Setter Property="Width" Value="0" />
             </Style>
             <Style Selector="^[DisplayMode=Inline][IsPaneOpen=True] /template/ :is(Control)#PART_Content">

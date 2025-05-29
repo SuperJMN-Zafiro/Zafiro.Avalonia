@@ -70,9 +70,9 @@
                                 <Setter Property="Padding" Value="0" />
                                 <Setter Property="DockPanel.Dock"
                                         x:DataType="se:IContentSection"
-                                        Value="{Binding IsPrimary, Converter={x:Static sh:Converters.IsPrimaryToDock}}" />
+                                        Value="{Binding IsPrimary, Converter={x:Static sh:ShellConverters.IsPrimaryToDock}}" />
                                 <Setter Property="IsHitTestVisible"
-                                        Value="{Binding Converter={x:Static sh:Converters.IsActivatable}}" />
+                                        Value="{Binding Converter={x:Static sh:ShellConverters.IsActivatable}}" />
                             </ControlTheme>
                         </ListBox.ItemContainerTheme>
                     </ListBox>

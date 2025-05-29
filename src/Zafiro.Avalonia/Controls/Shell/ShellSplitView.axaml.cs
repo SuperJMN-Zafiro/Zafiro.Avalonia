@@ -1,3 +1,6 @@
+using Avalonia.Controls.Templates;
+using Avalonia.Media;
+
 namespace Zafiro.Avalonia.Controls;
 
 public class ShellSplitView : ContentControl
@@ -16,6 +19,18 @@ public class ShellSplitView : ContentControl
 
     public static readonly StyledProperty<double> OpenPaneLengthProperty = AvaloniaProperty.Register<ShellSplitView, double>(
         nameof(OpenPaneLength));
+
+    public static readonly StyledProperty<object> ToggleButtonContentProperty = AvaloniaProperty.Register<ShellSplitView, object>(
+        nameof(ToggleButtonContent));
+
+    public static readonly StyledProperty<object> PaneHeaderProperty = AvaloniaProperty.Register<ShellSplitView, object>(
+        nameof(PaneHeader));
+
+    public static readonly StyledProperty<IDataTemplate> PaneHeaderTemplateProperty = AvaloniaProperty.Register<ShellSplitView, IDataTemplate>(
+        nameof(PaneHeaderTemplate));
+
+    public static readonly StyledProperty<IBrush> PaneBackgroundProperty = AvaloniaProperty.Register<ShellSplitView, IBrush>(
+        nameof(PaneBackground));
 
     public bool IsPaneOpen
     {
@@ -45,6 +60,30 @@ public class ShellSplitView : ContentControl
     {
         get => GetValue(OpenPaneLengthProperty);
         set => SetValue(OpenPaneLengthProperty, value);
+    }
+
+    public object ToggleButtonContent
+    {
+        get => GetValue(ToggleButtonContentProperty);
+        set => SetValue(ToggleButtonContentProperty, value);
+    }
+
+    public object PaneHeader
+    {
+        get => GetValue(PaneHeaderProperty);
+        set => SetValue(PaneHeaderProperty, value);
+    }
+
+    public IDataTemplate PaneHeaderTemplate
+    {
+        get => GetValue(PaneHeaderTemplateProperty);
+        set => SetValue(PaneHeaderTemplateProperty, value);
+    }
+
+    public IBrush PaneBackground
+    {
+        get => GetValue(PaneBackgroundProperty);
+        set => SetValue(PaneBackgroundProperty, value);
     }
 }
 
