@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:extensions="clr-namespace:Zafiro.Avalonia.Extensions;assembly=Zafiro.Avalonia"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Shell.ShellSplitViewSampleView">
+
+    <UserControl.Resources>
+        <misc:EnumProvider x:Key="DisplayModesProvider"
+                           EnumType="{x:Type controls:ShellSplitViewDisplayMode}" />
+    </UserControl.Resources>
+
+    <controls:Card Subheader="SplitView with header and collapse button">
+
+        <DockPanel>
+            <HeaderedContentControl Header="Display Mode" DockPanel.Dock="Top">
+                <ComboBox x:Name="DisplayModes"
+                          SelectedValue="{Binding #ShellSplitView.DisplayMode}"
+                          SelectedValueBinding="{Binding Value, DataType=extensions:EnumItem}"
+                          DisplayMemberBinding="{Binding Description, DataType=extensions:EnumItem}"
+                          ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}">
+                </ComboBox>
+            </HeaderedContentControl>
+            <controls:ShellSplitView x:Name="ShellSplitView" Width="400" Height="300">
+                <controls:ShellSplitView.Pane>
+                    <Rectangle Fill="Red" />
+                </controls:ShellSplitView.Pane>
+                <Border Background="Blue">
+                    <TextBlock FontSize="30">THIS IS A BIG, BIG TEXT</TextBlock>
+                </Border>
+            </controls:ShellSplitView>
+        </DockPanel>
+    </controls:Card>
+</UserControl>

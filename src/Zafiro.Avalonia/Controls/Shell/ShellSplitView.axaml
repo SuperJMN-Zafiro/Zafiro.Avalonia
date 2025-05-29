@@ -1,0 +1,86 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
+    <Design.PreviewWith>
+        <z:ShellSplitView Width="400" Height="300">
+            <z:ShellSplitView.Pane>
+                <Rectangle Fill="Red" />
+            </z:ShellSplitView.Pane>
+            <Border Background="Blue">
+                <TextBlock FontSize="30">THIS IS A BIG, BIG TEXT</TextBlock>
+            </Border>
+        </z:ShellSplitView>
+    </Design.PreviewWith>
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type z:ShellSplitView}" TargetType="z:ShellSplitView">
+            <Setter Property="DisplayMode" Value="Overlay" />
+            <Setter Property="ExpandButtonSize" Value="28" />
+            <Setter Property="OpenPaneLength" Value="200" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *">
+                        <ContentPresenter x:Name="PART_Content" Content="{TemplateBinding Content}" />
+                        <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" Content="{TemplateBinding Pane}" />
+                        <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^ /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Transitions">
+                    <Setter.Value>
+                        <Transitions>
+                            <DoubleTransition Property="Width" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style Selector="^[IsPaneOpen=True] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="{TemplateBinding OpenPaneLength}"></Setter>
+            </Style>
+            <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactOverlay] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="{TemplateBinding ExpandButtonSize}" />
+            </Style>
+            <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactInline] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="{TemplateBinding ExpandButtonSize}" />
+            </Style>
+            <Style Selector="^[IsPaneOpen=False][DisplayMode=Inline] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="0" />
+            </Style>
+
+            <Style Selector="^[DisplayMode=Inline] /template/ :is(Control)#PART_Content">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="Grid.Row" Value="1" />
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+                <Setter Property="Grid.RowSpan" Value="2" />
+            </Style>
+            <Style Selector="^[DisplayMode=Inline][IsPaneOpen=False] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="0" />
+            </Style>
+            <Style Selector="^[DisplayMode=Inline][IsPaneOpen=True] /template/ :is(Control)#PART_Content">
+                <Setter Property="Grid.Column" Value="1" />
+                <Setter Property="Grid.Row" Value="1" />
+            </Style>
+            <Style Selector="^[DisplayMode=Overlay] /template/ :is(Control)#PART_Content">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="Grid.Row" Value="1" />
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+            </Style>
+            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PART_PaneRoot">
+                <Setter Property="Width" Value="0"></Setter>
+            </Style>
+            <Style Selector="^[DisplayMode=CompactOverlay] /template/ :is(Control)#PART_Content">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="Grid.Row" Value="1" />
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+            </Style>
+            <Style Selector="^[DisplayMode=CompactInline] /template/ :is(Control)#PART_Content">
+                <Setter Property="Grid.Column" Value="1" />
+                <Setter Property="Grid.Row" Value="1" />
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>
