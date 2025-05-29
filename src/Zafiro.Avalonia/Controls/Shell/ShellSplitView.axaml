@@ -4,7 +4,7 @@
         xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors"
         xmlns:shell="clr-namespace:Zafiro.Avalonia.Controls.Shell">
     <Design.PreviewWith>
-        <z:ShellSplitView PaneBackground="#7AD3C9" PaneHeader="Title so duroasdfasdfas" x:Name="ShellSplitView" DisplayMode="Inline" Width="400" Height="300">
+        <z:ShellSplitView PaneBackground="#7AD3C9" PaneHeader="Very long title, very long title" x:Name="ShellSplitView" DisplayMode="Overlay" Width="400" Height="300">
             <z:ShellSplitView.PaneHeaderTemplate>
                 <DataTemplate>
                     <TextBlock TextAlignment="Left" TextTrimming="CharacterEllipsis" Margin="20 0" VerticalAlignment="Center" Text="{Binding}" />
@@ -28,20 +28,23 @@
             <Setter Property="OpenPaneLength" Value="200" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *">
+                    <Grid ColumnDefinitions="Auto *" ShowGridLines="True">
                         <ContentPresenter x:Name="PART_Content" Content="{TemplateBinding Content}" />
-                        <Border x:Name="PART_PaneBackground" Grid.RowSpan="2" Background="{TemplateBinding PaneBackground}" />
-                        <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Pane}">
+                        <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *">
+                            <Border x:Name="PART_PaneBackground" Grid.RowSpan="2" Background="{TemplateBinding PaneBackground}" />
+                            <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Pane}" />
+                            <DockPanel MaxWidth="{TemplateBinding OpenPaneLength}">
+                                <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
+                                <ContentPresenter x:Name="PART_PaneHeader" ContentTemplate="{TemplateBinding PaneHeaderTemplate}" Content="{TemplateBinding PaneHeader}" />
+                            </DockPanel>
                             <Interaction.Behaviors>
                                 <behaviors:PointerPressedOutsideTriggerBehavior IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
                                     <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[z:ShellSplitView]}" TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}" Value="{x:False}" />
                                 </behaviors:PointerPressedOutsideTriggerBehavior>
                             </Interaction.Behaviors>
-                        </ContentPresenter>
-                        <DockPanel MaxWidth="{TemplateBinding OpenPaneLength}">
-                            <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
-                            <ContentPresenter x:Name="PART_PaneHeader" ContentTemplate="{TemplateBinding PaneHeaderTemplate}" Content="{TemplateBinding PaneHeader}" />
-                        </DockPanel>
+                        </Grid>
+
+
                     </Grid>
                 </ControlTemplate>
             </Setter>
@@ -50,7 +53,7 @@
                 <Setter Property="Transitions">
                     <Setter.Value>
                         <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.5" />
                         </Transitions>
                     </Setter.Value>
                 </Setter>
