@@ -18,27 +18,24 @@
                               SelectedValue="{Binding #ShellSplitView.DisplayMode}"
                               SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}"
                               DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
-                              ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}">
-                    </ComboBox>
+                              ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}" />
                 </z:Card>
             </StackPanel>
 
             <z:ShellSplitView
-                x:Name="ShellSplitView" PaneBackground="#7AD3C9"
+                x:Name="ShellSplitView"
                 PaneHeader="Very long title, very long title"
                 ContentHeader="HEADER"
                 Background="AliceBlue"
+                PaneBorderThickness="1"
+                PaneBackground="Red"
+                PaneBorderBrush="Black"
                 DisplayMode="CompactInline" Width="500" Height="400">
-                <z:ShellSplitView.PaneHeaderTemplate>
-                    <DataTemplate>
-                        <TextBlock TextAlignment="Left" TextTrimming="CharacterEllipsis" Margin="20 0" VerticalAlignment="Center" Text="{Binding}" />
-                    </DataTemplate>
-                </z:ShellSplitView.PaneHeaderTemplate>
-                <z:ShellSplitView.Pane>
+                <z:ShellSplitView.PaneContent>
                     <Border BorderThickness="2">
                         <TextBlock VerticalAlignment="Center" TextAlignment="Center">This is the pane content</TextBlock>
                     </Border>
-                </z:ShellSplitView.Pane>
+                </z:ShellSplitView.PaneContent>
                 <Border Background="#CDFFFA">
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the content</TextBlock>
                 </Border>
@@ -47,102 +44,139 @@
     </Design.PreviewWith>
     <Styles.Resources>
 
+        <DataTemplate x:Key="ContentHeaderTemplate">
+            <ContentControl TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="HeaderPaneTemplate">
+            <ContentControl TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        </DataTemplate>
+
         <ControlTheme x:Key="{x:Type z:ShellSplitView}" TargetType="z:ShellSplitView">
+            <!-- Default values -->
             <Setter Property="DisplayMode" Value="Overlay" />
             <Setter Property="ExpandButtonSize" Value="28" />
             <Setter Property="OpenPaneLength" Value="200" />
-            <Setter Property="ContentHeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <ContentControl Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
             <Setter Property="ToggleButtonTheme" Value="{StaticResource TransparentToggleButton}" />
+            <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
+            <Setter Property="PaneHeaderTemplate" Value="{StaticResource HeaderPaneTemplate}" />
             <Setter Property="ToggleButtonContent">
-                <Setter.Value>
-                    <Template>
-                        <p:Icon Value="mdi-menu" />
-                    </Template>
-                </Setter.Value>
+                <Template>
+                    <p:Icon Value="mdi-menu" />
+                </Template>
             </Setter>
+
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *" Background="{TemplateBinding Background}">
-                        <ContentPresenter Grid.Row="0" Grid.Column="1" x:Name="ContentHeader"
-                                          ContentTemplate="{TemplateBinding ContentHeaderTemplate}"
-                                          IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                          Content="{TemplateBinding ContentHeader}" Height="{TemplateBinding ExpandButtonSize}" />
-                        <ContentPresenter Grid.Row="1" x:Name="Content" Content="{TemplateBinding Content}" />
-                        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" x:Name="RootGrid" ColumnDefinitions="Auto *" RowDefinitions="Auto *">
-                            <Border x:Name="PaneBackground" Grid.RowSpan="2" Background="{TemplateBinding PaneBackground}" />
-                            <ContentPresenter HorizontalAlignment="Left" x:Name="PaneRoot" Grid.Row="1" Grid.Column="0"
-                                              Content="{TemplateBinding Pane}" />
-                            <DockPanel Grid.Row="0" Grid.Column="0" MaxWidth="{TemplateBinding OpenPaneLength}">
-                                <ToggleButton
-                                    Theme="{TemplateBinding ToggleButtonTheme}"
-                                    Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="{TemplateBinding ToggleButtonContent}"
-                                    IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
-                                <ContentPresenter x:Name="PaneHeader" ContentTemplate="{TemplateBinding PaneHeaderTemplate}" Content="{TemplateBinding PaneHeader}" />
-                            </DockPanel>
-                            <Interaction.Behaviors>
-                                <behaviors:PointerPressedOutsideTriggerBehavior IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
-                                    <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[z:ShellSplitView]}" TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}" Value="{x:False}" />
-                                </behaviors:PointerPressedOutsideTriggerBehavior>
-                            </Interaction.Behaviors>
+                    <!-- Main grid: Auto width for pane, * for content -->
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto *">
+
+                            <!-- Content Header (top-right) -->
+                            <ContentPresenter Grid.Row="0" Grid.Column="1" x:Name="ContentHeader"
+                                              ContentTemplate="{TemplateBinding ContentHeaderTemplate}"
+                                              Content="{TemplateBinding ContentHeader}"
+                                              Height="{TemplateBinding ExpandButtonSize}"
+                                              IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                            <!-- Main Content (bottom-right by default) -->
+                            <ContentPresenter Grid.Row="1" Grid.Column="0" x:Name="Content"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" />
+
+                            <!-- Pane Container (left side, spans both rows) -->
+                            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" x:Name="PaneContainer"
+                                  ColumnDefinitions="Auto *" RowDefinitions="Auto *">
+
+                                <!-- Pane Background -->
+                                <Border x:Name="PaneBackground" Grid.RowSpan="2"
+                                        Background="{TemplateBinding PaneBackground}"
+                                        BorderBrush="{TemplateBinding PaneBorderBrush}"
+                                        BorderThickness="{TemplateBinding PaneBorderThickness}" />
+
+                                <!-- Pane Content -->
+                                <ContentPresenter x:Name="PaneRoot" Grid.Row="1" Grid.Column="0"
+                                                  HorizontalAlignment="Left"
+                                                  ContentTemplate="{TemplateBinding PaneContentTemplate}"
+                                                  Content="{TemplateBinding PaneContent}" />
+
+                                <!-- Header with toggle button -->
+                                <DockPanel Grid.Row="0" Grid.Column="0" MaxWidth="{TemplateBinding OpenPaneLength}">
+                                    <ToggleButton Theme="{TemplateBinding ToggleButtonTheme}"
+                                                  Width="{TemplateBinding ExpandButtonSize}"
+                                                  Height="{TemplateBinding ExpandButtonSize}"
+                                                  Content="{TemplateBinding ToggleButtonContent}"
+                                                  IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" />
+                                    <ContentPresenter x:Name="PaneHeader"
+                                                      ContentTemplate="{TemplateBinding PaneHeaderTemplate}"
+                                                      Content="{TemplateBinding PaneHeader}" />
+                                </DockPanel>
+
+                                <!-- Click outside behavior for overlay mode -->
+                                <Interaction.Behaviors>
+                                    <behaviors:PointerPressedOutsideTriggerBehavior
+                                        IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
+                                        <ChangeAvaloniaPropertyAction
+                                            TargetObject="{Binding $parent[z:ShellSplitView]}"
+                                            TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}"
+                                            Value="{x:False}" />
+                                    </behaviors:PointerPressedOutsideTriggerBehavior>
+                                </Interaction.Behaviors>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter>
 
+            <!-- Animations -->
             <Style Selector="^ /template/ :is(Control)#PaneHeader">
                 <Setter Property="Transitions">
-                    <Setter.Value>
-                        <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.5" />
-                        </Transitions>
-                    </Setter.Value>
+                    <Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.5" />
+                    </Transitions>
                 </Setter>
             </Style>
 
             <Style Selector="^ /template/ :is(Control)#PaneRoot">
                 <Setter Property="Transitions">
-                    <Setter.Value>
-                        <Transitions>
-                            <DoubleTransition Property="Width" Duration="0:0:0.1" />
-                        </Transitions>
-                    </Setter.Value>
+                    <Transitions>
+                        <DoubleTransition Property="Width" Duration="0:0:0.1" />
+                    </Transitions>
                 </Setter>
             </Style>
 
             <Style Selector="^ /template/ :is(Control)#PaneBackground">
                 <Setter Property="Transitions">
-                    <Setter.Value>
-                        <Transitions>
-                            <DoubleTransition Property="Width" Duration="0:0:0.1" />
-                        </Transitions>
-                    </Setter.Value>
+                    <Transitions>
+                        <DoubleTransition Property="Width" Duration="0:0:0.1" />
+                    </Transitions>
                 </Setter>
             </Style>
 
+            <!-- Pane closed states -->
             <Style Selector="^[IsPaneOpen=False] /template/ :is(Control)#PaneHeader">
                 <Setter Property="Opacity" Value="0" />
                 <Setter Property="Width" Value="0" />
             </Style>
 
+            <!-- Pane open width -->
             <Style Selector="^[IsPaneOpen=True] /template/ :is(Control)#PaneRoot">
-                <Setter Property="Width" Value="{TemplateBinding OpenPaneLength}"></Setter>
+                <Setter Property="Width" Value="{TemplateBinding OpenPaneLength}" />
             </Style>
+
+            <!-- CompactOverlay mode -->
             <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactOverlay] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="{TemplateBinding ExpandButtonSize}" />
             </Style>
+
+            <!-- CompactInline mode -->
             <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactInline] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="{TemplateBinding ExpandButtonSize}" />
             </Style>
-            <Style Selector="^[IsPaneOpen=False][DisplayMode=Inline] /template/ :is(Control)#PaneRoot">
-                <Setter Property="Width" Value="0" />
-            </Style>
 
+            <!-- Inline mode - content repositioning -->
             <Style Selector="^[DisplayMode=Inline] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="1" />
@@ -152,15 +186,13 @@
             <Style Selector="^[DisplayMode=Inline][IsPaneOpen=False] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="0" />
             </Style>
-            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PaneBackground">
-                <Setter Property="Width" Value="0" />
-            </Style>
             <Style Selector="^[DisplayMode=Inline][IsPaneOpen=True] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="1" />
                 <Setter Property="Grid.Row" Value="1" />
             </Style>
-            <Style Selector="^[DisplayMode=Overlay]
-             /template/ :is(Control)#Content">
+
+            <!-- Overlay mode - content repositioning -->
+            <Style Selector="^[DisplayMode=Overlay] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="1" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
@@ -170,9 +202,14 @@
                 <Setter Property="Grid.Row" Value="0" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
             </Style>
-            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PaneRoot">
-                <Setter Property="Width" Value="0"></Setter>
+            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PaneBackground">
+                <Setter Property="Width" Value="0" />
             </Style>
+            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PaneRoot">
+                <Setter Property="Width" Value="0" />
+            </Style>
+
+            <!-- CompactOverlay mode - content repositioning -->
             <Style Selector="^[DisplayMode=CompactOverlay] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="1" />
@@ -183,6 +220,8 @@
                 <Setter Property="Grid.Row" Value="0" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
             </Style>
+
+            <!-- CompactInline mode - content repositioning -->
             <Style Selector="^[DisplayMode=CompactInline] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="1" />
                 <Setter Property="Grid.Row" Value="1" />

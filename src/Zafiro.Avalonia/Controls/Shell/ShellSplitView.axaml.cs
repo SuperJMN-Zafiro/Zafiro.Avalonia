@@ -12,8 +12,8 @@ public class ShellSplitView : ContentControl
     public static readonly StyledProperty<ShellSplitViewDisplayMode> DisplayModeProperty = AvaloniaProperty.Register<ShellSplitView, ShellSplitViewDisplayMode>(
         nameof(DisplayMode));
 
-    public static readonly StyledProperty<object> PaneProperty = AvaloniaProperty.Register<ShellSplitView, object>(
-        nameof(Pane));
+    public static readonly StyledProperty<object> PaneContentProperty = AvaloniaProperty.Register<ShellSplitView, object>(
+        nameof(PaneContent));
 
     public static readonly StyledProperty<double> ExpandButtonSizeProperty = AvaloniaProperty.Register<ShellSplitView, double>(
         nameof(ExpandButtonSize));
@@ -42,6 +42,15 @@ public class ShellSplitView : ContentControl
     public static readonly StyledProperty<IDataTemplate> ContentHeaderTemplateProperty = AvaloniaProperty.Register<ShellSplitView, IDataTemplate>(
         nameof(ContentHeaderTemplate));
 
+    public static readonly StyledProperty<IDataTemplate> PaneContentTemplateProperty = AvaloniaProperty.Register<ShellSplitView, IDataTemplate>(
+        nameof(PaneContentTemplate));
+
+    public static readonly StyledProperty<IBrush> PaneBorderBrushProperty = AvaloniaProperty.Register<ShellSplitView, IBrush>(
+        nameof(PaneBorderBrush));
+
+    public static readonly StyledProperty<Thickness> PaneBorderThicknessProperty = AvaloniaProperty.Register<ShellSplitView, Thickness>(
+        nameof(PaneBorderThickness));
+
     public bool IsPaneOpen
     {
         get => GetValue(IsPaneOpenProperty);
@@ -54,10 +63,10 @@ public class ShellSplitView : ContentControl
         set => SetValue(DisplayModeProperty, value);
     }
 
-    public object Pane
+    public object PaneContent
     {
-        get => GetValue(PaneProperty);
-        set => SetValue(PaneProperty, value);
+        get => GetValue(PaneContentProperty);
+        set => SetValue(PaneContentProperty, value);
     }
 
     public double ExpandButtonSize
@@ -113,6 +122,24 @@ public class ShellSplitView : ContentControl
         get => GetValue(ContentHeaderTemplateProperty);
         set => SetValue(ContentHeaderTemplateProperty, value);
     }
+
+    public IDataTemplate PaneContentTemplate
+    {
+        get => GetValue(PaneContentTemplateProperty);
+        set => SetValue(PaneContentTemplateProperty, value);
+    }
+
+    public IBrush PaneBorderBrush
+    {
+        get => GetValue(PaneBorderBrushProperty);
+        set => SetValue(PaneBorderBrushProperty, value);
+    }
+
+    public Thickness PaneBorderThickness
+    {
+        get => GetValue(PaneBorderThicknessProperty);
+        set => SetValue(PaneBorderThicknessProperty, value);
+    }
 }
 
 public enum ShellSplitViewDisplayMode
@@ -120,5 +147,5 @@ public enum ShellSplitViewDisplayMode
     Inline,
     Overlay,
     CompactOverlay,
-    CompactInline,
+    CompactInline
 }

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
              x:Class="TestApp.Samples.Shell.ShellSplitViewSampleView">
 
     <UserControl.Resources>
@@ -14,23 +14,29 @@
 
     <controls:Card Subheader="SplitView with header and collapse button">
 
-        <DockPanel>
-            <HeaderedContentControl Header="Display Mode" DockPanel.Dock="Top">
+        <DockPanel MinWidth="400" MinHeight="300">
+            <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" HorizontalAlignment="Center" Header="Display Mode" DockPanel.Dock="Top" Margin="20">
                 <ComboBox x:Name="DisplayModes"
                           SelectedValue="{Binding #ShellSplitView.DisplayMode}"
                           SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}"
                           DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
-                          ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}">
-                </ComboBox>
+                          ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}" />
             </HeaderedContentControl>
-            <controls:ShellSplitView x:Name="ShellSplitView" Width="400" Height="300">
-                <controls:ShellSplitView.Pane>
-                    <Border Background="LightGray" BorderThickness="2" BorderBrush="Gray">
-                        <TextBlock VerticalAlignment="Center">This is the pane</TextBlock>
+            <controls:ShellSplitView x:Name="ShellSplitView"
+                                     ContentHeader="This is the header"
+                                     PaneBorderThickness="0 0 1 0"
+                                     PaneBorderBrush="DarkGray"
+                                     PaneHeader="Pane header"
+                                     BorderThickness="1"
+                                     BorderBrush="DarkGray"
+                                     PaneBackground="BlanchedAlmond" OpenPaneLength="150">
+                <controls:ShellSplitView.PaneContent>
+                    <Border>
+                        <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the pane</TextBlock>
                     </Border>
-                </controls:ShellSplitView.Pane>
+                </controls:ShellSplitView.PaneContent>
                 <Border Background="Blue">
-                    <Image Source="/Assets/avalonia.png" />
+                    <Image Stretch="UniformToFill" Source="/Assets/avalonia.png" />
                 </Border>
             </controls:ShellSplitView>
         </DockPanel>
