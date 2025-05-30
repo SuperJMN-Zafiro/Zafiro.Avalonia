@@ -5,7 +5,7 @@
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Design.PreviewWith>
-        <sh:ShellView Width="600" Height="500">
+        <sh:ShellView Width="400" Height="500">
             <sh:ShellView.Shell>
                 <sh:ShellDesign />
             </sh:ShellView.Shell>
@@ -13,7 +13,61 @@
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="sh:ShellView" x:Key="{x:Type sh:ShellView}">
+
+        <ControlTheme x:Key="{x:Type sh:ShellView}" TargetType="sh:ShellView">
+            <Setter Property="MenuButtonSize" Value="48" />
+            <Setter Property="IsPaneOpen" Value="True" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <c:ShellSplitView x:Name="ShellSplitView"
+                                      PaneBackground="White"
+                                      IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}"
+                                      PaneHeader="{Binding $parent[sh:ShellView].Shell.Header}"
+                                      ContentHeader="{Binding $parent[sh:ShellView].Shell.ContentHeader^}"
+                                      Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}"
+                                      ExpandButtonSize="{TemplateBinding MenuButtonSize}">
+
+                        <Interaction.Behaviors>
+                            <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=c:AdaptiveControl}}">
+                                <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
+                                <AdaptiveClassSetter ClassName="Wide" MinWidth="600" MaxWidth="Infinity" />
+                            </AdaptiveBehavior>
+                        </Interaction.Behaviors>
+
+                        <c:ShellSplitView.PaneContent>
+                            <sh:Sidebar
+                                IconMargin="8"
+                                IconWidth="{Binding $parent[sh:ShellView].MenuButtonSize}"
+                                IconHeight="{Binding $parent[sh:ShellView].MenuButtonSize}"
+                                SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
+                                Sections="{Binding $parent[sh:ShellView].Shell.Sections}">
+                                <sh:Sidebar.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
+                                    </Transitions>
+                                </sh:Sidebar.Transitions>
+                                <Interaction.Behaviors>
+                                    <sh:MyPointerReleasedTrigger EventRoutingStrategy="Tunnel">
+                                        <ChangeAvaloniaPropertyAction IsEnabled="{Binding $parent[c:ShellSplitView].DisplayMode, Converter={x:Static sh:ShellConverters.IsOverlay}}"
+                                                                      TargetObject="{Binding $parent[sh:ShellView]}"
+                                                                      Value="{x:False}"
+                                                                      TargetProperty="{x:Static sh:ShellView.IsPaneOpenProperty}" />
+                                    </sh:MyPointerReleasedTrigger>
+                                </Interaction.Behaviors>
+                            </sh:Sidebar>
+                        </c:ShellSplitView.PaneContent>
+                    </c:ShellSplitView>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ c|ShellSplitView.Narrow">
+                <Setter Property="DisplayMode" Value="Overlay" />
+            </Style>
+            <Style Selector="^ /template/ c|ShellSplitView.Wide">
+                <Setter Property="DisplayMode" Value="CompactInline" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme TargetType="sh:ShellView" x:Key="Old">
             <Setter Property="OpenPaneLength" Value="220" />
             <Setter Property="CompactPaneLength" Value="40" />
             <Setter Property="HeaderContentTemplate">

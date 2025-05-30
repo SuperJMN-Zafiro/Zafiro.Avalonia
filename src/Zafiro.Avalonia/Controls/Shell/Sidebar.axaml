@@ -43,13 +43,16 @@
                             <DataTemplate DataType="se:ICommandSection">
                                 <Button Padding="0"
                                         HorizontalContentAlignment="Left"
-                                        Theme="{StaticResource TransparentButton}" Command="{Binding Command}" Background="Transparent"
+                                        Theme="{StaticResource TransparentButton}"
+                                        Command="{Binding Command}"
+                                        Background="Transparent"
                                         HorizontalAlignment="Stretch">
                                     <Button.Content>
                                         <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
                                             <z:EdgePanel.StartContent>
                                                 <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
                                                                 Height="{Binding $parent[sh:Sidebar].IconHeight}"
+                                                                Padding="{Binding $parent[sh:Sidebar].IconMargin}"
                                                                 Content="{Binding Icon}" />
                                             </z:EdgePanel.StartContent>
                                             <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis"
@@ -112,7 +115,11 @@
                                 <ui:Icon Source="fa-wallet" />
                             </sh:ContentSectionDesign.Icon>
                         </sh:ContentSectionDesign>
-                        <sh:CommandSectionDesign Name="Command" />
+                        <sh:CommandSectionDesign Name="Command">
+                            <sh:CommandSectionDesign.Icon>
+                                <ui:Icon Source="mdi-menu" />
+                            </sh:CommandSectionDesign.Icon>
+                        </sh:CommandSectionDesign>
                         <sh:ContentSectionDesign Name="Settings" IsPrimary="False">
                             <sh:ContentSectionDesign.Icon>
                                 <ui:Icon Source="mdi-cog" />

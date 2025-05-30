@@ -45,11 +45,16 @@
     <Styles.Resources>
 
         <DataTemplate x:Key="ContentHeaderTemplate">
-            <ContentControl TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <ContentControl
+                TextElement.FontWeight="Bold"
+                TextElement.FontSize="18"
+                TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </DataTemplate>
 
         <DataTemplate x:Key="HeaderPaneTemplate">
-            <ContentControl TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <ContentControl
+                TextElement.FontWeight="Bold"
+                TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
         </DataTemplate>
 
         <ControlTheme x:Key="{x:Type z:ShellSplitView}" TargetType="z:ShellSplitView">
