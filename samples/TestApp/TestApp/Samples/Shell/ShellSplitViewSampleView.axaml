@@ -30,6 +30,19 @@
                                      BorderThickness="1"
                                      BorderBrush="DarkGray"
                                      PaneBackground="BlanchedAlmond" OpenPaneLength="150">
+                <controls:ShellSplitView.ToggleButtonTheme>
+                    <ControlTheme TargetType="ToggleButton" BasedOn="{StaticResource TransparentToggleButton}">
+                        <Setter Property="Template">
+                            <ControlTemplate>
+                                <Border Background="Transparent">
+                                    <Viewbox Width="20">
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                    </Viewbox>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter>
+                    </ControlTheme>
+                </controls:ShellSplitView.ToggleButtonTheme>
                 <controls:ShellSplitView.PaneContent>
                     <Border>
                         <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the pane</TextBlock>

@@ -20,13 +20,11 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <c:ShellSplitView x:Name="ShellSplitView"
-                                      PaneBackground="White"
                                       IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}"
                                       PaneHeader="{Binding $parent[sh:ShellView].Shell.Header}"
                                       ContentHeader="{Binding $parent[sh:ShellView].Shell.ContentHeader^}"
                                       Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}"
                                       ExpandButtonSize="{TemplateBinding MenuButtonSize}">
-
                         <Interaction.Behaviors>
                             <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=c:AdaptiveControl}}">
                                 <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
@@ -36,7 +34,7 @@
 
                         <c:ShellSplitView.PaneContent>
                             <sh:Sidebar
-                                IconMargin="8"
+                                IconMargin="12"
                                 IconWidth="{Binding $parent[sh:ShellView].MenuButtonSize}"
                                 IconHeight="{Binding $parent[sh:ShellView].MenuButtonSize}"
                                 SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
@@ -47,12 +45,12 @@
                                     </Transitions>
                                 </sh:Sidebar.Transitions>
                                 <Interaction.Behaviors>
-                                    <sh:MyPointerReleasedTrigger EventRoutingStrategy="Tunnel">
+                                    <PointerReleasedTrigger EventRoutingStrategy="Tunnel">
                                         <ChangeAvaloniaPropertyAction IsEnabled="{Binding $parent[c:ShellSplitView].DisplayMode, Converter={x:Static sh:ShellConverters.IsOverlay}}"
                                                                       TargetObject="{Binding $parent[sh:ShellView]}"
-                                                                      Value="{x:False}"
+                                                                      Value="False"
                                                                       TargetProperty="{x:Static sh:ShellView.IsPaneOpenProperty}" />
-                                    </sh:MyPointerReleasedTrigger>
+                                    </PointerReleasedTrigger>
                                 </Interaction.Behaviors>
                             </sh:Sidebar>
                         </c:ShellSplitView.PaneContent>

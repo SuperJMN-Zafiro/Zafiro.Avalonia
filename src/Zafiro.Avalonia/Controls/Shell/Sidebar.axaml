@@ -7,6 +7,9 @@
         xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Styles.Resources>
+
+        <TransformOperations x:Key="VerticalSmallScrollThumbScaleTransform">scaleX(0.125)</TransformOperations>
+
         <ControlTheme TargetType="sh:Sidebar" x:Key="{x:Type sh:Sidebar}">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="IconWidth" Value="40" />
@@ -106,6 +109,36 @@
                             </sh:ContentSectionDesign.Icon>
                         </sh:ContentSectionDesign>
                         <sh:ContentSectionDesign Name="Hola4">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
+                            <sh:ContentSectionDesign.Icon>
+                                <ui:Icon Source="fa-wallet" />
+                            </sh:ContentSectionDesign.Icon>
+                        </sh:ContentSectionDesign>
+                        <sh:ContentSectionDesign Name="Hola3">
                             <sh:ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
                             </sh:ContentSectionDesign.Icon>

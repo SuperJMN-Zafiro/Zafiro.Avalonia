@@ -28,7 +28,6 @@
                 ContentHeader="HEADER"
                 Background="AliceBlue"
                 PaneBorderThickness="1"
-                PaneBackground="Red"
                 PaneBorderBrush="Black"
                 DisplayMode="CompactInline" Width="500" Height="400">
                 <z:ShellSplitView.PaneContent>
@@ -62,6 +61,7 @@
             <Setter Property="DisplayMode" Value="Overlay" />
             <Setter Property="ExpandButtonSize" Value="28" />
             <Setter Property="OpenPaneLength" Value="200" />
+            <Setter Property="PaneBackground" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource TransparentToggleButton}" />
             <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
             <Setter Property="PaneHeaderTemplate" Value="{StaticResource HeaderPaneTemplate}" />
