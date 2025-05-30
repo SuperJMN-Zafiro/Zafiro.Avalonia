@@ -25,6 +25,7 @@
       "type": "string",
       "enum": [
         "Publish",
+        "PublishGitHubRelease",
         "PublishNugetPackages",
         "PublishSite",
         "RestoreWorkloads"
@@ -101,10 +102,41 @@
   "allOf": [
     {
       "properties": {
+        "AndroidSigningKeyAlias": {
+          "type": "string",
+          "description": "The alias for the key in the keystore"
+        },
+        "AndroidSigningKeyPass": {
+          "type": "string",
+          "description": "The password of the key within the keystore file",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "AndroidSigningStorePass": {
+          "type": "string",
+          "description": "The password for the keystore file",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "Base64Keystore": {
+          "type": "string",
+          "description": "Contents of the keystore encoded as Base64"
+        },
+        "Configuration": {
+          "type": "string",
+          "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
+          "enum": [
+            "Debug",
+            "Release"
+          ]
+        },
         "Force": {
           "type": "boolean"
         },
         "GitHubApiKey": {
+          "type": "string",
+          "description": "GitHub Authentication Token",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "GitHubAuthenticationToken": {
           "type": "string",
           "description": "GitHub Authentication Token",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
