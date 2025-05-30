@@ -1,5 +1,6 @@
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
+using Avalonia.Styling;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -31,6 +32,15 @@ public class ShellSplitView : ContentControl
 
     public static readonly StyledProperty<IBrush> PaneBackgroundProperty = AvaloniaProperty.Register<ShellSplitView, IBrush>(
         nameof(PaneBackground));
+
+    public static readonly StyledProperty<ControlTheme> ToggleButtonThemeProperty = AvaloniaProperty.Register<ShellSplitView, ControlTheme>(
+        nameof(ToggleButtonTheme));
+
+    public static readonly StyledProperty<object> ContentHeaderProperty = AvaloniaProperty.Register<ShellSplitView, object>(
+        nameof(ContentHeader));
+
+    public static readonly StyledProperty<IDataTemplate> ContentHeaderTemplateProperty = AvaloniaProperty.Register<ShellSplitView, IDataTemplate>(
+        nameof(ContentHeaderTemplate));
 
     public bool IsPaneOpen
     {
@@ -84,6 +94,24 @@ public class ShellSplitView : ContentControl
     {
         get => GetValue(PaneBackgroundProperty);
         set => SetValue(PaneBackgroundProperty, value);
+    }
+
+    public ControlTheme ToggleButtonTheme
+    {
+        get => GetValue(ToggleButtonThemeProperty);
+        set => SetValue(ToggleButtonThemeProperty, value);
+    }
+
+    public object ContentHeader
+    {
+        get => GetValue(ContentHeaderProperty);
+        set => SetValue(ContentHeaderProperty, value);
+    }
+
+    public IDataTemplate ContentHeaderTemplate
+    {
+        get => GetValue(ContentHeaderTemplateProperty);
+        set => SetValue(ContentHeaderTemplateProperty, value);
     }
 }
 

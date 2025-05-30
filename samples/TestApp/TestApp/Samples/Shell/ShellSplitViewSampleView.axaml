@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-             xmlns:extensions="clr-namespace:Zafiro.Avalonia.Extensions;assembly=Zafiro.Avalonia"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Shell.ShellSplitViewSampleView">
@@ -19,8 +18,8 @@
             <HeaderedContentControl Header="Display Mode" DockPanel.Dock="Top">
                 <ComboBox x:Name="DisplayModes"
                           SelectedValue="{Binding #ShellSplitView.DisplayMode}"
-                          SelectedValueBinding="{Binding Value, DataType=extensions:EnumItem}"
-                          DisplayMemberBinding="{Binding Description, DataType=extensions:EnumItem}"
+                          SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}"
+                          DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
                           ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}">
                 </ComboBox>
             </HeaderedContentControl>

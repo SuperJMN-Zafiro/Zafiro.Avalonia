@@ -2,23 +2,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:z="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors"
-        xmlns:shell="clr-namespace:Zafiro.Avalonia.Controls.Shell">
+        xmlns:shell="clr-namespace:Zafiro.Avalonia.Controls.Shell"
+        xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc"
+        xmlns:p="https://github.com/projektanker/icons.avalonia">
     <Design.PreviewWith>
-        <z:ShellSplitView PaneBackground="#7AD3C9" PaneHeader="Very long title, very long title" x:Name="ShellSplitView" DisplayMode="Overlay" Width="400" Height="300">
-            <z:ShellSplitView.PaneHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock TextAlignment="Left" TextTrimming="CharacterEllipsis" Margin="20 0" VerticalAlignment="Center" Text="{Binding}" />
-                </DataTemplate>
-            </z:ShellSplitView.PaneHeaderTemplate>
-            <z:ShellSplitView.Pane>
-                <Border BorderThickness="2">
-                    <TextBlock VerticalAlignment="Center" TextAlignment="Center">This is the pane content</TextBlock>
+        <DockPanel>
+            <DockPanel.Resources>
+                <misc:EnumProvider x:Key="DisplayModesProvider"
+                                   EnumType="{x:Type z:ShellSplitViewDisplayMode}" />
+            </DockPanel.Resources>
+            <StackPanel DockPanel.Dock="Top">
+                <z:Card Header="Display Mode">
+                    <ComboBox x:Name="DisplayModes"
+                              x:CompileBindings="True"
+                              SelectedValue="{Binding #ShellSplitView.DisplayMode}"
+                              SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}"
+                              DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
+                              ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}">
+                    </ComboBox>
+                </z:Card>
+            </StackPanel>
+
+            <z:ShellSplitView
+                x:Name="ShellSplitView" PaneBackground="#7AD3C9"
+                PaneHeader="Very long title, very long title"
+                ContentHeader="HEADER"
+                Background="AliceBlue"
+                DisplayMode="CompactInline" Width="500" Height="400">
+                <z:ShellSplitView.PaneHeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock TextAlignment="Left" TextTrimming="CharacterEllipsis" Margin="20 0" VerticalAlignment="Center" Text="{Binding}" />
+                    </DataTemplate>
+                </z:ShellSplitView.PaneHeaderTemplate>
+                <z:ShellSplitView.Pane>
+                    <Border BorderThickness="2">
+                        <TextBlock VerticalAlignment="Center" TextAlignment="Center">This is the pane content</TextBlock>
+                    </Border>
+                </z:ShellSplitView.Pane>
+                <Border Background="#CDFFFA">
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the content</TextBlock>
                 </Border>
-            </z:ShellSplitView.Pane>
-            <Border Background="#CDFFFA">
-                <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the content</TextBlock>
-            </Border>
-        </z:ShellSplitView>
+            </z:ShellSplitView>
+        </DockPanel>
     </Design.PreviewWith>
     <Styles.Resources>
 
@@ -26,16 +51,39 @@
             <Setter Property="DisplayMode" Value="Overlay" />
             <Setter Property="ExpandButtonSize" Value="28" />
             <Setter Property="OpenPaneLength" Value="200" />
+            <Setter Property="ContentHeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToggleButtonTheme" Value="{StaticResource TransparentToggleButton}" />
+            <Setter Property="ToggleButtonContent">
+                <Setter.Value>
+                    <Template>
+                        <p:Icon Value="mdi-menu" />
+                    </Template>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid ColumnDefinitions="Auto *" ShowGridLines="True">
-                        <ContentPresenter x:Name="PART_Content" Content="{TemplateBinding Content}" />
-                        <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *">
-                            <Border x:Name="PART_PaneBackground" Grid.RowSpan="2" Background="{TemplateBinding PaneBackground}" />
-                            <ContentPresenter HorizontalAlignment="Left" x:Name="PART_PaneRoot" Grid.RowSpan="2" Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Pane}" />
-                            <DockPanel MaxWidth="{TemplateBinding OpenPaneLength}">
-                                <ToggleButton Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="=" IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
-                                <ContentPresenter x:Name="PART_PaneHeader" ContentTemplate="{TemplateBinding PaneHeaderTemplate}" Content="{TemplateBinding PaneHeader}" />
+                    <Grid ColumnDefinitions="Auto *" ShowGridLines="True" RowDefinitions="Auto *" Background="{TemplateBinding Background}">
+                        <ContentPresenter Grid.Row="0" Grid.Column="1" x:Name="ContentHeader"
+                                          ContentTemplate="{TemplateBinding ContentHeaderTemplate}"
+                                          IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                          Content="{TemplateBinding ContentHeader}" Height="{TemplateBinding ExpandButtonSize}" />
+                        <ContentPresenter Grid.Row="1" x:Name="Content" Content="{TemplateBinding Content}" />
+                        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" x:Name="RootGrid" ColumnDefinitions="Auto *" RowDefinitions="Auto *">
+                            <Border x:Name="PaneBackground" Grid.RowSpan="2" Background="{TemplateBinding PaneBackground}" />
+                            <ContentPresenter HorizontalAlignment="Left" x:Name="PaneRoot" Grid.Row="1" Grid.Column="0"
+                                              Content="{TemplateBinding Pane}" />
+                            <DockPanel Grid.Row="0" Grid.Column="0" MaxWidth="{TemplateBinding OpenPaneLength}">
+                                <ToggleButton
+                                    Theme="{TemplateBinding ToggleButtonTheme}"
+                                    Width="{TemplateBinding ExpandButtonSize}" Height="{TemplateBinding ExpandButtonSize}" Content="{TemplateBinding ToggleButtonContent}"
+                                    IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" />
+                                <ContentPresenter x:Name="PaneHeader" ContentTemplate="{TemplateBinding PaneHeaderTemplate}" Content="{TemplateBinding PaneHeader}" />
                             </DockPanel>
                             <Interaction.Behaviors>
                                 <behaviors:PointerPressedOutsideTriggerBehavior IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
@@ -43,13 +91,11 @@
                                 </behaviors:PointerPressedOutsideTriggerBehavior>
                             </Interaction.Behaviors>
                         </Grid>
-
-
                     </Grid>
                 </ControlTemplate>
             </Setter>
 
-            <Style Selector="^ /template/ :is(Control)#PART_PaneHeader">
+            <Style Selector="^ /template/ :is(Control)#PaneHeader">
                 <Setter Property="Transitions">
                     <Setter.Value>
                         <Transitions>
@@ -59,7 +105,7 @@
                 </Setter>
             </Style>
 
-            <Style Selector="^ /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^ /template/ :is(Control)#PaneRoot">
                 <Setter Property="Transitions">
                     <Setter.Value>
                         <Transitions>
@@ -69,7 +115,7 @@
                 </Setter>
             </Style>
 
-            <Style Selector="^ /template/ :is(Control)#PART_PaneBackground">
+            <Style Selector="^ /template/ :is(Control)#PaneBackground">
                 <Setter Property="Transitions">
                     <Setter.Value>
                         <Transitions>
@@ -79,54 +125,65 @@
                 </Setter>
             </Style>
 
-            <Style Selector="^[IsPaneOpen=False] /template/ :is(Control)#PART_PaneHeader">
+            <Style Selector="^[IsPaneOpen=False] /template/ :is(Control)#PaneHeader">
                 <Setter Property="Opacity" Value="0" />
                 <Setter Property="Width" Value="0" />
             </Style>
 
-            <Style Selector="^[IsPaneOpen=True] /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^[IsPaneOpen=True] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="{TemplateBinding OpenPaneLength}"></Setter>
             </Style>
-            <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactOverlay] /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactOverlay] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="{TemplateBinding ExpandButtonSize}" />
             </Style>
-            <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactInline] /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^[IsPaneOpen=False][DisplayMode=CompactInline] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="{TemplateBinding ExpandButtonSize}" />
             </Style>
-            <Style Selector="^[IsPaneOpen=False][DisplayMode=Inline] /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^[IsPaneOpen=False][DisplayMode=Inline] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="0" />
             </Style>
 
-            <Style Selector="^[DisplayMode=Inline] /template/ :is(Control)#PART_Content">
+            <Style Selector="^[DisplayMode=Inline] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="1" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
                 <Setter Property="Grid.RowSpan" Value="2" />
             </Style>
-            <Style Selector="^[DisplayMode=Inline][IsPaneOpen=False] /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^[DisplayMode=Inline][IsPaneOpen=False] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="0" />
             </Style>
-            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PART_PaneBackground">
+            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PaneBackground">
                 <Setter Property="Width" Value="0" />
             </Style>
-            <Style Selector="^[DisplayMode=Inline][IsPaneOpen=True] /template/ :is(Control)#PART_Content">
+            <Style Selector="^[DisplayMode=Inline][IsPaneOpen=True] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="1" />
                 <Setter Property="Grid.Row" Value="1" />
             </Style>
-            <Style Selector="^[DisplayMode=Overlay] /template/ :is(Control)#PART_Content">
+            <Style Selector="^[DisplayMode=Overlay]
+             /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="1" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
             </Style>
-            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PART_PaneRoot">
+            <Style Selector="^[DisplayMode=Overlay] /template/ :is(Control)#ContentHeader">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="Grid.Row" Value="0" />
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+            </Style>
+            <Style Selector="^[DisplayMode=Overlay][IsPaneOpen=False] /template/ :is(Control)#PaneRoot">
                 <Setter Property="Width" Value="0"></Setter>
             </Style>
-            <Style Selector="^[DisplayMode=CompactOverlay] /template/ :is(Control)#PART_Content">
+            <Style Selector="^[DisplayMode=CompactOverlay] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="1" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
             </Style>
-            <Style Selector="^[DisplayMode=CompactInline] /template/ :is(Control)#PART_Content">
+            <Style Selector="^[DisplayMode=CompactOverlay] /template/ :is(Control)#ContentHeader">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="Grid.Row" Value="0" />
+                <Setter Property="Grid.ColumnSpan" Value="2" />
+            </Style>
+            <Style Selector="^[DisplayMode=CompactInline] /template/ :is(Control)#Content">
                 <Setter Property="Grid.Column" Value="1" />
                 <Setter Property="Grid.Row" Value="1" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />

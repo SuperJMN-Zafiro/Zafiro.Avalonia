@@ -1,5 +1,7 @@
 using Avalonia.Markup.Xaml;
+using Zafiro.Avalonia.Misc;
 using Zafiro.Avalonia.Mixins;
+using Enum = System.Enum;
 
 namespace Zafiro.Avalonia.Extensions;
 
@@ -19,7 +21,4 @@ public class EnumDescriptionsExtension : MarkupExtension
             .ToList();
         return values;
     }
-    
 }
-
-public record EnumItem(Enum Value, string Description);
