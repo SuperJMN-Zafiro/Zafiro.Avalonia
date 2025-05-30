@@ -7,7 +7,7 @@
              xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
              xmlns:slimDataGrid="clr-namespace:TestApp.Samples.SlimDataGrid"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
              x:Class="TestApp.Samples.SlimDataGrid.SlimDataGridView"
              x:DataType="slimDataGrid:SlimDataGridViewModel">
 
@@ -73,7 +73,7 @@
 
             <sdg:SlimDataGrid Grid.Column="0" HorizontalAlignment="Center" Background="#FFC9EC" Padding="10"
                               VerticalAlignment="Center"
-                              Width="400"
+                              MinWidth="320"
                               HeaderBackground="#20000000" BorderThickness="2"
                               BorderBrush="Black" CornerRadius="10"
                               ItemsSource="{Binding People}" HeaderPadding="10 10"

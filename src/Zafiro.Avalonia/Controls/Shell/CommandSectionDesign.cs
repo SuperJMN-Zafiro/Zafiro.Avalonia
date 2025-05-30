@@ -15,9 +15,9 @@ public class CommandSectionDesign : ICommandSection
         Icon = icon;
         IsPrimary = isPrimary;
     }
-    
+
     public bool IsPrimary { get; init; }
     public string Name { get; set; }
     public object? Icon { get; set; }
-    public ICommand Command { get; }
+    public ICommand Command { get; } = ReactiveCommand.Create(() => { });
 }

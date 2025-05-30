@@ -4,12 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dendrograms="clr-namespace:TestApp.Samples.DataAnalysis.Dendrograms"
              xmlns:dg="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
-             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="50"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="200"
              x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramLinesView" x:DataType="dendrograms:DendrogramLinesViewModel">
-    
+
     <Design.DataContext>
         <dendrograms:DendrogramLinesViewModel />
     </Design.DataContext>
 
-    <dg:DendrogramLinesControl LineThickness="1" LineBrush="Red" Cluster="{Binding Cluster}" />
+    <controls:AspectRatioDecorator AspectRatio="2">
+        <dg:DendrogramLinesControl LineThickness="1" LineBrush="Red" Cluster="{Binding Cluster}" />
+    </controls:AspectRatioDecorator>
 </UserControl>

@@ -5,7 +5,7 @@
              xmlns:de="clr-namespace:Zafiro.Avalonia.DataViz.Dendrograms;assembly=Zafiro.Avalonia.DataViz"
              xmlns:dendrograms1="clr-namespace:TestApp.Samples.DataAnalysis.Dendrograms"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1300" d:DesignHeight="450"
              x:Class="TestApp.Samples.DataAnalysis.Dendrograms.DendrogramView"
              x:DataType="dendrograms1:DendrogramViewModel">
 
@@ -17,26 +17,21 @@
         <dendrograms1:DendrogramViewModel />
     </Design.DataContext>
 
+
     <c:Card Header="Dendrogram: ClusterControl + DendrogramLinesControl" Subheader="Create nice dendrograms for your app.">
-        <UniformGrid Rows="1">
-            <de:ClusterControl DistanceMultiplier="50" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
-                               Cluster="{Binding Cluster}">
-                <de:ClusterControl.ItemTemplate>
-                    <DataTemplate DataType="x:String">
-                        <Border CornerRadius="10" Margin="4 6" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
-                            <TextBlock FontWeight="Black" Text="{Binding}" />
-                        </Border>
-                    </DataTemplate>
-                </de:ClusterControl.ItemTemplate>
-            </de:ClusterControl>
-            <LayoutTransformControl>
-                <LayoutTransformControl.LayoutTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="90"></RotateTransform>
-                    </TransformGroup>
-                </LayoutTransformControl.LayoutTransform>
-                <de:DendrogramLinesControl LineThickness="10" Cluster="{Binding Cluster}" />
-            </LayoutTransformControl>
-        </UniformGrid>
+        <Viewbox>
+            <UniformGrid Rows="1">
+                <de:ClusterControl DistanceMultiplier="50" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
+                                   Cluster="{Binding Cluster}">
+                    <de:ClusterControl.ItemTemplate>
+                        <DataTemplate DataType="x:String">
+                            <Border CornerRadius="10" Margin="4 6" BorderBrush="DodgerBlue" BorderThickness="3" Padding="3">
+                                <TextBlock FontWeight="Black" Text="{Binding}" />
+                            </Border>
+                        </DataTemplate>
+                    </de:ClusterControl.ItemTemplate>
+                </de:ClusterControl>
+            </UniformGrid>
+        </Viewbox>
     </c:Card>
 </UserControl>

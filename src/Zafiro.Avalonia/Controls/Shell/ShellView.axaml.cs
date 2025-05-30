@@ -18,6 +18,12 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<IDataTemplate> HeaderContentTemplateProperty = AvaloniaProperty.Register<ShellView, IDataTemplate>(
         nameof(HeaderContentTemplate));
 
+    public static readonly StyledProperty<double> MenuButtonSizeProperty = AvaloniaProperty.Register<ShellView, double>(
+        nameof(MenuButtonSize));
+
+    public static readonly StyledProperty<bool> IsPaneOpenProperty = AvaloniaProperty.Register<ShellView, bool>(
+        nameof(IsPaneOpen));
+
     public IShell Shell
     {
         get => GetValue(ShellProperty);
@@ -40,5 +46,17 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(HeaderContentTemplateProperty);
         set => SetValue(HeaderContentTemplateProperty, value);
+    }
+
+    public double MenuButtonSize
+    {
+        get => GetValue(MenuButtonSizeProperty);
+        set => SetValue(MenuButtonSizeProperty, value);
+    }
+
+    public bool IsPaneOpen
+    {
+        get => GetValue(IsPaneOpenProperty);
+        set => SetValue(IsPaneOpenProperty, value);
     }
 }

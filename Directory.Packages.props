@@ -45,5 +45,6 @@
     <PackageVersion Include="Zafiro.FileSystem.Local" Version="23.0.0" />
     <PackageVersion Include="Zafiro.FileSystem.SeaweedFS" Version="23.0.0" />
     <PackageVersion Include="Zafiro.UI" Version="23.0.0" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
   </ItemGroup>
 </Project>
