@@ -12,7 +12,7 @@
                            EnumType="{x:Type controls:ShellSplitViewDisplayMode}" />
     </UserControl.Resources>
 
-    <controls:Card Subheader="SplitView with header and collapse button">
+    <controls:Card Subheader="A SplitView specialized for shells, with header and collapse button">
 
         <DockPanel MinWidth="400" MinHeight="300">
             <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" HorizontalAlignment="Center" Header="Display Mode" DockPanel.Dock="Top" Margin="20">
@@ -49,7 +49,10 @@
                     </Border>
                 </controls:ShellSplitView.PaneContent>
                 <Border Background="Blue">
-                    <Image Stretch="UniformToFill" Source="/Assets/avalonia.png" />
+                    <Panel>
+                        <Image Stretch="UniformToFill" Source="/Assets/avalonia.png" />
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="45">Content</TextBlock>
+                    </Panel>
                 </Border>
             </controls:ShellSplitView>
         </DockPanel>

@@ -6,5 +6,5 @@
              xmlns:shell="clr-namespace:Zafiro.Avalonia.Controls.Shell;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Shell.MainView" x:DataType="s:MainViewModel">
-    <shell:ShellView Shell="{Binding Shell}" />
+    <shell:ShellView OpenPaneLength="250" Shell="{Binding Shell}" />
 </UserControl>

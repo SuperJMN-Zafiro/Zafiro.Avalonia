@@ -21,6 +21,7 @@
                 <ControlTemplate>
                     <c:ShellSplitView x:Name="ShellSplitView"
                                       IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}"
+                                      OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                       PaneHeader="{Binding $parent[sh:ShellView].Shell.Header}"
                                       ContentHeader="{Binding $parent[sh:ShellView].Shell.ContentHeader^}"
                                       Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}"
