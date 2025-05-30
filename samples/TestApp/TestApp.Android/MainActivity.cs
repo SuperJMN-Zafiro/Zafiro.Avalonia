@@ -1,18 +1,15 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.Content.PM;
-using Android.OS;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
-using TestApp;
 
-namespace AvaloniaSyncer.Android;
+namespace TestApp.Android;
 
 [Activity(
-    Label = "ZafiroAvalonia.TestApp",
+    Label = "Zafiro.Avalonia",
     Theme = "@style/MyTheme.NoActionBar",
-    Icon = "@drawable/icon",
+    Icon = "@drawable/Icon",
     MainLauncher = true,
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
 public class MainActivity : AvaloniaMainActivity<App>
