@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:pt="https://github.com/projektanker/icons.avalonia"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:b="clr-namespace:Zafiro.Avalonia.Behaviors">
 
     <Design.PreviewWith>
         <sh:ShellView Width="400" Height="500">
@@ -47,10 +48,10 @@
                                 </sh:Sidebar.Transitions>
                                 <Interaction.Behaviors>
                                     <PointerReleasedTrigger EventRoutingStrategy="Tunnel">
-                                        <ChangeAvaloniaPropertyAction IsEnabled="{Binding $parent[c:ShellSplitView].DisplayMode, Converter={x:Static sh:ShellConverters.IsOverlay}}"
-                                                                      TargetObject="{Binding $parent[sh:ShellView]}"
-                                                                      Value="False"
-                                                                      TargetProperty="{x:Static sh:ShellView.IsPaneOpenProperty}" />
+                                        <b:SetAvaloniaPropertyCurrentValueAction IsEnabled="{Binding $parent[c:ShellSplitView].DisplayMode, Converter={x:Static sh:ShellConverters.IsOverlay}}"
+                                                                                 TargetObject="{Binding $parent[sh:ShellView]}"
+                                                                                 Value="False"
+                                                                                 TargetProperty="{x:Static sh:ShellView.IsPaneOpenProperty}" />
                                     </PointerReleasedTrigger>
                                 </Interaction.Behaviors>
                             </sh:Sidebar>
@@ -64,6 +65,21 @@
             <Style Selector="^ /template/ c|ShellSplitView.Wide">
                 <Setter Property="DisplayMode" Value="CompactInline" />
             </Style>
+            <!-- <Style Selector="^ /template/ c|ShellSplitView ContentPresenter#PaneContainer"> -->
+            <!--     <Setter Property="Interaction.Behaviors"> -->
+            <!--         <BehaviorCollectionTemplate> -->
+            <!--             <BehaviorCollection> -->
+            <!--                 <b:PointerPressedOutsideTriggerBehavior -->
+            <!--                     IsEnabled="{Binding $parent[c:ShellSplitView].DisplayMode, Converter={x:Static sh:ShellConverters.IsOverlay}}"> -->
+            <!--                     <ChangeAvaloniaPropertyAction -->
+            <!--                         TargetObject="{Binding $parent[sh:ShellView]}" -->
+            <!--                         TargetProperty="{x:Static sh:ShellView.IsPaneOpenProperty}" -->
+            <!--                         Value="False" /> -->
+            <!--                 </b:PointerPressedOutsideTriggerBehavior> -->
+            <!--             </BehaviorCollection> -->
+            <!--         </BehaviorCollectionTemplate> -->
+            <!--     </Setter> -->
+            <!-- </Style> -->
         </ControlTheme>
 
         <ControlTheme TargetType="sh:ShellView" x:Key="Old">
