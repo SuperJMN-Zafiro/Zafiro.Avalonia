@@ -123,7 +123,7 @@
                                 <Interaction.Behaviors>
                                     <behaviors:PointerPressedOutsideTriggerBehavior
                                         IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
-                                        <ChangeAvaloniaPropertyAction
+                                        <behaviors:SetAvaloniaPropertyCurrentValueAction
                                             TargetObject="{Binding $parent[z:ShellSplitView]}"
                                             TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}"
                                             Value="{x:False}" />
