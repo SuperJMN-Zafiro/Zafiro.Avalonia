@@ -14,3 +14,8 @@ steps:
   env:
     NuGetApiKey: $(NuGetApiKey)
     GitHubApiKey: $(GitHubApiKey)
+    GitHubAuthenticationToken: $(GitHubAuthenticationToken)
+    AndroidSigningKeyAlias: $(AndroidSigningKeyAlias)
+    AndroidSigningKeyPass: $(AndroidSigningKeyPass)
+    Base64Keystore: $(Base64Keystore)
+    AndroidSigningStorePass: $(AndroidSigningStorePass)
