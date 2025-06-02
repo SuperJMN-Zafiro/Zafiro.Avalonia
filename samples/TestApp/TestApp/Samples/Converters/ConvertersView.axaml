@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
+             xmlns:testApp="clr-namespace:TestApp"
+             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Converters.ConvertersView">
+
+    <UserControl.Resources>
+        <misc:EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp:MyStatus}" />
+        <converters:ControlThemeConverter x:Key="ThemeConverter">
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Ok}">
+                <Setter Property="Background" Value="GreenYellow" />
+                <Setter Property="BorderBrush" Value="LightSeaGreen" />
+                <Setter Property="BorderThickness" Value="2"></Setter>
+                <Setter Property="Content" Value="OK" />
+            </ControlTheme>
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Error}">
+                <Setter Property="Background" Value="Red" />
+                <Setter Property="Content" Value="Error" />
+                <Setter Property="FontWeight" Value="Bold"></Setter>
+            </ControlTheme>
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Info}">
+                <Setter Property="Background" Value="Blue" />
+                <Setter Property="Content" Value="Info" />
+            </ControlTheme>
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Warning}">
+                <Setter Property="Background" Value="Orange" />
+                <Setter Property="Content" Value="Warning" />
+            </ControlTheme>
+        </converters:ControlThemeConverter>
+    </UserControl.Resources>
+
+    <controls:Card Header="ControlThemeConverter" Subheader="Converts values to ControlThemes, so you can provide completely different properties depending on, for example, a Binding">
+        <StackPanel Spacing="10">
+            <ComboBox
+                x:Name="ComboBox"
+                SelectedIndex="0"
+                ItemsSource="{Binding Enums, Source={StaticResource EnumProvider}}"
+                DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
+                SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}">
+            </ComboBox>
+            <Button Theme="{Binding #ComboBox.SelectedValue, Converter={StaticResource ThemeConverter}}" />
+        </StackPanel>
+    </controls:Card>
+
+</UserControl>
