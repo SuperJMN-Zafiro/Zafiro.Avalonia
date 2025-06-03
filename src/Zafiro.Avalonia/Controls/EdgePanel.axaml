@@ -28,7 +28,7 @@
                                           Content="{TemplateBinding StartContent}" IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
                         <ContentPresenter x:Name="PART_EndContent" DockPanel.Dock="Right"
                                           Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToLeftMargin}}"
-                                          IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                          IsVisible="{Binding $parent[conv:EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}"
                                           Content="{TemplateBinding EndContent}" />
                         <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding Content}" />
                     </DockPanel>
