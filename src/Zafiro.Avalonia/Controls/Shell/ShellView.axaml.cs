@@ -12,9 +12,6 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<double> OpenPaneLengthProperty = AvaloniaProperty.Register<ShellView, double>(
         nameof(OpenPaneLength));
 
-    public static readonly StyledProperty<double> CompactPaneLengthProperty = AvaloniaProperty.Register<ShellView, double>(
-        nameof(CompactPaneLength));
-
     public static readonly StyledProperty<IDataTemplate> HeaderContentTemplateProperty = AvaloniaProperty.Register<ShellView, IDataTemplate>(
         nameof(HeaderContentTemplate));
 
@@ -34,12 +31,6 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(OpenPaneLengthProperty);
         set => SetValue(OpenPaneLengthProperty, value);
-    }
-
-    public double CompactPaneLength
-    {
-        get => GetValue(CompactPaneLengthProperty);
-        set => SetValue(CompactPaneLengthProperty, value);
     }
 
     public IDataTemplate HeaderContentTemplate

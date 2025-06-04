@@ -6,7 +6,7 @@
         xmlns:b="clr-namespace:Zafiro.Avalonia.Behaviors">
 
     <Design.PreviewWith>
-        <sh:ShellView Width="400" Height="500">
+        <sh:ShellView Width="500" Height="500">
             <sh:ShellView.Shell>
                 <sh:ShellDesign />
             </sh:ShellView.Shell>
@@ -17,6 +17,7 @@
 
         <ControlTheme x:Key="{x:Type sh:ShellView}" TargetType="sh:ShellView">
             <Setter Property="MenuButtonSize" Value="48" />
+            <Setter Property="OpenPaneLength" Value="250" />
             <Setter Property="IsPaneOpen" Value="True" />
             <Setter Property="Template">
                 <ControlTemplate>
@@ -65,151 +66,6 @@
             <Style Selector="^ /template/ c|ShellSplitView.Wide">
                 <Setter Property="DisplayMode" Value="CompactInline" />
             </Style>
-            <!-- <Style Selector="^ /template/ c|ShellSplitView ContentPresenter#PaneContainer"> -->
-            <!--     <Setter Property="Interaction.Behaviors"> -->
-            <!--         <BehaviorCollectionTemplate> -->
-            <!--             <BehaviorCollection> -->
-            <!--                 <b:PointerPressedOutsideTriggerBehavior -->
-            <!--                     IsEnabled="{Binding $parent[c:ShellSplitView].DisplayMode, Converter={x:Static sh:ShellConverters.IsOverlay}}"> -->
-            <!--                     <ChangeAvaloniaPropertyAction -->
-            <!--                         TargetObject="{Binding $parent[sh:ShellView]}" -->
-            <!--                         TargetProperty="{x:Static sh:ShellView.IsPaneOpenProperty}" -->
-            <!--                         Value="False" /> -->
-            <!--                 </b:PointerPressedOutsideTriggerBehavior> -->
-            <!--             </BehaviorCollection> -->
-            <!--         </BehaviorCollectionTemplate> -->
-            <!--     </Setter> -->
-            <!-- </Style> -->
-        </ControlTheme>
-
-        <ControlTheme TargetType="sh:ShellView" x:Key="Old">
-            <Setter Property="OpenPaneLength" Value="220" />
-            <Setter Property="CompactPaneLength" Value="40" />
-            <Setter Property="HeaderContentTemplate">
-                <DataTemplate>
-                    <ContentControl VerticalAlignment="Center"
-                                    TextElement.FontSize="18"
-                                    Content="{Binding}">
-                    </ContentControl>
-                </DataTemplate>
-            </Setter>
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Panel Classes.Expanded="{Binding #SplitView.IsPaneOpen}">
-                        <Interaction.Behaviors>
-                            <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=c:AdaptiveControl}}">
-                                <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
-                                <AdaptiveClassSetter ClassName="Wide" MinWidth="600" MaxWidth="Infinity" />
-                            </AdaptiveBehavior>
-                        </Interaction.Behaviors>
-
-                        <SplitView x:Name="SplitView"
-                                   OpenPaneLength="{TemplateBinding OpenPaneLength}"
-                                   IsPaneOpen="True">
-                            <SplitView.Pane>
-                                <DockPanel>
-                                    <c:EdgePanel DockPanel.Dock="Top"
-                                                 x:Name="PART_HeaderEdgePanel"
-                                                 HorizontalAlignment="Left"
-                                                 VerticalAlignment="Top" ZIndex="1">
-
-                                        <c:EdgePanel.StartContent>
-                                            <ToggleButton Theme="{StaticResource TransparentToggleButton}"
-                                                          Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}"
-                                                          IsChecked="{Binding #SplitView.IsPaneOpen, Mode=TwoWay}"
-                                                          x:Name="ToggleButton">
-                                            </ToggleButton>
-                                        </c:EdgePanel.StartContent>
-                                        <ContentPresenter x:Name="PART_Header"
-                                                          VerticalAlignment="Center"
-                                                          Content="{Binding $parent[sh:ShellView].Shell.Header}" />
-                                    </c:EdgePanel>
-                                    <sh:Sidebar
-                                        IconWidth="{Binding #ToggleButton.Width}"
-                                        IconHeight="{Binding #ToggleButton.Height}"
-                                        IconMargin="12"
-                                        SelectedSection="{Binding $parent[sh:ShellView].Shell.SelectedSection}"
-                                        Sections="{Binding $parent[sh:ShellView].Shell.Sections}">
-                                        <sh:Sidebar.Transitions>
-                                            <Transitions>
-                                                <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
-                                            </Transitions>
-                                        </sh:Sidebar.Transitions>
-                                    </sh:Sidebar>
-                                </DockPanel>
-                            </SplitView.Pane>
-                            <DockPanel>
-
-                                <ContentPresenter DockPanel.Dock="Top" TextAlignment="Center"
-                                                  x:Name="PART_ContentHeader"
-                                                  IsVisible="{Binding $parent[sh:ShellView].Shell.ContentHeader^, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
-                                                  Content="{Binding $parent[sh:ShellView].Shell.ContentHeader^}"
-                                                  Height="{Binding #ToggleButton.Height}" />
-
-                                <TransitioningContentControl
-                                    Content="{Binding $parent[sh:ShellView].Shell.SelectedSection.Content^}">
-                                    <TransitioningContentControl.PageTransition>
-                                        <CrossFade Duration="0:0:0.5" />
-                                    </TransitioningContentControl.PageTransition>
-                                </TransitioningContentControl>
-                            </DockPanel>
-                        </SplitView>
-                        <ToggleButton
-                            VerticalAlignment="Top"
-                            x:Name="BackupToggleButton" Theme="{StaticResource TransparentToggleButton}"
-                            Height="{Binding $self.Width}" Width="{Binding #SplitView.CompactPaneLength}"
-                            IsChecked="{Binding #SplitView.IsPaneOpen, Mode=TwoWay}">
-                        </ToggleButton>
-                    </Panel>
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^ /template/ Panel ContentPresenter#PART_Header">
-                <Setter Property="IsVisible" Value="False" />
-            </Style>
-
-            <Style Selector="^ /template/ Panel.Expanded ContentPresenter#PART_Header">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
-
-            <Style Selector="^ /template/ Panel.Expanded ContentPresenter#PART_Header">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
-
-            <Style Selector="^ /template/ Panel ContentPresenter#PART_Header">
-                <Setter Property="TextElement.FontWeight" Value="Bold" />
-                <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis" />
-                <Setter Property="Margin" Value="0 0 10 0" />
-            </Style>
-
-            <!-- 1) Mostrar sólo en overlay -->
-
-            <Style Selector="^ /template/ Panel ToggleButton#BackupToggleButton">
-                <Setter Property="IsVisible" Value="False" />
-            </Style>
-
-            <Style Selector="^ /template/ Panel.Narrow ToggleButton#BackupToggleButton">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
-
-            <!-- 2) Y ocultar siempre que el pane esté abierto -->
-            <Style Selector="^ /template/ Panel.Expanded ToggleButton#BackupToggleButton">
-                <Setter Property="IsVisible" Value="False" />
-            </Style>
-
-            <Style Selector="^ /template/ c|EdgePanel#PART_HeaderEdgePanel">
-                <Setter Property="Spacing" Value="0" />
-            </Style>
-
-            <Style Selector="^ /template/ Panel.Narrow SplitView">
-                <Setter Property="DisplayMode" Value="Overlay" />
-            </Style>
-
-            <Style Selector="^ /template/ Panel.Wide SplitView">
-                <Setter Property="DisplayMode" Value="CompactInline" />
-            </Style>
-
         </ControlTheme>
     </Styles.Resources>
 
