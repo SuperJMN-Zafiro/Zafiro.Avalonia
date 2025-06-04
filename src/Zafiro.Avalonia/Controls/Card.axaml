@@ -2,23 +2,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
-        xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc">
-
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia">
     <Design.PreviewWith>
-        <c:Card Width="500" Height="200" Margin="10"
-                Header="Gaze Method Order"
-                Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
-            <c:Card.DataTemplates>
-                <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
-            </c:Card.DataTemplates>
-            <c:Card.HeaderStartContent>
-                <ui:BigIcon Source="fa-wallet" />
-            </c:Card.HeaderStartContent>
-            <c:Card.HeaderEndContent>
-                <ui:BigIcon Source="fa-wallet" />
-            </c:Card.HeaderEndContent>
-            <TextBlock Text="Card content goes here..." TextWrapping="Wrap" />
-        </c:Card>
+
+        <StackPanel>
+            <c:Card Width="500" Margin="10"
+                    Header="Gaze Method Order"
+                    Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
+                <c:Card.DataTemplates>
+                    <DataTemplate DataType="ui:Icon">
+                        <Viewbox Height="122">
+                            <avalonia:Icon Value="{Binding Path=Source}" />
+                        </Viewbox>
+                    </DataTemplate>
+                </c:Card.DataTemplates>
+
+                <c:Card.HeaderStartContent>
+                    <ui:Icon Source="fa-wallet" />
+                </c:Card.HeaderStartContent>
+                <c:Card.HeaderEndContent>
+                    <ui:Icon Source="fa-wallet" />
+                </c:Card.HeaderEndContent>
+                <!-- <TextBlock Text="Card content goes here..." TextWrapping="Wrap" /> -->
+            </c:Card>
+            <c:Card Header="Width and height" Subheader="Some subheader">
+                <c:Card.HeaderEndContent>
+                    <Button Content="Some action" />
+                </c:Card.HeaderEndContent>
+            </c:Card>
+            <c:Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
+                <c:Card.HeaderStartContent>
+                    <Button Content="Left" />
+                </c:Card.HeaderStartContent>
+                <c:Card.HeaderEndContent>
+                    <Button Content="Right" />
+                </c:Card.HeaderEndContent>
+            </c:Card>
+        </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
@@ -28,12 +48,35 @@
             <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="Padding" Value="16" />
-            <Setter Property="ContentPadding" Value="0 12" />
-            <Setter Property="HeaderSpacing" Value="12" />
+            <Setter Property="ContentPadding" Value="40" />
+            <Setter Property="HeaderSpacing" Value="15" />
             <Setter Property="HeaderPadding" Value="0" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
+            <Setter Property="HeaderVerticalAlignment" Value="Center" />
             <!-- Default margin to accommodate shadow -->
             <Setter Property="Margin" Value="8" />
+            <!-- Template por defecto para Header -->
+            <Setter Property="HeaderTemplate">
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}"
+                                      TextElement.FontSize="16"
+                                      TextElement.FontWeight="SemiBold"
+                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                </DataTemplate>
+            </Setter>
+
+            <!-- Template por defecto para Subheader -->
+            <Setter Property="SubheaderTemplate">
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}"
+                                      TextElement.FontSize="12"
+                                      TextElement.FontWeight="Normal"
+                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                      TextBlock.TextWrapping="Wrap"
+                                      Opacity="0.8" />
+                </DataTemplate>
+            </Setter>
+
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border x:Name="PART_BorderRoot"
@@ -47,35 +90,27 @@
                                          Spacing="{TemplateBinding HeaderSpacing}"
                                          Margin="{TemplateBinding HeaderPadding}"
                                          StartContent="{TemplateBinding HeaderStartContent}"
-                                         EndContent="{TemplateBinding HeaderEndContent}">
-                                <StackPanel Spacing="{TemplateBinding HeaderSubheaderSpacing}">
-                                    <ContentPresenter x:Name="PART_HeaderTitle" Content="{Binding $parent[c:Card].Header}" />
-                                    <ContentPresenter x:Name="PART_HeaderSubtitle" Content="{Binding $parent[c:Card].Subheader}" />
+                                         StartContentTemplate="{TemplateBinding HeaderStartContentTemplate}"
+                                         EndContent="{TemplateBinding HeaderEndContent}"
+                                         EndContentTemplate="{TemplateBinding HeaderEndContentTemplate}">
+                                <StackPanel Spacing="{TemplateBinding HeaderSubheaderSpacing}"
+                                            HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}"
+                                            VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}">
+                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" Content="{Binding $parent[c:Card].Header}"
+                                                      ContentTemplate="{Binding $parent[c:Card].HeaderTemplate}" />
+                                    <ContentPresenter x:Name="PART_HeaderSubtitle"
+                                                      HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" Content="{Binding $parent[c:Card].Subheader}" ContentTemplate="{Binding $parent[c:Card].SubheaderTemplate}" />
                                 </StackPanel>
                             </c:EdgePanel>
-                            <ContentPresenter x:Name="PART_Content" Padding="{TemplateBinding ContentPadding}" Content="{TemplateBinding Content}" />
+                            <ContentPresenter IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" x:Name="PART_Content" Padding="{TemplateBinding ContentPadding}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
                         </DockPanel>
                     </Border>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>
     </Styles.Resources>
-
-    <!-- Header styling - keeping your working selector structure -->
-    <Style Selector="c|Card /template/ c|EdgePanel#PART_Header ContentPresenter#PART_HeaderTitle">
-        <Setter Property="TextElement.FontSize" Value="16" />
-        <Setter Property="TextElement.FontWeight" Value="SemiBold" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-    </Style>
-
-    <!-- Subheader styling - using your selector pattern -->
-    <Style Selector="c|Card /template/ c|EdgePanel#PART_Header ContentPresenter#PART_HeaderSubtitle">
-        <Setter Property="TextElement.FontSize" Value="12" />
-        <Setter Property="TextElement.FontWeight" Value="Normal" />
-        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
-        <Setter Property="Opacity" Value="0.8" />
-    </Style>
 
     <!-- Default shadow -->
     <Style Selector="c|Card /template/ Border#PART_BorderRoot">

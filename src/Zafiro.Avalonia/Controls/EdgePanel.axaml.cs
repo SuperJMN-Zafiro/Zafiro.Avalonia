@@ -1,3 +1,5 @@
+using Avalonia.Controls.Templates;
+
 namespace Zafiro.Avalonia.Controls;
 
 public class EdgePanel : ContentControl
@@ -10,6 +12,12 @@ public class EdgePanel : ContentControl
 
     public static readonly StyledProperty<double> SpacingProperty = AvaloniaProperty.Register<EdgePanel, double>(
         nameof(Spacing));
+
+    public static readonly StyledProperty<IDataTemplate> StartContentTemplateProperty = AvaloniaProperty.Register<EdgePanel, IDataTemplate>(
+        nameof(StartContentTemplate));
+
+    public static readonly StyledProperty<IDataTemplate> EndContentTemplateProperty = AvaloniaProperty.Register<EdgePanel, IDataTemplate>(
+        nameof(EndContentTemplate));
 
     public object StartContent
     {
@@ -27,5 +35,17 @@ public class EdgePanel : ContentControl
     {
         get => GetValue(SpacingProperty);
         set => SetValue(SpacingProperty, value);
+    }
+
+    public IDataTemplate StartContentTemplate
+    {
+        get => GetValue(StartContentTemplateProperty);
+        set => SetValue(StartContentTemplateProperty, value);
+    }
+
+    public IDataTemplate EndContentTemplate
+    {
+        get => GetValue(EndContentTemplateProperty);
+        set => SetValue(EndContentTemplateProperty, value);
     }
 }

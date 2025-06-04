@@ -1,3 +1,6 @@
+using Avalonia.Controls.Templates;
+using Avalonia.Layout;
+
 namespace Zafiro.Avalonia.Controls;
 
 public class Card : ContentControl
@@ -25,6 +28,30 @@ public class Card : ContentControl
 
     public static readonly StyledProperty<double> HeaderSubheaderSpacingProperty = AvaloniaProperty.Register<Card, double>(
         nameof(HeaderSubheaderSpacing));
+
+    public static readonly StyledProperty<VerticalAlignment> HeaderVerticalAlignmentProperty = AvaloniaProperty.Register<Card, VerticalAlignment>(
+        nameof(HeaderVerticalAlignment));
+
+    public static readonly StyledProperty<IDataTemplate> HeaderStartContentTemplateProperty = AvaloniaProperty.Register<Card, IDataTemplate>(
+        nameof(HeaderStartContentTemplate));
+
+    public static readonly StyledProperty<IDataTemplate> HeaderEndContentTemplateProperty = AvaloniaProperty.Register<Card, IDataTemplate>(
+        nameof(HeaderEndContentTemplate));
+
+    public static readonly StyledProperty<IDataTemplate> HeaderTemplateProperty = AvaloniaProperty.Register<Card, IDataTemplate>(
+        nameof(HeaderTemplate));
+
+    public static readonly StyledProperty<IDataTemplate> SubheaderTemplateProperty = AvaloniaProperty.Register<Card, IDataTemplate>(
+        nameof(SubheaderTemplate));
+
+    public static readonly StyledProperty<HorizontalAlignment> HeaderHorizontalAlignmentProperty = AvaloniaProperty.Register<Card, HorizontalAlignment>(
+        nameof(HeaderHorizontalAlignment));
+
+    public VerticalAlignment HeaderVerticalAlignment
+    {
+        get => GetValue(HeaderVerticalAlignmentProperty);
+        set => SetValue(HeaderVerticalAlignmentProperty, value);
+    }
 
     public object HeaderStartContent
     {
@@ -72,5 +99,35 @@ public class Card : ContentControl
     {
         get => GetValue(HeaderSubheaderSpacingProperty);
         set => SetValue(HeaderSubheaderSpacingProperty, value);
+    }
+
+    public IDataTemplate HeaderStartContentTemplate
+    {
+        get => GetValue(HeaderStartContentTemplateProperty);
+        set => SetValue(HeaderStartContentTemplateProperty, value);
+    }
+
+    public IDataTemplate HeaderEndContentTemplate
+    {
+        get => GetValue(HeaderEndContentTemplateProperty);
+        set => SetValue(HeaderEndContentTemplateProperty, value);
+    }
+
+    public IDataTemplate HeaderTemplate
+    {
+        get => GetValue(HeaderTemplateProperty);
+        set => SetValue(HeaderTemplateProperty, value);
+    }
+
+    public IDataTemplate SubheaderTemplate
+    {
+        get => GetValue(SubheaderTemplateProperty);
+        set => SetValue(SubheaderTemplateProperty, value);
+    }
+
+    public HorizontalAlignment HeaderHorizontalAlignment
+    {
+        get => GetValue(HeaderHorizontalAlignmentProperty);
+        set => SetValue(HeaderHorizontalAlignmentProperty, value);
     }
 }

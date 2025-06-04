@@ -23,14 +23,16 @@
                 <ControlTemplate>
                     <DockPanel
                         Background="{TemplateBinding Background}">
-                        <ContentPresenter x:Name="PART_StartContent" DockPanel.Dock="Left"
+                        <ContentPresenter x:Name="StartContent" DockPanel.Dock="Left"
+                                          ContentTemplate="{TemplateBinding StartContentTemplate}"
                                           Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToRightMargin}}"
                                           Content="{TemplateBinding StartContent}" IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                        <ContentPresenter x:Name="PART_EndContent" DockPanel.Dock="Right"
+                        <ContentPresenter x:Name="EndContent" DockPanel.Dock="Right"
+                                          ContentTemplate="{TemplateBinding EndContentTemplate}"
                                           Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToLeftMargin}}"
                                           IsVisible="{Binding $parent[conv:EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}"
                                           Content="{TemplateBinding EndContent}" />
-                        <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding Content}" />
+                        <ContentPresenter x:Name="MainContent" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter>
