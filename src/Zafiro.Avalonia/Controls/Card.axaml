@@ -23,7 +23,7 @@
                 <c:Card.HeaderEndContent>
                     <ui:Icon Source="fa-wallet" />
                 </c:Card.HeaderEndContent>
-                <!-- <TextBlock Text="Card content goes here..." TextWrapping="Wrap" /> -->
+                <TextBlock Background="Red" Text="Card content goes here..." TextWrapping="Wrap" />
             </c:Card>
             <c:Card Header="Width and height" Subheader="Some subheader">
                 <c:Card.HeaderEndContent>
@@ -31,6 +31,15 @@
                 </c:Card.HeaderEndContent>
             </c:Card>
             <c:Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
+                <c:Card.HeaderStartContent>
+                    <Button Content="Left" />
+                </c:Card.HeaderStartContent>
+                <c:Card.HeaderEndContent>
+                    <Button Content="Right" />
+                </c:Card.HeaderEndContent>
+            </c:Card>
+            <c:Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
+                SOME CONTENT
                 <c:Card.HeaderStartContent>
                     <Button Content="Left" />
                 </c:Card.HeaderStartContent>
@@ -47,10 +56,9 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}" />
             <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Padding" Value="16" />
-            <Setter Property="ContentPadding" Value="40" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="ContentPadding" Value="0 10 0 0" />
             <Setter Property="HeaderSpacing" Value="15" />
-            <Setter Property="HeaderPadding" Value="0" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
             <!-- Default margin to accommodate shadow -->
