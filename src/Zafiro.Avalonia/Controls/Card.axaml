@@ -6,24 +6,37 @@
     <Design.PreviewWith>
 
         <StackPanel>
-            <c:Card Width="500" Margin="10"
+            <c:Card Width="500"
+                    Background="#522FFF72"
+                    HeaderHorizontalAlignment="Center"
                     Header="Gaze Method Order"
                     Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
+                <c:Card.HeaderBackground>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#00FF2B" Offset="0"></GradientStop>
+                        <GradientStop Color="#3071FF3C" Offset="1"></GradientStop>
+                    </LinearGradientBrush>
+                </c:Card.HeaderBackground>
+                <c:Card.SubheaderTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{Binding}" TextWrapping="Wrap" TextBlock.TextAlignment="Center" />
+                    </DataTemplate>
+                </c:Card.SubheaderTemplate>
                 <c:Card.DataTemplates>
                     <DataTemplate DataType="ui:Icon">
-                        <Viewbox Height="122">
+                        <Viewbox Height="60">
                             <avalonia:Icon Value="{Binding Path=Source}" />
                         </Viewbox>
                     </DataTemplate>
                 </c:Card.DataTemplates>
 
                 <c:Card.HeaderStartContent>
-                    <ui:Icon Source="fa-wallet" />
+                    <ui:Icon Source="fa-face-laugh-wink" />
                 </c:Card.HeaderStartContent>
                 <c:Card.HeaderEndContent>
-                    <ui:Icon Source="fa-wallet" />
+                    <ui:Icon Source="fa-house" />
                 </c:Card.HeaderEndContent>
-                <TextBlock Background="Red" Text="Card content goes here..." TextWrapping="Wrap" />
+                <TextBlock Text="Card content goes here... and it's so important to have a big text to debug that I can't stress it enough. Check your sizes always, before doing any release!" TextWrapping="Wrap" />
             </c:Card>
             <c:Card Header="Width and height" Subheader="Some subheader">
                 <c:Card.HeaderEndContent>
@@ -56,8 +69,8 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}" />
             <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Padding" Value="15" />
             <Setter Property="ContentPadding" Value="0 10 0 0" />
+            <Setter Property="HeaderPadding" Value="10 10" />
             <Setter Property="HeaderSpacing" Value="15" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
@@ -87,34 +100,36 @@
 
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border x:Name="PART_BorderRoot"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
-                        <DockPanel>
-                            <c:EdgePanel x:Name="PART_Header" DockPanel.Dock="Top"
-                                         Spacing="{TemplateBinding HeaderSpacing}"
-                                         Margin="{TemplateBinding HeaderPadding}"
-                                         StartContent="{TemplateBinding HeaderStartContent}"
-                                         StartContentTemplate="{TemplateBinding HeaderStartContentTemplate}"
-                                         EndContent="{TemplateBinding HeaderEndContent}"
-                                         EndContentTemplate="{TemplateBinding HeaderEndContentTemplate}">
-                                <StackPanel Spacing="{TemplateBinding HeaderSubheaderSpacing}"
-                                            HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}"
-                                            VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}">
-                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" Content="{Binding $parent[c:Card].Header}"
+                    <HeaderedContainer Margin="{TemplateBinding Padding}"
+                                       Content="{TemplateBinding Content}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       HeaderBackground="{TemplateBinding HeaderBackground}"
+                                       Background="{TemplateBinding Background}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       HeaderPadding="{TemplateBinding HeaderPadding}"
+                                       Padding="{TemplateBinding Padding}"
+                                       BorderBrush="{TemplateBinding BorderBrush}">
+                        <HeaderedContainer.Header>
+                            <c:EdgePanel DockPanel.Dock="Top"
+                                         Spacing="{Binding $parent[Card].HeaderSpacing}"
+                                         Margin="{Binding $parent[Card].HeaderPadding}"
+                                         StartContent="{Binding $parent[Card].HeaderStartContent}"
+                                         StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
+                                         EndContent="{Binding $parent[Card].HeaderEndContent}"
+                                         EndContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}">
+                                <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
+                                            HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                            VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
+                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}" Content="{Binding $parent[c:Card].Header}"
                                                       ContentTemplate="{Binding $parent[c:Card].HeaderTemplate}" />
                                     <ContentPresenter x:Name="PART_HeaderSubtitle"
-                                                      HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" Content="{Binding $parent[c:Card].Subheader}" ContentTemplate="{Binding $parent[c:Card].SubheaderTemplate}" />
+                                                      HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                                      Content="{Binding $parent[c:Card].Subheader}" ContentTemplate="{Binding $parent[c:Card].SubheaderTemplate}" />
                                 </StackPanel>
                             </c:EdgePanel>
-                            <ContentPresenter IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" x:Name="PART_Content" Padding="{TemplateBinding ContentPadding}"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        </DockPanel>
-                    </Border>
+
+                        </HeaderedContainer.Header>
+                    </HeaderedContainer>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>

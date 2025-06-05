@@ -1,0 +1,49 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
+        xmlns:extensions="clr-namespace:Zafiro.Avalonia.Extensions"
+        xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc"
+        xmlns:c="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls">
+    <Design.PreviewWith>
+        <StackPanel Spacing="10">
+            <z:HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
+                                 HeaderBackground="Yellow"
+                                 Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
+            <z:HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
+                                 BorderBrush="Black" BorderThickness="2"
+                                 CornerRadius="10" Padding="14 10" HeaderPadding="14 14 14 10"
+                                 HeaderBackground="Yellow"
+                                 Background="Chartreuse" />
+            <z:HeaderedContainer Width="200" Header="Header"
+                                 HeaderBackground="Yellow"
+                                 Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type z:HeaderedContainer}" TargetType="z:HeaderedContainer">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <DockPanel>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{Binding $parent[z:HeaderedContainer].BorderThickness, Converter={x:Static converters:ThicknessConverters.FilterSides}, ConverterParameter={extensions:Parse Type={x:Type misc:Sides}, Value='Left,Top,Right'}}"
+                                CornerRadius="{Binding $parent[z:HeaderedContainer].CornerRadius, Converter={x:Static converters:CornerRadiusConverters.FilterCorners}, ConverterParameter={extensions:Parse Type={x:Type c:Corners}, Value='TopLeft,TopRight'}}"
+                                Padding="{TemplateBinding HeaderPadding}"
+                                Background="{TemplateBinding HeaderBackground}" DockPanel.Dock="Top">
+                            <ContentControl Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                        </Border>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{Binding $parent[z:HeaderedContainer].BorderThickness, Converter={x:Static converters:ThicknessConverters.FilterSides}, ConverterParameter={extensions:Parse Type={x:Type misc:Sides}, Value='Left,Bottom,Right'}}"
+                                CornerRadius="{Binding $parent[z:HeaderedContainer].CornerRadius, Converter={x:Static converters:CornerRadiusConverters.FilterCorners}, ConverterParameter={extensions:Parse Type={x:Type c:Corners}, Value='BottomLeft,BottomRight'}}"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>

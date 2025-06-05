@@ -16,32 +16,32 @@ namespace Zafiro.Avalonia.Controls;
 ///     Subsequent ordering happens sequentially from top to bottom or from right to left,
 ///     depending on the value of the <see cref="Orientation" /> property.
 /// </summary>
-public class WrapPanel : Panel, INavigableContainer
+public class WrapPanelEnhanced : Panel, INavigableContainer
 {
     /// <summary>
     ///     Defines the <see cref="Orientation" /> property.
     /// </summary>
     public static readonly StyledProperty<Orientation> OrientationProperty =
-        AvaloniaProperty.Register<WrapPanel, Orientation>(nameof(Orientation));
+        AvaloniaProperty.Register<WrapPanelEnhanced, Orientation>(nameof(Orientation));
 
     /// <summary>
     ///     Defines the <see cref="ItemWidth" /> property.
     /// </summary>
     public static readonly StyledProperty<double> ItemWidthProperty =
-        AvaloniaProperty.Register<WrapPanel, double>(nameof(ItemWidth), double.NaN);
+        AvaloniaProperty.Register<WrapPanelEnhanced, double>(nameof(ItemWidth), double.NaN);
 
     /// <summary>
     ///     Defines the <see cref="ItemHeight" /> property.
     /// </summary>
     public static readonly StyledProperty<double> ItemHeightProperty =
-        AvaloniaProperty.Register<WrapPanel, double>(nameof(ItemHeight), double.NaN);
+        AvaloniaProperty.Register<WrapPanelEnhanced, double>(nameof(ItemHeight), double.NaN);
 
     /// <summary>
-    ///     Initializes static members of the <see cref="WrapPanel" /> class.
+    ///     Initializes static members of the <see cref="WrapPanelEnhanced" /> class.
     /// </summary>
-    static WrapPanel()
+    static WrapPanelEnhanced()
     {
-        AffectsMeasure<WrapPanel>(OrientationProperty, ItemWidthProperty, ItemHeightProperty);
+        AffectsMeasure<WrapPanelEnhanced>(OrientationProperty, ItemWidthProperty, ItemHeightProperty);
     }
 
     /// <summary>
