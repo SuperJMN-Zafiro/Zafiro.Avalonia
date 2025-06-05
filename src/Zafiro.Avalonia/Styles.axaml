@@ -51,4 +51,5 @@
     <StyleInclude Source="Styles/ScrollViewer.axaml" />
     <StyleInclude Source="Controls/Shell/Sidebar.axaml" />
     <StyleInclude Source="Controls/Shell/ShellSplitView.axaml" />
+    <StyleInclude Source="Controls/HeaderedContainer.axaml" />
 </Styles>

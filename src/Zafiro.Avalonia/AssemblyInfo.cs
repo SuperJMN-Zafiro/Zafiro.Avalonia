@@ -1,0 +1,14 @@
+using Avalonia.Metadata;
+
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Controls")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Converters")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Behaviors")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Misc")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Controls.Shell")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Services")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Extensions")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Drawing")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Storage")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Mixins")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.DesignTime")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia")]

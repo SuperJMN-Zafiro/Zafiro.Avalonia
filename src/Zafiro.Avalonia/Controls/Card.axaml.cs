@@ -1,5 +1,6 @@
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
+using Avalonia.Media;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -46,6 +47,9 @@ public class Card : ContentControl
 
     public static readonly StyledProperty<HorizontalAlignment> HeaderHorizontalAlignmentProperty = AvaloniaProperty.Register<Card, HorizontalAlignment>(
         nameof(HeaderHorizontalAlignment));
+
+    public static readonly StyledProperty<IBrush> HeaderBackgroundProperty = AvaloniaProperty.Register<Card, IBrush>(
+        nameof(HeaderBackground));
 
     public VerticalAlignment HeaderVerticalAlignment
     {
@@ -129,5 +133,11 @@ public class Card : ContentControl
     {
         get => GetValue(HeaderHorizontalAlignmentProperty);
         set => SetValue(HeaderHorizontalAlignmentProperty, value);
+    }
+
+    public IBrush HeaderBackground
+    {
+        get => GetValue(HeaderBackgroundProperty);
+        set => SetValue(HeaderBackgroundProperty, value);
     }
 }
