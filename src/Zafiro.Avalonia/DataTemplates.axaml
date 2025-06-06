@@ -27,10 +27,4 @@
         </Viewbox>
     </DataTemplate>
 
-    <DataTemplate DataType="ui:BigIcon">
-        <Viewbox>
-            <ContentControl ContentTemplate="{x:Static z:IconTemplate.Instance}" Content="{Binding }" />
-        </Viewbox>
-    </DataTemplate>
-
 </DataTemplates>

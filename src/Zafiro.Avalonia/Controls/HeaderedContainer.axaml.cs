@@ -17,6 +17,9 @@ public class HeaderedContainer : ContentControl
     public static readonly StyledProperty<Thickness> HeaderPaddingProperty = AvaloniaProperty.Register<HeaderedContainer, Thickness>(
         nameof(HeaderPadding));
 
+    public static readonly StyledProperty<BoxShadows> BoxShadowProperty = AvaloniaProperty.Register<HeaderedContainer, BoxShadows>(
+        nameof(BoxShadow));
+
     public IBrush HeaderBackground
     {
         get => GetValue(HeaderBackgroundProperty);
@@ -39,5 +42,11 @@ public class HeaderedContainer : ContentControl
     {
         get => GetValue(HeaderPaddingProperty);
         set => SetValue(HeaderPaddingProperty, value);
+    }
+
+    public BoxShadows BoxShadow
+    {
+        get => GetValue(BoxShadowProperty);
+        set => SetValue(BoxShadowProperty, value);
     }
 }

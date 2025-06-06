@@ -3,7 +3,7 @@ using Zafiro.Mixins;
 
 namespace Zafiro.Avalonia.Converters;
 
-public class StringConverters
+public class ZafiroStringConverters
 {
     public static FuncValueConverter<IEnumerable<string>, string> JoinWithCommas = new(enumerable => enumerable?.JoinWithCommas() ?? "");
     public static FuncMultiValueConverter<string, string> Concat { get; } = new(string.Concat);

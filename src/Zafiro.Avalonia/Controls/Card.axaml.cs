@@ -18,9 +18,6 @@ public class Card : ContentControl
     public static readonly StyledProperty<object> SubheaderProperty = AvaloniaProperty.Register<Card, object>(
         nameof(Subheader));
 
-    public static readonly StyledProperty<Thickness> ContentPaddingProperty = AvaloniaProperty.Register<Card, Thickness>(
-        nameof(ContentPadding));
-
     public static readonly StyledProperty<Thickness> HeaderPaddingProperty = AvaloniaProperty.Register<Card, Thickness>(
         nameof(HeaderPadding));
 
@@ -51,6 +48,9 @@ public class Card : ContentControl
     public static readonly StyledProperty<IBrush> HeaderBackgroundProperty = AvaloniaProperty.Register<Card, IBrush>(
         nameof(HeaderBackground));
 
+    public static readonly StyledProperty<BoxShadows> BoxShadowProperty = AvaloniaProperty.Register<Card, BoxShadows>(
+        nameof(BoxShadow));
+
     public VerticalAlignment HeaderVerticalAlignment
     {
         get => GetValue(HeaderVerticalAlignmentProperty);
@@ -79,12 +79,6 @@ public class Card : ContentControl
     {
         get => GetValue(SubheaderProperty);
         set => SetValue(SubheaderProperty, value);
-    }
-
-    public Thickness ContentPadding
-    {
-        get => GetValue(ContentPaddingProperty);
-        set => SetValue(ContentPaddingProperty, value);
     }
 
     public Thickness HeaderPadding
@@ -139,5 +133,11 @@ public class Card : ContentControl
     {
         get => GetValue(HeaderBackgroundProperty);
         set => SetValue(HeaderBackgroundProperty, value);
+    }
+
+    public BoxShadows BoxShadow
+    {
+        get => GetValue(BoxShadowProperty);
+        set => SetValue(BoxShadowProperty, value);
     }
 }

@@ -1,0 +1,91 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <StackPanel Margin="20" Spacing="10">
+
+            <!-- Original problematic case -->
+            <OverlayBorder Background="Orange"
+                           BorderBrush="Red"
+                           BorderThickness="1"
+                           CornerRadius="12"
+                           Width="100"
+                           Height="50">
+                <TextBlock Text="HOLA"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </OverlayBorder>
+
+            <!-- With BoxShadow -->
+            <OverlayBorder Background="LightBlue"
+                           BorderBrush="DarkBlue"
+                           BorderThickness="1"
+                           CornerRadius="8"
+                           BoxShadow="10 10 30 5 #80000000"
+                           Width="150"
+                           Height="60">
+                <TextBlock Text="WITH SHADOW"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </OverlayBorder>
+
+            <!-- Multiple shadows -->
+            <OverlayBorder Background="LightGreen"
+                           BorderBrush="Green"
+                           BorderThickness="1"
+                           CornerRadius="15"
+                           ClipToBounds="False"
+                           BoxShadow="5 5 10 0 DarkGray"
+                           Width="120"
+                           Height="50">
+                <TextBlock Text="MULTI"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </OverlayBorder>
+
+        </StackPanel>
+
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type OverlayBorder}" TargetType="OverlayBorder">
+            <Setter Property="ClipToBounds" Value="False"></Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel ClipToBounds="False">
+                        <!-- Shadow layer (no clipping) -->
+                        <Border Background="{TemplateBinding Background}"
+                                IsHitTestVisible="False"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding Background}"
+                                BoxShadow="{TemplateBinding BoxShadow}" />
+
+                        <!-- Content layer with clipping -->
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                ClipToBounds="True">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+
+                        <!-- Overlay border -->
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                IsHitTestVisible="False"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="Transparent" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>

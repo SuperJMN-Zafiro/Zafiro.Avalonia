@@ -1,79 +1,77 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
         xmlns:avalonia="https://github.com/projektanker/icons.avalonia">
     <Design.PreviewWith>
 
-        <StackPanel>
-            <c:Card Width="500"
-                    Background="#522FFF72"
-                    HeaderHorizontalAlignment="Center"
-                    Header="Gaze Method Order"
-                    Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
-                <c:Card.HeaderBackground>
+        <StackPanel Background="White">
+
+            <Card Width="500"
+                  CornerRadius="20"
+                  Background="#522FFF72"
+                  HeaderHorizontalAlignment="Center"
+                  Header="Gaze Method Order"
+                  Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
+                <Card.HeaderBackground>
                     <LinearGradientBrush>
                         <GradientStop Color="#00FF2B" Offset="0"></GradientStop>
                         <GradientStop Color="#3071FF3C" Offset="1"></GradientStop>
                     </LinearGradientBrush>
-                </c:Card.HeaderBackground>
-                <c:Card.SubheaderTemplate>
+                </Card.HeaderBackground>
+                <Card.SubheaderTemplate>
                     <DataTemplate>
                         <ContentPresenter Content="{Binding}" TextWrapping="Wrap" TextBlock.TextAlignment="Center" />
                     </DataTemplate>
-                </c:Card.SubheaderTemplate>
-                <c:Card.DataTemplates>
+                </Card.SubheaderTemplate>
+                <Card.DataTemplates>
                     <DataTemplate DataType="ui:Icon">
                         <Viewbox Height="60">
                             <avalonia:Icon Value="{Binding Path=Source}" />
                         </Viewbox>
                     </DataTemplate>
-                </c:Card.DataTemplates>
+                </Card.DataTemplates>
 
-                <c:Card.HeaderStartContent>
+                <Card.HeaderStartContent>
                     <ui:Icon Source="fa-face-laugh-wink" />
-                </c:Card.HeaderStartContent>
-                <c:Card.HeaderEndContent>
+                </Card.HeaderStartContent>
+                <Card.HeaderEndContent>
                     <ui:Icon Source="fa-house" />
-                </c:Card.HeaderEndContent>
+                </Card.HeaderEndContent>
                 <TextBlock Text="Card content goes here... and it's so important to have a big text to debug that I can't stress it enough. Check your sizes always, before doing any release!" TextWrapping="Wrap" />
-            </c:Card>
-            <c:Card Header="Width and height" Subheader="Some subheader">
-                <c:Card.HeaderEndContent>
+            </Card>
+
+            <Card Header="Width and height" Subheader="Some subheader">
+                <TextBlock Background="Red">TEXT</TextBlock>
+                <Card.HeaderEndContent>
                     <Button Content="Some action" />
-                </c:Card.HeaderEndContent>
-            </c:Card>
-            <c:Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
-                <c:Card.HeaderStartContent>
-                    <Button Content="Left" />
-                </c:Card.HeaderStartContent>
-                <c:Card.HeaderEndContent>
-                    <Button Content="Right" />
-                </c:Card.HeaderEndContent>
-            </c:Card>
-            <c:Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
+                </Card.HeaderEndContent>
+            </Card>
+            <Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center" />
+            <Card Header="Width and height" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
                 SOME CONTENT
-                <c:Card.HeaderStartContent>
+                <Card.HeaderStartContent>
                     <Button Content="Left" />
-                </c:Card.HeaderStartContent>
-                <c:Card.HeaderEndContent>
+                </Card.HeaderStartContent>
+                <Card.HeaderEndContent>
                     <Button Content="Right" />
-                </c:Card.HeaderEndContent>
-            </c:Card>
+                </Card.HeaderEndContent>
+            </Card>
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme x:Key="{x:Type c:Card}" TargetType="c:Card">
+        <ControlTheme x:Key="{x:Type Card}" TargetType="Card">
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}" />
             <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+            <Setter Property="HeaderBackground" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="ContentPadding" Value="0 10 0 0" />
-            <Setter Property="HeaderPadding" Value="10 10" />
-            <Setter Property="HeaderSpacing" Value="15" />
+            <Setter Property="Padding" Value="15 5 15 15" />
+            <Setter Property="HeaderPadding" Value="10 5" />
+            <Setter Property="HeaderSpacing" Value="10" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
+            <Setter Property="ClipToBounds" Value="False" />
             <!-- Default margin to accommodate shadow -->
             <Setter Property="Margin" Value="8" />
             <!-- Template por defecto para Header -->
@@ -100,7 +98,7 @@
 
             <Setter Property="Template">
                 <ControlTemplate>
-                    <HeaderedContainer Margin="{TemplateBinding Padding}"
+                    <HeaderedContainer x:Name="Root"
                                        Content="{TemplateBinding Content}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        HeaderBackground="{TemplateBinding HeaderBackground}"
@@ -110,24 +108,23 @@
                                        Padding="{TemplateBinding Padding}"
                                        BorderBrush="{TemplateBinding BorderBrush}">
                         <HeaderedContainer.Header>
-                            <c:EdgePanel DockPanel.Dock="Top"
-                                         Spacing="{Binding $parent[Card].HeaderSpacing}"
-                                         Margin="{Binding $parent[Card].HeaderPadding}"
-                                         StartContent="{Binding $parent[Card].HeaderStartContent}"
-                                         StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
-                                         EndContent="{Binding $parent[Card].HeaderEndContent}"
-                                         EndContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}">
+                            <EdgePanel DockPanel.Dock="Top"
+                                       Spacing="{Binding $parent[Card].HeaderSpacing}"
+                                       Margin="{Binding $parent[Card].HeaderPadding}"
+                                       StartContent="{Binding $parent[Card].HeaderStartContent}"
+                                       StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
+                                       EndContent="{Binding $parent[Card].HeaderEndContent}"
+                                       EndContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}">
                                 <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
                                             HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                             VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
-                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}" Content="{Binding $parent[c:Card].Header}"
-                                                      ContentTemplate="{Binding $parent[c:Card].HeaderTemplate}" />
+                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}" Content="{Binding $parent[Card].Header}"
+                                                      ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
                                     <ContentPresenter x:Name="PART_HeaderSubtitle"
                                                       HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
-                                                      Content="{Binding $parent[c:Card].Subheader}" ContentTemplate="{Binding $parent[c:Card].SubheaderTemplate}" />
+                                                      Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                 </StackPanel>
-                            </c:EdgePanel>
-
+                            </EdgePanel>
                         </HeaderedContainer.Header>
                     </HeaderedContainer>
                 </ControlTemplate>
@@ -136,18 +133,18 @@
     </Styles.Resources>
 
     <!-- Default shadow -->
-    <Style Selector="c|Card /template/ Border#PART_BorderRoot">
+    <Style Selector="Card /template/ HeaderedContainer#Root">
         <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
     </Style>
 
     <!-- Hover effects -->
-    <Style Selector="c|Card:pointerover /template/ Border#PART_BorderRoot">
+    <Style Selector="Card:pointerover /template/ HeaderedContainer#Root">
         <Setter Property="BorderBrush" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}" />
         <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
     </Style>
 
     <!-- Pressed effect -->
-    <Style Selector="c|Card:pressed /template/ Border#PART_BorderRoot">
+    <Style Selector="Card:pressed /template/ HeaderedContainer#Root">
         <Setter Property="BoxShadow" Value="0 1 4 0 #0D000000" />
     </Style>
 

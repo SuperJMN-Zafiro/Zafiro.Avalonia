@@ -4,13 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Card.CardView">
+
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="ui:Icon">
+            <avalonia:Icon Value="{Binding Source}" FontSize="40" />
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
     <c:Card Width="500" VerticalAlignment="Center" Margin="10"
             Header="This is a card"
             Subheader="It helps you group related information in a convenient way. ">
         <c:Card.HeaderStartContent>
-            <ui:BigIcon Source="fa-wallet" />
+            <ui:Icon Source="fa-wallet" />
         </c:Card.HeaderStartContent>
         <c:BulletList Header="It offers you special places to put your contents:">
             <x:String>Header</x:String>
