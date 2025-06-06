@@ -10,16 +10,46 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
-        <Border Padding="40">
-            <Border Background="Green">
-                <c:HorizontalTickPanel ClipToBounds="False">
-                    <Button>A</Button>
-                    <Button>B</Button>
-                    <Button>C</Button>
-                    <Button>d</Button>
-                </c:HorizontalTickPanel>
+    <StackPanel>
+        <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
+            <Border Padding="40">
+                <Border Background="Green">
+                    <c:HorizontalTickPanel ClipToBounds="False">
+                        <Button>A</Button>
+                        <Button>B</Button>
+                        <Button>C</Button>
+                        <Button>d</Button>
+                    </c:HorizontalTickPanel>
+                </Border>
             </Border>
-        </Border>
-    </c:Card>
+        </c:Card>
+        <LayoutSwitcher>
+            <LayoutSwitcher.OverflowContent>
+                <StackPanel Orientation="Vertical">
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                </StackPanel>
+            </LayoutSwitcher.OverflowContent>
+            <LayoutSwitcher.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                    <Button>HOLA</Button>
+                </StackPanel>
+            </LayoutSwitcher.Content>
+        </LayoutSwitcher>
+    </StackPanel>
 </UserControl>
