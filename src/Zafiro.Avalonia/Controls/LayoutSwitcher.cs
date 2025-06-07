@@ -121,6 +121,10 @@ namespace Zafiro.Avalonia.Controls
 
         private bool ShouldUseOverflow(Size availableSize)
         {
+            // If no overflow content is defined, always use normal content
+            if (_overflowControl == null)
+                return false;
+
             if (double.IsInfinity(availableSize.Width) || (_contentDesiredSize.Width == 0 && _contentDesiredSize.Height == 0))
                 return false;
 

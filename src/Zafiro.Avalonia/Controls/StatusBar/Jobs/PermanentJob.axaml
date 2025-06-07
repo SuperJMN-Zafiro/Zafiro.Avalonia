@@ -58,9 +58,9 @@
                     </Style>
                 </ProgressBar.Styles>
             </ProgressBar>
-             <Interaction.Behaviors> 
-                 <ExecuteCommandOnDoubleTappedBehavior Command="{Binding ActivateCommand}" /> 
-             </Interaction.Behaviors> 
+            <Interaction.Behaviors>
+                <ExecuteCommandOnDoubleTappedBehavior Command="{Binding ActivateCommand}" />
+            </Interaction.Behaviors>
         </Grid>
     </Border>
 </UserControl>

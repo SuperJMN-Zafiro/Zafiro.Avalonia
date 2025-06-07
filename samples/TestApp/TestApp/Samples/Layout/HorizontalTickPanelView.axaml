@@ -23,33 +23,5 @@
                 </Border>
             </Border>
         </c:Card>
-        <LayoutSwitcher>
-            <LayoutSwitcher.OverflowContent>
-                <StackPanel Orientation="Vertical">
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                </StackPanel>
-            </LayoutSwitcher.OverflowContent>
-            <LayoutSwitcher.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                    <Button>HOLA</Button>
-                </StackPanel>
-            </LayoutSwitcher.Content>
-        </LayoutSwitcher>
     </StackPanel>
 </UserControl>
