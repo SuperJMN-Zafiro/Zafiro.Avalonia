@@ -10,18 +10,16 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <StackPanel>
-        <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
-            <Border Padding="40">
-                <Border Background="Green">
-                    <c:HorizontalTickPanel ClipToBounds="False">
-                        <Button>A</Button>
-                        <Button>B</Button>
-                        <Button>C</Button>
-                        <Button>d</Button>
-                    </c:HorizontalTickPanel>
-                </Border>
+    <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
+        <Border Padding="40">
+            <Border Background="Green">
+                <c:HorizontalTickPanel ClipToBounds="False">
+                    <Button>A</Button>
+                    <Button>B</Button>
+                    <Button>C</Button>
+                    <Button>d</Button>
+                </c:HorizontalTickPanel>
             </Border>
-        </c:Card>
-    </StackPanel>
+        </Border>
+    </c:Card>
 </UserControl>
