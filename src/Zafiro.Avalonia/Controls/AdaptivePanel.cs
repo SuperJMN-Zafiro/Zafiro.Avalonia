@@ -1,4 +1,5 @@
 using Avalonia.Controls.Presenters;
+using Avalonia.Metadata;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -23,14 +24,15 @@ public class AdaptivePanel : Panel
         AvaloniaProperty.Register<AdaptivePanel, bool>(nameof(IsOverflow));
 
     public static readonly StyledProperty<OverflowDirection> OverflowDirectionProperty =
-        AvaloniaProperty.Register<AdaptivePanel, OverflowDirection>(nameof(OverflowDirection), OverflowDirection.Horizontal);
+        AvaloniaProperty.Register<AdaptivePanel, OverflowDirection>(nameof(OverflowDirection));
 
-    private Control? _contentControl;
-    private Size _contentDesiredSize = new Size();
-    private Size _lastMeasuredSize = new Size();
-    private bool _lastOverflowState;
-    private Control? _overflowControl;
+    private Control? contentControl;
+    private Size contentDesiredSize;
+    private Size lastMeasuredSize;
+    private bool lastOverflowState;
+    private Control? overflowControl;
 
+    [Content]
     public object? Content
     {
         get => GetValue(ContentProperty);
@@ -72,17 +74,21 @@ public class AdaptivePanel : Panel
     {
         Children.Clear();
 
-        _contentControl = CreateControlFromContent(Content);
-        _overflowControl = CreateControlFromContent(OverflowContent);
+        contentControl = CreateControlFromContent(Content);
+        overflowControl = CreateControlFromContent(OverflowContent);
 
-        if (_contentControl != null)
-            Children.Add(_contentControl);
+        if (contentControl != null)
+        {
+            Children.Add(contentControl);
+        }
 
-        if (_overflowControl != null)
-            Children.Add(_overflowControl);
+        if (overflowControl != null)
+        {
+            Children.Add(overflowControl);
+        }
 
         // Reset cached sizes
-        _contentDesiredSize = new Size();
+        contentDesiredSize = new Size();
     }
 
     private Control? CreateControlFromContent(object? content)
@@ -99,39 +105,40 @@ public class AdaptivePanel : Panel
     protected override Size MeasureOverride(Size availableSize)
     {
         // Only measure content control once to get its natural size
-        if (_contentControl != null && _contentDesiredSize.Width == 0 && _contentDesiredSize.Height == 0)
+        if (contentControl != null && contentDesiredSize.Width == 0 && contentDesiredSize.Height == 0)
         {
             // Temporarily make it visible to measure, but don't affect layout decision
-            var wasVisible = _contentControl.IsVisible;
-            _contentControl.IsVisible = true;
-            _contentControl.Measure(Size.Infinity);
-            _contentDesiredSize = _contentControl.DesiredSize;
-            _contentControl.IsVisible = wasVisible;
+            var wasVisible = contentControl.IsVisible;
+            contentControl.IsVisible = true;
+            contentControl.Measure(Size.Infinity);
+            contentDesiredSize = contentControl.DesiredSize;
+            contentControl.IsVisible = wasVisible;
         }
 
         // Determine which layout to use based on available space and hysteresis
-        bool shouldOverflow = ShouldUseOverflow(availableSize);
+        var shouldOverflow = ShouldUseOverflow(availableSize);
 
         // Only update if size changed significantly or state should change
-        if (Math.Abs(_lastMeasuredSize.Width - availableSize.Width) > SwitchTolerance ||
-            shouldOverflow != _lastOverflowState)
+        if (Math.Abs(lastMeasuredSize.Width - availableSize.Width) > SwitchTolerance ||
+            shouldOverflow != lastOverflowState)
         {
             IsOverflow = shouldOverflow;
-            _lastOverflowState = shouldOverflow;
-            _lastMeasuredSize = availableSize;
+            lastOverflowState = shouldOverflow;
+            lastMeasuredSize = availableSize;
         }
 
         // Measure and return size of active control
-        if (IsOverflow && _overflowControl != null)
+        if (IsOverflow && overflowControl != null)
         {
-            _overflowControl.IsVisible = true;
-            _overflowControl.Measure(availableSize);
-            return _overflowControl.DesiredSize;
+            overflowControl.IsVisible = true;
+            overflowControl.Measure(availableSize);
+            return overflowControl.DesiredSize;
         }
-        else if (_contentControl != null)
+
+        if (contentControl != null)
         {
             // Use cached size to avoid re-measuring
-            return _contentDesiredSize;
+            return contentDesiredSize;
         }
 
         return new Size();
@@ -140,20 +147,24 @@ public class AdaptivePanel : Panel
     protected override Size ArrangeOverride(Size finalSize)
     {
         // Set visibility based on current state
-        if (_contentControl != null)
-            _contentControl.IsVisible = !IsOverflow;
+        if (contentControl != null)
+        {
+            contentControl.IsVisible = !IsOverflow;
+        }
 
-        if (_overflowControl != null)
-            _overflowControl.IsVisible = IsOverflow;
+        if (overflowControl != null)
+        {
+            overflowControl.IsVisible = IsOverflow;
+        }
 
         // Arrange only the visible control
-        if (IsOverflow && _overflowControl != null && _overflowControl.IsVisible)
+        if (IsOverflow && overflowControl != null && overflowControl.IsVisible)
         {
-            _overflowControl.Arrange(new Rect(finalSize));
+            overflowControl.Arrange(new Rect(finalSize));
         }
-        else if (!IsOverflow && _contentControl != null && _contentControl.IsVisible)
+        else if (!IsOverflow && contentControl != null && contentControl.IsVisible)
         {
-            _contentControl.Arrange(new Rect(finalSize));
+            contentControl.Arrange(new Rect(finalSize));
         }
 
         return finalSize;
@@ -162,50 +173,54 @@ public class AdaptivePanel : Panel
     private bool ShouldUseOverflow(Size availableSize)
     {
         // If no overflow content is defined, always use normal content
-        if (_overflowControl == null)
+        if (overflowControl == null)
+        {
             return false;
+        }
 
-        if ((_contentDesiredSize.Width == 0 && _contentDesiredSize.Height == 0))
+        if (contentDesiredSize.Width == 0 && contentDesiredSize.Height == 0)
+        {
             return false;
+        }
 
-        bool exceedsLimits = OverflowDirection switch
+        var exceedsLimits = OverflowDirection switch
         {
             OverflowDirection.Horizontal => !double.IsInfinity(availableSize.Width) &&
-                                            _contentDesiredSize.Width > availableSize.Width,
+                                            contentDesiredSize.Width > availableSize.Width,
             OverflowDirection.Vertical => !double.IsInfinity(availableSize.Height) &&
-                                          _contentDesiredSize.Height > availableSize.Height,
-            OverflowDirection.Both => (!double.IsInfinity(availableSize.Width) && _contentDesiredSize.Width > availableSize.Width) ||
-                                      (!double.IsInfinity(availableSize.Height) && _contentDesiredSize.Height > availableSize.Height),
+                                          contentDesiredSize.Height > availableSize.Height,
+            OverflowDirection.Both => (!double.IsInfinity(availableSize.Width) && contentDesiredSize.Width > availableSize.Width) ||
+                                      (!double.IsInfinity(availableSize.Height) && contentDesiredSize.Height > availableSize.Height),
             _ => false
         };
 
         if (!exceedsLimits)
+        {
             return false;
+        }
 
         // Apply hysteresis based on direction
-        if (_lastOverflowState)
+        if (lastOverflowState)
         {
             // Currently in overflow - switch back only if content fits comfortably
             return OverflowDirection switch
             {
-                OverflowDirection.Horizontal => _contentDesiredSize.Width > (availableSize.Width + SwitchTolerance),
-                OverflowDirection.Vertical => _contentDesiredSize.Height > (availableSize.Height + SwitchTolerance),
-                OverflowDirection.Both => _contentDesiredSize.Width > (availableSize.Width + SwitchTolerance) ||
-                                          _contentDesiredSize.Height > (availableSize.Height + SwitchTolerance),
+                OverflowDirection.Horizontal => contentDesiredSize.Width > availableSize.Width + SwitchTolerance,
+                OverflowDirection.Vertical => contentDesiredSize.Height > availableSize.Height + SwitchTolerance,
+                OverflowDirection.Both => contentDesiredSize.Width > availableSize.Width + SwitchTolerance ||
+                                          contentDesiredSize.Height > availableSize.Height + SwitchTolerance,
                 _ => false
             };
         }
-        else
+
+        // Currently showing content - switch to overflow if content doesn't fit
+        return OverflowDirection switch
         {
-            // Currently showing content - switch to overflow if content doesn't fit
-            return OverflowDirection switch
-            {
-                OverflowDirection.Horizontal => _contentDesiredSize.Width > (availableSize.Width - SwitchTolerance),
-                OverflowDirection.Vertical => _contentDesiredSize.Height > (availableSize.Height - SwitchTolerance),
-                OverflowDirection.Both => _contentDesiredSize.Width > (availableSize.Width - SwitchTolerance) ||
-                                          _contentDesiredSize.Height > (availableSize.Height - SwitchTolerance),
-                _ => false
-            };
-        }
+            OverflowDirection.Horizontal => contentDesiredSize.Width > availableSize.Width - SwitchTolerance,
+            OverflowDirection.Vertical => contentDesiredSize.Height > availableSize.Height - SwitchTolerance,
+            OverflowDirection.Both => contentDesiredSize.Width > availableSize.Width - SwitchTolerance ||
+                                      contentDesiredSize.Height > availableSize.Height - SwitchTolerance,
+            _ => false
+        };
     }
 }
