@@ -19,9 +19,13 @@
             <Setter Property="MenuButtonSize" Value="48" />
             <Setter Property="OpenPaneLength" Value="250" />
             <Setter Property="IsPaneOpen" Value="True" />
+            <Setter Property="PageTransition">
+                <CrossFade Duration="0:00:00.2" />
+            </Setter>
             <Setter Property="Template">
                 <ControlTemplate>
                     <c:ShellSplitView x:Name="ShellSplitView"
+                                      PageTransition="{TemplateBinding PageTransition}"
                                       IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}"
                                       OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                       PaneHeader="{Binding $parent[sh:ShellView].Shell.Header}"

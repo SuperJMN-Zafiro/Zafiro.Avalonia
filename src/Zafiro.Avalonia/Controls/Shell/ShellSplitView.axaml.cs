@@ -1,3 +1,4 @@
+using Avalonia.Animation;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -50,6 +51,9 @@ public class ShellSplitView : ContentControl
 
     public static readonly StyledProperty<Thickness> PaneBorderThicknessProperty = AvaloniaProperty.Register<ShellSplitView, Thickness>(
         nameof(PaneBorderThickness));
+
+    public static readonly StyledProperty<IPageTransition> PageTransitionProperty = AvaloniaProperty.Register<ShellSplitView, IPageTransition>(
+        nameof(PageTransition));
 
     public bool IsPaneOpen
     {
@@ -139,6 +143,12 @@ public class ShellSplitView : ContentControl
     {
         get => GetValue(PaneBorderThicknessProperty);
         set => SetValue(PaneBorderThicknessProperty, value);
+    }
+
+    public IPageTransition PageTransition
+    {
+        get => GetValue(PageTransitionProperty);
+        set => SetValue(PageTransitionProperty, value);
     }
 }
 

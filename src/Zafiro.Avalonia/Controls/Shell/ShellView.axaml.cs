@@ -1,3 +1,4 @@
+using Avalonia.Animation;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Zafiro.UI.Shell;
@@ -20,6 +21,9 @@ public class ShellView : TemplatedControl
 
     public static readonly StyledProperty<bool> IsPaneOpenProperty = AvaloniaProperty.Register<ShellView, bool>(
         nameof(IsPaneOpen));
+
+    public static readonly StyledProperty<IPageTransition> PageTransitionProperty = AvaloniaProperty.Register<ShellView, IPageTransition>(
+        nameof(PageTransition));
 
     public IShell Shell
     {
@@ -49,5 +53,11 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(IsPaneOpenProperty);
         set => SetValue(IsPaneOpenProperty, value);
+    }
+
+    public IPageTransition PageTransition
+    {
+        get => GetValue(PageTransitionProperty);
+        set => SetValue(PageTransitionProperty, value);
     }
 }

@@ -87,9 +87,10 @@
                                               IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                             <!-- Main Content (bottom-right by default) -->
-                            <ContentPresenter Grid.Row="1" Grid.Column="0" x:Name="Content"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Content="{TemplateBinding Content}" />
+                            <TransitioningContentControl Grid.Row="1" Grid.Column="0" x:Name="Content"
+                                                         PageTransition="{TemplateBinding PageTransition}"
+                                                         ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                         Content="{TemplateBinding Content}" />
 
                             <!-- Pane Container (left side, spans both rows) -->
                             <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" x:Name="PaneContainer"
