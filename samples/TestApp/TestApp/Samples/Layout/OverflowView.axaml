@@ -11,7 +11,7 @@
         <TextBlock>DALE CAÑA</TextBlock>
 
         <Interaction.Behaviors>
-            <ResponsiveReactiveBehavior />
+            <OverflowBehavior />
         </Interaction.Behaviors>
 
         <StackPanel.Styles>

@@ -4,11 +4,11 @@ using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Behaviors
 {
-    public class ResponsiveReactiveBehavior : Behavior<Control>, IDisposable
+    public class OverflowBehavior : Behavior<Control>, IDisposable
     {
         // Debounce
         public static readonly StyledProperty<int> DebounceMillisecondsProperty =
-            AvaloniaProperty.Register<ResponsiveReactiveBehavior, int>(
+            AvaloniaProperty.Register<OverflowBehavior, int>(
                 nameof(DebounceMilliseconds), 50);
 
         private readonly CompositeDisposable disposables = new CompositeDisposable();
@@ -73,6 +73,7 @@ namespace Zafiro.Avalonia.Behaviors
             {
                 child.Measure(new Size(double.PositiveInfinity, bounds.Height));
                 total += child.DesiredSize.Width;
+
                 if (total > bounds.Width)
                     return true;
             }
