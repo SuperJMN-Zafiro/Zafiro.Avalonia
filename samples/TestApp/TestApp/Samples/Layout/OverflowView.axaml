@@ -2,25 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="350"
              x:Class="TestApp.Samples.Layout.OverflowView">
-    <StackPanel>
-        <TextBlock>HOLA</TextBlock>
-        <TextBlock>CÓMO ESTÁS</TextBlock>
-        <TextBlock>TÍO</TextBlock>
-        <TextBlock>DALE CAÑA</TextBlock>
+    <ItemsControl>
 
         <Interaction.Behaviors>
             <OverflowBehavior />
         </Interaction.Behaviors>
 
-        <StackPanel.Styles>
-            <Style Selector="StackPanel">
-                <Setter Property="Orientation" Value="Horizontal" />
+        <Button HorizontalAlignment="Stretch">CÓMO ESTÁS</Button>
+        <Button DockPanel.Dock="Right" HorizontalAlignment="Stretch">CÓMO ESTÁS</Button>
+        <TextBlock TextWrapping="Wrap">HOLA TÍO QUÉ TAL</TextBlock>
+
+        <ItemsControl.Styles>
+            <Style Selector="ItemsControl">
+                <Setter Property="ItemsPanel">
+                    <ItemsPanelTemplate>
+                        <DockPanel />
+                    </ItemsPanelTemplate>
+                </Setter>
             </Style>
-            <Style Selector="StackPanel:overflow">
-                <Setter Property="Orientation" Value="Vertical" />
+            <Style Selector="ItemsControl:overflow">
+                <Setter Property="ItemsPanel">
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </Setter>
             </Style>
-        </StackPanel.Styles>
-    </StackPanel>
+        </ItemsControl.Styles>
+    </ItemsControl>
 </UserControl>

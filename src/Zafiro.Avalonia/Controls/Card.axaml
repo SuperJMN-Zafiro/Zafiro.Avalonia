@@ -6,7 +6,7 @@
 
         <StackPanel Background="White">
 
-            <Card Width="700"
+            <Card Width="850"
                   CornerRadius="20"
                   Background="#522FFF72"
                   HeaderHorizontalAlignment="Center"

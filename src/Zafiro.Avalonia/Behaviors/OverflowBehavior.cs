@@ -2,97 +2,97 @@ using System.Reactive.Disposables;
 using Avalonia.Xaml.Interactivity;
 using Zafiro.Reactive;
 
-namespace Zafiro.Avalonia.Behaviors
+namespace Zafiro.Avalonia.Behaviors;
+
+public class OverflowBehavior : Behavior<Control>, IDisposable
 {
-    public class OverflowBehavior : Behavior<Control>, IDisposable
+    public static readonly StyledProperty<int> DebounceMillisecondsProperty =
+        AvaloniaProperty.Register<OverflowBehavior, int>(
+            nameof(DebounceMilliseconds), 50);
+
+    private readonly CompositeDisposable disposables = new CompositeDisposable();
+    private bool overflow;
+
+    public int DebounceMilliseconds
     {
-        // Debounce
-        public static readonly StyledProperty<int> DebounceMillisecondsProperty =
-            AvaloniaProperty.Register<OverflowBehavior, int>(
-                nameof(DebounceMilliseconds), 50);
+        get => GetValue(DebounceMillisecondsProperty);
+        set => SetValue(DebounceMillisecondsProperty, value);
+    }
 
-        private readonly CompositeDisposable disposables = new CompositeDisposable();
-        private bool overflow;
+    public void Dispose() => disposables.Dispose();
 
-        public int DebounceMilliseconds
-        {
-            get => GetValue(DebounceMillisecondsProperty);
-            set => SetValue(DebounceMillisecondsProperty, value);
-        }
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+        if (AssociatedObject == null) return;
 
-        public void Dispose() => disposables.Dispose();
+        var layoutUpdated = Observable
+            .FromEventPattern(
+                h => AssociatedObject.LayoutUpdated += h,
+                h => AssociatedObject.LayoutUpdated -= h)
+            .ToSignal();
 
-        protected override void OnAttached()
-        {
-            base.OnAttached();
+        var boundsChanged = AssociatedObject
+            .GetObservable(Visual.BoundsProperty)
+            .ToSignal();
 
-            if (AssociatedObject == null)
-                return;
+        layoutUpdated
+            .Merge(boundsChanged)
+            .ObserveOn(AvaloniaScheduler.Instance)
+            .Throttle(TimeSpan.FromMilliseconds(DebounceMilliseconds), AvaloniaScheduler.Instance)
+            .Subscribe(_ => UpdateState())
+            .DisposeWith(disposables);
+    }
 
-            // Observe layout updates or size changes
-            var layoutUpdated = Observable.FromEventPattern(h => AssociatedObject.LayoutUpdated += h, h => AssociatedObject.LayoutUpdated -= h).ToSignal();
-            var boundsChanged = AssociatedObject.GetObservable(Visual.BoundsProperty).ToSignal();
+    protected override void OnDetaching()
+    {
+        disposables.Dispose();
+        base.OnDetaching();
+    }
 
-            var layoutChanged = layoutUpdated.Merge(boundsChanged);
+    private void UpdateState()
+    {
+        if (AssociatedObject == null)
+            return;
 
-            layoutChanged
-                .ObserveOn(AvaloniaScheduler.Instance)
-                .Throttle(TimeSpan.FromMilliseconds(DebounceMilliseconds), AvaloniaScheduler.Instance)
-                .Subscribe(_ => UpdateState())
-                .DisposeWith(disposables);
-        }
+        bool hasOverflow = CheckOverflow();
+        if (hasOverflow == overflow)
+            return; // sin cambio, no reaplicar
 
-        protected override void OnDetaching()
-        {
-            disposables.Dispose();
-            base.OnDetaching();
-        }
+        overflow = hasOverflow;
+        ApplyState();
+    }
 
-        private void UpdateState()
-        {
-            if (AssociatedObject == null)
-                return;
+    private bool CheckOverflow()
+    {
+        // 1. Obtener el Panel que realmente contiene los ítems
+        Panel panel = null;
+        if (AssociatedObject is ItemsControl ic)
+            panel = ic.ItemsPanelRoot;
+        else if (AssociatedObject is Panel p)
+            panel = p;
 
-            bool hasOverflow = CheckOverflow();
-            if (hasOverflow == overflow)
-                return;
-
-            overflow = hasOverflow;
-            ApplyState();
-        }
-
-        private bool CheckOverflow()
-        {
-            if (AssociatedObject is not Panel panel)
-                return false;
-
-            var bounds = AssociatedObject.Bounds;
-            double total = 0;
-
-            foreach (var child in panel.Children.OfType<Control>())
-            {
-                child.Measure(new Size(double.PositiveInfinity, bounds.Height));
-                total += child.DesiredSize.Width;
-
-                if (total > bounds.Width)
-                    return true;
-            }
-
+        if (panel == null)
             return false;
+
+        // 2. Medir solo sus hijos directos
+        var bounds = panel.Bounds;
+        double total = 0;
+
+        foreach (var child in panel.Children.OfType<Control>())
+        {
+            child.Measure(new Size(double.PositiveInfinity, bounds.Height));
+            total += child.DesiredSize.Width;
+            if (total > bounds.Width)
+                return true;
         }
 
-        private void ApplyState()
-        {
-            // Style class
-            var classes = (IPseudoClasses)AssociatedObject.Classes;
-            if (overflow)
-            {
-                classes.Set(":overflow", true);
-            }
-            else
-            {
-                classes.Set(":overflow", false);
-            }
-        }
+        return false;
+    }
+
+    private void ApplyState()
+    {
+        var classes = (IPseudoClasses)AssociatedObject.Classes;
+        classes.Set(":overflow", overflow);
     }
 }
