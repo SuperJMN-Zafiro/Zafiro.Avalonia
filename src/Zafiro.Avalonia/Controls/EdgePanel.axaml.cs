@@ -19,6 +19,9 @@ public class EdgePanel : ContentControl
     public static readonly StyledProperty<IDataTemplate> EndContentTemplateProperty = AvaloniaProperty.Register<EdgePanel, IDataTemplate>(
         nameof(EndContentTemplate));
 
+    public static readonly StyledProperty<bool> IsAdaptiveFlowEnabledProperty = AvaloniaProperty.Register<EdgePanel, bool>(
+        nameof(IsAdaptiveFlowEnabled));
+
     public object StartContent
     {
         get => GetValue(StartContentProperty);
@@ -47,5 +50,11 @@ public class EdgePanel : ContentControl
     {
         get => GetValue(EndContentTemplateProperty);
         set => SetValue(EndContentTemplateProperty, value);
+    }
+
+    public bool IsAdaptiveFlowEnabled
+    {
+        get => GetValue(IsAdaptiveFlowEnabledProperty);
+        set => SetValue(IsAdaptiveFlowEnabledProperty, value);
     }
 }

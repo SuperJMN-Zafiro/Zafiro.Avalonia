@@ -6,7 +6,7 @@
 
         <StackPanel Background="White">
 
-            <Card Width="850"
+            <Card Width="350"
                   CornerRadius="20"
                   Background="#522FFF72"
                   HeaderHorizontalAlignment="Center"
@@ -109,6 +109,7 @@
                                        BorderBrush="{TemplateBinding BorderBrush}">
                         <HeaderedContainer.Header>
                             <EdgePanel DockPanel.Dock="Top"
+                                       IsAdaptiveFlowEnabled="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
                                        Spacing="{Binding $parent[Card].HeaderSpacing}"
                                        Margin="{Binding $parent[Card].HeaderPadding}"
                                        StartContent="{Binding $parent[Card].HeaderStartContent}"

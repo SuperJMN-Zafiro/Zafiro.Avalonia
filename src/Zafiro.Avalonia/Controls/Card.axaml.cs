@@ -51,6 +51,9 @@ public class Card : ContentControl
     public static readonly StyledProperty<BoxShadows> BoxShadowProperty = AvaloniaProperty.Register<Card, BoxShadows>(
         nameof(BoxShadow));
 
+    public static readonly StyledProperty<bool> IsAdaptiveFlowEnabledProperty = AvaloniaProperty.Register<Card, bool>(
+        nameof(IsAdaptiveFlowEnabled));
+
     public VerticalAlignment HeaderVerticalAlignment
     {
         get => GetValue(HeaderVerticalAlignmentProperty);
@@ -139,5 +142,11 @@ public class Card : ContentControl
     {
         get => GetValue(BoxShadowProperty);
         set => SetValue(BoxShadowProperty, value);
+    }
+
+    public bool IsAdaptiveFlowEnabled
+    {
+        get => GetValue(IsAdaptiveFlowEnabledProperty);
+        set => SetValue(IsAdaptiveFlowEnabledProperty, value);
     }
 }

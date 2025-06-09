@@ -5,7 +5,7 @@
 
     <Design.PreviewWith>
         <StackPanel>
-            <conv:EdgePanel Width="200">
+            <conv:EdgePanel Width="100" IsAdaptiveFlowEnabled="True">
                 <conv:EdgePanel.EndContent>
                     <Button HorizontalAlignment="Stretch">RIGHT BUTTON</Button>
                 </conv:EdgePanel.EndContent>
@@ -16,10 +16,6 @@
                     <Button Background="Red" HorizontalAlignment="Stretch">MAIN BUTTON</Button>
                 </conv:EdgePanel.Content>
             </conv:EdgePanel>
-            <!-- <conv:EdgePanel Content="Main" -->
-            <!--                 EndContent="End" /> -->
-            <!-- <conv:EdgePanel Content="Main" -->
-            <!--                 StartContent="Start" /> -->
         </StackPanel>
     </Design.PreviewWith>
 
@@ -54,7 +50,7 @@
                             IsVisible="{Binding $parent[conv:EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                         <Interaction.Behaviors>
-                            <OverflowBehavior />
+                            <OverflowBehavior ExcludeTextOverflow="True" />
                         </Interaction.Behaviors>
                     </Grid>
                 </ControlTemplate>
@@ -63,29 +59,30 @@
             <Style Selector="^ /template/ Grid ContentPresenter#MainContent">
                 <Setter Property="Grid.Column" Value="1" />
             </Style>
-            <Style Selector="^ /template/ Grid:overflow ContentPresenter#StartContent">
+            <Style Selector="^[IsAdaptiveFlowEnabled=True] /template/ Grid:overflow ContentPresenter#StartContent">
                 <Setter Property="Grid.ColumnSpan" Value="3" />
                 <Setter Property="Margin"
-                        Value="{Binding $parent[EdgePanel].Spacing, 
-                        Converter={x:Static ThicknessConverters.DoubleToThicknessSides}, 
+                        Value="{Binding $parent[EdgePanel].Spacing,
+                        Converter={x:Static ThicknessConverters.DoubleToThicknessSides},
                         ConverterParameter={Parse Type={x:Type Sides}, Value='Bottom'}}" />
             </Style>
-            <Style Selector="^ /template/ Grid:overflow ContentPresenter#MainContent">
+            <Style Selector="^[IsAdaptiveFlowEnabled=True] /template/ Grid:overflow ContentPresenter#MainContent">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.ColumnSpan" Value="3" />
                 <Setter Property="Grid.Row" Value="1" />
             </Style>
-            <Style Selector="^ /template/ Grid:overflow ContentPresenter#EndContent">
+            <Style Selector="^[IsAdaptiveFlowEnabled=True] /template/ Grid:overflow ContentPresenter#EndContent">
                 <Setter Property="Grid.Column" Value="0" />
                 <Setter Property="Grid.Row" Value="2" />
                 <Setter Property="Margin"
-                        Value="{Binding $parent[EdgePanel].Spacing, 
-                        Converter={x:Static ThicknessConverters.DoubleToThicknessSides}, 
+                        Value="{Binding $parent[EdgePanel].Spacing,
+                        Converter={x:Static ThicknessConverters.DoubleToThicknessSides},
                         ConverterParameter={Parse Type={x:Type Sides}, Value='Top'}}" />
                 <Setter Property="Grid.ColumnSpan" Value="3" />
             </Style>
 
         </ControlTheme>
+
     </Styles.Resources>
 
 </Styles>

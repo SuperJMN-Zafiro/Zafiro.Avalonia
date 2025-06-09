@@ -1,4 +1,7 @@
 using System.Reactive.Disposables;
+using Avalonia.Controls.Presenters;
+using Avalonia.Media;
+using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using Zafiro.Reactive;
 
@@ -10,6 +13,9 @@ public class OverflowBehavior : Behavior<Control>, IDisposable
         AvaloniaProperty.Register<OverflowBehavior, int>(
             nameof(DebounceMilliseconds), 50);
 
+    public static readonly StyledProperty<bool> ExcludeTextOverflowProperty = AvaloniaProperty.Register<OverflowBehavior, bool>(
+        nameof(ExcludeTextOverflow), true);
+
     private readonly CompositeDisposable disposables = new CompositeDisposable();
     private bool overflow;
 
@@ -17,6 +23,12 @@ public class OverflowBehavior : Behavior<Control>, IDisposable
     {
         get => GetValue(DebounceMillisecondsProperty);
         set => SetValue(DebounceMillisecondsProperty, value);
+    }
+
+    public bool ExcludeTextOverflow
+    {
+        get => GetValue(ExcludeTextOverflowProperty);
+        set => SetValue(ExcludeTextOverflowProperty, value);
     }
 
     public void Dispose() => disposables.Dispose();
@@ -30,6 +42,8 @@ public class OverflowBehavior : Behavior<Control>, IDisposable
             .FromEventPattern(
                 h => AssociatedObject.LayoutUpdated += h,
                 h => AssociatedObject.LayoutUpdated -= h)
+            .Select(_ => AssociatedObject.Bounds)
+            .DistinctUntilChanged()
             .ToSignal();
 
         var boundsChanged = AssociatedObject
@@ -65,23 +79,44 @@ public class OverflowBehavior : Behavior<Control>, IDisposable
 
     private bool CheckOverflow()
     {
-        // 1. Obtener el Panel que realmente contiene los ítems
-        Panel panel = null;
-        if (AssociatedObject is ItemsControl ic)
-            panel = ic.ItemsPanelRoot;
-        else if (AssociatedObject is Panel p)
-            panel = p;
-
-        if (panel == null)
+        Panel panel = AssociatedObject switch
+        {
+            ItemsControl ic => ic.ItemsPanelRoot,
+            Panel p => p,
+            _ => null
+        };
+        if (panel is null)
             return false;
 
-        // 2. Medir solo sus hijos directos
         var bounds = panel.Bounds;
         double total = 0;
 
-        foreach (var child in panel.Children.OfType<Control>())
+        foreach (Control child in panel.Children.OfType<Control>())
         {
-            child.Measure(new Size(double.PositiveInfinity, bounds.Height));
+            double remaining = bounds.Width - total;
+
+            if (ExcludeTextOverflow && IsWrappableTextBranch(child))
+            {
+                var branch = new[] { child }
+                    .Concat(child.GetVisualDescendants().OfType<Control>());
+
+                double threshold = branch
+                    .Select(c => c.MinWidth)
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                if (remaining < threshold)
+                    return true;
+
+                // 2. Medir con el ancho restante, wrapping posible
+                child.Measure(new Size(remaining, bounds.Height));
+            }
+            else
+            {
+                // Medición convencional (sin wrapping)
+                child.Measure(new Size(double.PositiveInfinity, bounds.Height));
+            }
+
             total += child.DesiredSize.Width;
             if (total > bounds.Width)
                 return true;
@@ -94,5 +129,32 @@ public class OverflowBehavior : Behavior<Control>, IDisposable
     {
         var classes = (IPseudoClasses)AssociatedObject.Classes;
         classes.Set(":overflow", overflow);
+    }
+
+    private bool IsWrappableTextBranch(Control control)
+    {
+        // Reunir el control raíz y sus descendientes que sean Controls
+        var nodes = control
+            .GetVisualDescendants()
+            .OfType<Control>()
+            .Prepend(control);
+
+        // Filtrar sólo los TextBlock con wrapping activo
+        var textBlocks = nodes
+            .OfType<TextBlock>()
+            .Where(tb => tb.TextWrapping != TextWrapping.NoWrap);
+
+        if (!textBlocks.Any())
+            return false;
+
+        // Detectar otros controles “hoja” distintos de TextBlock
+        var leaves = nodes
+            .Where(c => !(c is Panel)
+                        && !(c is Decorator)
+                        && !(c is ContentPresenter)
+                        && !(c is ItemsPresenter)
+                        && !(c is TextBlock));
+
+        return !leaves.Any();
     }
 }
