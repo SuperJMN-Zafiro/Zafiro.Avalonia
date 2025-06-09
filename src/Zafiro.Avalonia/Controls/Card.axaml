@@ -6,8 +6,31 @@
 
         <StackPanel Background="White">
 
-            <Card Width="500"
+            <Card VerticalAlignment="Center" Margin="10"
+                  Width="350"
+                  IsAdaptiveFlowEnabled="False"
+                  Header="This is a card">
+                <Card.Subheader>
+                    <TextBlock TextWrapping="Wrap">
+                        It helps you group related information in a convenient way.
+                    </TextBlock>
+                </Card.Subheader>
+                <Card.HeaderStartContent>
+                    <ui:Icon Source="fa-wallet" />
+                </Card.HeaderStartContent>
+                <BulletList Header="It offers you special places to put your contents:">
+                    <x:String>Header</x:String>
+                    <x:String>Subheader</x:String>
+                    <x:String>Header Start Content</x:String>
+                    <x:String>Header End Content</x:String>
+                    <x:String>Content</x:String>
+                </BulletList>
+            </Card>
+
+
+            <Card Width="250"
                   CornerRadius="20"
+                  IsAdaptiveFlowEnabled="True"
                   Background="#522FFF72"
                   HeaderHorizontalAlignment="Center"
                   Header="Gaze Method Order"
@@ -109,6 +132,7 @@
                                        BorderBrush="{TemplateBinding BorderBrush}">
                         <HeaderedContainer.Header>
                             <EdgePanel DockPanel.Dock="Top"
+                                       IsAdaptiveFlowEnabled="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
                                        Spacing="{Binding $parent[Card].HeaderSpacing}"
                                        Margin="{Binding $parent[Card].HeaderPadding}"
                                        StartContent="{Binding $parent[Card].HeaderStartContent}"
@@ -118,7 +142,9 @@
                                 <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
                                             HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                             VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
-                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}" Content="{Binding $parent[Card].Header}"
+                                    <!-- <TextBlock>ñljasdfñlaskjdfñlaskdjfña slkdjfañsldfñlaskj fdñalskdf jsa</TextBlock> -->
+                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                                      Content="{Binding $parent[Card].Header}"
                                                       ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
                                     <ContentPresenter x:Name="PART_HeaderSubtitle"
                                                       HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
