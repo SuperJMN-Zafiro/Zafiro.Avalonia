@@ -50,7 +50,7 @@
                             IsVisible="{Binding $parent[conv:EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                         <Interaction.Behaviors>
-                            <OverflowBehavior ExcludeTextOverflow="True" />
+                            <OverflowBehavior />
                         </Interaction.Behaviors>
                     </Grid>
                 </ControlTemplate>

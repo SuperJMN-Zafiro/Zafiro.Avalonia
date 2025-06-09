@@ -7,7 +7,7 @@
     <ItemsControl>
 
         <Interaction.Behaviors>
-            <OverflowBehavior ExcludeTextOverflow="False" />
+            <OverflowBehavior IsEnabled="True" />
         </Interaction.Behaviors>
 
         <Button HorizontalAlignment="Stretch">CÓMO ESTÁS</Button>
