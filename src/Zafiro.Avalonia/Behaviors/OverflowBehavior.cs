@@ -6,14 +6,14 @@ namespace Zafiro.Avalonia.Behaviors
 {
     public class OverflowBehavior : Behavior<Control>, IDisposable
     {
-        private const double HYSTERESIS = 10.0;
+        private const double Hysteresis = 10.0;
 
         public static readonly StyledProperty<int> DebounceMillisecondsProperty =
             AvaloniaProperty.Register<OverflowBehavior, int>(
                 nameof(DebounceMilliseconds), 50);
 
-        private readonly CompositeDisposable _disposables = new();
-        private bool _overflow;
+        private readonly CompositeDisposable disposables = new();
+        private bool overflow;
 
         public int DebounceMilliseconds
         {
@@ -21,7 +21,7 @@ namespace Zafiro.Avalonia.Behaviors
             set => SetValue(DebounceMillisecondsProperty, value);
         }
 
-        public void Dispose() => _disposables.Dispose();
+        public void Dispose() => disposables.Dispose();
 
         protected override void OnAttached()
         {
@@ -46,12 +46,12 @@ namespace Zafiro.Avalonia.Behaviors
                 .ObserveOn(AvaloniaScheduler.Instance)
                 .Throttle(TimeSpan.FromMilliseconds(DebounceMilliseconds), AvaloniaScheduler.Instance)
                 .Subscribe(_ => UpdateState())
-                .DisposeWith(_disposables);
+                .DisposeWith(disposables);
         }
 
         protected override void OnDetaching()
         {
-            _disposables.Dispose();
+            disposables.Dispose();
             base.OnDetaching();
         }
 
@@ -64,15 +64,15 @@ namespace Zafiro.Avalonia.Behaviors
             double width = AssociatedObject.Bounds.Width;
 
             bool hasOverflow;
-            if (!_overflow)
-                hasOverflow = total > width + HYSTERESIS;
+            if (!overflow)
+                hasOverflow = total > width + Hysteresis;
             else
-                hasOverflow = total >= width - HYSTERESIS;
+                hasOverflow = total >= width - Hysteresis;
 
-            if (hasOverflow == _overflow)
+            if (hasOverflow == overflow)
                 return;
 
-            _overflow = hasOverflow;
+            overflow = hasOverflow;
             ApplyState();
         }
 
@@ -100,7 +100,7 @@ namespace Zafiro.Avalonia.Behaviors
         private void ApplyState()
         {
             var pc = (IPseudoClasses)AssociatedObject.Classes;
-            pc.Set(":overflow", _overflow);
+            pc.Set(":overflow", overflow);
         }
     }
 }
