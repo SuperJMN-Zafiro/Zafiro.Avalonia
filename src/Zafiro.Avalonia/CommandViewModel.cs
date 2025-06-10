@@ -8,7 +8,11 @@ public class CommandViewModel : ReactiveObject
     public CommandViewModel()
     {
         NeverEndingCommand = ReactiveCommand.CreateFromObservable(Observable.Never<Unit>).Enhance();
-        RegularCommand = ReactiveCommand.Create(() => 123).Enhance();
+        RegularCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await Task.Delay(2000);
+            return 123;
+        }).Enhance();
         NeverEndingCommand.Execute().Subscribe();
     }
 

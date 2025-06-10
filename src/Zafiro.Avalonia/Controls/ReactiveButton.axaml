@@ -3,41 +3,98 @@
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
         xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type ReactiveButton}" TargetType="ReactiveButton">
+            <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="ButtonTheme">
+                <Setter.Value>
+                    <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"></ControlTheme>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Button Theme="{TemplateBinding ButtonTheme}"
+                            IsDefault="{TemplateBinding IsDefault}"
+                            IsCancel="{TemplateBinding IsCancel}"
+                            IsTabStop="{TemplateBinding IsTabStop}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            Command="{Binding $parent[controls:ReactiveButton].Command}">
+                        <Button.Content>
+                            <Grid ColumnDefinitions="25, Auto, 20">
+                                <Viewbox Margin="0 0 8 0" StretchDirection="DownOnly">
+                                    <c:ProgressRing Foreground="{TemplateBinding Foreground}" IsVisible="{Binding $parent[controls:ReactiveButton].Command.IsExecuting^}" />
+                                </Viewbox>
+                                <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" TextBlock.TextTrimming="CharacterEllipsis" TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
+                                                  VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                                  Content="{Binding $parent[controls:ReactiveButton].Content}" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Button:disabled ContentPresenter#ContentPresenter">
+                <Setter Property="Opacity" Value="0.5"></Setter>
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="ProgressBarReactiveButton" TargetType="ReactiveButton">
+            <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="ButtonTheme">
+                <Setter.Value>
+                    <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"></ControlTheme>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Button Theme="{TemplateBinding ButtonTheme}"
+                            IsDefault="{TemplateBinding IsDefault}"
+                            IsCancel="{TemplateBinding IsCancel}"
+                            IsTabStop="{TemplateBinding IsTabStop}"
+                            Padding="0"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            Command="{Binding $parent[controls:ReactiveButton].Command}">
+                        <Button.Content>
+                            <Panel>
+                                <ContentPresenter Padding="{TemplateBinding Padding}" x:Name="ContentPresenter" TextBlock.TextTrimming="CharacterEllipsis" TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
+                                                  VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                                  Content="{Binding $parent[controls:ReactiveButton].Content}" />
+                                <ProgressBar x:Name="ProgressBar"
+                                             IsVisible="{Binding $parent[controls:ReactiveButton].Command.IsExecuting^}"
+                                             VerticalAlignment="Bottom" HorizontalAlignment="Center" IsIndeterminate="True" />
+                            </Panel>
+                        </Button.Content>
+                    </Button>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Button:disabled ContentPresenter#ContentPresenter">
+                <Setter Property="Opacity" Value="0.5" />
+            </Style>
+            <Style Selector="^ /template/ Button ProgressBar:horizontal">
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style>
+
+        </ControlTheme>
+
+
+    </Styles.Resources>
+
     <Design.PreviewWith>
-        <StackPanel>
+        <StackPanel Width="400">
             <StackPanel.DataContext>
                 <avalonia:CommandViewModel />
             </StackPanel.DataContext>
-            <controls:ReactiveButton Foreground="Red" ButtonTheme="{StaticResource TransparentButton}" HorizontalAlignment="Stretch" Content="This is my church" Command="{Binding NeverEndingCommand}" />
+            <controls:ReactiveButton Content="This is where I heal my hurt" Command="{Binding NeverEndingCommand}" />
+            <controls:ReactiveButton HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="This is where I heal my hurt" Command="{Binding NeverEndingCommand}" />
             <controls:ReactiveButton Content="This is where I heal my hurt" Command="{Binding RegularCommand}" />
+            <controls:ReactiveButton Theme="{StaticResource ProgressBarReactiveButton}" Content="With ProgressBar" Command="{Binding NeverEndingCommand}" />
+            <Button IsEnabled="False" Content="Regular button" />
         </StackPanel>
     </Design.PreviewWith>
 
-    <Style Selector="controls|ReactiveButton">
-        <!-- Set Defaults -->
-        <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Button Theme="{TemplateBinding ButtonTheme}"
-                        HorizontalAlignment="Stretch"
-                        IsDefault="{TemplateBinding IsDefault}"
-                        IsCancel="{TemplateBinding IsCancel}"
-                        Padding="{TemplateBinding Padding}"
-                        Foreground="{TemplateBinding Foreground}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        Command="{Binding $parent[controls:ReactiveButton].Command}">
-                    <Button.Content>
-                        <DockPanel HorizontalAlignment="Center">
-                            <Viewbox Stretch="UniformToFill" StretchDirection="DownOnly">
-                                <c:ProgressRing Foreground="{TemplateBinding Foreground}" Margin="5 0" IsVisible="{Binding $parent[controls:ReactiveButton].Command.IsExecuting^}" />
-                            </Viewbox>
-                            <ContentPresenter Foreground="{TemplateBinding Foreground}" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" />
-                        </DockPanel>
-                    </Button.Content>
-                </Button>
-            </ControlTemplate>
-        </Setter>
-    </Style>
 </Styles>
