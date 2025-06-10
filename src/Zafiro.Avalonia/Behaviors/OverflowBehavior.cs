@@ -31,13 +31,7 @@ namespace Zafiro.Avalonia.Behaviors
             var layoutUpdated = Observable
                 .FromEventPattern(
                     h => AssociatedObject.LayoutUpdated += h,
-                    h =>
-                    {
-                        if (AssociatedObject != null)
-                        {
-                            AssociatedObject.LayoutUpdated -= h;
-                        }
-                    })
+                    h => AssociatedObject.LayoutUpdated -= h)
                 .Select(_ => AssociatedObject.Bounds)
                 .DistinctUntilChanged()
                 .ToSignal();
