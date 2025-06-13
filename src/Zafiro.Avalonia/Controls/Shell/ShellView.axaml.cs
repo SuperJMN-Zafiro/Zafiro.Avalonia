@@ -1,6 +1,8 @@
+using System.Reactive.Disposables;
 using Avalonia.Animation;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Interactivity;
 using Zafiro.UI.Shell;
 
 namespace Zafiro.Avalonia.Controls.Shell;
@@ -24,6 +26,23 @@ public class ShellView : TemplatedControl
 
     public static readonly StyledProperty<IPageTransition> PageTransitionProperty = AvaloniaProperty.Register<ShellView, IPageTransition>(
         nameof(PageTransition));
+
+    public static readonly DirectProperty<ShellView, bool> useDesktopLayoutProperty = AvaloniaProperty.RegisterDirect<ShellView, bool>(
+        nameof(UseDesktopLayout), o => o.UseDesktopLayout, (o, v) => o.UseDesktopLayout = v);
+
+    public static readonly StyledProperty<bool> ForceDesktopLayoutProperty = AvaloniaProperty.Register<ShellView, bool>(
+        nameof(ForceDesktopLayout));
+
+    private readonly CompositeDisposable disposable = new();
+
+    private bool useDesktopLayout;
+
+    public ShellView()
+    {
+        this.WhenAnyValue(view => view.ForceDesktopLayout).Select(forceDesktop => forceDesktop || IsDesktop)
+            .BindTo(this, x => x.UseDesktopLayout)
+            .DisposeWith(disposable);
+    }
 
     public IShell Shell
     {
@@ -59,5 +78,25 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(PageTransitionProperty);
         set => SetValue(PageTransitionProperty, value);
+    }
+
+    public bool UseDesktopLayout
+    {
+        get => useDesktopLayout;
+        set => SetAndRaise(useDesktopLayoutProperty, ref useDesktopLayout, value);
+    }
+
+    public bool ForceDesktopLayout
+    {
+        get => GetValue(ForceDesktopLayoutProperty);
+        set => SetValue(ForceDesktopLayoutProperty, value);
+    }
+
+    private static bool IsDesktop => OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS();
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        disposable.Dispose();
+        base.OnUnloaded(e);
     }
 }

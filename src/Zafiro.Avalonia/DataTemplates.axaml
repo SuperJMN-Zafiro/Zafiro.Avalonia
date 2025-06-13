@@ -4,7 +4,7 @@
                xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
                xmlns:zslim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim"
                xmlns:classic="clr-namespace:Zafiro.UI.Wizards.Classic;assembly=Zafiro.UI"
-               xmlns:classic1="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
+               xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
                xmlns:slim="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI"
                xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
                xmlns:z="clr-namespace:Zafiro.Avalonia">
@@ -18,13 +18,11 @@
     </DataTemplate>
 
     <DataTemplate DataType="classic:IWizard">
-        <classic1:WizardControl Wizard="{Binding}" />
+        <c:WizardControl Wizard="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="ui:Icon">
-        <Viewbox>
-            <ContentControl ContentTemplate="{x:Static z:IconTemplate.Instance}" Content="{Binding }" />
-        </Viewbox>
+        <ContentControl ContentTemplate="{x:Static z:IconTemplate.Instance}" Content="{Binding }" />
     </DataTemplate>
 
 </DataTemplates>
