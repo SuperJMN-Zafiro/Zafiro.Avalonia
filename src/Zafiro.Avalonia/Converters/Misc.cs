@@ -14,6 +14,7 @@ public class MiscConverters
         };
     });
 
+
     public static FuncValueConverter<int, string> MoreThan99 = new FuncValueConverter<int, string>(i =>
     {
         return i switch
@@ -47,7 +48,7 @@ public class MiscConverters
         return 0;
     });
 
-    public static FuncValueConverter<int, IEnumerable<int>> Range { get; } = new(i => Enumerable.Range(1, i));
+    public static FuncValueConverter<int, IEnumerable<int>> Range { get; } = new(i => System.Linq.Enumerable.Range(1, i));
     public static FuncValueConverter<int, int> AddOne { get; } = new(i => i + 1);
-    public static FuncValueConverter<bool, int> TrueToOne { get; } = new(i => i ? 1 : 0); 
+    public static FuncValueConverter<bool, int> TrueToOne { get; } = new(i => i ? 1 : 0);
 }

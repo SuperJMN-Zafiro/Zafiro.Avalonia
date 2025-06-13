@@ -53,4 +53,5 @@
     <StyleInclude Source="Controls/Shell/ShellSplitView.axaml" />
     <StyleInclude Source="Controls/HeaderedContainer.axaml" />
     <StyleInclude Source="Controls/OverlayBorder.axaml" />
+    <StyleInclude Source="Controls/Shell/ActionBar.axaml" />
 </Styles>
