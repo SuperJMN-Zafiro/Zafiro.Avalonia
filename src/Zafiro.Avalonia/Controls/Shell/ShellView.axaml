@@ -3,7 +3,8 @@
         xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:pt="https://github.com/projektanker/icons.avalonia"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:b="clr-namespace:Zafiro.Avalonia.Behaviors">
+        xmlns:b="clr-namespace:Zafiro.Avalonia.Behaviors"
+        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
     <Design.PreviewWith>
         <ShellView Width="500" Height="500">
@@ -34,6 +35,13 @@
                                         ContentHeader="{Binding $parent[ShellView].Shell.ContentHeader^}"
                                         Content="{Binding $parent[ShellView].Shell.SelectedSection.Content^}"
                                         ExpandButtonSize="{TemplateBinding MenuButtonSize}">
+                            <ShellSplitView.DataTemplates>
+                                <DataTemplate DataType="ui:Icon">
+                                    <Viewbox Height="20" Width="20">
+                                        <ContentControl ContentTemplate="{x:Static IconTemplate.Instance}" Content="{Binding }" />
+                                    </Viewbox>
+                                </DataTemplate>
+                            </ShellSplitView.DataTemplates>
                             <Interaction.Behaviors>
                                 <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=AdaptiveControl}}">
                                     <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
