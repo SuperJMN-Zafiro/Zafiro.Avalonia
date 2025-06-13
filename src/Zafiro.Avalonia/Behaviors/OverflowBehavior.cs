@@ -4,7 +4,7 @@ using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Behaviors
 {
-    public class OverflowBehavior : Behavior<Control>, IDisposable
+    public sealed class OverflowBehavior : Behavior<Control>
     {
         private const double Hysteresis = 10.0;
 
@@ -12,7 +12,7 @@ namespace Zafiro.Avalonia.Behaviors
             AvaloniaProperty.Register<OverflowBehavior, int>(
                 nameof(DebounceMilliseconds), 50);
 
-        private readonly CompositeDisposable disposables = new();
+        private readonly SerialDisposable subscription = new();
         private bool overflow;
 
         public int DebounceMilliseconds
@@ -21,31 +21,52 @@ namespace Zafiro.Avalonia.Behaviors
             set => SetValue(DebounceMillisecondsProperty, value);
         }
 
-        public void Dispose() => disposables.Dispose();
+        public void Dispose() => subscription.Dispose();
 
         protected override void OnAttached()
         {
             base.OnAttached();
-            if (AssociatedObject == null) return;
 
+            if (AssociatedObject == null)
+                return;
+
+            // Renew subscriptions for this attach
+            var cd = new CompositeDisposable();
+            subscription.Disposable = cd;
+
+            // Observe layout updates safely
             var layoutUpdated = Observable
                 .FromEventPattern(
                     h => AssociatedObject.LayoutUpdated += h,
-                    h => AssociatedObject.LayoutUpdated -= h)
+                    h =>
+                    {
+                        if (AssociatedObject != null)
+                        {
+                            AssociatedObject.LayoutUpdated -= h;
+                        }
+                    })
                 .Select(_ => AssociatedObject.Bounds)
                 .DistinctUntilChanged()
                 .ToSignal();
 
-            layoutUpdated
+            var layoutDisp = layoutUpdated
                 .ObserveOn(AvaloniaScheduler.Instance)
-                .Throttle(TimeSpan.FromMilliseconds(DebounceMilliseconds), AvaloniaScheduler.Instance)
-                .Subscribe(_ => UpdateState())
-                .DisposeWith(disposables);
+                .Throttle(
+                    TimeSpan.FromMilliseconds(DebounceMilliseconds),
+                    AvaloniaScheduler.Instance)
+                .Subscribe(_ => UpdateState());
+
+            cd.Add(layoutDisp);
+
+            // Initial evaluation
+            UpdateState();
         }
 
         protected override void OnDetaching()
         {
-            disposables.Dispose();
+            // Dispose current subscriptions
+            subscription.Disposable?.Dispose();
+
             base.OnDetaching();
         }
 
@@ -93,8 +114,8 @@ namespace Zafiro.Avalonia.Behaviors
 
         private void ApplyState()
         {
-            var pc = (IPseudoClasses)AssociatedObject.Classes;
-            pc.Set(":overflow", overflow);
+            IPseudoClasses? pc = AssociatedObject?.Classes;
+            pc?.Set(":overflow", overflow);
         }
     }
 }

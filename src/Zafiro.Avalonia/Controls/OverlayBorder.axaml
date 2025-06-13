@@ -1,6 +1,60 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type OverlayBorder}" TargetType="OverlayBorder">
+            <Setter Property="ClipToBounds" Value="False"></Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel ClipToBounds="False">
+                        <!-- Shadow layer (no clipping) -->
+                        <Border Background="{TemplateBinding Background}"
+                                IsHitTestVisible="False"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding Background}"
+                                BoxShadow="{TemplateBinding BoxShadow}" />
+
+                        <!-- Content layer with clipping -->
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="{TemplateBinding Padding}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                ClipToBounds="True">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+
+                        <!-- Overlay border -->
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                IsHitTestVisible="False"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="Transparent" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <ControlTheme x:Key="CardOverlayBorder" TargetType="OverlayBorder" BasedOn="{StaticResource {x:Type OverlayBorder}}">
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+            <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="15" />
+            <Style Selector="^:pointerover">
+                <Setter Property="BorderBrush" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}" />
+                <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
+            </Style>
+            <Style Selector="^:pressed /template/ HeaderedContainer#Root">
+                <Setter Property="BoxShadow" Value="0 1 4 0 #0D000000" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
     <Design.PreviewWith>
+
         <StackPanel Margin="20" Spacing="10">
 
             <!-- Original problematic case -->
@@ -48,44 +102,11 @@
                            VerticalAlignment="Center" />
             </OverlayBorder>
 
+            <OverlayBorder Theme="{StaticResource CardOverlayBorder}">
+                THIS IS CARD-LIKE BORDER
+            </OverlayBorder>
+
         </StackPanel>
 
     </Design.PreviewWith>
-
-    <Styles.Resources>
-        <ControlTheme x:Key="{x:Type OverlayBorder}" TargetType="OverlayBorder">
-            <Setter Property="ClipToBounds" Value="False"></Setter>
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Panel ClipToBounds="False">
-                        <!-- Shadow layer (no clipping) -->
-                        <Border Background="{TemplateBinding Background}"
-                                IsHitTestVisible="False"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding Background}"
-                                BoxShadow="{TemplateBinding BoxShadow}" />
-
-                        <!-- Content layer with clipping -->
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                ClipToBounds="True">
-                            <ContentPresenter Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-
-                        <!-- Overlay border -->
-                        <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                IsHitTestVisible="False"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                Background="Transparent" />
-                    </Panel>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-    </Styles.Resources>
 </Styles>
