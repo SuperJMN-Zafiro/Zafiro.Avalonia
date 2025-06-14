@@ -1,63 +1,64 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
-        xmlns:simple="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple"
-        xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
+                    xmlns:simple="clr-namespace:Zafiro.Avalonia.Controls.Diagrams.Simple"
+                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors">
 
-  <!--
+    <!--
     Additional resources 
     Using Control Themes:
          https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
     Using Theme Variants:
          https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
   -->
-  
-  <Design.PreviewWith>
-    <StackPanel Width="400" Spacing="10">      
-        <StackPanel Background="{DynamicResource SystemRegionBrush}">
-          <simple:DiagramView />
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <simple:DiagramView />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
-  </Design.PreviewWith>
- 
-  <ControlTheme x:Key="{x:Type simple:DiagramView}" TargetType="simple:DiagramView">
-    <Setter Property="Template">
-      <ControlTemplate TargetType="simple:DiagramView">
-          <Panel>
-              <ItemsControl x:Name="ItemsControl" ItemsSource="{TemplateBinding Nodes}" ItemTemplate="{TemplateBinding ItemTemplate}">
-                  <ItemsControl.ItemContainerTheme>
-                      <ControlTheme TargetType="ContentPresenter">
-                          <Setter Property="Interaction.Behaviors">
-                              <BehaviorCollectionTemplate>
-                                  <BehaviorCollection>
-                                      <behaviors:DragDeltaBehavior 
-                                          Left="{Binding Left}"
-                                          Top="{Binding Top}"/>
-                                  </BehaviorCollection>
-                              </BehaviorCollectionTemplate>
-                          </Setter>
-                          <Setter x:DataType="diagrams:IHaveLocation" Property="Canvas.Left" Value="{Binding Left}" />
-                          <Setter x:DataType="diagrams:IHaveLocation" Property="Canvas.Top" Value="{Binding Top}" />
-                      </ControlTheme>
-                  </ItemsControl.ItemContainerTheme>
-                  <ItemsControl.ItemsPanel>
-                      <ItemsPanelTemplate>
-                          <Canvas />
-                      </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
-              </ItemsControl>
-              <ItemsControl ItemsSource="{TemplateBinding Edges}">
-                  <ItemsControl.ItemTemplate>
-                      <DataTemplate DataType="diagrams:IHaveFromTo">
-                          <simple:HostedConnector 
-                              ConnectionStroke="{Binding $parent[simple:DiagramView].ConnectionStroke}"
-                              ConnectionStrokeThickness="{Binding $parent[simple:DiagramView].ConnectionStrokeThickness}"
-                              ConnectionStyle="{Binding $parent[simple:DiagramView].ConnectionStyle}" Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
-                      </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-              </ItemsControl>
-          </Panel>
-      </ControlTemplate>
-    </Setter>
-  </ControlTheme>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type simple:DiagramView}" TargetType="simple:DiagramView">
+        <Setter Property="ConnectionStroke" Value="{DynamicResource SystemBaseHighColor}" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="simple:DiagramView">
+                <Panel>
+                    <ItemsControl x:Name="ItemsControl" ItemsSource="{TemplateBinding Nodes}" ItemTemplate="{TemplateBinding ItemTemplate}">
+                        <ItemsControl.ItemContainerTheme>
+                            <ControlTheme TargetType="ContentPresenter">
+                                <Setter Property="Interaction.Behaviors">
+                                    <BehaviorCollectionTemplate>
+                                        <BehaviorCollection>
+                                            <behaviors:DragDeltaBehavior
+                                                Left="{Binding Left}"
+                                                Top="{Binding Top}" />
+                                        </BehaviorCollection>
+                                    </BehaviorCollectionTemplate>
+                                </Setter>
+                                <Setter x:DataType="diagrams:IHaveLocation" Property="Canvas.Left" Value="{Binding Left}" />
+                                <Setter x:DataType="diagrams:IHaveLocation" Property="Canvas.Top" Value="{Binding Top}" />
+                            </ControlTheme>
+                        </ItemsControl.ItemContainerTheme>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{TemplateBinding Edges}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="diagrams:IHaveFromTo">
+                                <simple:HostedConnector
+                                    ConnectionStroke="{Binding $parent[simple:DiagramView].ConnectionStroke}"
+                                    ConnectionStrokeThickness="{Binding $parent[simple:DiagramView].ConnectionStrokeThickness}"
+                                    ConnectionStyle="{Binding $parent[simple:DiagramView].ConnectionStyle}" Host="{Binding  #ItemsControl}" From="{Binding From}" To="{Binding To}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
 </ResourceDictionary>

@@ -16,7 +16,6 @@
 
     <Design.PreviewWith>
         <controls:EnhancedDiagramView Width="500" Height="400"
-                                      ConnectorBrush="#0078A7"
                                       ConnectorThickness="2"
                                       Nodes="{StaticResource List}">
             <controls:EnhancedDiagramView.LabelTemplate>
@@ -41,6 +40,7 @@
     </Design.PreviewWith>
 
     <Style Selector="controls|EnhancedDiagramView">
+        <Setter Property="ConnectorBrush" Value="{DynamicResource SystemBaseHighColor}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
