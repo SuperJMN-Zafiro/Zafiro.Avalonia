@@ -4,7 +4,7 @@
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
-             RequestedThemeVariant="Dark">
+             RequestedThemeVariant="Default">
 
     <Application.Styles>
         <FluentTheme>
@@ -74,17 +74,17 @@
         <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.DataViz/Styles.axaml" />
-        <Style Selector="views|DialogControl">
-            <Setter Property="Width">
-                <Setter.Value>
-                    <OnFormFactor>
-                        <OnFormFactor.Desktop>
-                            <x:Double>400</x:Double>
-                        </OnFormFactor.Desktop>
-                    </OnFormFactor>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <!-- <Style Selector="views|DialogControl"> -->
+        <!--     <Setter Property="Width"> -->
+        <!--         <Setter.Value> -->
+        <!--             <OnFormFactor> -->
+        <!--                 <OnFormFactor.Desktop> -->
+        <!--                     <x:Double>400</x:Double> -->
+        <!--                 </OnFormFactor.Desktop> -->
+        <!--             </OnFormFactor> -->
+        <!--         </Setter.Value> -->
+        <!--     </Setter> -->
+        <!-- </Style> -->
     </Application.Styles>
 
     <Application.DataTemplates>

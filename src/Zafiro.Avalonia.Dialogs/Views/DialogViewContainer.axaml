@@ -4,10 +4,10 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views">
     <Design.PreviewWith>
-        <Border Padding="20">
-            <StackPanel Spacing="20">
+        <StackPanel>
+            <Border Width="400" Height="400">
                 <Border BorderBrush="Black" BorderThickness="1">
-                    <views:DialogViewContainer Title="Title" Classes="Desktop" Width="400" Height="400">
+                    <views:DialogViewContainer Title="Title" Classes="Desktop">
                         <views:DialogView Content="Text message">
                             <views:DialogView.Options>
                                 <generic:List x:TypeArguments="dialogs:IOption">
@@ -18,8 +18,22 @@
                         </views:DialogView>
                     </views:DialogViewContainer>
                 </Border>
-            </StackPanel>
-        </Border>
+            </Border>
+            <Border Width="150" Height="150">
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <views:DialogViewContainer Title="Title" Classes="Desktop">
+                        <views:DialogView Content="Text message">
+                            <views:DialogView.Options>
+                                <generic:List x:TypeArguments="dialogs:IOption">
+                                    <dialogs:OptionDesign Title="OK" />
+                                    <dialogs:OptionDesign Title="Cancel" />
+                                </generic:List>
+                            </views:DialogView.Options>
+                        </views:DialogView>
+                    </views:DialogViewContainer>
+                </Border>
+            </Border>
+        </StackPanel>
     </Design.PreviewWith>
 
     <Style Selector="views|DialogViewContainer">
