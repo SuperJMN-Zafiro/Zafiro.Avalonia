@@ -2,7 +2,7 @@
 
 namespace Zafiro.Avalonia.DataViz.Design;
 
-public class DesignTable : Table<string, string, double>, ITable
+public class DesignTable : Table<string, string, double>
 {
     private static readonly Table<string, string, double> TableImplementation = DesignData.GetTable();
 

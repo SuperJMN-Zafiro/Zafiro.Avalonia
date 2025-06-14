@@ -31,6 +31,7 @@
 
         <ControlTheme TargetType="c:DialogControl" x:Key="{x:Type c:DialogControl}">
             <Setter Property="Padding" Value="16" />
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"

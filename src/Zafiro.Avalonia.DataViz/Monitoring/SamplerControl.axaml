@@ -38,23 +38,33 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <Border Margin="20">
-            <controls:SamplerControl Background="LightYellow" Width="300" Height="200" Values="{StaticResource List}" />
+        <Border Margin="20" TextElement.Foreground="White">
+            <controls:SamplerControl Width="300" Height="200" Values="{StaticResource List}" />
         </Border>
     </Design.PreviewWith>
 
     <Style Selector="controls|SamplerControl">
+        <Setter Property="PlotBrush" Value="{DynamicResource SystemAccentColor}" />
+        <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
+        <Setter Property="NonZeroHorizontalLineBrush" Value="{DynamicResource SystemBaseMediumHighColor}" />
+        <Setter Property="ZeroHorizontalLineBrush" Value="{DynamicResource SystemBaseMediumLowColor}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel Background="{TemplateBinding Background}">
-                    <controls:YValues ClipToBounds="True" HorizontalAlignment="Left" Values="{TemplateBinding Values}" LineInterval="{TemplateBinding VerticalStepInterval}" />
+                    <controls:YValues
+                        ClipToBounds="True" HorizontalAlignment="Left" Values="{TemplateBinding Values}" LineInterval="{TemplateBinding VerticalStepInterval}" />
                     <Panel>
                         <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                             <Viewbox Stretch="Uniform" HorizontalAlignment="Left">
-                                <controls:Grapher XSpacing="{TemplateBinding XStep}" Values="{TemplateBinding Values}" />
+                                <controls:Grapher Stroke="{TemplateBinding PlotBrush}"
+                                                  XSpacing="{TemplateBinding XStep}"
+                                                  Values="{TemplateBinding Values}" />
                             </Viewbox>
                         </ScrollViewer>
-                        <controls:VerticalScale ClipToBounds="True" LineInterval="{TemplateBinding VerticalStepInterval}" XSpacing="{TemplateBinding XStep}" Values="{TemplateBinding Values}" />
+                        <controls:VerticalScale
+                            Stroke="{TemplateBinding NonZeroHorizontalLineBrush}"
+                            ZeroStroke="{TemplateBinding ZeroHorizontalLineBrush}"
+                            ClipToBounds="True" LineInterval="{TemplateBinding VerticalStepInterval}" XSpacing="{TemplateBinding XStep}" Values="{TemplateBinding Values}" />
                     </Panel>
                 </DockPanel>
             </ControlTemplate>

@@ -3,31 +3,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
-             xmlns:testApp="clr-namespace:TestApp"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
+             xmlns:testApp1="clr-namespace:TestApp.Samples.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Converters.ConvertersView">
 
     <UserControl.Resources>
-        <misc:EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp:MyStatus}" />
+        <misc:EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp1:MyStatus}" />
         <converters:ControlThemeConverter x:Key="ThemeConverter">
-            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Ok}">
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp1:MyStatus.Ok}">
                 <Setter Property="Background" Value="GreenYellow" />
                 <Setter Property="BorderBrush" Value="LightSeaGreen" />
                 <Setter Property="BorderThickness" Value="2"></Setter>
                 <Setter Property="Content" Value="OK" />
             </ControlTheme>
-            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Error}">
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp1:MyStatus.Error}">
                 <Setter Property="Background" Value="Red" />
                 <Setter Property="Content" Value="Error" />
                 <Setter Property="FontWeight" Value="Bold"></Setter>
             </ControlTheme>
-            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Info}">
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp1:MyStatus.Info}">
                 <Setter Property="Background" Value="Blue" />
                 <Setter Property="Content" Value="Info" />
             </ControlTheme>
-            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp:MyStatus.Warning}">
+            <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp1:MyStatus.Warning}">
                 <Setter Property="Background" Value="Orange" />
                 <Setter Property="Content" Value="Warning" />
             </ControlTheme>

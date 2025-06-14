@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
 using System.Reactive.Linq;
 using Avalonia;
@@ -19,11 +18,20 @@ public class VerticalScale : Control
     public static readonly StyledProperty<IEnumerable<double>?> ValuesProperty = AvaloniaProperty.Register<VerticalScale, IEnumerable<double>?>(
         nameof(Values));
 
-    public IEnumerable<double>? Values
-    {
-        get => GetValue(ValuesProperty);
-        set => SetValue(ValuesProperty, value);
-    }
+    public static readonly StyledProperty<double> XSpacingProperty = AvaloniaProperty.Register<VerticalScale, double>(
+        nameof(XSpacing));
+
+    public static readonly StyledProperty<double> LineIntervalProperty = AvaloniaProperty.Register<VerticalScale, double>(
+        nameof(LineInterval), 10); // Intervalo predeterminado de 10 unidades
+
+    public static readonly StyledProperty<double> StrokeThicknessProperty = AvaloniaProperty.Register<VerticalScale, double>(
+        nameof(StrokeThickness), 1d);
+
+    public static readonly StyledProperty<IBrush> StrokeProperty = AvaloniaProperty.Register<VerticalScale, IBrush>(
+        nameof(Stroke));
+
+    public static readonly StyledProperty<IBrush> ZeroStrokeProperty = AvaloniaProperty.Register<VerticalScale, IBrush>(
+        nameof(ZeroStroke));
 
     private readonly IDisposable collectionChangesSubscription;
 
@@ -48,19 +56,46 @@ public class VerticalScale : Control
             .Subscribe();
     }
 
-    protected override void OnUnloaded(RoutedEventArgs e)
+    public IEnumerable<double>? Values
     {
-        base.OnUnloaded(e);
-        collectionChangesSubscription.Dispose();
+        get => GetValue(ValuesProperty);
+        set => SetValue(ValuesProperty, value);
     }
-
-    public static readonly StyledProperty<double> XSpacingProperty = AvaloniaProperty.Register<VerticalScale, double>(
-        nameof(XSpacing));
 
     public double XSpacing
     {
         get => GetValue(XSpacingProperty);
         set => SetValue(XSpacingProperty, value);
+    }
+
+    public double LineInterval
+    {
+        get => GetValue(LineIntervalProperty);
+        set => SetValue(LineIntervalProperty, value);
+    }
+
+    public double StrokeThickness
+    {
+        get => GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+
+    public IBrush Stroke
+    {
+        get => GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
+
+    public IBrush ZeroStroke
+    {
+        get => GetValue(ZeroStrokeProperty);
+        set => SetValue(ZeroStrokeProperty, value);
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        base.OnUnloaded(e);
+        collectionChangesSubscription.Dispose();
     }
 
     protected override Size MeasureOverride(Size availableSize)
@@ -71,15 +106,6 @@ public class VerticalScale : Control
         }
 
         return new Size(0, Values.Max());
-    }
-
-    public static readonly StyledProperty<double> LineIntervalProperty = AvaloniaProperty.Register<VerticalScale, double>(
-        nameof(LineInterval), 10); // Intervalo predeterminado de 10 unidades
-
-    public double LineInterval
-    {
-        get => GetValue(LineIntervalProperty);
-        set => SetValue(LineIntervalProperty, value);
     }
 
 
@@ -106,21 +132,16 @@ public class VerticalScale : Control
         var scaleY = effectiveScale.Y;
 
         // Ajustar el grosor de las líneas y el tamaño de la fuente
-        double adjustedStrokeThickness = 1 / scaleY; // Mantener un grosor constante de 1 unidad
-        double adjustedFontSize = 10 / scaleY; // Mantener un tamaño de fuente constante de 10 unidades
+        double adjustedStrokeThickness = StrokeThickness / scaleY; // Mantener un grosor constante de 1 unidad
 
         // Dibuja la línea cero
         var zeroY = TransformY(0, minValue, maxValue, height);
-        var middlePen = new Pen(Brushes.Blue, adjustedStrokeThickness);
+        var middlePen = new Pen(ZeroStroke, adjustedStrokeThickness);
         context.DrawLine(middlePen, new Point(0, zeroY), new Point(width, zeroY));
 
         // Configura el intervalo y el estilo de las líneas horizontales
         var interval = LineInterval;
-        var linePen = new Pen(Brushes.Gray, adjustedStrokeThickness, dashStyle: DashStyle.Dash);
-
-        // Configurar la fuente para las etiquetas
-        var typeface = new Typeface("Arial");
-        var textBrush = Brushes.Black;
+        var linePen = new Pen(Stroke, adjustedStrokeThickness, dashStyle: DashStyle.Dash);
 
         // Calcula el rango de valores para las líneas
         double startValue = Math.Floor(minValue / interval) * interval;
@@ -136,19 +157,6 @@ public class VerticalScale : Control
             {
                 context.DrawLine(linePen, new Point(0, y), new Point(width, y));
             }
-
-            // Crear el texto formateado
-            var formattedText = new FormattedText(
-                textToFormat: value.ToString(),
-                culture: CultureInfo.CurrentCulture,
-                flowDirection: FlowDirection.LeftToRight,
-                typeface: typeface,
-                emSize: adjustedFontSize,
-                foreground: textBrush);
-
-            // Posicionar la etiqueta a la izquierda de la línea
-            var textPosition = new Point(formattedText.Width, y - formattedText.Height / 2);
-            //context.DrawText(formattedText, textPosition);
         }
     }
 
@@ -168,7 +176,7 @@ public class VerticalScale : Control
 
         return new Vector(scaleX, scaleY);
     }
-    
+
     private double TransformY(double value, double minValue, double maxValue, double height)
     {
         // Invertimos el eje Y para que los valores mayores estén en la parte superior

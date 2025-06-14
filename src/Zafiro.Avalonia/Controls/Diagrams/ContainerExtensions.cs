@@ -21,7 +21,7 @@ public static class ContainerExtensions
             .Select(pattern => pattern.EventArgs.Container);
     }
 
-    private static IObservable<Unit> WhenContainerClearing(ItemsControl itemsControl, Control container)
+    private static IObservable<Unit> WhenContainerClearing(ItemsControl itemsControl, Visual container)
     {
         return Observable.FromEventPattern<ContainerClearingEventArgs>(
                 h => itemsControl.ContainerClearing += h,

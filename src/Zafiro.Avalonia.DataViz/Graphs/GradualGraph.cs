@@ -37,7 +37,7 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNo
         var currentCount = edgeCount.CombineLatest(vertexCount, (v, e) => v + e);
 
         var total = inner.Edges.Count() + inner.Nodes.Count();
-        Progress = currentCount.Select(current => (double) current / total);
+        Progress = currentCount.Select(current => (double)current / total);
 
         Nodes = nodes;
         Edges = edges;
@@ -47,7 +47,7 @@ public class GradualGraph<TNode, TEdge> : IGraph where TEdge : IWeightedEdge<TNo
 
     public LoadOptions Options { get; }
 
-    public IGraph<TNode,TEdge> InnerGraph { get; }
+    public IGraph<TNode, TEdge> InnerGraph { get; }
     public IObservable<double> Progress { get; }
     public ReactiveCommand<Unit, Unit> Load { get; set; }
     public IEnumerable Nodes { get; }

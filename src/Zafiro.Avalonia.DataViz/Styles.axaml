@@ -1,15 +1,15 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <StyleInclude Source="Views/HeatmapWithDendrograms/HeatmapWithDendrogramsControl.axaml" />
     <StyleInclude Source="Monitoring/SamplerControl.axaml" />
+    <StyleInclude Source="Tables/TableControl.axaml" />
 
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="Graphs/Control/GraphControl.axaml" />
+                <MergeResourceInclude Source="Graphs/GraphControl.axaml" />
                 <MergeResourceInclude Source="Dendrograms/ClusterControl.axaml" />
-                <MergeResourceInclude Source="Tables/TableControl.axaml" />
                 <MergeResourceInclude Source="Heatmaps/HeatmapControl.axaml" />
                 <MergeResourceInclude Source="Heatmaps/GradientControl.axaml" />
             </ResourceDictionary.MergedDictionaries>

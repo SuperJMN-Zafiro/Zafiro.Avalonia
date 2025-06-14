@@ -82,7 +82,7 @@ public class HostedConnector : Control
         set => SetValue(ConnectionStrokeThicknessProperty, value);
     }
 
-    private static IObservable<Point> CanvasPositionChanged(Control control)
+    private static IObservable<Point> CanvasPositionChanged(Visual control)
     {
         var left = control.GetObservable(Canvas.LeftProperty);
         var top = control.GetObservable(Canvas.TopProperty);

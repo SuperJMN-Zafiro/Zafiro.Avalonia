@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Layout;
 
 namespace Zafiro.Avalonia.Controls;
@@ -21,10 +17,10 @@ public class TrueCenterPanel : Panel
             defaultValue: TrueCenterDock.Left
         );
 
-    public static TrueCenterDock GetDock(Control element)
+    public static TrueCenterDock GetDock(Visual element)
         => element.GetValue(DockProperty);
 
-    public static void SetDock(Control element, TrueCenterDock value)
+    public static void SetDock(Visual element, TrueCenterDock value)
         => element.SetValue(DockProperty, value);
 
     protected override Size MeasureOverride(Size availableSize)

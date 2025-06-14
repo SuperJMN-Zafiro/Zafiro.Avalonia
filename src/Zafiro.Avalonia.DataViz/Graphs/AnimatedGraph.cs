@@ -13,7 +13,11 @@ namespace Zafiro.Avalonia.DataViz.Graphs.Control;
 
 public class AnimatedGraph<TNode, TEdge> : ReactiveObject, IGraph where TEdge : IWeightedEdge<TNode> where TNode : notnull
 {
-    public AnimatedGraph(IGraph<TNode, TEdge> graph, IEngine engine, double width, double height, LoadOptions options,
+    public AnimatedGraph(IGraph<TNode, TEdge> graph,
+        IEngine engine,
+        double width,
+        double height,
+        LoadOptions options,
         IScheduler? scheduler = default)
     {
         Graph = graph;

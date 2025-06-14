@@ -103,7 +103,7 @@ public class ConnectionLayoutManager
     private (Control? from, Control? to) GetControls(IEdge<object> edge, ItemsControl host) =>
         (host.ContainerFromItem(edge.From), host.ContainerFromItem(edge.To));
 
-    private Control GetConnectedControl(IEdge<object> edge, Control currentControl, ItemsControl host)
+    private Visual GetConnectedControl(IEdge<object> edge, Visual currentControl, ItemsControl host)
     {
         var (from, to) = GetControls(edge, host);
         return from == currentControl ? to! : from!;
@@ -139,7 +139,7 @@ public class ConnectionLayoutManager
 
     private IEnumerable<IEdge<object>> SortEdgesByPosition(
         IEnumerable<ConnectionDetails> connections,
-        Control sourceControl,
+        Visual sourceControl,
         ItemsControl host)
     {
         return connections

@@ -17,9 +17,11 @@
 
     <Style Selector="views|DialogView">
         <Setter Property="OptionsPanelHeight" Value="30" />
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Template">
             <ControlTemplate TargetType="views:DialogView">
-                <DockPanel Margin="0 6 0 0" x:DataType="z:DialogViewModel" x:CompileBindings="True">
+                <DockPanel Background="{TemplateBinding Background}"
+                           Margin="0 6 0 0" x:DataType="z:DialogViewModel" x:CompileBindings="True">
                     <DockPanel.DataTemplates>
                         <DataTemplate DataType="views:MessageDialogViewModel">
                             <views:MessageDialogView />

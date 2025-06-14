@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Documents;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.VisualTree;
@@ -16,16 +17,51 @@ namespace Zafiro.Avalonia.DataViz.Monitoring;
 
 public class YValues : Control
 {
-    private readonly IDisposable collectionChangesSubscription;
-
     public static readonly StyledProperty<IEnumerable<double>> ValuesProperty = AvaloniaProperty.Register<YValues, IEnumerable<double>>(
         nameof(Values));
 
-    public IEnumerable<double> Values
-    {
-        get => GetValue(ValuesProperty);
-        set => SetValue(ValuesProperty, value);
-    }
+    public static readonly StyledProperty<double> LineIntervalProperty = AvaloniaProperty.Register<YValues, double>(
+        nameof(LineInterval));
+
+    /// <summary>
+    /// Defines the <see cref="Foreground"/> property.
+    /// </summary>
+    public static readonly StyledProperty<IBrush?> ForegroundProperty = TextElement.ForegroundProperty.AddOwner<VerticalScale>();
+
+    public static readonly StyledProperty<FontFamily> FontFamilyProperty =
+        TextElement.FontFamilyProperty.AddOwner<SamplerControl>();
+
+    /// <summary>
+    /// Defines the <see cref="FontFeaturesProperty"/> property.
+    /// </summary>
+    public static readonly StyledProperty<FontFeatureCollection?> FontFeaturesProperty =
+        TextElement.FontFeaturesProperty.AddOwner<SamplerControl>();
+
+    /// <summary>
+    /// Defines the <see cref="ExCSS.FontSize"/> property.
+    /// </summary>
+    public static readonly StyledProperty<double> FontSizeProperty =
+        TextElement.FontSizeProperty.AddOwner<SamplerControl>();
+
+    /// <summary>
+    /// Defines the <see cref="FontStyle"/> property.
+    /// </summary>
+    public static readonly StyledProperty<FontStyle> FontStyleProperty =
+        TextElement.FontStyleProperty.AddOwner<SamplerControl>();
+
+    /// <summary>
+    /// Defines the <see cref="FontWeight"/> property.
+    /// </summary>
+    public static readonly StyledProperty<FontWeight> FontWeightProperty =
+        TextElement.FontWeightProperty.AddOwner<SamplerControl>();
+
+    /// <summary>
+    /// Defines the <see cref="FontWeight"/> property.
+    /// </summary>
+    public static readonly StyledProperty<FontStretch> FontStretchProperty =
+        TextElement.FontStretchProperty.AddOwner<SamplerControl>();
+
+    private readonly IDisposable collectionChangesSubscription;
 
     public YValues()
     {
@@ -47,35 +83,83 @@ public class YValues : Control
             })
             .Subscribe();
     }
-    
+
+    public IEnumerable<double> Values
+    {
+        get => GetValue(ValuesProperty);
+        set => SetValue(ValuesProperty, value);
+    }
+
+    public double LineInterval
+    {
+        get => GetValue(LineIntervalProperty);
+        set => SetValue(LineIntervalProperty, value);
+    }
+
+    public IBrush? Foreground
+    {
+        get => GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+
+    public FontFamily FontFamily
+    {
+        get => GetValue(FontFamilyProperty);
+        set => SetValue(FontFamilyProperty, value);
+    }
+
+    public double FontSize
+    {
+        get => GetValue(FontSizeProperty);
+        set => SetValue(FontSizeProperty, value);
+    }
+
+    public FontWeight FontWeight
+    {
+        get => GetValue(FontWeightProperty);
+        set => SetValue(FontWeightProperty, value);
+    }
+
+    public FontStretch FontStretch
+    {
+        get => GetValue(FontStretchProperty);
+        set => SetValue(FontStretchProperty, value);
+    }
+
+    public FontStyle FontStyle
+    {
+        get => GetValue(FontStyleProperty);
+        set => SetValue(FontStyleProperty, value);
+    }
+
     protected override Size MeasureOverride(Size availableSize)
     {
         var values = Values?.ToList();
-        
+
         if (values is null || !values.Any())
         {
             return new Size();
         }
-        
+
         double minValue = values.Min();
         double maxValue = values.Max();
         double interval = LineInterval;
-        
+
         double startValue = Math.Floor(minValue / interval) * interval;
         double endValue = Math.Ceiling(maxValue / interval) * interval;
-        
-        var width = new[]{ startValue, endValue}.Max(d => FormatText(d.ToString(CultureInfo.InvariantCulture)).Width);
+
+        var width = new[] { startValue, endValue }.Max(d => FormatText(d.ToString(CultureInfo.InvariantCulture)).Width);
         var height = (values.Max() - values.Min()) * LineInterval;
-        
+
         return new Size(width, height);
     }
 
     private FormattedText FormatText(string str)
     {
         // Configurar la fuente para las etiquetas
-        var typeface = new Typeface("Arial");
-        var textBrush = Brushes.Black;
-        
+        var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
+        var textBrush = Foreground;
+
         // Obtener el factor de escalado efectivo
         var effectiveScale = GetEffectiveScale();
         var scaleX = effectiveScale.X;
@@ -84,9 +168,9 @@ public class YValues : Control
         // Ajustar el grosor de las líneas y el tamaño de la fuente
         double adjustedStrokeThickness = 1 / scaleY; // Mantener un grosor constante de 1 unidad
         double adjustedFontSize = 10 / scaleY; // Mantener un tamaño de fuente constante de 10 unidades
-        
+
         var formattedText = new FormattedText(
-            textToFormat: str.ToString(),
+            textToFormat: str,
             culture: CultureInfo.CurrentCulture,
             flowDirection: FlowDirection.LeftToRight,
             typeface: typeface,
@@ -116,21 +200,12 @@ public class YValues : Control
         collectionChangesSubscription.Dispose();
     }
 
-    public static readonly StyledProperty<double> LineIntervalProperty = AvaloniaProperty.Register<YValues, double>(
-        nameof(LineInterval));
-
-    public double LineInterval
-    {
-        get => GetValue(LineIntervalProperty);
-        set => SetValue(LineIntervalProperty, value);
-    }
-
     public override void Render(DrawingContext context)
     {
         base.Render(context);
 
         var values = Values?.ToArray();
-        
+
         if (values is null || !values.Any())
         {
             return;
@@ -175,7 +250,7 @@ public class YValues : Control
             context.DrawText(formattedText, textPosition);
         }
     }
-    
+
     private Vector GetEffectiveScale()
     {
         var visualRoot = VisualRoot as Visual;

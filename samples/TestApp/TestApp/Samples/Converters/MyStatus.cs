@@ -1,4 +1,4 @@
-namespace TestApp;
+namespace TestApp.Samples.Converters;
 
 public enum MyStatus
 {
