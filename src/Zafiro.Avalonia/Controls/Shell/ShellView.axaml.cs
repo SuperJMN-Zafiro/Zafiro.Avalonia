@@ -33,6 +33,9 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<bool> ForceDesktopLayoutProperty = AvaloniaProperty.Register<ShellView, bool>(
         nameof(ForceDesktopLayout));
 
+    public static readonly StyledProperty<int> MobileColumnsProperty = AvaloniaProperty.Register<ShellView, int>(
+        nameof(MobileColumns));
+
     private readonly CompositeDisposable disposable = new();
 
     private bool useDesktopLayout;
@@ -93,6 +96,12 @@ public class ShellView : TemplatedControl
     }
 
     private static bool IsDesktop => OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS();
+
+    public int MobileColumns
+    {
+        get => GetValue(MobileColumnsProperty);
+        set => SetValue(MobileColumnsProperty, value);
+    }
 
     protected override void OnUnloaded(RoutedEventArgs e)
     {

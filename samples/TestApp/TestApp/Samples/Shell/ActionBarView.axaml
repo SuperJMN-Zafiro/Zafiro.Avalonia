@@ -7,65 +7,67 @@
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Shell.ActionBarView">
-    <ActionBar Columns="3">
-        <ActionBar.Sections>
-            <generic:List x:TypeArguments="se:ISection">
-                <ContentSectionDesign Name="Finances" IsPrimary="True">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Budget">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Expenses">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Income">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Investments">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Savings">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Bills">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Taxes">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <ContentSectionDesign Name="Loans">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="fa-wallet" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-                <CommandSectionDesign Name="Menu">
-                    <CommandSectionDesign.Icon>
-                        <ui:Icon Source="mdi-menu" />
-                    </CommandSectionDesign.Icon>
-                </CommandSectionDesign>
-                <ContentSectionDesign Name="Settings" IsPrimary="False">
-                    <ContentSectionDesign.Icon>
-                        <ui:Icon Source="mdi-cog" />
-                    </ContentSectionDesign.Icon>
-                </ContentSectionDesign>
-            </generic:List>
-        </ActionBar.Sections>
-    </ActionBar>
+    <HeaderedContainer Header="Designed for mobile devices. Used in ShellView internally.">
+        <ActionBar Columns="4" VerticalAlignment="Bottom">
+            <ActionBar.Sections>
+                <generic:List x:TypeArguments="se:ISection">
+                    <ContentSectionDesign Name="Finances" IsPrimary="True">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Budget">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Expenses">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Income">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Investments">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Savings">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Bills">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Taxes">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <ContentSectionDesign Name="Loans">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="fa-wallet" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                    <CommandSectionDesign Name="Menu">
+                        <CommandSectionDesign.Icon>
+                            <ui:Icon Source="mdi-menu" />
+                        </CommandSectionDesign.Icon>
+                    </CommandSectionDesign>
+                    <ContentSectionDesign Name="Settings" IsPrimary="False">
+                        <ContentSectionDesign.Icon>
+                            <ui:Icon Source="mdi-cog" />
+                        </ContentSectionDesign.Icon>
+                    </ContentSectionDesign>
+                </generic:List>
+            </ActionBar.Sections>
+        </ActionBar>
+    </HeaderedContainer>
 </UserControl>
