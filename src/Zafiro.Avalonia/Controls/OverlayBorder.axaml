@@ -3,7 +3,7 @@
 
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type OverlayBorder}" TargetType="OverlayBorder">
-            <Setter Property="ClipToBounds" Value="False"></Setter>
+            <Setter Property="ClipToBounds" Value="False" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel ClipToBounds="False">
@@ -42,6 +42,7 @@
             <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
             <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
             <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="8" />
             <Setter Property="Padding" Value="15" />
             <Style Selector="^:pointerover">
                 <Setter Property="BorderBrush" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}" />
