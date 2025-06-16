@@ -7,7 +7,7 @@
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Shell.ActionBarView">
-    <ActionBar ShowSections="3">
+    <ActionBar Columns="3">
         <ActionBar.Sections>
             <generic:List x:TypeArguments="se:ISection">
                 <ContentSectionDesign Name="Finances" IsPrimary="True">

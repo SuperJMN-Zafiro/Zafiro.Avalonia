@@ -13,8 +13,8 @@ public class ActionBar : TemplatedControl
     public static readonly DirectProperty<ActionBar, IEnumerable<ISection>> VisibleSectionsProperty = AvaloniaProperty.RegisterDirect<ActionBar, IEnumerable<ISection>>(
         nameof(VisibleSections), o => o.VisibleSections, (o, v) => o.VisibleSections = v);
 
-    public static readonly StyledProperty<int> ShowSectionsProperty = AvaloniaProperty.Register<ActionBar, int>(
-        nameof(ShowSections), 4);
+    public static readonly StyledProperty<int> ColumnsProperty = AvaloniaProperty.Register<ActionBar, int>(
+        nameof(Columns), 4);
 
     public static readonly DirectProperty<ActionBar, IEnumerable<ISection>> OverflowSectionsProperty = AvaloniaProperty.RegisterDirect<ActionBar, IEnumerable<ISection>>(
         nameof(OverflowSections), o => o.OverflowSections, (o, v) => o.OverflowSections = v);
@@ -34,9 +34,9 @@ public class ActionBar : TemplatedControl
 
     public ActionBar()
     {
-        this.WhenAnyValue(bottombar => bottombar.Sections, x => x.ShowSections)
+        this.WhenAnyValue(bottombar => bottombar.Sections, x => x.Columns)
             .Where((tuple, i) => tuple.Item1 != null)
-            .Do(tuple => Update(tuple.Item2, tuple.Item1.ToList()))
+            .Do(tuple => Update(tuple.Item2, tuple.Item1))
             .Subscribe()
             .DisposeWith(disposable);
     }
@@ -53,10 +53,10 @@ public class ActionBar : TemplatedControl
         set => SetAndRaise(VisibleSectionsProperty, ref visibleSections, value);
     }
 
-    public int ShowSections
+    public int Columns
     {
-        get => GetValue(ShowSectionsProperty);
-        set => SetValue(ShowSectionsProperty, value);
+        get => GetValue(ColumnsProperty);
+        set => SetValue(ColumnsProperty, value);
     }
 
     public IEnumerable<ISection> OverflowSections
@@ -83,9 +83,11 @@ public class ActionBar : TemplatedControl
         base.OnUnloaded(e);
     }
 
-    private void Update(int visibleCount, IList<ISection> items)
+    private void Update(int visibleCount, IEnumerable<ISection> items)
     {
-        VisibleSections = items.Take(visibleCount);
-        OverflowSections = items.Skip(visibleCount);
+        var filteredSection = items.OfType<INamedSection>().ToList();
+
+        VisibleSections = filteredSection.Take(visibleCount);
+        OverflowSections = filteredSection.Skip(visibleCount);
     }
 }

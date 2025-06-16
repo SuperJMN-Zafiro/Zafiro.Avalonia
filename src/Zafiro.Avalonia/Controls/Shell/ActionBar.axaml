@@ -42,11 +42,6 @@
                                     <ListBox
                                         SelectedItem="{Binding $parent[ActionBar].SelectedSection, Mode=TwoWay}"
                                         x:Name="ListBox" ItemsSource="{Binding $parent[ActionBar].OverflowSections}">
-                                        <!-- <ListBox.ItemContainerTheme> -->
-                                        <!--     <ControlTheme x:DataType="se:IContentSection" TargetType="ListBoxItem"> -->
-                                        <!--         <Setter Property="Padding" Value="0"></Setter> -->
-                                        <!--     </ControlTheme> -->
-                                        <!-- </ListBox.ItemContainerTheme> -->
                                     </ListBox>
                                 </Flyout>
                             </Button.Flyout>
@@ -76,7 +71,6 @@
                                     </Style>
                                     <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
                                         <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
-                                        <!-- <Setter Property="Background" Value="Transparent" /> -->
                                     </Style>
                                 </ControlTheme>
                             </ListBox.ItemContainerTheme>
@@ -98,7 +92,7 @@
 
     <Design.PreviewWith>
         <Panel Height="400">
-            <ActionBar ShowSections="3" VerticalAlignment="Bottom">
+            <ActionBar Columns="3" VerticalAlignment="Bottom">
                 <ActionBar.Sections>
                     <generic:List x:TypeArguments="se:ISection">
                         <ContentSectionDesign Name="Finances" IsPrimary="True" Content="{Return Hola}">
@@ -106,6 +100,7 @@
                                 <ui:Icon Source="fa-wallet" />
                             </ContentSectionDesign.Icon>
                         </ContentSectionDesign>
+                        <se:SectionSeparator />
                         <ContentSectionDesign Name="Budget">
                             <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
