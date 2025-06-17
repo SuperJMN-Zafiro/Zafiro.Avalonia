@@ -16,6 +16,6 @@
         <PackageReference Include="ReactiveUI.SourceGenerators"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
+        <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj"/>
     </ItemGroup>
 </Project>

@@ -83,8 +83,7 @@
                             <ContentPresenter Grid.Row="0" Grid.Column="1" x:Name="ContentHeader"
                                               ContentTemplate="{TemplateBinding ContentHeaderTemplate}"
                                               Content="{TemplateBinding ContentHeader}"
-                                              Height="{TemplateBinding ExpandButtonSize}"
-                                              IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                              Height="{TemplateBinding ExpandButtonSize}" />
 
                             <!-- Main Content (bottom-right by default) -->
                             <TransitioningContentControl Grid.Row="1" Grid.Column="0" x:Name="Content"

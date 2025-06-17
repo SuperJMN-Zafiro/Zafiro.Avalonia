@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Interactivity;
 using Zafiro.UI.Navigation.Sections;
 
@@ -20,7 +21,7 @@ public class ActionBar : TemplatedControl
         nameof(OverflowSections), o => o.OverflowSections, (o, v) => o.OverflowSections = v);
 
     public static readonly StyledProperty<ISection> SelectedSectionProperty = AvaloniaProperty.Register<ActionBar, ISection>(
-        nameof(SelectedSection));
+        nameof(SelectedSection), defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly StyledProperty<Dock> IconDockProperty = AvaloniaProperty.Register<ActionBar, Dock>(
         nameof(IconDock));
