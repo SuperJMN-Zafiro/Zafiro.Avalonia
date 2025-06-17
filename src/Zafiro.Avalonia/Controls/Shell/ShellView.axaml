@@ -7,7 +7,7 @@
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
     <Design.PreviewWith>
-        <ShellView Width="500" Height="500">
+        <ShellView Width="700" Height="500">
             <ShellView.Shell>
                 <ShellDesign />
             </ShellView.Shell>
@@ -16,11 +16,29 @@
 
     <Styles.Resources>
 
+        <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
+
+        <DataTemplate x:Key="HeaderContentTemplate">
+            <ContentControl
+                TextElement.FontWeight="Bold"
+                TextElement.FontSize="18"
+                TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+
         <ControlTheme x:Key="{x:Type ShellView}" TargetType="ShellView">
+            <Setter Property="PaneBackground" Value="{StaticResource PaneBackground}" />
             <Setter Property="MenuButtonSize" Value="48" />
             <Setter Property="OpenPaneLength" Value="250" />
+            <Setter Property="IconTemplate">
+                <DataTemplate DataType="ui:IIcon">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
+                    </Viewbox>
+                </DataTemplate>
+            </Setter>
             <Setter Property="IsPaneOpen" Value="True" />
             <Setter Property="MobileColumns" Value="4" />
+            <Setter Property="HeaderContentTemplate" Value="{StaticResource HeaderContentTemplate}" />
             <Setter Property="PageTransition">
                 <CrossFade Duration="0:00:00.2" />
             </Setter>
@@ -34,15 +52,10 @@
                                         OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                         PaneHeader="{Binding $parent[ShellView].Shell.Header}"
                                         ContentHeader="{Binding $parent[ShellView].Shell.ContentHeader^}"
-                                        Content="{Binding $parent[ShellView].Shell.SelectedSection.Content^}"
+                                        ContentHeaderTemplate="{TemplateBinding HeaderContentTemplate}"
+                                        Content="{Binding $parent[ShellView].Shell.Content^}"
+                                        PaneBackground="{TemplateBinding PaneBackground}"
                                         ExpandButtonSize="{TemplateBinding MenuButtonSize}">
-                            <ShellSplitView.DataTemplates>
-                                <DataTemplate DataType="ui:Icon">
-                                    <Viewbox Height="20" Width="20">
-                                        <ContentControl ContentTemplate="{x:Static IconTemplate.Instance}" Content="{Binding }" />
-                                    </Viewbox>
-                                </DataTemplate>
-                            </ShellSplitView.DataTemplates>
                             <Interaction.Behaviors>
                                 <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=AdaptiveControl}}">
                                     <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
@@ -54,6 +67,7 @@
                                 <Sidebar
                                     IconMargin="12"
                                     IconWidth="{Binding $parent[ShellView].MenuButtonSize}"
+                                    IconTemplate="{Binding $parent[ShellView].IconTemplate}"
                                     IconHeight="{Binding $parent[ShellView].MenuButtonSize}"
                                     SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}"
                                     Sections="{Binding $parent[ShellView].Shell.Sections}">
@@ -76,8 +90,8 @@
                         <DockPanel IsVisible="{Binding !$parent[ShellView].UseDesktopLayout}">
                             <ActionBar Sections="{Binding $parent[ShellView].Shell.Sections}"
                                        Columns="{TemplateBinding MobileColumns}"
-                                       SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection, Mode=TwoWay}" DockPanel.Dock="Bottom" />
-                            <ContentPresenter Content="{Binding $parent[ShellView].Shell.SelectedSection.Content^}" />
+                                       SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" DockPanel.Dock="Bottom" />
+                            <ContentPresenter Content="{Binding $parent[ShellView].Shell.Content^}" />
                         </DockPanel>
                     </Panel>
                 </ControlTemplate>

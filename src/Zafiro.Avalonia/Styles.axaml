@@ -1,6 +1,5 @@
 <Styles xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns="https://github.com/avaloniaui"
-        xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
+        xmlns="https://github.com/avaloniaui">
 
     <Styles.Resources>
         <ResourceDictionary>
@@ -22,7 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
-        <avalonia:IconTemplate x:Key="IconTemplate" />
+        <IconDataTemplate x:Key="IconDataTemplate" />
 
     </Styles.Resources>
 

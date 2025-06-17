@@ -35,7 +35,8 @@
                                         <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
                                                         Height="{Binding $parent[sh:Sidebar].IconHeight}"
                                                         Padding="{Binding $parent[sh:Sidebar].IconMargin}"
-                                                        Content="{Binding Icon}" />
+                                                        Content="{Binding Icon}"
+                                                        ContentTemplate="{Binding $parent[sh:Sidebar].IconTemplate}" />
                                     </z:EdgePanel.StartContent>
                                     <TextBlock ToolTip.Tip="{Binding $self.Text}"
                                                TextTrimming="CharacterEllipsis"

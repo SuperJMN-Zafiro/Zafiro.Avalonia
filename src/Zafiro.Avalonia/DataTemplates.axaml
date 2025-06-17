@@ -6,8 +6,7 @@
                xmlns:classic="clr-namespace:Zafiro.UI.Wizards.Classic;assembly=Zafiro.UI"
                xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
                xmlns:slim="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI"
-               xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
-               xmlns:z="clr-namespace:Zafiro.Avalonia">
+               xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
     <DataTemplate DataType="nav:ISectionScope">
         <nv:SectionScopeView SectionScope="{Binding}" />
@@ -21,8 +20,8 @@
         <c:WizardControl Wizard="{Binding}" />
     </DataTemplate>
 
-    <DataTemplate DataType="ui:Icon">
-        <ContentControl ContentTemplate="{x:Static z:IconTemplate.Instance}" Content="{Binding }" />
+    <DataTemplate DataType="ui:IIcon">
+        <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
     </DataTemplate>
 
 </DataTemplates>

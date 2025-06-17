@@ -5,6 +5,8 @@ namespace Zafiro.Avalonia.Controls.Shell;
 
 public class ShellDesign : IShell
 {
+    public IObservable<object?> Content { get; }
+
     public void GoToSection(string sectionName)
     {
         throw new NotSupportedException();
