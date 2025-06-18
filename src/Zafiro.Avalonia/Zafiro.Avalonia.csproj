@@ -24,10 +24,4 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
-    <ItemGroup>
-        <Compile Update="Controls\Shell\ShellSplitView.axaml.cs">
-            <DependentUpon>ShellSplitView.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-    </ItemGroup>
 </Project>
