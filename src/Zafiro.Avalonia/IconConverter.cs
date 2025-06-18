@@ -1,25 +1,17 @@
-using Avalonia.Controls.Templates;
+using Icon = Projektanker.Icons.Avalonia.Icon;
 
 namespace Zafiro.Avalonia;
 
-public class IconTemplate : IDataTemplate
+public class IconConverter : IIconConverter
 {
-    public static IconTemplate Instance { get; } = new IconTemplate();
-    
-    public Control? Build(object? param)
+    public static IconConverter Instance { get; } = new();
+
+    public Control? Convert(IIcon icon)
     {
-        if (param is not IIcon icon)
-            return null;
-
-        if (icon.Source == null)
-        {
-            return null;
-        }
-
         // 1. División en dos partes: esquema y resto
         var parts = icon.Source.Split(new[] { ':' }, 2);
         if (parts.Length != 2 || parts[0] != "svg")
-            return new Projektanker.Icons.Avalonia.Icon() { Value = icon.Source };
+            return new Icon() { Value = icon.Source };
 
         var remainder = parts[1];
         string assemblyName;
@@ -36,15 +28,13 @@ public class IconTemplate : IDataTemplate
             // 3. Formato explícito: NombreEnsamblado/ruta
             var idx = remainder.IndexOf('/');
             if (idx <= 0)
-                return new Projektanker.Icons.Avalonia.Icon { Value = icon.Source }; // formato inválido
-                
+                return new Icon { Value = icon.Source }; // formato inválido
+
             assemblyName = remainder[..idx];
             resourcePath = remainder[(idx + 1)..];
         }
 
         var uri = new Uri($"avares://{assemblyName}");
-        return new global::Avalonia.Svg.Svg(uri) { Path = resourcePath};
+        return new global::Avalonia.Svg.Svg(uri) { Path = resourcePath };
     }
-
-    public bool Match(object? data) => data is IIcon;
 }

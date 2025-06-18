@@ -15,7 +15,7 @@
                         <DockPanel.DataTemplates>
                             <DataTemplate DataType="ui:Icon">
                                 <Viewbox Height="20" Width="20">
-                                    <ContentControl ContentTemplate="{x:Static IconTemplate.Instance}" Content="{Binding }" />
+                                    <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
                                 </Viewbox>
                             </DataTemplate>
                             <DataTemplate DataType="se:ICommandSection">

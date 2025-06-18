@@ -1,4 +1,5 @@
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Zafiro.UI.Navigation.Sections;
 
@@ -26,6 +27,9 @@ public class Sidebar : TemplatedControl
 
     public static readonly StyledProperty<Thickness> IconMarginProperty = AvaloniaProperty.Register<Sidebar, Thickness>(
         nameof(IconMargin));
+
+    public static readonly StyledProperty<IDataTemplate> IconTemplateProperty = AvaloniaProperty.Register<Sidebar, IDataTemplate>(
+        nameof(IconTemplate));
 
     public IEnumerable<ISection> Sections
     {
@@ -67,5 +71,11 @@ public class Sidebar : TemplatedControl
     {
         get => GetValue(IconMarginProperty);
         set => SetValue(IconMarginProperty, value);
+    }
+
+    public IDataTemplate IconTemplate
+    {
+        get => GetValue(IconTemplateProperty);
+        set => SetValue(IconTemplateProperty, value);
     }
 }

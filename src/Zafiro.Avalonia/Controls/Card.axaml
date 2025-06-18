@@ -4,7 +4,7 @@
         xmlns:avalonia="https://github.com/projektanker/icons.avalonia">
     <Design.PreviewWith>
 
-        <StackPanel Background="White">
+        <StackPanel>
 
             <Card VerticalAlignment="Center" Margin="10"
                   Width="350"
@@ -26,7 +26,6 @@
                     <x:String>Content</x:String>
                 </BulletList>
             </Card>
-
 
             <Card Width="250"
                   CornerRadius="20"
@@ -83,11 +82,16 @@
     </Design.PreviewWith>
 
     <Styles.Resources>
+
+        <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
+        <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
+        <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
+
         <ControlTheme x:Key="{x:Type Card}" TargetType="Card">
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}" />
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-            <Setter Property="HeaderBackground" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorder}" />
+            <Setter Property="Background" Value="{StaticResource CardBackground}" />
+            <Setter Property="HeaderBackground" Value="{StaticResource CardBackground}" />
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="Padding" Value="15 5 15 15" />
             <Setter Property="HeaderPadding" Value="10 5" />
@@ -165,7 +169,7 @@
 
     <!-- Hover effects -->
     <Style Selector="Card:pointerover /template/ HeaderedContainer#Root">
-        <Setter Property="BorderBrush" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CardBorderHover}" />
         <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
     </Style>
 

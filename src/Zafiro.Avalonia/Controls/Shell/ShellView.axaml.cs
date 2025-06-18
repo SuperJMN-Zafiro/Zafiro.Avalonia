@@ -3,6 +3,7 @@ using Avalonia.Animation;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Zafiro.UI.Shell;
 
 namespace Zafiro.Avalonia.Controls.Shell;
@@ -36,6 +37,12 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<int> MobileColumnsProperty = AvaloniaProperty.Register<ShellView, int>(
         nameof(MobileColumns));
 
+    public static readonly StyledProperty<IDataTemplate> IconTemplateProperty = AvaloniaProperty.Register<ShellView, IDataTemplate>(
+        nameof(IconTemplate));
+
+    public static readonly StyledProperty<IBrush> PaneBackgroundProperty = AvaloniaProperty.Register<ShellView, IBrush>(
+        nameof(PaneBackground));
+
     private readonly CompositeDisposable disposable = new();
 
     private bool useDesktopLayout;
@@ -45,6 +52,12 @@ public class ShellView : TemplatedControl
         this.WhenAnyValue(view => view.ForceDesktopLayout).Select(forceDesktop => forceDesktop || IsDesktop)
             .BindTo(this, x => x.UseDesktopLayout)
             .DisposeWith(disposable);
+    }
+
+    public IDataTemplate IconTemplate
+    {
+        get => GetValue(IconTemplateProperty);
+        set => SetValue(IconTemplateProperty, value);
     }
 
     public IShell Shell
@@ -101,6 +114,12 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(MobileColumnsProperty);
         set => SetValue(MobileColumnsProperty, value);
+    }
+
+    public IBrush PaneBackground
+    {
+        get => GetValue(PaneBackgroundProperty);
+        set => SetValue(PaneBackgroundProperty, value);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)

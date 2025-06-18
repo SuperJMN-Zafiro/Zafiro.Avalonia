@@ -43,6 +43,8 @@
     </Design.PreviewWith>
     <Styles.Resources>
 
+        <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
+
         <DataTemplate x:Key="ContentHeaderTemplate">
             <ContentControl
                 TextElement.FontWeight="Bold"
@@ -61,7 +63,7 @@
             <Setter Property="DisplayMode" Value="Overlay" />
             <Setter Property="ExpandButtonSize" Value="28" />
             <Setter Property="OpenPaneLength" Value="200" />
-            <Setter Property="PaneBackground" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+            <Setter Property="PaneBackground" Value="{StaticResource PaneBackground}" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource TransparentToggleButton}" />
             <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
             <Setter Property="PaneHeaderTemplate" Value="{StaticResource HeaderPaneTemplate}" />
