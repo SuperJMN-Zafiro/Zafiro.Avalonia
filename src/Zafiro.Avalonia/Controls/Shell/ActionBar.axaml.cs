@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Zafiro.UI.Navigation.Sections;
@@ -25,6 +26,9 @@ public class ActionBar : TemplatedControl
 
     public static readonly StyledProperty<Dock> IconDockProperty = AvaloniaProperty.Register<ActionBar, Dock>(
         nameof(IconDock));
+
+    public static readonly StyledProperty<IDataTemplate> IconTemplateProperty = AvaloniaProperty.Register<ActionBar, IDataTemplate>(
+        nameof(IconTemplate));
 
     private readonly CompositeDisposable disposable = new();
 
@@ -76,6 +80,12 @@ public class ActionBar : TemplatedControl
     {
         get => GetValue(IconDockProperty);
         set => SetValue(IconDockProperty, value);
+    }
+
+    public IDataTemplate IconTemplate
+    {
+        get => GetValue(IconTemplateProperty);
+        set => SetValue(IconTemplateProperty, value);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)

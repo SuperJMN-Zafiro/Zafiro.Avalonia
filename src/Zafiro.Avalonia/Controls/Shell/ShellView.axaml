@@ -89,6 +89,7 @@
                         </ShellSplitView>
                         <DockPanel IsVisible="{Binding !$parent[ShellView].UseDesktopLayout}">
                             <ActionBar Sections="{Binding $parent[ShellView].Shell.Sections}"
+                                       IconTemplate="{TemplateBinding IconTemplate}"
                                        Columns="{TemplateBinding MobileColumns}"
                                        SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" DockPanel.Dock="Bottom" />
                             <ContentPresenter Content="{Binding $parent[ShellView].Shell.Content^}" />

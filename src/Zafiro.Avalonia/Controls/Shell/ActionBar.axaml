@@ -13,11 +13,6 @@
                 <ControlTemplate>
                     <DockPanel>
                         <DockPanel.DataTemplates>
-                            <DataTemplate DataType="ui:Icon">
-                                <Viewbox Height="20" Width="20">
-                                    <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
-                                </Viewbox>
-                            </DataTemplate>
                             <DataTemplate DataType="se:ICommandSection">
                                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Button.Content>
