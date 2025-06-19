@@ -1,12 +1,13 @@
 using System.Reactive.Disposables;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Behaviors
 {
-    public sealed class OverflowBehavior : Behavior<Control>
+    public sealed class OverflowBehavior : Behavior<Control>, IDisposable
     {
-        private const double Hysteresis = 10.0;
+        private const double Hysteresis = 20.0;
 
         public static readonly StyledProperty<int> DebounceMillisecondsProperty =
             AvaloniaProperty.Register<OverflowBehavior, int>(
@@ -27,24 +28,16 @@ namespace Zafiro.Avalonia.Behaviors
         {
             base.OnAttached();
 
-            if (AssociatedObject == null)
+            if (AssociatedObject is null)
                 return;
 
-            // Renew subscriptions for this attach
             var cd = new CompositeDisposable();
             subscription.Disposable = cd;
 
-            // Observe layout updates safely
             var layoutUpdated = Observable
                 .FromEventPattern(
                     h => AssociatedObject.LayoutUpdated += h,
-                    h =>
-                    {
-                        if (AssociatedObject != null)
-                        {
-                            AssociatedObject.LayoutUpdated -= h;
-                        }
-                    })
+                    h => AssociatedObject.LayoutUpdated -= h)
                 .Select(_ => AssociatedObject.Bounds)
                 .DistinctUntilChanged()
                 .ToSignal();
@@ -58,36 +51,35 @@ namespace Zafiro.Avalonia.Behaviors
 
             cd.Add(layoutDisp);
 
-            // Initial evaluation
-            UpdateState();
+            // Primera evaluación tras el pase de render en cola baja
+            Dispatcher.UIThread.Post(UpdateState, DispatcherPriority.Background);
         }
 
         protected override void OnDetaching()
         {
-            // Dispose current subscriptions
             subscription.Disposable?.Dispose();
-
             base.OnDetaching();
         }
 
-        private void UpdateState()
+        private async void UpdateState()
         {
-            if (AssociatedObject == null)
+            if (AssociatedObject is null)
                 return;
+
+            // Esperar al pase de render antes de medir
+            await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render);
 
             double total = MeasureTotalChildrenWidth();
             double width = AssociatedObject.Bounds.Width;
 
-            bool hasOverflow;
-            if (!overflow)
-                hasOverflow = total > width + Hysteresis;
-            else
-                hasOverflow = total >= width - Hysteresis;
+            bool newOverflow = !overflow
+                ? total > width + Hysteresis
+                : total >= width - Hysteresis;
 
-            if (hasOverflow == overflow)
+            if (newOverflow == overflow)
                 return;
 
-            overflow = hasOverflow;
+            overflow = newOverflow;
             ApplyState();
         }
 
@@ -99,7 +91,7 @@ namespace Zafiro.Avalonia.Behaviors
                 Panel p => p,
                 _ => null
             };
-            if (panel == null)
+            if (panel is null)
                 return 0;
 
             double sum = 0;
