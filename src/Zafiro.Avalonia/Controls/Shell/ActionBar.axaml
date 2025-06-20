@@ -25,7 +25,7 @@
                             </DataTemplate>
                             <DataTemplate DataType="se:INamedSection">
                                 <DockPanel HorizontalAlignment="Center">
-                                    <ContentControl Margin="4" DockPanel.Dock="Top" Content="{Binding Icon}" />
+                                    <ContentControl Margin="4" DockPanel.Dock="Top" ContentTemplate="{Binding $parent[ActionBar].IconTemplate}" Content="{Binding Icon}" />
                                     <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" />
                                 </DockPanel>
                             </DataTemplate>
