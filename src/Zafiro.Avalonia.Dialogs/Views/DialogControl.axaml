@@ -9,14 +9,11 @@
     <Styles.Resources>
 
         <!-- Estilos para los botones según rol -->
-        <ControlTheme x:Key="PrimaryButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightAccentBrush}" />
-            <Setter Property="Foreground" Value="White" />
-        </ControlTheme>
+        <ControlTheme x:Key="PrimaryButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button" />
 
         <ControlTheme x:Key="DestructiveButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
             <Setter Property="Background" Value="{DynamicResource SystemErrorTextColor}" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemAltHighColor}" />
         </ControlTheme>
 
         <ControlTheme x:Key="SecondaryButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
@@ -88,14 +85,15 @@
                             <TextBlock Grid.Row="0"
                                        FontWeight="Bold"
                                        Margin="0 0 0 10"
-                                       Text="{Binding $parent[c:DialogControl].Title.Value}"
-                                       IsVisible="{Binding $parent[c:DialogControl].Title.HasValue}" />
+                                       Text="{Binding $parent[c:DialogControl].Title}" IsVisible="{Binding $self.Text, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                             <!-- Content -->
-                            <ContentPresenter Grid.Row="1"
-                                              HorizontalAlignment="Stretch"
-                                              VerticalAlignment="Stretch"
-                                              Content="{TemplateBinding Content}" />
+                            <ScrollViewer Grid.Row="1">
+                                <ContentPresenter
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Content="{TemplateBinding Content}" />
+                            </ScrollViewer>
 
                             <!-- Buttons -->
                             <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Margin="0 16 0 0">
@@ -166,8 +164,8 @@
                     </c:DialogControl.Options>
                 </c:DialogControl>
             </Border>
-            <Border BorderThickness="1" BorderBrush="Black">
-                <c:DialogControl Title="TITLE" Width="700" Height="400">
+            <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center">
+                <c:DialogControl Title="TITLE">
                     <c:DialogControl.Content>
                         <TextBlock>THIS IS MY FUCKING CONTENT</TextBlock>
                     </c:DialogControl.Content>
@@ -182,7 +180,13 @@
             <Border BorderThickness="1" BorderBrush="Black">
                 <c:DialogControl Title="TITLE" Width="700" Height="400">
                     <c:DialogControl.Content>
-                        <TextBlock>THIS IS MY FUCKING CONTENT</TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam arcu, tristique in elit sed, vehicula facilisis nulla. Ut porttitor nisl fringilla, scelerisque urna at, feugiat elit. Duis vel lacinia quam. Pellentesque placerat ultrices leo at consequat. Aliquam et felis id nisl pulvinar mattis vitae ut elit. Morbi lacinia, nulla a ultricies consectetur, ipsum est aliquet sapien, sed maximus nulla mauris a dolor. Aenean efficitur pulvinar augue vel laoreet. Maecenas eu turpis urna. Nulla non est ac justo tempus iaculis ac ac metus. Suspendisse facilisis erat enim, sed accumsan risus viverra ut. Quisque condimentum sapien odio, ut euismod lacus egestas ut. Pellentesque malesuada libero arcu, id convallis urna ultricies ut. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque venenatis varius leo, eu rhoncus elit. Fusce porta magna diam, a euismod leo molestie non. Aliquam varius purus lectus, eget auctor tortor tristique at.
+
+                            Phasellus at urna leo. Praesent eu condimentum odio. Aliquam consequat odio eu pharetra suscipit. Aliquam erat volutpat. Morbi mollis convallis eros, non tincidunt felis aliquam a. Morbi gravida pharetra mollis. Sed ac finibus elit. Nam erat quam, consectetur eget dapibus ac, placerat suscipit nibh. Praesent in ullamcorper ipsum. Mauris eget odio sed nibh euismod porttitor eget id ipsum. Nunc ultrices nisi non tincidunt placerat. Ut arcu augue, cursus sed orci non, laoreet ullamcorper eros. Curabitur iaculis magna non imperdiet placerat.
+
+                            Aliquam interdum velit ex, et rhoncus sem accumsan quis. Vivamus tristique id nisi quis interdum. Pellentesque vel urna diam. Aenean consequat libero nec aliquam facilisis. Sed ullamcorper justo eu nibh bibendum eleifend. Nulla dignissim lacus orci. Donec tempus porta posuere. Fusce nec metus sed velit eleifend scelerisque id eget lacus. Donec ut est eget diam lobortis volutpat. Sed mollis magna id orci lobortis, at porttitor mauris euismod. Aenean mattis in ipsum quis luctus. Nulla posuere justo orci, sit amet gravida quam ornare non. Nulla maximus elementum dolor nec tincidunt.
+                        </TextBlock>
                     </c:DialogControl.Content>
                     <c:DialogControl.Options>
                         <generic:List x:TypeArguments="dialogs:IOption">

@@ -16,7 +16,7 @@
                             <DataTemplate DataType="se:ICommandSection">
                                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Button.Content>
-                                        <DockPanel HorizontalAlignment="Center">
+                                        <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding Name}">
                                             <ContentControl Margin="4" DockPanel.Dock="{Binding $parent[ActionBar].IconDock}" Content="{Binding Icon}" />
                                             <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" />
                                         </DockPanel>
@@ -24,7 +24,7 @@
                                 </Button>
                             </DataTemplate>
                             <DataTemplate DataType="se:INamedSection">
-                                <DockPanel HorizontalAlignment="Center">
+                                <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding Name}">
                                     <ContentControl Margin="4" DockPanel.Dock="Top" ContentTemplate="{Binding $parent[ActionBar].IconTemplate}" Content="{Binding Icon}" />
                                     <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" />
                                 </DockPanel>

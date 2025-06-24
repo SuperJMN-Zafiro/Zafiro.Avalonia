@@ -26,6 +26,14 @@
                     <x:String>Content</x:String>
                 </BulletList>
             </Card>
+            
+            <Card HeaderStartContent="{Binding Left}" HeaderEndContent="{Binding Right}" 
+                  Header="{Binding Title}" 
+                  Subheader="{Binding Subtitle}">
+                <Card.DataContext>
+                    <MyViewModel Left="HOLA" Middle="CÓMO"  Right="ESTÁS" Title="Title" Subtitle="Subtitle" />
+                </Card.DataContext>
+            </Card>
 
             <Card Width="250"
                   CornerRadius="20"
@@ -144,11 +152,10 @@
                                 <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
                                             HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                             VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
-                                    <!-- <TextBlock>ñljasdfñlaskjdfñlaskdjfña slkdjfañsldfñlaskj fdñalskdf jsa</TextBlock> -->
-                                    <ContentPresenter x:Name="PART_HeaderTitle" HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                    <ContentControl HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                                       Content="{Binding $parent[Card].Header}"
                                                       ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                    <ContentPresenter x:Name="PART_HeaderSubtitle"
+                                    <ContentControl 
                                                       HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                                       Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                 </StackPanel>

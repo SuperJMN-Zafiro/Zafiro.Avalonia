@@ -58,7 +58,6 @@ public class AdornerDialog(Visual control) : IDialog, ICloseable
             {
                 Content = viewModel,
                 Options = options,
-                Title = Maybe<string>.None,
             },
             Close = ReactiveCommand.Create(() => Dismiss()),
             VerticalAlignment = VerticalAlignment.Stretch,

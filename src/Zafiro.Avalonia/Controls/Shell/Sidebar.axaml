@@ -30,7 +30,9 @@
 
                         <ListBox.DataTemplates>
                             <DataTemplate DataType="se:IContentSection">
-                                <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
+                                <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}"
+                                             Background="Transparent"
+                                             ToolTip.Tip="{Binding Name}">
                                     <z:EdgePanel.StartContent>
                                         <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
                                                         Height="{Binding $parent[sh:Sidebar].IconHeight}"
@@ -38,8 +40,7 @@
                                                         Content="{Binding Icon}"
                                                         ContentTemplate="{Binding $parent[sh:Sidebar].IconTemplate}" />
                                     </z:EdgePanel.StartContent>
-                                    <TextBlock ToolTip.Tip="{Binding $self.Text}"
-                                               TextTrimming="CharacterEllipsis"
+                                    <TextBlock TextTrimming="CharacterEllipsis"
                                                Margin="{Binding $parent[sh:Sidebar].SectionNameMargin}"
                                                Text="{Binding Name}" VerticalAlignment="Center" />
                                 </z:EdgePanel>
@@ -52,14 +53,14 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Stretch">
                                     <Button.Content>
-                                        <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
+                                        <z:EdgePanel Background="Transparent" ToolTip.Tip="{Binding Name}" Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
                                             <z:EdgePanel.StartContent>
                                                 <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
                                                                 Height="{Binding $parent[sh:Sidebar].IconHeight}"
                                                                 Padding="{Binding $parent[sh:Sidebar].IconMargin}"
                                                                 Content="{Binding Icon}" />
                                             </z:EdgePanel.StartContent>
-                                            <TextBlock ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis"
+                                            <TextBlock TextTrimming="CharacterEllipsis"
                                                        Margin="{Binding $parent[sh:Sidebar].SectionNameMargin}"
                                                        Text="{Binding Name}" VerticalAlignment="Center" />
                                         </z:EdgePanel>

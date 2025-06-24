@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactions.Custom;
+using Avalonia.Xaml.Interactivity;
 using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.Behaviors;

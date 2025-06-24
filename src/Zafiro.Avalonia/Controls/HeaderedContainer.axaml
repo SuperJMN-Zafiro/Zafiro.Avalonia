@@ -42,11 +42,13 @@
                                        BoxShadow="{TemplateBinding BoxShadow}"
                                        Background="{TemplateBinding Background}">
                             <DockPanel>
-                                <ContentPresenter Background="{TemplateBinding HeaderBackground}" DockPanel.Dock="Top"
+                                <ContentPresenter x:Name="Header" Background="{TemplateBinding HeaderBackground}" 
+                                                  DockPanel.Dock="Top"
                                                   Padding="{TemplateBinding HeaderPadding}"
                                                   IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                   Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentPresenter IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
+                                <ContentPresenter x:Name="Content" 
+                                                  IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </DockPanel>
                         </OverlayBorder>
