@@ -9,7 +9,6 @@
         <PackageReference Include="Avalonia"/>
         <PackageReference Include="Avalonia.Controls.DataGrid"/>
         <PackageReference Include="Avalonia.Svg"/>
-        <PackageReference Include="Avalonia.Xaml.Behaviors"/>
         <PackageReference Include="CSharpFunctionalExtensions"/>
         <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>
         <PackageReference Include="DynamicData"/>
@@ -17,6 +16,7 @@
         <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="Projektanker.Icons.Avalonia"/>
         <PackageReference Include="System.Linq.Async"/>
+        <PackageReference Include="Xaml.Behaviors.Avalonia"/>
         <PackageReference Include="Zafiro"/>
         <PackageReference Include="Zafiro.UI"/>
         <PackageReference Include="ReactiveUI.SourceGenerators">

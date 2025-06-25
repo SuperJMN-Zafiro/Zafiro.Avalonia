@@ -25,10 +25,10 @@
 
     </Styles.Resources>
 
-    <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
     <StyleInclude Source="Styles/Untouched.axaml" />
     <StyleInclude Source="Styles/Button.axaml" />
     <StyleInclude Source="Styles/TextBox.axaml" />
+    <StyleInclude Source="Styles/Loading.axaml" />
     <StyleInclude Source="Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="Controls/StoppableControl.axaml" />

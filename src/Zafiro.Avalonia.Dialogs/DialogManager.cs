@@ -32,13 +32,12 @@ namespace Zafiro.Avalonia.Dialogs
                 dialogWindow = new Window
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    CanResize = false,
                     Icon = MainWindow.Value.Icon,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     MaxWidth = 800,
-                    MaxHeight = 800,
-                    MinWidth = 300,
-                    MinHeight = 200
+                    MaxHeight = 700,
+                    MinWidth = 400,
+                    MinHeight = 300
                 };
 
                 // Maneja el evento de cierre de la ventana para completar todos los diálogos pendientes
@@ -76,7 +75,6 @@ namespace Zafiro.Avalonia.Dialogs
                 dialogWindow.Title = dialogContext.Title;
                 dialogWindow.Content = new DialogControl
                 {
-                    Title = Maybe<string>.None,
                     Content = dialogContext.ViewModel,
                     Options = dialogContext.Options
                 };

@@ -1,5 +1,5 @@
 using System.Reactive.Disposables;
-using Avalonia.Xaml.Interactions.Custom;
+using Avalonia.Xaml.Interactivity;
 using Zafiro.Progress;
 using Zafiro.UI.Jobs.Execution;
 

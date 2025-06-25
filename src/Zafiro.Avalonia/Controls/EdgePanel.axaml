@@ -5,7 +5,7 @@
 
     <Design.PreviewWith>
         <StackPanel>
-            <conv:EdgePanel Width="100" IsAdaptiveFlowEnabled="True">
+            <conv:EdgePanel Width="400" IsAdaptiveFlowEnabled="True">
                 <conv:EdgePanel.EndContent>
                     <Button HorizontalAlignment="Stretch">RIGHT BUTTON</Button>
                 </conv:EdgePanel.EndContent>
@@ -15,6 +15,19 @@
                 <conv:EdgePanel.Content>
                     <Button Background="Red" HorizontalAlignment="Stretch">MAIN BUTTON</Button>
                 </conv:EdgePanel.Content>
+            </conv:EdgePanel>
+            <conv:EdgePanel Width="400" IsAdaptiveFlowEnabled="True"
+                            StartContent="{Binding Left}" 
+                            Content="{Binding Middle}"
+                            EndContent="{Binding Right}">
+                <conv:EdgePanel.ContentTemplate>
+                    <DataTemplate>
+                        <Button HorizontalAlignment="Stretch" Content="{Binding}" />
+                    </DataTemplate>
+                </conv:EdgePanel.ContentTemplate>
+                <conv:EdgePanel.DataContext>
+                    <MyViewModel Left="HOLA" Middle="CÓMO" Right="ESTÁS" />
+                </conv:EdgePanel.DataContext>
             </conv:EdgePanel>
         </StackPanel>
     </Design.PreviewWith>
@@ -27,7 +40,7 @@
                 <ControlTemplate>
                     <Grid Background="{TemplateBinding Background}" ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto">
 
-                        <ContentPresenter
+                        <ContentControl
                             x:Name="StartContent"
                             Grid.Column="0"
                             ContentTemplate="{TemplateBinding StartContentTemplate}"
@@ -35,15 +48,15 @@
                             Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToRightMargin}}"
                             IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                        <ContentPresenter
+                        <ContentControl
                             x:Name="MainContent"
-                            Grid.Column="1"
+                            Grid.Row="0" Grid.Column="1"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Content="{TemplateBinding Content}" />
 
-                        <ContentPresenter
+                        <ContentControl
                             x:Name="EndContent"
-                            Grid.Column="2"
+                            Grid.Row="0" Grid.Column="2"
                             ContentTemplate="{TemplateBinding EndContentTemplate}"
                             Content="{TemplateBinding EndContent}"
                             Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToLeftMargin}}"

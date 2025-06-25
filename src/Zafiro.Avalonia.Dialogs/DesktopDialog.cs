@@ -32,7 +32,6 @@ public class DesktopDialog : IDialog
 
         window.Content = new DialogControl
         {
-            Title = Maybe<string>.None,
             Content = viewModel,
             Options = options
         };

@@ -1,4 +1,4 @@
-using Avalonia.Xaml.Interactions.Custom;
+using Avalonia.Xaml.Interactivity;
 
 namespace Zafiro.Avalonia.Behaviors;
 

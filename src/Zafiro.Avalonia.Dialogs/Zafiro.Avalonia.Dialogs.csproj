@@ -13,6 +13,7 @@
         <PackageReference Include="Avalonia.ReactiveUI"/>
         <PackageReference Include="ReactiveUI"/>
         <PackageReference Include="ReactiveUI.SourceGenerators"/>
+        <PackageReference Include="Xaml.Behaviors.Avalonia"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj"/>

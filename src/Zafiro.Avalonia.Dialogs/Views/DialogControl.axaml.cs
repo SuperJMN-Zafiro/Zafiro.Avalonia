@@ -1,15 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
-using CSharpFunctionalExtensions;
 
 namespace Zafiro.Avalonia.Dialogs.Views;
 
 public class DialogControl : ContentControl
 {
-    public static readonly StyledProperty<Maybe<string>> TitleProperty = AvaloniaProperty.Register<DialogControl, Maybe<string>>(
-        nameof(Title), defaultValue: Maybe<string>.None);
+    public static readonly StyledProperty<string?> TitleProperty = AvaloniaProperty.Register<DialogControl, string?>(
+        nameof(Title));
 
-    public Maybe<string> Title
+    public string? Title
     {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);

@@ -1,7 +1,6 @@
 using System.Reactive.Disposables;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
-using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Behaviors
 {
@@ -13,8 +12,9 @@ namespace Zafiro.Avalonia.Behaviors
             AvaloniaProperty.Register<OverflowBehavior, int>(
                 nameof(DebounceMilliseconds), 50);
 
-        private readonly SerialDisposable subscription = new();
+        private readonly CompositeDisposable disposables = new();
         private bool overflow;
+        private bool isUpdating;
 
         public int DebounceMilliseconds
         {
@@ -22,7 +22,7 @@ namespace Zafiro.Avalonia.Behaviors
             set => SetValue(DebounceMillisecondsProperty, value);
         }
 
-        public void Dispose() => subscription.Dispose();
+        public void Dispose() => disposables.Dispose();
 
         protected override void OnAttached()
         {
@@ -30,9 +30,6 @@ namespace Zafiro.Avalonia.Behaviors
 
             if (AssociatedObject is null)
                 return;
-
-            var cd = new CompositeDisposable();
-            subscription.Disposable = cd;
 
             var layoutUpdated = Observable
                 .FromEventPattern(
@@ -44,59 +41,63 @@ namespace Zafiro.Avalonia.Behaviors
                             AssociatedObject.LayoutUpdated -= h;
                         }
                     })
-                .Select(_ => AssociatedObject.Bounds)
-                .DistinctUntilChanged()
-                .ToSignal();
-
-            var layoutDisp = layoutUpdated
+                .Throttle(TimeSpan.FromMilliseconds(DebounceMilliseconds))
                 .ObserveOn(AvaloniaScheduler.Instance)
-                .Throttle(
-                    TimeSpan.FromMilliseconds(DebounceMilliseconds),
-                    AvaloniaScheduler.Instance)
                 .Subscribe(_ => UpdateState());
 
-            cd.Add(layoutDisp);
+            disposables.Add(layoutUpdated);
 
-            // Primera evaluación tras el pase de render en cola baja
+            // Initial check
             Dispatcher.UIThread.Post(UpdateState, DispatcherPriority.Background);
         }
 
         protected override void OnDetaching()
         {
-            subscription.Disposable?.Dispose();
+            disposables.Dispose();
             base.OnDetaching();
         }
 
-        private async void UpdateState()
+        private void UpdateState()
         {
-            if (AssociatedObject is null)
+            if (AssociatedObject is null || isUpdating)
                 return;
 
-            // Esperar al pase de render antes de medir
-            await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render);
+            isUpdating = true;
+            
+            try
+            {
+                double total = MeasureTotalChildrenWidth();
+                double width = AssociatedObject.Bounds.Width;
 
-            double total = MeasureTotalChildrenWidth();
-            double width = AssociatedObject.Bounds.Width;
+                // More conservative hysteresis logic
+                bool newOverflow = overflow 
+                    ? total > width - Hysteresis  // Keep overflow if still over lower threshold
+                    : total > width + Hysteresis; // Set overflow only if significantly over
 
-            bool newOverflow = !overflow
-                ? total > width + Hysteresis
-                : total >= width - Hysteresis;
-
-            if (newOverflow == overflow)
-                return;
-
-            overflow = newOverflow;
-            ApplyState();
+                if (newOverflow != overflow)
+                {
+                    overflow = newOverflow;
+                    ApplyState();
+                }
+            }
+            finally
+            {
+                isUpdating = false;
+            }
         }
 
         private double MeasureTotalChildrenWidth()
         {
+            if (AssociatedObject is null)
+                return 0;
+
             var panel = AssociatedObject switch
             {
                 ItemsControl ic => ic.ItemsPanelRoot,
                 Panel p => p,
                 _ => null
             };
+            
             if (panel is null)
                 return 0;
 
