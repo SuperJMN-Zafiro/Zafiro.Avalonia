@@ -9,21 +9,25 @@ using Zafiro.Avalonia.Dialogs.Views;
 
 namespace Zafiro.Avalonia.Dialogs;
 
-public class AdornerDialog(Visual control) : IDialog, ICloseable
+public class AdornerDialog : IDialog, ICloseable
 {
     private readonly Stack<Control> dialogs = new();
-
-    private readonly AdornerLayer layer = AdornerLayer.GetAdornerLayer(control)
-                                          ?? throw new InvalidOperationException($"Could not get Adorner Layer from {control}");
-
+    
     private TaskCompletionSource<bool>? currentDialog;
+    private readonly Lazy<AdornerLayer> adornerLayerLazy;
+
+    public AdornerDialog(Func<AdornerLayer> getAdornerLayer)
+    {
+        adornerLayerLazy = new Lazy<AdornerLayer>(() => getAdornerLayer());
+    }
+
 
     public void Close()
     {
         if (dialogs.Count > 0)
         {
             var dialog = dialogs.Pop();
-            layer.Children.Remove(dialog);
+            adornerLayerLazy.Value.Children.Remove(dialog);
         }
 
         currentDialog?.TrySetResult(true);
@@ -35,14 +39,13 @@ public class AdornerDialog(Visual control) : IDialog, ICloseable
         if (dialogs.Count > 0)
         {
             var dialog = dialogs.Pop();
-            layer.Children.Remove(dialog);
+            adornerLayerLazy.Value.Children.Remove(dialog);
         }
 
         currentDialog?.TrySetResult(false);
         currentDialog = null;
     }
-
-
+    
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
     {
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
@@ -65,17 +68,19 @@ public class AdornerDialog(Visual control) : IDialog, ICloseable
             CornerRadius = new CornerRadius(10)
         };
 
-        dialog[!Layoutable.HeightProperty] = layer.Parent!
+        var adornerLayer = adornerLayerLazy.Value;
+        
+        dialog[!Layoutable.HeightProperty] = adornerLayer.Parent!
             .GetObservable(Visual.BoundsProperty)
             .Select(rect => rect.Height)
             .ToBinding();
 
-        dialog[!Layoutable.WidthProperty] = layer.Parent!
+        dialog[!Layoutable.WidthProperty] = adornerLayer.Parent!
             .GetObservable(Visual.BoundsProperty)
             .Select(rect => rect.Width)
             .ToBinding();
 
-        layer.Children.Add(dialog);
+        adornerLayer.Children.Add(dialog);
         dialogs.Push(dialog);
 
         var result = await currentDialog.Task.ConfigureAwait(false);

@@ -88,11 +88,14 @@
                                        Text="{Binding $parent[c:DialogControl].Title}" IsVisible="{Binding $self.Text, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                             <!-- Content -->
-                            <ScrollViewer Grid.Row="1">
+                            <ScrollViewer Grid.Row="1" x:Name="DialogScrollViewer">
                                 <ContentPresenter
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Content="{TemplateBinding Content}" />
+                                <Interaction.Behaviors>
+                                    <NestedScrollViewerBehavior DisableVerticalScroll="True" />
+                                </Interaction.Behaviors>
                             </ScrollViewer>
 
                             <!-- Buttons -->

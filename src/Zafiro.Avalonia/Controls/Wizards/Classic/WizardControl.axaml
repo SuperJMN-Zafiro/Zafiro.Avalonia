@@ -30,7 +30,9 @@
                             TotalPages="{Binding $parent[classic:WizardControl].Wizard.TotalPages}"
                             Back="{Binding $parent[classic:WizardControl].Wizard.Back}"
                             Title="{Binding $parent[classic:WizardControl].Wizard.Content.Title}" Margin="0 0 0 13" />
-                        <ContentControl Grid.Row="1" Content="{Binding $parent[classic:WizardControl].Wizard.Content}" />
+                        <ScrollViewer Grid.Row="1">
+                            <ContentControl Content="{Binding $parent[classic:WizardControl].Wizard.Content}" />
+                        </ScrollViewer>
                     </Grid>
                 </ControlTemplate>
             </Setter>

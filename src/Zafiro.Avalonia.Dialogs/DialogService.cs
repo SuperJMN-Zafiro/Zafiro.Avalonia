@@ -1,5 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Primitives;
+using CSharpFunctionalExtensions;
 
 namespace Zafiro.Avalonia.Dialogs;
 
@@ -14,19 +16,14 @@ public static class DialogService
         
         return Application.Current.ApplicationLifetime switch
         {
-            ISingleViewApplicationLifetime singleViewApplicationLifetime => DialogForSingleView(singleViewApplicationLifetime),
+            ISingleViewApplicationLifetime singleViewApplicationLifetime => new AdornerDialog(() => GetAdornerLayer(singleViewApplicationLifetime)),
             _ => new StackedDialog()
         };
     }
 
-    private static AdornerDialog DialogForSingleView(ISingleViewApplicationLifetime singleViewApplicationLifetime)
+    private static AdornerLayer GetAdornerLayer(ISingleViewApplicationLifetime lifetime)
     {
-        var mainView = singleViewApplicationLifetime.MainView;
-        if (mainView == null)
-        {
-            throw new InvalidOperationException("Could not get the main view.");
-        }
-
-        return new AdornerDialog(mainView);
+        var mainView = lifetime.MainView ?? throw new InvalidOperationException("Main view is not set.");
+        return AdornerLayer.GetAdornerLayer(mainView) ?? throw new InvalidOperationException("Cannot get the adorner layer.");
     }
 }

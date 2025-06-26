@@ -44,7 +44,9 @@
                                      Current="{Binding $parent[slim:SlimWizardControl].Wizard.CurrentPage.Index}"
                                      Total="{Binding $parent[slim:SlimWizardControl].Wizard.TotalPages}" Margin="0 0 0 10">
                     </c:StepIndicator>
-                    <ContentPresenter Padding="{TemplateBinding Padding}" Content="{Binding $parent[slim:SlimWizardControl].Wizard.CurrentPage.Content}" />
+                    <ScrollViewer>
+                        <ContentPresenter Padding="{TemplateBinding Padding}" Content="{Binding $parent[slim:SlimWizardControl].Wizard.CurrentPage.Content}" />
+                    </ScrollViewer>
                 </DockPanel>
             </ControlTemplate>
         </Setter>

@@ -47,8 +47,7 @@ Aliquam interdum velit ex, et rhoncus sem accumsan quis. Vivamus tristique id ni
             <ControlTemplate>
                 <Panel>
                     <Border Background="Black" Opacity="0.4" />
-                    <Border Padding="12" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <OverlayBorder Theme="{StaticResource CardOverlayBorder}" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <DockPanel>
                             <Panel DockPanel.Dock="Top">
                                 <TextBlock VerticalAlignment="Center" FontWeight="Bold" TextAlignment="Center" Text="{TemplateBinding Title}" />
@@ -56,7 +55,7 @@ Aliquam interdum velit ex, et rhoncus sem accumsan quis. Vivamus tristique id ni
                             </Panel>
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </DockPanel>
-                    </Border>
+                    </OverlayBorder>
                 </Panel>
             </ControlTemplate>
         </Setter>

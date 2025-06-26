@@ -58,24 +58,26 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
                     AssociatedObject.LayoutUpdated -= h;
                 }
             })
-            .Select(_ => AssociatedObject.FindDescendantOfType<ScrollBar>())
+            .Select(_ => AssociatedObject!.GetVisualDescendants().OfType<ScrollBar>().ToList())
             .DistinctUntilChanged()
             .Where(_ => IsEnabled)
-            .Subscribe(scrollBar =>
+            .Subscribe(scrollBars =>
             {
-                if (scrollBar is null)
-                {
-                    return;
-                }
-
-                if (scrollBar.Orientation == Orientation.Vertical && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableVerticalScroll)
-                {
-                    AssociatedObject.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-                }
-                else
-                {
-                    AssociatedObject.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-                }
+                AssociatedObject!.VerticalScrollBarVisibility = GetVerticalVisibility(scrollBars);
+                //AssociatedObject.HorizontalScrollBarVisibility = GetHorizontalVisibility(scrollBars);
             });
+    }
+
+    // TODO: Investigate issue here
+    // private ScrollBarVisibility GetHorizontalVisibility(List<ScrollBar> scrollBars)
+    // {
+    //     var any = scrollBars.Any(scrollBar => scrollBar.Orientation == Orientation.Horizontal && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableHorizontalScroll);
+    //     return any ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
+    // }
+
+    private ScrollBarVisibility GetVerticalVisibility(IEnumerable<ScrollBar> scrollBars)
+    {
+        var any = scrollBars.Any(scrollBar => scrollBar.Orientation == Orientation.Vertical && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableVerticalScroll);
+        return any ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
     }
 }
