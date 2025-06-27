@@ -53,7 +53,6 @@ public class AdornerDialog : IDialog, ICloseable
         currentDialog = new TaskCompletionSource<bool>();
         var options = optionsFactory(this);
 
-
         var dialog = new DialogViewContainer
         {
             Title = title,
@@ -63,9 +62,6 @@ public class AdornerDialog : IDialog, ICloseable
                 Options = options,
             },
             Close = ReactiveCommand.Create(() => Dismiss()),
-            VerticalAlignment = VerticalAlignment.Stretch,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            CornerRadius = new CornerRadius(10)
         };
 
         var adornerLayer = adornerLayerLazy.Value;

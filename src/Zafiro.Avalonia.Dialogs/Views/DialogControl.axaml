@@ -93,9 +93,6 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Content="{TemplateBinding Content}" />
-                                <Interaction.Behaviors>
-                                    <NestedScrollViewerBehavior DisableVerticalScroll="True" />
-                                </Interaction.Behaviors>
                             </ScrollViewer>
 
                             <!-- Buttons -->
