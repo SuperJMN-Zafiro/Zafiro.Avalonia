@@ -2,6 +2,124 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
         xmlns:avalonia="https://github.com/projektanker/icons.avalonia">
+
+    <Styles.Resources>
+
+        <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
+        <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
+        <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
+
+        <ControlTheme x:Key="{x:Type Card}" TargetType="Card">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorder}" />
+            <Setter Property="Background" Value="{StaticResource CardBackground}" />
+            <Setter Property="HeaderBackground" Value="{StaticResource CardBackground}" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="15 5 15 15" />
+            <Setter Property="HeaderPadding" Value="10 5" />
+            <Setter Property="HeaderSpacing" Value="10" />
+            <Setter Property="HeaderSubheaderSpacing" Value="4" />
+            <Setter Property="HeaderVerticalAlignment" Value="Center" />
+            <Setter Property="ClipToBounds" Value="False" />
+            <!-- Default margin to accommodate shadow -->
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="HeaderTemplate">
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}"
+                                      TextElement.FontSize="16"
+                                      TextElement.FontWeight="SemiBold"
+                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                </DataTemplate>
+            </Setter>
+
+            <Setter Property="SubheaderTemplate">
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}"
+                                      TextElement.FontSize="12"
+                                      TextElement.FontWeight="Normal"
+                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                      TextBlock.TextWrapping="Wrap"
+                                      Opacity="0.8" />
+                </DataTemplate>
+            </Setter>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <HeaderedContainer x:Name="Root"
+                                       Content="{TemplateBinding Content}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       HeaderBackground="{TemplateBinding HeaderBackground}"
+                                       Background="{TemplateBinding Background}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       HeaderPadding="{TemplateBinding HeaderPadding}"
+                                       Padding="{TemplateBinding Padding}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BoxShadow="{TemplateBinding BoxShadow}">
+                        <HeaderedContainer.Header>
+                            <EdgePanel DockPanel.Dock="Top"
+                                       IsAdaptiveFlowEnabled="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
+                                       Spacing="{Binding $parent[Card].HeaderSpacing}"
+                                       Margin="{Binding $parent[Card].HeaderPadding}"
+                                       StartContent="{Binding $parent[Card].HeaderStartContent}"
+                                       StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
+                                       EndContent="{Binding $parent[Card].HeaderEndContent}"
+                                       EndContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}">
+                                <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
+                                            HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                            VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
+                                    <ContentControl HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                                    Content="{Binding $parent[Card].Header}"
+                                                    ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
+                                    <ContentControl
+                                        HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                        Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
+                                </StackPanel>
+                            </EdgePanel>
+                        </HeaderedContainer.Header>
+                    </HeaderedContainer>
+                </ControlTemplate>
+            </Setter>
+
+            <!-- Default shadow -->
+            <Style Selector="^">
+                <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
+            </Style>
+
+            <!-- Hover effects -->
+            <Style Selector="^:pointerover /template/ HeaderedContainer#Root">
+                <Setter Property="BorderBrush" Value="{StaticResource CardBorderHover}" />
+                <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
+            </Style>
+
+            <!-- Pressed effect -->
+            <Style Selector="^:pressed /template/ HeaderedContainer#Root">
+                <Setter Property="BoxShadow" Value="0 1 4 0 #0D000000" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="TransparentCard" BasedOn="{StaticResource {x:Type Card}}" TargetType="Card">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="HeaderBackground" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <!-- Default shadow -->
+            <Style Selector="^">
+                <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
+            </Style>
+
+            <!-- Hover effects -->
+            <Style Selector="^:pointerover /template/ HeaderedContainer#Root">
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
+            </Style>
+
+            <!-- Pressed effect -->
+            <Style Selector="^:pressed /template/ HeaderedContainer#Root">
+                <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+
     <Design.PreviewWith>
 
         <StackPanel>
@@ -26,12 +144,12 @@
                     <x:String>Content</x:String>
                 </BulletList>
             </Card>
-            
-            <Card HeaderStartContent="{Binding Left}" HeaderEndContent="{Binding Right}" 
-                  Header="{Binding Title}" 
+
+            <Card HeaderStartContent="{Binding Left}" HeaderEndContent="{Binding Right}"
+                  Header="{Binding Title}"
                   Subheader="{Binding Subtitle}">
                 <Card.DataContext>
-                    <MyViewModel Left="HOLA" Middle="CÓMO"  Right="ESTÁS" Title="Title" Subtitle="Subtitle" />
+                    <MyViewModel Left="HOLA" Middle="CÓMO" Right="ESTÁS" Title="Title" Subtitle="Subtitle" />
                 </Card.DataContext>
             </Card>
 
@@ -86,101 +204,8 @@
                     <Button Content="Right" />
                 </Card.HeaderEndContent>
             </Card>
+            <Card Header="Transparent" Subheader="Subheader" HeaderHorizontalAlignment="Center" Theme="{StaticResource TransparentCard}" />
         </StackPanel>
     </Design.PreviewWith>
-
-    <Styles.Resources>
-
-        <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
-        <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
-        <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
-
-        <ControlTheme x:Key="{x:Type Card}" TargetType="Card">
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="{StaticResource CardBorder}" />
-            <Setter Property="Background" Value="{StaticResource CardBackground}" />
-            <Setter Property="HeaderBackground" Value="{StaticResource CardBackground}" />
-            <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Padding" Value="15 5 15 15" />
-            <Setter Property="HeaderPadding" Value="10 5" />
-            <Setter Property="HeaderSpacing" Value="10" />
-            <Setter Property="HeaderSubheaderSpacing" Value="4" />
-            <Setter Property="HeaderVerticalAlignment" Value="Center" />
-            <Setter Property="ClipToBounds" Value="False" />
-            <!-- Default margin to accommodate shadow -->
-            <Setter Property="Margin" Value="8" />
-            <Setter Property="HeaderTemplate">
-                <DataTemplate>
-                    <ContentPresenter Content="{Binding}"
-                                      TextElement.FontSize="16"
-                                      TextElement.FontWeight="SemiBold"
-                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-                </DataTemplate>
-            </Setter>
-
-            <Setter Property="SubheaderTemplate">
-                <DataTemplate>
-                    <ContentPresenter Content="{Binding}"
-                                      TextElement.FontSize="12"
-                                      TextElement.FontWeight="Normal"
-                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                                      TextBlock.TextWrapping="Wrap"
-                                      Opacity="0.8" />
-                </DataTemplate>
-            </Setter>
-
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <HeaderedContainer x:Name="Root"
-                                       Content="{TemplateBinding Content}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       HeaderBackground="{TemplateBinding HeaderBackground}"
-                                       Background="{TemplateBinding Background}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       HeaderPadding="{TemplateBinding HeaderPadding}"
-                                       Padding="{TemplateBinding Padding}"
-                                       BorderBrush="{TemplateBinding BorderBrush}">
-                        <HeaderedContainer.Header>
-                            <EdgePanel DockPanel.Dock="Top"
-                                       IsAdaptiveFlowEnabled="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
-                                       Spacing="{Binding $parent[Card].HeaderSpacing}"
-                                       Margin="{Binding $parent[Card].HeaderPadding}"
-                                       StartContent="{Binding $parent[Card].HeaderStartContent}"
-                                       StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
-                                       EndContent="{Binding $parent[Card].HeaderEndContent}"
-                                       EndContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}">
-                                <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
-                                            HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
-                                            VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
-                                    <ContentControl HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
-                                                      Content="{Binding $parent[Card].Header}"
-                                                      ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                    <ContentControl 
-                                                      HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
-                                                      Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
-                                </StackPanel>
-                            </EdgePanel>
-                        </HeaderedContainer.Header>
-                    </HeaderedContainer>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-    </Styles.Resources>
-
-    <!-- Default shadow -->
-    <Style Selector="Card /template/ HeaderedContainer#Root">
-        <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
-    </Style>
-
-    <!-- Hover effects -->
-    <Style Selector="Card:pointerover /template/ HeaderedContainer#Root">
-        <Setter Property="BorderBrush" Value="{StaticResource CardBorderHover}" />
-        <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
-    </Style>
-
-    <!-- Pressed effect -->
-    <Style Selector="Card:pressed /template/ HeaderedContainer#Root">
-        <Setter Property="BoxShadow" Value="0 1 4 0 #0D000000" />
-    </Style>
 
 </Styles>
