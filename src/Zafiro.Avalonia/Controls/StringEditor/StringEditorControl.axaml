@@ -57,7 +57,7 @@
 				<DrawingGroup.Transform>
 					<MatrixTransform Matrix="1.0,0.0,0.0,1.0,91.52,91.52" />
 				</DrawingGroup.Transform>
-				<GeometryDrawing Brush="{StaticResource SystemErrorTextColor}">
+				<GeometryDrawing Brush="{StaticResource SystemControlErrorTextForegroundBrush}">
 					<GeometryDrawing.Geometry>
 						<PathGeometry
                             Figures="M 328.96 30.2933 L 298.667 1.42109e-14 L 164.48 134.4 L 30.2933 1.42109e-14 L 1.42109e-14 30.2933 L 134.4 164.48 L 1.42109e-14 298.667 L 30.2933 328.96 L 164.48 194.56 L 298.667 328.96 L 328.96 298.667 L 194.56 164.48 Z" />

@@ -25,7 +25,7 @@
         </ControlTheme>
 
         <ControlTheme x:Key="ErrorButton" TargetType="Button" BasedOn="{StaticResource TransparentButton}">
-            <Setter Property="Background" Value="{DynamicResource SystemErrorTextColor}" />
+            <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="Padding" Value="1" />
             <Setter Property="(ToolTip.Tip)">
@@ -48,7 +48,7 @@
                 </Template>
             </Setter>
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource SystemErrorTextColor}" />
+                <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
                 <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
             </Style>
@@ -150,7 +150,7 @@
                                 <Button Theme="{StaticResource ErrorButton}"
                                         x:Name="PART_ErrorButton"
                                         Grid.Column="3"
-                                        Margin="0 0 8 0" Background="{DynamicResource SystemErrorTextColor}" />
+                                        Margin="0 0 8 0" />
                             </Grid>
                         </Border>
                     </Panel>
