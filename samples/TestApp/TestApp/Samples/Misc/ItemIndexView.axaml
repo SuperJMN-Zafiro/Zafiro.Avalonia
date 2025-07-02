@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:misc="clr-namespace:TestApp.Samples.Misc"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Misc.ItemIndexView" x:DataType="misc:ItemIndexViewModel">
+
+    <Design.DataContext>
+        <misc:ItemIndexViewModel />
+    </Design.DataContext>
+
+    <Card Subheader="Gets the index of a given item in the list">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Add" Command="{Binding Add}" />
+                <Button Content="Remove" Command="{Binding Remove}" />
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <EdgePanel StartContent="{ItemIndex StartFromOne=True}" Content="{Binding Name}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DockPanel>
+    </Card>
+</UserControl>
