@@ -4,84 +4,98 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
 
-namespace Zafiro.Avalonia.Extensions
+namespace Zafiro.Avalonia.Extensions;
+
+public class ItemIndex : MarkupExtension
 {
-    public class ItemIndex : MarkupExtension
-    {
-        public IValueConverter? Converter { get; set; }
-        public object? ConverterParameter { get; set; }
-        public bool StartFromOne { get; set; }
+    public IValueConverter? Converter { get; set; }
+    public object? ConverterParameter { get; set; }
+    public bool StartFromOne { get; set; }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return new MultiBinding
         {
-            return new MultiBinding
+            Converter = new ContainerIdConverter()
             {
-                Converter = new ContainerIdConverter()
+                Converter = this.Converter,
+                ConverterParameter = this.ConverterParameter,
+                StartFromOne = this.StartFromOne,
+            },
+            Bindings =
+            [
+                // 0: ItemsControl
+                new Binding
                 {
-                    Converter = this.Converter,
-                    ConverterParameter = this.ConverterParameter,
-                    StartFromOne = this.StartFromOne,
-                },
-                Bindings =
-                [
-                    // 0: ItemsControl
-                    new Binding
+                    RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor)
                     {
-                        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor)
-                        {
-                            AncestorType = typeof(ItemsControl)
-                        }
-                    },
-                    // 1: Item itself
-                    new Binding(),
-                    // 2: ItemsSource.Count that forces reevaluation
-                    new Binding
-                    {
-                        Path = "ItemsSource.Count",
-                        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor)
-                        {
-                            AncestorType = typeof(ItemsControl)
-                        }
+                        AncestorType = typeof(ItemsControl)
                     }
-                ]
-            };
-        }
-    }
-
-    public class ContainerIdConverter : IMultiValueConverter
-    {
-        public IValueConverter? Converter { get; set; }
-        public object? ConverterParameter { get; set; }
-        public bool StartFromOne { get; set; }
-
-        public object? Convert(
-            IList<object?> values,
-            Type targetType,
-            object? parameter,
-            CultureInfo culture)
-        {
-            if (values.Count < 2
-                || values[0] is not ItemsControl itemsControl
-                || values[1] is null)
-            {
-                return AvaloniaProperty.UnsetValue;
-            }
-
-            // Obtain the collection and look up the current index
-            if (itemsControl.Items is IList list)
-            {
-                var index = list.IndexOf(values[1]!);
-                if (StartFromOne)
+                },
+                // 1: Item itself
+                new Binding(),
+                // 2: ItemsSource.Count that forces reevaluation
+                new Binding
                 {
-                    index++;
+                    Path = "ItemsSource.Count",
+                    RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor)
+                    {
+                        AncestorType = typeof(ItemsControl)
+                    }
                 }
+            ]
+        };
+    }
+}
 
-                return index >= 0
-                    ? Converter?.Convert(index, targetType, ConverterParameter, culture) ?? index
-                    : AvaloniaProperty.UnsetValue;
-            }
+public class ContainerIdConverter : IMultiValueConverter
+{
+    public IValueConverter? Converter { get; set; }
+    public object? ConverterParameter { get; set; }
+    public bool StartFromOne { get; set; }
 
+    public object? Convert(
+        IList<object?> values,
+        Type targetType,
+        object? parameter,
+        CultureInfo culture)
+    {
+        if (values.Count < 2
+            || values[0] is not ItemsControl itemsControl
+            || values[1] is null)
+        {
             return AvaloniaProperty.UnsetValue;
         }
+
+        var source = itemsControl.ItemsSource as IList
+                     ?? itemsControl.Items as IList;
+
+        if (source == null)
+            return AvaloniaProperty.UnsetValue;
+
+        var index = source.IndexOf(values[1]!);
+        if (index < 0)
+            return AvaloniaProperty.UnsetValue;
+
+        if (StartFromOne)
+            index++;
+
+        // 1) Si hay Converter, delegamos en él
+        if (Converter != null)
+            return Converter.Convert(index, targetType, ConverterParameter, culture);
+
+        // 2) Si el objetivo es String, devolvemos ToString
+        if (targetType == typeof(string))
+            return index.ToString(culture);
+
+        // 3) Para otros tipos, usamos ChangeType
+        return System.Convert.ChangeType(index, targetType, culture);
     }
+
+    public object[] ConvertBack(
+        object? value,
+        Type[] targetTypes,
+        object? parameter,
+        CultureInfo culture) =>
+        throw new NotSupportedException();
 }
