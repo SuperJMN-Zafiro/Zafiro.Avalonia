@@ -29,4 +29,13 @@ public partial class SectionScopeView : TemplatedControl
         get => GetValue(BackButtonContentProperty);
         set => SetValue(BackButtonContentProperty, value);
     }
+
+    public static readonly StyledProperty<bool> IsBackButtonVisibleProperty = AvaloniaProperty.Register<SectionScopeView, bool>(
+        nameof(IsBackButtonVisible), true);
+
+    public bool IsBackButtonVisible
+    {
+        get => GetValue(IsBackButtonVisibleProperty);
+        set => SetValue(IsBackButtonVisibleProperty, value);
+    }
 }

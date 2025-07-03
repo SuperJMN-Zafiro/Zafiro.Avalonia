@@ -1,12 +1,11 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:navigation="clr-namespace:Zafiro.Avalonia.Controls.Navigation;assembly=Zafiro.Avalonia">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <navigation:Frame Width="200" Height="200" />
+        <Frame Width="200" Height="200" />
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="navigation:Frame" x:Key="{x:Type navigation:Frame}">
+        <ControlTheme TargetType="Frame" x:Key="{x:Type Frame}">
             <Setter Property="BackButtonContent">
                 <Setter.Value>
                     <Template>
@@ -19,13 +18,18 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <DockPanel>
-                        <Button Command="{Binding $parent[navigation:Frame].Back}"
+                        <Button Command="{Binding $parent[Frame].Back}"
                                 x:Name="BackButton"
-                                IsVisible="{Binding $self.IsEffectivelyEnabled}"
                                 DockPanel.Dock="Top"
                                 Content="{TemplateBinding BackButtonContent}">
+                            <Button.IsVisible>
+                                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                    <Binding Path="$parent[Frame].IsBackButtonVisible" />
+                                    <Binding Path="$self.IsEffectivelyEnabled" />
+                                </MultiBinding>
+                            </Button.IsVisible>
                         </Button>
-                        <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[navigation:Frame].Content}" />
+                        <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[Frame].Content}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter>

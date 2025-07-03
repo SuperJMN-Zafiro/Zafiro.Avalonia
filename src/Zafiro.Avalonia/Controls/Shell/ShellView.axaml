@@ -88,6 +88,9 @@
                             </ShellSplitView.PaneContent>
                         </ShellSplitView>
                         <DockPanel IsVisible="{Binding !$parent[ShellView].UseDesktopLayout}">
+                            <ContentControl DockPanel.Dock="Top" 
+                                            Content="{Binding $parent[ShellView].Shell.ContentHeader^}"
+                                            ContentTemplate="{Binding $parent[ShellView].HeaderContentTemplate}" />
                             <ActionBar Sections="{Binding $parent[ShellView].Shell.Sections}"
                                        IconTemplate="{TemplateBinding IconTemplate}"
                                        Columns="{TemplateBinding MobileColumns}"
@@ -106,11 +109,9 @@
         </ControlTheme>
     </Styles.Resources>
 
-
     <Style Selector="sh|ShellView ToggleButton">
         <Setter Property="pt:Attached.Icon" Value="mdi-menu" />
         <Setter Property="FontSize" Value="25" />
     </Style>
-
-
+    
 </Styles>
