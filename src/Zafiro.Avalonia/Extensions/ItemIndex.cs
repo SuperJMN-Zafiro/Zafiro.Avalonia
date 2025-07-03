@@ -11,11 +11,13 @@ public class ItemIndex : MarkupExtension
     public IValueConverter? Converter { get; set; }
     public object? ConverterParameter { get; set; }
     public bool StartFromOne { get; set; }
+    public string StringFormat { get; set; }
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return new MultiBinding
         {
+            StringFormat = this.StringFormat,
             Converter = new ContainerIdConverter()
             {
                 Converter = this.Converter,
