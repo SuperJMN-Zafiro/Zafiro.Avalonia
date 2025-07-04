@@ -31,14 +31,14 @@
             <Setter Property="(ToolTip.Tip)">
                 <Setter.Value>
                     <Template>
-                        <DataValidationErrors />
+                        <DataValidationErrors Errors="{Binding}" />
                     </Template>
                 </Setter.Value>
             </Setter>
             <Setter Property="Flyout">
                 <Setter.Value>
                     <Flyout>
-                        <DataValidationErrors />
+                        <DataValidationErrors Errors="{Binding}" />
                     </Flyout>
                 </Setter.Value>
             </Setter>
