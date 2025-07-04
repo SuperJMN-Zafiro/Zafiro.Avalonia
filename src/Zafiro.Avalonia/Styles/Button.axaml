@@ -1,5 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:pt="https://github.com/projektanker/icons.avalonia"
+        xmlns:styles="clr-namespace:Zafiro.Avalonia.Styles">
 
 
     <Styles.Resources>
@@ -61,14 +63,52 @@
                 <Setter Property="Background" Value="Transparent" />
             </Style>
         </ControlTheme>
+        <ControlTheme x:Key="ErrorButton" TargetType="Button" BasedOn="{StaticResource TransparentButton}">
+            <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="ToolTip.Tip">
+                <Setter.Value>
+                    <Template>
+                        <DataValidationErrors />
+                    </Template>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Flyout">
+                <Setter.Value>
+                    <Flyout>
+                        <DataValidationErrors />
+                    </Flyout>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Content">
+                <Template>
+                    <pt:Icon FontSize="10" Foreground="{DynamicResource SystemAltHighColor}" Value="fa-exclamation" />
+                </Template>
+            </Setter>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+            </Style>
+        </ControlTheme>
+
     </Styles.Resources>
 
     <Design.PreviewWith>
         <StackPanel>
+            <StackPanel.DataContext>
+                <styles:ErrorViewModel First="" />
+            </StackPanel.DataContext>
+
             <Border Padding="20">
                 <Button IsEnabled="True" Content="Transparent" Theme="{StaticResource TransparentButton}" />
             </Border>
             <RepeatButton IsEnabled="True" Content="Transparent" Theme="{StaticResource TransparentButton}" />
+            <TextBox Text="{Binding First}" />
+            <TextBox Text="{Binding Second}" />
         </StackPanel>
     </Design.PreviewWith>
 

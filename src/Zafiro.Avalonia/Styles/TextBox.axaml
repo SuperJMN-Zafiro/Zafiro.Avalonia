@@ -23,37 +23,7 @@
                 </Template>
             </Setter>
         </ControlTheme>
-
-        <ControlTheme x:Key="ErrorButton" TargetType="Button" BasedOn="{StaticResource TransparentButton}">
-            <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
-            <Setter Property="CornerRadius" Value="10" />
-            <Setter Property="Padding" Value="1" />
-            <Setter Property="(ToolTip.Tip)">
-                <Setter.Value>
-                    <Template>
-                        <DataValidationErrors Errors="{Binding}" />
-                    </Template>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Flyout">
-                <Setter.Value>
-                    <Flyout>
-                        <DataValidationErrors Errors="{Binding}" />
-                    </Flyout>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Content">
-                <Template>
-                    <avalonia:Icon FontSize="10" Foreground="{DynamicResource SystemAltHighColor}" Value="fa-exclamation" />
-                </Template>
-            </Setter>
-            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
-            </Style>
-        </ControlTheme>
-
+        
         <ControlTheme x:Key="EnhancedTextBox" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
             <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
             <Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
