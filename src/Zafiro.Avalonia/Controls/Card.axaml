@@ -25,21 +25,21 @@
             <Setter Property="Margin" Value="8" />
             <Setter Property="HeaderTemplate">
                 <DataTemplate>
-                    <ContentPresenter Content="{Binding}"
-                                      TextElement.FontSize="16"
-                                      TextElement.FontWeight="SemiBold"
-                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                    <ContentControl Content="{Binding}"
+                                    TextElement.FontSize="16"
+                                    TextElement.FontWeight="SemiBold"
+                                    TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
                 </DataTemplate>
             </Setter>
 
             <Setter Property="SubheaderTemplate">
                 <DataTemplate>
-                    <ContentPresenter Content="{Binding}"
-                                      TextElement.FontSize="12"
-                                      TextElement.FontWeight="Normal"
-                                      TextElement.Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                                      TextBlock.TextWrapping="Wrap"
-                                      Opacity="0.8" />
+                    <ContentControl Content="{Binding}"
+                                    TextElement.FontSize="12"
+                                    TextElement.FontWeight="Normal"
+                                    TextElement.Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                    TextBlock.TextWrapping="Wrap"
+                                    Opacity="0.8" />
                 </DataTemplate>
             </Setter>
 
@@ -168,7 +168,7 @@
                 </Card.HeaderBackground>
                 <Card.SubheaderTemplate>
                     <DataTemplate>
-                        <ContentPresenter Content="{Binding}" TextWrapping="Wrap" TextBlock.TextAlignment="Center" />
+                        <ContentControl Content="{Binding}" TextBlock.TextWrapping="Wrap" TextBlock.TextAlignment="Center" />
                     </DataTemplate>
                 </Card.SubheaderTemplate>
                 <Card.DataTemplates>
