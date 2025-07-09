@@ -3,6 +3,7 @@
         xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
     <Design.PreviewWith>
         <StackPanel Spacing="10" Margin="40">
+            <HeaderedContainer Header="HEADER" Background="Aqua" Content="HOLA" HorizontalContentAlignment="Right" HorizontalAlignment="Right" />
             <z:HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
                                  BorderBrush="Black" BorderThickness="2"
                                  CornerRadius="20" Padding="14 10" HeaderPadding="14 14 14 10"
@@ -42,12 +43,14 @@
                                        BoxShadow="{TemplateBinding BoxShadow}"
                                        Background="{TemplateBinding Background}">
                             <DockPanel>
-                                <ContentPresenter x:Name="Header" Background="{TemplateBinding HeaderBackground}" 
+                                <ContentPresenter x:Name="Header" Background="{TemplateBinding HeaderBackground}"
                                                   DockPanel.Dock="Top"
                                                   Padding="{TemplateBinding HeaderPadding}"
                                                   IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                   Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentPresenter x:Name="Content" 
+                                <ContentPresenter x:Name="Content"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignmentContentAlignment}"
                                                   IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </DockPanel>
