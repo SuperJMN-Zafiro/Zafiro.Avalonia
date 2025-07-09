@@ -1,6 +1,7 @@
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Styling;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -53,6 +54,12 @@ public class Card : ContentControl
 
     public static readonly StyledProperty<bool> IsAdaptiveFlowEnabledProperty = AvaloniaProperty.Register<Card, bool>(
         nameof(IsAdaptiveFlowEnabled));
+
+    public static readonly StyledProperty<ControlTheme> HeaderThemeProperty = AvaloniaProperty.Register<Card, ControlTheme>(
+        nameof(HeaderTheme));
+
+    public static readonly StyledProperty<ControlTheme> SubheaderThemeProperty = AvaloniaProperty.Register<Card, ControlTheme>(
+        nameof(SubheaderTheme));
 
     public VerticalAlignment HeaderVerticalAlignment
     {
@@ -148,5 +155,17 @@ public class Card : ContentControl
     {
         get => GetValue(IsAdaptiveFlowEnabledProperty);
         set => SetValue(IsAdaptiveFlowEnabledProperty, value);
+    }
+
+    public ControlTheme HeaderTheme
+    {
+        get => GetValue(HeaderThemeProperty);
+        set => SetValue(HeaderThemeProperty, value);
+    }
+
+    public ControlTheme SubheaderTheme
+    {
+        get => GetValue(SubheaderThemeProperty);
+        set => SetValue(SubheaderThemeProperty, value);
     }
 }

@@ -21,26 +21,24 @@
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
             <Setter Property="ClipToBounds" Value="False" />
-            <!-- Default margin to accommodate shadow -->
             <Setter Property="Margin" Value="8" />
-            <Setter Property="HeaderTemplate">
-                <DataTemplate>
-                    <ContentControl Content="{Binding}"
-                                    TextElement.FontSize="16"
-                                    TextElement.FontWeight="SemiBold"
-                                    TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-                </DataTemplate>
+
+            <Setter Property="HeaderTheme">
+                <ControlTheme TargetType="ContentControl">
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                </ControlTheme>
             </Setter>
 
-            <Setter Property="SubheaderTemplate">
-                <DataTemplate>
-                    <ContentControl Content="{Binding}"
-                                    TextElement.FontSize="12"
-                                    TextElement.FontWeight="Normal"
-                                    TextElement.Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                                    TextBlock.TextWrapping="Wrap"
-                                    Opacity="0.8" />
-                </DataTemplate>
+            <Setter Property="SubheaderTheme">
+                <ControlTheme TargetType="ContentControl">
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                    <Setter Property="Opacity" Value="0.8" />
+                </ControlTheme>
             </Setter>
 
             <Setter Property="Template">
@@ -69,9 +67,11 @@
                                             VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
                                     <ContentControl HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                                     Content="{Binding $parent[Card].Header}"
+                                                    Theme="{Binding $parent[Card].HeaderTheme}"
                                                     ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
                                     <ContentControl
                                         HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
+                                        Theme="{Binding $parent[Card].SubheaderTheme}"
                                         Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                 </StackPanel>
                             </EdgePanel>
@@ -162,8 +162,8 @@
                   Subheader="Prioritize how gaze-tracking methods should be utilized. And this is more text to blah blah blah blah.">
                 <Card.HeaderBackground>
                     <LinearGradientBrush>
-                        <GradientStop Color="#00FF2B" Offset="0"></GradientStop>
-                        <GradientStop Color="#3071FF3C" Offset="1"></GradientStop>
+                        <GradientStop Color="#00FF2B" Offset="0" />
+                        <GradientStop Color="#3071FF3C" Offset="1" />
                     </LinearGradientBrush>
                 </Card.HeaderBackground>
                 <Card.SubheaderTemplate>
