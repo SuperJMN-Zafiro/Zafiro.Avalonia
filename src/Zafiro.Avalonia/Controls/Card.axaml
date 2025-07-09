@@ -205,6 +205,17 @@
                 </Card.HeaderEndContent>
             </Card>
             <Card Header="Transparent" Subheader="Subheader" HeaderHorizontalAlignment="Center" Theme="{StaticResource TransparentCard}" />
+            <Card>
+                <Card.Content>
+                    <TextBlock Text="{Binding Middle}" />
+                </Card.Content>
+                <Card.Header>
+                    <TextBlock Text="{Binding Left}" />
+                </Card.Header>
+                <Card.DataContext>
+                    <MyViewModel Left="LEFT" Middle="MIDDLE" Right="RIGHT" />
+                </Card.DataContext>
+            </Card>
         </StackPanel>
     </Design.PreviewWith>
 

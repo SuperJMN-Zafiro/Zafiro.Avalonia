@@ -1,38 +1,37 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <StackPanel Spacing="10" Margin="40">
             <HeaderedContainer Header="HEADER" Background="Aqua" Content="HOLA" HorizontalContentAlignment="Right" HorizontalAlignment="Right" />
-            <z:HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
-                                 BorderBrush="Black" BorderThickness="2"
-                                 CornerRadius="20" Padding="14 10" HeaderPadding="14 14 14 10"
-                                 HeaderBackground="Yellow"
-                                 BoxShadow="10 10 30 5 #80000000"
-                                 Background="Chartreuse" />
-            <z:HeaderedContainer Width="200" Header="Header"
-                                 BorderBrush="Black" BorderThickness="2"
-                                 CornerRadius="10" Padding="14 10" HeaderPadding="14 14 14 10"
-                                 HeaderBackground="Yellow"
-                                 Background="Chartreuse" />
-            <z:HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
-                                 HeaderBackground="Yellow"
-                                 Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
-            <z:HeaderedContainer Width="200" Header="Header"
-                                 HeaderBackground="Yellow"
-                                 Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
-            <z:HeaderedContainer Width="200" Content="Header"
-                                 CornerRadius="10"
-                                 Padding="10"
-                                 HeaderBackground="Yellow"
-                                 Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
+            <HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
+                               BorderBrush="Black" BorderThickness="2"
+                               CornerRadius="20" Padding="14 10" HeaderPadding="14 14 14 10"
+                               HeaderBackground="Yellow"
+                               BoxShadow="10 10 30 5 #80000000"
+                               Background="Chartreuse" />
+            <HeaderedContainer Width="200" Header="Header"
+                               BorderBrush="Black" BorderThickness="2"
+                               CornerRadius="10" Padding="14 10" HeaderPadding="14 14 14 10"
+                               HeaderBackground="Yellow"
+                               Background="Chartreuse" />
+            <HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
+                               HeaderBackground="Yellow"
+                               Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
+            <HeaderedContainer Width="200" Header="Header"
+                               HeaderBackground="Yellow"
+                               Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
+            <HeaderedContainer Width="200" Content="Header"
+                               CornerRadius="10"
+                               Padding="10"
+                               HeaderBackground="Yellow"
+                               Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
 
-        <ControlTheme x:Key="{x:Type z:HeaderedContainer}" TargetType="z:HeaderedContainer">
-            <Setter Property="ClipToBounds" Value="False"></Setter>
+        <ControlTheme x:Key="{x:Type HeaderedContainer}" TargetType="HeaderedContainer">
+            <Setter Property="ClipToBounds" Value="False" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel ClipToBounds="False">
@@ -43,16 +42,16 @@
                                        BoxShadow="{TemplateBinding BoxShadow}"
                                        Background="{TemplateBinding Background}">
                             <DockPanel>
-                                <ContentPresenter x:Name="Header" Background="{TemplateBinding HeaderBackground}"
-                                                  DockPanel.Dock="Top"
-                                                  Padding="{TemplateBinding HeaderPadding}"
-                                                  IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                  Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentPresenter x:Name="Content"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalAlignmentContentAlignment}"
-                                                  IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                <ContentControl x:Name="Header" Background="{TemplateBinding HeaderBackground}"
+                                                DockPanel.Dock="Top"
+                                                Padding="{TemplateBinding HeaderPadding}"
+                                                IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                <ContentControl x:Name="Content"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </DockPanel>
                         </OverlayBorder>
                     </Panel>
