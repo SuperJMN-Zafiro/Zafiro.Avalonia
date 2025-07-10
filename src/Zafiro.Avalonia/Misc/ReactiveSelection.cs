@@ -17,14 +17,14 @@ public class ReactiveSelection<T, TKey> : IDisposable where T : notnull where TK
     {
         var selectedItemsCache = new SourceCache<T, TKey>(selector)
             .DisposeWith(disposable);
-        
+
         SelectionModel = selectionModel;
         CanBeSelected = canBeSelected ?? (_ => true);
 
-        var obs = Observable
+        var selectionChanged = Observable
             .FromEventPattern<SelectionModelSelectionChangedEventArgs<T>>(handler => SelectionModel.SelectionChanged += handler, handler => SelectionModel.SelectionChanged -= handler);
 
-        obs
+        selectionChanged
             .Do(pattern => Sync(pattern.EventArgs, selectedItemsCache))
             .Subscribe()
             .DisposeWith(disposable);
@@ -33,41 +33,35 @@ public class ReactiveSelection<T, TKey> : IDisposable where T : notnull where TK
             .Bind(out var selectedItems)
             .Subscribe()
             .DisposeWith(disposable);
-        
-        var itemChanges = this.WhenAnyValue(x => x.SelectionModel.Source).Select(src => GetItemChanges(src)).Switch();
-        
+
+        var itemChanges = this.WhenAnyValue(x => x.SelectionModel.Source).Select(ItemChanges).Switch();
+
         var counts = itemChanges.Count().CombineLatest(selectedItemsCache.CountChanged, (totalCount, selectedCount) => (totalCount, selectedCount));
         var filteredCounts = itemChanges.Filter(CanBeSelected).Count().CombineLatest(selectedItemsCache.CountChanged, (totalCount, selectedCount) => (totalCount, selectedCount));
 
-        SelectAllCommand = ReactiveCommand.Create(() => SelectAll(), counts.Select(x => x.totalCount > x.selectedCount && x.totalCount > 0));
-        SelectAllFilteredCommand = ReactiveCommand.Create(() => SelectFiltered(), filteredCounts.Select(x => x.totalCount > x.selectedCount && x.totalCount > 0));
-        ClearCommand = ReactiveCommand.Create(() => Clear(), counts.Select(x => x.selectedCount > 0));
+        SelectAll = ReactiveCommand.Create(DoSelectAll, filteredCounts.Select(x => x.totalCount > x.selectedCount && x.totalCount > 0)).DisposeWith(disposable);
+        Clear = ReactiveCommand.Create(DoClear, counts.Select(x => x.selectedCount > 0)).DisposeWith(disposable);
 
         SelectedItems = selectedItems;
     }
 
-    public ReactiveCommand<Unit, Unit> ClearCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> Clear { get; }
 
-    public ReactiveCommand<Unit, Unit> SelectAllFilteredCommand { get; }
+    public ReactiveCommand<Unit, Unit> SelectAll { get; }
 
-    private static IObservable<IChangeSet<T>> GetItemChanges(IEnumerable? src)
+    private IList<T>? ItemList => SelectionModel.Source?.Cast<T>().ToList();
+
+    public SelectionModel<T> SelectionModel { get; }
+    public Func<T, bool> CanBeSelected { get; }
+
+    public ReadOnlyObservableCollection<T> SelectedItems { get; }
+    
+    private static IObservable<IChangeSet<T>> ItemChanges(IEnumerable? src)
     {
         return src is IEnumerable<T> source ? source.ToObservableChangeSetIfPossible() : Enumerable.Empty<T>().AsObservableChangeSet();
     }
 
-    public ReactiveCommand<Unit, Unit> SelectAllCommand { get; }
-
-    public void SelectAll()
-    {
-        if (SelectionModel.SingleSelect)
-        {
-            return;
-        }
-        
-        SelectionModel.SelectAll();
-    }
-    
-    public void SelectFiltered()
+    public void DoSelectAll()
     {
         if (SelectionModel.SingleSelect)
         {
@@ -80,29 +74,19 @@ public class ReactiveSelection<T, TKey> : IDisposable where T : notnull where TK
         }
 
         var selectedIndices = ItemList?.Where(CanBeSelected).Select(x => ItemList.IndexOf(x));
-        
+
         if (selectedIndices is null)
         {
             return;
         }
 
-        foreach (var selectedItem in selectedIndices)
-        {
-            SelectionModel.Select(selectedItem);   
-        }
+        foreach (var selectedItem in selectedIndices) SelectionModel.Select(selectedItem);
     }
-    
-    public IList<T>? ItemList => SelectionModel.Source?.Cast<T>().ToList(); 
-    
-    public void Clear()
+
+    private void DoClear()
     {
         SelectionModel.Clear();
     }
-
-    public SelectionModel<T> SelectionModel { get; }
-    public Func<T, bool> CanBeSelected { get; }
-
-    public ReadOnlyObservableCollection<T> SelectedItems { get; }
 
     private static void Sync(SelectionModelSelectionChangedEventArgs<T> pattern, SourceCache<T, TKey> sourceCache)
     {
