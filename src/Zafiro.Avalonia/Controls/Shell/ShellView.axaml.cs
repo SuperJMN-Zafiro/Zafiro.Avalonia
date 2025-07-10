@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Zafiro.UI.Shell;
 
 namespace Zafiro.Avalonia.Controls.Shell;
@@ -42,6 +43,9 @@ public class ShellView : TemplatedControl
 
     public static readonly StyledProperty<IBrush> PaneBackgroundProperty = AvaloniaProperty.Register<ShellView, IBrush>(
         nameof(PaneBackground));
+
+    public static readonly StyledProperty<ControlTheme> ToggleButtonThemeProperty = AvaloniaProperty.Register<ShellView, ControlTheme>(
+        nameof(ToggleButtonTheme));
 
     private readonly CompositeDisposable disposable = new();
 
@@ -120,6 +124,12 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(PaneBackgroundProperty);
         set => SetValue(PaneBackgroundProperty, value);
+    }
+
+    public ControlTheme ToggleButtonTheme
+    {
+        get => GetValue(ToggleButtonThemeProperty);
+        set => SetValue(ToggleButtonThemeProperty, value);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)

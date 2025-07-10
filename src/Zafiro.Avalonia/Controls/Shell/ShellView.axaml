@@ -29,6 +29,7 @@
             <Setter Property="PaneBackground" Value="{StaticResource PaneBackground}" />
             <Setter Property="MenuButtonSize" Value="48" />
             <Setter Property="OpenPaneLength" Value="250" />
+            <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
             <Setter Property="IconTemplate">
                 <DataTemplate DataType="ui:IIcon">
                     <Viewbox>
@@ -46,6 +47,7 @@
                 <ControlTemplate>
                     <Panel>
                         <ShellSplitView x:Name="ShellSplitView"
+                                        ToggleButtonTheme="{TemplateBinding ToggleButtonTheme}"
                                         IsVisible="{Binding $parent[ShellView].UseDesktopLayout}"
                                         PageTransition="{TemplateBinding PageTransition}"
                                         IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}"
@@ -108,10 +110,5 @@
             </Style>
         </ControlTheme>
     </Styles.Resources>
-
-    <Style Selector="sh|ShellView ToggleButton">
-        <Setter Property="pt:Attached.Icon" Value="mdi-menu" />
-        <Setter Property="FontSize" Value="25" />
-    </Style>
     
 </Styles>

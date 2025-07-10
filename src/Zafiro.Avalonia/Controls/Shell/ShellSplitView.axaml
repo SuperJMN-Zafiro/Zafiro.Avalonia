@@ -44,6 +44,11 @@
     <Styles.Resources>
 
         <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
+        
+        <ControlTheme x:Key="HamburguerMenuToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource TransparentToggleButton}">
+            <Setter Property="p:Attached.Icon" Value="mdi-menu" />
+            <Setter Property="FontSize" Value="25" />
+        </ControlTheme>
 
         <DataTemplate x:Key="ContentHeaderTemplate">
             <ContentControl
@@ -64,7 +69,7 @@
             <Setter Property="ExpandButtonSize" Value="28" />
             <Setter Property="OpenPaneLength" Value="200" />
             <Setter Property="PaneBackground" Value="{StaticResource PaneBackground}" />
-            <Setter Property="ToggleButtonTheme" Value="{StaticResource TransparentToggleButton}" />
+            <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
             <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
             <Setter Property="PaneHeaderTemplate" Value="{StaticResource HeaderPaneTemplate}" />
             <Setter Property="ToggleButtonContent">

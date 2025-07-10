@@ -35,9 +35,6 @@
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
                 </Transitions>
             </Setter>
-            <!-- <Style Selector="^:pointerover"> -->
-            <!--     <Setter Property="RenderTransform" Value="scale(1.02)" /> -->
-            <!-- </Style> -->
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
@@ -45,22 +42,6 @@
             <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Opacity" Value="0.8" />
-            </Style>
-        </ControlTheme>
-        <ControlTheme x:Key="TransparentToggleButton" TargetType="ToggleButton"
-                      BasedOn="{StaticResource {x:Type ToggleButton}}">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="Transparent" />
-            </Style>
-            <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForeground}" />
-            </Style>
-            <Style Selector="^:checked:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="Transparent" />
             </Style>
         </ControlTheme>
         <ControlTheme x:Key="ErrorButton" TargetType="Button" BasedOn="{StaticResource TransparentButton}">

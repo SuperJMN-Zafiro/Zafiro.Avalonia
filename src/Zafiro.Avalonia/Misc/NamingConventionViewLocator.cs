@@ -11,7 +11,8 @@ public class NamingConventionViewLocator : IDataTemplate
     public Control Build(object? data)
     {
         var viewTypeNameResult = from obj in Maybe.From(data)
-            let viewTypeName = obj.GetType().AssemblyQualifiedName.Replace("ViewModel", "View")
+            let viewTypeName = obj.GetType().AssemblyQualifiedName.Replace("ViewModelDesign", "View").Replace("ViewModel", "View")
+            where !string.IsNullOrEmpty(viewTypeName)
             select viewTypeName;
 
         var view = from viewTypeName in viewTypeNameResult
@@ -26,7 +27,7 @@ public class NamingConventionViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is IViewModel || (data?.GetType().Name.EndsWith("ViewModel", StringComparison.OrdinalIgnoreCase) ?? false);
+        return data is IViewModel || (data?.GetType().Name.Contains("ViewModel", StringComparison.OrdinalIgnoreCase)  ?? false);
     }
     
     private static Control Fallback(object? data)

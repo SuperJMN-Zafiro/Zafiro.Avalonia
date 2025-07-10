@@ -29,6 +29,9 @@
     <StyleInclude Source="Styles/Button.axaml" />
     <StyleInclude Source="Styles/TextBox.axaml" />
     <StyleInclude Source="Styles/Loading.axaml" />
+    <StyleInclude Source="Styles/ScrollViewer.axaml" />
+    <StyleInclude Source="Styles/ToggleButton.axaml" />
+    
     <StyleInclude Source="Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="Controls/AdaptiveControl.axaml" />
     <StyleInclude Source="Controls/StoppableControl.axaml" />
@@ -47,7 +50,6 @@
     <StyleInclude Source="Controls/ReactiveButton.axaml" />
     <StyleInclude Source="Controls/Shell/ShellView.axaml" />
     <StyleInclude Source="Controls/BulletList.axaml" />
-    <StyleInclude Source="Styles/ScrollViewer.axaml" />
     <StyleInclude Source="Controls/Shell/Sidebar.axaml" />
     <StyleInclude Source="Controls/Shell/ShellSplitView.axaml" />
     <StyleInclude Source="Controls/HeaderedContainer.axaml" />
