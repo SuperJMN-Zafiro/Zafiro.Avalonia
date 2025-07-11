@@ -88,7 +88,7 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <StackPanel>
+        <StackPanel Spacing="20" Margin="20">
 
             <Card VerticalAlignment="Center" Margin="10"
                   Background="#22ADADAD"

@@ -38,6 +38,7 @@ public class HeaderedContainer : ContentControl
         set => SetValue(HeaderTemplateProperty, value);
     }
 
+    [Obsolete("Use HeadersSpacing instead.")]
     public Thickness HeaderPadding
     {
         get => GetValue(HeaderPaddingProperty);
@@ -48,5 +49,14 @@ public class HeaderedContainer : ContentControl
     {
         get => GetValue(BoxShadowProperty);
         set => SetValue(BoxShadowProperty, value);
+    }
+
+    public static readonly StyledProperty<double> HeaderSpacingProperty = AvaloniaProperty.Register<HeaderedContainer, double>(
+        nameof(HeaderSpacing));
+
+    public double HeaderSpacing
+    {
+        get => GetValue(HeaderSpacingProperty);
+        set => SetValue(HeaderSpacingProperty, value);
     }
 }

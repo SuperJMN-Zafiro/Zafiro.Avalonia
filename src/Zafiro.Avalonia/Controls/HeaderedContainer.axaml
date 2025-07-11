@@ -1,69 +1,97 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type HeaderedContainer}" TargetType="HeaderedContainer">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="HeaderSpacing" Value="10" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel ClipToBounds="False">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                BoxShadow="{TemplateBinding BoxShadow}">
+                            <DockPanel Margin="{TemplateBinding Padding}" VerticalSpacing="{TemplateBinding HeaderSpacing}">
+                                <ContentPresenter x:Name="Header"
+                                                  DockPanel.Dock="Top"
+                                                  Padding="{TemplateBinding HeaderPadding}"
+                                                  Content="{TemplateBinding Header}"
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                <ContentPresenter x:Name="Content"
+                                                  Content="{TemplateBinding Content}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </DockPanel>
+                        </Border>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ ContentPresenter#Header">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </ControlTheme>
+        
+        <ControlTheme x:Key="InlineHeaderedContainer" TargetType="HeaderedContainer">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="HeaderSpacing" Value="10" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BoxShadow="{TemplateBinding BoxShadow}">
+                        <DockPanel Margin="{TemplateBinding Padding}" HorizontalSpacing="{TemplateBinding HeaderSpacing}">
+                            <ContentPresenter x:Name="Header"
+                                              DockPanel.Dock="Left"
+                                              Padding="{TemplateBinding HeaderPadding}"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                            <ContentPresenter x:Name="Content"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ ContentPresenter#Header">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
     <Design.PreviewWith>
         <StackPanel Spacing="10" Margin="40">
             <HeaderedContainer Header="HEADER" Background="Aqua" Content="HOLA" HorizontalContentAlignment="Right" HorizontalAlignment="Right" />
-            <HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
+            <HeaderedContainer Width="200" Height="200" Header="Header"
                                BorderBrush="Black" BorderThickness="2"
                                CornerRadius="20" Padding="14 10" HeaderPadding="14 14 14 10"
-                               HeaderBackground="Yellow"
                                BoxShadow="10 10 30 5 #80000000"
                                Background="Chartreuse" />
             <HeaderedContainer Width="200" Header="Header"
                                BorderBrush="Black" BorderThickness="2"
                                CornerRadius="10" Padding="14 10" HeaderPadding="14 14 14 10"
-                               HeaderBackground="Yellow"
                                Background="Chartreuse" />
             <HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
-                               HeaderBackground="Yellow"
                                Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
             <HeaderedContainer Width="200" Header="Header"
-                               HeaderBackground="Yellow"
                                Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
-            <HeaderedContainer Width="200" Content="Header"
+            <HeaderedContainer Width="200" Content="Content"
+                               CornerRadius="10"
+                               Background="DarkGoldenrod" BorderBrush="Black" BorderThickness="1" />
+            <HeaderedContainer Width="200" Height="200" Content="Content" Header="HEADER"
                                CornerRadius="10"
                                Padding="10"
-                               HeaderBackground="Yellow"
-                               Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
-            <HeaderedContainer Width="200" Content="Content" Header="HEADER"
-                               CornerRadius="10"
-                               Padding="10"
-                               Background="#22ADADAD"
-                               HeaderBackground="#22ADADAD" BorderBrush="Black" BorderThickness="1" />
+                               Background="Red"
+                               BorderBrush="Black" BorderThickness="1" />
+            <HeaderedContainer Content="Content" Header="INLINE"
+                               Theme="{StaticResource InlineHeaderedContainer}"
+                               Background="DarkCyan"
+                               BorderBrush="Black" BorderThickness="1">
+            </HeaderedContainer>
         </StackPanel>
     </Design.PreviewWith>
-
-    <Styles.Resources>
-
-        <ControlTheme x:Key="{x:Type HeaderedContainer}" TargetType="HeaderedContainer">
-            <Setter Property="ClipToBounds" Value="False" />
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="HeaderPadding" Value="10 10 10 0" />
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Panel ClipToBounds="False">
-                        <OverlayBorder BorderThickness="{TemplateBinding BorderThickness}"
-                                       ClipToBounds="False"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       BoxShadow="{TemplateBinding BoxShadow}">
-                            <DockPanel>
-                                <ContentControl x:Name="Header" 
-                                                Background="{TemplateBinding HeaderBackground}"
-                                                DockPanel.Dock="Top"
-                                                Padding="{TemplateBinding HeaderPadding}"
-                                                IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentControl x:Name="Content"
-                                                Background="{TemplateBinding Background}"
-                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
-                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-                            </DockPanel>
-                        </OverlayBorder>
-                    </Panel>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-    </Styles.Resources>
 </Styles>
