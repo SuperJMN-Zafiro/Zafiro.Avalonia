@@ -45,6 +45,8 @@
     </Design.PreviewWith>
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type CardGrid}" TargetType="CardGrid">
+            <Setter Property="RowSpacing" Value="10" />
+            <Setter Property="ColumnSpacing" Value="10" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Container.Name="ResponsiveContainer" Container.Sizing="Width" Padding="{TemplateBinding Padding}">

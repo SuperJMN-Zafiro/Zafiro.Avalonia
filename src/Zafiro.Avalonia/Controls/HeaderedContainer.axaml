@@ -25,6 +25,11 @@
                                Padding="10"
                                HeaderBackground="Yellow"
                                Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
+            <HeaderedContainer Width="200" Content="Content" Header="HEADER"
+                               CornerRadius="10"
+                               Padding="10"
+                               Background="#22ADADAD"
+                               HeaderBackground="#22ADADAD" BorderBrush="Black" BorderThickness="1" />
         </StackPanel>
     </Design.PreviewWith>
 
@@ -32,6 +37,8 @@
 
         <ControlTheme x:Key="{x:Type HeaderedContainer}" TargetType="HeaderedContainer">
             <Setter Property="ClipToBounds" Value="False" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="HeaderPadding" Value="10 10 10 0" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel ClipToBounds="False">
@@ -39,17 +46,17 @@
                                        ClipToBounds="False"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                       BoxShadow="{TemplateBinding BoxShadow}"
-                                       Background="{TemplateBinding Background}">
+                                       BoxShadow="{TemplateBinding BoxShadow}">
                             <DockPanel>
-                                <ContentControl x:Name="Header" Background="{TemplateBinding HeaderBackground}"
+                                <ContentControl x:Name="Header" 
+                                                Background="{TemplateBinding HeaderBackground}"
                                                 DockPanel.Dock="Top"
                                                 Padding="{TemplateBinding HeaderPadding}"
                                                 IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
                                 <ContentControl x:Name="Content"
+                                                Background="{TemplateBinding Background}"
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </DockPanel>

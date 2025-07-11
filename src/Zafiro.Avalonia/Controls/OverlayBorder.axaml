@@ -6,8 +6,7 @@
         <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
         <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
         <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
-
-
+        
         <ControlTheme x:Key="{x:Type OverlayBorder}" TargetType="OverlayBorder">
             <Setter Property="ClipToBounds" Value="False" />
             <Setter Property="Template">
@@ -46,19 +45,10 @@
 
         <ControlTheme x:Key="CardOverlayBorder" TargetType="OverlayBorder" BasedOn="{StaticResource {x:Type OverlayBorder}}">
             <Setter Property="Background" Value="{StaticResource CardBackground}" />
-            <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Margin" Value="8" />
             <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="15" />
-            <Style Selector="^:pointerover">
-                <Setter Property="BorderBrush" Value="{StaticResource CardBorderHover}" />
-                <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
-            </Style>
-            <Style Selector="^:pressed /template/ HeaderedContainer#Root">
-                <Setter Property="BoxShadow" Value="0 1 4 0 #0D000000" />
-            </Style>
         </ControlTheme>
 
     </Styles.Resources>

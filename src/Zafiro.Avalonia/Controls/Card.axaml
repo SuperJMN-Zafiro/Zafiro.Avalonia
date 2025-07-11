@@ -20,9 +20,7 @@
             <Setter Property="HeaderSpacing" Value="10" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
-            <Setter Property="ClipToBounds" Value="False" />
-            <Setter Property="Margin" Value="8" />
-
+            
             <Setter Property="HeaderTheme">
                 <ControlTheme TargetType="ContentControl">
                     <Setter Property="FontSize" Value="16" />
@@ -79,52 +77,22 @@
                     </HeaderedContainer>
                 </ControlTemplate>
             </Setter>
-
-            <!-- Default shadow -->
-            <Style Selector="^">
-                <Setter Property="BoxShadow" Value="0 2 8 0 #19000000" />
-            </Style>
-
-            <!-- Hover effects -->
-            <Style Selector="^:pointerover /template/ HeaderedContainer#Root">
-                <Setter Property="BorderBrush" Value="{StaticResource CardBorderHover}" />
-                <Setter Property="BoxShadow" Value="0 4 12 0 #26000000" />
-            </Style>
-
-            <!-- Pressed effect -->
-            <Style Selector="^:pressed /template/ HeaderedContainer#Root">
-                <Setter Property="BoxShadow" Value="0 1 4 0 #0D000000" />
-            </Style>
         </ControlTheme>
 
         <ControlTheme x:Key="TransparentCard" BasedOn="{StaticResource {x:Type Card}}" TargetType="Card">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="HeaderBackground" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            <!-- Default shadow -->
-            <Style Selector="^">
-                <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
-            </Style>
-
-            <!-- Hover effects -->
-            <Style Selector="^:pointerover /template/ HeaderedContainer#Root">
-                <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
-            </Style>
-
-            <!-- Pressed effect -->
-            <Style Selector="^:pressed /template/ HeaderedContainer#Root">
-                <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
-            </Style>
         </ControlTheme>
 
     </Styles.Resources>
 
     <Design.PreviewWith>
-
         <StackPanel>
 
             <Card VerticalAlignment="Center" Margin="10"
+                  Background="#22ADADAD"
+                  HeaderBackground="#22ADADAD"
                   Width="350"
                   IsAdaptiveFlowEnabled="False"
                   Header="This is a card">
