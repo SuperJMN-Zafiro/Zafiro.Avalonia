@@ -13,16 +13,23 @@
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 BoxShadow="{TemplateBinding BoxShadow}">
-                            <DockPanel Margin="{TemplateBinding Padding}" VerticalSpacing="{TemplateBinding HeaderSpacing}">
+                            <DockPanel Margin="{TemplateBinding Padding}">
+                                <DockPanel.VerticalSpacing>
+                                    <MultiBinding Converter="{x:Static MiscConverters.HeaderedContainerSpacingConverter}">
+                                        <TemplateBinding Property="HeaderSpacing" />
+                                        <Binding Path="$parent[HeaderedContainer].Content" />
+                                    </MultiBinding>
+                                </DockPanel.VerticalSpacing>
                                 <ContentPresenter x:Name="Header"
                                                   DockPanel.Dock="Top"
-                                                  Padding="{TemplateBinding HeaderPadding}"
                                                   Content="{TemplateBinding Header}"
-                                                  ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                />
                                 <ContentPresenter x:Name="Content"
                                                   Content="{TemplateBinding Content}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  />
                             </DockPanel>
                         </Border>
                     </Panel>
@@ -43,15 +50,19 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BoxShadow="{TemplateBinding BoxShadow}">
-                        <DockPanel Margin="{TemplateBinding Padding}" HorizontalSpacing="{TemplateBinding HeaderSpacing}">
+                        <DockPanel Margin="{TemplateBinding Padding}" 
+                                   HorizontalSpacing="{TemplateBinding HeaderSpacing}">
                             <ContentPresenter x:Name="Header"
                                               DockPanel.Dock="Left"
                                               Padding="{TemplateBinding HeaderPadding}"
                                               Content="{TemplateBinding Header}"
+                                              VerticalAlignment="Center"
+                                              IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" />
                             <ContentPresenter x:Name="Content"
                                               Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" />
                         </DockPanel>
                     </Border>
@@ -77,7 +88,7 @@
                                Background="Chartreuse" />
             <HeaderedContainer Width="200" Height="200" Content="HELLO" Header="Header"
                                Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
-            <HeaderedContainer Width="200" Header="Header"
+            <HeaderedContainer Width="200" Header="Header2"
                                Background="Chartreuse" BorderBrush="Black" BorderThickness="1" />
             <HeaderedContainer Width="200" Content="Content"
                                CornerRadius="10"

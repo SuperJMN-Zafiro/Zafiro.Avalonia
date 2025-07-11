@@ -15,8 +15,7 @@
             <Setter Property="Background" Value="{StaticResource CardBackground}" />
             <Setter Property="HeaderBackground" Value="{StaticResource CardBackground}" />
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Padding" Value="15 5 15 15" />
-            <Setter Property="HeaderPadding" Value="10 5" />
+            <Setter Property="Padding" Value="15 15 15 15" />
             <Setter Property="HeaderSpacing" Value="10" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
@@ -47,7 +46,6 @@
                                        HeaderBackground="{TemplateBinding HeaderBackground}"
                                        Background="{TemplateBinding Background}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                       HeaderPadding="{TemplateBinding HeaderPadding}"
                                        Padding="{TemplateBinding Padding}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BoxShadow="{TemplateBinding BoxShadow}">
