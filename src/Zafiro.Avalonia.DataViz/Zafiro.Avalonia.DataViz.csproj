@@ -26,11 +26,4 @@
         <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="Graphs\GraphControl.axaml.cs">
-            <DependentUpon>GraphControl.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
-    </ItemGroup>
-
 </Project>

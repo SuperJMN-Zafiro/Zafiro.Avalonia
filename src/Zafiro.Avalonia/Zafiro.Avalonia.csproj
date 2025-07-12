@@ -17,11 +17,10 @@
         <PackageReference Include="Projektanker.Icons.Avalonia"/>
         <PackageReference Include="System.Linq.Async"/>
         <PackageReference Include="Xaml.Behaviors.Avalonia"/>
-        <PackageReference Include="Zafiro"/>
-        <PackageReference Include="Zafiro.UI"/>
         <PackageReference Include="ReactiveUI.SourceGenerators">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Zafiro.UI"/>
     </ItemGroup>
 </Project>

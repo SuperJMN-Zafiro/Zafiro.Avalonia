@@ -10,15 +10,16 @@
         <PackageReference Include="Avalonia"/>
         <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>
         <PackageReference Include="ReactiveUI.SourceGenerators">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="ReactiveUI.Validation"/>
         <PackageReference Include="Zafiro.FileSystem.Actions"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj" />
+        <ProjectReference Include="..\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj"/>
+        <ProjectReference Include="..\Zafiro.Avalonia\Zafiro.Avalonia.csproj"/>
     </ItemGroup>
 
 </Project>
