@@ -1,6 +1,7 @@
 <Project>
   <PropertyGroup>
     <Nullable>enable</Nullable>
-    <AvaloniaVersion>11.3.2</AvaloniaVersion>
+    <UseLocalZafiroReferences Condition="'$(UseLocalZafiroReferences)' == ''">true</UseLocalZafiroReferences>
+    <UseLocalZafiroReferences Condition="'$(Configuration)' == 'Release'">false</UseLocalZafiroReferences>
   </PropertyGroup>
 </Project>

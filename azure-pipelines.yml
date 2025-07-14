@@ -3,9 +3,9 @@ variables:
 - name: Agent.Source.Git.ShallowFetchDepth
   value: 0
 
-
 steps:
 - checkout: self
+  submodules: true
 
 - script: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk "platform-tools"
   displayName: Install Android SDK "Platform Tools"

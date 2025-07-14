@@ -17,11 +17,20 @@
         <PackageReference Include="Projektanker.Icons.Avalonia"/>
         <PackageReference Include="System.Linq.Async"/>
         <PackageReference Include="Xaml.Behaviors.Avalonia"/>
-        <PackageReference Include="Zafiro"/>
-        <PackageReference Include="Zafiro.UI"/>
         <PackageReference Include="ReactiveUI.SourceGenerators">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+
+    <ItemGroup Condition="'$(UseLocalZafiroReferences)' == 'true'">
+        <ProjectReference Include="..\..\libs\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj"/>
+        <ProjectReference Include="..\..\libs\Zafiro\src\Zafiro\Zafiro.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseLocalZafiroReferences)' == 'false'">
+        <PackageReference Include="Zafiro.UI"/>
+        <PackageReference Include="Zafiro"/>
+    </ItemGroup>
+
 </Project>
