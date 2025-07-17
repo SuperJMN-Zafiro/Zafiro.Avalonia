@@ -17,5 +17,5 @@ steps:
     GitHubAuthenticationToken: $(GitHubAuthenticationToken)
     AndroidSigningKeyAlias: $(AndroidSigningKeyAlias)
     AndroidSigningKeyPass: $(AndroidSigningKeyPass)
-    Base64Keystore: $(Base64Keystore)
+    Base64Keystore: $(AndroidBase64Keystore)
     AndroidSigningStorePass: $(AndroidSigningStorePass)
