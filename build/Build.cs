@@ -17,11 +17,12 @@ using Options = DotnetPackaging.Options;
 
 class Build : NukeBuild
 {
+    [Parameter("Contents of the keystore encoded as Base64.")] readonly string AndroidBase64Keystore;
+
     // Android
     [Parameter("The alias for the key in the keystore.")] readonly string AndroidSigningKeyAlias;
     [Parameter("The password of the key within the keystore file.")] [Secret] readonly string AndroidSigningKeyPass;
     [Parameter("The password for the keystore file.")] [Secret] readonly string AndroidSigningStorePass;
-    [Parameter("Contents of the keystore encoded as Base64.")] readonly string Base64Keystore;
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
     [Parameter] readonly bool Force;
     [Parameter("GitHub Authentication Token")] [Secret] readonly string GitHubApiKey;
@@ -83,7 +84,7 @@ class Build : NukeBuild
                     return new DeploymentBuilder(Actions, project)
                         .ForLinux(Options())
                         .ForWindows()
-                        .ForAndroid(Base64Keystore, AndroidSigningKeyAlias, AndroidSigningKeyPass, AndroidSigningStorePass)
+                        .ForAndroid(AndroidBase64Keystore, AndroidSigningKeyAlias, AndroidSigningKeyPass, AndroidSigningStorePass)
                         .Build()
                         .Bind(paths => Actions.CreateGitHubRelease(GitHubApiKey, paths.ToArray()));
                 })
