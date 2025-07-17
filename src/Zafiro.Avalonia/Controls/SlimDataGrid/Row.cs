@@ -6,8 +6,11 @@ public class Row : TemplatedControl
 {
     public Row(object data, Columns columns)
     {
+        Data = data;
         properties = columns.Select((column, i) => new Cell(data, column, i));
     }
+
+    public object Data { get; }
 
     private IEnumerable<Cell> properties;
 

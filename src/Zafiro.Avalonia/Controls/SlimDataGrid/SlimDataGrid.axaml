@@ -5,6 +5,7 @@
 
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type a:Row}" TargetType="a:Row">
+            <Setter Property="DataContext" Value="{Binding $self.Data}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Padding="{TemplateBinding Padding}"
