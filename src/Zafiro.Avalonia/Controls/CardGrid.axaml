@@ -55,8 +55,7 @@
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <MinMaxUniformGrid MinColumnWidth="{Binding $parent[CardGrid].MinColumnWidth}"
-                                                         MaxColumnWidth="{Binding $parent[CardGrid].MaxColumnWidth}" 
+                                    <ResponsiveGridPanel MinColumnWidth="{Binding $parent[CardGrid].MinColumnWidth}"
                                                          RowSpacing="{Binding $parent[CardGrid].RowSpacing}"
                                                          ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}" />
                                 </ItemsPanelTemplate>
