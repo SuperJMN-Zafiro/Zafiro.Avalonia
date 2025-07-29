@@ -1,13 +1,10 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
-        xmlns:pt="https://github.com/projektanker/icons.avalonia"
-        xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:b="clr-namespace:Zafiro.Avalonia.Behaviors"
-        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
+        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+        xmlns:shell="clr-namespace:Zafiro.UI.Shell;assembly=Zafiro.UI">
 
     <Design.PreviewWith>
-        <ShellView Width="700" Height="500">
+        <ShellView Width="700" Height="900">
             <ShellView.Shell>
                 <ShellDesign />
             </ShellView.Shell>
@@ -15,6 +12,75 @@
     </Design.PreviewWith>
 
     <Styles.Resources>
+
+        <DataTemplate x:Key="DesktopTemplate" DataType="shell:IShell">
+            <ShellSplitView x:Name="ShellSplitView"
+                            ToggleButtonTheme="{Binding $parent[ShellView].ToggleButtonTheme}"
+                            PageTransition="{Binding $parent[ShellView].PageTransition}"
+                            IsPaneOpen="{Binding $parent[ShellView].IsPaneOpen, Mode=TwoWay}"
+                            OpenPaneLength="{Binding $parent[ShellView].OpenPaneLength}"
+                            PaneHeader="{Binding Header}"
+                            ContentHeader="{Binding ContentHeader^}"
+                            ContentHeaderTemplate="{Binding $parent[ShellView].HeaderContentTemplate}"
+                            Content="{Binding Content^}"
+                            PaneBackground="{Binding $parent[ShellView].PaneBackground}"
+                            ExpandButtonSize="{Binding $parent[ShellView].MenuButtonSize}">
+                <ShellSplitView.Styles>
+                    <ContainerQuery Name="RootPanel" Query="min-width:0">
+                        <Style Selector="ShellSplitView">
+                            <Setter Property="DisplayMode" Value="Overlay" />
+                        </Style>
+                    </ContainerQuery>
+                    <ContainerQuery Name="RootPanel" Query="min-width:600">
+                        <Style Selector="ShellSplitView">
+                            <Setter Property="DisplayMode" Value="CompactOverlay" />
+                        </Style>
+                    </ContainerQuery>
+                    <ContainerQuery Name="RootPanel" Query="min-width:800">
+                        <Style Selector="ShellSplitView">
+                            <Setter Property="DisplayMode" Value="CompactInline" />
+                        </Style>
+                    </ContainerQuery>
+                </ShellSplitView.Styles>
+                <ShellSplitView.PaneContent>
+                    <Sidebar
+                        IconMargin="12"
+                        IconWidth="{Binding $parent[ShellView].MenuButtonSize}"
+                        IconTemplate="{Binding $parent[ShellView].IconTemplate}"
+                        IconHeight="{Binding $parent[ShellView].MenuButtonSize}"
+                        SelectedSection="{Binding SelectedSection}"
+                        Sections="{Binding Sections}">
+                        <Sidebar.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
+                            </Transitions>
+                        </Sidebar.Transitions>
+                        <Interaction.Behaviors>
+                            <PointerReleasedTrigger EventRoutingStrategy="Tunnel">
+                                <SetAvaloniaPropertyCurrentValueAction IsEnabled="{Binding $parent[ShellSplitView].DisplayMode, Converter={x:Static ShellConverters.IsOverlay}}"
+                                                                       TargetObject="{Binding $parent[ShellView]}"
+                                                                       Value="False"
+                                                                       TargetProperty="{x:Static ShellView.IsPaneOpenProperty}" />
+                            </PointerReleasedTrigger>
+                        </Interaction.Behaviors>
+                    </Sidebar>
+
+                </ShellSplitView.PaneContent>
+            </ShellSplitView>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MobileTemplate" DataType="shell:IShell">
+            <DockPanel>
+                <ContentControl DockPanel.Dock="Top"
+                                Content="{Binding ContentHeader^}"
+                                ContentTemplate="{Binding $parent[ShellView].HeaderContentTemplate}" />
+                <ActionBar Sections="{Binding Sections}"
+                           IconTemplate="{Binding $parent[ShellView].IconTemplate}"
+                           Columns="{Binding $parent[ShellView].MobileColumns}"
+                           SelectedSection="{Binding SelectedSection}" DockPanel.Dock="Bottom" />
+                <ContentControl Content="{Binding Content^}" />
+            </DockPanel>
+        </DataTemplate>
 
         <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
 
@@ -45,70 +111,25 @@
             </Setter>
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Panel>
-                        <ShellSplitView x:Name="ShellSplitView"
-                                        ToggleButtonTheme="{TemplateBinding ToggleButtonTheme}"
-                                        IsVisible="{Binding $parent[ShellView].UseDesktopLayout}"
-                                        PageTransition="{TemplateBinding PageTransition}"
-                                        IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}"
-                                        OpenPaneLength="{TemplateBinding OpenPaneLength}"
-                                        PaneHeader="{Binding $parent[ShellView].Shell.Header}"
-                                        ContentHeader="{Binding $parent[ShellView].Shell.ContentHeader^}"
-                                        ContentHeaderTemplate="{TemplateBinding HeaderContentTemplate}"
-                                        Content="{Binding $parent[ShellView].Shell.Content^}"
-                                        PaneBackground="{TemplateBinding PaneBackground}"
-                                        ExpandButtonSize="{TemplateBinding MenuButtonSize}">
-                            <Interaction.Behaviors>
-                                <AdaptiveBehavior SourceControl="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=AdaptiveControl}}">
-                                    <AdaptiveClassSetter ClassName="Narrow" MinWidth="0" MaxWidth="600" />
-                                    <AdaptiveClassSetter ClassName="Wide" MinWidth="600" MaxWidth="Infinity" />
-                                </AdaptiveBehavior>
-                            </Interaction.Behaviors>
-
-                            <ShellSplitView.PaneContent>
-                                <Sidebar
-                                    IconMargin="12"
-                                    IconWidth="{Binding $parent[ShellView].MenuButtonSize}"
-                                    IconTemplate="{Binding $parent[ShellView].IconTemplate}"
-                                    IconHeight="{Binding $parent[ShellView].MenuButtonSize}"
-                                    SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}"
-                                    Sections="{Binding $parent[ShellView].Shell.Sections}">
-                                    <Sidebar.Transitions>
-                                        <Transitions>
-                                            <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
-                                        </Transitions>
-                                    </Sidebar.Transitions>
-                                    <Interaction.Behaviors>
-                                        <PointerReleasedTrigger EventRoutingStrategy="Tunnel">
-                                            <b:SetAvaloniaPropertyCurrentValueAction IsEnabled="{Binding $parent[ShellSplitView].DisplayMode, Converter={x:Static ShellConverters.IsOverlay}}"
-                                                                                     TargetObject="{Binding $parent[ShellView]}"
-                                                                                     Value="False"
-                                                                                     TargetProperty="{x:Static ShellView.IsPaneOpenProperty}" />
-                                        </PointerReleasedTrigger>
-                                    </Interaction.Behaviors>
-                                </Sidebar>
-                            </ShellSplitView.PaneContent>
-                        </ShellSplitView>
-                        <DockPanel IsVisible="{Binding !$parent[ShellView].UseDesktopLayout}">
-                            <ContentControl DockPanel.Dock="Top" 
-                                            Content="{Binding $parent[ShellView].Shell.ContentHeader^}"
-                                            ContentTemplate="{Binding $parent[ShellView].HeaderContentTemplate}" />
-                            <ActionBar Sections="{Binding $parent[ShellView].Shell.Sections}"
-                                       IconTemplate="{TemplateBinding IconTemplate}"
-                                       Columns="{TemplateBinding MobileColumns}"
-                                       SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" DockPanel.Dock="Bottom" />
-                            <ContentPresenter Content="{Binding $parent[ShellView].Shell.Content^}" />
-                        </DockPanel>
+                    <Panel Container.Name="RootPanel" Container.Sizing="WidthAndHeight">
+                        <ContentControl x:Name="Content" Content="{TemplateBinding Shell}" ContentTemplate="{StaticResource DesktopTemplate}" />
                     </Panel>
                 </ControlTemplate>
             </Setter>
-            <Style Selector="^ /template/ c|ShellSplitView.Narrow">
-                <Setter Property="DisplayMode" Value="Overlay" />
-            </Style>
-            <Style Selector="^ /template/ c|ShellSplitView.Wide">
-                <Setter Property="DisplayMode" Value="CompactInline" />
-            </Style>
+            <ContainerQuery Name="RootPanel" Query="min-width:0">
+                <Style Selector="ContentControl#Content">
+                    <Setter Property="ContentTemplate" Value="{StaticResource MobileTemplate}" />
+                </Style>
+                <Style Selector="ShellSplitView">
+                    <Setter Property="Background" Value="Red" />
+                </Style>
+            </ContainerQuery>
+            <ContainerQuery Name="RootPanel" Query="min-width:450">
+                <Style Selector="ContentControl#Content">
+                    <Setter Property="ContentTemplate" Value="{StaticResource DesktopTemplate}" />
+                </Style>
+            </ContainerQuery>
         </ControlTheme>
     </Styles.Resources>
-    
+
 </Styles>
