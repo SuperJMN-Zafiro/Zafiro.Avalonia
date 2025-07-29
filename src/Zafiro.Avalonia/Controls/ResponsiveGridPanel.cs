@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using System.Linq;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -117,7 +118,7 @@ public class ResponsiveGridPanel : Panel
 
     private int CalculateColumns(double availableWidth, int count)
     {
-        return Maybe<double>.From(availableWidth)
+        int maxThatFit = Maybe<double>.From(availableWidth)
             .Match(w =>
             {
                 if (double.IsInfinity(w) || w <= 0)
@@ -125,19 +126,26 @@ public class ResponsiveGridPanel : Panel
                     return Math.Min(MaxColumns, count);
                 }
 
-                int columns = Math.Min(MaxColumns, count);
-                while (columns > 1)
+                int possible = Math.Min(MaxColumns, count);
+                while (possible > 1)
                 {
-                    double cellWidth = (w - ColumnSpacing * (columns - 1)) / columns;
+                    double cellWidth = (w - ColumnSpacing * (possible - 1)) / possible;
                     if (cellWidth >= MinColumnWidth)
                     {
                         break;
                     }
 
-                    columns--;
+                    possible--;
                 }
 
-                return Math.Max(columns, 1);
+                return Math.Max(possible, 1);
             }, () => Math.Min(MaxColumns, count));
+
+        return Enumerable.Range(1, maxThatFit)
+            .Select(c => new { Columns = c, Holes = c * (int)Math.Ceiling(count / (double)c) - count })
+            .OrderBy(x => x.Holes)
+            .ThenByDescending(x => x.Columns)
+            .First()
+            .Columns;
     }
 }
