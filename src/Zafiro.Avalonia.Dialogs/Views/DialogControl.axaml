@@ -81,7 +81,10 @@
                         </Border.Styles>
 
                         <Grid RowDefinitions="Auto,*,Auto">
-                            <!-- Title -->
+                            <!-- Header / Title -->
+                            <ContentPresenter Grid.Row="0" Margin="0 0 0 10"
+                                              Content="{Binding $parent[c:DialogControl].Header}"
+                                              IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
                             <TextBlock Grid.Row="0"
                                        FontWeight="Bold"
                                        Margin="0 0 0 10"

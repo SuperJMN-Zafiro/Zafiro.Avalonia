@@ -13,4 +13,14 @@ public class SlimWizardControl : TemplatedControl
         get => GetValue(WizardProperty);
         set => SetValue(WizardProperty, value);
     }
+
+    public static readonly StyledProperty<bool> HeaderVisibleProperty = AvaloniaProperty.Register<SlimWizardControl, bool>(
+        nameof(HeaderVisible),
+        true);
+
+    public bool HeaderVisible
+    {
+        get => GetValue(HeaderVisibleProperty);
+        set => SetValue(HeaderVisibleProperty, value);
+    }
 }

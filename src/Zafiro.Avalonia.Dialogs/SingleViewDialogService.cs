@@ -53,14 +53,25 @@ public class AdornerDialog : IDialog, ICloseable
         currentDialog = new TaskCompletionSource<bool>();
         var options = optionsFactory(this);
 
+        var dialogControl = new DialogControl
+        {
+            Content = viewModel,
+            Options = options,
+        };
+
+        if (viewModel is IDialogHeaderProvider headerProvider)
+        {
+            dialogControl.Header = headerProvider.Header;
+        }
+        else
+        {
+            dialogControl.Title = title;
+        }
+
         var dialog = new DialogViewContainer
         {
             Title = title,
-            Content = new DialogControl()
-            {
-                Content = viewModel,
-                Options = options,
-            },
+            Content = dialogControl,
             Close = ReactiveCommand.Create(() => Dismiss()),
         };
 

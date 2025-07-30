@@ -14,6 +14,15 @@ public class DialogControl : ContentControl
         set => SetValue(TitleProperty, value);
     }
 
+    public static readonly StyledProperty<object?> HeaderProperty = AvaloniaProperty.Register<DialogControl, object?>(
+        nameof(Header));
+
+    public object? Header
+    {
+        get => GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
+
     public static readonly StyledProperty<IEnumerable<IOption>?> OptionsProperty = AvaloniaProperty.Register<DialogControl, IEnumerable<IOption>?>(
         nameof(Options),
         defaultValue: []);

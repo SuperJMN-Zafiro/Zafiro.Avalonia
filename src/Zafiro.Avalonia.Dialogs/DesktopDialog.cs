@@ -30,11 +30,22 @@ public class DesktopDialog : IDialog
         var closeable = new CloseableWrapper(window);
         var options = optionsFactory(closeable);
 
-        window.Content = new DialogControl
+        var dialogControl = new DialogControl
         {
             Content = viewModel,
             Options = options
         };
+
+        if (viewModel is IDialogHeaderProvider headerProvider)
+        {
+            dialogControl.Header = headerProvider.Header;
+        }
+        else
+        {
+            dialogControl.Title = title;
+        }
+
+        window.Content = dialogControl;
 
         var result = await window.ShowDialog<bool?>(MainWindow.Value).ConfigureAwait(false);
         return result is not (null or false);

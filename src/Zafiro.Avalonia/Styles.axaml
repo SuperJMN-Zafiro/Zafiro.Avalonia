@@ -38,6 +38,7 @@
     <StyleInclude Source="Controls/SlimDataGrid/SlimDataGrid.axaml" />
     <StyleInclude Source="Controls/Wizards/Classic/WizardControl.axaml" />
     <StyleInclude Source="Controls/Wizards/Slim/SlimWizardControl.axaml" />
+    <StyleInclude Source="Controls/Wizards/Slim/SlimWizardHeader.axaml" />
     <StyleInclude Source="Controls/Diagrams/Enhanced/EnhancedDiagramView.axaml" />
     <StyleInclude Source="Controls/Diagrams/LabelsControl.axaml" />
     <StyleInclude Source="Controls/StepIndicator.axaml" />

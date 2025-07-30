@@ -5,6 +5,7 @@ using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Wizards.Slim;
+using Zafiro.Avalonia.Controls.Wizards.Slim;
 
 namespace Zafiro.Avalonia.Dialogs.Wizards.Slim;
 
@@ -15,6 +16,7 @@ public static class WizardExtensions
         var disposables = new CompositeDisposable();
 
         var nextOption = new NextOption(wizard).DisposeWith(disposables);
+        var host = new SlimWizardDialogHost<TResult>(wizard);
 
         Func<ICloseable, IEnumerable<IOption>> optionsFactory = closeable =>
         {
@@ -34,7 +36,7 @@ public static class WizardExtensions
             ];
         };
 
-        var showAndGetResult = await dialog.ShowAndGetResult(wizard, title, optionsFactory, x => x.Finished.FirstAsync().ToTask());
+        var showAndGetResult = await dialog.ShowAndGetResult(host, title, optionsFactory, _ => wizard.Finished.FirstAsync().ToTask());
 
         disposables.Dispose();
 
