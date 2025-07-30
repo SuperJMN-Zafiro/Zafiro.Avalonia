@@ -17,7 +17,9 @@
                                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Button.Content>
                                         <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding Name}">
-                                            <ContentControl Margin="4" DockPanel.Dock="{Binding $parent[ActionBar].IconDock}" Content="{Binding Icon}" />
+                                            <ContentControl Margin="4" DockPanel.Dock="Top"
+                                                            ContentTemplate="{Binding $parent[ActionBar].IconTemplate}"
+                                                            Content="{Binding Icon}" />
                                             <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" />
                                         </DockPanel>
                                     </Button.Content>
@@ -30,13 +32,30 @@
                                 </DockPanel>
                             </DataTemplate>
                         </DockPanel.DataTemplates>
-                        <Button Theme="{StaticResource TransparentButton}" IsVisible="{Binding $parent[ActionBar].OverflowSections, Converter={x:Static Enumerable.Any}}" x:Name="Button" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                        <Button Theme="{StaticResource TransparentButton}"
+                                VerticalContentAlignment="Center"
+                                IsVisible="{Binding $parent[ActionBar].OverflowSections, Converter={x:Static Enumerable.Any}}"
+                                x:Name="Button" DockPanel.Dock="Right" VerticalAlignment="Stretch"
                                 Content="...">
                             <Button.Flyout>
                                 <Flyout>
                                     <ListBox
                                         SelectedItem="{Binding $parent[ActionBar].SelectedSection, Mode=TwoWay}"
                                         x:Name="ListBox" ItemsSource="{Binding $parent[ActionBar].OverflowSections}">
+                                        <ListBox.ItemContainerTheme>
+                                            <ControlTheme x:DataType="se:IContentSection" TargetType="ListBoxItem"
+                                                          BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                                <Setter Property="IsHitTestVisible"
+                                                        Value="{Binding Converter={x:Static sh:ShellConverters.IsActivatable}}" />
+                                                <Style Selector="^:selected:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+                                                    <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                </Style>
+                                                <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                    <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
+                                                </Style>
+                                            </ControlTheme>
+                                        </ListBox.ItemContainerTheme>
                                     </ListBox>
                                 </Flyout>
                             </Button.Flyout>
@@ -121,7 +140,7 @@
                                 <ui:Icon Source="fa-wallet" />
                             </ContentSectionDesign.Icon>
                         </ContentSectionDesign>
-                        <CommandSectionDesign Name="Menu">
+                        <CommandSectionDesign Name="Command">
                             <CommandSectionDesign.Icon>
                                 <ui:Icon Source="mdi-menu" />
                             </CommandSectionDesign.Icon>
