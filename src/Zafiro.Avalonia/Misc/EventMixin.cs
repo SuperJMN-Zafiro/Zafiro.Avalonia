@@ -1,7 +1,7 @@
 ﻿using System.Reactive;
 using Avalonia.Interactivity;
 
-namespace Zafiro.Avalonia.Mixins
+namespace Zafiro.Avalonia.Misc
 {
     public static class EventMixin
     {

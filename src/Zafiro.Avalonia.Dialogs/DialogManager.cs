@@ -1,8 +1,6 @@
-using Avalonia;
 using Avalonia.Controls;
-using CSharpFunctionalExtensions;
 using Zafiro.Avalonia.Dialogs.Views;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Dialogs
 {
@@ -10,11 +8,12 @@ namespace Zafiro.Avalonia.Dialogs
     {
         private static Window? dialogWindow;
         private static readonly Stack<DialogContext> DialogStack = new();
-        private static Result<Window> MainWindow => Application.Current!.TopLevel().Map(level => level as Window).EnsureNotNull("TopLevel is not a Window!");
 
         public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
 
             var completionSource = new TaskCompletionSource<bool>();
             var closeable = new DialogCloseable(completionSource, true);
@@ -32,7 +31,7 @@ namespace Zafiro.Avalonia.Dialogs
                 dialogWindow = new Window
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Icon = MainWindow.Value.Icon,
+                    Icon = mainWindow.Icon,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     MaxWidth = 800,
                     MaxHeight = 700,
@@ -56,7 +55,7 @@ namespace Zafiro.Avalonia.Dialogs
                 UpdateDialogContent(dialogContext);
 
                 // Muestra la ventana de diálogo
-                dialogWindow.Show(MainWindow.Value);
+                dialogWindow.Show(mainWindow);
             }
             else
             {

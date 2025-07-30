@@ -33,4 +33,8 @@
         <PackageReference Include="Zafiro"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Mixins\"/>
+    </ItemGroup>
+
 </Project>

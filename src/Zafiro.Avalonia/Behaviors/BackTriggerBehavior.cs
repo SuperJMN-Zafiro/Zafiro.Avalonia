@@ -2,7 +2,7 @@
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 using JetBrains.Annotations;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Behaviors;
 

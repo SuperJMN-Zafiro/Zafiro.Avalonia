@@ -2,7 +2,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 
@@ -21,17 +21,6 @@ public class EditControl : TemplatedControl
 
     private bool isEditing;
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        var editButton = (Button) e.NameScope.Find("PART_EditButton");
-        var cancelButton = (Button) e.NameScope.Find("PART_CancelButton");
-        var acceptButton = (Button) e.NameScope.Find("PART_AcceptButton");
-        editButton?.OnEvent(Button.ClickEvent).Subscribe(_ => IsEditing = true).DisposeWith(disposables);
-        cancelButton?.OnEvent(Button.ClickEvent).Subscribe(_ => IsEditing = false).DisposeWith(disposables);
-        acceptButton?.OnEvent(Button.ClickEvent).Subscribe(_ => IsEditing = false).DisposeWith(disposables);
-        base.OnApplyTemplate(e);
-    }
-
     public ReactiveCommandBase<Unit, Unit> CancelCommand
     {
         get => GetValue(CancelCommandProperty);
@@ -48,6 +37,17 @@ public class EditControl : TemplatedControl
     {
         get => isEditing;
         protected set => SetAndRaise(IsEditingProperty, ref isEditing, value);
+    }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        var editButton = (Button)e.NameScope.Find("PART_EditButton");
+        var cancelButton = (Button)e.NameScope.Find("PART_CancelButton");
+        var acceptButton = (Button)e.NameScope.Find("PART_AcceptButton");
+        editButton?.OnEvent(Button.ClickEvent).Subscribe(_ => IsEditing = true).DisposeWith(disposables);
+        cancelButton?.OnEvent(Button.ClickEvent).Subscribe(_ => IsEditing = false).DisposeWith(disposables);
+        acceptButton?.OnEvent(Button.ClickEvent).Subscribe(_ => IsEditing = false).DisposeWith(disposables);
+        base.OnApplyTemplate(e);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)

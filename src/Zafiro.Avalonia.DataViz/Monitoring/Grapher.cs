@@ -10,7 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using DynamicData.Binding;
 using ReactiveUI;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.DataViz.Monitoring;
 
@@ -28,7 +28,12 @@ public class Grapher : Control
     public static readonly StyledProperty<IBrush> StrokeProperty = AvaloniaProperty.Register<Grapher, IBrush>(
         nameof(Stroke), Brushes.Black);
 
+    public static readonly DirectProperty<Grapher, Vector> EffectiveScaleProperty = AvaloniaProperty.RegisterDirect<Grapher, Vector>(
+        nameof(EffectiveScale), o => o.EffectiveScale, (o, v) => o.EffectiveScale = v);
+
     private readonly CompositeDisposable disposables = new();
+
+    private Vector effectiveScale;
 
     static Grapher()
     {
@@ -39,7 +44,7 @@ public class Grapher : Control
     public Grapher()
     {
         InvalidateWhenCollectionChanges().DisposeWith(disposables);
-        
+
         this.EffectiveScale(TimeSpan.FromMilliseconds(500))
             .BindTo(this, x => x.EffectiveScale)
             .DisposeWith(disposables);
@@ -48,11 +53,6 @@ public class Grapher : Control
             .Do(_ => InvalidateVisual())
             .Subscribe();
     }
-
-    private Vector effectiveScale;
-
-    public static readonly DirectProperty<Grapher, Vector> EffectiveScaleProperty = AvaloniaProperty.RegisterDirect<Grapher, Vector>(
-        nameof(EffectiveScale), o => o.EffectiveScale, (o, v) => o.EffectiveScale = v);
 
     public Vector EffectiveScale
     {

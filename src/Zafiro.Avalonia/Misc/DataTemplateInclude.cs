@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.Mixins;
 
 namespace Zafiro.Avalonia.Misc;
 
@@ -20,7 +19,7 @@ public class DataTemplateInclude : AvaloniaObject, IDataTemplate
                 return m.Map(r =>
                 {
                     var baseUri = serviceProvider.GetContextBaseUri();
-                    return (DataTemplates) AvaloniaXamlLoader.Load(serviceProvider, r, baseUri);
+                    return (DataTemplates)AvaloniaXamlLoader.Load(serviceProvider, r, baseUri);
                 });
             })
             .BindTo(this, x => x.DataTemplates);

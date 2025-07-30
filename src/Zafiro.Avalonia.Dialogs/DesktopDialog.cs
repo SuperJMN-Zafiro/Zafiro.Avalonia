@@ -1,25 +1,23 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using CSharpFunctionalExtensions;
+﻿using Avalonia.Controls;
 using Zafiro.Avalonia.Dialogs.Views;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Dialogs;
 
 public class DesktopDialog : IDialog
 {
-    private static Result<Window> MainWindow => Application.Current!.TopLevel().Map(level => level as Window).EnsureNotNull("TopLevel is not a Window!");
-
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
     {
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+        var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
 
         var window = new Window
         {
             Title = title,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             CanResize = false,
-            Icon = MainWindow.Value.Icon,
+            Icon = mainWindow.Icon,
             SizeToContent = SizeToContent.WidthAndHeight,
             MaxWidth = 800,
             MaxHeight = 800,
@@ -36,7 +34,7 @@ public class DesktopDialog : IDialog
             Options = options
         };
 
-        var result = await window.ShowDialog<bool?>(MainWindow.Value).ConfigureAwait(false);
+        var result = await window.ShowDialog<bool?>(mainWindow).ConfigureAwait(false);
         return result is not (null or false);
     }
 }

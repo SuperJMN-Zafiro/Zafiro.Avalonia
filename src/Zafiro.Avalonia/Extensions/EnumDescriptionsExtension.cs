@@ -1,6 +1,5 @@
 using Avalonia.Markup.Xaml;
 using Zafiro.Avalonia.Misc;
-using Zafiro.Avalonia.Mixins;
 using Enum = System.Enum;
 
 namespace Zafiro.Avalonia.Extensions;

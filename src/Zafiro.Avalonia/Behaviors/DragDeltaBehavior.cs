@@ -4,7 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.Custom;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Behaviors;

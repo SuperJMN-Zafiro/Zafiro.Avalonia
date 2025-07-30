@@ -4,7 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Behaviors;
 
@@ -46,7 +46,7 @@ public class NumberBoxBehavior : Behavior<TextBox>
 
     private static Task<string> GetClipboardText()
     {
-        return ApplicationMixin.GetClipboard()
+        return ApplicationUtils.GetClipboard()
             .Map(clipboard => clipboard.GetTextAsync())
             .GetValueOrDefault(_ => "")!;
     }

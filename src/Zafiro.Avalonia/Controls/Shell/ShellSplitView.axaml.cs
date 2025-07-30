@@ -3,7 +3,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using Avalonia.Styling;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Shell;
 
 public class ShellSplitView : ContentControl
 {

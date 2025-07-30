@@ -9,7 +9,7 @@
         <DockPanel>
             <DockPanel.Resources>
                 <misc:EnumProvider x:Key="DisplayModesProvider"
-                                   EnumType="{x:Type z:ShellSplitViewDisplayMode}" />
+                                   EnumType="{x:Type ShellSplitViewDisplayMode}" />
             </DockPanel.Resources>
             <StackPanel DockPanel.Dock="Top">
                 <z:Card Header="Display Mode">
@@ -22,7 +22,7 @@
                 </z:Card>
             </StackPanel>
 
-            <z:ShellSplitView
+            <ShellSplitView
                 x:Name="ShellSplitView"
                 PaneHeader="Very long title, very long title"
                 ContentHeader="HEADER"
@@ -30,21 +30,21 @@
                 PaneBorderThickness="1"
                 PaneBorderBrush="Black"
                 DisplayMode="CompactInline" Width="500" Height="400">
-                <z:ShellSplitView.PaneContent>
+                <ShellSplitView.PaneContent>
                     <Border BorderThickness="2">
                         <TextBlock VerticalAlignment="Center" TextAlignment="Center">This is the pane content</TextBlock>
                     </Border>
-                </z:ShellSplitView.PaneContent>
+                </ShellSplitView.PaneContent>
                 <Border Background="#CDFFFA">
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the content</TextBlock>
                 </Border>
-            </z:ShellSplitView>
+            </ShellSplitView>
         </DockPanel>
     </Design.PreviewWith>
     <Styles.Resources>
 
         <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
-        
+
         <ControlTheme x:Key="HamburguerMenuToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource TransparentToggleButton}">
             <Setter Property="p:Attached.Icon" Value="mdi-menu" />
             <Setter Property="FontSize" Value="25" />
@@ -63,7 +63,7 @@
                 TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
         </DataTemplate>
 
-        <ControlTheme x:Key="{x:Type z:ShellSplitView}" TargetType="z:ShellSplitView">
+        <ControlTheme x:Key="{x:Type ShellSplitView}" TargetType="ShellSplitView">
             <!-- Default values -->
             <Setter Property="DisplayMode" Value="Overlay" />
             <Setter Property="ExpandButtonSize" Value="28" />
@@ -129,10 +129,10 @@
                                 <!-- Click outside behavior for overlay mode -->
                                 <Interaction.Behaviors>
                                     <behaviors:PointerPressedOutsideTriggerBehavior
-                                        IsEnabled="{Binding $parent[z:ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
+                                        IsEnabled="{Binding $parent[ShellSplitView].DisplayMode, Converter={x:Static shell:ShellConverters.IsOverlay}}">
                                         <behaviors:SetAvaloniaPropertyCurrentValueAction
-                                            TargetObject="{Binding $parent[z:ShellSplitView]}"
-                                            TargetProperty="{x:Static z:ShellSplitView.IsPaneOpenProperty}"
+                                            TargetObject="{Binding $parent[ShellSplitView]}"
+                                            TargetProperty="{x:Static ShellSplitView.IsPaneOpenProperty}"
                                             Value="{x:False}" />
                                     </behaviors:PointerPressedOutsideTriggerBehavior>
                                 </Interaction.Behaviors>

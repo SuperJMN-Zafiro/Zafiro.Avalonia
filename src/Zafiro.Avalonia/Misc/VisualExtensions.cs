@@ -1,6 +1,6 @@
 using Avalonia.VisualTree;
 
-namespace Zafiro.Avalonia.Mixins;
+namespace Zafiro.Avalonia.Misc;
 
 public static class VisualExtensions
 {
@@ -28,5 +28,5 @@ public static class VisualExtensions
         return Observable.Interval(timeSpan, AvaloniaScheduler.Instance)
             .Select(_ => visual.GetEffectiveScale())
             .DistinctUntilChanged();
-    } 
+    }
 }

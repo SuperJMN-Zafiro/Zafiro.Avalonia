@@ -1,13 +1,14 @@
 ﻿using Avalonia.Controls.Notifications;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
-using Zafiro.Avalonia.Mixins;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Services;
 
 [PublicAPI]
 public class NotificationService : INotificationService
 {
+    public static INotificationService Instance = GetNotificationService();
     private readonly IManagedNotificationManager managedNotification;
 
     public NotificationService(IManagedNotificationManager managedNotification)
@@ -15,7 +16,11 @@ public class NotificationService : INotificationService
         this.managedNotification = managedNotification;
     }
 
-    public static INotificationService Instance = GetNotificationService();
+    public Task Show(string message, Maybe<string> title)
+    {
+        managedNotification.Show(new Notification(title.GetValueOrDefault(), message));
+        return Task.CompletedTask;
+    }
 
     private static INotificationService GetNotificationService()
     {
@@ -24,15 +29,9 @@ public class NotificationService : INotificationService
             return new DummyNotificationService();
         }
 
-        return new NotificationService(new WindowNotificationManager(Application.Current!.TopLevel().Value)
+        return new NotificationService(new WindowNotificationManager(ApplicationUtils.TopLevel().GetValueOrThrow("Cannot get Top Level for the Notification Service"))
         {
             Position = NotificationPosition.BottomRight,
         });
-    }
-
-    public Task Show(string message, Maybe<string> title)
-    {
-        managedNotification.Show(new Notification(title.GetValueOrDefault(), message));
-        return Task.CompletedTask;
     }
 }

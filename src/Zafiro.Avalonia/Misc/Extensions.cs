@@ -1,7 +1,7 @@
 ﻿using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
-namespace Zafiro.Avalonia.Mixins;
+namespace Zafiro.Avalonia.Misc;
 
 internal static class Extensions
 {
@@ -42,6 +42,4 @@ internal static class Extensions
             _ => throw new ArgumentOutOfRangeException()
         };
     }
-
-    
 }
