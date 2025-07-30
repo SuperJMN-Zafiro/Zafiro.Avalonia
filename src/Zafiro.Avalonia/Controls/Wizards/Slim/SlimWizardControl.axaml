@@ -16,6 +16,9 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
+                    <ContentPresenter DockPanel.Dock="Top"
+                                      Content="{TemplateBinding Header}"
+                                      IsVisible="{Binding $parent[slim:SlimWizardControl].Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                     <c:TrueCenterPanel DockPanel.Dock="Top">
                         <Button Theme="{StaticResource TransparentButton}"
                                 c:TrueCenterPanel.Dock="Left"

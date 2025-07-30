@@ -3,7 +3,9 @@
         xmlns:c="clr-namespace:Zafiro.Avalonia.Dialogs.Views"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:dialogs="clr-namespace:Zafiro.Avalonia.Dialogs"
-        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic;assembly=Zafiro.Avalonia">
+        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic;assembly=Zafiro.Avalonia"
+        xmlns:slim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim;assembly=Zafiro.Avalonia"
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
 
 
     <Styles.Resources>
@@ -60,6 +62,9 @@
                                     </Interaction.Behaviors>
                                 </Button>
                             </DataTemplate>
+                            <DataTemplate DataType="slim:ISlimWizard">
+                                <slim:SlimWizardControl Wizard="{Binding}" Header="{Binding $parent[c:DialogControl].Title}" />
+                            </DataTemplate>
                         </Border.DataTemplates>
 
                         <Border.Styles>
@@ -85,7 +90,17 @@
                             <TextBlock Grid.Row="0"
                                        FontWeight="Bold"
                                        Margin="0 0 0 10"
-                                       Text="{Binding $parent[c:DialogControl].Title}" IsVisible="{Binding $self.Text, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                       Text="{Binding $parent[c:DialogControl].Title}" IsVisible="{Binding $self.Text, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock.Styles>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding $parent[c:DialogControl].Content, Converter={x:Static converters:DialogConverters.IsSlimWizardControl}}" Value="True">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Styles>
+                            </TextBlock>
 
                             <!-- Content -->
                             <ScrollViewer Grid.Row="1" x:Name="DialogScrollViewer">
