@@ -120,9 +120,6 @@
                 <Style Selector="ContentControl#Content">
                     <Setter Property="ContentTemplate" Value="{StaticResource MobileTemplate}" />
                 </Style>
-                <Style Selector="ShellSplitView">
-                    <Setter Property="Background" Value="Red" />
-                </Style>
             </ContainerQuery>
             <ContainerQuery Name="RootPanel" Query="min-width:450">
                 <Style Selector="ContentControl#Content">
