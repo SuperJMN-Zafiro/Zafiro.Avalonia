@@ -89,6 +89,9 @@
 
                             <!-- Content -->
                             <ScrollViewer Grid.Row="1" x:Name="DialogScrollViewer">
+                                <Interaction.Behaviors>
+                                    <NestedScrollViewerBehavior />
+                                </Interaction.Behaviors>
                                 <ContentPresenter
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
