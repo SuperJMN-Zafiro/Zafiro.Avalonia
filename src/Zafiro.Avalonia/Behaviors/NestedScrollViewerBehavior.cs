@@ -39,7 +39,13 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
 
         return Observable.FromEventPattern<EventHandler, EventArgs>(
                 h => AssociatedObject.LayoutUpdated += h,
-                h => AssociatedObject.LayoutUpdated -= h)
+                h =>
+                {
+                    if (AssociatedObject != null)
+                    {
+                        AssociatedObject.LayoutUpdated -= h;
+                    }
+                })
             .Select(_ => GetInnerScrollBars())
             .DistinctUntilChanged()
             .Where(_ => IsEnabled)
