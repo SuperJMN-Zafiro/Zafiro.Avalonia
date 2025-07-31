@@ -18,8 +18,6 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
     public static readonly StyledProperty<bool> DisableHorizontalScrollProperty = AvaloniaProperty.Register<NestedScrollViewerBehavior, bool>(
         nameof(DisableHorizontalScroll));
 
-    private string? associatedObjectName;
-
     public bool DisableVerticalScroll
     {
         get => GetValue(DisableVerticalScrollProperty);
@@ -34,50 +32,47 @@ public class NestedScrollViewerBehavior : AttachedToVisualTreeBehavior<ScrollVie
 
     protected override IDisposable OnAttachedToVisualTreeOverride()
     {
-        var disposable = new CompositeDisposable();
-
         if (AssociatedObject is null)
         {
-            return disposable;
+            return Disposable.Empty;
         }
 
-        associatedObjectName = AssociatedObject.Name ?? AssociatedObject.GetType().Name ?? "UnknownScrollViewer";
-
-        HandleNestedScrollBar()
-            .DisposeWith(disposable);
-
-        return disposable;
-    }
-
-    private IDisposable HandleNestedScrollBar()
-    {
-        return Observable.FromEventPattern(h => AssociatedObject.LayoutUpdated += h, h =>
-            {
-                if (AssociatedObject != null)
-                {
-                    AssociatedObject.LayoutUpdated -= h;
-                }
-            })
-            .Select(_ => AssociatedObject!.GetVisualDescendants().OfType<ScrollBar>().ToList())
+        return Observable.FromEventPattern<EventHandler, EventArgs>(
+                h => AssociatedObject.LayoutUpdated += h,
+                h => AssociatedObject.LayoutUpdated -= h)
+            .Select(_ => GetInnerScrollBars())
             .DistinctUntilChanged()
             .Where(_ => IsEnabled)
-            .Subscribe(scrollBars =>
-            {
-                AssociatedObject!.VerticalScrollBarVisibility = GetVerticalVisibility(scrollBars);
-                //AssociatedObject.HorizontalScrollBarVisibility = GetHorizontalVisibility(scrollBars);
-            });
+            .Do(UpdateScrollBars)
+            .Subscribe();
     }
 
-    // TODO: Investigate issue here
-    // private ScrollBarVisibility GetHorizontalVisibility(List<ScrollBar> scrollBars)
-    // {
-    //     var any = scrollBars.Any(scrollBar => scrollBar.Orientation == Orientation.Horizontal && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableHorizontalScroll);
-    //     return any ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
-    // }
-
-    private ScrollBarVisibility GetVerticalVisibility(IEnumerable<ScrollBar> scrollBars)
+    private (bool HasVertical, bool HasHorizontal) GetInnerScrollBars()
     {
-        var any = scrollBars.Any(scrollBar => scrollBar.Orientation == Orientation.Vertical && scrollBar.Visibility != ScrollBarVisibility.Disabled && DisableVerticalScroll);
-        return any ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
+        var scrollBars = AssociatedObject!
+            .GetVisualDescendants()
+            .OfType<ScrollBar>()
+            .Where(sb => sb.GetSelfAndVisualAncestors().OfType<ScrollViewer>().FirstOrDefault() != AssociatedObject)
+            .ToList();
+
+        var hasVertical = scrollBars.Any(sb => sb.Orientation == Orientation.Vertical);
+        var hasHorizontal = scrollBars.Any(sb => sb.Orientation == Orientation.Horizontal);
+
+        return (hasVertical, hasHorizontal);
+    }
+
+    private void UpdateScrollBars((bool HasVertical, bool HasHorizontal) state)
+    {
+        var (hasVertical, hasHorizontal) = state;
+
+        if (DisableVerticalScroll)
+        {
+            AssociatedObject!.VerticalScrollBarVisibility = hasVertical ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
+        }
+
+        if (DisableHorizontalScroll)
+        {
+            AssociatedObject!.HorizontalScrollBarVisibility = hasHorizontal ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
+        }
     }
 }
