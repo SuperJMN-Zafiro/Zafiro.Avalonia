@@ -16,15 +16,15 @@ public partial class Page1ViewModel : ReactiveValidationObject
 
     public Page1ViewModel()
     {
-        this.ValidationRule<Page1ViewModel, int?>(x => x.Number, i => i % 2 == 0, "Number must be even");
+        this.ValidationRule(x => x.Number, i => i % 2 == 0, "Number must be even");
         ReturnSomeInt = ReactiveCommand.CreateFromTask(async () =>
         {
             await Task.Delay(1000);
-            return Result.Success<int?>(Number);
+            return Result.Success(Number!.Value);
         }, this.IsValid()).Enhance();
     }
 
-    public IEnhancedCommand<Result<int?>> ReturnSomeInt { get; set; }
+    public IEnhancedCommand<Result<int>> ReturnSomeInt { get; set; }
 
     public IObservable<bool> IsValid => this.IsValid();
     public IObservable<bool> IsBusy => Observable.Return(false);

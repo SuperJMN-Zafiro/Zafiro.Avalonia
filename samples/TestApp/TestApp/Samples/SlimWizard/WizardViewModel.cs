@@ -18,13 +18,10 @@ public class WizardViewModel
     {
         LaunchWizard = ReactiveCommand.CreateFromTask(async () =>
         {
-            var number = 0;
-            var text = "";
-
             var wizard = WizardBuilder
                 .StartWith(() => new Page1ViewModel(), "Page 1").ProceedWith(model => model.ReturnSomeInt.Enhance())
-                .Then(prev => new Page2ViewModel(prev!.Value), "Page 2").ProceedWithResultWhenValid(model => Result.Success((model.Number, model.Text)), "Peito")
-                .Then(_ => new Page3ViewModel(), "Completed!").ProceedWithResultWhenValid(_ => Result.Success((number, text)))
+                .Then(number => new Page2ViewModel(number), "Page 2").ProceedWithResultWhenValid((vm, number) => Result.Success((result: number, vm.Text!)))
+                .Then(_ => new Page3ViewModel(), "Completed!").ProceedWithResultWhenValid((_, val) => Result.Success(val))
                 .WithCompletionFinalStep();
 
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");
@@ -33,5 +30,5 @@ public class WizardViewModel
         });
     }
 
-    public ReactiveCommand<Unit, Maybe<(int number, string text)>> LaunchWizard { get; }
+    public ReactiveCommand<Unit, Maybe<(int result, string)>> LaunchWizard { get; }
 }
