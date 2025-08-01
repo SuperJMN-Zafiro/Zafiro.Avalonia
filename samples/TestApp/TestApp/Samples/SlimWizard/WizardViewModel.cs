@@ -22,14 +22,9 @@ public class WizardViewModel
             var text = "";
 
             var wizard = WizardBuilder
-                .StartWith(() => new Page1ViewModel(), model => model.DoSomething.Enhance("Next"), "Page 1")
-                .Then(prev => new Page2ViewModel(prev!.Value), model => ReactiveCommand.Create(() =>
-                {
-                    number = model.Number;
-                    text = model.Text;
-                    return Result.Success(Unit.Default);
-                }, model.IsValid).Enhance("Next"), "Page 2")
-                .Then(_ => new Page3ViewModel(), model => ReactiveCommand.Create(() => Result.Success((number, text)), model.IsValid).Enhance("Close"), "Completed!")
+                .StartWith(() => new Page1ViewModel(), "Page 1").ProceedWith(model => model.ReturnSomeInt.Enhance())
+                .Then(prev => new Page2ViewModel(prev!.Value), "Page 2").ProceedWithResultWhenValid(model => Result.Success((model.Number, model.Text)), "Peito")
+                .Then(_ => new Page3ViewModel(), "Completed!").ProceedWithResultWhenValid(_ => Result.Success((number, text)))
                 .WithCompletionFinalStep();
 
             var showWizard = await dialog.ShowWizard(wizard, "This is a tasty wizard");

@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
              x:Class="TestApp.Samples.SlimWizard.Pages.Page1View"
              x:DataType="pages1:Page1ViewModel">
-    <controls:Loading IsLoading="{Binding DoSomething.IsExecuting^}">
+    <controls:Loading IsLoading="{Binding ReturnSomeInt.IsExecuting^}">
         <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock>
                 <Run>This is the first page of the wizard</Run>
