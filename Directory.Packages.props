@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
     <AvaloniaVersion>11.3.2</AvaloniaVersion>
-    <ZafiroVersion>33.0.0</ZafiroVersion>
+    <ZafiroVersion>33.0.2</ZafiroVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
