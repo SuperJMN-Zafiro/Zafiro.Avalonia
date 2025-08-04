@@ -12,8 +12,11 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="SlimWizard" Subheader="Create wizard flow from your ViewModels that are completely decuopled from the GUI">
-        <Button Content="Launch wizard" HorizontalAlignment="Center" Command="{Binding LaunchWizard}" />
+    <c:Card Header="SlimWizard" Subheader="Create wizard flow from your ViewModels that are completely decoupled from the GUI">
+        <StackPanel Spacing="20">
+            <Button Content="Launch inside Dialog" HorizontalAlignment="Center" Command="{Binding LaunchWizardDialog}" />
+            <Button Content="Launch in new page" HorizontalAlignment="Center" Command="{Binding StartWizard}" />
+        </StackPanel>
     </c:Card>
 
 </UserControl>
