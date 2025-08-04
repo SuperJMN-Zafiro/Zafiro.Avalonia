@@ -36,7 +36,23 @@ public static class CompositionRoot
     private static IObservable<object?> CreateSectionContentHeader(object sectionContent)
     {
         var content = (SectionScope)sectionContent;
-        return content.Navigator.Content.Select(o => o.GetType().GetCustomAttribute<SectionAttribute>().Name ?? GetSectionName(o.GetType()));
+        return content.Navigator.Content.Select(o =>
+        {
+            var type = o?.GetType();
+
+            var s = type?.GetCustomAttribute<SectionAttribute>()?.Name;
+            if (s != null)
+            {
+                return s;
+            }
+
+            if (type is null)
+            {
+                return "Unknown Section";
+            }
+
+            return GetSectionName(type);
+        });
     }
 
     private static string GetSectionName(Type getType)
