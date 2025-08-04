@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
 using Zafiro.Avalonia.Misc;
 
@@ -10,31 +11,36 @@ public class DesktopDialog : IDialog
     {
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-        var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
-
-        var window = new Window
+        var showTask = await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            Title = title,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = false,
-            Icon = mainWindow.Icon,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            MaxWidth = 800,
-            MaxHeight = 800,
-            MinWidth = 300,
-            MinHeight = 200
-        };
+            var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
 
-        var closeable = new CloseableWrapper(window);
-        var options = optionsFactory(closeable);
+            var window = new Window
+            {
+                Title = title,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                CanResize = false,
+                Icon = mainWindow.Icon,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                MaxWidth = 800,
+                MaxHeight = 800,
+                MinWidth = 300,
+                MinHeight = 200
+            };
 
-        window.Content = new DialogControl
-        {
-            Content = viewModel,
-            Options = options
-        };
+            var closeable = new CloseableWrapper(window);
+            var options = optionsFactory(closeable);
 
-        var result = await window.ShowDialog<bool?>(mainWindow).ConfigureAwait(false);
-        return result is not (null or false);
+            window.Content = new DialogControl
+            {
+                Content = viewModel,
+                Options = options
+            };
+
+            var result = await window.ShowDialog<bool?>(mainWindow).ConfigureAwait(false);
+            return result is not (null or false);
+        });
+
+        return await showTask;
     }
 }
