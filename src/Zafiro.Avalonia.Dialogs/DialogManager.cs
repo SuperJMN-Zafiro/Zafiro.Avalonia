@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
 using Zafiro.Avalonia.Misc;
 
@@ -13,58 +14,63 @@ namespace Zafiro.Avalonia.Dialogs
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-            var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
-
-            var completionSource = new TaskCompletionSource<bool>();
-            var closeable = new DialogCloseable(completionSource, true);
-            var options = optionsFactory(closeable).ToList();
-
-            // Crea una instancia de contexto para el diálogo actual
-            var dialogContext = new DialogContext(viewModel, title, options, completionSource);
-
-            // Añade el diálogo a la pila
-            DialogStack.Push(dialogContext);
-
-            // Si no hay ventana de diálogo, crea una nueva
-            if (dialogWindow == null)
+            var showTask = await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                dialogWindow = new Window
-                {
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Icon = mainWindow.Icon,
-                    SizeToContent = SizeToContent.WidthAndHeight,
-                    MaxWidth = 800,
-                    MaxHeight = 700,
-                    MinWidth = 400,
-                    MinHeight = 300
-                };
+                var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
 
-                // Maneja el evento de cierre de la ventana para completar todos los diálogos pendientes
-                dialogWindow.Closed += (sender, args) =>
+                var completionSource = new TaskCompletionSource<bool>();
+                var closeable = new DialogCloseable(completionSource, true);
+                var options = optionsFactory(closeable).ToList();
+
+                // Crea una instancia de contexto para el diálogo actual
+                var dialogContext = new DialogContext(viewModel, title, options, completionSource);
+
+                // Añade el diálogo a la pila
+                DialogStack.Push(dialogContext);
+
+                // Si no hay ventana de diálogo, crea una nueva
+                if (dialogWindow == null)
                 {
-                    while (DialogStack.Count > 0)
+                    dialogWindow = new Window
                     {
-                        var dialog = DialogStack.Pop();
-                        dialog.CompletionSource.TrySetResult(false);
-                    }
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        Icon = mainWindow.Icon,
+                        SizeToContent = SizeToContent.WidthAndHeight,
+                        MaxWidth = 800,
+                        MaxHeight = 700,
+                        MinWidth = 400,
+                        MinHeight = 300
+                    };
 
-                    dialogWindow = null;
-                };
+                    // Maneja el evento de cierre de la ventana para completar todos los diálogos pendientes
+                    dialogWindow.Closed += (sender, args) =>
+                    {
+                        while (DialogStack.Count > 0)
+                        {
+                            var dialog = DialogStack.Pop();
+                            dialog.CompletionSource.TrySetResult(false);
+                        }
 
-                // Actualiza el contenido con el diálogo actual
-                UpdateDialogContent(dialogContext);
+                        dialogWindow = null;
+                    };
 
-                // Muestra la ventana de diálogo
-                dialogWindow.Show(mainWindow);
-            }
-            else
-            {
-                // Si ya hay una ventana de diálogo, actualiza su contenido
-                UpdateDialogContent(dialogContext);
-            }
+                    // Actualiza el contenido con el diálogo actual
+                    UpdateDialogContent(dialogContext);
 
-            // Espera a que se complete el diálogo actual
-            return await completionSource.Task;
+                    // Muestra la ventana de diálogo
+                    dialogWindow.Show(mainWindow);
+                }
+                else
+                {
+                    // Si ya hay una ventana de diálogo, actualiza su contenido
+                    UpdateDialogContent(dialogContext);
+                }
+
+                // Espera a que se complete el diálogo actual
+                return completionSource.Task;
+            });
+
+            return showTask;
         }
 
         private static void UpdateDialogContent(DialogContext dialogContext)
@@ -98,63 +104,69 @@ namespace Zafiro.Avalonia.Dialogs
 
         private class DialogCloseable : ICloseable
         {
-            private readonly TaskCompletionSource<bool> _completionSource;
-            private readonly bool _result;
+            private readonly TaskCompletionSource<bool> completionSource;
+            private readonly bool result;
 
             public DialogCloseable(TaskCompletionSource<bool> completionSource, bool result)
             {
-                _completionSource = completionSource;
-                _result = result;
+                this.completionSource = completionSource;
+                this.result = result;
             }
 
             public void Close()
             {
-                // Completa el diálogo actual con el resultado correspondiente
-                _completionSource.TrySetResult(_result);
+                Dispatcher.UIThread.Post(() =>
+                {
+                    // Completa el diálogo actual con el resultado correspondiente
+                    completionSource.TrySetResult(result);
 
-                // Quita el diálogo actual de la pila
-                if (DialogStack.Count > 0)
-                {
-                    DialogStack.Pop();
-                }
+                    // Quita el diálogo actual de la pila
+                    if (DialogStack.Count > 0)
+                    {
+                        DialogStack.Pop();
+                    }
 
-                // Si hay más diálogos en la pila, muestra el siguiente
-                if (DialogStack.Count > 0)
-                {
-                    var nextDialog = DialogStack.Peek();
-                    UpdateDialogContent(nextDialog);
-                }
-                else
-                {
-                    // Si no hay más diálogos, cierra la ventana
-                    dialogWindow?.Close();
-                    dialogWindow = null;
-                }
+                    // Si hay más diálogos en la pila, muestra el siguiente
+                    if (DialogStack.Count > 0)
+                    {
+                        var nextDialog = DialogStack.Peek();
+                        UpdateDialogContent(nextDialog);
+                    }
+                    else
+                    {
+                        // Si no hay más diálogos, cierra la ventana
+                        dialogWindow?.Close();
+                        dialogWindow = null;
+                    }
+                });
             }
 
             public void Dismiss()
             {
-                // Completa el diálogo actual con resultado falso (cancelado/descartado)
-                _completionSource.TrySetResult(false);
+                Dispatcher.UIThread.Post(() =>
+                {
+                    // Completa el diálogo actual con resultado falso (cancelado/descartado)
+                    completionSource.TrySetResult(false);
 
-                // Quita el diálogo actual de la pila
-                if (DialogStack.Count > 0)
-                {
-                    DialogStack.Pop();
-                }
+                    // Quita el diálogo actual de la pila
+                    if (DialogStack.Count > 0)
+                    {
+                        DialogStack.Pop();
+                    }
 
-                // Si hay más diálogos en la pila, muestra el siguiente
-                if (DialogStack.Count > 0)
-                {
-                    var nextDialog = DialogStack.Peek();
-                    UpdateDialogContent(nextDialog);
-                }
-                else
-                {
-                    // Si no hay más diálogos, cierra la ventana
-                    dialogWindow?.Close();
-                    dialogWindow = null;
-                }
+                    // Si hay más diálogos en la pila, muestra el siguiente
+                    if (DialogStack.Count > 0)
+                    {
+                        var nextDialog = DialogStack.Peek();
+                        UpdateDialogContent(nextDialog);
+                    }
+                    else
+                    {
+                        // Si no hay más diálogos, cierra la ventana
+                        dialogWindow?.Close();
+                        dialogWindow = null;
+                    }
+                });
             }
         }
     }
