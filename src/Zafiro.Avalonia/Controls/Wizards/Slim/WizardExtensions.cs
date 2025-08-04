@@ -1,4 +1,5 @@
 using System.Reactive;
+using Avalonia.Threading;
 using CSharpFunctionalExtensions;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Navigation;
@@ -12,32 +13,35 @@ public static class WizardExtensions
     {
         var tcs = new TaskCompletionSource<Maybe<T>>();
 
-        await navigator.Go(() =>
+        await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            wizard.Finished.SelectMany(async result =>
-                {
-                    var r = await navigator.GoBack().Map<Unit, T>(_ => result);
-                    if (r.IsFailure)
-                    {
-                        throw new InvalidOperationException("Failed to navigate back from wizard.");
-                    }
-
-                    return r.Value;
-                })
-                .Do(result => tcs.SetResult(result))
-                .Subscribe();
-
-            return new UserControl
+            await navigator.Go(() =>
             {
-                Content = new WizardNavigator
-                {
-                    Wizard = wizard, Cancel = ReactiveCommand.CreateFromTask(async () =>
+                wizard.Finished.SelectMany(async result =>
                     {
-                        await navigator.GoBack();
-                        tcs.SetResult(Maybe<T>.None);
-                    }).Enhance()
-                }
-            };
+                        var r = await navigator.GoBack().Map<Unit, T>(_ => result);
+                        if (r.IsFailure)
+                        {
+                            throw new InvalidOperationException("Failed to navigate back from wizard.");
+                        }
+
+                        return r.Value;
+                    })
+                    .Do(result => tcs.SetResult(result))
+                    .Subscribe();
+
+                return new UserControl
+                {
+                    Content = new WizardNavigator
+                    {
+                        Wizard = wizard, Cancel = ReactiveCommand.CreateFromTask(async () =>
+                        {
+                            await navigator.GoBack();
+                            tcs.SetResult(Maybe<T>.None);
+                        }).Enhance()
+                    }
+                };
+            });
         });
 
         return await tcs.Task;

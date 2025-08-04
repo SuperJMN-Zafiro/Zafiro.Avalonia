@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
+using Avalonia.Threading;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs.Views;
@@ -24,62 +25,73 @@ public class AdornerDialog : IDialog, ICloseable
 
     public void Close()
     {
-        if (dialogs.Count > 0)
+        Dispatcher.UIThread.Post(() =>
         {
-            var dialog = dialogs.Pop();
-            adornerLayerLazy.Value.Children.Remove(dialog);
-        }
+            if (dialogs.Count > 0)
+            {
+                var dialog = dialogs.Pop();
+                adornerLayerLazy.Value.Children.Remove(dialog);
+            }
 
-        currentDialog?.TrySetResult(true);
-        currentDialog = null;
+            currentDialog?.TrySetResult(true);
+            currentDialog = null;
+        });
     }
 
     public void Dismiss()
     {
-        if (dialogs.Count > 0)
+        Dispatcher.UIThread.Post(() =>
         {
-            var dialog = dialogs.Pop();
-            adornerLayerLazy.Value.Children.Remove(dialog);
-        }
+            if (dialogs.Count > 0)
+            {
+                var dialog = dialogs.Pop();
+                adornerLayerLazy.Value.Children.Remove(dialog);
+            }
 
-        currentDialog?.TrySetResult(false);
-        currentDialog = null;
+            currentDialog?.TrySetResult(false);
+            currentDialog = null;
+        });
     }
     
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
     {
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-        currentDialog = new TaskCompletionSource<bool>();
-        var options = optionsFactory(this);
-
-        var dialog = new DialogViewContainer
+        var showTask = await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            Title = title,
-            Content = new DialogControl()
+            currentDialog = new TaskCompletionSource<bool>();
+            var options = optionsFactory(this);
+
+            var dialog = new DialogViewContainer
             {
-                Content = viewModel,
-                Options = options,
-            },
-            Close = ReactiveCommand.Create(() => Dismiss()),
-        };
+                Title = title,
+                Content = new DialogControl()
+                {
+                    Content = viewModel,
+                    Options = options,
+                },
+                Close = ReactiveCommand.Create(() => Dismiss()),
+            };
 
-        var adornerLayer = adornerLayerLazy.Value;
-        
-        dialog[!Layoutable.HeightProperty] = adornerLayer.Parent!
-            .GetObservable(Visual.BoundsProperty)
-            .Select(rect => rect.Height)
-            .ToBinding();
+            var adornerLayer = adornerLayerLazy.Value;
 
-        dialog[!Layoutable.WidthProperty] = adornerLayer.Parent!
-            .GetObservable(Visual.BoundsProperty)
-            .Select(rect => rect.Width)
-            .ToBinding();
+            dialog[!Layoutable.HeightProperty] = adornerLayer.Parent!
+                .GetObservable(Visual.BoundsProperty)
+                .Select(rect => rect.Height)
+                .ToBinding();
 
-        adornerLayer.Children.Add(dialog);
-        dialogs.Push(dialog);
+            dialog[!Layoutable.WidthProperty] = adornerLayer.Parent!
+                .GetObservable(Visual.BoundsProperty)
+                .Select(rect => rect.Width)
+                .ToBinding();
 
-        var result = await currentDialog.Task.ConfigureAwait(false);
+            adornerLayer.Children.Add(dialog);
+            dialogs.Push(dialog);
+
+            return currentDialog.Task;
+        });
+
+        var result = await showTask.ConfigureAwait(false);
         return result;
     }
 }
