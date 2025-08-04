@@ -1,9 +1,15 @@
 using System;
 using System.Reactive;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using TestApp.Samples.SlimWizard.Pages;
+using Zafiro.Avalonia.Controls.Wizards.Slim;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Dialogs.Wizards.Slim;
+using Zafiro.Mixins;
 using Zafiro.UI;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Navigation;
@@ -16,37 +22,42 @@ namespace TestApp.Samples.SlimWizard;
 [Section("Wizard", "mdi-wizard-hat", 1)]
 public class WizardViewModel : IDisposable
 {
+    private readonly INotificationService notification;
+    private CompositeDisposable disposable = new();
+
     public WizardViewModel(IDialog dialog, INotificationService notification, INavigator navigator)
     {
-        LaunchWizardDialog = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var wizard = CreateWizard();
+        this.notification = notification;
 
-            var result = await wizard.ShowDialog(dialog, "This is a tasty wizard");
-            await result.Execute(gatheredData => notification.Show($"This is the data we gathered from it: '{gatheredData}'", "Wizard finished"));
-            return result;
-        });
+        ShowWizardInDialog = ReactiveCommand.CreateFromTask(() => CreateWizard().ShowInDialog(dialog, "This is a tasty wizard"));
+        NavigateToWizard = ReactiveCommand.CreateFromTask(() => CreateWizard().Navigate(navigator));
 
-        StartWizard = ReactiveCommand.CreateFromTask(() => CreateWizard().Navigate(navigator));
-        StartWizard.Subscribe(maybe => { });
+        NavigateToWizard.Merge(ShowWizardInDialog)
+            .SelectMany(maybe => ShowResults(maybe).ToSignal())
+            .Subscribe()
+            .DisposeWith(disposable);
     }
 
-    public ReactiveCommand<Unit, Maybe<(int result, string)>> StartWizard { get; set; }
+    public ReactiveCommand<Unit, Maybe<(int result, string)>> NavigateToWizard { get; set; }
 
-    public ISlimWizard Wizard { get; set; }
-
-    public ReactiveCommand<Unit, Maybe<(int result, string)>> LaunchWizardDialog { get; }
+    public ReactiveCommand<Unit, Maybe<(int result, string)>> ShowWizardInDialog { get; }
 
     public void Dispose()
     {
-        StartWizard.Dispose();
-        LaunchWizardDialog.Dispose();
+        NavigateToWizard.Dispose();
+        ShowWizardInDialog.Dispose();
+    }
+
+    private Task ShowResults(Maybe<(int result, string)> maybe)
+    {
+        var message = maybe.Match(value => $"This is the data we gathered from it: '{value}'", () => "We got nothing, because the wizard was cancelled");
+        return notification.Show(message, "Finished");
     }
 
     private static SlimWizard<(int result, string)> CreateWizard()
     {
         return WizardBuilder
-            .StartWith(() => new Page1ViewModel(), "Page 1").ProceedWith(model => model.ReturnSomeInt.Enhance())
+            .StartWith(() => new Page1ViewModel(), "Page 1").ProceedWith(model => model.ReturnSomeInt.Enhance("Next"))
             .Then(number => new Page2ViewModel(number), "Page 2").ProceedWithResultWhenValid((vm, number) => Result.Success((result: number, vm.Text!)))
             .Then(_ => new Page3ViewModel(), "Completed!").ProceedWithResultWhenValid((_, val) => Result.Success(val), "Close")
             .WithCompletionFinalStep();

@@ -40,4 +40,9 @@ public static class WizardExtensions
 
         return showAndGetResult;
     }
+
+    public static Task<Maybe<T>> ShowInDialog<T>(this ISlimWizard<T> wizard, IDialog navigator, string title)
+    {
+        return navigator.ShowWizard(wizard, title);
+    }
 }

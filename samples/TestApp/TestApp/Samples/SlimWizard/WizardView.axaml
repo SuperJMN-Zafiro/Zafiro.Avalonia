@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:slimWizard1="clr-namespace:TestApp.Samples.SlimWizard"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.SlimWizard.WizardView"
              x:DataType="slimWizard1:WizardViewModel">
@@ -13,10 +14,18 @@
     </UserControl.Styles>
 
     <c:Card Header="SlimWizard" Subheader="Create wizard flow from your ViewModels that are completely decoupled from the GUI">
-        <StackPanel Spacing="20">
-            <Button Content="Launch inside Dialog" HorizontalAlignment="Center" Command="{Binding LaunchWizardDialog}" />
-            <Button Content="Launch in new page" HorizontalAlignment="Center" Command="{Binding StartWizard}" />
-        </StackPanel>
+        <UniformGrid RowSpacing="20" Columns="1" VerticalAlignment="Center">
+            <IconButton Content="Launch inside Dialog" HorizontalAlignment="Center" Command="{Binding ShowWizardInDialog}">
+                <IconButton.Icon>
+                    <ui:Icon Source="fa-window-maximize" />
+                </IconButton.Icon>
+            </IconButton>
+            <IconButton Content="Launch in new page" HorizontalAlignment="Center" Command="{Binding NavigateToWizard}">
+                <IconButton.Icon>
+                    <ui:Icon Source="mdi-chevron-right" />
+                </IconButton.Icon>
+            </IconButton>
+        </UniformGrid>
     </c:Card>
 
 </UserControl>
