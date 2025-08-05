@@ -1,0 +1,55 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
+        xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
+
+    <Design.PreviewWith>
+        <controls:ReactiveIconButton Content="Click">
+            <controls:ReactiveIconButton.Icon>
+                ICON
+            </controls:ReactiveIconButton.Icon>
+        </controls:ReactiveIconButton>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type controls:ReactiveIconButton}" TargetType="controls:ReactiveIconButton">
+            <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="ButtonTheme">
+                <Setter.Value>
+                    <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Button Theme="{TemplateBinding ButtonTheme}"
+                            IsDefault="{TemplateBinding IsDefault}"
+                            IsCancel="{TemplateBinding IsCancel}"
+                            IsTabStop="{TemplateBinding IsTabStop}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            Command="{Binding $parent[controls:ReactiveIconButton].Command}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Viewbox StretchDirection="DownOnly" Height="18">
+                                    <c:ProgressRing Foreground="{TemplateBinding Foreground}"
+                                                    IsVisible="{Binding $parent[controls:ReactiveIconButton].Command.IsExecuting^}" />
+                                </Viewbox>
+                                <ContentPresenter IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Icon}"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Icon}" />
+                                <ContentPresenter IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Content}"
+                                                  Content="{Binding $parent[controls:ReactiveIconButton].Content}"
+                                                  VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Button:disabled ContentPresenter">
+                <Setter Property="Opacity" Value="0.5" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+
+</Styles>
