@@ -11,15 +11,26 @@
             <Setter Property="VerticalAlignment" Value="Stretch" />
         </Style>
     </UserControl.Styles>
+    <StackPanel Spacing="8">
+        <Card Header="ResponsiveGridPanel">
+            <ResponsiveGridPanel MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">
+                <Button Content="HOLA" />
+                <Button Content="HOLA" />
+                <Button Content="HOLA" />
+                <Button Content="HOLA" />
+                <Button Content="HOLA" />
+                <Button Content="HOLA" />
+            </ResponsiveGridPanel>
+        </Card>
 
-    <Card Header="ResponsiveGridPanel">
-        <ResponsiveGridPanel MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">
-            <Button Content="HOLA" />
-            <Button Content="HOLA" />
-            <Button Content="HOLA" />
-            <Button Content="HOLA" />
-            <Button Content="HOLA" />
-            <Button Content="HOLA" />
-        </ResponsiveGridPanel>
-    </Card>
+        <Card Header="FlexPanel">
+            <FlexPanel Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center" Width="300">
+                <Button Content="One" />
+                <Button Content="Two" />
+                <Button Content="Three" />
+                <Button Content="Grow" FlexPanel.Grow="1" />
+                <Button Content="Grow More" FlexPanel.Grow="2" />
+            </FlexPanel>
+        </Card>
+    </StackPanel>
 </UserControl>
