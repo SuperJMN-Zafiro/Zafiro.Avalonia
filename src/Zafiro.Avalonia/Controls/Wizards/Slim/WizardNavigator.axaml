@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:Zafiro.Avalonia.Controls.Wizards.Slim">
+        xmlns:controls="using:Zafiro.Avalonia.Controls.Wizards.Slim"
+        xmlns:slim="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI">
     <Design.PreviewWith>
         <controls:WizardNavigator Width="500">
             <WizardNavigator.Wizard>
@@ -16,7 +17,14 @@
                 <ControlTemplate>
                     <DockPanel VerticalSpacing="20" Margin="{TemplateBinding Padding}">
                         <Panel DockPanel.Dock="Bottom">
-                            <Button Content="Cancel" HorizontalAlignment="Left" Command="{TemplateBinding Cancel}" />
+                            <Button Content="Cancel" HorizontalAlignment="Left" Command="{TemplateBinding Cancel}">
+                                <Interaction.Behaviors>
+                                    <DataTriggerBehavior Binding="{Binding $parent[WizardNavigator].Wizard.CurrentStep.Step.Kind}" Value="{x:Static slim:StepKind.Completion}">
+                                        <ChangeAvaloniaPropertyAction TargetProperty="IsEnabled" Value="False" />
+                                        <ChangeAvaloniaPropertyAction TargetProperty="Opacity" Value="0" />
+                                    </DataTriggerBehavior>
+                                </Interaction.Behaviors>
+                            </Button>
                             <Button Content="{Binding $parent[WizardNavigator].Wizard.Next.Text, TargetNullValue='Next'}"
                                     Command="{Binding $parent[WizardNavigator].Wizard.Next}"
                                     HorizontalAlignment="Right" />
