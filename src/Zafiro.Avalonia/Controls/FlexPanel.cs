@@ -41,6 +41,12 @@ public class FlexPanel : Panel
     public static readonly StyledProperty<FlexAlign> AlignItemsProperty =
         AvaloniaProperty.Register<FlexPanel, FlexAlign>(nameof(AlignItems), FlexAlign.Stretch);
 
+    public static readonly StyledProperty<double> ColumnSpacingProperty =
+        AvaloniaProperty.Register<FlexPanel, double>(nameof(ColumnSpacing), 0d);
+
+    public static readonly StyledProperty<double> RowSpacingProperty =
+        AvaloniaProperty.Register<FlexPanel, double>(nameof(RowSpacing), 0d);
+
     public static readonly AttachedProperty<double> GrowProperty =
         AvaloniaProperty.RegisterAttached<FlexPanel, Control, double>("Grow", 0d);
 
@@ -49,7 +55,7 @@ public class FlexPanel : Panel
 
     static FlexPanel()
     {
-        AffectsMeasure<FlexPanel>(OrientationProperty, WrapProperty, JustifyContentProperty, AlignItemsProperty, GrowProperty, AlignSelfProperty);
+        AffectsMeasure<FlexPanel>(OrientationProperty, WrapProperty, JustifyContentProperty, AlignItemsProperty, GrowProperty, AlignSelfProperty, ColumnSpacingProperty, RowSpacingProperty);
     }
 
     public Orientation Orientation
@@ -76,6 +82,18 @@ public class FlexPanel : Panel
         set => SetValue(AlignItemsProperty, value);
     }
 
+    public double ColumnSpacing
+    {
+        get => GetValue(ColumnSpacingProperty);
+        set => SetValue(ColumnSpacingProperty, value);
+    }
+
+    public double RowSpacing
+    {
+        get => GetValue(RowSpacingProperty);
+        set => SetValue(RowSpacingProperty, value);
+    }
+
     public static void SetGrow(AvaloniaObject target, double value) => target.SetValue(GrowProperty, value);
 
     public static double GetGrow(AvaloniaObject target) => target.GetValue(GrowProperty);
@@ -91,10 +109,12 @@ public class FlexPanel : Panel
             child.Measure(Size.Infinity);
         }
 
-        var lines = CreateLines(Orientation == Orientation.Horizontal ? availableSize.Width : availableSize.Height);
+        var mainGap = Orientation == Orientation.Horizontal ? ColumnSpacing : RowSpacing;
+        var crossGap = Orientation == Orientation.Horizontal ? RowSpacing : ColumnSpacing;
+        var lines = CreateLines(Orientation == Orientation.Horizontal ? availableSize.Width : availableSize.Height, mainGap);
 
         var panelMain = lines.Max(l => l.Main);
-        var panelCross = lines.Sum(l => l.Cross);
+        var panelCross = lines.Sum(l => l.Cross) + crossGap * Math.Max(0, lines.Count - 1);
 
         return Orientation == Orientation.Horizontal
             ? new Size(panelMain, panelCross)
@@ -104,19 +124,23 @@ public class FlexPanel : Panel
     protected override Size ArrangeOverride(Size finalSize)
     {
         var containerMain = Orientation == Orientation.Horizontal ? finalSize.Width : finalSize.Height;
-        var lines = CreateLines(containerMain);
+        var mainGap = Orientation == Orientation.Horizontal ? ColumnSpacing : RowSpacing;
+        var crossGap = Orientation == Orientation.Horizontal ? RowSpacing : ColumnSpacing;
+        var lines = CreateLines(containerMain, mainGap);
 
         double crossPos = 0;
-        foreach (var line in lines)
+        for (int lineIndex = 0; lineIndex < lines.Count; lineIndex++)
         {
+            var line = lines[lineIndex];
             DistributeGrowth(line, containerMain);
 
             var remaining = containerMain - line.Main;
             var (offset, spacing) = GetMainOffsets(remaining, line.Children.Count);
 
             double mainPos = offset;
-            foreach (var item in line.Children)
+            for (int i = 0; i < line.Children.Count; i++)
             {
+                var item = line.Children[i];
                 var align = Maybe.From(GetAlignSelf(item.Control))
                     .Match(a => a ?? AlignItems, () => AlignItems);
                 var (crossOffset, crossSize) = align switch
@@ -137,9 +161,17 @@ public class FlexPanel : Panel
                 }
 
                 mainPos += item.Main + spacing;
+                if (i < line.Children.Count - 1)
+                {
+                    mainPos += mainGap;
+                }
             }
 
             crossPos += line.Cross;
+            if (lineIndex < lines.Count - 1)
+            {
+                crossPos += crossGap;
+            }
         }
 
         return finalSize;
@@ -181,7 +213,7 @@ public class FlexPanel : Panel
         line.Main = containerMain;
     }
 
-    private List<Line> CreateLines(double containerMain)
+    private List<Line> CreateLines(double containerMain, double mainGap)
     {
         var result = new List<Line>();
         var line = new Line();
@@ -192,14 +224,16 @@ public class FlexPanel : Panel
             var main = Orientation == Orientation.Horizontal ? size.Width : size.Height;
             var cross = Orientation == Orientation.Horizontal ? size.Height : size.Width;
             var grow = GetGrow(child);
+            var gap = line.Children.Any() ? mainGap : 0;
 
-            if (Wrap == FlexWrap.Wrap && line.Main + main > containerMain && line.Children.Any())
+            if (Wrap == FlexWrap.Wrap && line.Main + gap + main > containerMain && line.Children.Any())
             {
                 result.Add(line);
                 line = new Line();
+                gap = 0;
             }
 
-            line.Add(new ChildInfo(child, main, cross, grow));
+            line.Add(new ChildInfo(child, main, cross, grow), gap);
         }
 
         result.Add(line);
@@ -212,10 +246,10 @@ public class FlexPanel : Panel
         public double Main;
         public double Cross;
 
-        public void Add(ChildInfo child)
+        public void Add(ChildInfo child, double gap)
         {
             Children.Add(child);
-            Main += child.Main;
+            Main += child.Main + gap;
             Cross = Math.Max(Cross, child.Cross);
         }
     }
