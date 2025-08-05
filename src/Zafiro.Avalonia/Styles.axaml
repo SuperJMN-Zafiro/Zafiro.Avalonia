@@ -59,4 +59,5 @@
     <StyleInclude Source="Controls/OverlayBorder.axaml" />
     <StyleInclude Source="Controls/Shell/ActionBar.axaml" />
     <StyleInclude Source="Controls/CardGrid.axaml" />
+    <StyleInclude Source="Controls/Empty.axaml" />
 </Styles>
