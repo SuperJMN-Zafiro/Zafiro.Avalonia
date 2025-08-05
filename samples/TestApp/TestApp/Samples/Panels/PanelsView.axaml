@@ -22,4 +22,14 @@
             <Button Content="HOLA" />
         </ResponsiveGridPanel>
     </Card>
+    <Card Header="AspectRatioGridPanel">
+        <AspectRatioGridPanel AspectRatio="1.618" ColumnSpacing="4" RowSpacing="4">
+            <Button Content="HOLA" />
+            <Button Content="HOLA" />
+            <Button Content="HOLA" />
+            <Button Content="HOLA" />
+            <Button Content="HOLA" />
+            <Button Content="HOLA" />
+        </AspectRatioGridPanel>
+    </Card>
 </UserControl>
