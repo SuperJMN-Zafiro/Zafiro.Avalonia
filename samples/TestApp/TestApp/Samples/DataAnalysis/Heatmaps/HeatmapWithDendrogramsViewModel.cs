@@ -6,7 +6,7 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.DataAnalysis.Heatmaps;
 
-[Section(icon: "mdi-data-matrix", sortIndex: 7)]
+[Section(icon: "mdi-data-matrix", sortIndex: 17)]
 public class HeatmapWithDendrogramsViewModel
 {
     public HeatmapWithDendrogramsViewModel()

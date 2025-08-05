@@ -1,5 +1,3 @@
-using Avalonia.Styling;
-
 namespace Zafiro.Avalonia.Controls;
 
 public class ReactiveIconButton : ReactiveButton
@@ -13,4 +11,3 @@ public class ReactiveIconButton : ReactiveButton
         set => SetValue(IconProperty, value);
     }
 }
-
