@@ -19,3 +19,4 @@ steps:
     AndroidSigningKeyPass: $(AndroidSigningKeyPass)
     Base64Keystore: $(AndroidBase64Keystore)
     AndroidSigningStorePass: $(AndroidSigningStorePass)
+    displayName: Build and Publish
