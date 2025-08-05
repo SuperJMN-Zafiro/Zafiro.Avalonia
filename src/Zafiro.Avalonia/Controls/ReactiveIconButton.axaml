@@ -31,14 +31,17 @@
                             Command="{Binding $parent[controls:ReactiveIconButton].Command}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <Viewbox StretchDirection="DownOnly" Height="18">
-                                    <c:ProgressRing Foreground="{TemplateBinding Foreground}"
-                                                    IsVisible="{Binding $parent[controls:ReactiveIconButton].Command.IsExecuting^}" />
+                                <Viewbox StretchDirection="DownOnly" Height="{Binding #MainContent.Bounds.Height}"
+                                         IsVisible="{Binding $parent[controls:ReactiveIconButton].Command.IsExecuting^}">
+                                    <c:ProgressRing Foreground="{TemplateBinding Foreground}" />
                                 </Viewbox>
-                                <ContentPresenter IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Icon}"
-                                                  VerticalAlignment="Center"
-                                                  Content="{TemplateBinding Icon}" />
-                                <ContentPresenter IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Content}"
+                                <ContentPresenter
+                                    Height="{Binding #MainContent.Bounds.Height}"
+                                    IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Icon}"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding Icon}" />
+                                <ContentPresenter x:Name="MainContent"
+                                                  IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Content}"
                                                   Content="{Binding $parent[controls:ReactiveIconButton].Content}"
                                                   VerticalAlignment="Center" />
                             </StackPanel>
