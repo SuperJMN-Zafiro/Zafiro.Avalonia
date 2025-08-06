@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Reactive.Threading.Tasks;
 using Avalonia.Threading;
 using CSharpFunctionalExtensions;
 using Zafiro.UI.Commands;
@@ -11,39 +12,33 @@ public static class WizardExtensions
 {
     public static async Task<Maybe<T>> Navigate<T>(this ISlimWizard<T> wizard, INavigator navigator)
     {
-        var tcs = new TaskCompletionSource<Maybe<T>>();
+        var cancelCommand = ReactiveCommand.CreateFromTask(async () => await navigator.GoBack());
 
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+        var finished = wizard.Finished.SelectMany(async result =>
         {
-            await navigator.Go(() =>
+            var back = await navigator.GoBack().Map(_ => Maybe.From(result));
+            if (back.IsFailure)
             {
-                wizard.Finished.SelectMany(async result =>
-                    {
-                        var r = await navigator.GoBack().Map<Unit, T>(_ => result);
-                        if (r.IsFailure)
-                        {
-                            throw new InvalidOperationException("Failed to navigate back from wizard.");
-                        }
+                throw new InvalidOperationException("Failed to navigate back from wizard.");
+            }
 
-                        return r.Value;
-                    })
-                    .Do(result => tcs.SetResult(result))
-                    .Subscribe();
-
-                return new UserControl
-                {
-                    Content = new WizardNavigator
-                    {
-                        Wizard = wizard, Cancel = ReactiveCommand.CreateFromTask(async () =>
-                        {
-                            await navigator.GoBack();
-                            tcs.SetResult(Maybe<T>.None);
-                        }).Enhance()
-                    }
-                };
-            });
+            return back.Value;
         });
 
-        return await tcs.Task;
+        var cancellation = cancelCommand.Select(_ => Maybe<T>.None);
+
+        var completion = finished.Merge(cancellation).FirstAsync().ToTask();
+
+        await Dispatcher.UIThread.InvokeAsync(async () =>
+            await navigator.Go(() => new UserControl
+            {
+                Content = new WizardNavigator
+                {
+                    Wizard = wizard,
+                    Cancel = cancelCommand.Enhance()
+                }
+            }));
+
+        return await completion;
     }
 }
