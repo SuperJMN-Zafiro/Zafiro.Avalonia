@@ -1,7 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
         xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels">
 
     <Design.PreviewWith>
@@ -13,7 +12,7 @@
                 </Style>
             </StackPanel.Styles>
             <CardGrid Width="1200">
-               
+
                 <CardGrid.ItemsSource>
                     <generic:List x:TypeArguments="x:Object">
                         <Button Content="SOME CONTENT" />
@@ -26,7 +25,7 @@
                     </generic:List>
                 </CardGrid.ItemsSource>
             </CardGrid>
-            
+
             <panels:FlexPanel Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center" ColumnSpacing="4" RowSpacing="8">
                 <Button Content="One" />
                 <Button Content="Two" />
@@ -34,7 +33,7 @@
                 <Button Content="Grow" panels:FlexPanel.Grow="1" />
                 <Button Content="Grow More" panels:FlexPanel.Grow="2" />
             </panels:FlexPanel>
-            
+
         </StackPanel>
     </Design.PreviewWith>
     <Styles.Resources>
@@ -49,9 +48,8 @@
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <panels:FlexPanel
-                                        Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center"
-                                        ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}" RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
+                                    <ResponsiveUniformGrid ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
+                                                           RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>

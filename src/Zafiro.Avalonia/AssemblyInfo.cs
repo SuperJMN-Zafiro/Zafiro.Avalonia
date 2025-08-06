@@ -6,6 +6,7 @@ using Avalonia.Metadata;
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Misc")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Controls.Shell")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Controls.Navigation")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Controls.Panels")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Controls.Wizards.Slim")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Services")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Extensions")]
