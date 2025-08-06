@@ -1,6 +1,32 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:CompileBindings="True">
+
+    <Style Selector="CardGrid.ShowEmptyContent ItemsControl:empty">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentControl x:Name="EmptyContent"
+                                Content="{Binding $parent[CardGrid].(Empty.Content)}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False"
+                                IsVisible="False"
+                                Opacity="0" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="CardGrid.ShowEmptyContent ItemsControl:empty /template/ ContentControl#EmptyContent">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="Transitions">
+            <Setter.Value>
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" Delay="0:0:0.5" />
+                </Transitions>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
     <Style Selector=":is(ItemsControl).ShowEmptyContent:empty">
         <Setter Property="Template">
             <ControlTemplate>
@@ -26,4 +52,11 @@
         </Setter>
         <Setter Property="Opacity" Value="1" />
     </Style>
+
+    <Design.PreviewWith>
+        <Card Header="This is a CardGrid">
+            <CardGrid Width="400" Empty.Content="SALUTE" Classes="ShowEmptyContent" />
+        </Card>
+    </Design.PreviewWith>
+
 </Styles>

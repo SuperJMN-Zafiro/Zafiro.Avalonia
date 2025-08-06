@@ -15,10 +15,10 @@ public static class ApplicationUtils
         {
             var topLevel = TopLevel()
                 .Bind(level => level.InsetsManager.AsMaybe())
-                .Map(t =>
+                .Map(insetsManager =>
                 {
-                    return Observable.FromEventPattern<SafeAreaChangedArgs>(h => t.SafeAreaChanged += h,
-                        h => t.SafeAreaChanged -= h).Select(pattern => pattern.EventArgs.SafeAreaPadding);
+                    return Observable.FromEventPattern<SafeAreaChangedArgs>(h => insetsManager.SafeAreaChanged += h, h => insetsManager.SafeAreaChanged -= h).Select(pattern => pattern.EventArgs.SafeAreaPadding)
+                        .StartWith(insetsManager.SafeAreaPadding);
                 });
 
             return topLevel.GetValueOrDefault(Observable.Empty<Thickness>());
