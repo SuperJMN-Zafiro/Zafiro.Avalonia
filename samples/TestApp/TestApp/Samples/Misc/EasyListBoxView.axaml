@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:misc="clr-namespace:TestApp.Samples.Misc"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Misc.EasyListBoxView"
@@ -12,15 +11,20 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <controls:Card Header="ListBox" Subheader="Extend your lists with superpowers!">
-        <DockPanel>
-            <CheckBox DockPanel.Dock="Top" x:Name="CheckBox" Content="Show item checkboxes" />
-            <ListBox x:Name="ListBox"
-                     ItemsSource="{Binding Items}"
-                     Selection="{Binding SelectionModel}"
-                     controls:Selection.EnableCheckBoxes="{Binding #CheckBox.IsChecked}" Theme="{StaticResource EasyListBox}"
-                     SelectionMode="Multiple">
-            </ListBox>
-        </DockPanel>
-    </controls:Card>
+    <StackPanel>
+        <Card Header="ListBox" Subheader="Extend your lists with superpowers!">
+            <DockPanel>
+                <CheckBox DockPanel.Dock="Top" x:Name="CheckBox" Content="Show item checkboxes" />
+                <ListBox x:Name="ListBox"
+                         ItemsSource="{Binding Items}"
+                         Selection="{Binding SelectionModel}"
+                         Selection.EnableCheckBoxes="{Binding #CheckBox.IsChecked}" Theme="{StaticResource EasyListBox}"
+                         SelectionMode="Multiple">
+                </ListBox>
+            </DockPanel>
+        </Card>
+        <Card Header="Empty list" Subheader="Special content appears when the ItemsControl is empty">
+            <ListBox Classes="ShowEmptyContent" Empty.Content="Salute" />
+        </Card>
+    </StackPanel>
 </UserControl>

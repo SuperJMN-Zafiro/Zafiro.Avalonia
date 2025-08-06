@@ -24,7 +24,7 @@
         </Card>
 
         <Card Header="FlexPanel">
-            <FlexPanel Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center" Width="300" ColumnSpacing="4" RowSpacing="8">
+            <FlexPanel Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center" ColumnSpacing="4" RowSpacing="8">
                 <Button Content="One" />
                 <Button Content="Two" />
                 <Button Content="Three" />

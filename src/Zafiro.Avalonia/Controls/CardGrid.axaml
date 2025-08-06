@@ -55,7 +55,7 @@
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <FlexPanel ColumnSpacing="{TemplateBinding ColumnSpacing}" RowSpacing="{TemplateBinding RowSpacing}" />
+                                    <FlexPanel ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}" RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
