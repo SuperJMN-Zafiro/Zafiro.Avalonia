@@ -19,6 +19,7 @@
                             <Button Content="Cancel"
                                     HorizontalAlignment="Left"
                                     Command="{TemplateBinding Cancel}"
+                                    IsVisible="{Binding $self.IsEffectivelyEnabled}"
                                     IsEnabled="{Binding $parent[WizardNavigator].CanCancel}" />
                             <Button Content="{Binding $parent[WizardNavigator].Wizard.Next.Text, TargetNullValue='Next'}"
                                     Command="{Binding $parent[WizardNavigator].Wizard.Next}"
