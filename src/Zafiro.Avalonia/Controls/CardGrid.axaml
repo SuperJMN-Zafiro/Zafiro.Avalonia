@@ -49,15 +49,13 @@
             <Setter Property="ColumnSpacing" Value="10" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border Container.Name="ResponsiveContainer" Container.Sizing="Width" Padding="{TemplateBinding Padding}">
+                    <Border Padding="{TemplateBinding Padding}">
                         <ItemsControl ItemContainerTheme="{TemplateBinding ItemContainerTheme}"
                                       ItemTemplate="{TemplateBinding ItemTemplate}"
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <ResponsiveGridPanel MinColumnWidth="{Binding $parent[CardGrid].MinColumnWidth}"
-                                                         RowSpacing="{Binding $parent[CardGrid].RowSpacing}"
-                                                         ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}" />
+                                    <FlexPanel ColumnSpacing="{TemplateBinding ColumnSpacing}" RowSpacing="{TemplateBinding RowSpacing}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
