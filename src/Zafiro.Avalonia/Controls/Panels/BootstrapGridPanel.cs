@@ -4,6 +4,24 @@ namespace Zafiro.Avalonia.Controls.Panels;
 
 public class BootstrapGridPanel : Panel
 {
+    private const int Auto = 0;
+    private const int AutoContent = -1;
+    private const int NotSet = -2;
+
+    private class ChildInfo
+    {
+        public Control Control { get; }
+        public int Span { get; set; }
+        public int Offset { get; }
+
+        public ChildInfo(Control control, int span, int offset)
+        {
+            Control = control;
+            Span = span;
+            Offset = offset;
+        }
+    }
+
     static BootstrapGridPanel()
     {
         AffectsArrange<BootstrapGridPanel>(
@@ -33,7 +51,13 @@ public class BootstrapGridPanel : Panel
         OffsetMdProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
         OffsetLgProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
         OffsetXlProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
+        OffsetXxlProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
         OrderProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
+        OrderSmProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
+        OrderMdProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
+        OrderLgProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
+        OrderXlProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
+        OrderXxlProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
         RowBreakProperty.Changed.AddClassHandler<Control>((c, e) => InvalidateParentLayout(c));
     }
 
@@ -56,65 +80,105 @@ public class BootstrapGridPanel : Panel
         return Breakpoint.Xs;
     }
 
-    private int GetColumnSpan(Control child, Breakpoint breakpoint)
+    private int GetColumnSpan(Control child, Breakpoint breakpoint, double columnWidth, bool measureAuto)
     {
-        int span = 0;
+        int span = ResolveColValue(child, breakpoint);
 
-        // Start with base col value
-        span = GetCol(child);
-
-        // Override with breakpoint-specific values if set (0 means not set)
-        switch (breakpoint)
+        if (span == AutoContent)
         {
-            case Breakpoint.Xxl:
-                if (GetColXxl(child) > 0) span = GetColXxl(child);
-                else goto case Breakpoint.Xl;
-                break;
-            case Breakpoint.Xl:
-                if (GetColXl(child) > 0) span = GetColXl(child);
-                else goto case Breakpoint.Lg;
-                break;
-            case Breakpoint.Lg:
-                if (GetColLg(child) > 0) span = GetColLg(child);
-                else goto case Breakpoint.Md;
-                break;
-            case Breakpoint.Md:
-                if (GetColMd(child) > 0) span = GetColMd(child);
-                else goto case Breakpoint.Sm;
-                break;
-            case Breakpoint.Sm:
-                if (GetColSm(child) > 0) span = GetColSm(child);
-                break;
+            if (measureAuto)
+            {
+                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            }
+
+            var width = child.DesiredSize.Width;
+            span = (int)Math.Ceiling((width + Gutter) / (columnWidth + Gutter));
+        }
+
+        if (span == Auto)
+        {
+            return Auto;
         }
 
         return Math.Min(Math.Max(1, span), MaxColumns);
     }
 
-    private int GetOffset(Control child, Breakpoint breakpoint)
+    private int ResolveColValue(Control child, Breakpoint breakpoint)
     {
-        int offset = GetOffset(child);
+        var span = GetCol(child);
 
         switch (breakpoint)
         {
-            case Breakpoint.Xl:
             case Breakpoint.Xxl:
-                if (GetOffsetXl(child) > 0) offset = GetOffsetXl(child);
-                else goto case Breakpoint.Lg;
+                span = GetColXxl(child) != NotSet ? GetColXxl(child) : GetColXl(child) != NotSet ? GetColXl(child) : GetColLg(child) != NotSet ? GetColLg(child) : GetColMd(child) != NotSet ? GetColMd(child) : GetColSm(child) != NotSet ? GetColSm(child) : span;
+                break;
+            case Breakpoint.Xl:
+                span = GetColXl(child) != NotSet ? GetColXl(child) : GetColLg(child) != NotSet ? GetColLg(child) : GetColMd(child) != NotSet ? GetColMd(child) : GetColSm(child) != NotSet ? GetColSm(child) : span;
                 break;
             case Breakpoint.Lg:
-                if (GetOffsetLg(child) > 0) offset = GetOffsetLg(child);
-                else goto case Breakpoint.Md;
+                span = GetColLg(child) != NotSet ? GetColLg(child) : GetColMd(child) != NotSet ? GetColMd(child) : GetColSm(child) != NotSet ? GetColSm(child) : span;
                 break;
             case Breakpoint.Md:
-                if (GetOffsetMd(child) > 0) offset = GetOffsetMd(child);
-                else goto case Breakpoint.Sm;
+                span = GetColMd(child) != NotSet ? GetColMd(child) : GetColSm(child) != NotSet ? GetColSm(child) : span;
                 break;
             case Breakpoint.Sm:
-                if (GetOffsetSm(child) > 0) offset = GetOffsetSm(child);
+                span = GetColSm(child) != NotSet ? GetColSm(child) : span;
+                break;
+        }
+
+        return span;
+    }
+
+    private int GetOffset(Control child, Breakpoint breakpoint)
+    {
+        var offset = GetOffset(child);
+
+        switch (breakpoint)
+        {
+            case Breakpoint.Xxl:
+                offset = GetOffsetXxl(child) != NotSet ? GetOffsetXxl(child) : GetOffsetXl(child) != NotSet ? GetOffsetXl(child) : GetOffsetLg(child) != NotSet ? GetOffsetLg(child) : GetOffsetMd(child) != NotSet ? GetOffsetMd(child) : GetOffsetSm(child) != NotSet ? GetOffsetSm(child) : offset;
+                break;
+            case Breakpoint.Xl:
+                offset = GetOffsetXl(child) != NotSet ? GetOffsetXl(child) : GetOffsetLg(child) != NotSet ? GetOffsetLg(child) : GetOffsetMd(child) != NotSet ? GetOffsetMd(child) : GetOffsetSm(child) != NotSet ? GetOffsetSm(child) : offset;
+                break;
+            case Breakpoint.Lg:
+                offset = GetOffsetLg(child) != NotSet ? GetOffsetLg(child) : GetOffsetMd(child) != NotSet ? GetOffsetMd(child) : GetOffsetSm(child) != NotSet ? GetOffsetSm(child) : offset;
+                break;
+            case Breakpoint.Md:
+                offset = GetOffsetMd(child) != NotSet ? GetOffsetMd(child) : GetOffsetSm(child) != NotSet ? GetOffsetSm(child) : offset;
+                break;
+            case Breakpoint.Sm:
+                offset = GetOffsetSm(child) != NotSet ? GetOffsetSm(child) : offset;
                 break;
         }
 
         return Math.Min(Math.Max(0, offset), MaxColumns - 1);
+    }
+
+    private int GetOrder(Control child, Breakpoint breakpoint)
+    {
+        var order = GetOrder(child);
+
+        switch (breakpoint)
+        {
+            case Breakpoint.Xxl:
+                order = GetOrderXxl(child) != int.MinValue ? GetOrderXxl(child) : GetOrderXl(child) != int.MinValue ? GetOrderXl(child) : GetOrderLg(child) != int.MinValue ? GetOrderLg(child) : GetOrderMd(child) != int.MinValue ? GetOrderMd(child) : GetOrderSm(child) != int.MinValue ? GetOrderSm(child) : order;
+                break;
+            case Breakpoint.Xl:
+                order = GetOrderXl(child) != int.MinValue ? GetOrderXl(child) : GetOrderLg(child) != int.MinValue ? GetOrderLg(child) : GetOrderMd(child) != int.MinValue ? GetOrderMd(child) : GetOrderSm(child) != int.MinValue ? GetOrderSm(child) : order;
+                break;
+            case Breakpoint.Lg:
+                order = GetOrderLg(child) != int.MinValue ? GetOrderLg(child) : GetOrderMd(child) != int.MinValue ? GetOrderMd(child) : GetOrderSm(child) != int.MinValue ? GetOrderSm(child) : order;
+                break;
+            case Breakpoint.Md:
+                order = GetOrderMd(child) != int.MinValue ? GetOrderMd(child) : GetOrderSm(child) != int.MinValue ? GetOrderSm(child) : order;
+                break;
+            case Breakpoint.Sm:
+                order = GetOrderSm(child) != int.MinValue ? GetOrderSm(child) : order;
+                break;
+        }
+
+        return order;
     }
 
     private double GetContainerWidth(double availableWidth)
@@ -143,51 +207,67 @@ public class BootstrapGridPanel : Panel
         var containerWidth = GetContainerWidth(availableSize.Width);
         var breakpoint = GetCurrentBreakpoint(availableSize.Width);
         var columnWidth = (containerWidth - Gutter * (MaxColumns - 1)) / MaxColumns;
-        var halfGutter = Gutter / 2;
 
-        // Sort children by order
         var orderedChildren = Children
-            .OrderBy(c => GetOrder(c))
+            .OrderBy(c => GetOrder(c, breakpoint))
             .ToList();
 
-        var rows = new List<List<Control>>();
-        var currentRow = new List<Control>();
+        var rows = new List<List<ChildInfo>>();
+        var currentRow = new List<ChildInfo>();
         var currentColumn = 0;
+        var autoCount = 0;
 
         foreach (var child in orderedChildren)
         {
             if (GetRowBreak(child) && currentRow.Count > 0)
             {
+                MeasureRow(currentRow, columnWidth, availableSize.Height, true);
                 rows.Add(currentRow);
-                currentRow = new List<Control>();
+                currentRow = new List<ChildInfo>();
                 currentColumn = 0;
+                autoCount = 0;
             }
 
-            var span = GetColumnSpan(child, breakpoint);
+            var span = GetColumnSpan(child, breakpoint, columnWidth, true);
             var offset = GetOffset(child, breakpoint);
 
-            currentColumn += offset;
-
-            if (currentColumn + span > MaxColumns && currentRow.Count > 0)
+            if (span == Auto)
             {
-                rows.Add(currentRow);
-                currentRow = new List<Control>();
-                currentColumn = offset;
+                if (currentColumn + offset + autoCount >= MaxColumns && currentRow.Count > 0)
+                {
+                    MeasureRow(currentRow, columnWidth, availableSize.Height, true);
+                    rows.Add(currentRow);
+                    currentRow = new List<ChildInfo>();
+                    currentColumn = 0;
+                    autoCount = 0;
+                }
+
+                currentRow.Add(new ChildInfo(child, span, offset));
+                autoCount++;
             }
+            else
+            {
+                if (currentColumn + offset + span > MaxColumns && currentRow.Count > 0)
+                {
+                    MeasureRow(currentRow, columnWidth, availableSize.Height, true);
+                    rows.Add(currentRow);
+                    currentRow = new List<ChildInfo>();
+                    currentColumn = 0;
+                    autoCount = 0;
+                }
 
-            currentRow.Add(child);
-            currentColumn += span;
-
-            // Measure child
-            var childWidth = columnWidth * span + Gutter * (span - 1);
-            child.Measure(new Size(childWidth, availableSize.Height));
+                currentRow.Add(new ChildInfo(child, span, offset));
+                currentColumn += offset + span;
+            }
         }
 
         if (currentRow.Count > 0)
+        {
+            MeasureRow(currentRow, columnWidth, availableSize.Height, true);
             rows.Add(currentRow);
+        }
 
-        // Calculate total height
-        var totalHeight = rows.Sum(row => row.Max(c => c.DesiredSize.Height)) +
+        var totalHeight = rows.Sum(row => row.Max(c => c.Control.DesiredSize.Height)) +
                           Math.Max(0, (rows.Count - 1) * Gutter);
 
         return new Size(containerWidth, Math.Min(totalHeight, availableSize.Height));
@@ -201,76 +281,111 @@ public class BootstrapGridPanel : Panel
         var containerWidth = GetContainerWidth(finalSize.Width);
         var breakpoint = GetCurrentBreakpoint(finalSize.Width);
         var columnWidth = (containerWidth - Gutter * (MaxColumns - 1)) / MaxColumns;
-        var halfGutter = Gutter / 2;
 
-        // Center container if not fluid
         var containerOffset = FluidContainer ? 0 : (finalSize.Width - containerWidth) / 2;
 
         var orderedChildren = Children
-            .OrderBy(c => GetOrder(c))
+            .OrderBy(c => GetOrder(c, breakpoint))
             .ToList();
 
-        var currentY = 0.0;
-        var currentRow = new List<Control>();
+        var rows = new List<List<ChildInfo>>();
+        var currentRow = new List<ChildInfo>();
         var currentColumn = 0;
-        var rowHeight = 0.0;
-
-        void ArrangeRow()
-        {
-            if (currentRow.Count == 0) return;
-
-            var col = 0;
-            foreach (var child in currentRow)
-            {
-                var span = GetColumnSpan(child, breakpoint);
-                var offset = GetOffset(child, breakpoint);
-
-                col += offset;
-
-                var x = containerOffset + col * (columnWidth + Gutter);
-                var width = columnWidth * span + Gutter * (span - 1);
-
-                child.Arrange(new Rect(x, currentY, width, rowHeight));
-
-                col += span;
-            }
-
-            currentY += rowHeight + Gutter;
-            currentRow.Clear();
-            currentColumn = 0;
-            rowHeight = 0;
-        }
+        var autoCount = 0;
 
         foreach (var child in orderedChildren)
         {
             if (GetRowBreak(child) && currentRow.Count > 0)
             {
-                ArrangeRow();
+                MeasureRow(currentRow, columnWidth, finalSize.Height, false);
+                rows.Add(currentRow);
+                currentRow = new List<ChildInfo>();
+                currentColumn = 0;
+                autoCount = 0;
             }
 
-            var span = GetColumnSpan(child, breakpoint);
+            var span = GetColumnSpan(child, breakpoint, columnWidth, false);
             var offset = GetOffset(child, breakpoint);
 
-            currentColumn += offset;
-
-            if (currentColumn + span > MaxColumns && currentRow.Count > 0)
+            if (span == Auto)
             {
-                ArrangeRow();
-                currentColumn = offset;
-            }
+                if (currentColumn + offset + autoCount >= MaxColumns && currentRow.Count > 0)
+                {
+                    MeasureRow(currentRow, columnWidth, finalSize.Height, false);
+                    rows.Add(currentRow);
+                    currentRow = new List<ChildInfo>();
+                    currentColumn = 0;
+                    autoCount = 0;
+                }
 
-            currentRow.Add(child);
-            currentColumn += span;
-            rowHeight = Math.Max(rowHeight, child.DesiredSize.Height);
+                currentRow.Add(new ChildInfo(child, span, offset));
+                autoCount++;
+            }
+            else
+            {
+                if (currentColumn + offset + span > MaxColumns && currentRow.Count > 0)
+                {
+                    MeasureRow(currentRow, columnWidth, finalSize.Height, false);
+                    rows.Add(currentRow);
+                    currentRow = new List<ChildInfo>();
+                    currentColumn = 0;
+                    autoCount = 0;
+                }
+
+                currentRow.Add(new ChildInfo(child, span, offset));
+                currentColumn += offset + span;
+            }
         }
 
-        // Arrange last row
         if (currentRow.Count > 0)
         {
-            ArrangeRow();
+            MeasureRow(currentRow, columnWidth, finalSize.Height, false);
+            rows.Add(currentRow);
+        }
+
+        var currentY = 0.0;
+        foreach (var row in rows)
+        {
+            var rowHeight = row.Max(ci => ci.Control.DesiredSize.Height);
+            var col = 0;
+            foreach (var item in row)
+            {
+                col += item.Offset;
+                var x = containerOffset + col * (columnWidth + Gutter);
+                var width = columnWidth * item.Span + Gutter * (item.Span - 1);
+                item.Control.Arrange(new Rect(x, currentY, width, rowHeight));
+                col += item.Span;
+            }
+
+            currentY += rowHeight + Gutter;
         }
 
         return finalSize;
+    }
+
+    private void MeasureRow(List<ChildInfo> row, double columnWidth, double availableHeight, bool measure)
+    {
+        var used = row.Sum(c => c.Offset + (c.Span == Auto ? 0 : c.Span));
+        var autos = row.Where(c => c.Span == Auto).ToList();
+        var remaining = MaxColumns - used;
+        if (autos.Count > 0)
+        {
+            var per = Math.Max(1, remaining / autos.Count);
+            var extra = remaining % autos.Count;
+            foreach (var item in autos)
+            {
+                item.Span = per + (extra-- > 0 ? 1 : 0);
+            }
+        }
+
+        if (measure)
+        {
+            foreach (var item in row)
+            {
+                var width = columnWidth * item.Span + Gutter * (item.Span - 1);
+                item.Control.Measure(new Size(width, availableHeight));
+            }
+        }
     }
 
     private enum Breakpoint
@@ -317,42 +432,60 @@ public class BootstrapGridPanel : Panel
 
     // Column spans for different breakpoints
     public static readonly AttachedProperty<int> ColProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("Col", 12);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("Col", Auto);
 
     public static readonly AttachedProperty<int> ColSmProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColSm", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColSm", NotSet);
 
     public static readonly AttachedProperty<int> ColMdProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColMd", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColMd", NotSet);
 
     public static readonly AttachedProperty<int> ColLgProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColLg", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColLg", NotSet);
 
     public static readonly AttachedProperty<int> ColXlProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColXl", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColXl", NotSet);
 
     public static readonly AttachedProperty<int> ColXxlProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColXxl", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("ColXxl", NotSet);
 
     // Offset properties
     public static readonly AttachedProperty<int> OffsetProperty =
         AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("Offset", 0);
 
     public static readonly AttachedProperty<int> OffsetSmProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetSm", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetSm", NotSet);
 
     public static readonly AttachedProperty<int> OffsetMdProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetMd", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetMd", NotSet);
 
     public static readonly AttachedProperty<int> OffsetLgProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetLg", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetLg", NotSet);
 
     public static readonly AttachedProperty<int> OffsetXlProperty =
-        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetXl", 0);
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetXl", NotSet);
 
-    // Order property
+    public static readonly AttachedProperty<int> OffsetXxlProperty =
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OffsetXxl", NotSet);
+
+    // Order properties
     public static readonly AttachedProperty<int> OrderProperty =
         AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("Order", 0);
+
+    public static readonly AttachedProperty<int> OrderSmProperty =
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OrderSm", int.MinValue);
+
+    public static readonly AttachedProperty<int> OrderMdProperty =
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OrderMd", int.MinValue);
+
+    public static readonly AttachedProperty<int> OrderLgProperty =
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OrderLg", int.MinValue);
+
+    public static readonly AttachedProperty<int> OrderXlProperty =
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OrderXl", int.MinValue);
+
+    public static readonly AttachedProperty<int> OrderXxlProperty =
+        AvaloniaProperty.RegisterAttached<BootstrapGridPanel, Control, int>("OrderXxl", int.MinValue);
 
     // Row break property
     public static readonly AttachedProperty<bool> RowBreakProperty =
@@ -440,6 +573,13 @@ public class BootstrapGridPanel : Panel
     public static void SetColXxl(Control element, int value) => element.SetValue(ColXxlProperty, value);
     public static int GetColXxl(Control element) => element.GetValue(ColXxlProperty);
 
+    public static void SetColAuto(Control element) => element.SetValue(ColProperty, AutoContent);
+    public static void SetColAutoSm(Control element) => element.SetValue(ColSmProperty, AutoContent);
+    public static void SetColAutoMd(Control element) => element.SetValue(ColMdProperty, AutoContent);
+    public static void SetColAutoLg(Control element) => element.SetValue(ColLgProperty, AutoContent);
+    public static void SetColAutoXl(Control element) => element.SetValue(ColXlProperty, AutoContent);
+    public static void SetColAutoXxl(Control element) => element.SetValue(ColXxlProperty, AutoContent);
+
     public static void SetOffset(Control element, int value) => element.SetValue(OffsetProperty, value);
     public static int GetOffset(Control element) => element.GetValue(OffsetProperty);
 
@@ -455,8 +595,26 @@ public class BootstrapGridPanel : Panel
     public static void SetOffsetXl(Control element, int value) => element.SetValue(OffsetXlProperty, value);
     public static int GetOffsetXl(Control element) => element.GetValue(OffsetXlProperty);
 
+    public static void SetOffsetXxl(Control element, int value) => element.SetValue(OffsetXxlProperty, value);
+    public static int GetOffsetXxl(Control element) => element.GetValue(OffsetXxlProperty);
+
     public static void SetOrder(Control element, int value) => element.SetValue(OrderProperty, value);
     public static int GetOrder(Control element) => element.GetValue(OrderProperty);
+
+    public static void SetOrderSm(Control element, int value) => element.SetValue(OrderSmProperty, value);
+    public static int GetOrderSm(Control element) => element.GetValue(OrderSmProperty);
+
+    public static void SetOrderMd(Control element, int value) => element.SetValue(OrderMdProperty, value);
+    public static int GetOrderMd(Control element) => element.GetValue(OrderMdProperty);
+
+    public static void SetOrderLg(Control element, int value) => element.SetValue(OrderLgProperty, value);
+    public static int GetOrderLg(Control element) => element.GetValue(OrderLgProperty);
+
+    public static void SetOrderXl(Control element, int value) => element.SetValue(OrderXlProperty, value);
+    public static int GetOrderXl(Control element) => element.GetValue(OrderXlProperty);
+
+    public static void SetOrderXxl(Control element, int value) => element.SetValue(OrderXxlProperty, value);
+    public static int GetOrderXxl(Control element) => element.GetValue(OrderXxlProperty);
 
     public static void SetRowBreak(Control element, bool value) => element.SetValue(RowBreakProperty, value);
     public static bool GetRowBreak(Control element) => element.GetValue(RowBreakProperty);
@@ -503,6 +661,42 @@ public static class ResponsiveGrid
         return control;
     }
 
+    public static T ColAuto<T>(this T control) where T : Control
+    {
+        BootstrapGridPanel.SetColAuto(control);
+        return control;
+    }
+
+    public static T ColAutoSm<T>(this T control) where T : Control
+    {
+        BootstrapGridPanel.SetColAutoSm(control);
+        return control;
+    }
+
+    public static T ColAutoMd<T>(this T control) where T : Control
+    {
+        BootstrapGridPanel.SetColAutoMd(control);
+        return control;
+    }
+
+    public static T ColAutoLg<T>(this T control) where T : Control
+    {
+        BootstrapGridPanel.SetColAutoLg(control);
+        return control;
+    }
+
+    public static T ColAutoXl<T>(this T control) where T : Control
+    {
+        BootstrapGridPanel.SetColAutoXl(control);
+        return control;
+    }
+
+    public static T ColAutoXxl<T>(this T control) where T : Control
+    {
+        BootstrapGridPanel.SetColAutoXxl(control);
+        return control;
+    }
+
     public static T Offset<T>(this T control, int offset) where T : Control
     {
         BootstrapGridPanel.SetOffset(control, offset);
@@ -533,9 +727,45 @@ public static class ResponsiveGrid
         return control;
     }
 
+    public static T OffsetXxl<T>(this T control, int offset) where T : Control
+    {
+        BootstrapGridPanel.SetOffsetXxl(control, offset);
+        return control;
+    }
+
     public static T Order<T>(this T control, int order) where T : Control
     {
         BootstrapGridPanel.SetOrder(control, order);
+        return control;
+    }
+
+    public static T OrderSm<T>(this T control, int order) where T : Control
+    {
+        BootstrapGridPanel.SetOrderSm(control, order);
+        return control;
+    }
+
+    public static T OrderMd<T>(this T control, int order) where T : Control
+    {
+        BootstrapGridPanel.SetOrderMd(control, order);
+        return control;
+    }
+
+    public static T OrderLg<T>(this T control, int order) where T : Control
+    {
+        BootstrapGridPanel.SetOrderLg(control, order);
+        return control;
+    }
+
+    public static T OrderXl<T>(this T control, int order) where T : Control
+    {
+        BootstrapGridPanel.SetOrderXl(control, order);
+        return control;
+    }
+
+    public static T OrderXxl<T>(this T control, int order) where T : Control
+    {
+        BootstrapGridPanel.SetOrderXxl(control, order);
         return control;
     }
 
