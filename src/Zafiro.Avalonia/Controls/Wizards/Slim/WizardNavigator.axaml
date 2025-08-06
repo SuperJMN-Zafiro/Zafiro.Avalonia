@@ -1,7 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:Zafiro.Avalonia.Controls.Wizards.Slim"
-        xmlns:converters="using:Zafiro.Avalonia.Converters">
+        xmlns:controls="using:Zafiro.Avalonia.Controls.Wizards.Slim">
     <Design.PreviewWith>
         <controls:WizardNavigator Width="500">
             <WizardNavigator.Wizard>
@@ -20,7 +19,7 @@
                             <Button Content="Cancel"
                                     HorizontalAlignment="Left"
                                     Command="{TemplateBinding Cancel}"
-                                    IsVisible="{Binding $parent[WizardNavigator].Wizard.CurrentStep.Step.Kind, Converter={x:Static converters:SlimWizardConverters.CancelVisible}}" />
+                                    IsEnabled="{Binding $parent[WizardNavigator].CanCancel}" />
                             <Button Content="{Binding $parent[WizardNavigator].Wizard.Next.Text, TargetNullValue='Next'}"
                                     Command="{Binding $parent[WizardNavigator].Wizard.Next}"
                                     HorizontalAlignment="Right" />
