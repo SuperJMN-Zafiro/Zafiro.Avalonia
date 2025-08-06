@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Reactive.Disposables;
 using Avalonia.Threading;
 using CSharpFunctionalExtensions;
 using Zafiro.UI.Commands;
@@ -12,24 +13,26 @@ public static class WizardExtensions
     public static async Task<Maybe<T>> Navigate<T>(this ISlimWizard<T> wizard, INavigator navigator)
     {
         var tcs = new TaskCompletionSource<Maybe<T>>();
+        var compositeDisposable = new CompositeDisposable();
 
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+        await navigator.Go(() =>
         {
-            await navigator.Go(() =>
-            {
-                wizard.Finished.SelectMany(async result =>
+            wizard.Finished.SelectMany(async result =>
+                {
+                    var r = await Dispatcher.UIThread.InvokeAsync(() => navigator.GoBack().Map<Unit, T>(_ => result));
+                    if (r.IsFailure)
                     {
-                        var r = await navigator.GoBack().Map<Unit, T>(_ => result);
-                        if (r.IsFailure)
-                        {
-                            throw new InvalidOperationException("Failed to navigate back from wizard.");
-                        }
+                        throw new InvalidOperationException("Failed to navigate back from wizard.");
+                    }
 
-                        return r.Value;
-                    })
-                    .Do(result => tcs.SetResult(result))
-                    .Subscribe();
+                    return r.Value;
+                })
+                .Do(result => tcs.SetResult(result))
+                .Subscribe()
+                .DisposeWith(compositeDisposable);
 
+            return Dispatcher.UIThread.Invoke(() =>
+            {
                 return new UserControl
                 {
                     Content = new WizardNavigator
@@ -44,6 +47,9 @@ public static class WizardExtensions
             });
         });
 
-        return await tcs.Task;
+
+        var result = await tcs.Task;
+        compositeDisposable.Dispose();
+        return result;
     }
 }
