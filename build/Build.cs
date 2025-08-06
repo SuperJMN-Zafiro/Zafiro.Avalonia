@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 using DotnetPackaging;
 using Nuke.Common;
@@ -14,6 +15,7 @@ using Zafiro.Misc;
 using Zafiro.Nuke;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using Options = DotnetPackaging.Options;
+using Serilog;
 
 class Build : NukeBuild
 {
@@ -76,6 +78,11 @@ class Build : NukeBuild
         .Requires(() => GitHubApiKey)
         .Executes(async () =>
         {
+            GetRemoteUrl()
+                .Bind(remoteUrl => ParseRepositoryInfo(remoteUrl)
+                    .Map(info => (remoteUrl, info.Owner, info.Name)))
+                .Execute(tuple => Log.Information($"Repository '{tuple.Name}' owned by '{tuple.Owner}' auto-detected from remote '{tuple.remoteUrl}'"));
+
             await Solution.Projects
                 .TryFirst(x => x.GetOutputType().Contains("Exe", StringComparison.InvariantCultureIgnoreCase))
                 .ToResult("Could not find the executable project")
@@ -114,6 +121,24 @@ class Build : NukeBuild
             .Output
             .Any(line => line.Text.Contains("wasm-tools"));
         return result;
+    }
+
+    static Maybe<string> GetRemoteUrl() =>
+        Maybe.From(ProcessTasks.StartProcess("git", "config --get remote.origin.url")
+            .AssertZeroExitCode()
+            .Output
+            .Select(x => x.Text)
+            .FirstOrDefault());
+
+    static Maybe<(string Owner, string Name)> ParseRepositoryInfo(string remoteUrl)
+    {
+        var match = Regex.Match(remoteUrl, @"[:/]([^/]+)/([^/]+?)(?:\.git)?$");
+        if (!match.Success)
+        {
+            return Maybe.None;
+        }
+
+        return Maybe.From((match.Groups[1].Value, match.Groups[2].Value));
     }
 
     Options Options()
