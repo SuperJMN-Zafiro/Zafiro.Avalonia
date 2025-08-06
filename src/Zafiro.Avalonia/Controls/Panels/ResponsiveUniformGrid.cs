@@ -5,7 +5,7 @@ namespace Zafiro.Avalonia.Controls.Panels;
 public class ResponsiveUniformGrid : Panel
 {
     public static readonly StyledProperty<double> MinColumnWidthProperty =
-        AvaloniaProperty.Register<ResponsiveUniformGrid, double>(nameof(MinColumnWidth), 250);
+        AvaloniaProperty.Register<ResponsiveUniformGrid, double>(nameof(MinColumnWidth), 0d);
 
     public static readonly StyledProperty<int> MaxColumnsProperty =
         AvaloniaProperty.Register<ResponsiveUniformGrid, int>(nameof(MaxColumns), int.MaxValue);
