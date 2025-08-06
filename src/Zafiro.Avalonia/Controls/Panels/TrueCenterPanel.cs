@@ -1,6 +1,6 @@
 using Avalonia.Layout;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Panels;
 
 public enum TrueCenterDock
 {

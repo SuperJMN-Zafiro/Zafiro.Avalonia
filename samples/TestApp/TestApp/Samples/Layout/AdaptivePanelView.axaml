@@ -2,13 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="TestApp.Samples.Layout.AdaptivePanelView">
 
     <Card Subheader="Switches its content when the original content doesn't fit the available space">
         <Grid ColumnDefinitions="* 3* *" ShowGridLines="True">
-            <AdaptivePanel Grid.Column="1">
-                <AdaptivePanel.OverflowContent>
+            <panels:AdaptivePanel Grid.Column="1">
+                <panels:AdaptivePanel.OverflowContent>
                     <StackPanel Orientation="Vertical">
                         <Button>HOLA</Button>
                         <Button>HOLA</Button>
@@ -20,8 +21,8 @@
                         <Button>HOLA</Button>
                         <Button>HOLA</Button>
                     </StackPanel>
-                </AdaptivePanel.OverflowContent>
-                <AdaptivePanel.Content>
+                </panels:AdaptivePanel.OverflowContent>
+                <panels:AdaptivePanel.Content>
                     <StackPanel Orientation="Horizontal">
                         <Button>HOLA</Button>
                         <Button>HOLA</Button>
@@ -33,8 +34,8 @@
                         <Button>HOLA</Button>
                         <Button>HOLA</Button>
                     </StackPanel>
-                </AdaptivePanel.Content>
-            </AdaptivePanel>
+                </panels:AdaptivePanel.Content>
+            </panels:AdaptivePanel>
         </Grid>
 
     </Card>

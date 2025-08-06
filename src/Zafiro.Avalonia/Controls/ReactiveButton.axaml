@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-        xmlns:avalonia="clr-namespace:Zafiro.Avalonia">
+        xmlns:avalonia="clr-namespace:Zafiro.Avalonia"
+        xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type ReactiveButton}" TargetType="ReactiveButton">
             <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
@@ -26,7 +27,7 @@
                                 <Viewbox StretchDirection="DownOnly" Height="{Binding #MainContent.Bounds.Height}">
                                     <c:ProgressRing Foreground="{TemplateBinding Foreground}" IsVisible="{Binding $parent[controls:ReactiveButton].Command.IsExecuting^}" />
                                 </Viewbox>
-                                <ContentPresenter x:Name="MainContent" TextBlock.TextTrimming="CharacterEllipsis" TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
+                                <ContentPresenter x:Name="MainContent" TextBlock.TextTrimming="CharacterEllipsis" panels:TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
                                                   VerticalContentAlignment="Center" VerticalAlignment="Center"
                                                   Content="{Binding $parent[controls:ReactiveButton].Content}" />
                             </StackPanel>
@@ -58,7 +59,7 @@
                             Command="{Binding $parent[controls:ReactiveButton].Command}">
                         <Button.Content>
                             <Panel>
-                                <ContentPresenter Padding="{TemplateBinding Padding}" x:Name="ContentPresenter" TextBlock.TextTrimming="CharacterEllipsis" TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
+                                <ContentPresenter Padding="{TemplateBinding Padding}" x:Name="ContentPresenter" TextBlock.TextTrimming="CharacterEllipsis" panels:TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
                                                   VerticalContentAlignment="Center" VerticalAlignment="Center"
                                                   Content="{Binding $parent[controls:ReactiveButton].Content}" />
                                 <ProgressBar x:Name="ProgressBar"

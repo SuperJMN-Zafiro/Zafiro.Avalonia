@@ -1,7 +1,7 @@
-using CSharpFunctionalExtensions;
 using Avalonia.Layout;
+using CSharpFunctionalExtensions;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Panels;
 
 public enum FlexWrap
 {

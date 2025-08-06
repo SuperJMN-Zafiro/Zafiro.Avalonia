@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.Controls.SuperCanvas;
+namespace Zafiro.Avalonia.Controls.Panels.SuperCanvas;
 
 public class ControlPosition
 {

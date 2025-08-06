@@ -3,8 +3,8 @@
                     xmlns:diagrams="clr-namespace:Zafiro.Avalonia.Controls.Diagrams;assembly=Zafiro.Avalonia"
                     xmlns:control1="clr-namespace:Zafiro.Avalonia.DataViz.Graphs.Control"
                     xmlns:graphs="clr-namespace:Zafiro.DataAnalysis.Graphs;assembly=Zafiro"
-                    xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas;assembly=Zafiro.Avalonia"
-                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia">
+                    xmlns:behaviors="clr-namespace:Zafiro.Avalonia.Behaviors;assembly=Zafiro.Avalonia"
+                    xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.Panels.SuperCanvas;assembly=Zafiro.Avalonia">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">

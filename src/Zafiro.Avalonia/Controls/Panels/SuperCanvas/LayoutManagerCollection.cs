@@ -1,6 +1,6 @@
 using Avalonia.Collections;
 
-namespace Zafiro.Avalonia.Controls.SuperCanvas
+namespace Zafiro.Avalonia.Controls.Panels.SuperCanvas
 {
     public class LayoutManagerCollection : AvaloniaList<ILayoutManager>;
 

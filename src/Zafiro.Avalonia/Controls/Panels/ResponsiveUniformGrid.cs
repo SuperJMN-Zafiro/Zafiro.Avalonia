@@ -1,30 +1,29 @@
 using CSharpFunctionalExtensions;
-using System.Linq;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Panels;
 
-public class ResponsiveGridPanel : Panel
+public class ResponsiveUniformGrid : Panel
 {
     private Size? lastMeasure;
 
     public static readonly StyledProperty<double> MinColumnWidthProperty =
-        AvaloniaProperty.Register<ResponsiveGridPanel, double>(nameof(MinColumnWidth), 0d);
+        AvaloniaProperty.Register<ResponsiveUniformGrid, double>(nameof(MinColumnWidth), 0d);
 
     public static readonly StyledProperty<int> MaxColumnsProperty =
-        AvaloniaProperty.Register<ResponsiveGridPanel, int>(nameof(MaxColumns), int.MaxValue);
+        AvaloniaProperty.Register<ResponsiveUniformGrid, int>(nameof(MaxColumns), int.MaxValue);
 
     public static readonly StyledProperty<double> ColumnSpacingProperty =
-        AvaloniaProperty.Register<ResponsiveGridPanel, double>(nameof(ColumnSpacing), 0d);
+        AvaloniaProperty.Register<ResponsiveUniformGrid, double>(nameof(ColumnSpacing), 0d);
 
     public static readonly StyledProperty<double> RowSpacingProperty =
-        AvaloniaProperty.Register<ResponsiveGridPanel, double>(nameof(RowSpacing), 0d);
+        AvaloniaProperty.Register<ResponsiveUniformGrid, double>(nameof(RowSpacing), 0d);
 
-    static ResponsiveGridPanel()
+    static ResponsiveUniformGrid()
     {
-        AffectsMeasure<ResponsiveGridPanel>(MinColumnWidthProperty);
-        AffectsMeasure<ResponsiveGridPanel>(MaxColumnsProperty);
-        AffectsMeasure<ResponsiveGridPanel>(ColumnSpacingProperty);
-        AffectsMeasure<ResponsiveGridPanel>(RowSpacingProperty);
+        AffectsMeasure<ResponsiveUniformGrid>(MinColumnWidthProperty);
+        AffectsMeasure<ResponsiveUniformGrid>(MaxColumnsProperty);
+        AffectsMeasure<ResponsiveUniformGrid>(ColumnSpacingProperty);
+        AffectsMeasure<ResponsiveUniformGrid>(RowSpacingProperty);
     }
 
     public double MinColumnWidth

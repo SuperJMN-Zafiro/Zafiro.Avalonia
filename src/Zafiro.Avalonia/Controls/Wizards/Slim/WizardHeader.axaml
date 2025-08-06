@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
-        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim">
+        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim"
+        xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels">
 
     <Design.PreviewWith>
         <WizardHeader Width="400">
@@ -16,9 +17,9 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <StackPanel>
-                        <TrueCenterPanel DockPanel.Dock="Top">
+                        <panels:TrueCenterPanel DockPanel.Dock="Top">
                             <Button Theme="{StaticResource TransparentButton}"
-                                    TrueCenterPanel.Dock="Left"
+                                    panels:TrueCenterPanel.Dock="Left"
                                     Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static OpacityConverters.BoolToOpacity}}"
                                     Command="{Binding $parent[SlimWizardControl].Wizard.Back}">
                                 <Button.Content>
@@ -28,9 +29,9 @@
                                     </DockPanel>
                                 </Button.Content>
                             </Button>
-                            <TextBlock FontWeight="Black" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" TrueCenterPanel.Dock="Center"
+                            <TextBlock FontWeight="Black" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" panels:TrueCenterPanel.Dock="Center"
                                        Text="{Binding $parent[SlimWizardControl].Wizard.CurrentPage.Title}" DockPanel.Dock="Top" />
-                            <TextBlock FontSize="12" VerticalAlignment="Center" TrueCenterPanel.Dock="Right" Margin="5 0">
+                            <TextBlock FontSize="12" VerticalAlignment="Center" panels:TrueCenterPanel.Dock="Right" Margin="5 0">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="Step {0} of {1}">
                                         <Binding Path="#StepIndicator.Current" Converter="{x:Static MiscConverters.AddOne}" />
@@ -38,9 +39,9 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                        </TrueCenterPanel>
+                        </panels:TrueCenterPanel>
                         <StepIndicator x:Name="StepIndicator" HorizontalAlignment="Center"
-                                       TrueCenterPanel.Dock="Center"
+                                       panels:TrueCenterPanel.Dock="Center"
                                        IsVisible="{OnFormFactor Mobile=False, Default=True}"
                                        Current="{Binding $parent[SlimWizardControl].Wizard.CurrentPage.Index}"
                                        Total="{Binding $parent[SlimWizardControl].Wizard.TotalPages}" Margin="0 0 0 10">

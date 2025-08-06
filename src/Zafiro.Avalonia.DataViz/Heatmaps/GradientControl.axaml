@@ -3,7 +3,8 @@
                     xmlns:controls="clr-namespace:Zafiro.Avalonia.DataViz"
                     xmlns:heatmaps="clr-namespace:Zafiro.Avalonia.DataViz.Heatmaps"
                     xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-                    xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+                    xmlns:controls1="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+                    xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels;assembly=Zafiro.Avalonia">
     <Design.PreviewWith>
         <StackPanel>
             <heatmaps:GradientControl NumberOfDivisions="4" Width="500">
@@ -48,7 +49,7 @@
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <controls1:HorizontalTickPanel />
+                                    <panels:HorizontalTickPanel />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -87,7 +88,7 @@
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <controls1:HorizontalTickPanel />
+                                        <panels:HorizontalTickPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>

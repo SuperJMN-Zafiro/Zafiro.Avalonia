@@ -8,7 +8,7 @@ using Avalonia.Layout;
 using Avalonia.Utilities;
 using static System.Math;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Panels;
 
 /// <summary>
 ///     Positions child elements in sequential position from left to right,

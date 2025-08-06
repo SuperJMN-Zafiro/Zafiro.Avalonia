@@ -6,6 +6,7 @@
              xmlns:tv="clr-namespace:TestApp.Samples.DataAnalysis.Tables"
              xmlns:z="clr-namespace:Zafiro.Tables;assembly=Zafiro"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
              x:Class="TestApp.Samples.DataAnalysis.Tables.TableView"
              x:DataType="tv:TableViewModel">
@@ -20,7 +21,8 @@
 
     <c:Card Header="TableView" Subheader="Represent a two-dimensional table">
         <Viewbox Margin="50" Stretch="Uniform">
-            <tables:TableControl c:ProportionalCanvas.Left="10" c:ProportionalCanvas.Top="10" c:ProportionalCanvas.ProportionalHeight="70" c:ProportionalCanvas.ProportionalWidth="70" Table="{Binding Table}" RowHeaderBackground="LightBlue"
+            <tables:TableControl panels:ProportionalCanvas.Left="10" panels:ProportionalCanvas.Top="10" panels:ProportionalCanvas.ProportionalHeight="70" panels:ProportionalCanvas.ProportionalWidth="70" Table="{Binding Table}"
+                                 RowHeaderBackground="LightBlue"
                                  ColumnHeaderBackground="LightBlue">
                 <tables:TableControl.RowHeaderContent>
                     <LayoutTransformControl>

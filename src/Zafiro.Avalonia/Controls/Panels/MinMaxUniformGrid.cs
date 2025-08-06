@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.Controls
+namespace Zafiro.Avalonia.Controls.Panels
 {
     public class MinMaxUniformGrid : Panel
     {

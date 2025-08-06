@@ -1,4 +1,4 @@
-﻿namespace Zafiro.Avalonia.Controls;
+﻿namespace Zafiro.Avalonia.Controls.Panels;
 
 /// <summary>
 /// A panel that arranges child elements around a central element, similar to a 3x3 grid.

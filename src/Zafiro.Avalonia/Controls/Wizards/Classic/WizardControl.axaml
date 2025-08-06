@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic">
+        xmlns:classic="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
+        xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels">
 
     <Design.PreviewWith>
         <classic:WizardControl Width="400" Height="300">
@@ -42,15 +43,15 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}">
-                        <c:TrueCenterPanel>
-                            <Button c:TrueCenterPanel.Dock="Left" Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
+                        <panels:TrueCenterPanel>
+                            <Button panels:TrueCenterPanel.Dock="Left" Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
                                     Command="{Binding $parent[classic:WizardHeader].Back}"
                                     Theme="{StaticResource TransparentButton}">
                                 <PathIcon Width="15" Data="{StaticResource LeftArrow}" />
                             </Button>
 
-                            <StackPanel c:TrueCenterPanel.Dock="Center" Spacing="5">
-                                <TextBlock c:TrueCenterPanel.Dock="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
+                            <StackPanel panels:TrueCenterPanel.Dock="Center" Spacing="5">
+                                <TextBlock panels:TrueCenterPanel.Dock="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
                                            TextAlignment="Center"
                                            TextTrimming="CharacterEllipsis"
                                            Text="{Binding $parent[classic:WizardHeader].Title.Value}" IsVisible="{Binding $parent[classic:WizardHeader].Title.HasValue}" />
@@ -61,7 +62,7 @@
                                 </c:StepIndicator>
                             </StackPanel>
 
-                            <TextBlock FontSize="12" VerticalAlignment="Center" c:TrueCenterPanel.Dock="Right" Margin="5 0">
+                            <TextBlock FontSize="12" VerticalAlignment="Center" panels:TrueCenterPanel.Dock="Right" Margin="5 0">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="Step {0} of {1}">
                                         <Binding Path="#StepIndicator.Current" Converter="{x:Static converters:MiscConverters.AddOne}" />
@@ -69,7 +70,7 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                        </c:TrueCenterPanel>
+                        </panels:TrueCenterPanel>
                     </Border>
                 </ControlTemplate>
             </Setter>

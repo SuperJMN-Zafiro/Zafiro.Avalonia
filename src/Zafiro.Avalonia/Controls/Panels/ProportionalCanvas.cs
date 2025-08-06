@@ -1,6 +1,6 @@
 ﻿using Avalonia.Data;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Panels;
 
 public class ProportionalCanvas : Panel
 {

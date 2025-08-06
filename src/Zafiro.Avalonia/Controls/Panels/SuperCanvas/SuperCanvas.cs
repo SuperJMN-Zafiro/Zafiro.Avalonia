@@ -1,17 +1,17 @@
 using System.Collections.Specialized;
 using System.Reactive.Disposables;
 
-namespace Zafiro.Avalonia.Controls.SuperCanvas;
+namespace Zafiro.Avalonia.Controls.Panels.SuperCanvas;
 
 public class SuperCanvas : Panel
 {
-    private readonly CompositeDisposable disposables = new CompositeDisposable();
-    private readonly Dictionary<Control, IDisposable> childSubscriptions = new Dictionary<Control, IDisposable>();
-
     public static readonly DirectProperty<SuperCanvas, LayoutManagerCollection> LayoutersProperty =
         AvaloniaProperty.RegisterDirect<SuperCanvas, LayoutManagerCollection>(
             nameof(Layouters),
             o => o.Layouters);
+
+    private readonly Dictionary<Control, IDisposable> childSubscriptions = new Dictionary<Control, IDisposable>();
+    private readonly CompositeDisposable disposables = new CompositeDisposable();
 
     private readonly LayoutManagerCollection layouters;
 
@@ -25,7 +25,7 @@ public class SuperCanvas : Panel
     protected override void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         base.ChildrenChanged(sender, e);
-            
+
         if (e.OldItems != null)
         {
             foreach (Control child in e.OldItems)
@@ -52,8 +52,8 @@ public class SuperCanvas : Panel
         var subscription = Observable.FromEventPattern<AvaloniaPropertyChangedEventArgs>(
                 h => child.PropertyChanged += h,
                 h => child.PropertyChanged -= h)
-            .Where(pattern => 
-                pattern.EventArgs.Property == Canvas.LeftProperty || 
+            .Where(pattern =>
+                pattern.EventArgs.Property == Canvas.LeftProperty ||
                 pattern.EventArgs.Property == Canvas.TopProperty)
             .Subscribe(_ => InvalidateArrange());
 
@@ -69,17 +69,17 @@ public class SuperCanvas : Panel
         }
 
         var size = new Size();
-            
+
         foreach (var child in Children)
         {
             var left = Canvas.GetLeft(child);
             var top = Canvas.GetTop(child);
-                
+
             if (!double.IsNaN(left))
             {
                 size = size.WithWidth(Math.Max(size.Width, left + child.DesiredSize.Width));
             }
-                
+
             if (!double.IsNaN(top))
             {
                 size = size.WithHeight(Math.Max(size.Height, top + child.DesiredSize.Height));

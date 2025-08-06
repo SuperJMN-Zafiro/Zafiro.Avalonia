@@ -1,46 +1,40 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
+        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
+        xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels">
 
     <Design.PreviewWith>
         <StackPanel>
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                </Style>
+            </StackPanel.Styles>
             <CardGrid Width="1200">
+               
                 <CardGrid.ItemsSource>
                     <generic:List x:TypeArguments="x:Object">
-                        <Card Header="Create your wallet"
-                              Subheader="Create a new wallet or recover your existing one to get started with Angor">
-                            <Card.HeaderStartContent>
-                                <ui:Icon Source="fa-wallet" />
-                            </Card.HeaderStartContent>
-                        </Card>
-                        <Card Header="Explore Opportunities"
-                              Subheader="Browse through innovative projects and find your next investment" />
-                        <Card Header="Launch Your Project"
-                              Subheader="Start your fundraising journey and launch your project on Angor" />
-                        <Card Header="Invest Grow"
-                              Subheader="Invest in promising projects and be part of their success story" />
+                        <Button Content="SOME CONTENT" />
+                        <Button Content="SOME BIGGER CONTENT" />
+                        <Button Content="SOME BIGGER CONTENT" />
+                        <Button Content="A" />
+                        <Button Content="B" />
+                        <Button Content="C" />
+                        <Button Content="D" />
                     </generic:List>
                 </CardGrid.ItemsSource>
             </CardGrid>
-            <Border Width="1000" Background="GreenYellow">
-                <CardGrid HorizontalAlignment="Right">
-                    <CardGrid.ItemsSource>
-                        <generic:List x:TypeArguments="x:Object">
-                            <Card Header="Create your wallet"
-                                  Subheader="Create a new wallet or recover your existing one to get started with Angor">
-                                <Card.HeaderStartContent>
-                                    <ui:Icon Source="fa-wallet" />
-                                </Card.HeaderStartContent>
-                            </Card>
-                            <Card Header="Explore Opportunities"
-                                  Subheader="Browse through innovative projects and find your next investment" />
-                            <Card Header="Launch Your Project"
-                                  Subheader="Start your fundraising journey and launch your project on Angor" />
-                        </generic:List>
-                    </CardGrid.ItemsSource>
-                </CardGrid>
-            </Border>
+            
+            <panels:FlexPanel Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center" ColumnSpacing="4" RowSpacing="8">
+                <Button Content="One" />
+                <Button Content="Two" />
+                <Button Content="Threeeeeeee" />
+                <Button Content="Grow" panels:FlexPanel.Grow="1" />
+                <Button Content="Grow More" panels:FlexPanel.Grow="2" />
+            </panels:FlexPanel>
+            
         </StackPanel>
     </Design.PreviewWith>
     <Styles.Resources>
@@ -55,7 +49,9 @@
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <FlexPanel ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}" RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
+                                    <panels:FlexPanel
+                                        Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center"
+                                        ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}" RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>

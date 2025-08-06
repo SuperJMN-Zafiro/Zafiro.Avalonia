@@ -1,7 +1,7 @@
 using Avalonia.Controls.Presenters;
 using Avalonia.Metadata;
 
-namespace Zafiro.Avalonia.Controls;
+namespace Zafiro.Avalonia.Controls.Panels;
 
 public enum OverflowDirection
 {

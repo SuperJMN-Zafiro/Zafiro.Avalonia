@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Diagrams"
-        xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.SuperCanvas">
+        xmlns:superCanvas="clr-namespace:Zafiro.Avalonia.Controls.Panels.SuperCanvas">
     <Design.PreviewWith>
         <c:LabelsControl />
     </Design.PreviewWith>

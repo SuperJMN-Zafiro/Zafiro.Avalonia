@@ -1,6 +1,4 @@
-﻿namespace Zafiro.Avalonia.Controls;
-
-using System;
+﻿namespace Zafiro.Avalonia.Controls.Panels;
 
 public class RulerPanel : Panel
 {

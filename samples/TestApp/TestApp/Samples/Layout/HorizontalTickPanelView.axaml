@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Layout.HorizontalTickPanelView">
 
@@ -13,12 +14,12 @@
     <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
         <Border Padding="40">
             <Border Background="Green">
-                <c:HorizontalTickPanel ClipToBounds="False">
+                <panels:HorizontalTickPanel ClipToBounds="False">
                     <Button>A</Button>
                     <Button>B</Button>
                     <Button>C</Button>
                     <Button>d</Button>
-                </c:HorizontalTickPanel>
+                </panels:HorizontalTickPanel>
             </Border>
         </Border>
     </c:Card>

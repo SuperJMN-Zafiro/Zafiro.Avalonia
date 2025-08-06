@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.Controls.SuperCanvas;
+namespace Zafiro.Avalonia.Controls.Panels.SuperCanvas;
 
 public class NonOverlappingLayoutManager : AvaloniaObject, ILayoutManager
 {
@@ -23,10 +23,10 @@ public class NonOverlappingLayoutManager : AvaloniaObject, ILayoutManager
                     if (IsOverlapping(pos1, pos2))
                     {
                         hasOverlap = true;
-                            
+
                         double dx = (pos2.Left + pos2.Width / 2) - (pos1.Left + pos1.Width / 2);
                         double dy = (pos2.Top + pos2.Height / 2) - (pos1.Top + pos1.Height / 2);
-                            
+
                         double distance = Math.Sqrt(dx * dx + dy * dy);
                         if (distance < 0.0001)
                         {
@@ -39,9 +39,9 @@ public class NonOverlappingLayoutManager : AvaloniaObject, ILayoutManager
                             dy /= distance;
                         }
 
-                        double overlapX = (pos1.Width + pos2.Width) / 2 - 
+                        double overlapX = (pos1.Width + pos2.Width) / 2 -
                                           Math.Abs((pos1.Left + pos1.Width / 2) - (pos2.Left + pos2.Width / 2));
-                        double overlapY = (pos1.Height + pos2.Height) / 2 - 
+                        double overlapY = (pos1.Height + pos2.Height) / 2 -
                                           Math.Abs((pos1.Top + pos1.Height / 2) - (pos2.Top + pos2.Height / 2));
                         double overlap = Math.Min(overlapX, overlapY);
 
@@ -53,8 +53,7 @@ public class NonOverlappingLayoutManager : AvaloniaObject, ILayoutManager
                     }
                 }
             }
-        }
-        while (hasOverlap && iteration < maxIterations);
+        } while (hasOverlap && iteration < maxIterations);
     }
 
     private bool IsOverlapping(ControlPosition pos1, ControlPosition pos2)
