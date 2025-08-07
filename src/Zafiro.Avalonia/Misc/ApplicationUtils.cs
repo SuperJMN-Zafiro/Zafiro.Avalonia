@@ -123,7 +123,15 @@ public static class ApplicationUtils
         {
             func();
         }
-
-        Dispatcher.UIThread.Invoke(func);
+        else
+        {
+            Dispatcher.UIThread.Invoke(func);
+        }
     }
+
+#if DEBUG
+    public static bool IsDebug => true;
+#else
+    public static bool IsDebug => false;
+#endif
 }

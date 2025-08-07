@@ -1,3 +1,4 @@
+using System.Reactive;
 using System.Reactive.Disposables;
 using CSharpFunctionalExtensions;
 using Zafiro.Avalonia.Misc;
@@ -9,89 +10,47 @@ namespace Zafiro.Avalonia.Controls.Wizards.Slim;
 
 public static class WizardExtensions
 {
-    public static Task<Maybe<T>> Navigate<T>(this ISlimWizard<T> wizard, INavigator navigator)
+    public static async Task<Maybe<T>> Navigate<T>(this ISlimWizard<T> wizard, INavigator navigator)
     {
-        return ExecuteWizardNavigation(wizard, navigator);
-    }
+        var tcs = new TaskCompletionSource<Maybe<T>>();
+        var disposable = new CompositeDisposable();
 
-    private static async Task<Maybe<T>> ExecuteWizardNavigation<T>(
-        ISlimWizard<T> wizard,
-        INavigator navigator)
-    {
-        var resultSource = new TaskCompletionSource<Maybe<T>>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-
-        using var disposables = new CompositeDisposable();
-
-        SetupWizardHandlers(wizard, navigator, resultSource, disposables);
-        await navigator.Go(() => CreateWizardControl(wizard, navigator, resultSource, disposables));
-
-        return await resultSource.Task.ConfigureAwait(false);
-    }
-
-    private static void SetupWizardHandlers<T>(
-        ISlimWizard<T> wizard,
-        INavigator navigator,
-        TaskCompletionSource<Maybe<T>> resultSource,
-        CompositeDisposable disposables)
-    {
-        wizard.Finished
-            .SelectMany(result => HandleWizardCompletion(navigator, result))
-            .Take(1) // Asegurar que solo se procese una vez
-            .Subscribe(
-                result => resultSource.TrySetResult(result),
-                error => resultSource.TrySetResult(Maybe<T>.None))
-            .DisposeWith(disposables);
-    }
-
-    private static async Task<Maybe<T>> HandleWizardCompletion<T>(INavigator navigator, T result)
-    {
-        try
+        await navigator.Go(() =>
         {
-            var navResult = await ApplicationUtils.ExecuteOnUIThreadAsync(async () =>
-            {
-                var backResult = await navigator.GoBack();
-                return backResult.Map(_ => result);
-            });
+            wizard.Finished.SelectMany(async result =>
+                {
+                    var r = await navigator.GoBack().Map<Unit, T>(_ => result);
+                    if (r.IsFailure)
+                    {
+                        throw new InvalidOperationException("Failed to navigate back from wizard.");
+                    }
 
-            return navResult.AsMaybe();
-        }
-        catch
-        {
-            return Maybe<T>.None;
-        }
+                    return r.Value;
+                })
+                .Take(1)
+                .Do(result => tcs.SetResult(result))
+                .Subscribe()
+                .DisposeWith(disposable);
+
+            return ApplicationUtils.ExecuteOnUIThread(() => CreateUserControl(wizard, navigator, tcs));
+        });
+
+        var navigateResult = await tcs.Task;
+        disposable.Dispose();
+        return navigateResult;
     }
 
-    private static UserControl CreateWizardControl<T>(
-        ISlimWizard<T> wizard,
-        INavigator navigator,
-        TaskCompletionSource<Maybe<T>> resultSource,
-        CompositeDisposable disposables)
+    private static UserControl CreateUserControl<T>(ISlimWizard<T> wizard, INavigator navigator, TaskCompletionSource<Maybe<T>> tcs)
     {
-        return ApplicationUtils.ExecuteOnUIThread(() => CreateWizardControlCore(wizard, navigator, resultSource, disposables));
-    }
-
-    private static UserControl CreateWizardControlCore<T>(
-        ISlimWizard<T> wizard,
-        INavigator navigator,
-        TaskCompletionSource<Maybe<T>> resultSource,
-        CompositeDisposable disposables)
-    {
-        var cancelCommand = ReactiveCommand.CreateFromTask(async () =>
-        {
-            await navigator.GoBack().ConfigureAwait(false);
-            resultSource.TrySetResult(Maybe<T>.None);
-        }).Enhance();
-
-        // Asegurar que el comando se dispose correctamente
-        cancelCommand.DisposeWith(disposables);
-
         return new UserControl
         {
             Content = new WizardNavigator
             {
-                Wizard = wizard,
-                Cancel = cancelCommand
+                Wizard = wizard, Cancel = ReactiveCommand.CreateFromTask(async () =>
+                {
+                    await navigator.GoBack();
+                    tcs.SetResult(Maybe<T>.None);
+                }).Enhance()
             }
         };
     }
