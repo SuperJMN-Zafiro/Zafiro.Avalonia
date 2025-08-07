@@ -1,16 +1,14 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:se="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
-        xmlns:sh="clr-namespace:Zafiro.Avalonia.Controls.Shell"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
-        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:se="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI">
 
     <Styles.Resources>
 
         <TransformOperations x:Key="VerticalSmallScrollThumbScaleTransform">scaleX(0.125)</TransformOperations>
 
-        <ControlTheme TargetType="sh:Sidebar" x:Key="{x:Type sh:Sidebar}">
+        <ControlTheme TargetType="Sidebar" x:Key="{x:Type Sidebar}">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="IconWidth" Value="40" />
             <Setter Property="IconHeight" Value="40" />
@@ -20,8 +18,8 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
-                             ItemsSource="{Binding $parent[sh:Sidebar].Sections}"
-                             SelectedItem="{Binding $parent[sh:Sidebar].SelectedSection}">
+                             ItemsSource="{Binding $parent[Sidebar].Sections}"
+                             SelectedItem="{Binding $parent[Sidebar].SelectedSection}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <DockPanel LastChildFill="False" />
@@ -30,20 +28,18 @@
 
                         <ListBox.DataTemplates>
                             <DataTemplate DataType="se:IContentSection">
-                                <z:EdgePanel Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}"
-                                             Background="Transparent"
-                                             ToolTip.Tip="{Binding Name}">
-                                    <z:EdgePanel.StartContent>
-                                        <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
-                                                        Height="{Binding $parent[sh:Sidebar].IconHeight}"
-                                                        Padding="{Binding $parent[sh:Sidebar].IconMargin}"
-                                                        Content="{Binding Icon}"
-                                                        ContentTemplate="{Binding $parent[sh:Sidebar].IconTemplate}" />
-                                    </z:EdgePanel.StartContent>
+                                <DockPanel HorizontalSpacing="{Binding $parent[Sidebar].SectionSpacing}"
+                                           Background="Transparent"
+                                           ToolTip.Tip="{Binding Name}">
+                                    <ContentControl DockPanel.Dock="Left" Width="{Binding $parent[Sidebar].IconWidth}"
+                                                    Height="{Binding $parent[Sidebar].IconHeight}"
+                                                    Padding="{Binding $parent[Sidebar].IconMargin}"
+                                                    Content="{Binding Icon}"
+                                                    ContentTemplate="{Binding $parent[Sidebar].IconTemplate}" />
                                     <TextBlock TextTrimming="CharacterEllipsis"
-                                               Margin="{Binding $parent[sh:Sidebar].SectionNameMargin}"
+                                               Margin="{Binding $parent[Sidebar].SectionNameMargin}"
                                                Text="{Binding Name}" VerticalAlignment="Center" />
-                                </z:EdgePanel>
+                                </DockPanel>
                             </DataTemplate>
                             <DataTemplate DataType="se:ICommandSection">
                                 <Button Padding="0"
@@ -53,17 +49,16 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Stretch">
                                     <Button.Content>
-                                        <z:EdgePanel Background="Transparent" ToolTip.Tip="{Binding Name}" Spacing="{Binding $parent[sh:Sidebar].SectionSpacing}">
-                                            <z:EdgePanel.StartContent>
-                                                <ContentControl Width="{Binding $parent[sh:Sidebar].IconWidth}"
-                                                                Height="{Binding $parent[sh:Sidebar].IconHeight}"
-                                                                Padding="{Binding $parent[sh:Sidebar].IconMargin}"
-                                                                Content="{Binding Icon}" />
-                                            </z:EdgePanel.StartContent>
+                                        <DockPanel Background="Transparent" ToolTip.Tip="{Binding Name}"
+                                                   HorizontalSpacing="{Binding $parent[Sidebar].SectionSpacing}">
+                                            <ContentControl DockPanel.Dock="Left" Width="{Binding $parent[Sidebar].IconWidth}"
+                                                            Height="{Binding $parent[Sidebar].IconHeight}"
+                                                            Padding="{Binding $parent[Sidebar].IconMargin}"
+                                                            Content="{Binding Icon}" />
                                             <TextBlock TextTrimming="CharacterEllipsis"
-                                                       Margin="{Binding $parent[sh:Sidebar].SectionNameMargin}"
+                                                       Margin="{Binding $parent[Sidebar].SectionNameMargin}"
                                                        Text="{Binding Name}" VerticalAlignment="Center" />
-                                        </z:EdgePanel>
+                                        </DockPanel>
                                     </Button.Content>
                                 </Button>
                             </DataTemplate>
@@ -78,9 +73,9 @@
                                 <Setter Property="Padding" Value="0" />
                                 <Setter Property="DockPanel.Dock"
                                         x:DataType="se:IContentSection"
-                                        Value="{Binding IsPrimary, Converter={x:Static sh:ShellConverters.IsPrimaryToDock}}" />
+                                        Value="{Binding IsPrimary, Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
                                 <Setter Property="IsHitTestVisible"
-                                        Value="{Binding Converter={x:Static sh:ShellConverters.IsActivatable}}" />
+                                        Value="{Binding Converter={x:Static ShellConverters.IsActivatable}}" />
                             </ControlTheme>
                         </ListBox.ItemContainerTheme>
                     </ListBox>
@@ -92,77 +87,77 @@
 
     </Styles.Resources>
 
-    <Style Selector="sh|Sidebar ScrollViewer">
+    <Style Selector="Sidebar ScrollViewer">
         <Setter Property="Theme" Value="{StaticResource CuedScrollViewer}" />
     </Style>
 
-    <Style Selector="sh|Sidebar ScrollViewer RepeatButton">
+    <Style Selector="Sidebar ScrollViewer RepeatButton">
         <Setter Property="Theme" Value="{StaticResource FullTransparentButton}" />
     </Style>
 
     <Design.PreviewWith>
         <StackPanel>
-            <sh:Sidebar Height="400" IconWidth="30">
-                <sh:Sidebar.Sections>
+            <Sidebar Height="400" IconWidth="30">
+                <Sidebar.Sections>
                     <generic:List x:TypeArguments="se:ISection">
-                        <sh:ContentSectionDesign Name="Section 1 with long name" IsPrimary="True">
-                            <sh:ContentSectionDesign.Icon>
+                        <ContentSectionDesign Name="Section 1 with long name" IsPrimary="True">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola4">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola4">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:ContentSectionDesign Name="Hola3">
-                            <sh:ContentSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <ContentSectionDesign Name="Hola3">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="fa-wallet" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
-                        <sh:CommandSectionDesign Name="Command">
-                            <sh:CommandSectionDesign.Icon>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
+                        <CommandSectionDesign Name="Command">
+                            <CommandSectionDesign.Icon>
                                 <ui:Icon Source="mdi-menu" />
-                            </sh:CommandSectionDesign.Icon>
-                        </sh:CommandSectionDesign>
-                        <sh:ContentSectionDesign Name="Settings" IsPrimary="False">
-                            <sh:ContentSectionDesign.Icon>
+                            </CommandSectionDesign.Icon>
+                        </CommandSectionDesign>
+                        <ContentSectionDesign Name="Settings" IsPrimary="False">
+                            <ContentSectionDesign.Icon>
                                 <ui:Icon Source="mdi-cog" />
-                            </sh:ContentSectionDesign.Icon>
-                        </sh:ContentSectionDesign>
+                            </ContentSectionDesign.Icon>
+                        </ContentSectionDesign>
                     </generic:List>
-                </sh:Sidebar.Sections>
-            </sh:Sidebar>
+                </Sidebar.Sections>
+            </Sidebar>
         </StackPanel>
     </Design.PreviewWith>
 
