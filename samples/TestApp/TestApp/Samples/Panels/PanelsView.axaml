@@ -12,19 +12,39 @@
         </Style>
     </UserControl.Styles>
     <StackPanel Spacing="8">
-        <Card>
-            <CardPanel ItemAspectRatio="0.8">
+        <Card Header="MinMaxUniformGrid">
+            <MinMaxUniformGrid MinColumnWidth="200" MaxColumnWidth="400" ColumnSpacing="10" RowSpacing="10">
                 <Card Header="Salute, boy">
                     <TextBlock TextWrapping="Wrap">
                         This is my super content, big enough to kick you in the asss
                     </TextBlock>
                 </Card>
-                <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
-                <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
-                <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
-                <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
-                <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
-            </CardPanel>
+                <Card Header="Salute, boy">
+                    <TextBlock TextWrapping="Wrap">
+                        This is my super content, big enough to kick you in the asss
+                    </TextBlock>
+                </Card>
+                <Card Header="Salute, boy">
+                    <TextBlock TextWrapping="Wrap">
+                        This is my super content, big enough to kick you in the asss
+                    </TextBlock>
+                </Card>
+                <Card Header="Salute, boy">
+                    <TextBlock TextWrapping="Wrap">
+                        This is my super content, big enough to kick you in the asss
+                    </TextBlock>
+                </Card>
+                <Card Header="Salute, boy">
+                    <TextBlock TextWrapping="Wrap">
+                        This is my super content, big enough to kick you in the asss
+                    </TextBlock>
+                </Card>
+                <Card Header="Salute, boy">
+                    <TextBlock TextWrapping="Wrap">
+                        This is my super content, big enough to kick you in the asss
+                    </TextBlock>
+                </Card>
+            </MinMaxUniformGrid>
         </Card>
         <Card Header="ResponsiveGridPanel">
             <ResponsiveUniformGrid MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">

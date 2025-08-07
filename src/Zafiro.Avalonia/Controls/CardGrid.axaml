@@ -61,7 +61,6 @@
         <ControlTheme x:Key="{x:Type CardGrid}" TargetType="CardGrid">
             <Setter Property="RowSpacing" Value="10" />
             <Setter Property="ColumnSpacing" Value="10" />
-            <Setter Property="MinColumnWidth" Value="250" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Padding="{TemplateBinding Padding}">
@@ -70,9 +69,10 @@
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <ResponsiveUniformGrid ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
-                                                           MinColumnWidth="{Binding $parent[CardGrid].MinColumnWidth}"
-                                                           RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
+                                    <MinMaxUniformGrid ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
+                                                       MinColumnWidth="{Binding $parent[CardGrid].MinColumnWidth}"
+                                                       MaxColumnWidth="{Binding $parent[CardGrid].MaxColumnWidth}"
+                                                       RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
