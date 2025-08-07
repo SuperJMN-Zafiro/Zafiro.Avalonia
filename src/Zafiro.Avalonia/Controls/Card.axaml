@@ -18,8 +18,9 @@
             <Setter Property="Padding" Value="15 15 15 15" />
             <Setter Property="HeaderSpacing" Value="10" />
             <Setter Property="HeaderSubheaderSpacing" Value="4" />
+            <Setter Property="HeaderHorizontalAlignment" Value="Center" />
             <Setter Property="HeaderVerticalAlignment" Value="Center" />
-            
+
             <Setter Property="HeaderTheme">
                 <ControlTheme TargetType="ContentControl">
                     <Setter Property="FontSize" Value="16" />
@@ -51,7 +52,6 @@
                                        BoxShadow="{TemplateBinding BoxShadow}">
                         <HeaderedContainer.Header>
                             <EdgePanel DockPanel.Dock="Top"
-                                       IsAdaptiveFlowEnabled="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
                                        Spacing="{Binding $parent[Card].HeaderSpacing}"
                                        Margin="{Binding $parent[Card].HeaderPadding}"
                                        StartContent="{Binding $parent[Card].HeaderStartContent}"

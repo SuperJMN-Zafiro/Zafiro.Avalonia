@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
              xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
@@ -15,22 +14,22 @@
     </UserControl.DataTemplates>
 
     <Grid ColumnDefinitions="* 2* *">
-        <c:Card Grid.Column="1" VerticalAlignment="Center" Margin="10"
-                IsAdaptiveFlowEnabled="True"
-                Header="This is a card">
-            <c:Card.Subheader>
+        <Card Grid.Column="1" VerticalAlignment="Center" Margin="10"
+              IsAdaptiveFlowEnabled="True"
+              Header="This is a card">
+            <Card.Subheader>
                 <TextBlock MinWidth="50" TextWrapping="Wrap">It helps you group related information in a convenient way. </TextBlock>
-            </c:Card.Subheader>
-            <c:Card.HeaderStartContent>
+            </Card.Subheader>
+            <Card.HeaderStartContent>
                 <ui:Icon Source="fa-wallet" />
-            </c:Card.HeaderStartContent>
-            <c:BulletList Header="It offers you special places to put your contents:">
+            </Card.HeaderStartContent>
+            <BulletList Header="It offers you special places to put your contents:">
                 <x:String>Header</x:String>
                 <x:String>Subheader</x:String>
                 <x:String>Header Start Content</x:String>
                 <x:String>Header End Content</x:String>
                 <x:String>Content</x:String>
-            </c:BulletList>
-        </c:Card>
+            </BulletList>
+        </Card>
     </Grid>
 </UserControl>

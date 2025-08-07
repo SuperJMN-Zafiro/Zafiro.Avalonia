@@ -58,13 +58,13 @@
         </Card>
 
         <Card Header="FlexPanel">
-            <FlexPanel Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center" ColumnSpacing="4" RowSpacing="8">
+            <FlexBox Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
                 <Button Content="One" />
                 <Button Content="Two" />
                 <Button Content="Three" />
-                <Button Content="Grow" FlexPanel.Grow="1" />
-                <Button Content="Grow More" FlexPanel.Grow="2" />
-            </FlexPanel>
+                <Button Content="Grow" FlexBox.Grow="1" />
+                <Button Content="Grow More" FlexBox.Grow="2" />
+            </FlexBox>
         </Card>
 
         <Card Header="BoostrapGridPanel">
