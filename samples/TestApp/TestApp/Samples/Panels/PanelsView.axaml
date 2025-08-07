@@ -13,8 +13,12 @@
     </UserControl.Styles>
     <StackPanel Spacing="8">
         <Card>
-            <CardPanel>
-                <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
+            <CardPanel ItemAspectRatio="0.8">
+                <Card Header="Salute, boy">
+                    <TextBlock TextWrapping="Wrap">
+                        This is my super content, big enough to kick you in the asss
+                    </TextBlock>
+                </Card>
                 <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
                 <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
                 <Button TextBlock.TextWrapping="Wrap" Content="HOLAAAAAA" />
