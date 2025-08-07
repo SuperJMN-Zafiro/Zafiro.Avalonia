@@ -23,7 +23,16 @@ public class CardGrid : TemplatedControl
         nameof(ItemContainerTheme));
 
     public static readonly StyledProperty<double> MinColumnWidthProperty = AvaloniaProperty.Register<CardGrid, double>(
-        nameof(MinColumnWidth), 300d);
+        nameof(MinColumnWidth), 200d);
+
+    public static readonly StyledProperty<double> MaxColumnWidthProperty = AvaloniaProperty.Register<CardGrid, double>(
+        nameof(MaxColumnWidth), 400d);
+
+    public double MaxColumnWidth
+    {
+        get => GetValue(MaxColumnWidthProperty);
+        set => SetValue(MaxColumnWidthProperty, value);
+    }
 
     public IEnumerable ItemsSource
     {
