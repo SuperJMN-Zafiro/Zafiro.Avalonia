@@ -1,71 +1,72 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:conv="clr-namespace:Zafiro.Avalonia.Controls"
-        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters">
-
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <StackPanel>
-            <conv:EdgePanel Width="400" IsAdaptiveFlowEnabled="True">
-                <conv:EdgePanel.EndContent>
+            <Card Header="My card" Width="300" HeaderStartContent="ICON" Subheader="Subheader">
+                <Card.HeaderEndContent>
+                    <FlexPanel Background="Red">
+                        <Button>MORE ACTION</Button>
+                        <Button>ACTION</Button>
+                    </FlexPanel>
+                </Card.HeaderEndContent>
+            </Card>
+            <EdgePanel Width="90" StartContent="ICON1" EndContent="ICON2">
+                <TextBlock Background="Red">CONTENIDO</TextBlock>
+            </EdgePanel>
+            <EdgePanel Width="120">
+                <EdgePanel.EndContent>
                     <Button HorizontalAlignment="Stretch">RIGHT BUTTON</Button>
-                </conv:EdgePanel.EndContent>
-                <conv:EdgePanel.StartContent>
+                </EdgePanel.EndContent>
+                <EdgePanel.StartContent>
                     <Button HorizontalAlignment="Stretch">LEFT BUTTON</Button>
-                </conv:EdgePanel.StartContent>
-                <conv:EdgePanel.Content>
+                </EdgePanel.StartContent>
+                <EdgePanel.Content>
                     <Button Background="Red" HorizontalAlignment="Stretch">MAIN BUTTON</Button>
-                </conv:EdgePanel.Content>
-            </conv:EdgePanel>
-            <conv:EdgePanel Width="400" IsAdaptiveFlowEnabled="True"
-                            StartContent="{Binding Left}" 
-                            Content="{Binding Middle}"
-                            EndContent="{Binding Right}">
-                <conv:EdgePanel.ContentTemplate>
+                </EdgePanel.Content>
+            </EdgePanel>
+            <EdgePanel Width="400" IsAdaptiveFlowEnabled="True"
+                       StartContent="{Binding Left}"
+                       Content="{Binding Middle}"
+                       EndContent="{Binding Right}">
+                <EdgePanel.ContentTemplate>
                     <DataTemplate>
                         <Button HorizontalAlignment="Stretch" Content="{Binding}" />
                     </DataTemplate>
-                </conv:EdgePanel.ContentTemplate>
-                <conv:EdgePanel.DataContext>
+                </EdgePanel.ContentTemplate>
+                <EdgePanel.DataContext>
                     <MyViewModel Left="HOLA" Middle="CÓMO" Right="ESTÁS" />
-                </conv:EdgePanel.DataContext>
-            </conv:EdgePanel>
+                </EdgePanel.DataContext>
+            </EdgePanel>
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="{x:Type conv:EdgePanel}" x:Key="{x:Type conv:EdgePanel}">
+        <ControlTheme TargetType="{x:Type EdgePanel}" x:Key="{x:Type EdgePanel}">
             <Setter Property="Spacing" Value="10" />
             <Setter Property="Template">
 
                 <ControlTemplate>
-                    <Grid Background="{TemplateBinding Background}" ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto">
-
+                    <FlexPanel Background="{TemplateBinding Background}" Wrap="Wrap"
+                               JustifyContent="Center">
                         <ContentControl
                             x:Name="StartContent"
-                            Grid.Column="0"
                             ContentTemplate="{TemplateBinding StartContentTemplate}"
                             Content="{TemplateBinding StartContent}"
-                            Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToRightMargin}}"
-                            IsVisible="{Binding $parent[conv:EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
-
-                        <ContentControl
-                            x:Name="MainContent"
-                            Grid.Row="0" Grid.Column="1"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Content="{TemplateBinding Content}" />
-
+                            FlexPanel.Grow="3"
+                            IsVisible="{Binding $parent[EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <ContentControl FlexPanel.Grow="3"
+                                        x:Name="MainContent"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        Content="{TemplateBinding Content}" />
                         <ContentControl
                             x:Name="EndContent"
-                            Grid.Row="0" Grid.Column="2"
                             ContentTemplate="{TemplateBinding EndContentTemplate}"
                             Content="{TemplateBinding EndContent}"
-                            Margin="{TemplateBinding Spacing, Converter={x:Static converters:SpacingConverters.SpacingToLeftMargin}}"
-                            IsVisible="{Binding $parent[conv:EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
-
+                            IsVisible="{Binding $parent[EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
                         <Interaction.Behaviors>
                             <OverflowBehavior />
                         </Interaction.Behaviors>
-                    </Grid>
+                    </FlexPanel>
                 </ControlTemplate>
             </Setter>
 
