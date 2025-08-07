@@ -1,3 +1,4 @@
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
@@ -14,45 +15,42 @@ public static class WizardExtensions
     public static async Task<Maybe<T>> Navigate<T>(this ISlimWizard<T> wizard, INavigator navigator)
     {
         var tcs = new TaskCompletionSource<Maybe<T>>(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var disposables = new CompositeDisposable();
 
-        var cancel = ReactiveCommand.CreateFromTask(async () =>
+        await navigator.Go(() =>
         {
-            var back = await navigator.GoBack();
-            if (back.IsFailure)
+            var cancel = ReactiveCommand.CreateFromTask(async () =>
             {
-                throw new InvalidOperationException("Failed to navigate back from wizard.");
-            }
+                await navigator.GoBack();
+                tcs.TrySetResult(Maybe<T>.None);
+            }).Enhance();
+            cancel.DisposeWith(disposables);
 
-            tcs.TrySetResult(Maybe<T>.None);
-        });
-
-        var subscription = wizard.Finished
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(async result =>
-            {
-                var back = await navigator.GoBack();
-                if (back.IsFailure)
+            wizard.Finished
+                .SelectMany(result =>
+                    Dispatcher.UIThread.InvokeAsync(() =>
+                        navigator.GoBack().Map(_ => result)))
+                .Subscribe(r =>
                 {
-                    throw new InvalidOperationException("Failed to navigate back from wizard.");
-                }
+                    if (r.IsFailure)
+                    {
+                        tcs.TrySetException(new InvalidOperationException("Failed to navigate back from wizard."));
+                        return;
+                    }
 
-                tcs.TrySetResult(Maybe.From(result));
-            }, ex => tcs.TrySetException(ex));
+                    tcs.TrySetResult(Maybe.From(r.Value));
+                }, ex => tcs.TrySetException(ex))
+                .DisposeWith(disposables);
 
-        _ = tcs.Task.ContinueWith(_ =>
-        {
-            subscription.Dispose();
-            cancel.Dispose();
-        }, TaskScheduler.Default);
-
-        await Dispatcher.UIThread.InvokeAsync(() => navigator.Go(() => new UserControl
-        {
-            Content = new WizardNavigator
+            return Dispatcher.UIThread.Invoke(() => new UserControl
             {
-                Wizard = wizard,
-                Cancel = cancel.Enhance()
-            }
-        }));
+                Content = new WizardNavigator
+                {
+                    Wizard = wizard,
+                    Cancel = cancel
+                }
+            });
+        });
 
         return await tcs.Task;
     }
