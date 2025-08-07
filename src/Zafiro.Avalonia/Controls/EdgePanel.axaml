@@ -1,102 +1,87 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Design.PreviewWith>
-        <StackPanel>
-            <Card Header="My card" Width="300" HeaderStartContent="ICON" Subheader="Subheader">
-                <Card.HeaderEndContent>
-                    <FlexPanel Background="Red">
-                        <Button>MORE ACTION</Button>
-                        <Button>ACTION</Button>
-                    </FlexPanel>
-                </Card.HeaderEndContent>
-            </Card>
-            <EdgePanel Width="90" StartContent="ICON1" EndContent="ICON2">
-                <TextBlock Background="Red">CONTENIDO</TextBlock>
-            </EdgePanel>
-            <EdgePanel Width="120">
-                <EdgePanel.EndContent>
-                    <Button HorizontalAlignment="Stretch">RIGHT BUTTON</Button>
-                </EdgePanel.EndContent>
+        <StackPanel Spacing="20">
+            <!-- Uso -->
+            <EdgePanel Height="50">
                 <EdgePanel.StartContent>
-                    <Button HorizontalAlignment="Stretch">LEFT BUTTON</Button>
+                    <TextBlock Background="Green" Padding="10">Start very big</TextBlock>
                 </EdgePanel.StartContent>
                 <EdgePanel.Content>
-                    <Button Background="Red" HorizontalAlignment="Stretch">MAIN BUTTON</Button>
+                    <TextBlock Background="Yellow" Padding="10">CONTENT</TextBlock>
                 </EdgePanel.Content>
+                <EdgePanel.EndContent>
+                    <TextBlock Background="Blue" Padding="10">End</TextBlock>
+                </EdgePanel.EndContent>
             </EdgePanel>
-            <EdgePanel Width="400" IsAdaptiveFlowEnabled="True"
-                       StartContent="{Binding Left}"
-                       Content="{Binding Middle}"
-                       EndContent="{Binding Right}">
-                <EdgePanel.ContentTemplate>
-                    <DataTemplate>
-                        <Button HorizontalAlignment="Stretch" Content="{Binding}" />
-                    </DataTemplate>
-                </EdgePanel.ContentTemplate>
-                <EdgePanel.DataContext>
-                    <MyViewModel Left="HOLA" Middle="CÓMO" Right="ESTÁS" />
-                </EdgePanel.DataContext>
+
+            <!-- Card original para comparar -->
+            <Card Header="Dashboard Analytics con título muy largo" Width="400" HeaderStartContent="📊" Subheader="Estadísticas en tiempo real">
+                <Card.HeaderEndContent>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Width="36" Height="36" Content="⭐" />
+                        <Button Width="36" Height="36" Content="📤" />
+                        <Button Width="36" Height="36" Content="🔔" />
+                        <Button Width="36" Height="36" Content="⬇️" />
+                        <Button Width="36" Height="36" Content="⚙️" />
+                    </StackPanel>
+                </Card.HeaderEndContent>
+                <TextBlock Text="Contenido de la card..." />
+            </Card>
+
+            <!-- EdgePanel con comportamiento de Card Header -->
+            <EdgePanel Spacing="8">
+                <EdgePanel.StartContent>
+                    <StackPanel Orientation="Horizontal" Spacing="15">
+                        <Border Width="40" Height="40" CornerRadius="20" Background="Blue">
+                            <TextBlock Text="📊" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel>
+                            <TextBlock Text="Dashboard Analytics con título muy largo que fuerza wrap" FontWeight="SemiBold" />
+                            <TextBlock Text="Estadísticas en tiempo real" FontSize="12" Foreground="Gray" />
+                        </StackPanel>
+                    </StackPanel>
+                </EdgePanel.StartContent>
+                <EdgePanel.EndContent>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Width="36" Height="36" Content="⭐" />
+                        <Button Width="36" Height="36" Content="📤" />
+                        <Button Width="36" Height="36" Content="🔔" />
+                        <Button Width="36" Height="36" Content="⬇️" />
+                        <Button Width="36" Height="36" Content="⚙️" />
+                    </StackPanel>
+                </EdgePanel.EndContent>
             </EdgePanel>
+
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="{x:Type EdgePanel}" x:Key="{x:Type EdgePanel}">
+
+        <ControlTheme x:Key="{x:Type EdgePanel}" TargetType="{x:Type EdgePanel}">
             <Setter Property="Spacing" Value="10" />
             <Setter Property="Template">
-
                 <ControlTemplate>
-                    <FlexPanel Background="{TemplateBinding Background}" Wrap="Wrap"
-                               JustifyContent="Center">
-                        <ContentControl
-                            x:Name="StartContent"
-                            ContentTemplate="{TemplateBinding StartContentTemplate}"
-                            Content="{TemplateBinding StartContent}"
-                            FlexPanel.Grow="3"
-                            IsVisible="{Binding $parent[EdgePanel].StartContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                        <ContentControl FlexPanel.Grow="3"
-                                        x:Name="MainContent"
+                    <Grid Background="{TemplateBinding Background}" ColumnSpacing="{TemplateBinding Spacing}" Grid.IsSharedSizeScope="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="Icon" />
+                            <ColumnDefinition />
+                            <ColumnDefinition SharedSizeGroup="Icon" />
+                        </Grid.ColumnDefinitions>
+                        <ContentControl x:Name="StartContent"
+                                        ContentTemplate="{TemplateBinding StartContentTemplate}"
+                                        Content="{TemplateBinding StartContent}" />
+                        <ContentControl Grid.Column="1" x:Name="MainContent"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
                                         Content="{TemplateBinding Content}" />
-                        <ContentControl
-                            x:Name="EndContent"
-                            ContentTemplate="{TemplateBinding EndContentTemplate}"
-                            Content="{TemplateBinding EndContent}"
-                            IsVisible="{Binding $parent[EdgePanel].EndContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                        <Interaction.Behaviors>
-                            <OverflowBehavior />
-                        </Interaction.Behaviors>
-                    </FlexPanel>
+                        <ContentControl Grid.Column="2" x:Name="EndContent"
+                                        ContentTemplate="{TemplateBinding EndContentTemplate}"
+                                        Content="{TemplateBinding EndContent}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter>
-
-            <Style Selector="^ /template/ Grid ContentPresenter#MainContent">
-                <Setter Property="Grid.Column" Value="1" />
-            </Style>
-            <Style Selector="^[IsAdaptiveFlowEnabled=True] /template/ Grid:overflow ContentPresenter#StartContent">
-                <Setter Property="Grid.ColumnSpan" Value="3" />
-                <Setter Property="Margin"
-                        Value="{Binding $parent[EdgePanel].Spacing,
-                        Converter={x:Static ThicknessConverters.DoubleToThicknessSides},
-                        ConverterParameter={Parse Type={x:Type Sides}, Value='Bottom'}}" />
-            </Style>
-            <Style Selector="^[IsAdaptiveFlowEnabled=True] /template/ Grid:overflow ContentPresenter#MainContent">
-                <Setter Property="Grid.Column" Value="0" />
-                <Setter Property="Grid.ColumnSpan" Value="3" />
-                <Setter Property="Grid.Row" Value="1" />
-            </Style>
-            <Style Selector="^[IsAdaptiveFlowEnabled=True] /template/ Grid:overflow ContentPresenter#EndContent">
-                <Setter Property="Grid.Column" Value="0" />
-                <Setter Property="Grid.Row" Value="2" />
-                <Setter Property="Margin"
-                        Value="{Binding $parent[EdgePanel].Spacing,
-                        Converter={x:Static ThicknessConverters.DoubleToThicknessSides},
-                        ConverterParameter={Parse Type={x:Type Sides}, Value='Top'}}" />
-                <Setter Property="Grid.ColumnSpan" Value="3" />
-            </Style>
-
         </ControlTheme>
 
     </Styles.Resources>
-
 </Styles>
