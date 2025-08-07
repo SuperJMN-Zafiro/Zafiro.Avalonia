@@ -7,16 +7,43 @@ steps:
 - checkout: self
   submodules: true
 
+# Optional: Ensure Android platform tools are available for any Android packaging steps
 - script: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk "platform-tools"
   displayName: Install Android SDK "Platform Tools"
+  continueOnError: true
 
-- powershell: .\build.ps1
+# Install the DotnetPackaging Deployer tool
+- pwsh: dotnet tool install --global DotnetPackaging.DeployerTool
+  displayName: Install DotnetPackaging.DeployerTool
+
+# Publish NuGet packages on master/main
+- pwsh: |
+    dotnetdeployer nuget --api-key $env:NUGET_API_KEY
+  displayName: Publish NuGet packages
+  condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   env:
-    NuGetApiKey: $(NuGetApiKey)
-    GitHubApiKey: $(GitHubApiKey)
-    GitHubAuthenticationToken: $(GitHubAuthenticationToken)
+    NUGET_API_KEY: $(NuGetApiKey)
+
+# Dry run for NuGet on non-master/main branches
+- pwsh: |
+    dotnetdeployer nuget --api-key $env:NUGET_API_KEY --no-push
+  displayName: Publish NuGet packages (dry run)
+  condition: and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+  env:
+    NUGET_API_KEY: $(NuGetApiKey)
+
+# Create application releases (e.g., GitHub Releases with artifacts) on master/main only
+- pwsh: |
+    # If your release requires Android signing or other env variables, they are provided below
+    dotnetdeployer release
+  displayName: Create application release
+  condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  env:
+    # Tokens/keys
+    GITHUB_API_KEY: $(GitHubApiKey)
+    GITHUB_AUTHENTICATION_TOKEN: $(GitHubAuthenticationToken)
+    # Android signing (if applicable for release)
     AndroidSigningKeyAlias: $(AndroidSigningKeyAlias)
     AndroidSigningKeyPass: $(AndroidSigningKeyPass)
     Base64Keystore: $(AndroidBase64Keystore)
     AndroidSigningStorePass: $(AndroidSigningStorePass)
-    displayName: Build and Publish
