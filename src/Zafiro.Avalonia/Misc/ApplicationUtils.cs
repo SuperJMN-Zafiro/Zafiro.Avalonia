@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Platform;
 using Avalonia.Input.Platform;
+using Avalonia.Threading;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 
@@ -94,5 +95,35 @@ public static class ApplicationUtils
             var dataContext = await createDataContext(mainView);
             mainView.DataContext = dataContext;
         };
+    }
+
+    public static Task<T> ExecuteOnUIThreadAsync<T>(this Func<Task<T>> func)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            return func();
+        }
+
+        return Dispatcher.UIThread.InvokeAsync(func);
+    }
+
+    public static T ExecuteOnUIThread<T>(this Func<T> func)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            return func();
+        }
+
+        return Dispatcher.UIThread.Invoke(func);
+    }
+
+    public static void ExecuteOnUIThread(this Action func)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            func();
+        }
+
+        Dispatcher.UIThread.Invoke(func);
     }
 }

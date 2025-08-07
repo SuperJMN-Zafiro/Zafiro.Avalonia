@@ -18,7 +18,8 @@ public class NotificationService : INotificationService
 
     public Task Show(string message, Maybe<string> title)
     {
-        managedNotification.Show(new Notification(title.GetValueOrDefault(), message));
+        Action action = () => managedNotification.Show(new Notification(title.GetValueOrDefault(), message));
+        action.ExecuteOnUIThread();
         return Task.CompletedTask;
     }
 
