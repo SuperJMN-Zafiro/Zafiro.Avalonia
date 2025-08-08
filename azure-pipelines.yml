@@ -18,11 +18,18 @@ steps:
     - checkout: self
       submodules: true
       fetchDepth: 0
-    
-    # Instalar workload Android de .NET
+  
+  # Install .NET 9 SDK
+    - task: UseDotNet@2
+      inputs:
+      packageType: 'sdk'
+      version: '9.0.x'  # or '9.0.100' for exact version
+      displayName: 'Install .NET 9 SDK'
+  
+  # Install Android workload
     - pwsh: |
-        dotnet workload install maui-android
-          dotnet workload list
+        dotnet workload install android
+        dotnet workload list
       displayName: Install .NET Android workload
     
     # DotnetDeployer.Tool
