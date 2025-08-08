@@ -1,52 +1,69 @@
+trigger:
+    branches:
+        include: [ master ]
+pr:
+    branches:
+        include: [ master, "*" ]
+
+pool:
+    vmImage: ubuntu-latest
+
 variables:
-- group: api-keys
-- name: Agent.Source.Git.ShallowFetchDepth
-  value: 0
+    - group: api-keys
+    - name: DOTNET_CLI_TELEMETRY_OPTOUT
+      value: '1'
 
 steps:
-- checkout: self
-  submodules: true
-
-# Optional: Ensure Android platform tools are available for any Android packaging steps
-- script: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk "platform-tools"
-  displayName: Install Android SDK "Platform Tools"
-  continueOnError: true
-
-# Install the DotnetPackaging Deployer tool
-- pwsh: dotnet tool install --global DotnetDeployer.Tool
-  displayName: Install DotnetDeployer.Tool
-  
-  # Package and Release: real on master, dry-run/no-push on other branches
-- pwsh: |
-    $isMaster = "$(Build.SourceBranch)" -eq "refs/heads/master"
-
-    Write-Host "Branch: $(Build.SourceBranch). Is master: $isMaster"
-
-    # NuGet publish (real on master, no-push otherwise)
-    if ($isMaster) {
-      Write-Host "Publishing NuGet packages"
-      dotnetdeployer nuget --api-key $(NuGetApiKey)
-    } else {
-      Write-Host "NuGet dry run (no push)"
-      dotnetdeployer nuget --api-key $(NuGetApiKey) --no-push
-    }
-
-    # Release (real on master, --dry-run otherwise)
-    $releaseArgs = @(
-      "release",
-      "--prefix", "TestApp",
-      "--token", "$(GitHubAuthenticationToken)",
-      "--android-keystore-base64", "$(AndroidBase64Keystore)",
-      "--android-key-alias", "$(AndroidSigningKeyAlias)",
-      "--android-key-pass", "$(AndroidSigningKeyPass)",
-      "--android-store-pass", "$(AndroidSigningStorePass)"
-    )
-
-    if ($isMaster) {
-      Write-Host "Creating real release"
-      dotnetdeployer @releaseArgs
-    } else {
-      Write-Host "Creating release (dry run)"
-      dotnetdeployer @releaseArgs --dry-run
-    }
-  displayName: Package and Release (single step)
+    # Checkout completo + submódulos
+    - checkout: self
+      submodules: true
+      fetchDepth: 0
+    
+    # Instalar workload Android de .NET
+    - pwsh: |
+          dotnet workload install android
+          dotnet workload list
+      displayName: Install .NET Android workload
+    
+    # DotnetDeployer.Tool
+    - pwsh: |
+          dotnet tool install --global DotnetDeployer.Tool
+          $tools = "$HOME/.dotnet/tools"
+          if ($env:PATH -notlike "*$tools*") {
+            echo "##vso[task.setvariable variable=PATH]$tools:$env:PATH"
+          }
+          dotnetdeployer --version
+      displayName: Install DotnetDeployer.Tool
+    
+    # Empaquetado + publicación NuGet + release GitHub (real en master, dry-run en el resto)
+    - pwsh: |
+          $branch   = '$(Build.SourceBranch)'
+          $isMaster = $branch -eq 'refs/heads/master'
+          Write-Host "Branch: $branch. Is master: $isMaster"
+          
+          if ($isMaster) {
+            Write-Host 'Publishing NuGet packages'
+            dotnetdeployer nuget --api-key '$(NuGetApiKey)'
+          } else {
+            Write-Host 'NuGet dry run (no push)'
+            dotnetdeployer nuget --api-key '$(NuGetApiKey)' --no-push
+          }
+          
+          $releaseArgs = @(
+            'release',
+            '--prefix','TestApp',
+            '--token','$(GitHubAuthenticationToken)',
+            '--android-keystore-base64','$(AndroidBase64Keystore)',
+            '--android-key-alias','$(AndroidSigningKeyAlias)',
+            '--android-key-pass','$(AndroidSigningKeyPass)',
+            '--android-store-pass','$(AndroidSigningStorePass)'
+          )
+          
+          if ($isMaster) {
+            Write-Host 'Creating real release'
+            dotnetdeployer @releaseArgs
+          } else {
+            Write-Host 'Creating release (dry run)'
+            dotnetdeployer @releaseArgs --dry-run
+          }
+      displayName: Package, Publish and Release
