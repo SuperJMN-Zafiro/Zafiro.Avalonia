@@ -13,7 +13,7 @@ steps:
   continueOnError: true
 
 # Install the DotnetPackaging Deployer tool
-- pwsh: dotnet tool install --global DotnetDeployer.DeployerTool
+- pwsh: dotnet tool install --global DotnetDeployer.Tool
   displayName: Install DotnetDeployer.Tool
   
   # Package and Release: real on master, dry-run/no-push on other branches
