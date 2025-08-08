@@ -28,10 +28,6 @@ steps:
     # DotnetDeployer.Tool
     - pwsh: |
           dotnet tool install --global DotnetDeployer.Tool
-          $tools = "$HOME/.dotnet/tools"
-          if ($env:PATH -notlike "*$tools*") {
-            echo "##vso[task.setvariable variable=PATH]$tools:$env:PATH"
-          }
           dotnetdeployer --version
       displayName: Install DotnetDeployer.Tool
     
