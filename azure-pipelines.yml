@@ -1,22 +1,72 @@
+trigger:
+  branches:
+    include: [ master ]
+pr:
+  branches:
+    include: [ master, "*" ]
+
+pool:
+  vmImage: ubuntu-latest
+
 variables:
-- group: api-keys
-- name: Agent.Source.Git.ShallowFetchDepth
-  value: 0
+  - group: api-keys
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: '1'
 
 steps:
-- checkout: self
-  submodules: true
-
-- script: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk "platform-tools"
-  displayName: Install Android SDK "Platform Tools"
-
-- powershell: .\build.ps1
-  env:
-    NuGetApiKey: $(NuGetApiKey)
-    GitHubApiKey: $(GitHubApiKey)
-    GitHubAuthenticationToken: $(GitHubAuthenticationToken)
-    AndroidSigningKeyAlias: $(AndroidSigningKeyAlias)
-    AndroidSigningKeyPass: $(AndroidSigningKeyPass)
-    Base64Keystore: $(AndroidBase64Keystore)
-    AndroidSigningStorePass: $(AndroidSigningStorePass)
-    displayName: Build and Publish
+  # Checkout completo + submódulos
+  - checkout: self
+    submodules: true
+    fetchDepth: 0
+  
+  # Install .NET 9 SDK
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '9.0.x'  # or '9.0.100' for exact version
+      displayName: 'Install .NET 9 SDK'
+  
+  # Install Android workload
+  - pwsh: |
+      dotnet workload install android
+      dotnet workload list
+    displayName: Install .NET Android workload
+  
+  # DotnetDeployer.Tool
+  - pwsh: |
+      dotnet tool install --global DotnetDeployer.Tool
+      dotnetdeployer --version
+    displayName: Install DotnetDeployer.Tool
+  
+  # Empaquetado + publicación NuGet + release GitHub (real en master, dry-run en el resto)
+  - pwsh: |
+      $branch   = '$(Build.SourceBranch)'
+      $isMaster = $branch -eq 'refs/heads/master'
+      Write-Host "Branch: $branch. Is master: $isMaster"
+      
+      if ($isMaster) {
+        Write-Host 'Publishing NuGet packages'
+        dotnetdeployer nuget --api-key '$(NuGetApiKey)'
+      } else {
+        Write-Host 'NuGet dry run (no push)'
+        dotnetdeployer nuget --api-key '$(NuGetApiKey)' --no-push
+      }
+      
+      $releaseArgs = @(
+        'release',
+        '--prefix','TestApp',
+        '--token','$(GitHubAuthenticationToken)',
+        '--android-keystore-base64','$(AndroidBase64Keystore)',
+        '--android-key-alias','$(AndroidSigningKeyAlias)',
+        '--android-key-pass','$(AndroidSigningKeyPass)',
+        '--android-store-pass','$(AndroidSigningStorePass)'
+      )
+      
+      if ($isMaster) {
+        Write-Host 'Creating real release'
+        dotnetdeployer @releaseArgs
+      } else {
+        Write-Host 'Creating release (dry run)'
+        dotnetdeployer @releaseArgs --dry-run
+      }
+    displayName: Package, Publish and Release
