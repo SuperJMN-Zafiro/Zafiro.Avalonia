@@ -63,12 +63,7 @@
             <Setter Property="Spacing" Value="10" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid Background="{TemplateBinding Background}" ColumnSpacing="{TemplateBinding Spacing}" Grid.IsSharedSizeScope="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="Icon" />
-                            <ColumnDefinition />
-                            <ColumnDefinition SharedSizeGroup="Icon" />
-                        </Grid.ColumnDefinitions>
+                    <Grid Background="{TemplateBinding Background}" ColumnSpacing="{TemplateBinding Spacing}" Grid.IsSharedSizeScope="True" ColumnDefinitions="*,3*,*">
                         <ContentControl x:Name="StartContent"
                                         ContentTemplate="{TemplateBinding StartContentTemplate}"
                                         Content="{TemplateBinding StartContent}" />
