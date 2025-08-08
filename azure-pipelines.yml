@@ -21,7 +21,7 @@ steps:
     
     # Instalar workload Android de .NET
     - pwsh: |
-          dotnet workload install android
+        dotnet workload install maui-android
           dotnet workload list
       displayName: Install .NET Android workload
     
