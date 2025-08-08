@@ -15,35 +15,38 @@ steps:
 # Install the DotnetPackaging Deployer tool
 - pwsh: dotnet tool install --global DotnetPackaging.DeployerTool
   displayName: Install DotnetPackaging.DeployerTool
-
-# Publish NuGet packages on master/main
+  
+  # Package and Release: real on master, dry-run/no-push on other branches
 - pwsh: |
-    dotnetdeployer nuget --api-key $env:NUGET_API_KEY
-  displayName: Publish NuGet packages
-  condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  env:
-    NUGET_API_KEY: $(NuGetApiKey)
+    $isMaster = "$(Build.SourceBranch)" -eq "refs/heads/master"
 
-# Dry run for NuGet on non-master/main branches
-- pwsh: |
-    dotnetdeployer nuget --api-key $env:NUGET_API_KEY --no-push
-  displayName: Publish NuGet packages (dry run)
-  condition: and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
-  env:
-    NUGET_API_KEY: $(NuGetApiKey)
+    Write-Host "Branch: $(Build.SourceBranch). Is master: $isMaster"
 
-# Create application releases (e.g., GitHub Releases with artifacts) on master/main only
-- pwsh: |
-    # If your release requires Android signing or other env variables, they are provided below
-    dotnetdeployer release
-  displayName: Create application release
-  condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  env:
-    # Tokens/keys
-    GITHUB_API_KEY: $(GitHubApiKey)
-    GITHUB_AUTHENTICATION_TOKEN: $(GitHubAuthenticationToken)
-    # Android signing (if applicable for release)
-    AndroidSigningKeyAlias: $(AndroidSigningKeyAlias)
-    AndroidSigningKeyPass: $(AndroidSigningKeyPass)
-    Base64Keystore: $(AndroidBase64Keystore)
-    AndroidSigningStorePass: $(AndroidSigningStorePass)
+    # NuGet publish (real on master, no-push otherwise)
+    if ($isMaster) {
+      Write-Host "Publishing NuGet packages"
+      dotnetdeployer nuget --api-key $(NuGetApiKey)
+    } else {
+      Write-Host "NuGet dry run (no push)"
+      dotnetdeployer nuget --api-key $(NuGetApiKey) --no-push
+    }
+
+    # Release (real on master, --dry-run otherwise)
+    $releaseArgs = @(
+      "release",
+      "--prefix", "TestApp",
+      "--token", "$(GitHubAuthenticationToken)",
+      "--android-keystore-base64", "$(AndroidBase64Keystore)",
+      "--android-key-alias", "$(AndroidSigningKeyAlias)",
+      "--android-key-pass", "$(AndroidSigningKeyPass)",
+      "--android-store-pass", "$(AndroidSigningStorePass)"
+    )
+
+    if ($isMaster) {
+      Write-Host "Creating real release"
+      dotnetdeployer @releaseArgs
+    } else {
+      Write-Host "Creating release (dry run)"
+      dotnetdeployer @releaseArgs --dry-run
+    }
+  displayName: Package and Release (single step)
