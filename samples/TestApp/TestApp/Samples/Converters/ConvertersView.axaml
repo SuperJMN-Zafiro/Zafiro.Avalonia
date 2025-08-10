@@ -34,7 +34,7 @@
         </converters:ControlThemeConverter>
     </UserControl.Resources>
 
-    <controls:Card Header="ControlThemeConverter" Subheader="Converts values to ControlThemes, so you can provide completely different properties depending on, for example, a Binding">
+    <controls:HeaderedContainer Header="Converts values to ControlThemes, so you can provide completely different properties depending on, for example, a Binding">
         <StackPanel Spacing="10">
             <ComboBox
                 x:Name="ComboBox"
@@ -45,6 +45,6 @@
             </ComboBox>
             <Button Theme="{Binding #ComboBox.SelectedValue, Converter={StaticResource ThemeConverter}}" />
         </StackPanel>
-    </controls:Card>
+    </controls:HeaderedContainer>
 
 </UserControl>

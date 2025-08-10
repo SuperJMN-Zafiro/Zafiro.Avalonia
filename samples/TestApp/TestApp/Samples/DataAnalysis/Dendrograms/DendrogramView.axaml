@@ -18,7 +18,7 @@
     </Design.DataContext>
 
 
-    <c:Card Header="Dendrogram: ClusterControl + DendrogramLinesControl" Subheader="Create nice dendrograms for your app.">
+    <c:HeaderedContainer Header="Create nice dendrograms for your app.">
         <Viewbox>
             <UniformGrid Rows="1">
                 <de:ClusterControl DistanceMultiplier="50" ConnectionThickness="2" ConnectionBrush="DodgerBlue"
@@ -33,5 +33,5 @@
                 </de:ClusterControl>
             </UniformGrid>
         </Viewbox>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

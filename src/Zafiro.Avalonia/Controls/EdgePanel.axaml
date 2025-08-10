@@ -4,55 +4,18 @@
     <Design.PreviewWith>
         <StackPanel Spacing="20">
             <!-- Uso -->
-            <EdgePanel Height="50">
+            <EdgePanel Height="50" Width="300">
                 <EdgePanel.StartContent>
-                    <TextBlock Background="Green" Padding="10">Start very big</TextBlock>
+                    <TextBlock Background="Green" Padding="10">ICON</TextBlock>
                 </EdgePanel.StartContent>
                 <EdgePanel.Content>
-                    <TextBlock Background="Yellow" Padding="10">CONTENT</TextBlock>
+                    <TextBlock Background="Yellow" Padding="10">VERY BIG CONTENTCONTENT</TextBlock>
                 </EdgePanel.Content>
                 <EdgePanel.EndContent>
-                    <TextBlock Background="Blue" Padding="10">End</TextBlock>
+                    <TextBlock Background="Blue" Padding="10">ICON</TextBlock>
                 </EdgePanel.EndContent>
             </EdgePanel>
 
-            <!-- Card original para comparar -->
-            <Card Header="Dashboard Analytics con título muy largo" Width="400" HeaderStartContent="📊" Subheader="Estadísticas en tiempo real">
-                <Card.HeaderEndContent>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Width="36" Height="36" Content="⭐" />
-                        <Button Width="36" Height="36" Content="📤" />
-                        <Button Width="36" Height="36" Content="🔔" />
-                        <Button Width="36" Height="36" Content="⬇️" />
-                        <Button Width="36" Height="36" Content="⚙️" />
-                    </StackPanel>
-                </Card.HeaderEndContent>
-                <TextBlock Text="Contenido de la card..." />
-            </Card>
-
-            <!-- EdgePanel con comportamiento de Card Header -->
-            <EdgePanel Spacing="8">
-                <EdgePanel.StartContent>
-                    <StackPanel Orientation="Horizontal" Spacing="15">
-                        <Border Width="40" Height="40" CornerRadius="20" Background="Blue">
-                            <TextBlock Text="📊" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <StackPanel>
-                            <TextBlock Text="Dashboard Analytics con título muy largo que fuerza wrap" FontWeight="SemiBold" />
-                            <TextBlock Text="Estadísticas en tiempo real" FontSize="12" Foreground="Gray" />
-                        </StackPanel>
-                    </StackPanel>
-                </EdgePanel.StartContent>
-                <EdgePanel.EndContent>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Width="36" Height="36" Content="⭐" />
-                        <Button Width="36" Height="36" Content="📤" />
-                        <Button Width="36" Height="36" Content="🔔" />
-                        <Button Width="36" Height="36" Content="⬇️" />
-                        <Button Width="36" Height="36" Content="⚙️" />
-                    </StackPanel>
-                </EdgePanel.EndContent>
-            </EdgePanel>
 
         </StackPanel>
     </Design.PreviewWith>
@@ -61,17 +24,27 @@
 
         <ControlTheme x:Key="{x:Type EdgePanel}" TargetType="{x:Type EdgePanel}">
             <Setter Property="Spacing" Value="10" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid Background="{TemplateBinding Background}" ColumnSpacing="{TemplateBinding Spacing}" Grid.IsSharedSizeScope="True" ColumnDefinitions="*,3*,*">
+                    <Grid Background="{TemplateBinding Background}" ColumnSpacing="{TemplateBinding Spacing}" Grid.IsSharedSizeScope="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="Icon" />
+                            <ColumnDefinition />
+                            <ColumnDefinition SharedSizeGroup="Icon" />
+                        </Grid.ColumnDefinitions>
                         <ContentControl x:Name="StartContent"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         ContentTemplate="{TemplateBinding StartContentTemplate}"
                                         Content="{TemplateBinding StartContent}" />
-                        <ContentControl Grid.Column="1" x:Name="MainContent"
+                        <ContentControl Grid.Column="1" x:Name="MainContent" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{TemplateBinding Content}" />
                         <ContentControl Grid.Column="2" x:Name="EndContent"
                                         ContentTemplate="{TemplateBinding EndContentTemplate}"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{TemplateBinding EndContent}" />
                     </Grid>
                 </ControlTemplate>

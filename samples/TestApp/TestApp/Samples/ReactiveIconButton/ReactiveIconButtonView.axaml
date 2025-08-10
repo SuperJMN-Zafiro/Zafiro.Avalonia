@@ -10,7 +10,7 @@
         <CommandViewModel />
     </UserControl.DataContext>
 
-    <Card Subheader="Buttons with icons that know when they are busy">
+    <HeaderedContainer Header="Buttons with icons that know when they are busy">
         <StackPanel Width="400" VerticalAlignment="Center" Spacing="8">
             <ReactiveIconButton Command="{Binding NeverEndingCommand}" Content="Working">
                 <ReactiveIconButton.Icon>
@@ -23,5 +23,5 @@
                 </ReactiveIconButton.Icon>
             </ReactiveIconButton>
         </StackPanel>
-    </Card>
+    </HeaderedContainer>
 </UserControl>

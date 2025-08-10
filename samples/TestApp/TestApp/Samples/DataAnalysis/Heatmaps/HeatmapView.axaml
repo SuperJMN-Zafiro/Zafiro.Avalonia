@@ -18,7 +18,7 @@
         <s:HeatmapViewModel />
     </Design.DataContext>
 
-    <c:Card Header="HeatmapControl" Subheader="Represent a table as a heatmap with ease">
+    <c:HeaderedContainer Header="Represent a table as a heatmap with ease">
         <panels:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
             <c:AspectRatioDecorator panels:ProportionalCanvas.ProportionalWidth="50"
                                     panels:ProportionalCanvas.ProportionalHeight="50"
@@ -29,5 +29,5 @@
                                    Table="{Binding Table}" />
             </c:AspectRatioDecorator>
         </panels:ProportionalCanvas>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

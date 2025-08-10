@@ -4,6 +4,11 @@
         xmlns:styles="clr-namespace:Zafiro.Avalonia.Styles">
 
 
+    <Style Selector="Button.Expand">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
     <Styles.Resources>
 
         <ControlTheme x:Key="TransparentButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

@@ -12,7 +12,7 @@
     </UserControl.Styles>
 
     <StackPanel Spacing="10">
-        <Card Header="ListBox" Subheader="Extend your lists with superpowers!">
+        <HeaderedContainer Header="Extend your lists with superpowers!">
             <DockPanel>
                 <CheckBox DockPanel.Dock="Top" x:Name="CheckBox" Content="Show item checkboxes" />
                 <ListBox x:Name="ListBox"
@@ -22,12 +22,12 @@
                          SelectionMode="Multiple">
                 </ListBox>
             </DockPanel>
-        </Card>
-        <Card Header="Empty list" Subheader="Special content appears when the ItemsControl is empty">
+        </HeaderedContainer>
+        <HeaderedContainer Header="Special content appears when the ItemsControl is empty">
             <ListBox Classes="ShowEmptyContent" Empty.Content="Salute" />
-        </Card>
-        <Card Header="Empty CardGrid" Subheader="Shows empty content for CardGrid">
+        </HeaderedContainer>
+        <HeaderedContainer Header="Shows empty content for CardGrid">
             <CardGrid Classes="ShowEmptyContent" Empty.Content="SALUTACIONES" />
-        </Card>
+        </HeaderedContainer>
     </StackPanel>
 </UserControl>

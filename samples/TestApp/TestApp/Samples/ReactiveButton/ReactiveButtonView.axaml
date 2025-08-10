@@ -9,7 +9,7 @@
         <CommandViewModel />
     </UserControl.DataContext>
 
-    <Card Subheader="Buttons that know when they are busy">
+    <HeaderedContainer Header="Buttons that know when they are busy">
         <StackPanel Width="400" VerticalAlignment="Center">
             <ReactiveButton Content="This is where I heal my hurt" Command="{Binding NeverEndingCommand}" />
             <ReactiveButton HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="This is where I heal my hurt" Command="{Binding NeverEndingCommand}" />
@@ -17,5 +17,5 @@
             <ReactiveButton Theme="{StaticResource ProgressBarReactiveButton}" Content="With ProgressBar" Command="{Binding RegularCommand}" />
             <Button IsEnabled="False" Content="Regular button" />
         </StackPanel>
-    </Card>
+    </HeaderedContainer>
 </UserControl>

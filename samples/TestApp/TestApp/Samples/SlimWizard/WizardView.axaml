@@ -13,7 +13,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="SlimWizard" Subheader="Create wizard flow from your ViewModels that are completely decoupled from the GUI">
+    <c:HeaderedContainer Header="Create wizard flow from your ViewModels that are completely decoupled from the GUI">
         <UniformGrid RowSpacing="20" Columns="1" VerticalAlignment="Center">
             <IconButton Content="Launch inside Dialog" HorizontalAlignment="Center" Command="{Binding ShowWizardInDialog}">
                 <IconButton.Icon>
@@ -26,6 +26,6 @@
                 </IconButton.Icon>
             </IconButton>
         </UniformGrid>
-    </c:Card>
+    </c:HeaderedContainer>
 
 </UserControl>

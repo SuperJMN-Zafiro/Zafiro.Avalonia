@@ -10,7 +10,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="CircularProgressBarView" Subheader="Shows progress in circular shape">
+    <c:HeaderedContainer Header="Shows progress in circular shape">
         <StackPanel VerticalAlignment="Center">
             <TextBlock>For your circular needs!</TextBlock>
             <TextBlock>Move the slider to see how it soothes your mind with smooth animations.</TextBlock>
@@ -34,5 +34,5 @@
                 </Viewbox>
             </UniformGrid>
         </StackPanel>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

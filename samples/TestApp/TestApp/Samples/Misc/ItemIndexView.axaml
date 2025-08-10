@@ -10,7 +10,7 @@
         <misc:ItemIndexViewModel />
     </Design.DataContext>
 
-    <Card Subheader="Gets the index of a given item in the list">
+    <HeaderedContainer Header="Gets the index of a given item in the list">
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Content="Add" Command="{Binding Add}" />
@@ -24,5 +24,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </DockPanel>
-    </Card>
+    </HeaderedContainer>
 </UserControl>

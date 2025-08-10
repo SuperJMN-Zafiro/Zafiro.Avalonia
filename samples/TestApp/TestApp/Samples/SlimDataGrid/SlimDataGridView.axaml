@@ -46,7 +46,7 @@
             <Setter Property="Background" Value="#06000000" />
         </ControlTheme>
     </UserControl.Resources>
-    <c:Card Subheader="A lightweight DataGrid that is easy to use and customizable">
+    <c:HeaderedContainer Header="A lightweight DataGrid that is easy to use and customizable">
         <DockPanel>
 
             <TextBlock HorizontalAlignment="Right" DockPanel.Dock="Bottom">
@@ -110,5 +110,5 @@
             </sdg:SlimDataGrid>
 
         </DockPanel>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

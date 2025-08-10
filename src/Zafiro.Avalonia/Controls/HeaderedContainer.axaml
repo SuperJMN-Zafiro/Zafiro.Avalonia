@@ -7,7 +7,7 @@
             <Setter Property="HeaderSpacing" Value="10" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Panel ClipToBounds="False">
+                    <Panel>
                         <Border BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Background="{TemplateBinding Background}"
@@ -23,13 +23,12 @@
                                 <ContentPresenter x:Name="Header"
                                                   DockPanel.Dock="Top"
                                                   Content="{TemplateBinding Header}"
-                                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                />
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}" />
                                 <ContentPresenter x:Name="Content"
                                                   Content="{TemplateBinding Content}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  />
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </DockPanel>
                         </Border>
                     </Panel>
@@ -39,7 +38,7 @@
                 <Setter Property="FontWeight" Value="Bold" />
             </Style>
         </ControlTheme>
-        
+
         <ControlTheme x:Key="InlineHeaderedContainer" TargetType="HeaderedContainer">
             <Setter Property="Padding" Value="10" />
             <Setter Property="HeaderSpacing" Value="10" />
@@ -50,7 +49,7 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BoxShadow="{TemplateBinding BoxShadow}">
-                        <DockPanel Margin="{TemplateBinding Padding}" 
+                        <DockPanel Margin="{TemplateBinding Padding}"
                                    HorizontalSpacing="{TemplateBinding HeaderSpacing}">
                             <ContentPresenter x:Name="Header"
                                               DockPanel.Dock="Left"
