@@ -30,7 +30,7 @@
 
             <Setter Property="SubheaderTheme">
                 <ControlTheme TargetType="ContentControl">
-                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontSize" Value="13" />
                     <Setter Property="FontWeight" Value="Normal" />
                     <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
                     <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -58,9 +58,7 @@
                                 StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
                                 EndContent="{Binding $parent[Card].HeaderEndContent}"
                                 EndContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}">
-                                <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
-                                            HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
-                                            VerticalAlignment="{Binding $parent[Card].HeaderVerticalAlignment}">
+                                <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
                                     <ContentControl
                                         HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                         Theme="{Binding $parent[Card].HeaderTheme}"
@@ -166,7 +164,7 @@
             </Card>
 
             <Card Theme="{StaticResource LeftFlexHeaderCard}"
-                  Header="SOME BIG HEADER">
+                  Header="SOME BIG HEADER" Subheader="Some subheader">
                 <Card.HeaderStartContent>
                     <av:Icon Value="fa-wallet" FontSize="32" />
                 </Card.HeaderStartContent>
