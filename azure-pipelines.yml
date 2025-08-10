@@ -52,21 +52,21 @@ steps:
         dotnetdeployer nuget --api-key '$(NuGetApiKey)' --no-push
       }
       
-      $releaseArgs = @(
-        'release',
-        '--prefix','TestApp',
-        '--token','$(GitHubAuthenticationToken)',
-        '--android-keystore-base64','$(AndroidBase64Keystore)',
-        '--android-key-alias','$(AndroidSigningKeyAlias)',
-        '--android-key-pass','$(AndroidSigningKeyPass)',
-        '--android-store-pass','$(AndroidSigningStorePass)'
-      )
-      
-      if ($isMaster) {
-        Write-Host 'Creating real release'
-        dotnetdeployer @releaseArgs
-      } else {
-        Write-Host 'Creating release (dry run)'
-        dotnetdeployer @releaseArgs --dry-run
-      }
+    #      $releaseArgs = @(
+    #        'release',
+    #        '--prefix','TestApp',
+    #        '--github-token','$(GitHubAuthenticationToken)',
+    #        '--android-keystore-base64','$(AndroidBase64Keystore)',
+    #        '--android-key-alias','$(AndroidSigningKeyAlias)',
+    #        '--android-key-pass','$(AndroidSigningKeyPass)',
+    #        '--android-store-pass','$(AndroidSigningStorePass)'
+    #      )
+    #      
+    #      if ($isMaster) {
+    #        Write-Host 'Creating real release'
+    #        dotnetdeployer @releaseArgs
+    #      } else {
+    #        Write-Host 'Creating release (dry run)'
+    #        dotnetdeployer @releaseArgs --no-publish
+    #      }
     displayName: Package, Publish and Release
