@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:av="https://github.com/projektanker/icons.avalonia">
 
     <Styles.Resources>
 
@@ -33,7 +34,6 @@
                     <Setter Property="FontWeight" Value="Normal" />
                     <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
                     <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                    <Setter Property="Opacity" Value="0.4" />
                 </ControlTheme>
             </Setter>
 
@@ -83,10 +83,77 @@
             <Setter Property="BorderBrush" Value="Transparent" />
         </ControlTheme>
 
+        <!-- Variant: Header laid out to the left with FlexBox, actions to the right -->
+        <ControlTheme x:Key="LeftFlexHeaderCard" TargetType="Card" BasedOn="{StaticResource {x:Type Card}}">
+            <!-- Enable wrapping by default for this variant -->
+            <Setter Property="HeaderHorizontalAlignment" Value="Stretch" />
+            <Setter Property="IsAdaptiveFlowEnabled" Value="True" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            BoxShadow="{TemplateBinding BoxShadow}">
+                        <Grid RowDefinitions="Auto *">
+                            <!-- Header (top) using FlexBox: left group + right actions -->
+                            <Border Grid.Row="0"
+                                    Background="{TemplateBinding HeaderBackground}"
+                                    Padding="{Binding $parent[Card].HeaderPadding}">
+                                <FlexBox Direction="Row"
+                                         AlignItems="Center"
+                                         JustifyContent="Center"
+                                         Wrap="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
+                                         Gap="{Binding $parent[Card].HeaderSpacing}">
+                                    <!-- Left group: optional start icon + titles -->
+                                    <FlexBox Direction="Row" AlignItems="Center" Gap="{Binding $parent[Card].HeaderSpacing}" FlexBox.Grow="1">
+                                        <ContentControl
+                                            Content="{Binding $parent[Card].HeaderStartContent}"
+                                            ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}" />
+                                        <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
+                                            <ContentControl
+                                                Theme="{Binding $parent[Card].HeaderTheme}"
+                                                Content="{Binding $parent[Card].Header}"
+                                                ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
+                                            <ContentControl
+                                                Theme="{Binding $parent[Card].SubheaderTheme}"
+                                                Content="{Binding $parent[Card].Subheader}"
+                                                ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
+                                        </StackPanel>
+                                    </FlexBox>
+
+                                    <!-- Spacer grows to push actions to the right when on the same line -->
+                                    <Border FlexBox.Grow="1" />
+
+                                    <!-- Right group: actions/end content (do not shrink so it wraps when needed). When wrapped to its own line,
+                                         HorizontalAlignment=Center will center it nicely. -->
+                                    <ContentControl
+                                        FlexBox.Shrink="0"
+                                        HorizontalAlignment="Center"
+                                        Content="{Binding $parent[Card].HeaderEndContent}"
+                                        ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" />
+                                </FlexBox>
+                            </Border>
+
+                            <!-- Body content -->
+                            <ContentPresenter Grid.Row="1"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
     </Styles.Resources>
 
     <Design.PreviewWith>
         <StackPanel Spacing="20" Margin="20">
+            <StackPanel.Styles>
+                <StyleInclude Source="../Styles/Button.axaml" />
+            </StackPanel.Styles>
 
             <Card Header="Width and height" Height="300" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
                 SOME CONTENT
@@ -96,6 +163,22 @@
                 <Card.HeaderEndContent>
                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
                 </Card.HeaderEndContent>
+            </Card>
+
+            <Card Theme="{StaticResource LeftFlexHeaderCard}"
+                  Header="SOME BIG HEADER">
+                <Card.HeaderStartContent>
+                    <av:Icon Value="fa-wallet" FontSize="32" />
+                </Card.HeaderStartContent>
+                <Card.HeaderEndContent>
+                    <UniformGrid Rows="1" ColumnSpacing="10">
+                        <Button Content="Do something" Classes="Expand" />
+                        <Button Content="Refresh" Classes="Expand" />
+                    </UniformGrid>
+                </Card.HeaderEndContent>
+
+                <!-- Body -->
+                <Border Margin="20" CornerRadius="10" Padding="20" />
             </Card>
 
         </StackPanel>
