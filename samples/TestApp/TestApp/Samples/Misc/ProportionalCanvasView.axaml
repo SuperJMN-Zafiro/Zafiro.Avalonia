@@ -11,7 +11,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="ProportionalCanvas" Subheader="Lets you provide proportions instead of absolute sizes">
+    <c:HeaderedContainer Header="Lets you provide proportions instead of absolute sizes">
         <panels:ProportionalCanvas HorizontalMaximum="100" VerticalMaximum="100">
             <Rectangle Fill="Red"
                        panels:ProportionalCanvas.Left="0"
@@ -24,5 +24,5 @@
                        panels:ProportionalCanvas.ProportionalWidth="30"
                        panels:ProportionalCanvas.ProportionalHeight="20" />
         </panels:ProportionalCanvas>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

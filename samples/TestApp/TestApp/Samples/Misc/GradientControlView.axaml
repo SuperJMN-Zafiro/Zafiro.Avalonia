@@ -12,7 +12,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <controls:Card Header="GradientControlView" Subheader="Add gradient meter with divisions and values between a minimum and a maximum">
+    <controls:HeaderedContainer Header="Add gradient meter with divisions and values between a minimum and a maximum">
         <StackPanel>
             <heatmaps:GradientControl NumberOfDivisions="4" Width="500">
                 <heatmaps:GradientControl.ColorList>
@@ -34,5 +34,5 @@
                 </heatmaps:GradientControl.ColorList>
             </heatmaps:GradientControl>
         </StackPanel>
-    </controls:Card>
+    </controls:HeaderedContainer>
 </UserControl>

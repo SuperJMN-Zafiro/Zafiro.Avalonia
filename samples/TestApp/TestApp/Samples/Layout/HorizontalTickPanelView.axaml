@@ -11,7 +11,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="HorizontalTickPanel" Subheader="Panel that arranges child elements horizontally, distributing them across the available width.">
+    <c:HeaderedContainer Header="Panel that arranges child elements horizontally, distributing them across the available width.">
         <Border Padding="40">
             <Border Background="Green">
                 <panels:HorizontalTickPanel ClipToBounds="False">
@@ -22,5 +22,5 @@
                 </panels:HorizontalTickPanel>
             </Border>
         </Border>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

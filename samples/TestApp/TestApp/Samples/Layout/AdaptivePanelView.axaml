@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="TestApp.Samples.Layout.AdaptivePanelView">
 
-    <Card Subheader="Switches its content when the original content doesn't fit the available space">
+    <HeaderedContainer Header="Switches its content when the original content doesn't fit the available space">
         <Grid ColumnDefinitions="* 3* *" ShowGridLines="True">
             <panels:AdaptivePanel Grid.Column="1">
                 <panels:AdaptivePanel.OverflowContent>
@@ -38,6 +38,6 @@
             </panels:AdaptivePanel>
         </Grid>
 
-    </Card>
+    </HeaderedContainer>
 
 </UserControl>

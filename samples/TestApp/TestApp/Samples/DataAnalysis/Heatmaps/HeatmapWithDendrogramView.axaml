@@ -13,7 +13,7 @@
         <heatmaps:HeatmapWithDendrogramsViewModel />
     </Design.DataContext>
 
-    <c:Card Header="HeatmapWithDendrogramsControl" Subheader="It features not only a heatmap, but also dendrograms on the axes!">
+    <c:HeaderedContainer Header="It features not only a heatmap, but also dendrograms on the axes!">
         <hmd:HeatmapWithDendrogramsControl Classes="ReverseRows ReverseColumns"
                                            MaxWidth="800"
                                            MaxHeight="600"
@@ -33,6 +33,6 @@
                 </DataTemplate>
             </hmd:HeatmapWithDendrogramsControl.ColumnLabelTemplate>
         </hmd:HeatmapWithDendrogramsControl>
-    </c:Card>
+    </c:HeaderedContainer>
 
 </UserControl>

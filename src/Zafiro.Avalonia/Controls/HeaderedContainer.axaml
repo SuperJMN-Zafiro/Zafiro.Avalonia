@@ -7,7 +7,7 @@
             <Setter Property="HeaderSpacing" Value="10" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Panel ClipToBounds="False">
+                    <Panel>
                         <Border BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Background="{TemplateBinding Background}"

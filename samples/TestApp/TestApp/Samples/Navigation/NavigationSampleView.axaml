@@ -11,7 +11,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="Navigation sample" Subheader="You can navigate to other pages using INavigator ">
+    <c:HeaderedContainer Header="You can navigate to other pages using INavigator ">
         <Button Content="Go to another page" Command="{Binding Navigate}" />
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

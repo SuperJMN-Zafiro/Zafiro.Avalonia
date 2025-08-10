@@ -11,7 +11,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <controls:Card Header="Loading" Subheader="A control that provides feedback when some long-running progress is running">
+    <controls:HeaderedContainer Header="A control that provides feedback when some long-running progress is running">
         <DockPanel>
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock>Use the checkbox to control the state of the Loading control</TextBlock>
@@ -22,5 +22,5 @@
                 <TextBlock Text="Loaded!" />
             </controls:Loading>
         </DockPanel>
-    </controls:Card>
+    </controls:HeaderedContainer>
 </UserControl>

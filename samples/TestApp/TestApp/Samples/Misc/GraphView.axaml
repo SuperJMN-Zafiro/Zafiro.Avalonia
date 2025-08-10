@@ -14,7 +14,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="GraphView" Subheader="Create graphs with moving nodes and vertices">
+    <c:HeaderedContainer Header="Create graphs with moving nodes and vertices">
         <g:GraphControl Margin="-1000"
                         DragButton="Right"
                         Graph="{Binding MutableGraph}">
@@ -54,5 +54,5 @@
                 </DataTemplate>
             </g:GraphControl.EdgeTemplate>
         </g:GraphControl>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>

@@ -14,15 +14,8 @@
     </UserControl.DataTemplates>
 
     <Grid ColumnDefinitions="* 2* *">
-        <Card Grid.Column="1" VerticalAlignment="Center" Margin="10"
-              IsAdaptiveFlowEnabled="True"
-              Header="This is a card">
-            <Card.Subheader>
-                <TextBlock MinWidth="50" TextWrapping="Wrap">It helps you group related information in a convenient way. </TextBlock>
-            </Card.Subheader>
-            <Card.HeaderStartContent>
-                <ui:Icon Source="fa-wallet" />
-            </Card.HeaderStartContent>
+        <HeaderedContainer Grid.Column="1" VerticalAlignment="Center" Margin="10"
+                           Header="It helps you group related information in a convenient way. ">
             <BulletList Header="It offers you special places to put your contents:">
                 <x:String>Header</x:String>
                 <x:String>Subheader</x:String>
@@ -30,6 +23,6 @@
                 <x:String>Header End Content</x:String>
                 <x:String>Content</x:String>
             </BulletList>
-        </Card>
+        </HeaderedContainer>
     </Grid>
 </UserControl>

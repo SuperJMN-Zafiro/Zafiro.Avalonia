@@ -48,7 +48,7 @@
         </generic:List>
     </UserControl.Resources>
 
-    <controls:Card Header="Sampler" Subheader="The SamplerControl can be used to monitor values from a data source. It represents the whole range of values and update as values change.">
+    <controls:HeaderedContainer Header="The SamplerControl can be used to monitor values from a data source. It represents the whole range of values and update as values change.">
         <ScrollViewer>
             <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" ItemWidth="500" ItemHeight="400">
                 <HeaderedContentControl Header="Static" Margin="10">
@@ -59,6 +59,6 @@
                 </HeaderedContentControl>
             </WrapPanel>
         </ScrollViewer>
-    </controls:Card>
+    </controls:HeaderedContainer>
 
 </UserControl>

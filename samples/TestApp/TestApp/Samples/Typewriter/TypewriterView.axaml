@@ -11,7 +11,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <c:Card Header="TypeWriterControl" Subheader="Shows text in a fancy way">
+    <c:HeaderedContainer Header="Shows text in a fancy way">
         <c:TypewriterControl FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" TypingLatency="0:0:0.03" TextWrapping="Wrap">
             <c:TypewriterControl.Strings>
                 <a:Strings>
@@ -21,5 +21,5 @@
                 </a:Strings>
             </c:TypewriterControl.Strings>
         </c:TypewriterControl>
-    </c:Card>
+    </c:HeaderedContainer>
 </UserControl>
