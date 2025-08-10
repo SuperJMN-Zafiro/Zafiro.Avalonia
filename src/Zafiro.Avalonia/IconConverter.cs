@@ -35,6 +35,6 @@ public class IconConverter : IIconConverter
         }
 
         var uri = new Uri($"avares://{assemblyName}");
-        return new global::Avalonia.Svg.Svg(uri) { Path = resourcePath };
+        return new global::Avalonia.Svg.Skia.Svg(uri) { Path = resourcePath };
     }
 }

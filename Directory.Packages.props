@@ -16,7 +16,6 @@
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.iOS" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
-    <PackageVersion Include="Avalonia.Svg" Version="11.3.0" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.0.4" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
@@ -35,6 +34,7 @@
     <PackageVersion Include="ReactiveUI.Validation" Version="4.1.1" />
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageVersion Include="Svg.Controls.Skia.Avalonia" Version="11.3.0.3"/>
     <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.15" />
     <PackageVersion Include="Xaml.Behaviors.Avalonia" Version="11.3.2" />
