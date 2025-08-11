@@ -27,14 +27,17 @@
         </ControlTheme>
 
         <ControlTheme TargetType="c:DialogControl" x:Key="{x:Type c:DialogControl}">
-            <Setter Property="Padding" Value="16" />
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Padding>
+                            <MultiBinding Converter="{x:Static dialogs:ResponsivePaddingConverter.Instance}" ConverterParameter="0.04,6,20">
+                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Bounds.Width" />
+                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Bounds.Height" />
+                            </MultiBinding>
+                        </Border.Padding>
                         <Border.DataTemplates>
                             <DataTemplate DataType="dialogs:IOption">
                                 <Button Content="{Binding Title}"

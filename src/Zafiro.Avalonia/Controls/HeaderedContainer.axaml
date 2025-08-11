@@ -13,24 +13,20 @@
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 BoxShadow="{TemplateBinding BoxShadow}">
-                            <DockPanel Margin="{TemplateBinding Padding}">
-                                <DockPanel.VerticalSpacing>
-                                    <MultiBinding Converter="{x:Static MiscConverters.HeaderedContainerSpacingConverter}">
-                                        <TemplateBinding Property="HeaderSpacing" />
-                                        <Binding Path="$parent[HeaderedContainer].Content" />
-                                    </MultiBinding>
-                                </DockPanel.VerticalSpacing>
+                            <Grid RowDefinitions="Auto *" Margin="{TemplateBinding Padding}" RowSpacing="{TemplateBinding HeaderSpacing}">
+
                                 <ContentControl x:Name="Header"
                                                 DockPanel.Dock="Top"
                                                 Content="{TemplateBinding Header}"
+                                                Theme="{TemplateBinding HeaderTheme}"
                                                 ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentControl x:Name="Content"
+                                <ContentControl Grid.Row="1" x:Name="Content"
                                                 Content="{TemplateBinding Content}"
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Theme="{TemplateBinding ContentTheme}" />
-                            </DockPanel>
+                            </Grid>
                         </Border>
                     </Panel>
                 </ControlTemplate>
@@ -47,21 +43,22 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BoxShadow="{TemplateBinding BoxShadow}">
-                        <DockPanel Margin="{TemplateBinding Padding}"
-                                   HorizontalSpacing="{TemplateBinding HeaderSpacing}">
+                        <Grid Margin="{TemplateBinding Padding}" ColumnDefinitions="Auto *" ColumnSpacing="{TemplateBinding HeaderSpacing}">
                             <ContentPresenter x:Name="Header"
                                               DockPanel.Dock="Left"
                                               Padding="{TemplateBinding HeaderPadding}"
                                               Content="{TemplateBinding Header}"
                                               VerticalAlignment="Center"
+                                              Theme="{TemplateBinding HeaderTheme}"
                                               IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                            <ContentPresenter x:Name="Content"
+                            <ContentPresenter Grid.Column="1" x:Name="Content"
                                               Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        </DockPanel>
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Theme="{TemplateBinding ContentTheme}" />
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter>

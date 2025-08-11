@@ -1,0 +1,22 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
+        <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
+        <Thickness x:Key="CardBorderThickness">1</Thickness>
+        <CornerRadius x:Key="CardCornerRadius">10</CornerRadius>
+    </Styles.Resources>
+
+    <Style Selector="Border.Card">
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+        <Setter Property="Background" Value="{StaticResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CardBorder}" />
+        <Setter Property="BorderThickness" Value="{StaticResource CardBorderThickness}" />
+    </Style>
+</Styles>

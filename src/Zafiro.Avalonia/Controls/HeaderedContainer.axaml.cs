@@ -27,6 +27,15 @@ public class HeaderedContainer : ContentControl
     public static readonly StyledProperty<double> HeaderSpacingProperty = AvaloniaProperty.Register<HeaderedContainer, double>(
         nameof(HeaderSpacing));
 
+    public static readonly StyledProperty<ControlTheme> HeaderThemeProperty = AvaloniaProperty.Register<HeaderedContainer, ControlTheme>(
+        nameof(HeaderTheme));
+
+    public ControlTheme HeaderTheme
+    {
+        get => GetValue(HeaderThemeProperty);
+        set => SetValue(HeaderThemeProperty, value);
+    }
+
     public ControlTheme ContentTheme
     {
         get => GetValue(ContentThemeProperty);
