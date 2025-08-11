@@ -5,8 +5,6 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia.Dialogs", "src\Zafiro.Avalonia.Dialogs\Zafiro.Avalonia.Dialogs.csproj", "{94A2F49C-AAAA-4C94-879E-2F74FDDFF423}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{F896589E-962B-4D13-8111-CCB4006FE56B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Avalonia", "src\Zafiro.Avalonia\Zafiro.Avalonia.csproj", "{7E270C24-4440-4BDB-889D-6CA65C082AD1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{022A4D50-4916-4866-833D-89E8A1C3E90B}"
