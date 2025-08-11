@@ -4,7 +4,7 @@
         xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
     <Design.PreviewWith>
         <controls:Loading IsLoading="True">
-            ¡HOLA!
+            <TextBlock Width="300" Background="Red" Height="300" />
         </controls:Loading>
     </Design.PreviewWith>
 
@@ -24,7 +24,7 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel>
-                        <ContentPresenter Content="{TemplateBinding Content}" IsVisible="{Binding !$parent[controls:Loading].IsLoading}" />
+                        <ContentPresenter Content="{TemplateBinding Content}" Opacity="{Binding !$parent[controls:Loading].IsLoading, Converter={x:Static OpacityConverters.BoolToOpacity}}" />
                         <ContentControl IsVisible="{TemplateBinding IsLoading}" Template="{TemplateBinding LoadingTemplate}" />
                     </Panel>
                 </ControlTemplate>

@@ -24,8 +24,8 @@
                 <Setter Property="Opacity" Value="0.8" />
             </Style>
             <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource SoftBackgroundDarker}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource SoftBorder}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
             </Style>
         </ControlTheme>
 
