@@ -20,23 +20,21 @@
                                         <Binding Path="$parent[HeaderedContainer].Content" />
                                     </MultiBinding>
                                 </DockPanel.VerticalSpacing>
-                                <ContentPresenter x:Name="Header"
-                                                  DockPanel.Dock="Top"
-                                                  Content="{TemplateBinding Header}"
-                                                  ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentPresenter x:Name="Content"
-                                                  Content="{TemplateBinding Content}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                <ContentControl x:Name="Header"
+                                                DockPanel.Dock="Top"
+                                                Content="{TemplateBinding Header}"
+                                                ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                <ContentControl x:Name="Content"
+                                                Content="{TemplateBinding Content}"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Theme="{TemplateBinding ContentTheme}" />
                             </DockPanel>
                         </Border>
                     </Panel>
                 </ControlTemplate>
             </Setter>
-            <Style Selector="^ /template/ ContentPresenter#Header">
-                <Setter Property="FontWeight" Value="Bold" />
-            </Style>
         </ControlTheme>
 
         <ControlTheme x:Key="InlineHeaderedContainer" TargetType="HeaderedContainer">

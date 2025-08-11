@@ -1,5 +1,6 @@
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
+using Avalonia.Styling;
 
 namespace Zafiro.Avalonia.Controls;
 
@@ -19,6 +20,18 @@ public class HeaderedContainer : ContentControl
 
     public static readonly StyledProperty<BoxShadows> BoxShadowProperty = AvaloniaProperty.Register<HeaderedContainer, BoxShadows>(
         nameof(BoxShadow));
+
+    public static readonly StyledProperty<ControlTheme> ContentThemeProperty = AvaloniaProperty.Register<HeaderedContainer, ControlTheme>(
+        nameof(ContentTheme));
+
+    public static readonly StyledProperty<double> HeaderSpacingProperty = AvaloniaProperty.Register<HeaderedContainer, double>(
+        nameof(HeaderSpacing));
+
+    public ControlTheme ContentTheme
+    {
+        get => GetValue(ContentThemeProperty);
+        set => SetValue(ContentThemeProperty, value);
+    }
 
     public IBrush HeaderBackground
     {
@@ -50,9 +63,6 @@ public class HeaderedContainer : ContentControl
         get => GetValue(BoxShadowProperty);
         set => SetValue(BoxShadowProperty, value);
     }
-
-    public static readonly StyledProperty<double> HeaderSpacingProperty = AvaloniaProperty.Register<HeaderedContainer, double>(
-        nameof(HeaderSpacing));
 
     public double HeaderSpacing
     {

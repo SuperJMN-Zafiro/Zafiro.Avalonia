@@ -61,6 +61,15 @@ public class Card : ContentControl
     public static readonly StyledProperty<ControlTheme> SubheaderThemeProperty = AvaloniaProperty.Register<Card, ControlTheme>(
         nameof(SubheaderTheme));
 
+    public static readonly StyledProperty<ControlTheme> ContentThemeProperty = AvaloniaProperty.Register<Card, ControlTheme>(
+        nameof(ContentTheme));
+
+    public ControlTheme ContentTheme
+    {
+        get => GetValue(ContentThemeProperty);
+        set => SetValue(ContentThemeProperty, value);
+    }
+
     public VerticalAlignment HeaderVerticalAlignment
     {
         get => GetValue(HeaderVerticalAlignmentProperty);

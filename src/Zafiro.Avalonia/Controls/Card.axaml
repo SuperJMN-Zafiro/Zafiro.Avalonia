@@ -41,8 +41,10 @@
                 <ControlTemplate>
                     <HeaderedContainer x:Name="Root"
                                        Content="{TemplateBinding Content}"
-                                       HorizontalContentAlignment="Center"
-                                       VerticalContentAlignment="Center"
+                                       ContentTemplate="{TemplateBinding ContentTemplate}"
+                                       ContentTheme="{TemplateBinding ContentTheme}"
+                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        HeaderBackground="{TemplateBinding HeaderBackground}"
                                        Background="{TemplateBinding Background}"
@@ -66,6 +68,7 @@
                                     <ContentControl
                                         HorizontalAlignment="{Binding $parent[Card].HeaderHorizontalAlignment}"
                                         Theme="{Binding $parent[Card].SubheaderTheme}"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                 </StackPanel>
                             </EdgePanel>
@@ -108,7 +111,8 @@
                                     <FlexBox Direction="Row" AlignItems="Center" Gap="{Binding $parent[Card].HeaderSpacing}" FlexBox.Grow="1">
                                         <ContentControl
                                             Content="{Binding $parent[Card].HeaderStartContent}"
-                                            ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}" />
+                                            ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
+                                            IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
                                         <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
                                             <ContentControl
                                                 Theme="{Binding $parent[Card].HeaderTheme}"
@@ -117,6 +121,7 @@
                                             <ContentControl
                                                 Theme="{Binding $parent[Card].SubheaderTheme}"
                                                 Content="{Binding $parent[Card].Subheader}"
+                                                IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                         </StackPanel>
                                     </FlexBox>
@@ -129,6 +134,7 @@
                                     <ContentControl
                                         FlexBox.Shrink="0"
                                         HorizontalAlignment="Center"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{Binding $parent[Card].HeaderEndContent}"
                                         ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" />
                                 </FlexBox>
@@ -137,6 +143,8 @@
                             <!-- Body content -->
                             <ContentPresenter Grid.Row="1"
                                               Content="{TemplateBinding Content}"
+                                              Theme="{TemplateBinding ContentTheme}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
@@ -148,7 +156,7 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <StackPanel Spacing="20" Margin="20">
+        <StackPanel Spacing="20" Margin="20" Width="700">
             <StackPanel.Styles>
                 <StyleInclude Source="../Styles/Button.axaml" />
             </StackPanel.Styles>
@@ -179,7 +187,9 @@
                 <Border Margin="20" CornerRadius="10" Padding="20" />
             </Card>
 
+            <Card Theme="{StaticResource LeftFlexHeaderCard}" Content="HOLA" />
         </StackPanel>
+
     </Design.PreviewWith>
 
 </Styles>
