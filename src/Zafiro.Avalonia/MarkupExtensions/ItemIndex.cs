@@ -4,7 +4,7 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
 
-namespace Zafiro.Avalonia.Extensions;
+namespace Zafiro.Avalonia.MarkupExtensions;
 
 public class ItemIndex : MarkupExtension
 {

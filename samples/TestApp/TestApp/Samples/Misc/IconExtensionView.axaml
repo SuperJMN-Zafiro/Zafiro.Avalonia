@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Misc.IconExtensionView">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <c:HeaderedContainer Header="Simplified icon usage with IconExtension">
+        <StackPanel Spacing="20" VerticalAlignment="Center">
+            <TextBlock>The IconExtension markup extension simplifies icon usage in XAML.</TextBlock>
+            <TextBlock>Instead of verbose nested elements, you can now use a simple markup extension.</TextBlock>
+
+            <Grid ColumnDefinitions="Auto,20,*" RowDefinitions="Auto,10,Auto,10,Auto,10,Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="Syntax:" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{}{Icon fa-wallet}" FontFamily="Consolas" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" FontWeight="Bold" Text="Examples:" VerticalAlignment="Center" />
+                <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Spacing="10">
+                    <Button Content="{Icon fa-wallet}" />
+                    <Button Content="{Icon fa-home}" />
+                    <Button Content="{Icon fa-user}" />
+                    <Button Content="{Icon fa-cog}" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="Bold" Text="With text:" VerticalAlignment="Center" />
+                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
+                    <Button>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <ContentControl Content="{Icon fa-save}" />
+                            <TextBlock Text="Save" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <ContentControl Content="{Icon fa-trash}" />
+                            <TextBlock Text="Delete" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" FontWeight="Bold" Text="Named syntax:" VerticalAlignment="Center" />
+                <StackPanel Grid.Row="6" Grid.Column="2" Orientation="Horizontal" Spacing="10">
+                    <Button Content="{Icon Source=fa-heart}" />
+                    <Button Content="{Icon Source=fa-star}" />
+                </StackPanel>
+            </Grid>
+
+            <Border Background="LightGray" CornerRadius="5" Padding="10">
+                <TextBlock TextWrapping="Wrap">
+                    <Run FontWeight="Bold">Tip:</Run>
+                    <Run>The extension works with any FontAwesome icon identifier. Just use the icon name with the "fa-" prefix.</Run>
+                </TextBlock>
+            </Border>
+        </StackPanel>
+    </c:HeaderedContainer>
+</UserControl>

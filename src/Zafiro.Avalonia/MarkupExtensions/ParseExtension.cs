@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Avalonia.Markup.Xaml;
 
-namespace Zafiro.Avalonia.Extensions;
+namespace Zafiro.Avalonia.MarkupExtensions;
 
 public class ParseExtension : MarkupExtension
 {

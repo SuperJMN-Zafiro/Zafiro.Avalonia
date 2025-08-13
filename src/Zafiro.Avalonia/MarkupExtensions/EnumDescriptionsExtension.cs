@@ -2,7 +2,7 @@ using Avalonia.Markup.Xaml;
 using Zafiro.Avalonia.Misc;
 using Enum = System.Enum;
 
-namespace Zafiro.Avalonia.Extensions;
+namespace Zafiro.Avalonia.MarkupExtensions;
 
 public class EnumDescriptionsExtension : MarkupExtension
 {
