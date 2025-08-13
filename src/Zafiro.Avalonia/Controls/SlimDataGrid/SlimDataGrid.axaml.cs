@@ -3,7 +3,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
 using DynamicData;
-using DynamicData.Binding;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Controls.SlimDataGrid;
@@ -45,21 +44,21 @@ public class SlimDataGrid : TemplatedControl
 
     public SlimDataGrid()
     {
-        // Actualizamos Headers cuando cambien las columnas.
         this.WhenAnyValue(x => x.Columns)
             .WhereNotNull()
             .Select(cols => cols.Select((col, index) => new Header(col, index)))
             .Subscribe(h => Headers = h);
 
-        // Convertimos el ItemsSource a un ChangeSet, lo transformamos y lo bindemos.
-        this.WhenAnyValue(x => x.ItemsSource)
-            .WhereNotNull()
-            .Select(source => source.Cast<object>()
-                .ToObservableChangeSetIfPossible<object>()
+        this.WhenAnyValue(x => x.ItemsSource, x => x.RowTheme, x => x.Columns, (items, rowTheme, columns) => (items, rowTheme, columns))
+            .Where(x => x.columns != null && x.items != null)
+            .Select(source => source.items.Cast<object>()
+                .ToObservableChangeSetIfPossible()
                 .Transform(item => new Row(item, Columns) { Theme = RowTheme }))
             .Switch()
             .Bind(out var rows)
-            .Subscribe(_ => DataRows = rows);
+            .Subscribe();
+
+        DataRows = rows;
     }
 
     public IEnumerable? ItemsSource
@@ -116,20 +115,5 @@ public class SlimDataGrid : TemplatedControl
     {
         get => GetValue(HeaderPaddingProperty);
         set => SetValue(HeaderPaddingProperty, value);
-    }
-
-    private IEnumerable<Row> GetRows(IList<object> items, Columns columns)
-    {
-        return items.Select(o => new Row(o, columns)
-        {
-            Theme = RowTheme
-        });
-    }
-
-    private static IEnumerable<Header> GetHeaders(Columns columns)
-    {
-        var cols = columns;
-
-        return cols.Select((o, i) => new Header(o, i));
     }
 }
