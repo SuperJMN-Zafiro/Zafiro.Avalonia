@@ -47,7 +47,6 @@
 
         <ControlTheme x:Key="{x:Type a:Cell}" TargetType="a:Cell">
             <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeLowColor}" />
-            <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border
@@ -66,7 +65,6 @@
 
         <ControlTheme x:Key="{x:Type a:Header}" TargetType="a:Header">
             <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeLowColor}" />
-            <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border
