@@ -38,13 +38,10 @@
         <DataTemplate x:Key="SurnameTemplate">
             <TextBlock TextAlignment="Center" Foreground="#536A72" x:DataType="x:String" Text="{Binding }" />
         </DataTemplate>
-        <ControlTheme x:Key="RowTheme" TargetType="sdg:Row"
-                      BasedOn="{StaticResource {x:Type sdg:Row}}">
-            <Setter Property="BorderThickness" Value="0 0 0 1" />
-            <Setter Property="BorderBrush" Value="#4F000000" />
-            <Setter Property="Padding" Value="10 5" />
-            <Setter Property="Background" Value="#06000000" />
-        </ControlTheme>
+        <SolidColorBrush x:Key="ModernSlimDataGridHeaderBackground" Color="#FF2D2D30" />
+        <SolidColorBrush x:Key="ModernSlimDataGridRowBackground" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="ModernSlimDataGridRowAltBackground" Color="#FFF5F5F5" />
+        <SolidColorBrush x:Key="ModernSlimDataGridRowHoverBackground" Color="#FFE5E5E5" />
     </UserControl.Resources>
     <c:HeaderedContainer Header="A lightweight DataGrid that is easy to use and customizable">
         <DockPanel>
@@ -74,10 +71,8 @@
             <sdg:SlimDataGrid Grid.Column="0" HorizontalAlignment="Center" Background="#FFC9EC" Padding="10"
                               VerticalAlignment="Center"
                               MinWidth="320"
-                              HeaderBackground="#20000000" BorderThickness="2"
-                              BorderBrush="Black" CornerRadius="10"
-                              ItemsSource="{Binding People}" HeaderPadding="10 10"
-                              RowTheme="{StaticResource RowTheme}">
+                              Theme="{StaticResource ModernSlimDataGrid}"
+                              ItemsSource="{Binding People}" HeaderPadding="10 10">
                 <sdg:SlimDataGrid.Columns>
                     <sdg:Column Header="Name" Binding="{Binding Name}"
                                 Width="*"
