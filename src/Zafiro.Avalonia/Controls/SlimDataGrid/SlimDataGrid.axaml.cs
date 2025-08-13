@@ -50,7 +50,7 @@ public class SlimDataGrid : TemplatedControl
             .Subscribe(h => Headers = h);
 
         this.WhenAnyValue(x => x.ItemsSource, x => x.RowTheme, x => x.Columns, (items, rowTheme, columns) => (items, rowTheme, columns))
-            .Where(x => !((List<object>) [x.columns, x.items]).Any(o => o == null))
+            .Where(x => x.columns != null && x.items != null)
             .Select(source => source.items.Cast<object>()
                 .ToObservableChangeSetIfPossible()
                 .Transform(item => new Row(item, Columns) { Theme = RowTheme }))
@@ -115,20 +115,5 @@ public class SlimDataGrid : TemplatedControl
     {
         get => GetValue(HeaderPaddingProperty);
         set => SetValue(HeaderPaddingProperty, value);
-    }
-
-    private IEnumerable<Row> GetRows(IList<object> items, Columns columns)
-    {
-        return items.Select(o => new Row(o, columns)
-        {
-            Theme = RowTheme
-        });
-    }
-
-    private static IEnumerable<Header> GetHeaders(Columns columns)
-    {
-        var cols = columns;
-
-        return cols.Select((o, i) => new Header(o, i));
     }
 }

@@ -6,7 +6,7 @@
 
     <Styles.Resources>
 
-        <SolidColorBrush x:Key="SlimDataGridSeparatorBrush" Color="{DynamicResource SystemChromeAltLowColor}" />
+        <SolidColorBrush x:Key="SlimDataGridSeparatorBrush" Color="{DynamicResource SystemChromeMediumLowColor}" />
         <Thickness x:Key="SlimDataGridBorderThickness">0 1 0 0</Thickness>
 
         <ControlTheme x:Key="{x:Type a:Row}" TargetType="a:Row">
@@ -46,7 +46,7 @@
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type a:Cell}" TargetType="a:Cell">
-            <Setter Property="BorderBrush" Value="{DynamicResource ChromeBlackMediumLow}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeLowColor}" />
             <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
             <Setter Property="Template">
                 <ControlTemplate>
@@ -65,7 +65,7 @@
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type a:Header}" TargetType="a:Header">
-            <Setter Property="BorderBrush" Value="{DynamicResource ChromeBlackMediumLow}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeLowColor}" />
             <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
             <Setter Property="Template">
                 <ControlTemplate>
@@ -80,8 +80,8 @@
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type a:SlimDataGrid}" TargetType="a:SlimDataGrid">
-            <Setter Property="Background" Value="{DynamicResource SystemAltHighColor}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeAltLowColor}" />
+            <Setter Property="Background" Value="{DynamicResource SystemRegionColor}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeMediumColor}" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="15 10" />
