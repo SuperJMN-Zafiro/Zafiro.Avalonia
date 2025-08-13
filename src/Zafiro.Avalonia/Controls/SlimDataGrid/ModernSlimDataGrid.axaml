@@ -1,0 +1,105 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:a="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid">
+    <Styles.Resources>
+        <SolidColorBrush x:Key="ModernSlimDataGridBorderBrush" Color="{DynamicResource SystemAccentColor}"/>
+        <SolidColorBrush x:Key="ModernSlimDataGridHeaderBackground" Color="{DynamicResource SystemAccentColor}"/>
+        <SolidColorBrush x:Key="ModernSlimDataGridHeaderForeground" Color="White"/>
+        <SolidColorBrush x:Key="ModernSlimDataGridRowBackground" Color="{DynamicResource SystemBaseLowColor}"/>
+        <SolidColorBrush x:Key="ModernSlimDataGridRowAltBackground" Color="{DynamicResource SystemBaseMediumLowColor}"/>
+        <SolidColorBrush x:Key="ModernSlimDataGridRowHoverBackground" Color="{DynamicResource SystemAccentColorLight1}"/>
+    </Styles.Resources>
+
+    <ControlTheme x:Key="ModernSlimDataGridCell" TargetType="a:Cell">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8 4"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <ContentControl ContentTemplate="{TemplateBinding ItemTemplate}"
+                                    Content="{TemplateBinding Value}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ModernSlimDataGridRow" TargetType="a:Row">
+        <Setter Property="Background" Value="{DynamicResource ModernSlimDataGridRowBackground}"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <ItemsControl ItemsSource="{TemplateBinding Properties}">
+                        <ItemsControl.ItemContainerTheme>
+                            <ControlTheme TargetType="a:Cell" BasedOn="{StaticResource ModernSlimDataGridCell}">
+                                <Setter Property="Grid.Column" Value="{Binding $self.Index}"/>
+                            </ControlTheme>
+                        </ItemsControl.ItemContainerTheme>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Interaction.Behaviors>
+                                        <a:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a:Converters.ColumnDefsConverter}}" />
+                                    </Interaction.Behaviors>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ModernSlimDataGridRowHoverBackground}"/>
+        </Style>
+        <Style Selector="^:nth-child(odd)">
+            <Setter Property="Background" Value="{DynamicResource ModernSlimDataGridRowAltBackground}"/>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ModernSlimDataGridHeader" TargetType="a:Header">
+        <Setter Property="Background" Value="{DynamicResource ModernSlimDataGridHeaderBackground}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <ContentControl ContentTemplate="{TemplateBinding ItemTemplate}"
+                                    Content="{TemplateBinding Value}"
+                                    Foreground="{DynamicResource ModernSlimDataGridHeaderForeground}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ModernSlimDataGrid" TargetType="a:SlimDataGrid">
+        <Setter Property="RowTheme" Value="{StaticResource ModernSlimDataGridRow}"/>
+        <Setter Property="HeaderBackground" Value="{DynamicResource ModernSlimDataGridHeaderBackground}"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border BorderBrush="{DynamicResource ModernSlimDataGridBorderBrush}" BorderThickness="1" CornerRadius="4">
+                    <DockPanel Grid.IsSharedSizeScope="True">
+                        <Border DockPanel.Dock="Top" Background="{DynamicResource ModernSlimDataGridHeaderBackground}" Padding="{TemplateBinding HeaderPadding}">
+                            <ItemsControl ItemsSource="{TemplateBinding Headers}">
+                                <ItemsControl.ItemContainerTheme>
+                                    <ControlTheme TargetType="a:Header" BasedOn="{StaticResource ModernSlimDataGridHeader}">
+                                        <Setter Property="Grid.Column" Value="{Binding $self.Index}"/>
+                                    </ControlTheme>
+                                </ItemsControl.ItemContainerTheme>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid>
+                                            <Interaction.Behaviors>
+                                                <a:BindableColumnDefinitionsBehavior ColumnDefinitions="{Binding $parent[a:SlimDataGrid].Columns, Mode=OneWay, Converter={x:Static a:Converters.ColumnDefsConverter}}" />
+                                            </Interaction.Behaviors>
+                                        </Grid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Border>
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{TemplateBinding DataRows}" />
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</Styles>
