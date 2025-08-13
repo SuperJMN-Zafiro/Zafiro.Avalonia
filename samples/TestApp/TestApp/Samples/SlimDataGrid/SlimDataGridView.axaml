@@ -33,13 +33,12 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="NameTemplate">
-            <TextBlock Foreground="#283337" x:DataType="x:String" Text="{Binding }" />
+            <TextBlock Foreground="#283337" x:DataType="x:String" Text="{Binding }" VerticalAlignment="Center" />
         </DataTemplate>
         <DataTemplate x:Key="SurnameTemplate">
-            <TextBlock TextAlignment="Center" Foreground="#536A72" x:DataType="x:String" Text="{Binding }" />
+            <TextBlock TextAlignment="Center" Foreground="#536A72" x:DataType="x:String" Text="{Binding }" VerticalAlignment="Center" />
         </DataTemplate>
-        <ControlTheme x:Key="RowTheme" TargetType="sdg:Row"
-                      BasedOn="{StaticResource {x:Type sdg:Row}}">
+        <ControlTheme x:Key="RowTheme" TargetType="sdg:Row" BasedOn="{StaticResource {x:Type sdg:Row}}">
             <Setter Property="BorderThickness" Value="0 0 0 1" />
             <Setter Property="BorderBrush" Value="#4F000000" />
             <Setter Property="Padding" Value="10 5" />
@@ -48,7 +47,6 @@
     </UserControl.Resources>
     <c:HeaderedContainer Header="A lightweight DataGrid that is easy to use and customizable">
         <DockPanel>
-
             <TextBlock HorizontalAlignment="Right" DockPanel.Dock="Bottom">
                 You can add new items by
                 <InlineUIContainer>
@@ -71,7 +69,7 @@
                 </InlineUIContainer>
             </TextBlock>
 
-            <sdg:SlimDataGrid Grid.Column="0" HorizontalAlignment="Center" Background="#FFC9EC" Padding="10"
+            <sdg:SlimDataGrid HorizontalAlignment="Center" Background="#FFC9EC" Padding="10"
                               VerticalAlignment="Center"
                               MinWidth="320"
                               HeaderBackground="#20000000" BorderThickness="2"

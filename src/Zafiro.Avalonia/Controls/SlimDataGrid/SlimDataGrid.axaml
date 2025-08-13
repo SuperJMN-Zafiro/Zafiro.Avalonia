@@ -1,11 +1,19 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:a="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid">
+        xmlns:a="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid"
+        xmlns:g="clr-namespace:System.Collections.Generic;assembly=System.Collections">
 
 
     <Styles.Resources>
+
+        <SolidColorBrush x:Key="SlimDataGridSeparatorBrush" Color="{DynamicResource SystemChromeAltLowColor}" />
+        <Thickness x:Key="SlimDataGridBorderThickness">0 1 0 0</Thickness>
+
         <ControlTheme x:Key="{x:Type a:Row}" TargetType="a:Row">
             <Setter Property="DataContext" Value="{Binding $self.Data}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SlimDataGridSeparatorBrush}" />
+            <Setter Property="Padding" Value="0 5" />
+            <Setter Property="BorderThickness" Value="{DynamicResource SlimDataGridBorderThickness}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Padding="{TemplateBinding Padding}"
@@ -18,6 +26,7 @@
                             <ItemsControl.ItemContainerTheme>
                                 <ControlTheme TargetType="a:Cell" BasedOn="{StaticResource {x:Type a:Cell}}">
                                     <Setter Property="Grid.Column" Value="{Binding $self.Index}" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
                                 </ControlTheme>
                             </ItemsControl.ItemContainerTheme>
                             <ItemsControl.ItemsPanel>
@@ -31,9 +40,9 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </Border>
-
                 </ControlTemplate>
             </Setter>
+
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type a:Cell}" TargetType="a:Cell">
@@ -71,15 +80,20 @@
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type a:SlimDataGrid}" TargetType="a:SlimDataGrid">
+            <Setter Property="Background" Value="{DynamicResource SystemAltHighColor}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeAltLowColor}" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="15 10" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel>
                         <Border CornerRadius="{TemplateBinding CornerRadius}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                ClipToBounds="True"
+                                Padding="{TemplateBinding Padding}"
                                 Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
-                            <DockPanel Grid.IsSharedSizeScope="True">
+                            <DockPanel Grid.IsSharedSizeScope="True" VerticalSpacing="10">
                                 <Border DockPanel.Dock="Top" x:Name="Header"
                                         BorderThickness="{TemplateBinding HeaderBorderThickness}"
                                         BorderBrush="{TemplateBinding HeaderBorderBrush}"
@@ -116,4 +130,27 @@
         </ControlTheme>
     </Styles.Resources>
 
+    <Design.PreviewWith>
+        <SlimDataGrid Width="500">
+            <SlimDataGrid.Columns>
+                <Column Binding="{Binding Left}" Header="Column 1" />
+                <Column Binding="{Binding Left}" Header="Column 2" />
+                <Column Binding="{Binding Left}" Header="Column 3" />
+                <Column Header="Column 4">
+                    <Column.CellTemplate>
+                        <DataTemplate>
+                            <Button Height="30" Content="HOLA" />
+                        </DataTemplate>
+                    </Column.CellTemplate>
+                </Column>
+            </SlimDataGrid.Columns>
+            <SlimDataGrid.ItemsSource>
+                <g:List x:TypeArguments="MyViewModel">
+                    <MyViewModel Left="Left" Title="Title" Right="Right" />
+                    <MyViewModel Left="Left" Title="Title" Right="Right" />
+                    <MyViewModel Left="Left" Title="Title" Right="Right" />
+                </g:List>
+            </SlimDataGrid.ItemsSource>
+        </SlimDataGrid>
+    </Design.PreviewWith>
 </Styles>
