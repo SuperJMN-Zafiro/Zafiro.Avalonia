@@ -14,15 +14,18 @@
     </UserControl.DataTemplates>
 
     <Grid ColumnDefinitions="* 2* *">
-        <HeaderedContainer Grid.Column="1" VerticalAlignment="Center" Margin="10"
-                           Header="It helps you group related information in a convenient way. ">
-            <BulletList Header="It offers you special places to put your contents:">
-                <x:String>Header</x:String>
-                <x:String>Subheader</x:String>
-                <x:String>Header Start Content</x:String>
-                <x:String>Header End Content</x:String>
-                <x:String>Content</x:String>
-            </BulletList>
-        </HeaderedContainer>
+        <Card Grid.Column="1" VerticalAlignment="Center" Margin="10"
+              Header="It helps you group related information in a convenient way. ">
+            <StackPanel Spacing="10">
+                <BulletList Header="It offers you special places to put your contents:">
+                    <x:String>Header</x:String>
+                    <x:String>Subheader</x:String>
+                    <x:String>Header Start Content</x:String>
+                    <x:String>Header End Content</x:String>
+                    <x:String>Content</x:String>
+                </BulletList>
+                <Button Content="This is a button" />
+            </StackPanel>
+        </Card>
     </Grid>
 </UserControl>
