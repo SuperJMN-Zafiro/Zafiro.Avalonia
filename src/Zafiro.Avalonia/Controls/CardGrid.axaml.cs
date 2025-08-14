@@ -26,7 +26,7 @@ public class CardGrid : TemplatedControl
         nameof(MinColumnWidth), 200d);
 
     public static readonly StyledProperty<double> MaxColumnWidthProperty = AvaloniaProperty.Register<CardGrid, double>(
-        nameof(MaxColumnWidth), 400d);
+        nameof(MaxColumnWidth), double.PositiveInfinity);
 
     public double MaxColumnWidth
     {
