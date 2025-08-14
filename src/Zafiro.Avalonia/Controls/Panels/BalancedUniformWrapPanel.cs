@@ -130,16 +130,7 @@ public class BalancedUniformWrapPanel : Panel
             int low = Math.Min(cMinByMax, cMaxByMin);
             int high = Math.Max(cMinByMax, cMaxByMin);
 
-            columns = LargestDivisorInRange(n, low, high);
-
-            if (columns == 0)
-            {
-                columns = LargestDivisorInRange(n, 1, high);
-                if (columns == 0)
-                {
-                    columns = 1;
-                }
-            }
+            columns = ChooseColumns(n, low, high);
 
             // Distribute remaining space including spacing between columns
             itemWidth = (availableW - (columns - 1) * hSpacing) / columns;
@@ -214,12 +205,7 @@ public class BalancedUniformWrapPanel : Panel
             int low = Math.Min(cMinByMax, cMaxByMin);
             int high = Math.Max(cMinByMax, cMaxByMin);
 
-            columns = LargestDivisorInRange(n, low, high);
-            if (columns == 0)
-            {
-                columns = LargestDivisorInRange(n, 1, high);
-                if (columns == 0) columns = 1;
-            }
+            columns = ChooseColumns(n, low, high);
 
             itemWidth = Clamp((availableW - (columns - 1) * hSpacing) / columns, minW, maxW);
         }
@@ -257,6 +243,48 @@ public class BalancedUniformWrapPanel : Panel
 
         // Panel consumes the provided final size in width, and the computed rows*itemHeight plus spacings in height.
         return new Size(finalSize.Width, rows * itemHeight + (rows - 1) * vSpacing);
+    }
+
+    // Prefer a divisor in range; otherwise choose columns in [low, high] that minimize holes,
+    // avoid returning 1 when possible to prevent single-column layouts.
+    private static int ChooseColumns(int n, int low, int high)
+    {
+        if (n <= 0) return 1;
+        low = Math.Max(1, Math.Min(low, n));
+        high = Math.Max(low, Math.Min(high, n));
+
+        int divisor = LargestDivisorInRange(n, low, high);
+        if (divisor >= 2) return divisor;
+
+        // No divisor (e.g., prime or no divisor in range). Pick best columns by minimal holes.
+        int bestC = 1;
+        int bestHoles = int.MaxValue;
+        for (int c = high; c >= Math.Max(2, low); c--)
+        {
+            int rows = (int)Math.Ceiling((double)n / c);
+            int holes = c * rows - n;
+            if (holes < bestHoles || (holes == bestHoles && c > bestC))
+            {
+                bestHoles = holes;
+                bestC = c;
+            }
+        }
+
+        if (bestC >= 2) return bestC;
+
+        // As a last resort, widen the search down to 2..n to avoid 1 when possible
+        for (int c = Math.Min(n, high); c >= 2; c--)
+        {
+            int rows = (int)Math.Ceiling((double)n / c);
+            int holes = c * rows - n;
+            if (holes < bestHoles || (holes == bestHoles && c > bestC))
+            {
+                bestHoles = holes;
+                bestC = c;
+            }
+        }
+
+        return Math.Max(1, bestC);
     }
 
     private static int LargestDivisorInRange(int n, int fromInclusive, int toInclusive)
