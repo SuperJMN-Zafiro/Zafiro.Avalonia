@@ -46,6 +46,45 @@
                 </Card>
             </MinMaxUniformGrid>
         </Card>
+
+        <Card Header="BalancedWrapGrid (5 items)">
+            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                <Button Content="1" />
+                <Button Content="2" />
+                <Button Content="3" />
+                <Button Content="4" />
+                <Button Content="5" />
+            </BalancedWrapGrid>
+        </Card>
+
+        <Card Header="BalancedWrapGrid (7 items)">
+            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                <Button Content="1" />
+                <Button Content="2" />
+                <Button Content="3" />
+                <Button Content="4" />
+                <Button Content="5" />
+                <Button Content="6" />
+                <Button Content="7" />
+            </BalancedWrapGrid>
+        </Card>
+
+        <Card Header="BalancedWrapGrid (11 items)">
+            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                <Button Content="1" />
+                <Button Content="2" />
+                <Button Content="3" />
+                <Button Content="4" />
+                <Button Content="5" />
+                <Button Content="6" />
+                <Button Content="7" />
+                <Button Content="8" />
+                <Button Content="9" />
+                <Button Content="10" />
+                <Button Content="11" />
+            </BalancedWrapGrid>
+        </Card>
+
         <Card Header="ResponsiveGridPanel">
             <ResponsiveUniformGrid MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">
                 <Button Content="HOLA" />

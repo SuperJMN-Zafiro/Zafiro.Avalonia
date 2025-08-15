@@ -60,10 +60,10 @@
                                       ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <MinMaxUniformGrid ColumnSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
-                                                       MinColumnWidth="{Binding $parent[CardGrid].MinColumnWidth}"
-                                                       MaxColumnWidth="{Binding $parent[CardGrid].MaxColumnWidth}"
-                                                       RowSpacing="{Binding $parent[CardGrid].RowSpacing}" />
+                                    <BalancedWrapGrid HorizontalSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
+                                                      VerticalSpacing="{Binding $parent[CardGrid].RowSpacing}"
+                                                      MinItemWidth="{Binding $parent[CardGrid].MinColumnWidth}"
+                                                      MaxItemWidth="{Binding $parent[CardGrid].MaxColumnWidth}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
