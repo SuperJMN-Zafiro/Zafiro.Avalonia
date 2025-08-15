@@ -20,6 +20,19 @@ public class BalancedWrapGrid : Panel
     public static readonly StyledProperty<double> VerticalSpacingProperty =
         AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(VerticalSpacing), 0d);
 
+    static BalancedWrapGrid()
+    {
+        AffectsMeasure<BalancedWrapGrid>(MinItemWidthProperty);
+        AffectsMeasure<BalancedWrapGrid>(MinItemHeightProperty);
+        AffectsMeasure<BalancedWrapGrid>(MaxItemWidthProperty);
+        AffectsMeasure<BalancedWrapGrid>(MaxItemHeightProperty);
+        AffectsMeasure<BalancedWrapGrid>(HorizontalSpacingProperty);
+        AffectsMeasure<BalancedWrapGrid>(VerticalSpacingProperty);
+
+        AffectsArrange<BalancedWrapGrid>(HorizontalSpacingProperty);
+        AffectsArrange<BalancedWrapGrid>(VerticalSpacingProperty);
+    }
+
     /// <summary>
     /// Minimum width for each item (strict).
     /// </summary>
@@ -87,6 +100,11 @@ public class BalancedWrapGrid : Panel
         double minH = Math.Max(0, MinItemHeight);
         double maxW = MaxItemWidth;
         double maxH = MaxItemHeight;
+
+        // Ensure logical consistency: mins should not exceed maxes
+        if (minW > maxW && !double.IsInfinity(maxW)) minW = maxW;
+        if (minH > maxH && !double.IsInfinity(maxH)) minH = maxH;
+
         double hSpacing = Math.Max(0, HorizontalSpacing);
         double vSpacing = Math.Max(0, VerticalSpacing);
 
@@ -148,9 +166,8 @@ public class BalancedWrapGrid : Panel
         double itemHeight = Clamp(maxDesiredH, minH, maxH);
         int rows = (int)Math.Ceiling((double)n / columns);
 
-        double desiredW = double.IsInfinity(availableSize.Width)
-            ? columns * itemWidth + (columns - 1) * hSpacing
-            : availableSize.Width;
+        // Always report natural content width so the panel can be centered by parents if desired
+        double desiredW = columns * itemWidth + (columns - 1) * hSpacing;
 
         double desiredH = rows * itemHeight + (rows - 1) * vSpacing;
         return new Size(desiredW, desiredH);
@@ -169,6 +186,11 @@ public class BalancedWrapGrid : Panel
         double minH = Math.Max(0, MinItemHeight);
         double maxW = MaxItemWidth;
         double maxH = MaxItemHeight;
+
+        // Ensure logical consistency: mins should not exceed maxes
+        if (minW > maxW && !double.IsInfinity(maxW)) minW = maxW;
+        if (minH > maxH && !double.IsInfinity(maxH)) minH = maxH;
+
         double hSpacing = Math.Max(0, HorizontalSpacing);
         double vSpacing = Math.Max(0, VerticalSpacing);
 
@@ -221,7 +243,11 @@ public class BalancedWrapGrid : Panel
 
         int rows = (int)Math.Ceiling((double)n / columns);
 
-        double x = 0, y = 0;
+        // Center content horizontally within the available width
+        double contentWidth = columns * itemWidth + (columns - 1) * hSpacing;
+        double startX = Math.Max(0, (finalSize.Width - contentWidth) / 2);
+
+        double x = startX, y = 0;
         int col = 0;
         for (int i = 0; i < n; i++)
         {
@@ -232,7 +258,7 @@ public class BalancedWrapGrid : Panel
             if (col >= columns)
             {
                 col = 0;
-                x = 0;
+                x = startX;
                 y += itemHeight + vSpacing;
             }
             else
