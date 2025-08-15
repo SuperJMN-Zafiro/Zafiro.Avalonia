@@ -4,8 +4,9 @@
 
     <Styles.Resources>
 
+
         <ResourceDictionary>
-            <!-- Theme-specific brushes for Card to ensure good contrast in Dark vs Light -->
+
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
@@ -13,14 +14,11 @@
                     <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <!-- Use a deeper background in dark to increase contrast with default Button surfaces -->
                     <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeLowColor}" />
                     <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
                     <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-
-            <!-- Brushes CardBackground, CardBorder, CardBorderHover are now provided per-theme above -->
 
             <ControlTheme x:Key="{x:Type Card}" TargetType="Card">
                 <Setter Property="BorderThickness" Value="1" />
@@ -38,6 +36,7 @@
                     <ControlTheme TargetType="ContentControl">
                         <Setter Property="FontSize" Value="16" />
                         <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
                     </ControlTheme>
                 </Setter>
@@ -172,7 +171,7 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <StackPanel Spacing="20" Margin="20" Width="700">
+        <StackPanel Spacing="20" Margin="20" Width="200">
             <StackPanel.Styles>
                 <StyleInclude Source="../Styles/Button.axaml" />
             </StackPanel.Styles>

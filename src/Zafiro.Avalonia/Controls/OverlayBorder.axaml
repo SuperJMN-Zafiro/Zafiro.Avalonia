@@ -1,12 +1,10 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <StyleInclude Source="Card.axaml" />
+
     <Styles.Resources>
 
-        <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
-        <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
-        <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
-        
         <ControlTheme x:Key="{x:Type OverlayBorder}" TargetType="OverlayBorder">
             <Setter Property="ClipToBounds" Value="False" />
             <Setter Property="Template">
