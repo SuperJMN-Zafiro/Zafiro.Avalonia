@@ -11,184 +11,213 @@
             <Setter Property="VerticalAlignment" Value="Stretch" />
         </Style>
     </UserControl.Styles>
-    <StackPanel Spacing="8">
-        <Card Header="MinMaxUniformGrid">
-            <MinMaxUniformGrid MinColumnWidth="200" MaxColumnWidth="400" ColumnSpacing="10" RowSpacing="10">
-                <Card Header="Salute, boy">
-                    <TextBlock TextWrapping="Wrap">
-                        This is my super content, big enough to kick you in the asss
-                    </TextBlock>
-                </Card>
-                <Card Header="Salute, boy">
-                    <TextBlock TextWrapping="Wrap">
-                        This is my super content, big enough to kick you in the asss
-                    </TextBlock>
-                </Card>
-                <Card Header="Salute, boy">
-                    <TextBlock TextWrapping="Wrap">
-                        This is my super content, big enough to kick you in the asss
-                    </TextBlock>
-                </Card>
-                <Card Header="Salute, boy">
-                    <TextBlock TextWrapping="Wrap">
-                        This is my super content, big enough to kick you in the asss
-                    </TextBlock>
-                </Card>
-                <Card Header="Salute, boy">
-                    <TextBlock TextWrapping="Wrap">
-                        This is my super content, big enough to kick you in the asss
-                    </TextBlock>
-                </Card>
-                <Card Header="Salute, boy">
-                    <TextBlock TextWrapping="Wrap">
-                        This is my super content, big enough to kick you in the asss
-                    </TextBlock>
-                </Card>
-            </MinMaxUniformGrid>
-        </Card>
+    <ScrollViewer>
+        <StackPanel Spacing="8">
+            <Card Header="MinMaxUniformGrid">
+                <MinMaxUniformGrid MinColumnWidth="200" MaxColumnWidth="400" ColumnSpacing="10" RowSpacing="10">
+                    <Card Header="Salute, boy">
+                        <TextBlock TextWrapping="Wrap">
+                            This is my super content, big enough to kick you in the asss
+                        </TextBlock>
+                    </Card>
+                    <Card Header="Salute, boy">
+                        <TextBlock TextWrapping="Wrap">
+                            This is my super content, big enough to kick you in the asss
+                        </TextBlock>
+                    </Card>
+                    <Card Header="Salute, boy">
+                        <TextBlock TextWrapping="Wrap">
+                            This is my super content, big enough to kick you in the asss
+                        </TextBlock>
+                    </Card>
+                    <Card Header="Salute, boy">
+                        <TextBlock TextWrapping="Wrap">
+                            This is my super content, big enough to kick you in the asss
+                        </TextBlock>
+                    </Card>
+                    <Card Header="Salute, boy">
+                        <TextBlock TextWrapping="Wrap">
+                            This is my super content, big enough to kick you in the asss
+                        </TextBlock>
+                    </Card>
+                    <Card Header="Salute, boy">
+                        <TextBlock TextWrapping="Wrap">
+                            This is my super content, big enough to kick you in the asss
+                        </TextBlock>
+                    </Card>
+                </MinMaxUniformGrid>
+            </Card>
 
-        <Card Header="BalancedWrapGrid (5 items)">
-            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                <Button Content="1" />
-                <Button Content="2" />
-                <Button Content="3" />
-                <Button Content="4" />
-                <Button Content="5" />
-            </BalancedWrapGrid>
-        </Card>
+            <Card Header="BalancedWrapGrid (5 items)">
+                <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                    <Button Content="3" />
+                    <Button Content="4" />
+                    <Button Content="5" />
+                </BalancedWrapGrid>
+            </Card>
 
-        <Card Header="BalancedWrapGrid (7 items)">
-            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                <Button Content="1" />
-                <Button Content="2" />
-                <Button Content="3" />
-                <Button Content="4" />
-                <Button Content="5" />
-                <Button Content="6" />
-                <Button Content="7" />
-            </BalancedWrapGrid>
-        </Card>
+            <Card Header="BalancedWrapGrid (7 items)">
+                <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                    <Button Content="3" />
+                    <Button Content="4" />
+                    <Button Content="5" />
+                    <Button Content="6" />
+                    <Button Content="7" />
+                </BalancedWrapGrid>
+            </Card>
 
-        <Card Header="BalancedWrapGrid (11 items)">
-            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                <Button Content="1" />
-                <Button Content="2" />
-                <Button Content="3" />
-                <Button Content="4" />
-                <Button Content="5" />
-                <Button Content="6" />
-                <Button Content="7" />
-                <Button Content="8" />
-                <Button Content="9" />
-                <Button Content="10" />
-                <Button Content="11" />
-            </BalancedWrapGrid>
-        </Card>
+            <Card Header="BalancedWrapGrid (11 items)">
+                <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                    <Button Content="3" />
+                    <Button Content="4" />
+                    <Button Content="5" />
+                    <Button Content="6" />
+                    <Button Content="7" />
+                    <Button Content="8" />
+                    <Button Content="9" />
+                    <Button Content="10" />
+                    <Button Content="11" />
+                </BalancedWrapGrid>
+            </Card>
 
-        <Card Header="ResponsiveGridPanel">
-            <ResponsiveUniformGrid MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">
-                <Button Content="HOLA" />
-                <Button Content="HOLA" />
-                <Button Content="HOLA" />
-                <Button Content="HOLA" />
-                <Button Content="HOLA" />
-                <Button Content="HOLA" />
-            </ResponsiveUniformGrid>
-        </Card>
+            <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Left aligned)">
+                <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Left" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                </BalancedWrapGrid>
+            </Card>
+            
+            <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Right aligned)">
+                <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Right" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                </BalancedWrapGrid>
+            </Card>
+            
+            <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=Infinite, Stretch aligned)">
+                <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Stretch" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                </BalancedWrapGrid>
+            </Card>
+            
+            <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Center aligned)">
+                <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Center" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+                    <Button Content="1" />
+                    <Button Content="2" />
+                </BalancedWrapGrid>
+            </Card>
 
-        <Card Header="FlexPanel">
-            <FlexBox Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
-                <Button Content="One" />
-                <Button Content="Two" />
-                <Button Content="Three" />
-                <Button Content="Grow" FlexBox.Grow="1" />
-                <Button Content="Grow More" FlexBox.Grow="2" />
-            </FlexBox>
-        </Card>
+            <Card Header="ResponsiveGridPanel">
+                <ResponsiveUniformGrid MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">
+                    <Button Content="HOLA" />
+                    <Button Content="HOLA" />
+                    <Button Content="HOLA" />
+                    <Button Content="HOLA" />
+                    <Button Content="HOLA" />
+                    <Button Content="HOLA" />
+                </ResponsiveUniformGrid>
+            </Card>
 
-        <Card Header="BoostrapGridPanel">
-            <BootstrapGridPanel MaxColumns="12" Gutter="16">
+            <Card Header="FlexPanel">
+                <FlexBox Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
+                    <Button Content="One" />
+                    <Button Content="Two" />
+                    <Button Content="Three" />
+                    <Button Content="Grow" FlexBox.Grow="1" />
+                    <Button Content="Grow More" FlexBox.Grow="2" />
+                </FlexBox>
+            </Card>
 
-                <!-- Card 1: Full width mobile, mitad en tablet, tercio en desktop -->
-                <Border Background="#E3F2FD"
-                        Padding="20"
-                        CornerRadius="8"
-                        BootstrapGridPanel.Col="12"
-                        BootstrapGridPanel.ColMd="6"
-                        BootstrapGridPanel.ColLg="4">
-                    <StackPanel>
-                        <TextBlock Text="Card 1" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="Responsivo según pantalla" Margin="0,8,0,0" />
-                    </StackPanel>
-                </Border>
+            <Card Header="BoostrapGridPanel">
+                <BootstrapGridPanel MaxColumns="12" Gutter="16">
 
-                <!-- Card 2: Mismo comportamiento -->
-                <Border Background="#F3E5F5"
-                        Padding="20"
-                        CornerRadius="8"
-                        BootstrapGridPanel.Col="12"
-                        BootstrapGridPanel.ColMd="6"
-                        BootstrapGridPanel.ColLg="4">
-                    <StackPanel>
-                        <TextBlock Text="Card 2" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="Se adapta automáticamente" Margin="0,8,0,0" />
-                    </StackPanel>
-                </Border>
+                    <!-- Card 1: Full width mobile, mitad en tablet, tercio en desktop -->
+                    <Border Background="#E3F2FD"
+                            Padding="20"
+                            CornerRadius="8"
+                            BootstrapGridPanel.Col="12"
+                            BootstrapGridPanel.ColMd="6"
+                            BootstrapGridPanel.ColLg="4">
+                        <StackPanel>
+                            <TextBlock Text="Card 1" FontSize="18" FontWeight="Bold" />
+                            <TextBlock Text="Responsivo según pantalla" Margin="0,8,0,0" />
+                        </StackPanel>
+                    </Border>
 
-                <!-- Card 3 -->
-                <Border Background="#E8F5E9"
-                        Padding="20"
-                        CornerRadius="8"
-                        BootstrapGridPanel.Col="12"
-                        BootstrapGridPanel.ColMd="6"
-                        BootstrapGridPanel.ColLg="4">
-                    <StackPanel>
-                        <TextBlock Text="Card 3" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="Layout fluido" Margin="0,8,0,0" />
-                    </StackPanel>
-                </Border>
+                    <!-- Card 2: Mismo comportamiento -->
+                    <Border Background="#F3E5F5"
+                            Padding="20"
+                            CornerRadius="8"
+                            BootstrapGridPanel.Col="12"
+                            BootstrapGridPanel.ColMd="6"
+                            BootstrapGridPanel.ColLg="4">
+                        <StackPanel>
+                            <TextBlock Text="Card 2" FontSize="18" FontWeight="Bold" />
+                            <TextBlock Text="Se adapta automáticamente" Margin="0,8,0,0" />
+                        </StackPanel>
+                    </Border>
 
-            </BootstrapGridPanel>
-        </Card>
+                    <!-- Card 3 -->
+                    <Border Background="#E8F5E9"
+                            Padding="20"
+                            CornerRadius="8"
+                            BootstrapGridPanel.Col="12"
+                            BootstrapGridPanel.ColMd="6"
+                            BootstrapGridPanel.ColLg="4">
+                        <StackPanel>
+                            <TextBlock Text="Card 3" FontSize="18" FontWeight="Bold" />
+                            <TextBlock Text="Layout fluido" Margin="0,8,0,0" />
+                        </StackPanel>
+                    </Border>
 
-        <Card>
-            <BootstrapGridPanel MediumBreakpoint="400" MaxColumns="12" Gutter="16">
+                </BootstrapGridPanel>
+            </Card>
 
-                <!-- Left content: 2 cols desktop, full width mobile -->
-                <Border BootstrapGridPanel.Col="12"
-                        BootstrapGridPanel.ColMd="2"
-                        BootstrapGridPanel.Order="1"
-                        Background="#E3F2FD"
-                        Padding="10">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="Menu" Margin="8,0,0,0" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Border>
+            <Card>
+                <BootstrapGridPanel MediumBreakpoint="400" MaxColumns="12" Gutter="16">
 
-                <!-- Title: 8 cols desktop, full width mobile -->
-                <Border BootstrapGridPanel.Col="12"
-                        BootstrapGridPanel.ColMd="8"
-                        BootstrapGridPanel.Order="2"
-                        Background="#F5F5F5"
-                        Padding="10">
-                    <TextBlock Text="Mi Aplicación"
-                               FontSize="24"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" />
-                </Border>
+                    <!-- Left content: 2 cols desktop, full width mobile -->
+                    <Border BootstrapGridPanel.Col="12"
+                            BootstrapGridPanel.ColMd="2"
+                            BootstrapGridPanel.Order="1"
+                            Background="#E3F2FD"
+                            Padding="10">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Menu" Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
 
-                <!-- Right content: 2 cols desktop, full width mobile -->
-                <Border BootstrapGridPanel.Col="12"
-                        BootstrapGridPanel.ColMd="2"
-                        BootstrapGridPanel.Order="3"
-                        Background="#E8F5E9">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="Usuario" Margin="8,0,0,0" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Border>
+                    <!-- Title: 8 cols desktop, full width mobile -->
+                    <Border BootstrapGridPanel.Col="12"
+                            BootstrapGridPanel.ColMd="8"
+                            BootstrapGridPanel.Order="2"
+                            Background="#F5F5F5"
+                            Padding="10">
+                        <TextBlock Text="Mi Aplicación"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
 
-            </BootstrapGridPanel>
-        </Card>
-    </StackPanel>
+                    <!-- Right content: 2 cols desktop, full width mobile -->
+                    <Border BootstrapGridPanel.Col="12"
+                            BootstrapGridPanel.ColMd="2"
+                            BootstrapGridPanel.Order="3"
+                            Background="#E8F5E9">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Usuario" Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                </BootstrapGridPanel>
+            </Card>
+        </StackPanel></ScrollViewer>
 </UserControl>
