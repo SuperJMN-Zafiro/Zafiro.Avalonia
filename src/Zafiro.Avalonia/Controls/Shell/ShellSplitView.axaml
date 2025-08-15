@@ -93,10 +93,9 @@
                                               Height="{TemplateBinding ExpandButtonSize}" />
 
                             <!-- Main Content (bottom-right by default) -->
-                            <TransitioningContentControl Grid.Row="1" Grid.Column="0" x:Name="Content"
-                                                         PageTransition="{TemplateBinding PageTransition}"
-                                                         ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                         Content="{TemplateBinding Content}" />
+                            <ContentControl Grid.Row="1" Grid.Column="0" x:Name="Content"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Content="{TemplateBinding Content}" />
 
                             <!-- Pane Container (left side, spans both rows) -->
                             <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" x:Name="PaneContainer"
