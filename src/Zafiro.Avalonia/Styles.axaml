@@ -32,6 +32,7 @@
     <StyleInclude Source="Styles/ScrollViewer.axaml" />
     <StyleInclude Source="Styles/ToggleButton.axaml" />
     <StyleInclude Source="Styles/Border.axaml" />
+    <StyleInclude Source="Styles/EdgePanel.axaml" />
 
     <StyleInclude Source="Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="Controls/AdaptiveControl.axaml" />

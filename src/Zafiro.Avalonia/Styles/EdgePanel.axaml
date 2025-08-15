@@ -1,0 +1,49 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Styles.Resources>
+        <ControlTheme x:Key="PropertyEdgePanel" TargetType="EdgePanel">
+            <Setter Property="Spacing" Value="10" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid Background="{TemplateBinding Background}" ColumnSpacing="{TemplateBinding Spacing}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Start" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="End" />
+                        </Grid.ColumnDefinitions>
+                        <ContentControl x:Name="StartContent"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        ContentTemplate="{TemplateBinding StartContentTemplate}"
+                                        Content="{TemplateBinding StartContent}" />
+                        <ContentControl Grid.Column="1" x:Name="MainContent" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        VerticalAlignment="Center"
+                                        TextBlock.TextWrapping="Wrap"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        Content="{TemplateBinding Content}" />
+                        <ContentControl Grid.Column="2" x:Name="EndContent"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        ContentTemplate="{TemplateBinding EndContentTemplate}"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        Content="{TemplateBinding EndContent}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+
+    <Design.PreviewWith>
+        <Border Padding="20" Width="400">
+            <StackPanel Grid.IsSharedSizeScope="True">
+                <EdgePanel StartContent="Start" EndContent="End" Content="Content" Theme="{StaticResource PropertyEdgePanel}" />
+                <EdgePanel StartContent="Start long" EndContent="X" Content="Content" Theme="{StaticResource PropertyEdgePanel}" />
+                <EdgePanel StartContent="Start longer" EndContent="Wfasdf" Content="Content" Theme="{StaticResource PropertyEdgePanel}" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+</Styles>
