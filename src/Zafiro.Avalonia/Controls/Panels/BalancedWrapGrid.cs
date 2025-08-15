@@ -1,24 +1,24 @@
 namespace Zafiro.Avalonia.Controls.Panels;
 
-public class BalancedUniformWrapPanel : Panel
+public class BalancedWrapGrid : Panel
 {
     public static readonly StyledProperty<double> MinItemWidthProperty =
-        AvaloniaProperty.Register<BalancedUniformWrapPanel, double>(nameof(MinItemWidth), 0d);
+        AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(MinItemWidth), 0d);
 
     public static readonly StyledProperty<double> MinItemHeightProperty =
-        AvaloniaProperty.Register<BalancedUniformWrapPanel, double>(nameof(MinItemHeight), 0d);
+        AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(MinItemHeight), 0d);
 
     public static readonly StyledProperty<double> MaxItemWidthProperty =
-        AvaloniaProperty.Register<BalancedUniformWrapPanel, double>(nameof(MaxItemWidth), double.PositiveInfinity);
+        AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(MaxItemWidth), double.PositiveInfinity);
 
     public static readonly StyledProperty<double> MaxItemHeightProperty =
-        AvaloniaProperty.Register<BalancedUniformWrapPanel, double>(nameof(MaxItemHeight), double.PositiveInfinity);
+        AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(MaxItemHeight), double.PositiveInfinity);
 
     public static readonly StyledProperty<double> HorizontalSpacingProperty =
-        AvaloniaProperty.Register<BalancedUniformWrapPanel, double>(nameof(HorizontalSpacing), 0d);
+        AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(HorizontalSpacing), 0d);
 
     public static readonly StyledProperty<double> VerticalSpacingProperty =
-        AvaloniaProperty.Register<BalancedUniformWrapPanel, double>(nameof(VerticalSpacing), 0d);
+        AvaloniaProperty.Register<BalancedWrapGrid, double>(nameof(VerticalSpacing), 0d);
 
     /// <summary>
     /// Minimum width for each item (strict).

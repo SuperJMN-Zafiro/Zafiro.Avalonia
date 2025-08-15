@@ -47,18 +47,18 @@
             </MinMaxUniformGrid>
         </Card>
 
-        <Card Header="BalancedUniformWrapPanel (5 items)">
-            <BalancedUniformWrapPanel MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+        <Card Header="BalancedWrapGrid (5 items)">
+            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
                 <Button Content="1" />
                 <Button Content="2" />
                 <Button Content="3" />
                 <Button Content="4" />
                 <Button Content="5" />
-            </BalancedUniformWrapPanel>
+            </BalancedWrapGrid>
         </Card>
 
-        <Card Header="BalancedUniformWrapPanel (7 items)">
-            <BalancedUniformWrapPanel MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+        <Card Header="BalancedWrapGrid (7 items)">
+            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
                 <Button Content="1" />
                 <Button Content="2" />
                 <Button Content="3" />
@@ -66,11 +66,11 @@
                 <Button Content="5" />
                 <Button Content="6" />
                 <Button Content="7" />
-            </BalancedUniformWrapPanel>
+            </BalancedWrapGrid>
         </Card>
 
-        <Card Header="BalancedUniformWrapPanel (11 items)">
-            <BalancedUniformWrapPanel MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
+        <Card Header="BalancedWrapGrid (11 items)">
+            <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
                 <Button Content="1" />
                 <Button Content="2" />
                 <Button Content="3" />
@@ -82,7 +82,7 @@
                 <Button Content="9" />
                 <Button Content="10" />
                 <Button Content="11" />
-            </BalancedUniformWrapPanel>
+            </BalancedWrapGrid>
         </Card>
 
         <Card Header="ResponsiveGridPanel">
