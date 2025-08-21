@@ -3,10 +3,14 @@
         xmlns:pt="https://github.com/projektanker/icons.avalonia"
         xmlns:styles="clr-namespace:Zafiro.Avalonia.Styles">
 
-
-    <Style Selector="Button.Expand">
+    <Style Selector=":is(Control).Expand">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style Selector=":is(ContentControl).CenterContent">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <Styles.Resources>

@@ -15,8 +15,6 @@
                     <TextBlock Background="Blue" Padding="10">ICON</TextBlock>
                 </EdgePanel.EndContent>
             </EdgePanel>
-
-
         </StackPanel>
     </Design.PreviewWith>
 
