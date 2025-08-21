@@ -28,7 +28,13 @@
             </StackPanel>
         </Card>
         <Card Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Theme="{StaticResource LeftFlexHeaderCard}" Margin="10" HeaderStartContent="{Icon fa-wallet}"
-              Header="Left header" Subheader="Title with left header adfasdfasdfasfasasfddasfdaasdfffffff">
+              Header="Left header" Subheader="Title with left header very long for you to see it wrapping">
+            <Card.HeaderEndContent>
+                <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
+                    <Button Content="Do something" Classes="Expand CenterContent" />
+                    <Button Content="Refresh" Classes="Expand CenterContent" />
+                </BalancedWrapGrid>
+            </Card.HeaderEndContent>
             <StackPanel Spacing="10">
                 <BulletList Header="It offers you special places to put your contents:">
                     <x:String>Header</x:String>

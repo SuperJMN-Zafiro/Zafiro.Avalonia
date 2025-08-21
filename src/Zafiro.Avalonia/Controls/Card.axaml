@@ -145,7 +145,7 @@
                                           ColumnSpacing="{Binding $parent[Card].HeaderSpacing}"
                                           FlexBox.Grow="2"
                                           FlexBox.Shrink="1"
-                                          FlexBox.Basis="{x:Static FlexBasis.Content}">
+                                          FlexBox.Basis="{x:Static FlexBasis.Auto}">
 
                                         <ContentControl Grid.Column="0"
                                                         Content="{Binding $parent[Card].HeaderStartContent}"
@@ -171,7 +171,7 @@
                                         FlexBox.MarginLeftAuto="True"
                                         FlexBox.Grow="1"
                                         FlexBox.Shrink="0"
-                                        FlexBox.Basis="{x:Static FlexBasis.Content}"
+                                        FlexBox.Basis="{x:Static FlexBasis.Auto}"
                                         HorizontalAlignment="Stretch"
                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{Binding $parent[Card].HeaderEndContent}"
