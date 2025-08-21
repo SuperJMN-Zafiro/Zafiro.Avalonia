@@ -141,19 +141,19 @@
                                          Gap="{Binding $parent[Card].HeaderSpacing}">
 
                                     <!-- Grupo izquierdo: Inicio + Título como bloque indivisible -->
-                                    <FlexBox Direction="Row"
-                                             AlignItems="Center"
-                                             Gap="{Binding $parent[Card].HeaderSpacing}"
-                                             FlexBox.Grow="2"
-                                             FlexBox.Shrink="1"
-                                             FlexBox.Basis="{x:Static FlexBasis.Content}">
+                                    <Grid ColumnDefinitions="Auto,*"
+                                          ColumnSpacing="{Binding $parent[Card].HeaderSpacing}"
+                                          FlexBox.Grow="2"
+                                          FlexBox.Shrink="1"
+                                          FlexBox.Basis="{x:Static FlexBasis.Auto}">
 
-                                        <ContentControl
-                                            Content="{Binding $parent[Card].HeaderStartContent}"
-                                            ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
-                                            IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                        <ContentControl Grid.Column="0"
+                                                        Content="{Binding $parent[Card].HeaderStartContent}"
+                                                        ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
+                                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                                        <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
+                                        <StackPanel Grid.Column="1"
+                                                    Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
                                             <ContentControl
                                                 Theme="{Binding $parent[Card].HeaderTheme}"
                                                 Content="{Binding $parent[Card].Header}"
@@ -164,14 +164,14 @@
                                                 IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                         </StackPanel>
-                                    </FlexBox>
+                                    </Grid>
 
                                     <!-- Fin: empuja a la derecha; cuando wrappea, ocupa la línea completa -->
                                     <ContentControl
                                         FlexBox.MarginLeftAuto="True"
                                         FlexBox.Grow="1"
                                         FlexBox.Shrink="0"
-                                        FlexBox.Basis="{x:Static FlexBasis.Content}"
+                                        FlexBox.Basis="{x:Static FlexBasis.Auto}"
                                         HorizontalAlignment="Stretch"
                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{Binding $parent[Card].HeaderEndContent}"
