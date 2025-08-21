@@ -13,22 +13,21 @@
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 BoxShadow="{TemplateBinding BoxShadow}">
-                            <Grid RowDefinitions="Auto *" Margin="{TemplateBinding Padding}" RowSpacing="{TemplateBinding HeaderSpacing}">
-
+                            <SmartDockPanel Margin="{TemplateBinding Padding}" VerticalSpacing="{TemplateBinding HeaderSpacing}">
                                 <ContentControl x:Name="Header"
                                                 DockPanel.Dock="Top"
                                                 Content="{TemplateBinding Header}"
                                                 Theme="{TemplateBinding HeaderTheme}"
                                                 IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                <ContentControl Grid.Row="1" x:Name="Content"
+                                <ContentControl x:Name="Content"
                                                 Content="{TemplateBinding Content}"
                                                 IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Theme="{TemplateBinding ContentTheme}" />
-                            </Grid>
+                            </SmartDockPanel>
                         </Border>
                     </Panel>
                 </ControlTemplate>
@@ -45,7 +44,7 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BoxShadow="{TemplateBinding BoxShadow}">
-                        <Grid Margin="{TemplateBinding Padding}" ColumnDefinitions="Auto *" ColumnSpacing="{TemplateBinding HeaderSpacing}">
+                        <SmartDockPanel Margin="{TemplateBinding Padding}" HorizontalSpacing="{TemplateBinding HeaderSpacing}">
                             <ContentPresenter x:Name="Header"
                                               DockPanel.Dock="Left"
                                               Padding="{TemplateBinding HeaderPadding}"
@@ -54,13 +53,13 @@
                                               Theme="{TemplateBinding HeaderTheme}"
                                               IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                            <ContentPresenter Grid.Column="1" x:Name="Content"
+                            <ContentPresenter x:Name="Content"
                                               Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               Theme="{TemplateBinding ContentTheme}" />
-                        </Grid>
+                        </SmartDockPanel>
                     </Border>
                 </ControlTemplate>
             </Setter>

@@ -110,9 +110,9 @@
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 Padding="{TemplateBinding Padding}"
                                 BoxShadow="{TemplateBinding BoxShadow}">
-                            <Grid RowDefinitions="Auto *">
+                            <SmartDockPanel>
                                 <!-- Header (top) using FlexBox: left group + right actions -->
-                                <Border Grid.Row="0"
+                                <Border DockPanel.Dock="Top"
                                         Background="{TemplateBinding HeaderBackground}"
                                         Padding="{Binding $parent[Card].HeaderPadding}">
                                     <FlexBox Direction="Row"
@@ -154,14 +154,14 @@
                                 </Border>
 
                                 <!-- Body content -->
-                                <ContentPresenter Grid.Row="1"
-                                                  Content="{TemplateBinding Content}"
-                                                  Theme="{TemplateBinding ContentTheme}"
-                                                  IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </Grid>
+                                <ContentPresenter
+                                    Content="{TemplateBinding Content}"
+                                    Theme="{TemplateBinding ContentTheme}"
+                                    IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </SmartDockPanel>
                         </Border>
                     </ControlTemplate>
                 </Setter>
