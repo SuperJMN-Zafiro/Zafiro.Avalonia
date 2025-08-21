@@ -153,13 +153,16 @@
                                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                                         <StackPanel Grid.Column="1"
-                                                    Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
+                                                    Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
+                                                    HorizontalAlignment="Stretch">
                                             <ContentControl
                                                 Theme="{Binding $parent[Card].HeaderTheme}"
+                                                HorizontalAlignment="Stretch"
                                                 Content="{Binding $parent[Card].Header}"
                                                 ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
                                             <ContentControl
                                                 Theme="{Binding $parent[Card].SubheaderTheme}"
+                                                HorizontalAlignment="Stretch"
                                                 Content="{Binding $parent[Card].Subheader}"
                                                 IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
@@ -170,9 +173,8 @@
                                     <ContentControl
                                         FlexBox.MarginLeftAuto="True"
                                         FlexBox.Grow="1"
-                                        FlexBox.Shrink="0"
-                                        FlexBox.Basis="{x:Static FlexBasis.Auto}"
-                                        HorizontalAlignment="Stretch"
+                                        FlexBox.Shrink="1"
+                                        FlexBox.Basis="{x:Static FlexBasis.Content}"
                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Content="{Binding $parent[Card].HeaderEndContent}"
                                         ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" />
@@ -197,7 +199,7 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <StackPanel Spacing="20" Margin="20" Width="300">
+        <StackPanel Spacing="20" Margin="20" Width="600">
             <StackPanel.Styles>
                 <StyleInclude Source="../Styles/Button.axaml" />
             </StackPanel.Styles>
