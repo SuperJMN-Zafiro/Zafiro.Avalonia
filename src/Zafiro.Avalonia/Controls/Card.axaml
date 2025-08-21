@@ -36,6 +36,8 @@
                     <ControlTheme TargetType="ContentControl">
                         <Setter Property="FontSize" Value="16" />
                         <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextBox.TextAlignment" Value="Center" />
                         <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
                     </ControlTheme>
@@ -45,6 +47,8 @@
                     <ControlTheme TargetType="ContentControl">
                         <Setter Property="FontSize" Value="13" />
                         <Setter Property="FontWeight" Value="Normal" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextBox.TextAlignment" Value="Center" />
                         <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
                         <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                     </ControlTheme>
@@ -64,6 +68,7 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            Padding="{TemplateBinding Padding}"
                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                           HeaderSpacing="{TemplateBinding HeaderSpacing}"
                                            BoxShadow="{TemplateBinding BoxShadow}">
                             <HeaderedContainer.Header>
                                 <EdgePanel
@@ -99,9 +104,24 @@
 
             <!-- Variant: Header laid out to the left with FlexBox, actions to the right -->
             <ControlTheme x:Key="LeftFlexHeaderCard" TargetType="Card" BasedOn="{StaticResource {x:Type Card}}">
-                <!-- Enable wrapping by default for this variant -->
                 <Setter Property="HeaderHorizontalAlignment" Value="Stretch" />
-                <Setter Property="IsAdaptiveFlowEnabled" Value="True" />
+                <Setter Property="HeaderTheme">
+                    <ControlTheme TargetType="ContentControl">
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                    </ControlTheme>
+                </Setter>
+
+                <Setter Property="SubheaderTheme">
+                    <ControlTheme TargetType="ContentControl">
+                        <Setter Property="FontSize" Value="13" />
+                        <Setter Property="FontWeight" Value="Normal" />
+                        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                    </ControlTheme>
+                </Setter>
                 <Setter Property="Template">
                     <ControlTemplate>
                         <Border Background="{TemplateBinding Background}"
@@ -110,50 +130,55 @@
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 Padding="{TemplateBinding Padding}"
                                 BoxShadow="{TemplateBinding BoxShadow}">
-                            <SmartDockPanel>
-                                <!-- Header (top) using FlexBox: left group + right actions -->
-                                <Border DockPanel.Dock="Top"
-                                        Background="{TemplateBinding HeaderBackground}"
-                                        Padding="{Binding $parent[Card].HeaderPadding}">
-                                    <FlexBox Direction="Row"
-                                             AlignItems="Center"
-                                             JustifyContent="Center"
-                                             Wrap="{Binding $parent[Card].IsAdaptiveFlowEnabled}"
-                                             Gap="{Binding $parent[Card].HeaderSpacing}">
-                                        <!-- Left group: optional start icon + titles -->
-                                        <FlexBox Direction="Row" AlignItems="Center" Gap="{Binding $parent[Card].HeaderSpacing}" FlexBox.Grow="1">
+                            <DockPanel VerticalSpacing="{TemplateBinding HeaderSpacing}">
+
+                                <!-- Header -->
+                                <FlexBox Direction="Row"
+                                         DockPanel.Dock="Top"
+                                         AlignItems="Center"
+                                         JustifyContent="Start"
+                                         Wrap="Wrap"
+                                         Gap="{Binding $parent[Card].HeaderSpacing}">
+
+                                    <!-- Grupo izquierdo: Inicio + Título como bloque indivisible -->
+                                    <Grid ColumnDefinitions="Auto,*"
+                                          ColumnSpacing="{Binding $parent[Card].HeaderSpacing}"
+                                          FlexBox.Grow="2"
+                                          FlexBox.Shrink="1"
+                                          FlexBox.Basis="{x:Static FlexBasis.Auto}">
+
+                                        <ContentControl Grid.Column="0"
+                                                        Content="{Binding $parent[Card].HeaderStartContent}"
+                                                        ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
+                                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                                        <StackPanel Grid.Column="1"
+                                                    Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
                                             <ContentControl
-                                                Content="{Binding $parent[Card].HeaderStartContent}"
-                                                ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
-                                                IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                                            <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
-                                                <ContentControl
-                                                    Theme="{Binding $parent[Card].HeaderTheme}"
-                                                    Content="{Binding $parent[Card].Header}"
-                                                    ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                                <ContentControl
-                                                    Theme="{Binding $parent[Card].SubheaderTheme}"
-                                                    Content="{Binding $parent[Card].Subheader}"
-                                                    IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                    ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
-                                            </StackPanel>
-                                        </FlexBox>
+                                                Theme="{Binding $parent[Card].HeaderTheme}"
+                                                Content="{Binding $parent[Card].Header}"
+                                                ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
+                                            <ContentControl
+                                                Theme="{Binding $parent[Card].SubheaderTheme}"
+                                                Content="{Binding $parent[Card].Subheader}"
+                                                IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
+                                        </StackPanel>
+                                    </Grid>
 
-                                        <!-- Spacer grows to push actions to the right when on the same line -->
-                                        <Border FlexBox.Grow="1" />
+                                    <!-- Fin: empuja a la derecha; cuando wrappea, ocupa la línea completa -->
+                                    <ContentControl
+                                        FlexBox.MarginLeftAuto="True"
+                                        FlexBox.Grow="1"
+                                        FlexBox.Shrink="0"
+                                        FlexBox.Basis="{x:Static FlexBasis.Auto}"
+                                        HorizontalAlignment="Stretch"
+                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        Content="{Binding $parent[Card].HeaderEndContent}"
+                                        ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" />
+                                </FlexBox>
 
-                                        <!-- Right group: actions/end content (do not shrink so it wraps when needed). When wrapped to its own line,
-                                         HorizontalAlignment=Center will center it nicely. -->
-                                        <ContentControl
-                                            FlexBox.Shrink="0"
-                                            HorizontalAlignment="Center"
-                                            IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                            Content="{Binding $parent[Card].HeaderEndContent}"
-                                            ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" />
-                                    </FlexBox>
-                                </Border>
-
-                                <!-- Body content -->
+                                <!-- Body -->
                                 <ContentPresenter
                                     Content="{TemplateBinding Content}"
                                     Theme="{TemplateBinding ContentTheme}"
@@ -161,7 +186,7 @@
                                     ContentTemplate="{TemplateBinding ContentTemplate}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </SmartDockPanel>
+                            </DockPanel>
                         </Border>
                     </ControlTemplate>
                 </Setter>
@@ -172,7 +197,7 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <StackPanel Spacing="20" Margin="20" Width="200">
+        <StackPanel Spacing="20" Margin="20" Width="300">
             <StackPanel.Styles>
                 <StyleInclude Source="../Styles/Button.axaml" />
             </StackPanel.Styles>
@@ -188,15 +213,15 @@
             </Card>
 
             <Card Theme="{StaticResource LeftFlexHeaderCard}"
-                  Header="SOME BIG HEADER" Subheader="Some subheader">
+                  Header="SOME BIG HEADER IS SUPER BIG" Subheader="Some subheader">
                 <Card.HeaderStartContent>
                     <av:Icon Value="fa-wallet" FontSize="32" />
                 </Card.HeaderStartContent>
                 <Card.HeaderEndContent>
-                    <UniformGrid Rows="1" ColumnSpacing="10">
-                        <Button Content="Do something" Classes="Expand" />
-                        <Button Content="Refresh" Classes="Expand" />
-                    </UniformGrid>
+                    <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
+                        <Button Content="Do something" Classes="Expand CenterContent" />
+                        <Button Content="Refresh" Classes="Expand CenterContent" />
+                    </BalancedWrapGrid>
                 </Card.HeaderEndContent>
 
                 <!-- Body -->
