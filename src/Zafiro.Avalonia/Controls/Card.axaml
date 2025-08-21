@@ -157,6 +157,7 @@
                                 <ContentPresenter Grid.Row="1"
                                                   Content="{TemplateBinding Content}"
                                                   Theme="{TemplateBinding ContentTheme}"
+                                                  IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />

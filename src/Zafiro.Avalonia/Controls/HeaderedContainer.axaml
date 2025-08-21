@@ -19,9 +19,11 @@
                                                 DockPanel.Dock="Top"
                                                 Content="{TemplateBinding Header}"
                                                 Theme="{TemplateBinding HeaderTheme}"
+                                                IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 ContentTemplate="{TemplateBinding HeaderTemplate}" />
                                 <ContentControl Grid.Row="1" x:Name="Content"
                                                 Content="{TemplateBinding Content}"
+                                                IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
