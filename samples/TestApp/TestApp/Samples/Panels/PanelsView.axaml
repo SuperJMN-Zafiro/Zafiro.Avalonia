@@ -13,6 +13,10 @@
     </UserControl.Styles>
     <ScrollViewer>
         <StackPanel Spacing="8">
+            <SmartDockPanel VerticalSpacing="20">
+                <TextBlock IsVisible="True" Text="Smart DockPanel" DockPanel.Dock="Top" />
+                <Button Classes="Expand CenterContent" Content="BUTTON" />
+            </SmartDockPanel>
             <Card Header="MinMaxUniformGrid">
                 <MinMaxUniformGrid MinColumnWidth="200" MaxColumnWidth="400" ColumnSpacing="10" RowSpacing="10">
                     <Card Header="Salute, boy">
@@ -92,21 +96,21 @@
                     <Button Content="2" />
                 </BalancedWrapGrid>
             </Card>
-            
+
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Right aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Right" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
                     <Button Content="1" />
                     <Button Content="2" />
                 </BalancedWrapGrid>
             </Card>
-            
+
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=Infinite, Stretch aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Stretch" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
                     <Button Content="1" />
                     <Button Content="2" />
                 </BalancedWrapGrid>
             </Card>
-            
+
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Center aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Center" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
                     <Button Content="1" />
@@ -219,5 +223,6 @@
 
                 </BootstrapGridPanel>
             </Card>
-        </StackPanel></ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
