@@ -139,6 +139,22 @@
                 </FlexBox>
             </Card>
 
+            <Card Header="FlexBox header with wrapping buttons">
+                <FlexBox Wrap="Wrap" AlignItems="Center" RowGap="8" ColumnGap="8">
+                    <Border Width="32" Height="32" Background="Gray" />
+                    <TextBlock Text="Título largo de ejemplo" FlexBox.Grow="1" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="4"
+                                FlexBox.MarginLeftAuto="True"
+                                FlexBox.Grow="1"
+                                FlexBox.Shrink="1"
+                                FlexBox.Basis="{x:Static FlexBasis.Content}">
+                        <Button Content="Acción 1" />
+                        <Button Content="Acción 2" />
+                    </StackPanel>
+                </FlexBox>
+            </Card>
+
             <Card Header="BoostrapGridPanel">
                 <BootstrapGridPanel MaxColumns="12" Gutter="16">
 
