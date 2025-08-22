@@ -73,13 +73,14 @@
                                 <Setter Property="ItemsPanel">
                                     <Setter.Value>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Spacing="2" Orientation="Horizontal" />
+                                            <StackPanel Classes="ButtonGroup" />
                                         </ItemsPanelTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
                             <Style Selector="StackPanel.ButtonGroup">
-                                <Setter Property="Spacing" Value="8" />
+                                <Setter Property="Spacing" Value="10" />
+                                <Setter Property="Orientation" Value="Horizontal" />
                             </Style>
                         </Border.Styles>
 
