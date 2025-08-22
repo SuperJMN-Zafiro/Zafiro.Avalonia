@@ -22,8 +22,8 @@ public class Card : ContentControl
     public static readonly StyledProperty<Thickness> HeaderPaddingProperty = AvaloniaProperty.Register<Card, Thickness>(
         nameof(HeaderPadding));
 
-    public static readonly StyledProperty<double> HeaderSpacingProperty = AvaloniaProperty.Register<Card, double>(
-        nameof(HeaderSpacing));
+    public static readonly StyledProperty<double> HeaderAndBodySpacingProperty = AvaloniaProperty.Register<Card, double>(
+        nameof(HeaderAndBodySpacing));
 
     public static readonly StyledProperty<double> HeaderSubheaderSpacingProperty = AvaloniaProperty.Register<Card, double>(
         nameof(HeaderSubheaderSpacing));
@@ -63,6 +63,15 @@ public class Card : ContentControl
 
     public static readonly StyledProperty<ControlTheme> ContentThemeProperty = AvaloniaProperty.Register<Card, ControlTheme>(
         nameof(ContentTheme));
+
+    public static readonly StyledProperty<double> HeaderItemsSpacingProperty = AvaloniaProperty.Register<Card, double>(
+        nameof(HeaderItemsSpacing));
+
+    public double HeaderItemsSpacing
+    {
+        get => GetValue(HeaderItemsSpacingProperty);
+        set => SetValue(HeaderItemsSpacingProperty, value);
+    }
 
     public ControlTheme ContentTheme
     {
@@ -106,10 +115,10 @@ public class Card : ContentControl
         set => SetValue(HeaderPaddingProperty, value);
     }
 
-    public double HeaderSpacing
+    public double HeaderAndBodySpacing
     {
-        get => GetValue(HeaderSpacingProperty);
-        set => SetValue(HeaderSpacingProperty, value);
+        get => GetValue(HeaderAndBodySpacingProperty);
+        set => SetValue(HeaderAndBodySpacingProperty, value);
     }
 
     public double HeaderSubheaderSpacing

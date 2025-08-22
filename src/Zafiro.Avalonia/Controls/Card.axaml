@@ -27,7 +27,8 @@
                 <Setter Property="HeaderBackground" Value="{DynamicResource CardBackground}" />
                 <Setter Property="CornerRadius" Value="8" />
                 <Setter Property="Padding" Value="15 15 15 15" />
-                <Setter Property="HeaderSpacing" Value="10" />
+                <Setter Property="HeaderAndBodySpacing" Value="10" />
+                <Setter Property="HeaderItemsSpacing" Value="15" />
                 <Setter Property="HeaderSubheaderSpacing" Value="4" />
                 <Setter Property="HeaderHorizontalAlignment" Value="Center" />
                 <Setter Property="HeaderVerticalAlignment" Value="Center" />
@@ -68,11 +69,11 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            Padding="{TemplateBinding Padding}"
                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                           HeaderSpacing="{TemplateBinding HeaderSpacing}"
+                                           HeaderSpacing="{TemplateBinding HeaderAndBodySpacing}"
                                            BoxShadow="{TemplateBinding BoxShadow}">
                             <HeaderedContainer.Header>
                                 <EdgePanel
-                                    Spacing="{Binding $parent[Card].HeaderSpacing}"
+                                    Spacing="{Binding $parent[Card].HeaderAndBodySpacing}"
                                     Margin="{Binding $parent[Card].HeaderPadding}"
                                     StartContent="{Binding $parent[Card].HeaderStartContent}"
                                     StartContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
@@ -108,6 +109,7 @@
                 <Setter Property="HeaderTheme">
                     <ControlTheme TargetType="ContentControl">
                         <Setter Property="FontSize" Value="16" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
                         <Setter Property="FontWeight" Value="SemiBold" />
                         <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
@@ -130,7 +132,7 @@
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 Padding="{TemplateBinding Padding}"
                                 BoxShadow="{TemplateBinding BoxShadow}">
-                            <SmartDockPanel VerticalSpacing="{TemplateBinding HeaderSpacing}">
+                            <SmartDockPanel VerticalSpacing="{TemplateBinding HeaderAndBodySpacing}">
 
                                 <!-- Header -->
                                 <FlexBox Direction="Row"
@@ -138,36 +140,33 @@
                                          AlignItems="Center"
                                          JustifyContent="Start"
                                          Wrap="Wrap"
-                                         Gap="{Binding $parent[Card].HeaderSpacing}">
+                                         Gap="{Binding $parent[Card].HeaderAndBodySpacing}">
 
                                     <!-- Grupo izquierdo: Inicio + Título como bloque indivisible -->
-                                    <Grid ColumnDefinitions="Auto,*"
-                                          ColumnSpacing="{Binding $parent[Card].HeaderSpacing}"
-                                          FlexBox.Grow="2"
-                                          FlexBox.Shrink="1"
-                                          FlexBox.Basis="{x:Static FlexBasis.Auto}">
+                                    <SmartDockPanel HorizontalSpacing="{TemplateBinding HeaderItemsSpacing}"
+                                                    FlexBox.Grow="2"
+                                                    FlexBox.Shrink="1"
+                                                    FlexBox.Basis="{x:Static FlexBasis.Auto}">
 
-                                        <ContentControl Grid.Column="0"
-                                                        Content="{Binding $parent[Card].HeaderStartContent}"
+                                        <ContentControl Content="{Binding $parent[Card].HeaderStartContent}"
                                                         ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
                                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                                        <StackPanel Grid.Column="1"
-                                                    Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
-                                                    HorizontalAlignment="Stretch">
+                                        <SmartDockPanel VerticalSpacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
+                                                        HorizontalAlignment="Stretch">
+                                            <ContentControl Theme="{Binding $parent[Card].SubheaderTheme}"
+                                                            DockPanel.Dock="Bottom"
+                                                            HorizontalAlignment="Stretch"
+                                                            Content="{Binding $parent[Card].Subheader}"
+                                                            IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                            ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
                                             <ContentControl
                                                 Theme="{Binding $parent[Card].HeaderTheme}"
                                                 HorizontalAlignment="Stretch"
                                                 Content="{Binding $parent[Card].Header}"
                                                 ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                            <ContentControl
-                                                Theme="{Binding $parent[Card].SubheaderTheme}"
-                                                HorizontalAlignment="Stretch"
-                                                Content="{Binding $parent[Card].Subheader}"
-                                                IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
-                                        </StackPanel>
-                                    </Grid>
+                                        </SmartDockPanel>
+                                    </SmartDockPanel>
 
                                     <!-- Fin: empuja a la derecha; cuando wrappea, ocupa la línea completa -->
                                     <ContentControl
@@ -214,6 +213,16 @@
                 </Card.HeaderEndContent>
             </Card>
 
+            <Card Header="Width and height" Theme="{StaticResource LeftFlexHeaderCard}" Height="300" HeaderHorizontalAlignment="Center">
+                SOME CONTENT
+                <Card.HeaderStartContent>
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
+                </Card.HeaderStartContent>
+                <Card.HeaderEndContent>
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
+                </Card.HeaderEndContent>
+            </Card>
+
             <Card Theme="{StaticResource LeftFlexHeaderCard}"
                   Header="SOME BIG HEADER IS SUPER BIG" Subheader="Some subheader">
                 <Card.HeaderStartContent>
@@ -230,13 +239,11 @@
                 <Border Margin="20" CornerRadius="10" Padding="20" />
             </Card>
 
-            <Card Theme="{StaticResource LeftFlexHeaderCard}" Content="HOLA" />
+            <Card Theme="{StaticResource LeftFlexHeaderCard}" Header="This is a nice header" Content="HOLA" />
 
-            <ThemeVariantScope RequestedThemeVariant="Dark">
-                <Card>
-                    <Button>Salud</Button>
-                </Card>
-            </ThemeVariantScope>
+            <Card Header="This is a nice header">
+                <Button>Salud</Button>
+            </Card>
         </StackPanel>
 
     </Design.PreviewWith>
