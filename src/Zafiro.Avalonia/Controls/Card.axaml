@@ -230,6 +230,7 @@
 
                                     <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
                                                 WrapGrid.PreferredWidth="*"
+                                                VerticalAlignment="Center"
                                                 WrapGrid.WrapMinWidth="150"
                                                 HorizontalAlignment="Stretch">
                                         <ContentControl
