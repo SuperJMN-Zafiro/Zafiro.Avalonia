@@ -68,7 +68,7 @@ public class WrapGrid : Panel
 
         foreach (var child in Children)
         {
-            if (child is not Control c) continue;
+            if (child is not Control c || !c.IsVisible) continue; // Ignorar invisibles
             var pref = GetPreferredWidth(c);
             var minPref = GetMinPreferredWidth(c);
             var fill = GetFillWidth(c);
@@ -121,7 +121,7 @@ public class WrapGrid : Panel
 
         foreach (var child in Children)
         {
-            if (child is not Control c) continue;
+            if (child is not Control c || !c.IsVisible) continue; // Ignorar invisibles
             var pref = GetPreferredWidth(c);
             var minPref = GetMinPreferredWidth(c);
             var fill = GetFillWidth(c);
