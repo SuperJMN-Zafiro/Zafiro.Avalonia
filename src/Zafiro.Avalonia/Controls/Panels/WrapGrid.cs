@@ -1,3 +1,5 @@
+using CSharpFunctionalExtensions;
+
 namespace Zafiro.Avalonia.Controls.Panels;
 
 /// <summary>
@@ -59,39 +61,12 @@ public class WrapGrid : Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        double availableRowWidth = double.IsInfinity(availableSize.Width) ? double.PositiveInfinity : availableSize.Width;
+        var availableRowWidth = Maybe<double>.From(availableSize.Width)
+            .Where(w => !double.IsInfinity(w))
+            .GetValueOrDefault(double.PositiveInfinity);
         var columnSpacing = ColumnSpacing;
         var rowSpacing = RowSpacing;
-        var rows = new List<Row>();
-        var current = new Row();
-        rows.Add(current);
-
-        foreach (var child in Children)
-        {
-            if (child is not Control c || !c.IsVisible) continue; // Ignorar invisibles
-            var pref = GetPreferredWidth(c);
-            var minPref = GetMinPreferredWidth(c);
-            var fill = GetFillWidth(c);
-            c.Measure(new Size(double.PositiveInfinity, availableSize.Height));
-            double autoWidth = c.DesiredSize.Width;
-            var wrapMin = GetWrapMinWidth(c);
-            var item = new Item { Child = c, Preferred = pref, MinPreferred = minPref, Fill = fill, AutoDesiredWidth = autoWidth, WrapMinWidth = wrapMin };
-            item.MinWidthResolved = ResolveMinWidth(item);
-
-            if (!double.IsInfinity(availableRowWidth) && current.Items.Count > 0)
-            {
-                double currentMin = ComputeCurrentMinWidth(current, columnSpacing);
-                double addMin = GetItemMinContribution(item);
-                double extraSpacing = columnSpacing;
-                if (currentMin + extraSpacing + addMin > availableRowWidth)
-                {
-                    current = new Row();
-                    rows.Add(current);
-                }
-            }
-
-            current.Items.Add(item);
-        }
+        var rows = BuildRows(availableRowWidth, availableSize.Height, columnSpacing);
 
         foreach (var row in rows) AllocateRowWidths(row, availableRowWidth, availableSize.Height, columnSpacing);
 
@@ -112,38 +87,10 @@ public class WrapGrid : Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        double availableRowWidth = finalSize.Width;
+        var availableRowWidth = finalSize.Width;
         var columnSpacing = ColumnSpacing;
         var rowSpacing = RowSpacing;
-        var rows = new List<Row>();
-        var current = new Row();
-        rows.Add(current);
-
-        foreach (var child in Children)
-        {
-            if (child is not Control c || !c.IsVisible) continue; // Ignorar invisibles
-            var pref = GetPreferredWidth(c);
-            var minPref = GetMinPreferredWidth(c);
-            var fill = GetFillWidth(c);
-            c.Measure(new Size(double.PositiveInfinity, finalSize.Height));
-            double autoWidth = c.DesiredSize.Width;
-            var wrapMin = GetWrapMinWidth(c);
-            var item = new Item { Child = c, Preferred = pref, MinPreferred = minPref, Fill = fill, AutoDesiredWidth = autoWidth, MinWidthResolved = ResolveMinWidth(pref, minPref, autoWidth), WrapMinWidth = wrapMin };
-
-            if (!double.IsInfinity(availableRowWidth) && current.Items.Count > 0)
-            {
-                double currentMin = ComputeCurrentMinWidth(current, columnSpacing);
-                double addMin = GetItemMinContribution(item);
-                double extraSpacing = columnSpacing;
-                if (currentMin + extraSpacing + addMin > availableRowWidth)
-                {
-                    current = new Row();
-                    rows.Add(current);
-                }
-            }
-
-            current.Items.Add(item);
-        }
+        var rows = BuildRows(availableRowWidth, finalSize.Height, columnSpacing);
 
         foreach (var row in rows) AllocateRowWidths(row, availableRowWidth, finalSize.Height, columnSpacing);
 
@@ -170,6 +117,59 @@ public class WrapGrid : Panel
         return finalSize;
     }
 
+    private List<Row> BuildRows(double availableRowWidth, double availableHeight, double columnSpacing)
+    {
+        var rows = new List<Row>();
+        var current = new Row();
+        rows.Add(current);
+        double currentMin = 0;
+
+        foreach (var child in Children)
+        {
+            if (child is not Control control || !control.IsVisible)
+                continue;
+
+            var item = CreateItem(control, availableHeight);
+            double itemMin = GetItemMinContribution(item);
+            double required = currentMin + (current.Items.Count > 0 ? columnSpacing : 0) + itemMin;
+
+            if (!double.IsInfinity(availableRowWidth) && current.Items.Count > 0 && required > availableRowWidth)
+            {
+                current = new Row();
+                rows.Add(current);
+                currentMin = 0;
+                required = itemMin;
+            }
+
+            if (current.Items.Count > 0)
+                currentMin += columnSpacing;
+            currentMin += itemMin;
+            current.Items.Add(item);
+        }
+
+        return rows;
+    }
+
+    private Item CreateItem(Control c, double availableHeight)
+    {
+        var pref = GetPreferredWidth(c);
+        var minPref = GetMinPreferredWidth(c);
+        var fill = GetFillWidth(c);
+        c.Measure(new Size(double.PositiveInfinity, availableHeight));
+        double autoWidth = c.DesiredSize.Width;
+        var wrapMin = GetWrapMinWidth(c);
+        var item = new Item
+        {
+            Child = c,
+            Preferred = pref,
+            MinPreferred = minPref,
+            Fill = fill,
+            AutoDesiredWidth = autoWidth,
+            WrapMinWidth = wrapMin
+        };
+        return item;
+    }
+
     private static double GetItemMinContribution(Item item)
     {
         if (item.Preferred.IsAbsolute) return item.Preferred.Value;
@@ -178,36 +178,6 @@ public class WrapGrid : Panel
         return 0;
     }
 
-    private static double ResolveMinWidth(Item item) => ResolveMinWidth(item.Preferred, item.MinPreferred, item.AutoDesiredWidth);
-
-    private static double ResolveMinWidth(GridLength preferred, GridLength minPreferred, double autoWidth)
-    {
-        double GetLen(GridLength gl) => gl.GridUnitType switch
-        {
-            GridUnitType.Pixel => gl.Value,
-            GridUnitType.Auto => autoWidth,
-            GridUnitType.Star => 0,
-            _ => 0
-        };
-
-        double minCandidate = GetLen(minPreferred);
-        double preferredMin = GetLen(preferred);
-        return Math.Min(Math.Max(minCandidate, 0), preferredMin == 0 ? Math.Max(minCandidate, 0) : preferredMin);
-    }
-
-    private static double ComputeCurrentMinWidth(Row row, double spacing)
-    {
-        double sum = 0;
-        bool first = true;
-        foreach (var it in row.Items)
-        {
-            if (!first) sum += spacing;
-            else first = false;
-            sum += GetItemMinContribution(it);
-        }
-
-        return sum;
-    }
 
     private void AllocateRowWidths(Row row, double availableRowWidth, double availableHeight, double spacing)
     {
@@ -348,7 +318,6 @@ public class WrapGrid : Panel
         public double DesiredHeight; // after final measure
         public GridLength Fill; // fill specification
         public GridLength MinPreferred;
-        public double MinWidthResolved; // numeric min used for wrap decision
         public GridLength Preferred;
         public double WrapMinWidth; // minimum width allowed before forcing new row
         public double StarWeight => Preferred.IsStar ? Preferred.Value : 0d;
