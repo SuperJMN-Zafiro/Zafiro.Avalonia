@@ -1,31 +1,22 @@
-using CSharpFunctionalExtensions;
+using System.Buffers;
 
 namespace Zafiro.Avalonia.Controls.Panels;
 
 /// <summary>
-/// A Panel that lays out children in rows similar to a WrapPanel but allocates width inside a row
-/// using Grid-like semantics (Pixel, Auto, Star). Children declare their preferred max width via PreferredWidth
-/// and an optional minimum width via MinPreferredWidth. Rows are filled sequentially; when adding the next child
-/// would exceed the available width (summing minima) a new row is started.
+/// Optimized WrapGrid: lays out children in rows with Grid-like width semantics (Pixel, Auto, Star).
 /// </summary>
 public class WrapGrid : Panel
 {
-    // Attached property for preferred (max) width specification (Pixel, Auto, Star)
+    // Attached properties
     public static readonly AttachedProperty<GridLength> PreferredWidthProperty =
-        AvaloniaProperty.RegisterAttached<WrapGrid, Control, GridLength>(
-            "PreferredWidth", new GridLength(1, GridUnitType.Auto));
+        AvaloniaProperty.RegisterAttached<WrapGrid, Control, GridLength>("PreferredWidth", new GridLength(1, GridUnitType.Auto));
 
-    // Attached property for minimum preferred width specification (Pixel, Auto, Star). If not set uses Auto(min of 0 or measured Auto).
     public static readonly AttachedProperty<GridLength> MinPreferredWidthProperty =
-        AvaloniaProperty.RegisterAttached<WrapGrid, Control, GridLength>(
-            "MinPreferredWidth", new GridLength(0, GridUnitType.Pixel));
+        AvaloniaProperty.RegisterAttached<WrapGrid, Control, GridLength>("MinPreferredWidth", new GridLength(0, GridUnitType.Pixel));
 
-    // Nueva propiedad: ancho de relleno cuando hay espacio sobrante en la fila
     public static readonly AttachedProperty<GridLength> FillWidthProperty =
-        AvaloniaProperty.RegisterAttached<WrapGrid, Control, GridLength>(
-            "FillWidth", new GridLength(0, GridUnitType.Pixel));
+        AvaloniaProperty.RegisterAttached<WrapGrid, Control, GridLength>("FillWidth", new GridLength(0, GridUnitType.Pixel));
 
-    // Attached property: minimum width the item may compress to stay in the current row (before wrapping)
     public static readonly AttachedProperty<double> WrapMinWidthProperty =
         AvaloniaProperty.RegisterAttached<WrapGrid, Control, double>("WrapMinWidth", 0d);
 
@@ -34,6 +25,9 @@ public class WrapGrid : Panel
 
     public static readonly StyledProperty<double> RowSpacingProperty =
         AvaloniaProperty.Register<WrapGrid, double>(nameof(RowSpacing), 0d);
+
+    // Simple cache for Auto desired widths (infinite constraint)
+    private readonly Dictionary<Control, double> autoWidthCache = new();
 
     public double ColumnSpacing
     {
@@ -61,38 +55,46 @@ public class WrapGrid : Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        var availableRowWidth = Maybe<double>.From(availableSize.Width)
-            .Where(w => !double.IsInfinity(w))
-            .GetValueOrDefault(double.PositiveInfinity);
-        var columnSpacing = ColumnSpacing;
-        var rowSpacing = RowSpacing;
-        var rows = BuildRows(availableRowWidth, availableSize.Height, columnSpacing);
+        if (Children.Count == 0)
+            return new Size();
 
-        foreach (var row in rows) AllocateRowWidths(row, availableRowWidth, availableSize.Height, columnSpacing);
+        double availableRowWidth = double.IsInfinity(availableSize.Width) ? double.PositiveInfinity : availableSize.Width;
+        double colSpacing = ColumnSpacing;
+        double rowSpacing = RowSpacing;
+
+        var rows = BuildRows(availableRowWidth, availableSize.Height);
+
+        foreach (var row in rows)
+            AllocateRowWidths(row, availableRowWidth, availableSize.Height, colSpacing);
 
         double totalHeight = 0;
         double maxWidth = 0;
-        bool firstRow = true;
-        foreach (var row in rows)
+        bool first = true;
+        foreach (var r in rows)
         {
-            if (!firstRow) totalHeight += rowSpacing;
-            else firstRow = false;
-            totalHeight += row.Height;
-            maxWidth = Math.Max(maxWidth, row.Width);
+            if (!first) totalHeight += rowSpacing;
+            else first = false;
+            totalHeight += r.Height;
+            maxWidth = Math.Max(maxWidth, r.Width);
         }
 
-        return new Size(double.IsInfinity(availableSize.Width) ? maxWidth : Math.Min(maxWidth, availableSize.Width),
-            double.IsInfinity(availableSize.Height) ? totalHeight : Math.Min(totalHeight, availableSize.Height));
+        double finalWidth = double.IsInfinity(availableSize.Width) ? maxWidth : Math.Min(maxWidth, availableSize.Width);
+        double finalHeight = double.IsInfinity(availableSize.Height) ? totalHeight : Math.Min(totalHeight, availableSize.Height);
+        return new Size(finalWidth, finalHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        var availableRowWidth = finalSize.Width;
-        var columnSpacing = ColumnSpacing;
-        var rowSpacing = RowSpacing;
-        var rows = BuildRows(availableRowWidth, finalSize.Height, columnSpacing);
+        if (Children.Count == 0)
+            return finalSize;
 
-        foreach (var row in rows) AllocateRowWidths(row, availableRowWidth, finalSize.Height, columnSpacing);
+        double availableRowWidth = finalSize.Width;
+        double colSpacing = ColumnSpacing;
+        double rowSpacing = RowSpacing;
+
+        var rows = BuildRows(availableRowWidth, finalSize.Height);
+        foreach (var row in rows)
+            AllocateRowWidths(row, availableRowWidth, finalSize.Height, colSpacing);
 
         double y = 0;
         bool first = true;
@@ -101,37 +103,38 @@ public class WrapGrid : Panel
             if (!first) y += rowSpacing;
             else first = false;
             double x = 0;
-            double rowHeight = row.Height;
-            int idx = 0;
+            int i = 0;
             foreach (var item in row.Items)
             {
-                if (idx > 0) x += columnSpacing;
-                item.Child.Arrange(new Rect(x, y, item.AllocatedWidth, rowHeight));
+                if (i > 0) x += colSpacing;
+                item.Child.Arrange(new Rect(x, y, item.AllocatedWidth, row.Height));
                 x += item.AllocatedWidth;
-                idx++;
+                i++;
             }
 
-            y += rowHeight;
+            y += row.Height;
         }
 
         return finalSize;
     }
 
-    private List<Row> BuildRows(double availableRowWidth, double availableHeight, double columnSpacing)
+    // Build logical rows (only needs minimal width info)
+    private List<Row> BuildRows(double availableRowWidth, double availableHeight)
     {
-        var rows = new List<Row>();
+        var rows = new List<Row>(4);
         var current = new Row();
         rows.Add(current);
         double currentMin = 0;
+        double colSpacing = ColumnSpacing;
 
         foreach (var child in Children)
         {
-            if (child is not Control control || !control.IsVisible)
+            if (child is not Control c || !c.IsVisible)
                 continue;
 
-            var item = CreateItem(control, availableHeight);
+            var item = CreateItem(c, availableHeight);
             double itemMin = GetItemMinContribution(item);
-            double required = currentMin + (current.Items.Count > 0 ? columnSpacing : 0) + itemMin;
+            double required = currentMin + (current.Items.Count > 0 ? colSpacing : 0) + itemMin;
 
             if (!double.IsInfinity(availableRowWidth) && current.Items.Count > 0 && required > availableRowWidth)
             {
@@ -142,7 +145,7 @@ public class WrapGrid : Panel
             }
 
             if (current.Items.Count > 0)
-                currentMin += columnSpacing;
+                currentMin += colSpacing;
             currentMin += itemMin;
             current.Items.Add(item);
         }
@@ -152,123 +155,172 @@ public class WrapGrid : Panel
 
     private Item CreateItem(Control c, double availableHeight)
     {
-        var pref = GetPreferredWidth(c);
-        var minPref = GetMinPreferredWidth(c);
+        var preferred = GetPreferredWidth(c);
+        var minPreferred = GetMinPreferredWidth(c);
         var fill = GetFillWidth(c);
-        c.Measure(new Size(double.PositiveInfinity, availableHeight));
-        double autoWidth = c.DesiredSize.Width;
-        var wrapMin = GetWrapMinWidth(c);
-        var item = new Item
+        double autoDesired = 0;
+
+        // Only measure now if we truly need unconstrained width (Auto semantics)
+        if (preferred.IsAuto || fill.IsAuto)
+        {
+            if (!autoWidthCache.TryGetValue(c, out autoDesired))
+            {
+                c.Measure(new Size(double.PositiveInfinity, availableHeight));
+                autoDesired = c.DesiredSize.Width;
+                autoWidthCache[c] = autoDesired;
+            }
+        }
+
+        return new Item
         {
             Child = c,
-            Preferred = pref,
-            MinPreferred = minPref,
+            Preferred = preferred,
+            MinPreferred = minPreferred,
             Fill = fill,
-            AutoDesiredWidth = autoWidth,
-            WrapMinWidth = wrapMin
+            AutoDesiredWidth = autoDesired,
+            WrapMinWidth = GetWrapMinWidth(c)
         };
-        return item;
     }
 
     private static double GetItemMinContribution(Item item)
     {
-        if (item.Preferred.IsAbsolute) return item.Preferred.Value;
-        if (item.WrapMinWidth > 0) return item.WrapMinWidth;
-        if (item.Preferred.IsAuto) return item.AutoDesiredWidth;
+        if (item.Preferred.IsAbsolute)
+            return item.Preferred.Value;
+        if (item.WrapMinWidth > 0)
+            return item.WrapMinWidth;
+        if (item.Preferred.IsAuto)
+            return item.AutoDesiredWidth;
         return 0;
     }
 
-
+    // Assign widths (single final measure pass at end)
     private void AllocateRowWidths(Row row, double availableRowWidth, double availableHeight, double spacing)
     {
-        double fixedSum = 0;
-        double totalStar = 0;
-        foreach (var item in row.Items)
+        if (row.Items.Count == 0)
         {
-            if (item.Preferred.IsAbsolute) fixedSum += item.Preferred.Value;
-            else if (item.Preferred.IsAuto) fixedSum += item.AutoDesiredWidth;
-            else if (item.Preferred.IsStar) totalStar += Math.Max(item.Preferred.Value, 0.0001);
+            row.Height = 0;
+            row.Width = 0;
+            return;
         }
 
-        int gapCount = Math.Max(0, row.Items.Count - 1);
-        double spacingTotal = gapCount * spacing;
-        double leftover = double.IsInfinity(availableRowWidth) ? fixedSum : availableRowWidth - fixedSum - spacingTotal;
-        if (leftover < 0) leftover = 0;
+        double fixedSum = 0;
+        double totalStar = 0;
+
+        // First pass: compute fixed and star aggregate
         foreach (var item in row.Items)
         {
-            double width = item.Preferred.IsAbsolute ? item.Preferred.Value : item.Preferred.IsAuto ? item.AutoDesiredWidth : (totalStar > 0 ? leftover * (item.StarWeight / totalStar) : 0);
+            var pref = item.Preferred;
+            if (pref.IsAbsolute)
+                fixedSum += pref.Value;
+            else if (pref.IsAuto)
+                fixedSum += item.AutoDesiredWidth;
+            else if (pref.IsStar)
+                totalStar += Math.Max(pref.Value, 0.0001);
+        }
+
+        int gaps = row.Items.Count - 1;
+        double spacingTotal = gaps > 0 ? gaps * spacing : 0;
+        double leftover = double.IsInfinity(availableRowWidth) ? fixedSum : availableRowWidth - fixedSum - spacingTotal;
+        if (leftover < 0) leftover = 0;
+
+        // Assign initial widths (no Measure here)
+        foreach (var item in row.Items)
+        {
+            double width;
+            if (item.Preferred.IsAbsolute)
+                width = item.Preferred.Value;
+            else if (item.Preferred.IsAuto)
+                width = item.AutoDesiredWidth;
+            else // Star
+                width = totalStar > 0 ? leftover * (item.Preferred.Value / totalStar) : 0;
             item.AllocatedWidth = width;
-            item.Child.Measure(new Size(width, availableHeight));
-            item.DesiredHeight = item.Child.DesiredSize.Height;
         }
 
         double baseRowWidth = spacingTotal;
         foreach (var it in row.Items) baseRowWidth += it.AllocatedWidth;
+
+        // Compression if overflow
         if (!double.IsInfinity(availableRowWidth) && baseRowWidth > availableRowWidth + 0.1)
         {
             double over = baseRowWidth - availableRowWidth;
-            var compressible = new List<Item>();
+            var buffer = ArrayPool<Item>.Shared.Rent(row.Items.Count);
+            int count = 0;
             double totalSlack = 0;
             foreach (var it in row.Items)
             {
-                if (it.Preferred.IsAbsolute) continue;
+                if (it.Preferred.IsAbsolute)
+                    continue;
                 double min = it.WrapMinWidth > 0 ? it.WrapMinWidth : 0;
                 double slack = it.AllocatedWidth - min;
                 if (slack > 0.1)
                 {
-                    compressible.Add(it);
+                    buffer[count++] = it;
                     totalSlack += slack;
                 }
             }
 
             if (totalSlack > 0)
             {
-                foreach (var it in compressible)
+                for (int i = 0; i < count && over > 0.01; i++)
                 {
+                    var it = buffer[i];
                     double min = it.WrapMinWidth > 0 ? it.WrapMinWidth : 0;
                     double slack = it.AllocatedWidth - min;
+                    if (slack <= 0) continue;
                     double reduce = Math.Min(slack, over * (slack / totalSlack));
                     it.AllocatedWidth -= reduce;
                     over -= reduce;
                 }
             }
 
+            ArrayPool<Item>.Shared.Return(buffer);
             baseRowWidth = spacingTotal;
             foreach (var it in row.Items) baseRowWidth += it.AllocatedWidth;
         }
 
+        // Fill (Pixel / Auto / Star) only if spare space
         double spare = double.IsInfinity(availableRowWidth) ? 0 : Math.Max(0, availableRowWidth - baseRowWidth);
         if (spare > 0.1)
         {
-            var pixelAutoList = new List<(Item item, double needed)>();
+            // Phase 1: Pixel + Auto fill
+            var fillCandidates = ArrayPool<(Item item, double need)>.Shared.Rent(row.Items.Count);
+            int neededCount = 0;
+            double totalNeed = 0;
             foreach (var it in row.Items)
             {
                 var fill = it.Fill;
-                if (fill.GridUnitType == GridUnitType.Pixel && fill.Value > 0)
+                if (fill.GridUnitType == GridUnitType.Pixel && fill.Value > it.AllocatedWidth)
                 {
-                    double target = fill.Value;
-                    if (target > it.AllocatedWidth) pixelAutoList.Add((it, target - it.AllocatedWidth));
+                    double need = fill.Value - it.AllocatedWidth;
+                    fillCandidates[neededCount++] = (it, need);
+                    totalNeed += need;
                 }
                 else if (fill.GridUnitType == GridUnitType.Auto)
                 {
                     double target = Math.Max(it.AutoDesiredWidth, it.AllocatedWidth);
-                    double needed = target - it.AllocatedWidth;
-                    if (needed > 0.1) pixelAutoList.Add((it, needed));
+                    double need = target - it.AllocatedWidth;
+                    if (need > 0.1)
+                    {
+                        fillCandidates[neededCount++] = (it, need);
+                        totalNeed += need;
+                    }
                 }
             }
 
-            double totalNeeded = 0;
-            foreach (var pa in pixelAutoList) totalNeeded += pa.needed;
-            if (totalNeeded > 0 && spare > 0)
+            if (totalNeed > 0)
             {
-                foreach (var pa in pixelAutoList)
+                for (int i = 0; i < neededCount && spare > 0.01; i++)
                 {
-                    double grant = Math.Min(pa.needed, spare * (pa.needed / totalNeeded));
-                    pa.item.AllocatedWidth += grant;
+                    var pair = fillCandidates[i];
+                    double grant = Math.Min(pair.need, spare * (pair.need / totalNeed));
+                    pair.item.AllocatedWidth += grant;
                     spare -= grant;
                 }
             }
 
+            ArrayPool<(Item, double)>.Shared.Return(fillCandidates);
+
+            // Phase 2: Star fill
             if (spare > 0.1)
             {
                 double fillStarSum = 0;
@@ -280,46 +332,45 @@ public class WrapGrid : Panel
                     foreach (var it in row.Items)
                     {
                         if (it.Fill.IsStar)
-                        {
-                            double add = spare * (it.Fill.Value / fillStarSum);
-                            it.AllocatedWidth += add;
-                        }
+                            it.AllocatedWidth += spare * (it.Fill.Value / fillStarSum);
                     }
+
+                    baseRowWidth = spacingTotal;
+                    foreach (var it in row.Items) baseRowWidth += it.AllocatedWidth;
+                    spare = 0;
                 }
             }
         }
 
+        // Final measure only once per child
         double rowHeight = 0;
-        double rowWidth = spacingTotal;
         foreach (var item in row.Items)
         {
             item.Child.Measure(new Size(item.AllocatedWidth, availableHeight));
-            item.DesiredHeight = Math.Max(item.DesiredHeight, item.Child.DesiredSize.Height);
-            rowHeight = Math.Max(rowHeight, item.DesiredHeight);
-            rowWidth += item.AllocatedWidth;
+            double h = item.Child.DesiredSize.Height;
+            if (h > rowHeight) rowHeight = h;
         }
 
         row.Height = rowHeight;
-        row.Width = rowWidth;
+        row.Width = spacingTotal;
+        foreach (var it in row.Items) row.Width += it.AllocatedWidth;
     }
 
     private class Row
     {
-        public double Height; // calculated
-        public double Width; // calculated
-        public List<Item> Items { get; } = new();
+        public double Height;
+        public double Width;
+        public List<Item> Items { get; } = new(8);
     }
 
     private class Item
     {
-        public double AllocatedWidth; // final width
-        public double AutoDesiredWidth; // width measured with infinite constraint (for Auto)
+        public double AllocatedWidth;
+        public double AutoDesiredWidth;
         public Control Child = null!;
-        public double DesiredHeight; // after final measure
-        public GridLength Fill; // fill specification
+        public GridLength Fill;
         public GridLength MinPreferred;
         public GridLength Preferred;
-        public double WrapMinWidth; // minimum width allowed before forcing new row
-        public double StarWeight => Preferred.IsStar ? Preferred.Value : 0d;
+        public double WrapMinWidth;
     }
 }
