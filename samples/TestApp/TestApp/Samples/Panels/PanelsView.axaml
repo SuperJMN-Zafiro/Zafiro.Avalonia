@@ -24,10 +24,15 @@
                     <Button Content="Auto / Fill" WrapGrid.PreferredWidth="Auto" WrapGrid.FillWidth="*" />
                 </WrapGrid>
             </Card>
-            <SmartDockPanel VerticalSpacing="10">
+            <StackPanel Spacing="10">
+                <Button>HOLA</Button>
+                <Button IsVisible="False">AMOR</Button>
+                <Button>AMOR</Button>
+            </StackPanel>
+            <DockPanel VerticalSpacing="10">
                 <TextBlock IsVisible="True" Text="Smart DockPanel" DockPanel.Dock="Top" />
-                <Button Classes="Expand CenterContent" Content="BUTTON" />
-            </SmartDockPanel>
+                <Button IsVisible="False" Classes="Expand CenterContent" Content="BUTTON" />
+            </DockPanel>
             <Card Header="MinMaxUniformGrid">
                 <MinMaxUniformGrid MinColumnWidth="200" MaxColumnWidth="400" ColumnSpacing="10" RowSpacing="10">
                     <Card Header="Salute, boy">

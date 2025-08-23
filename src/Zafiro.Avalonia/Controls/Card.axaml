@@ -3,10 +3,7 @@
         xmlns:av="https://github.com/projektanker/icons.avalonia">
 
     <Styles.Resources>
-
-
         <ResourceDictionary>
-
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
@@ -152,20 +149,20 @@
                                                         ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
                                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                                        <SmartDockPanel VerticalSpacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
-                                                        HorizontalAlignment="Stretch">
+                                        <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
+                                                    HorizontalAlignment="Stretch">
+                                            <ContentControl
+                                                Theme="{Binding $parent[Card].HeaderTheme}"
+                                                HorizontalAlignment="Stretch"
+                                                Content="{Binding $parent[Card].Header}"
+                                                ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
                                             <ContentControl Theme="{Binding $parent[Card].SubheaderTheme}"
                                                             DockPanel.Dock="Bottom"
                                                             HorizontalAlignment="Stretch"
                                                             Content="{Binding $parent[Card].Subheader}"
                                                             IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                             ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
-                                            <ContentControl
-                                                Theme="{Binding $parent[Card].HeaderTheme}"
-                                                HorizontalAlignment="Stretch"
-                                                Content="{Binding $parent[Card].Header}"
-                                                ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                        </SmartDockPanel>
+                                        </StackPanel>
                                     </SmartDockPanel>
 
                                     <!-- Fin: empuja a la derecha; cuando wrappea, ocupa la línea completa -->
@@ -231,22 +228,22 @@
                                                     ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
                                                     IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                                    <SmartDockPanel VerticalSpacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
-                                                    WrapGrid.PreferredWidth="*"
-                                                    WrapGrid.WrapMinWidth="150"
-                                                    HorizontalAlignment="Stretch">
+                                    <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
+                                                WrapGrid.PreferredWidth="*"
+                                                WrapGrid.WrapMinWidth="150"
+                                                HorizontalAlignment="Stretch">
+                                        <ContentControl
+                                            Theme="{Binding $parent[Card].HeaderTheme}"
+                                            HorizontalAlignment="Stretch"
+                                            Content="{Binding $parent[Card].Header}"
+                                            ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
                                         <ContentControl Theme="{Binding $parent[Card].SubheaderTheme}"
                                                         DockPanel.Dock="Bottom"
                                                         HorizontalAlignment="Stretch"
                                                         Content="{Binding $parent[Card].Subheader}"
                                                         IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                         ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
-                                        <ContentControl
-                                            Theme="{Binding $parent[Card].HeaderTheme}"
-                                            HorizontalAlignment="Stretch"
-                                            Content="{Binding $parent[Card].Header}"
-                                            ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                    </SmartDockPanel>
+                                    </StackPanel>
 
                                     <ContentControl
                                         WrapGrid.PreferredWidth="Auto"
