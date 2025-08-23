@@ -198,8 +198,14 @@ namespace Zafiro.Avalonia.Controls.Panels
 
             var currentBounds = new Rect(finalSize);
             var childrenCount = LastChildFill ? Children.Count - 1 : Children.Count;
-            var hasVisibleHorizontal = false;
-            var hasVisibleVertical = false;
+            // Flags to control spacing between successive docked elements (orientation based)
+            var hasAnyHorizontal = false;
+            var hasAnyVertical = false;
+            // Flags to know which sides are occupied for spacing around fill element
+            var hasLeftDock = false;
+            var hasRightDock = false;
+            var hasTopDock = false;
+            var hasBottomDock = false;
 
             for (var index = 0; index < childrenCount; ++index)
             {
@@ -214,8 +220,7 @@ namespace Zafiro.Avalonia.Controls.Panels
                 switch (dock)
                 {
                     case Dock.Left:
-                        // Apply spacing before this element if this is not the first visible horizontal element
-                        spacingToApply = hasVisibleHorizontal ? HorizontalSpacing : 0;
+                        spacingToApply = hasAnyHorizontal ? HorizontalSpacing : 0;
                         currentBounds = new Rect(
                             currentBounds.X + spacingToApply,
                             currentBounds.Y,
@@ -230,12 +235,12 @@ namespace Zafiro.Avalonia.Controls.Panels
                             currentBounds.Y,
                             Math.Max(0, currentBounds.Width - width),
                             currentBounds.Height);
-                        hasVisibleHorizontal = true;
+                        hasAnyHorizontal = true;
+                        hasLeftDock = true;
                         break;
 
                     case Dock.Top:
-                        // Apply spacing before this element if this is not the first visible vertical element
-                        spacingToApply = hasVisibleVertical ? VerticalSpacing : 0;
+                        spacingToApply = hasAnyVertical ? VerticalSpacing : 0;
                         currentBounds = new Rect(
                             currentBounds.X,
                             currentBounds.Y + spacingToApply,
@@ -250,12 +255,12 @@ namespace Zafiro.Avalonia.Controls.Panels
                             currentBounds.Y + height,
                             currentBounds.Width,
                             Math.Max(0, currentBounds.Height - height));
-                        hasVisibleVertical = true;
+                        hasAnyVertical = true;
+                        hasTopDock = true;
                         break;
 
                     case Dock.Right:
-                        // Apply spacing before this element if this is not the first visible horizontal element
-                        spacingToApply = hasVisibleHorizontal ? HorizontalSpacing : 0;
+                        spacingToApply = hasAnyHorizontal ? HorizontalSpacing : 0;
                         currentBounds = currentBounds.WithWidth(Math.Max(0, currentBounds.Width - spacingToApply));
 
                         width = Math.Min(child.DesiredSize.Width, currentBounds.Width);
@@ -266,12 +271,12 @@ namespace Zafiro.Avalonia.Controls.Panels
                             currentBounds.Height));
 
                         currentBounds = currentBounds.WithWidth(Math.Max(0, currentBounds.Width - width));
-                        hasVisibleHorizontal = true;
+                        hasAnyHorizontal = true;
+                        hasRightDock = true;
                         break;
 
                     case Dock.Bottom:
-                        // Apply spacing before this element if this is not the first visible vertical element
-                        spacingToApply = hasVisibleVertical ? VerticalSpacing : 0;
+                        spacingToApply = hasAnyVertical ? VerticalSpacing : 0;
                         currentBounds = currentBounds.WithHeight(Math.Max(0, currentBounds.Height - spacingToApply));
 
                         height = Math.Min(child.DesiredSize.Height, currentBounds.Height);
@@ -282,7 +287,8 @@ namespace Zafiro.Avalonia.Controls.Panels
                             height));
 
                         currentBounds = currentBounds.WithHeight(Math.Max(0, currentBounds.Height - height));
-                        hasVisibleVertical = true;
+                        hasAnyVertical = true;
+                        hasBottomDock = true;
                         break;
                 }
             }
@@ -292,10 +298,10 @@ namespace Zafiro.Avalonia.Controls.Panels
                 var child = Children[Children.Count - 1];
                 if (child.IsVisible)
                 {
-                    // Apply spacing before the fill element if there were docked elements
                     var adjustedBounds = currentBounds;
 
-                    if (hasVisibleHorizontal)
+                    // Horizontal spacing: leave gap next to occupied sides
+                    if (hasLeftDock)
                     {
                         adjustedBounds = new Rect(
                             adjustedBounds.X + HorizontalSpacing,
@@ -304,11 +310,31 @@ namespace Zafiro.Avalonia.Controls.Panels
                             adjustedBounds.Height);
                     }
 
-                    if (hasVisibleVertical)
+                    if (hasRightDock)
+                    {
+                        adjustedBounds = new Rect(
+                            adjustedBounds.X,
+                            adjustedBounds.Y,
+                            Math.Max(0, adjustedBounds.Width - HorizontalSpacing),
+                            adjustedBounds.Height);
+                    }
+
+                    // Vertical spacing: gap adjacent to top/bottom docked elements.
+                    // Top dock consumes space at top, so shift Y down for top gap; bottom gap just reduces height.
+                    if (hasTopDock)
                     {
                         adjustedBounds = new Rect(
                             adjustedBounds.X,
                             adjustedBounds.Y + VerticalSpacing,
+                            adjustedBounds.Width,
+                            Math.Max(0, adjustedBounds.Height - VerticalSpacing));
+                    }
+
+                    if (hasBottomDock)
+                    {
+                        adjustedBounds = new Rect(
+                            adjustedBounds.X,
+                            adjustedBounds.Y,
                             adjustedBounds.Width,
                             Math.Max(0, adjustedBounds.Height - VerticalSpacing));
                     }

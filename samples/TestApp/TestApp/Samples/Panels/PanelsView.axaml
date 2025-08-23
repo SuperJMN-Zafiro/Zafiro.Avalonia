@@ -24,7 +24,7 @@
                     <Button Content="Auto / Fill" WrapGrid.PreferredWidth="Auto" WrapGrid.FillWidth="*" />
                 </WrapGrid>
             </Card>
-            <SmartDockPanel VerticalSpacing="20">
+            <SmartDockPanel VerticalSpacing="10">
                 <TextBlock IsVisible="True" Text="Smart DockPanel" DockPanel.Dock="Top" />
                 <Button Classes="Expand CenterContent" Content="BUTTON" />
             </SmartDockPanel>
