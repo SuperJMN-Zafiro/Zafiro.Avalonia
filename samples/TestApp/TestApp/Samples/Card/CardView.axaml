@@ -13,7 +13,7 @@
         </DataTemplate>
     </UserControl.DataTemplates>
 
-    <Grid ColumnDefinitions="* 2* *" Grid.RowDefinitions="* *">
+    <Grid ColumnDefinitions="* 2* *" Grid.RowDefinitions="* * *">
         <Card Grid.Column="1" VerticalAlignment="Center" Margin="10" HeaderStartContent="{Icon fa-wallet}"
               Header="It helps you group related information in a convenient way" Subheader="A Card is a container that can hold various types of content">
             <StackPanel Spacing="10">
@@ -28,6 +28,25 @@
             </StackPanel>
         </Card>
         <Card Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Theme="{StaticResource LeftFlexHeaderCard}" Margin="10" HeaderStartContent="{Icon fa-wallet}"
+              Header="Left header" Subheader="Title with left header very long for you to see it wrapping">
+            <Card.HeaderEndContent>
+                <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
+                    <Button Content="Do something" Classes="Expand CenterContent" />
+                    <Button Content="Refresh" Classes="Expand CenterContent" />
+                </BalancedWrapGrid>
+            </Card.HeaderEndContent>
+            <StackPanel Spacing="10">
+                <BulletList Header="It offers you special places to put your contents:">
+                    <x:String>Header</x:String>
+                    <x:String>Subheader</x:String>
+                    <x:String>Header Start Content</x:String>
+                    <x:String>Header End Content</x:String>
+                    <x:String>Content</x:String>
+                </BulletList>
+                <Button Content="This is a button" />
+            </StackPanel>
+        </Card>
+        <Card Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Theme="{StaticResource WrapGridCard}" Margin="10" HeaderStartContent="{Icon fa-wallet}"
               Header="Left header" Subheader="Title with left header very long for you to see it wrapping">
             <Card.HeaderEndContent>
                 <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
