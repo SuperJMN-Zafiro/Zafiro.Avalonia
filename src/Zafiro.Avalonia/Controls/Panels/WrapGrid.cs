@@ -29,9 +29,13 @@ public class WrapGrid : Panel
 
     // Simple cache for Auto desired widths (infinite constraint)
     private readonly Dictionary<Control, double> autoWidthCache = new();
+
+    // Subscriptions to child visibility changes to invalidate caches
+    private readonly Dictionary<Control, IDisposable> visibilitySubscriptions = new();
+
     private double cachedHeightConstraint = double.NaN;
 
-    // Cache de layout para reutilizar entre Measure y Arrange cuando las restricciones no cambian
+    // Layout cache reused between Measure and Arrange while constraints stay the same
     private List<Row>? cachedRows;
     private double cachedWidthConstraint = double.NaN;
     private bool cacheValid;
@@ -72,7 +76,32 @@ public class WrapGrid : Panel
             foreach (var item in e.OldItems)
             {
                 if (item is Control c)
+                {
                     autoWidthCache.Remove(c);
+                    if (visibilitySubscriptions.TryGetValue(c, out var disp))
+                    {
+                        disp.Dispose();
+                        visibilitySubscriptions.Remove(c);
+                    }
+                }
+            }
+        }
+
+        if (e.NewItems != null)
+        {
+            foreach (var item in e.NewItems)
+            {
+                if (item is Control c)
+                {
+                    // Subscribe to visibility changes to invalidate layout/auto caches
+                    var sub = c.GetObservable(IsVisibleProperty).Subscribe(_ =>
+                    {
+                        autoWidthCache.Remove(c); // force recompute if becomes visible again
+                        InvalidateLayoutCache();
+                        InvalidateMeasure();
+                    });
+                    visibilitySubscriptions[c] = sub;
+                }
             }
         }
     }
@@ -89,6 +118,16 @@ public class WrapGrid : Panel
     public static void SetWrapMinWidth(AvaloniaObject target, double value) => target.SetValue(WrapMinWidthProperty, value);
     public static double GetWrapMinWidth(AvaloniaObject target) => target.GetValue(WrapMinWidthProperty);
 
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        foreach (var disp in visibilitySubscriptions.Values) disp.Dispose();
+        visibilitySubscriptions.Clear();
+        autoWidthCache.Clear();
+        cachedRows = null;
+        cacheValid = false;
+    }
+
     protected override Size MeasureOverride(Size availableSize)
     {
         if (Children.Count == 0)
@@ -98,7 +137,7 @@ public class WrapGrid : Panel
         double colSpacing = ColumnSpacing;
         double rowSpacing = RowSpacing;
 
-        // Recalcular si constraints cambiaron
+        // Rebuild if constraints changed
         if (!cacheValid || !AreClose(availableRowWidth, cachedWidthConstraint) || !AreClose(availableSize.Height, cachedHeightConstraint))
         {
             var rows = BuildRows(availableRowWidth, availableSize.Height);
@@ -111,7 +150,7 @@ public class WrapGrid : Panel
         }
         else if (cachedRows != null)
         {
-            // Ya están medidos
+            // Already measured
         }
 
         var usedRows = cachedRows!;
@@ -136,7 +175,7 @@ public class WrapGrid : Panel
         if (Children.Count == 0)
             return finalSize;
 
-        double availableRowWidth = finalSize.Width; // En arrange siempre tenemos un ancho concreto
+        double availableRowWidth = finalSize.Width; // In arrange we always have a concrete width
         double colSpacing = ColumnSpacing;
         double rowSpacing = RowSpacing;
 
@@ -152,7 +191,7 @@ public class WrapGrid : Panel
             foreach (var row in rows)
                 AllocateRowWidths(row, availableRowWidth, finalSize.Height, colSpacing, measureChildren: !canReuse);
             rowsToUse = rows;
-            // No sobrescribimos cache porque solo es válido para el ciclo de measure; el siguiente measure lo reconstruirá.
+            // Do not overwrite measure cache; next measure will rebuild if needed
         }
 
         double y = 0;
@@ -415,7 +454,7 @@ public class WrapGrid : Panel
         }
         else
         {
-            // Reutilizamos la altura previa si existe; si no, calculamos leyendo DesiredSize ya medido.
+            // Reuse previous height (DesiredSize already measured)
             foreach (var item in row.Items)
             {
                 double h = item.Child.DesiredSize.Height;
@@ -426,6 +465,14 @@ public class WrapGrid : Panel
         row.Height = rowHeight;
         row.Width = spacingTotal;
         foreach (var it in row.Items) row.Width += it.AllocatedWidth;
+    }
+
+    public void InvalidateAutoWidthCache()
+    {
+        if (autoWidthCache.Count == 0) return;
+        autoWidthCache.Clear();
+        cacheValid = false;
+        InvalidateMeasure();
     }
 
     private class Row
