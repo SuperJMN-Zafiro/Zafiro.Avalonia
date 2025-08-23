@@ -12,7 +12,18 @@
         </Style>
     </UserControl.Styles>
     <ScrollViewer>
+
         <StackPanel Spacing="8">
+            <Card Header="WrapGrid">
+                <WrapGrid Margin="12" ColumnSpacing="8" RowSpacing="8">
+                    <Button Content="Icon" WrapGrid.PreferredWidth="Auto" />
+                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="This is a super beautiful title"
+                               WrapGrid.PreferredWidth="*"
+                               WrapGrid.WrapMinWidth="120"
+                               WrapGrid.FillWidth="*" />
+                    <Button Content="Auto / Fill" WrapGrid.PreferredWidth="Auto" WrapGrid.FillWidth="*" />
+                </WrapGrid>
+            </Card>
             <SmartDockPanel VerticalSpacing="20">
                 <TextBlock IsVisible="True" Text="Smart DockPanel" DockPanel.Dock="Top" />
                 <Button Classes="Expand CenterContent" Content="BUTTON" />

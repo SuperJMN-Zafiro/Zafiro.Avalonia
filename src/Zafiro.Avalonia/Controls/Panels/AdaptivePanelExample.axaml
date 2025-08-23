@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             x:Class="Zafiro.Avalonia.Controls.Panels.AdaptivePanelExample" d:DesignWidth="600">
+
+    <StackPanel Spacing="10" Margin="20">
+
+        <!-- Example 1: Basic adaptive text -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+            <panels:AdaptivePanel OverflowDirection="Horizontal"
+                                  SwitchTolerance="10">
+                <panels:AdaptivePanel.Content>
+                    <TextBlock Text="This is a long text that will overflow when the container becomes too narrow"
+                               FontSize="16" TextWrapping="NoWrap" />
+                </panels:AdaptivePanel.Content>
+                <panels:AdaptivePanel.OverflowContent>
+                    <TextBlock Text="Overflow!" FontSize="14" Foreground="Red"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </panels:AdaptivePanel.OverflowContent>
+            </panels:AdaptivePanel>
+        </Border>
+
+        <!-- Example 2: Complex content with buttons -->
+        <Border BorderBrush="Blue" BorderThickness="1" Padding="10">
+            <panels:AdaptivePanel OverflowDirection="Both"
+                                  EnableHysteresis="True"
+                                  SwitchTolerance="15">
+                <panels:AdaptivePanel.Content>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Content="Save" Padding="15,5" />
+                        <Button Content="Load" Padding="15,5" />
+                        <Button Content="Export" Padding="15,5" />
+                        <Button Content="Settings" Padding="15,5" />
+                    </StackPanel>
+                </panels:AdaptivePanel.Content>
+                <panels:AdaptivePanel.OverflowContent>
+                    <Button Content="⋯" Padding="10" ToolTip.Tip="More actions available" />
+                </panels:AdaptivePanel.OverflowContent>
+            </panels:AdaptivePanel>
+        </Border>
+
+        <!-- Example 3: Vertical overflow -->
+        <Border BorderBrush="Green" BorderThickness="1" Padding="10" Height="100">
+            <panels:AdaptivePanel OverflowDirection="Vertical">
+                <panels:AdaptivePanel.Content>
+                    <StackPanel>
+                        <TextBlock Text="Item 1" Margin="0,2" />
+                        <TextBlock Text="Item 2" Margin="0,2" />
+                        <TextBlock Text="Item 3" Margin="0,2" />
+                        <TextBlock Text="Item 4" Margin="0,2" />
+                        <TextBlock Text="Item 5" Margin="0,2" />
+                        <TextBlock Text="Item 6" Margin="0,2" />
+                    </StackPanel>
+                </panels:AdaptivePanel.Content>
+                <panels:AdaptivePanel.OverflowContent>
+                    <TextBlock Text="+ 3 more items"
+                               Foreground="DarkGreen"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </panels:AdaptivePanel.OverflowContent>
+            </panels:AdaptivePanel>
+        </Border>
+
+        <!-- Example 4: With event handling -->
+        <Border BorderBrush="Purple" BorderThickness="1" Padding="10">
+            <panels:AdaptivePanel x:Name="EventPanel"
+                                  OverflowDirection="Horizontal"
+                                  OverflowStateChanged="OnOverflowStateChanged">
+                <panels:AdaptivePanel.Content>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" Text="Resize the window to see overflow behavior"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" x:Name="StatusText" Text="Normal"
+                                   Foreground="Green" FontWeight="Bold" Margin="10,0,0,0" />
+                    </Grid>
+                </panels:AdaptivePanel.Content>
+                <panels:AdaptivePanel.OverflowContent>
+                    <TextBlock Text="Overflowing!" Foreground="Orange" FontWeight="Bold" />
+                </panels:AdaptivePanel.OverflowContent>
+            </panels:AdaptivePanel>
+        </Border>
+
+    </StackPanel>
+</UserControl>
