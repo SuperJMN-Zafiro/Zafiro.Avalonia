@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Collections.Specialized;
 
 namespace Zafiro.Avalonia.Controls.Panels;
 
@@ -28,6 +29,23 @@ public class WrapGrid : Panel
 
     // Simple cache for Auto desired widths (infinite constraint)
     private readonly Dictionary<Control, double> autoWidthCache = new();
+    private double cachedHeightConstraint = double.NaN;
+
+    // Cache de layout para reutilizar entre Measure y Arrange cuando las restricciones no cambian
+    private List<Row>? cachedRows;
+    private double cachedWidthConstraint = double.NaN;
+    private bool cacheValid;
+
+    static WrapGrid()
+    {
+        ColumnSpacingProperty.Changed.AddClassHandler<WrapGrid>((g, _) => g.InvalidateLayoutCache());
+        RowSpacingProperty.Changed.AddClassHandler<WrapGrid>((g, _) => g.InvalidateLayoutCache());
+    }
+
+    public WrapGrid()
+    {
+        Children.CollectionChanged += OnChildrenChanged;
+    }
 
     public double ColumnSpacing
     {
@@ -39,6 +57,24 @@ public class WrapGrid : Panel
     {
         get => GetValue(RowSpacingProperty);
         set => SetValue(RowSpacingProperty, value);
+    }
+
+    private void InvalidateLayoutCache()
+    {
+        cacheValid = false;
+    }
+
+    private void OnChildrenChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        cacheValid = false;
+        if (e.OldItems != null)
+        {
+            foreach (var item in e.OldItems)
+            {
+                if (item is Control c)
+                    autoWidthCache.Remove(c);
+            }
+        }
     }
 
     public static void SetPreferredWidth(AvaloniaObject target, GridLength value) => target.SetValue(PreferredWidthProperty, value);
@@ -62,15 +98,27 @@ public class WrapGrid : Panel
         double colSpacing = ColumnSpacing;
         double rowSpacing = RowSpacing;
 
-        var rows = BuildRows(availableRowWidth, availableSize.Height);
+        // Recalcular si constraints cambiaron
+        if (!cacheValid || !AreClose(availableRowWidth, cachedWidthConstraint) || !AreClose(availableSize.Height, cachedHeightConstraint))
+        {
+            var rows = BuildRows(availableRowWidth, availableSize.Height);
+            foreach (var row in rows)
+                AllocateRowWidths(row, availableRowWidth, availableSize.Height, colSpacing, measureChildren: true);
+            cachedRows = rows;
+            cachedWidthConstraint = availableRowWidth;
+            cachedHeightConstraint = availableSize.Height;
+            cacheValid = true;
+        }
+        else if (cachedRows != null)
+        {
+            // Ya están medidos
+        }
 
-        foreach (var row in rows)
-            AllocateRowWidths(row, availableRowWidth, availableSize.Height, colSpacing);
-
+        var usedRows = cachedRows!;
         double totalHeight = 0;
         double maxWidth = 0;
         bool first = true;
-        foreach (var r in rows)
+        foreach (var r in usedRows)
         {
             if (!first) totalHeight += rowSpacing;
             else first = false;
@@ -88,17 +136,28 @@ public class WrapGrid : Panel
         if (Children.Count == 0)
             return finalSize;
 
-        double availableRowWidth = finalSize.Width;
+        double availableRowWidth = finalSize.Width; // En arrange siempre tenemos un ancho concreto
         double colSpacing = ColumnSpacing;
         double rowSpacing = RowSpacing;
 
-        var rows = BuildRows(availableRowWidth, finalSize.Height);
-        foreach (var row in rows)
-            AllocateRowWidths(row, availableRowWidth, finalSize.Height, colSpacing);
+        List<Row>? rowsToUse = null;
+        bool canReuse = cacheValid && cachedRows != null && AreClose(availableRowWidth, cachedWidthConstraint) && AreClose(finalSize.Height, cachedHeightConstraint);
+        if (canReuse)
+        {
+            rowsToUse = cachedRows;
+        }
+        else
+        {
+            var rows = BuildRows(availableRowWidth, finalSize.Height);
+            foreach (var row in rows)
+                AllocateRowWidths(row, availableRowWidth, finalSize.Height, colSpacing, measureChildren: !canReuse);
+            rowsToUse = rows;
+            // No sobrescribimos cache porque solo es válido para el ciclo de measure; el siguiente measure lo reconstruirá.
+        }
 
         double y = 0;
         bool first = true;
-        foreach (var row in rows)
+        foreach (var row in rowsToUse)
         {
             if (!first) y += rowSpacing;
             else first = false;
@@ -117,6 +176,8 @@ public class WrapGrid : Panel
 
         return finalSize;
     }
+
+    private static bool AreClose(double a, double b) => double.IsNaN(a) || double.IsNaN(b) ? false : Math.Abs(a - b) < 0.1;
 
     // Build logical rows (only needs minimal width info)
     private List<Row> BuildRows(double availableRowWidth, double availableHeight)
@@ -194,7 +255,7 @@ public class WrapGrid : Panel
     }
 
     // Assign widths (single final measure pass at end)
-    private void AllocateRowWidths(Row row, double availableRowWidth, double availableHeight, double spacing)
+    private void AllocateRowWidths(Row row, double availableRowWidth, double availableHeight, double spacing, bool measureChildren)
     {
         if (row.Items.Count == 0)
         {
@@ -342,13 +403,24 @@ public class WrapGrid : Panel
             }
         }
 
-        // Final measure only once per child
         double rowHeight = 0;
-        foreach (var item in row.Items)
+        if (measureChildren)
         {
-            item.Child.Measure(new Size(item.AllocatedWidth, availableHeight));
-            double h = item.Child.DesiredSize.Height;
-            if (h > rowHeight) rowHeight = h;
+            foreach (var item in row.Items)
+            {
+                item.Child.Measure(new Size(item.AllocatedWidth, availableHeight));
+                double h = item.Child.DesiredSize.Height;
+                if (h > rowHeight) rowHeight = h;
+            }
+        }
+        else
+        {
+            // Reutilizamos la altura previa si existe; si no, calculamos leyendo DesiredSize ya medido.
+            foreach (var item in row.Items)
+            {
+                double h = item.Child.DesiredSize.Height;
+                if (h > rowHeight) rowHeight = h;
+            }
         }
 
         row.Height = rowHeight;
