@@ -46,6 +46,7 @@
                 </CardGrid.ItemsSource>
             </CardGrid>
 
+            <CardGrid Height="200" Classes="ShowEmptyContent" Empty.Content="HOLA" />
         </StackPanel>
     </Design.PreviewWith>
     <Styles.Resources>

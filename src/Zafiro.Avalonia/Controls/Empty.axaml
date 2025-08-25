@@ -6,51 +6,40 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ContentControl x:Name="EmptyContent"
+                                Classes="FadeIn"
                                 Content="{Binding $parent[CardGrid].(Empty.Content)}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                IsHitTestVisible="False"
-                                IsVisible="False"
-                                Opacity="0" />
+                                IsHitTestVisible="False" />
             </ControlTemplate>
         </Setter>
     </Style>
-    <Style Selector="CardGrid.ShowEmptyContent ItemsControl:empty /template/ ContentControl#EmptyContent">
-        <Setter Property="IsVisible" Value="True" />
-        <Setter Property="Transitions">
-            <Setter.Value>
-                <Transitions>
-                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" Delay="0:0:0.5" />
-                </Transitions>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Opacity" Value="1" />
+
+    <Style Selector=":is(Control).FadeIn">
+        <Style.Animations>
+            <Animation Duration="0:0:0.2" Delay="0:0:0.8" IterationCount="1">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0.0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1.0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
     </Style>
+
 
     <Style Selector=":is(ItemsControl).ShowEmptyContent:empty">
         <Setter Property="Template">
             <ControlTemplate>
                 <ContentControl x:Name="EmptyContent"
+                                Classes="FadeIn"
                                 Content="{TemplateBinding Empty.Content}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                IsHitTestVisible="False"
-                                IsVisible="False"
-                                Opacity="0" />
+                                IsHitTestVisible="False" />
             </ControlTemplate>
         </Setter>
-    </Style>
-
-    <Style Selector=":is(ItemsControl).ShowEmptyContent:empty /template/ ContentControl#EmptyContent">
-        <Setter Property="IsVisible" Value="True" />
-        <Setter Property="Transitions">
-            <Setter.Value>
-                <Transitions>
-                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" Delay="0:0:0.5" />
-                </Transitions>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Opacity" Value="1" />
     </Style>
 
     <Design.PreviewWith>
