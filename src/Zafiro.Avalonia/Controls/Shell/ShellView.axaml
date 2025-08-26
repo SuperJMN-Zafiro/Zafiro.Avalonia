@@ -12,7 +12,6 @@
     </Design.PreviewWith>
 
     <Styles.Resources>
-
         <DataTemplate x:Key="DesktopTemplate" DataType="shell:IShell">
             <ShellSplitView x:Name="ShellSplitView"
                             ToggleButtonTheme="{Binding $parent[ShellView].ToggleButtonTheme}"
@@ -48,7 +47,7 @@
                         IconWidth="{Binding $parent[ShellView].MenuButtonSize}"
                         IconTemplate="{Binding $parent[ShellView].IconTemplate}"
                         IconHeight="{Binding $parent[ShellView].MenuButtonSize}"
-                        SelectedSection="{Binding SelectedSection}"
+                        SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}"
                         Sections="{Binding Sections}">
                         <Sidebar.Transitions>
                             <Transitions>
@@ -82,8 +81,6 @@
             </DockPanel>
         </DataTemplate>
 
-        <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
-
         <DataTemplate x:Key="HeaderContentTemplate">
             <ContentControl
                 TextElement.FontWeight="Bold"
@@ -92,7 +89,7 @@
         </DataTemplate>
 
         <ControlTheme x:Key="{x:Type ShellView}" TargetType="ShellView">
-            <Setter Property="PaneBackground" Value="{StaticResource PaneBackground}" />
+            <Setter Property="PaneBackground" Value="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" />
             <Setter Property="MenuButtonSize" Value="48" />
             <Setter Property="OpenPaneLength" Value="250" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />

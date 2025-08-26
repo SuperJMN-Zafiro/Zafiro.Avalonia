@@ -19,7 +19,7 @@
                 <ControlTemplate>
                     <ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
                              ItemsSource="{Binding $parent[Sidebar].Sections}"
-                             SelectedItem="{Binding $parent[Sidebar].SelectedSection}">
+                             SelectedItem="{Binding $parent[Sidebar].SelectedSection, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <DockPanel LastChildFill="False" />
