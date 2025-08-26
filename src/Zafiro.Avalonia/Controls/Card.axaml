@@ -268,6 +268,69 @@
                 </Setter>
             </ControlTheme>
 
+            <ControlTheme x:Key="HighlightedContentCard"
+                          TargetType="Card"
+                          BasedOn="{StaticResource {x:Type Card}}">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <HeaderedContainer x:Name="Root"
+                                           Content="{TemplateBinding Content}"
+                                           ContentTemplate="{TemplateBinding ContentTemplate}"
+                                           ContentTheme="{TemplateBinding ContentTheme}"
+                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           HeaderBackground="{TemplateBinding HeaderBackground}"
+                                           Background="{TemplateBinding Background}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           Padding="{TemplateBinding Padding}"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           HeaderSpacing="{TemplateBinding HeaderAndBodySpacing}"
+                                           BoxShadow="{TemplateBinding BoxShadow}">
+                            <HeaderedContainer.Header>
+                                <SmartDockPanel VerticalSpacing="{Binding $parent[Card].HeaderItemsSpacing}" HorizontalSpacing="{Binding $parent[Card].HeaderItemsSpacing}">
+                                    <DockPanel DockPanel.Dock="Top" HorizontalSpacing="{Binding $parent[Card].HeaderItemsSpacing}">
+                                        <ContentControl Content="{Binding $parent[Card].HeaderStartContent}" DockPanel.Dock="Left" />
+                                        <ContentControl Content="{Binding $parent[Card].HeaderEndContent}" DockPanel.Dock="Right" />
+                                        <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
+                                            <ContentControl Theme="{Binding $parent[Card].HeaderTheme}"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" Content="{Binding $parent[Card].Header}"
+                                                            ContentTemplate="{Binding $parent[Card].HeaderTemplate}" DockPanel.Dock="Top" />
+                                            <ContentControl Theme="{Binding $parent[Card].SubheaderTheme}"
+                                                            HorizontalAlignment="Center"
+                                                            IsVisible="{Binding $self.IsVisible}"
+                                                            Content="{Binding $parent[Card].Subheader}" ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" DockPanel.Dock="Top" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </SmartDockPanel>
+                            </HeaderedContainer.Header>
+                        </HeaderedContainer>
+                    </ControlTemplate>
+                </Setter>
+                <Setter Property="ContentTheme">
+                    <ControlTheme TargetType="ContentControl">
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                    </ControlTheme>
+                </Setter>
+                <Setter Property="HeaderTheme">
+                    <ControlTheme TargetType="ContentControl">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                    </ControlTheme>
+                </Setter>
+                <Setter Property="SubheaderTheme">
+                    <ControlTheme TargetType="ContentControl">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                    </ControlTheme>
+                </Setter>
+            </ControlTheme>
+
+
         </ResourceDictionary>
 
     </Styles.Resources>
@@ -277,6 +340,16 @@
             <StackPanel.Styles>
                 <StyleInclude Source="../Styles/Button.axaml" />
             </StackPanel.Styles>
+
+            <Card Header="Highlighted content" Height="300" Subheader="Some subheader" Theme="{StaticResource HighlightedContentCard}">
+                SOME CONTENT
+                <Card.HeaderStartContent>
+                    <Button Classes="Expand CenterContent" Content="Left" />
+                </Card.HeaderStartContent>
+                <Card.HeaderEndContent>
+                    <Button Classes="Expand CenterContent" Content="Right" />
+                </Card.HeaderEndContent>
+            </Card>
 
             <Card Header="Width and height" Height="300" Subheader="Some subheader" Theme="{StaticResource WrapGridCard}">
                 SOME CONTENT
