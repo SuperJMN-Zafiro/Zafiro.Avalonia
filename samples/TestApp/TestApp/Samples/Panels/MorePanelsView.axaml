@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Panels.MorePanelsView">
+    <UniformGrid Columns="1" RowSpacing="50">
+        <DockPanel VerticalSpacing="10" HorizontalSpacing="20">
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="FILL" />
+        </DockPanel>
+        <SmartDockPanel VerticalSpacing="10" HorizontalSpacing="20">
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button Classes="CenterContent Expand" IsVisible="False" Content="Right" DockPanel.Dock="Right" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <Button Classes="CenterContent Expand" IsVisible="True" Content="FILL" />
+        </SmartDockPanel>
+    </UniformGrid>
+</UserControl>

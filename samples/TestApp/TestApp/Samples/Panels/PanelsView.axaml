@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="1200"
+             mc:Ignorable="d" d:DesignWidth="800"
              x:Class="TestApp.Samples.Panels.PanelsView">
 
     <UserControl.Styles>
@@ -29,10 +29,7 @@
                 <Button IsVisible="False">AMOR</Button>
                 <Button>AMOR</Button>
             </StackPanel>
-            <DockPanel VerticalSpacing="10">
-                <TextBlock IsVisible="True" Text="Smart DockPanel" DockPanel.Dock="Top" />
-                <Button IsVisible="False" Classes="Expand CenterContent" Content="BUTTON" />
-            </DockPanel>
+
             <Card Header="MinMaxUniformGrid">
                 <MinMaxUniformGrid MinColumnWidth="200" MaxColumnWidth="400" ColumnSpacing="10" RowSpacing="10">
                     <Card Header="Salute, boy">
