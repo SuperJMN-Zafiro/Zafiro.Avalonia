@@ -9,7 +9,7 @@
 
     <UserControl.Resources>
         <misc:EnumProvider x:Key="DisplayModesProvider"
-                           EnumType="{x:Type ShellSplitViewDisplayMode}" />
+                           EnumType="{x:Type SplitViewDisplayMode}" />
     </UserControl.Resources>
 
     <controls:HeaderedContainer Header="A SplitView specialized for shells, with header and collapse button">

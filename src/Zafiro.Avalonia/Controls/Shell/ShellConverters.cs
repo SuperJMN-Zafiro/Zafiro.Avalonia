@@ -8,5 +8,5 @@ public static class ShellConverters
     public static readonly FuncValueConverter<Section, bool> IsActivatable = new(sectionBase => sectionBase is not SectionSeparator);
 
     public static readonly FuncValueConverter<bool, Dock> IsPrimaryToDock = new(isPrimary => isPrimary ? Dock.Top : Dock.Bottom);
-    public static readonly FuncValueConverter<ShellSplitViewDisplayMode, bool> IsOverlay = new(displayMode => displayMode == ShellSplitViewDisplayMode.Overlay || displayMode == ShellSplitViewDisplayMode.CompactOverlay);
+    public static readonly FuncValueConverter<SplitViewDisplayMode, bool> IsOverlay = new(displayMode => displayMode == SplitViewDisplayMode.Overlay || displayMode == SplitViewDisplayMode.CompactOverlay);
 }

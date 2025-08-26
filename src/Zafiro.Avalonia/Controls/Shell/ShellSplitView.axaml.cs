@@ -1,5 +1,6 @@
 using Avalonia.Animation;
 using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Media;
 using Avalonia.Styling;
 
@@ -10,8 +11,8 @@ public class ShellSplitView : ContentControl
     public static readonly StyledProperty<bool> IsPaneOpenProperty = AvaloniaProperty.Register<ShellSplitView, bool>(
         nameof(IsPaneOpen));
 
-    public static readonly StyledProperty<ShellSplitViewDisplayMode> DisplayModeProperty = AvaloniaProperty.Register<ShellSplitView, ShellSplitViewDisplayMode>(
-        nameof(DisplayMode));
+    public static readonly StyledProperty<SplitViewDisplayMode> DisplayModeProperty = AvaloniaProperty.Register<ShellSplitView, SplitViewDisplayMode>(
+        nameof(DisplayMode), defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly StyledProperty<object> PaneContentProperty = AvaloniaProperty.Register<ShellSplitView, object>(
         nameof(PaneContent));
@@ -61,7 +62,7 @@ public class ShellSplitView : ContentControl
         set => SetValue(IsPaneOpenProperty, value);
     }
 
-    public ShellSplitViewDisplayMode DisplayMode
+    public SplitViewDisplayMode DisplayMode
     {
         get => GetValue(DisplayModeProperty);
         set => SetValue(DisplayModeProperty, value);
@@ -150,12 +151,4 @@ public class ShellSplitView : ContentControl
         get => GetValue(PageTransitionProperty);
         set => SetValue(PageTransitionProperty, value);
     }
-}
-
-public enum ShellSplitViewDisplayMode
-{
-    Inline,
-    Overlay,
-    CompactOverlay,
-    CompactInline
 }

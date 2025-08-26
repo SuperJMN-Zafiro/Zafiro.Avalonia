@@ -9,7 +9,7 @@
         <DockPanel>
             <DockPanel.Resources>
                 <misc:EnumProvider x:Key="DisplayModesProvider"
-                                   EnumType="{x:Type ShellSplitViewDisplayMode}" />
+                                   EnumType="{x:Type SplitViewDisplayMode}" />
             </DockPanel.Resources>
             <StackPanel DockPanel.Dock="Top">
                 <z:Card Header="Display Mode">
@@ -25,25 +25,24 @@
             <ShellSplitView
                 x:Name="ShellSplitView"
                 PaneHeader="Very long title, very long title"
+                OpenPaneLength="180"
                 ContentHeader="HEADER"
                 Background="AliceBlue"
                 PaneBorderThickness="1"
                 PaneBorderBrush="Black"
-                DisplayMode="CompactInline" Width="500" Height="400">
+                DisplayMode="Inline" Width="500" Height="400">
                 <ShellSplitView.PaneContent>
                     <Border BorderThickness="2">
                         <TextBlock VerticalAlignment="Center" TextAlignment="Center">This is the pane content</TextBlock>
                     </Border>
                 </ShellSplitView.PaneContent>
-                <Border Background="#CDFFFA">
+                <Border Background="#9CAC41">
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">This is the content</TextBlock>
                 </Border>
             </ShellSplitView>
         </DockPanel>
     </Design.PreviewWith>
     <Styles.Resources>
-
-        <SolidColorBrush x:Key="PaneBackground" Color="{DynamicResource SystemListLowColor}" />
 
         <ControlTheme x:Key="HamburguerMenuToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource TransparentToggleButton}">
             <Setter Property="p:Attached.Icon" Value="mdi-menu" />
@@ -63,12 +62,13 @@
                 TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
         </DataTemplate>
 
-        <ControlTheme x:Key="{x:Type ShellSplitView}" TargetType="ShellSplitView">
+        <!-- OBSOLETE -->
+        <ControlTheme x:Key="ShellSplitViewOld" TargetType="ShellSplitView">
             <!-- Default values -->
             <Setter Property="DisplayMode" Value="Overlay" />
             <Setter Property="ExpandButtonSize" Value="28" />
             <Setter Property="OpenPaneLength" Value="200" />
-            <Setter Property="PaneBackground" Value="{StaticResource PaneBackground}" />
+            <Setter Property="PaneBackground" Value="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
             <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
             <Setter Property="PaneHeaderTemplate" Value="{StaticResource HeaderPaneTemplate}" />
@@ -238,6 +238,63 @@
                 <Setter Property="Grid.Row" Value="1" />
                 <Setter Property="Grid.ColumnSpan" Value="2" />
             </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="{x:Type ShellSplitView}" TargetType="ShellSplitView">
+            <Setter Property="ExpandButtonSize" Value="42" />
+            <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
+            <Setter Property="OpenPaneLength" Value="200" />
+            <Setter Property="PaneBackground" Value="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" />
+            <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel>
+                        <SplitView Content="{TemplateBinding Content}"
+                                   PaneBackground="{TemplateBinding PaneBackground}"
+                                   Pane="{TemplateBinding PaneContent}"
+                                   OpenPaneLength="{TemplateBinding OpenPaneLength}"
+                                   CompactPaneLength="{TemplateBinding ExpandButtonSize}"
+                                   DisplayMode="{TemplateBinding DisplayMode}"
+                                   IsPaneOpen="{TemplateBinding IsPaneOpen, Mode=TwoWay}">
+                            <SplitView.ContentTemplate>
+                                <DataTemplate>
+                                    <HeaderedContainer Header="{Binding $parent[ShellSplitView].ContentHeader}"
+                                                       HeaderSpacing="0"
+                                                       Padding="0"
+                                                       Content="{Binding $parent[ShellSplitView].Content}">
+                                        <HeaderedContainer.HeaderTemplate>
+                                            <DataTemplate>
+                                                <ContentPresenter Height="{Binding $parent[ShellSplitView].ExpandButtonSize}"
+                                                                  Content="{Binding $parent[ShellSplitView].ContentHeader}"
+                                                                  ContentTemplate="{Binding $parent[ShellSplitView].ContentHeaderTemplate}" />
+                                            </DataTemplate>
+                                        </HeaderedContainer.HeaderTemplate>
+                                    </HeaderedContainer>
+                                </DataTemplate>
+                            </SplitView.ContentTemplate>
+                            <SplitView.PaneTemplate>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{Binding $parent[SplitView].Pane}" ContentTemplate="{Binding $parent[ShellSplitView].PaneContentTemplate}">
+                                        <ContentPresenter.Margin>
+                                            <Binding Path="$parent[ShellSplitView].ExpandButtonSize">
+                                                <Binding.ConverterParameter>
+                                                    <Sides>Top</Sides>
+                                                </Binding.ConverterParameter>
+                                                <Binding.Converter>
+                                                    <x:Static Member="ThicknessConverters.DoubleToThicknessSides" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </ContentPresenter.Margin>
+                                    </ContentPresenter>
+                                </DataTemplate>
+                            </SplitView.PaneTemplate>
+                        </SplitView>
+                        <ToggleButton Theme="{TemplateBinding ToggleButtonTheme}" Height="{Binding $self.Width}"
+                                      Width="{TemplateBinding ExpandButtonSize}" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                      IsChecked="{TemplateBinding IsPaneOpen, Mode=TwoWay}" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
         </ControlTheme>
     </Styles.Resources>
 </Styles>
