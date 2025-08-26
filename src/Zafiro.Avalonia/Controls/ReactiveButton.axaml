@@ -78,6 +78,31 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
         </ControlTheme>
+        <ControlTheme x:Key="FullLoadingReactiveButton" TargetType="ReactiveButton" BasedOn="{StaticResource {x:Type ReactiveButton}}">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Button Theme="{TemplateBinding ButtonTheme}"
+                            VerticalAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Command="{TemplateBinding Command}"
+                            IsDefault="{TemplateBinding IsDefault}"
+                            IsCancel="{TemplateBinding IsCancel}"
+                            IsTabStop="{TemplateBinding IsTabStop}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                        <Button.Content>
+                            <Loading IsLoading="{Binding $parent[ReactiveButton].Command.IsExecuting^}">
+                                <ContentPresenter x:Name="MainContent" TextBlock.TextTrimming="CharacterEllipsis" TrueCenterPanel.Dock="Center" Foreground="{TemplateBinding Foreground}"
+                                                  VerticalContentAlignment="Stretch" VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch"
+                                                  Content="{Binding $parent[ReactiveButton].Content}" />
+                            </Loading>
+                        </Button.Content>
+                    </Button>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
     </Styles.Resources>
 
     <Design.PreviewWith>
