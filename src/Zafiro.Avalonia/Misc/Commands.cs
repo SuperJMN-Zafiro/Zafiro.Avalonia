@@ -14,7 +14,7 @@ public class Commands
 
     public static Commands Instance { get; } = new(NotificationService.Instance);
 
-    public ReactiveCommandBase<string, Result> LaunchUri => ReactiveCommand.CreateFromTask<string, Result>(str => Result.Try(() => LauncherService.Instance.LaunchUri(new Uri(str))));
+    public ReactiveCommandBase<Uri, Result> LaunchUri => ReactiveCommand.CreateFromTask<Uri, Result>(str => Result.Try(() => LauncherService.Instance.LaunchUri(str)));
 
     public ReactiveCommandBase<string, Result> CopyText => ReactiveCommand.CreateFromTask<string, Result>(async str =>
     {
