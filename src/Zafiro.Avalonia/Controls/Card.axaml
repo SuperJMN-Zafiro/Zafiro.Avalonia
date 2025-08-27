@@ -290,8 +290,8 @@
                             <HeaderedContainer.Header>
                                 <SmartDockPanel VerticalSpacing="{Binding $parent[Card].HeaderItemsSpacing}" HorizontalSpacing="{Binding $parent[Card].HeaderItemsSpacing}">
                                     <DockPanel DockPanel.Dock="Top" HorizontalSpacing="{Binding $parent[Card].HeaderItemsSpacing}">
-                                        <ContentControl Content="{Binding $parent[Card].HeaderStartContent}" DockPanel.Dock="Left" />
-                                        <ContentControl Content="{Binding $parent[Card].HeaderEndContent}" DockPanel.Dock="Right" />
+                                        <ContentControl Content="{Binding $parent[Card].HeaderStartContent}" ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}" DockPanel.Dock="Left" />
+                                        <ContentControl Content="{Binding $parent[Card].HeaderEndContent}" ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" DockPanel.Dock="Right" />
                                         <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}">
                                             <ContentControl Theme="{Binding $parent[Card].HeaderTheme}"
                                                             HorizontalAlignment="Center"
