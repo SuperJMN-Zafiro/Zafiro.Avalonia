@@ -12,7 +12,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeLowColor}" />
-                    <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
+                    <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeMediumColor}" />
                     <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
@@ -98,96 +98,6 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="HeaderBackground" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
-            </ControlTheme>
-
-            <!-- Variant: Header laid out to the left with FlexBox, actions to the right -->
-            <ControlTheme x:Key="LeftFlexHeaderCard" TargetType="Card" BasedOn="{StaticResource {x:Type Card}}">
-                <Setter Property="HeaderHorizontalAlignment" Value="Stretch" />
-                <Setter Property="HeaderTheme">
-                    <ControlTheme TargetType="ContentControl">
-                        <Setter Property="FontSize" Value="16" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="FontWeight" Value="SemiBold" />
-                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-                    </ControlTheme>
-                </Setter>
-
-                <Setter Property="SubheaderTheme">
-                    <ControlTheme TargetType="ContentControl">
-                        <Setter Property="FontSize" Value="13" />
-                        <Setter Property="FontWeight" Value="Normal" />
-                        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
-                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                    </ControlTheme>
-                </Setter>
-                <Setter Property="Template">
-                    <ControlTemplate>
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                Padding="{TemplateBinding Padding}"
-                                BoxShadow="{TemplateBinding BoxShadow}">
-                            <SmartDockPanel VerticalSpacing="{TemplateBinding HeaderAndBodySpacing}">
-
-                                <!-- Header -->
-                                <FlexBox Direction="Row"
-                                         DockPanel.Dock="Top"
-                                         AlignItems="Center"
-                                         JustifyContent="Start"
-                                         Wrap="Wrap"
-                                         Gap="{Binding $parent[Card].HeaderAndBodySpacing}">
-
-                                    <!-- Grupo izquierdo: Inicio + Título como bloque indivisible -->
-                                    <SmartDockPanel HorizontalSpacing="{TemplateBinding HeaderItemsSpacing}"
-                                                    FlexBox.Grow="2"
-                                                    FlexBox.Shrink="1"
-                                                    FlexBox.Basis="{x:Static FlexBasis.Auto}">
-
-                                        <ContentControl Content="{Binding $parent[Card].HeaderStartContent}"
-                                                        ContentTemplate="{Binding $parent[Card].HeaderStartContentTemplate}"
-                                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
-
-                                        <StackPanel Spacing="{Binding $parent[Card].HeaderSubheaderSpacing}"
-                                                    HorizontalAlignment="Stretch">
-                                            <ContentControl
-                                                Theme="{Binding $parent[Card].HeaderTheme}"
-                                                HorizontalAlignment="Stretch"
-                                                Content="{Binding $parent[Card].Header}"
-                                                ContentTemplate="{Binding $parent[Card].HeaderTemplate}" />
-                                            <ContentControl Theme="{Binding $parent[Card].SubheaderTheme}"
-                                                            DockPanel.Dock="Bottom"
-                                                            HorizontalAlignment="Stretch"
-                                                            Content="{Binding $parent[Card].Subheader}"
-                                                            IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                            ContentTemplate="{Binding $parent[Card].SubheaderTemplate}" />
-                                        </StackPanel>
-                                    </SmartDockPanel>
-
-                                    <!-- Fin: empuja a la derecha; cuando wrappea, ocupa la línea completa -->
-                                    <ContentControl
-                                        FlexBox.MarginLeftAuto="True"
-                                        FlexBox.Grow="1"
-                                        FlexBox.Shrink="1"
-                                        FlexBox.Basis="{x:Static FlexBasis.Content}"
-                                        IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                        Content="{Binding $parent[Card].HeaderEndContent}"
-                                        ContentTemplate="{Binding $parent[Card].HeaderEndContentTemplate}" />
-                                </FlexBox>
-
-                                <!-- Body -->
-                                <ContentPresenter
-                                    Content="{TemplateBinding Content}"
-                                    Theme="{TemplateBinding ContentTheme}"
-                                    IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </SmartDockPanel>
-                        </Border>
-                    </ControlTemplate>
-                </Setter>
             </ControlTheme>
 
             <ControlTheme x:Key="WrapGridCard" TargetType="Card" BasedOn="{StaticResource {x:Type Card}}">
