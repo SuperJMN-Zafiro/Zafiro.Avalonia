@@ -32,6 +32,9 @@
                     </Panel>
                 </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ ContentControl#Header">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
         </ControlTheme>
 
         <ControlTheme x:Key="InlineHeaderedContainer" TargetType="HeaderedContainer">
@@ -45,25 +48,25 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BoxShadow="{TemplateBinding BoxShadow}">
                         <SmartDockPanel Margin="{TemplateBinding Padding}" HorizontalSpacing="{TemplateBinding HeaderSpacing}">
-                            <ContentPresenter x:Name="Header"
-                                              DockPanel.Dock="Left"
-                                              Padding="{TemplateBinding HeaderPadding}"
-                                              Content="{TemplateBinding Header}"
-                                              VerticalAlignment="Center"
-                                              Theme="{TemplateBinding HeaderTheme}"
-                                              IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                            <ContentPresenter x:Name="Content"
-                                              Content="{TemplateBinding Content}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Theme="{TemplateBinding ContentTheme}" />
+                            <ContentControl x:Name="Header"
+                                            DockPanel.Dock="Left"
+                                            Padding="{TemplateBinding HeaderPadding}"
+                                            Content="{TemplateBinding Header}"
+                                            VerticalAlignment="Center"
+                                            Theme="{TemplateBinding HeaderTheme}"
+                                            IsVisible="{Binding $parent[HeaderedContainer].Header, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                            ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                            <ContentControl x:Name="Content"
+                                            Content="{TemplateBinding Content}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            IsVisible="{Binding $parent[HeaderedContainer].Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Theme="{TemplateBinding ContentTheme}" />
                         </SmartDockPanel>
                     </Border>
                 </ControlTemplate>
             </Setter>
-            <Style Selector="^ /template/ ContentPresenter#Header">
+            <Style Selector="^ /template/ ContentControl#Header">
                 <Setter Property="FontWeight" Value="Bold" />
             </Style>
         </ControlTheme>
