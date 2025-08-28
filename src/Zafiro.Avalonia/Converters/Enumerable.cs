@@ -14,4 +14,11 @@ public static class Enumerable
 
         return enumerable.Cast<object>().Any();
     });
+    
+    public static FuncValueConverter<IEnumerable, int> Count = new(enumerable =>
+    {
+        if (enumerable == null) return 0;
+
+        return enumerable.Cast<object>().Count();
+    });
 }
