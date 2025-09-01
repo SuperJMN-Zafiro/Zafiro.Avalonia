@@ -1,0 +1,58 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel Spacing="10">
+                <Badge Color="DeepSkyBlue">Hola</Badge>
+                <Badge Color="LimeGreen">Hola</Badge>
+                <Badge Color="Red">
+                    <system:Int32>12</system:Int32>
+                </Badge>
+                <Badge Color="Orange">This is a longer badge</Badge>
+                <Badge Color="#FF36E1" Width="120">This doesn't not fit</Badge>
+            </StackPanel>
+
+        </Border>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type Badge}" TargetType="Badge">
+            <Setter Property="Padding" Value="12 5" />
+            <Setter Property="Color" Value="{DynamicResource SystemBaseHighColor}" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="TextBlock.TextTrimming" Value="{x:Static TextTrimming.CharacterEllipsis}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel>
+                        <Border Padding="{TemplateBinding Padding}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <Border.Background>
+                                <SolidColorBrush Color="{Binding $parent[Badge].Color}" />
+                            </Border.Background>
+                            <ContentPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}">
+                                <ContentPresenter.Foreground>
+                                    <SolidColorBrush Color="White" Opacity="0.9" />
+                                </ContentPresenter.Foreground>
+                            </ContentPresenter>
+                        </Border>
+                        <Border IsHitTestVisible="False" BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="White" Opacity="0.5" />
+                            </Border.BorderBrush>
+                        </Border>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>
