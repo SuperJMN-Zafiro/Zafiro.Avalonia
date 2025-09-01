@@ -33,6 +33,7 @@
     <StyleInclude Source="Styles/ToggleButton.axaml" />
     <StyleInclude Source="Styles/Border.axaml" />
     <StyleInclude Source="Styles/EdgePanel.axaml" />
+    <StyleInclude Source="Styles/Control.axaml" />
 
     <StyleInclude Source="Controls/MasterDetailsView.axaml" />
     <StyleInclude Source="Controls/AdaptiveControl.axaml" />
@@ -62,4 +63,5 @@
     <StyleInclude Source="Controls/Shell/ActionBar.axaml" />
     <StyleInclude Source="Controls/CardGrid.axaml" />
     <StyleInclude Source="Controls/Empty.axaml" />
+
 </Styles>
