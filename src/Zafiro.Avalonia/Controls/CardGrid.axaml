@@ -3,6 +3,36 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
+    <StyleInclude Source="Empty.axaml" />
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type CardGrid}" TargetType="CardGrid">
+            <Setter Property="RowSpacing" Value="10" />
+            <Setter Property="Empty.ContentTheme" Value="{StaticResource CenteredControl}" />
+            <Setter Property="ColumnSpacing" Value="10" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Padding="{TemplateBinding Padding}">
+                        <ItemsControl ItemContainerTheme="{TemplateBinding ItemContainerTheme}"
+                                      Classes="ShowEmptyContent"
+                                      Empty.ContentTheme="{TemplateBinding Empty.ContentTheme}"
+                                      ItemTemplate="{TemplateBinding ItemTemplate}"
+                                      ItemsSource="{TemplateBinding ItemsSource}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <BalancedWrapGrid HorizontalSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
+                                                      VerticalSpacing="{Binding $parent[CardGrid].RowSpacing}"
+                                                      MinItemWidth="{Binding $parent[CardGrid].MinColumnWidth}"
+                                                      MaxItemWidth="{Binding $parent[CardGrid].MaxColumnWidth}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+
     <Design.PreviewWith>
         <StackPanel>
             <StackPanel.Styles>
@@ -49,28 +79,4 @@
             <CardGrid Height="200" Classes="ShowEmptyContent" Empty.Content="HOLA" />
         </StackPanel>
     </Design.PreviewWith>
-    <Styles.Resources>
-        <ControlTheme x:Key="{x:Type CardGrid}" TargetType="CardGrid">
-            <Setter Property="RowSpacing" Value="10" />
-            <Setter Property="ColumnSpacing" Value="10" />
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Padding="{TemplateBinding Padding}">
-                        <ItemsControl ItemContainerTheme="{TemplateBinding ItemContainerTheme}"
-                                      ItemTemplate="{TemplateBinding ItemTemplate}"
-                                      ItemsSource="{TemplateBinding ItemsSource}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <BalancedWrapGrid HorizontalSpacing="{Binding $parent[CardGrid].ColumnSpacing}"
-                                                      VerticalSpacing="{Binding $parent[CardGrid].RowSpacing}"
-                                                      MinItemWidth="{Binding $parent[CardGrid].MinColumnWidth}"
-                                                      MaxItemWidth="{Binding $parent[CardGrid].MaxColumnWidth}" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </Border>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-    </Styles.Resources>
 </Styles>

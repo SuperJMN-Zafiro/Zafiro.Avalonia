@@ -2,19 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:CompileBindings="True">
 
-    <Style Selector="CardGrid.ShowEmptyContent ItemsControl:empty">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <ContentControl x:Name="EmptyContent"
-                                Classes="FadeIn"
-                                Content="{Binding $parent[CardGrid].(Empty.Content)}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                IsHitTestVisible="False" />
-            </ControlTemplate>
-        </Setter>
-    </Style>
-
     <Style Selector=":is(Control).FadeIn">
         <Style.Animations>
             <Animation Duration="0:0:0.2" Delay="0:0:0.8" IterationCount="1">
@@ -28,15 +15,15 @@
         </Style.Animations>
     </Style>
 
-
     <Style Selector=":is(ItemsControl).ShowEmptyContent:empty">
+        <Setter Property="Empty.Margin" Value="10" />
         <Setter Property="Template">
             <ControlTemplate>
                 <ContentControl x:Name="EmptyContent"
-                                Classes="FadeIn"
+                                Margin="{TemplateBinding Empty.Margin}"
+                                Theme="{TemplateBinding Empty.ContentTheme}"
+                                ContentTemplate="{TemplateBinding Empty.ContentTemplate}"
                                 Content="{TemplateBinding Empty.Content}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
                                 IsHitTestVisible="False" />
             </ControlTemplate>
         </Setter>
@@ -44,7 +31,7 @@
 
     <Design.PreviewWith>
         <Card Header="This is a CardGrid">
-            <CardGrid Width="400" Empty.Content="SALUTE" Classes="ShowEmptyContent" />
+            <CardGrid Width="400" Empty.Content="This shows because the content is empty" />
         </Card>
     </Design.PreviewWith>
 

@@ -2,9 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:g="clr-namespace:System.Collections.Generic;assembly=System.Collections">
 
+    <StyleInclude Source="/Controls/Empty.axaml" />
 
     <Styles.Resources>
-
         <SolidColorBrush x:Key="SlimDataGridSeparatorBrush" Color="{DynamicResource SystemChromeMediumLowColor}" />
         <Thickness x:Key="SlimDataGridBorderThickness">0 1 0 0</Thickness>
         <Thickness x:Key="CellPadding">5 0</Thickness>
@@ -82,6 +82,7 @@
         <ControlTheme x:Key="{x:Type SlimDataGrid}" TargetType="SlimDataGrid">
             <Setter Property="Background" Value="{DynamicResource SystemRegionColor}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SystemChromeMediumColor}" />
+            <Setter Property="Empty.Content" Value="Nothing to show" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="15 10" />
@@ -117,7 +118,7 @@
                                     </ItemsControl>
                                 </Border>
                                 <ScrollViewer>
-                                    <ItemsControl ItemsSource="{TemplateBinding DataRows}" />
+                                    <ItemsControl Classes="ShowEmptyContent" ItemsSource="{TemplateBinding DataRows}" />
                                 </ScrollViewer>
                             </DockPanel>
                         </Border>
@@ -131,26 +132,45 @@
     </Styles.Resources>
 
     <Design.PreviewWith>
-        <SlimDataGrid Width="500">
-            <SlimDataGrid.Columns>
-                <Column Width="Auto" Binding="{Binding Left}" Header="Column 1" />
-                <Column Width="Auto" Binding="{Binding Left}" Header="Column 2" />
-                <Column Binding="{Binding Left}" Header="Column 3" />
-                <Column Header="Column 4">
-                    <Column.CellTemplate>
-                        <DataTemplate>
-                            <Button Height="30" Content="HOLA" />
-                        </DataTemplate>
-                    </Column.CellTemplate>
-                </Column>
-            </SlimDataGrid.Columns>
-            <SlimDataGrid.ItemsSource>
-                <g:List x:TypeArguments="MyViewModel">
-                    <MyViewModel Left="Left" Title="Title" Right="Right" />
-                    <MyViewModel Left="Left" Title="Title" Right="Right" />
-                    <MyViewModel Left="Left" Title="Title" Right="Right" />
-                </g:List>
-            </SlimDataGrid.ItemsSource>
-        </SlimDataGrid>
+        <StackPanel>
+            <SlimDataGrid>
+                <SlimDataGrid.ItemsSource>
+                    <g:List x:TypeArguments="MyViewModel" />
+                </SlimDataGrid.ItemsSource>
+                <SlimDataGrid.Columns>
+                    <Column Width="Auto" Binding="{Binding Left}" Header="Column 1" />
+                    <Column Width="Auto" Binding="{Binding Left}" Header="Column 2" />
+                    <Column Binding="{Binding Left}" Header="Column 3" />
+                    <Column Header="Column 4">
+                        <Column.CellTemplate>
+                            <DataTemplate>
+                                <Button Height="30" Content="HOLA" />
+                            </DataTemplate>
+                        </Column.CellTemplate>
+                    </Column>
+                </SlimDataGrid.Columns>
+            </SlimDataGrid>
+            <SlimDataGrid Width="500">
+                <SlimDataGrid.Columns>
+                    <Column Width="Auto" Binding="{Binding Left}" Header="Column 1" />
+                    <Column Width="Auto" Binding="{Binding Left}" Header="Column 2" />
+                    <Column Binding="{Binding Left}" Header="Column 3" />
+                    <Column Header="Column 4">
+                        <Column.CellTemplate>
+                            <DataTemplate>
+                                <Button Height="30" Content="HOLA" />
+                            </DataTemplate>
+                        </Column.CellTemplate>
+                    </Column>
+                </SlimDataGrid.Columns>
+                <SlimDataGrid.ItemsSource>
+                    <g:List x:TypeArguments="MyViewModel">
+                        <MyViewModel Left="Left" Title="Title" Right="Right" />
+                        <MyViewModel Left="Left" Title="Title" Right="Right" />
+                        <MyViewModel Left="Left" Title="Title" Right="Right" />
+                    </g:List>
+                </SlimDataGrid.ItemsSource>
+            </SlimDataGrid>
+        </StackPanel>
     </Design.PreviewWith>
 </Styles>
