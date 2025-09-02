@@ -7,6 +7,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 
@@ -66,6 +68,7 @@ public class TagSelector : TemplatedControl
     {
         RemoveTagCommand = ReactiveCommand.Create<string>(RemoveTag);
         TagTemplateProperty.Changed.AddClassHandler<TagSelector>((x, _) => x.UpdateItemTemplate());
+        AddHandler(PointerPressedEvent, (_, _) => inputBox?.Focus(), RoutingStrategies.Tunnel | RoutingStrategies.Bubble, true);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -75,7 +78,14 @@ public class TagSelector : TemplatedControl
         suggestionsList = e.NameScope.Find<ListBox>("PART_Suggestions");
         popup = e.NameScope.Find<global::Avalonia.Controls.Primitives.Popup>("PART_Popup");
 
-        inputBox = new TextBox();
+        inputBox = new TextBox
+        {
+            BorderThickness = new Thickness(0),
+            Padding = new Thickness(0),
+            Margin = new Thickness(0),
+            Background = Brushes.Transparent,
+            MinWidth = 0
+        };
         inputBox.GetObservable(TextBox.TextProperty).Subscribe(_ => UpdateSuggestions());
         inputBox.KeyDown += InputBoxOnKeyDown;
         elements.Add(inputBox);
@@ -150,7 +160,7 @@ public class TagSelector : TemplatedControl
             AddTag(first);
             e.Handled = true;
         }
-        else if ((e.Key == Key.Back || e.Key == Key.Delete) && string.IsNullOrEmpty(inputBox?.Text))
+        else if (e.Key == Key.Back && string.IsNullOrEmpty(inputBox?.Text))
         {
             RemoveLastTag();
             e.Handled = true;
@@ -174,6 +184,15 @@ public class TagSelector : TemplatedControl
 
         suggestions.Clear();
         var text = inputBox.Text ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            if (popup != null)
+            {
+                popup.IsOpen = false;
+            }
+            return;
+        }
+
         var source = ItemsSource ?? Enumerable.Empty<string>();
         foreach (var tag in source)
         {
@@ -182,6 +201,7 @@ public class TagSelector : TemplatedControl
                 suggestions.Add(tag);
             }
         }
+
         if (popup != null)
         {
             popup.IsOpen = suggestions.Any();
