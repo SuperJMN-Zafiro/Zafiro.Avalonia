@@ -21,7 +21,7 @@
                     <Border BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}">
-                        <StackPanel>
+                        <Grid>
                             <ListBox x:Name="PART_SelectedItems" SelectionMode="Single" BorderThickness="0">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -29,17 +29,14 @@
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                             </ListBox>
-                            <TextBox x:Name="PART_Input" />
-                            <Popup x:Name="PART_Popup"
-                                   PlacementTarget="{Binding #PART_Input}"
-                                   IsLightDismissEnabled="True">
+                            <Popup x:Name="PART_Popup" IsLightDismissEnabled="True" PlacementMode="Bottom">
                                 <Border Background="{DynamicResource ThemeBackgroundBrush}"
                                         BorderBrush="{DynamicResource ThemeBorderLowBrush}"
                                         BorderThickness="1">
                                     <ListBox x:Name="PART_Suggestions" />
                                 </Border>
                             </Popup>
-                        </StackPanel>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,10 +1,12 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Controls.Templates;
+using Avalonia.Input;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 
@@ -51,36 +53,39 @@ public class TagSelector : TemplatedControl
     public ObservableCollection<string> SelectedTags { get; } = new();
 
     readonly ObservableCollection<string> suggestions = new();
+    readonly ObservableCollection<object> elements = new();
 
     public ReactiveCommand<string, Unit> RemoveTagCommand { get; }
 
     TextBox? inputBox;
-    ListBox? selectedItems;
+    ListBox? listBox;
     ListBox? suggestionsList;
     global::Avalonia.Controls.Primitives.Popup? popup;
 
     public TagSelector()
     {
         RemoveTagCommand = ReactiveCommand.Create<string>(RemoveTag);
-        TagTemplateProperty.Changed.AddClassHandler<TagSelector>((x, e) =>
-        {
-            x.selectedItems?.SetValue(ItemsControl.ItemTemplateProperty, e.NewValue);
-        });
+        TagTemplateProperty.Changed.AddClassHandler<TagSelector>((x, _) => x.UpdateItemTemplate());
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        selectedItems = e.NameScope.Find<ListBox>("PART_SelectedItems");
-        inputBox = e.NameScope.Find<TextBox>("PART_Input");
+        listBox = e.NameScope.Find<ListBox>("PART_SelectedItems");
         suggestionsList = e.NameScope.Find<ListBox>("PART_Suggestions");
         popup = e.NameScope.Find<global::Avalonia.Controls.Primitives.Popup>("PART_Popup");
 
-        if (selectedItems != null)
+        inputBox = new TextBox();
+        inputBox.GetObservable(TextBox.TextProperty).Subscribe(_ => UpdateSuggestions());
+        inputBox.KeyDown += InputBoxOnKeyDown;
+        elements.Add(inputBox);
+
+        if (listBox != null)
         {
-            selectedItems.ItemsSource = SelectedTags;
-            selectedItems.ItemTemplate = TagTemplate;
-            selectedItems.KeyDown += SelectedItemsOnKeyDown;
+            listBox.ItemsSource = elements;
+            listBox.KeyDown += ListBoxOnKeyDown;
+            listBox.SelectionChanged += ListBoxOnSelectionChanged;
+            UpdateItemTemplate();
         }
 
         if (suggestionsList != null)
@@ -90,12 +95,25 @@ public class TagSelector : TemplatedControl
             suggestionsList.KeyDown += SuggestionsListOnKeyDown;
         }
 
-        if (inputBox != null)
+        if (popup != null)
         {
-            inputBox.GetObservable(TextBox.TextProperty)
-                .Subscribe(_ => UpdateSuggestions());
-            inputBox.KeyDown += InputBoxOnKeyDown;
+            popup.PlacementTarget = inputBox;
         }
+    }
+
+    void UpdateItemTemplate()
+    {
+        if (listBox == null)
+        {
+            return;
+        }
+
+        listBox.ItemTemplate = new FuncDataTemplate<object>((item, _) => item switch
+        {
+            string s => TagTemplate?.Build(s) ?? new TextBlock { Text = s },
+            Control c => c,
+            _ => new TextBlock { Text = item?.ToString() ?? string.Empty }
+        });
     }
 
     void SuggestionsListOnKeyDown(object? sender, KeyEventArgs e)
@@ -107,9 +125,17 @@ public class TagSelector : TemplatedControl
         }
     }
 
-    void SelectedItemsOnKeyDown(object? sender, KeyEventArgs e)
+    void ListBoxOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if ((e.Key == Key.Delete || e.Key == Key.Back) && selectedItems?.SelectedItem is string s)
+        if (listBox?.SelectedItem is TextBox)
+        {
+            listBox.SelectedItem = null;
+        }
+    }
+
+    void ListBoxOnKeyDown(object? sender, KeyEventArgs e)
+    {
+        if ((e.Key == Key.Delete || e.Key == Key.Back) && listBox?.SelectedItem is string s)
         {
             RemoveTag(s);
             e.Handled = true;
@@ -168,7 +194,11 @@ public class TagSelector : TemplatedControl
             .Ensure(t => !string.IsNullOrWhiteSpace(t), "Empty")
             .Ensure(t => !SelectedTags.Contains(t, GetComparer()), "Duplicate")
             .Ensure(_ => SelectedTags.Count < MaxTags, "MaxReached")
-            .Tap(t => SelectedTags.Add(t))
+            .Tap(t =>
+            {
+                SelectedTags.Add(t);
+                elements.Insert(elements.Count - 1, t);
+            })
             .Tap(() =>
             {
                 if (inputBox != null)
@@ -183,6 +213,7 @@ public class TagSelector : TemplatedControl
     void RemoveTag(string tag)
     {
         SelectedTags.Remove(tag);
+        elements.Remove(tag);
         UpdateSuggestions();
     }
 
@@ -191,6 +222,7 @@ public class TagSelector : TemplatedControl
         if (SelectedTags.Count > 0)
         {
             SelectedTags.RemoveAt(SelectedTags.Count - 1);
+            elements.RemoveAt(elements.Count - 2);
             UpdateSuggestions();
         }
     }
@@ -206,3 +238,4 @@ public class TagSelector : TemplatedControl
         _ => StringComparer.Ordinal
     };
 }
+
