@@ -6,19 +6,33 @@ using MoreLinq;
 
 namespace Zafiro.Avalonia.Misc;
 
-public class NamingConventionViewLocator : IDataTemplate
+public partial class NamingConventionViewLocator : IDataTemplate
 {
+    private readonly Dictionary<Type, Func<Control>> registry = new();
+
+    public NamingConventionViewLocator()
+    {
+        AutoRegister();
+    }
+
+    partial void AutoRegister();
+
+    public NamingConventionViewLocator Register<TViewModel, TView>()
+        where TView : Control, new()
+    {
+        registry[typeof(TViewModel)] = () => new TView();
+        return this;
+    }
+
+    public NamingConventionViewLocator Register<TViewModel>(Func<Control> factory)
+    {
+        registry[typeof(TViewModel)] = factory;
+        return this;
+    }
+
     public Control Build(object? data)
     {
-        var viewTypeNameResult = from obj in Maybe.From(data)
-            let viewTypeName = obj.GetType().AssemblyQualifiedName.Replace("ViewModelDesign", "View").Replace("ViewModel", "View")
-            where !string.IsNullOrEmpty(viewTypeName)
-            select viewTypeName;
-
-        var view = from viewTypeName in viewTypeNameResult
-            from viewType in Maybe.From(Type.GetType(viewTypeName))
-            from instance in Maybe.From(Activator.CreateInstance(viewType) as Control)
-            select instance;
+        var view = TryFromRegistry(data);
 
         return view
             .Or(Fallback(data))
@@ -27,9 +41,18 @@ public class NamingConventionViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is IViewModel || (data?.GetType().Name.Contains("ViewModel", StringComparison.OrdinalIgnoreCase)  ?? false);
+        return data is IViewModel || (data?.GetType().Name.Contains("ViewModel", StringComparison.OrdinalIgnoreCase) ?? false);
     }
-    
+
+    private Maybe<Control> TryFromRegistry(object? data)
+    {
+        return Maybe.From(data)
+            .Bind(d => registry.TryGetValue(d.GetType(), out var factory)
+                ? Maybe.From(factory())
+                : Maybe<Control>.None);
+    }
+
+
     private static Control Fallback(object? data)
     {
         if (data is null)

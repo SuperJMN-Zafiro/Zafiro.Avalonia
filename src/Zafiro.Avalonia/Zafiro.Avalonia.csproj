@@ -23,6 +23,14 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Zafiro.Avalonia.Generators\Zafiro.Avalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="**/*.axaml" />
+    </ItemGroup>
+
     <ItemGroup Condition="'$(UseLocalZafiroReferences)' == 'true'">
         <ProjectReference Include="..\..\libs\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj"/>
         <ProjectReference Include="..\..\libs\Zafiro\src\Zafiro\Zafiro.csproj"/>
