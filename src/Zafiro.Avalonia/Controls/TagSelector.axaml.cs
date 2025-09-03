@@ -55,7 +55,6 @@ public class TagSelector : TemplatedControl
     public ObservableCollection<string> SelectedTags { get; } = new();
 
     readonly ObservableCollection<string> suggestions = new();
-    readonly ObservableCollection<object> elements = new();
 
     public ReactiveCommand<string, Unit> RemoveTagCommand { get; }
 
@@ -63,6 +62,7 @@ public class TagSelector : TemplatedControl
     ListBox? listBox;
     ListBox? suggestionsList;
     global::Avalonia.Controls.Primitives.Popup? popup;
+    WrapPanel? panel;
 
     public TagSelector()
     {
@@ -94,13 +94,14 @@ public class TagSelector : TemplatedControl
         };
         inputBox.GetObservable(TextBox.TextProperty).Subscribe(_ => UpdateSuggestions());
         inputBox.KeyDown += InputBoxOnKeyDown;
-        elements.Add(inputBox);
 
         if (listBox != null)
         {
-            listBox.ItemsSource = elements;
+            listBox.ItemsSource = SelectedTags;
             listBox.KeyDown += ListBoxOnKeyDown;
-            listBox.SelectionChanged += ListBoxOnSelectionChanged;
+            listBox.AttachedToVisualTree += (_, _) => AttachInputBox();
+            SelectedTags.CollectionChanged += (_, _) => AttachInputBox();
+            panel = e.NameScope.Find<WrapPanel>("PART_Panel");
             UpdateItemTemplate();
         }
 
@@ -115,6 +116,8 @@ public class TagSelector : TemplatedControl
         {
             popup.PlacementTarget = inputBox;
         }
+
+        AttachInputBox();
     }
 
     void UpdateItemTemplate()
@@ -124,12 +127,7 @@ public class TagSelector : TemplatedControl
             return;
         }
 
-        listBox.ItemTemplate = new FuncDataTemplate<object>((item, _) => item switch
-        {
-            string s => TagTemplate?.Build(s) ?? new TextBlock { Text = s },
-            Control c => c,
-            _ => new TextBlock { Text = item?.ToString() ?? string.Empty }
-        });
+        listBox.ItemTemplate = new FuncDataTemplate<string>((item, _) => TagTemplate?.Build(item) ?? new TextBlock { Text = item });
     }
 
     void SuggestionsListOnKeyDown(object? sender, KeyEventArgs e)
@@ -138,14 +136,6 @@ public class TagSelector : TemplatedControl
         {
             AddSelectedSuggestion();
             e.Handled = true;
-        }
-    }
-
-    void ListBoxOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-        if (listBox?.SelectedItem is TextBox)
-        {
-            listBox.SelectedItem = null;
         }
     }
 
@@ -236,7 +226,6 @@ public class TagSelector : TemplatedControl
             .Tap(t =>
             {
                 SelectedTags.Add(t);
-                elements.Insert(elements.Count - 1, t);
             })
             .Tap(() =>
             {
@@ -246,14 +235,15 @@ public class TagSelector : TemplatedControl
                     inputBox.Focus();
                 }
                 UpdateSuggestions();
+                AttachInputBox();
             });
     }
 
     void RemoveTag(string tag)
     {
         SelectedTags.Remove(tag);
-        elements.Remove(tag);
         UpdateSuggestions();
+        AttachInputBox();
     }
 
     void RemoveLastTag()
@@ -261,8 +251,27 @@ public class TagSelector : TemplatedControl
         if (SelectedTags.Count > 0)
         {
             SelectedTags.RemoveAt(SelectedTags.Count - 1);
-            elements.RemoveAt(elements.Count - 2);
             UpdateSuggestions();
+            AttachInputBox();
+        }
+    }
+
+    void AttachInputBox()
+    {
+        if (listBox == null || inputBox == null)
+        {
+            return;
+        }
+
+        panel ??= listBox.ItemsPanelRoot as WrapPanel;
+        if (panel == null)
+        {
+            return;
+        }
+
+        if (!panel.Children.Contains(inputBox))
+        {
+            panel.Children.Add(inputBox);
         }
     }
 
