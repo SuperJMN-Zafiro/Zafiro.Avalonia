@@ -9,9 +9,7 @@
             <Setter Property="BackButtonContent">
                 <Setter.Value>
                     <Template>
-                        <Template.Content>
-                            <TextBlock>Go back!</TextBlock>
-                        </Template.Content>
+                        <Image Source="{StaticResource BackArrow}" />
                     </Template>
                 </Setter.Value>
             </Setter>
