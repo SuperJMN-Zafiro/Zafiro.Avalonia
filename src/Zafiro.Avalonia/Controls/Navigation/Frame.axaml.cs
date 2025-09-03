@@ -33,12 +33,7 @@ namespace Zafiro.Avalonia.Controls.Navigation
             get => content;
             private set
             {
-                // Dispose previous content if it's disposable
-                if (content is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
-                
+                // Do not dispose previous content here. Lifetime is managed by DI/IoC.
                 SetAndRaise(ContentProperty, ref content, value);
             }
         }
@@ -55,12 +50,6 @@ namespace Zafiro.Avalonia.Controls.Navigation
                 var old = navigator;
                 if (SetAndRaise(NavigatorProperty, ref navigator, value))
                 {
-                    // Unsubscribe from old navigator if needed
-                    if (old != null && old is IDisposable disposableNavigator)
-                    {
-                        disposableNavigator.Dispose();
-                    }
-                    
                     // Subscribe to new navigator if it exists
                     if (value != null)
                     {
@@ -106,22 +95,16 @@ namespace Zafiro.Avalonia.Controls.Navigation
 
         protected override void OnUnloaded(RoutedEventArgs e)
         {
-            // Dispose content and subscriptions when control is unloaded
-            Dispose();
+            // Clean up subscriptions when control is unloaded (content lifetime is managed by DI/IoC)
+            disposables.Dispose();
             base.OnUnloaded(e);
         }
 
         public void Dispose()
         {
-            // Clean up all subscriptions
+            // Clean up subscriptions only; let DI/IoC manage content lifetime
             disposables.Dispose();
-            
-            // Dispose content if applicable
-            if (content is IDisposable disposable)
-            {
-                disposable.Dispose();
-                content = null;
-            }
+            content = null; // drop reference without disposing
         }
     }
 }

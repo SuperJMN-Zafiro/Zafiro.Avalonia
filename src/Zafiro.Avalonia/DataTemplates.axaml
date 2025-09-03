@@ -8,10 +8,6 @@
                xmlns:slim="clr-namespace:Zafiro.UI.Wizards.Slim;assembly=Zafiro.UI"
                xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI">
 
-    <DataTemplate DataType="nav:ISectionScope">
-        <nv:SectionScopeView SectionScope="{Binding}" />
-    </DataTemplate>
-
     <DataTemplate DataType="slim:ISlimWizard">
         <zslim:SlimWizardControl Wizard="{Binding}" />
     </DataTemplate>

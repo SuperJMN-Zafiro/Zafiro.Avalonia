@@ -20,7 +20,7 @@ public static class CompositionRoot
         ServiceCollection services = new();
 
         services.AddSingleton<IShell, Zafiro.UI.Shell.Shell>();
-        services.AddSingleton(new ShellProperties("Avalonia.Zafiro Tookit", sectionContent => CreateSectionContentHeader(sectionContent)));
+        services.AddSingleton(new ShellProperties("Avalonia.Zafiro Tookit", navigatorObj => CreateHeaderFromNavigator(navigatorObj)));
         services.AddSingleton(DialogService.Create());
         services.AddSingleton(NotificationService.Instance);
         services.RegisterAllSections(typeof(MainViewModel).Assembly);
@@ -33,10 +33,10 @@ public static class CompositionRoot
         return serviceProvider.GetRequiredService<MainViewModel>();
     }
 
-    private static IObservable<object?> CreateSectionContentHeader(object sectionContent)
+    private static IObservable<object?> CreateHeaderFromNavigator(object navigatorObj)
     {
-        var content = (SectionScope)sectionContent;
-        return content.Navigator.Content.Select(o =>
+        var navigator = (INavigator)navigatorObj;
+        return navigator.Content.Select(o =>
         {
             var type = o?.GetType();
 
