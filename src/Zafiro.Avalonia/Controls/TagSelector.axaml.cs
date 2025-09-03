@@ -68,7 +68,13 @@ public class TagSelector : TemplatedControl
     {
         RemoveTagCommand = ReactiveCommand.Create<string>(RemoveTag);
         TagTemplateProperty.Changed.AddClassHandler<TagSelector>((x, _) => x.UpdateItemTemplate());
-        AddHandler(PointerPressedEvent, (_, _) => inputBox?.Focus(), RoutingStrategies.Tunnel | RoutingStrategies.Bubble, true);
+        AddHandler(PointerPressedEvent, (_, e) =>
+        {
+            if (!e.Handled)
+            {
+                inputBox?.Focus();
+            }
+        }, RoutingStrategies.Bubble);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -145,10 +151,23 @@ public class TagSelector : TemplatedControl
 
     void ListBoxOnKeyDown(object? sender, KeyEventArgs e)
     {
-        if ((e.Key == Key.Delete || e.Key == Key.Back) && listBox?.SelectedItem is string s)
+        if (e.Key == Key.Delete && listBox?.SelectedItem is string toDelete)
         {
-            RemoveTag(s);
+            RemoveTag(toDelete);
             e.Handled = true;
+        }
+        else if (e.Key == Key.Back)
+        {
+            if (listBox?.SelectedItem is string selected)
+            {
+                RemoveTag(selected);
+                e.Handled = true;
+            }
+            else if (string.IsNullOrEmpty(inputBox?.Text))
+            {
+                RemoveLastTag();
+                e.Handled = true;
+            }
         }
     }
 

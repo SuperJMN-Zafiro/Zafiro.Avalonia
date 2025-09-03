@@ -42,4 +42,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style Selector="controls|TagSelector TextBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style Selector="controls|TagSelector TextBox:focus">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
 </Styles>
