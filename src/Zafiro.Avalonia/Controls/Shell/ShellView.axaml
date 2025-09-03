@@ -25,7 +25,7 @@
                             PaneBackground="{Binding $parent[ShellView].PaneBackground}"
                             ExpandButtonSize="{Binding $parent[ShellView].MenuButtonSize}">
                 <ShellSplitView.Content>
-                    <nav:Frame Navigator="{Binding Navigator}" />
+                    <nav:Frame Navigator="{Binding  $parent[ShellView].Shell.Navigator}" />
                 </ShellSplitView.Content>
                 <ShellSplitView.Styles>
                     <ContainerQuery Name="RootPanel" Query="min-width:0">
