@@ -22,4 +22,6 @@ public partial class ContentSectionDesign : ReactiveObject, IContentSection
     public string Name { get; set; }
 
     public IObservable<object> Content { get; set; }
+
+    public Type RootType { get; } = typeof(object);
 }

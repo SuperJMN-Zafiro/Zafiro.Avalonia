@@ -9,16 +9,14 @@
             <Setter Property="BackButtonContent">
                 <Setter.Value>
                     <Template>
-                        <Template.Content>
-                            <TextBlock>Go back!</TextBlock>
-                        </Template.Content>
+                        <Image Source="{StaticResource BackArrow}" />
                     </Template>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <ControlTemplate>
                     <DockPanel>
-                        <Button Command="{Binding $parent[Frame].Back}"
+                        <Button Command="{Binding $parent[Frame].Navigator.Back}"
                                 x:Name="BackButton"
                                 DockPanel.Dock="Top"
                                 Content="{TemplateBinding BackButtonContent}">
@@ -29,7 +27,7 @@
                                 </MultiBinding>
                             </Button.IsVisible>
                         </Button>
-                        <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[Frame].Content}" />
+                        <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[Frame].Navigator.Content^,  FallbackValue='No content', TargetNullValue='Navigator.Content is a null'}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter>
