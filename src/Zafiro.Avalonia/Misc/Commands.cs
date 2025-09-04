@@ -1,7 +1,7 @@
 using CSharpFunctionalExtensions;
 using Zafiro.Avalonia.Services;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 public class Commands
 {

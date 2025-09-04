@@ -2,7 +2,7 @@ using System.Reactive.Disposables;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace Zafiro.Avalonia.Behaviors
 {

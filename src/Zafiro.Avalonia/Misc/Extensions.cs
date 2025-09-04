@@ -1,7 +1,7 @@
 ﻿using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 internal static class Extensions
 {

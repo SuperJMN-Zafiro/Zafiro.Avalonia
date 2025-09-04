@@ -2,7 +2,7 @@
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 using JetBrains.Annotations;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace Zafiro.Avalonia.Behaviors;
 

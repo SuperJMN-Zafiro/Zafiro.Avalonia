@@ -1,3 +1,3 @@
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 public record EnumItem(System.Enum Value, string Description);

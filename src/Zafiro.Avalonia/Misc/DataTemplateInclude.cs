@@ -2,7 +2,7 @@
 using Avalonia.Markup.Xaml;
 using CSharpFunctionalExtensions;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 public class DataTemplateInclude : AvaloniaObject, IDataTemplate
 {

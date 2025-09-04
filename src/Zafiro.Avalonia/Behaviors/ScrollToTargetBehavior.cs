@@ -6,7 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.Custom;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Behaviors;

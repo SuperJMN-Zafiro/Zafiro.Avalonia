@@ -1,6 +1,5 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
@@ -88,11 +87,12 @@
     </Application.Styles>
 
     <Application.DataTemplates>
-        <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
+        <DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
         <DataTemplate DataType="views:MessageDialogViewModel">
-            <views:MessageDialogView />
+            <MessageDialogView />
         </DataTemplate>
-        <misc:NamingConventionViewLocator />
+        <DataTypeViewLocator />
+        <NamingConventionGeneratedViewLocator />
     </Application.DataTemplates>
 
     <Application.Resources>

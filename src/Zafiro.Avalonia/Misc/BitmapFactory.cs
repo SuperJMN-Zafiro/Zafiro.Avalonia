@@ -1,12 +1,12 @@
 ﻿using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 public static class BitmapFactory
 {
     public static Bitmap LoadFromResource(Uri resourceUri) => new(AssetLoader.Open(resourceUri));
-    
+
     public static Bitmap Load(byte[] bytes)
     {
         using (var memoryStream = new MemoryStream(bytes))
