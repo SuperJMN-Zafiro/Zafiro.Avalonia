@@ -22,18 +22,20 @@ public class ViewLocatorGenerator : ISourceGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace Zafiro.Avalonia.Misc;");
         sb.AppendLine();
-        sb.AppendLine("public partial class NamingConventionViewLocator");
+        sb.AppendLine("file static class NamingConventionViewLocator_GlobalRegistrations");
         sb.AppendLine("{");
-        sb.AppendLine("    partial void AutoRegister()");
+        sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
+        sb.AppendLine("    internal static void Initialize()");
         sb.AppendLine("    {");
         foreach (var pair in pairs)
         {
-            sb.AppendLine($"        Register<global::{pair.viewModel}, global::{pair.view}>();");
+            sb.AppendLine($"        global::Zafiro.Avalonia.Misc.NamingConventionViewLocator.RegisterGlobal<global::{pair.viewModel}, global::{pair.view}>();");
         }
+
         sb.AppendLine("    }");
         sb.AppendLine("}");
 
-        context.AddSource("NamingConventionViewLocator.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+        context.AddSource("NamingConventionViewLocator.GlobalRegistrations.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 
     private static IEnumerable<(string viewModel, string view)> FindPairs(GeneratorExecutionContext context)
