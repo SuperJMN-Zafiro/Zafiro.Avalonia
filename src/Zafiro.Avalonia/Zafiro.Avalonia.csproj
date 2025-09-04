@@ -30,6 +30,14 @@
         <ProjectReference Include="..\Zafiro.Avalonia.Generators\Zafiro.Avalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
+    <!-- Ensure the source generator is packaged inside this NuGet under analyzers/dotnet/cs -->
+    <ItemGroup>
+        <None Include="..\Zafiro.Avalonia.Generators\bin\$(Configuration)\netstandard2.0\Zafiro.Avalonia.Generators.dll"
+              Pack="true"
+              PackagePath="analyzers/dotnet/cs"
+              Visible="false" />
+    </ItemGroup>
+
     <ItemGroup>
         <AdditionalFiles Include="**/*.axaml" />
     </ItemGroup>
