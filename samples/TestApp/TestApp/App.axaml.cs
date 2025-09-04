@@ -4,7 +4,7 @@ using Projektanker.Icons.Avalonia;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia.MaterialDesign;
 using TestApp.Shell;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace TestApp;
 

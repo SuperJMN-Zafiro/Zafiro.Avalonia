@@ -1,5 +1,5 @@
 using Avalonia.Markup.Xaml;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 using Enum = System.Enum;
 
 namespace Zafiro.Avalonia.MarkupExtensions;

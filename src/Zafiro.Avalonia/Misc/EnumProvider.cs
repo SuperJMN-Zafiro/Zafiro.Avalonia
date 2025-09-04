@@ -1,6 +1,6 @@
 using ReactiveUI.SourceGenerators;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 public partial class EnumProvider : ReactiveObject
 {

@@ -10,7 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using DynamicData.Binding;
 using ReactiveUI;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace Zafiro.Avalonia.DataViz.Monitoring;
 

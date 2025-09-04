@@ -27,6 +27,11 @@ public class ViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is ViewModelBase;
+        if (data is null)
+            return false;
+
+        var name = data.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+        var type = Type.GetType(name);
+        return type != null && typeof(Control).IsAssignableFrom(type);
     }
 }

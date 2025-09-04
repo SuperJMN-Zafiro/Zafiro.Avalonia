@@ -2,7 +2,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace Zafiro.Avalonia.Controls.StringEditor;
 

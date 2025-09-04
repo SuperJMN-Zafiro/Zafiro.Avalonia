@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sdg="clr-namespace:Zafiro.Avalonia.Controls.SlimDataGrid;assembly=Zafiro.Avalonia"
-             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
              xmlns:slimDataGrid="clr-namespace:TestApp.Samples.SlimDataGrid"
              xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
@@ -100,7 +99,7 @@
                         <sdg:Column.CellTemplate>
                             <DataTemplate>
                                 <Button HorizontalAlignment="Center" avalonia:Attached.Icon="fa-solid fa-arrow-up-right-from-square" CommandParameter="http://www.youtube.com"
-                                        Command="{Binding Source={x:Static misc:Commands.Instance}, Path=LaunchUri}" />
+                                        Command="{Binding Source={x:Static Commands.Instance}, Path=LaunchUri}" />
                             </DataTemplate>
                         </sdg:Column.CellTemplate>
                     </sdg:Column>

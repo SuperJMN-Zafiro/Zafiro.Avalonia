@@ -3,25 +3,24 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace Zafiro.Avalonia.DataViz.Heatmaps;
 
 public class HeatmapConverter
 {
     public static readonly FuncMultiValueConverter<object, IBrush> Instance =
-        new(
-            objects =>
+        new(objects =>
+        {
+            var list = objects.ToList();
+            if (list.Any(o => o is UnsetValueType))
             {
-                var list = objects.ToList();
-                if (list.Any(o => o is UnsetValueType))
-                {
-                    return Brushes.Black;
-                }
+                return Brushes.Black;
+            }
 
-                var colorList = ((IEnumerable<Color>)list[0]).ToList();
-                var value = (double)list[1];
+            var colorList = ((IEnumerable<Color>)list[0]).ToList();
+            var value = (double)list[1];
 
-                return new SolidColorBrush(ColorInterpolator.InterpolateColor(colorList.ToList(), value));
-            });
+            return new SolidColorBrush(ColorInterpolator.InterpolateColor(colorList.ToList(), value));
+        });
 }

@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
-using Zafiro.Avalonia.Misc;
+using Zafiro.Avalonia.ViewLocators;
 
 namespace Zafiro.Avalonia.Dialogs
 {

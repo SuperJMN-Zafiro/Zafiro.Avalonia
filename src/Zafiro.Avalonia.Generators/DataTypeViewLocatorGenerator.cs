@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.Text;
 namespace Zafiro.Avalonia.Generators;
 
 [Generator]
-public class ViewLocatorGenerator : ISourceGenerator
+public class DataTypeViewLocatorGenerator : ISourceGenerator
 {
     public void Initialize(GeneratorInitializationContext context)
     {
@@ -19,23 +19,26 @@ public class ViewLocatorGenerator : ISourceGenerator
     {
         var pairs = FindPairs(context);
 
+        // Resolve target locator symbol to avoid hardcoding its namespace
+        var (locatorFqn, locatorNs) = ResolveLocator(context.Compilation, "DataTypeViewLocator");
+
         var sb = new StringBuilder();
-        sb.AppendLine("namespace Zafiro.Avalonia.Misc;");
+        sb.AppendLine($"namespace {locatorNs};");
         sb.AppendLine();
-        sb.AppendLine("file static class NamingConventionViewLocator_GlobalRegistrations");
+        sb.AppendLine("file static class DataTypeViewLocator_GlobalRegistrations");
         sb.AppendLine("{");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    internal static void Initialize()");
         sb.AppendLine("    {");
         foreach (var pair in pairs)
         {
-            sb.AppendLine($"        global::Zafiro.Avalonia.Misc.NamingConventionViewLocator.RegisterGlobal<global::{pair.viewModel}, global::{pair.view}>();");
+            sb.AppendLine($"        {locatorFqn}.RegisterGlobal<global::{pair.viewModel}, global::{pair.view}>();");
         }
 
         sb.AppendLine("    }");
         sb.AppendLine("}");
 
-        context.AddSource("NamingConventionViewLocator.GlobalRegistrations.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+        context.AddSource("DataTypeViewLocator.GlobalRegistrations.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 
     private static IEnumerable<(string viewModel, string view)> FindPairs(GeneratorExecutionContext context)
@@ -118,5 +121,32 @@ public class ViewLocatorGenerator : ISourceGenerator
         }
 
         return ns + "." + name;
+    }
+
+    private static (string locatorFqn, string locatorNs) ResolveLocator(Compilation compilation, string simpleName)
+    {
+        // Try common namespaces first
+        var candidates = new[]
+        {
+            $"Zafiro.Avalonia.ViewLocators.{simpleName}",
+            $"Zafiro.Avalonia.Misc.{simpleName}"
+        };
+
+        INamedTypeSymbol? symbol = null;
+        foreach (var md in candidates)
+        {
+            symbol = compilation.GetTypeByMetadataName(md);
+            if (symbol is not null) break;
+        }
+
+        if (symbol is null)
+        {
+            // Fallback to default namespace string
+            return ($"global::Zafiro.Avalonia.ViewLocators.{simpleName}", "Zafiro.Avalonia.ViewLocators");
+        }
+
+        var fqn = symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var ns = symbol.ContainingNamespace?.ToDisplayString() ?? "Zafiro.Avalonia.ViewLocators";
+        return (fqn, ns);
     }
 }

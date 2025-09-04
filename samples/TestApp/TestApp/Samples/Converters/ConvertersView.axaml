@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
              xmlns:testApp1="clr-namespace:TestApp.Samples.Converters"
@@ -10,7 +9,7 @@
              x:Class="TestApp.Samples.Converters.ConvertersView">
 
     <UserControl.Resources>
-        <misc:EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp1:MyStatus}" />
+        <EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp1:MyStatus}" />
         <converters:ControlThemeConverter x:Key="ThemeConverter">
             <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp1:MyStatus.Ok}">
                 <Setter Property="Background" Value="GreenYellow" />
@@ -40,8 +39,8 @@
                 x:Name="ComboBox"
                 SelectedIndex="0"
                 ItemsSource="{Binding Enums, Source={StaticResource EnumProvider}}"
-                DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
-                SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}">
+                DisplayMemberBinding="{Binding Description, DataType=EnumItem}"
+                SelectedValueBinding="{Binding Value, DataType=EnumItem}">
             </ComboBox>
             <Button Theme="{Binding #ComboBox.SelectedValue, Converter={StaticResource ThemeConverter}}" />
         </StackPanel>

@@ -1,6 +1,6 @@
 using Avalonia.VisualTree;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
 public static class VisualExtensions
 {
