@@ -17,4 +17,5 @@ using Avalonia.Metadata;
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Mixins")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.DesignTime")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.Misc")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Zafiro.Avalonia.ViewLocators")]
