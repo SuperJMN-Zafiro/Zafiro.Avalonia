@@ -8,26 +8,19 @@ namespace Zafiro.Avalonia.Misc;
 
 public partial class NamingConventionViewLocator : IDataTemplate
 {
+    private static readonly Dictionary<Type, Func<Control>> GlobalRegistry = new();
     private readonly Dictionary<Type, Func<Control>> registry = new();
 
     public NamingConventionViewLocator()
     {
+        // Keep legacy partial-registration (only populated within the same assembly)
         AutoRegister();
-    }
 
-    partial void AutoRegister();
-
-    public NamingConventionViewLocator Register<TViewModel, TView>()
-        where TView : Control, new()
-    {
-        registry[typeof(TViewModel)] = () => new TView();
-        return this;
-    }
-
-    public NamingConventionViewLocator Register<TViewModel>(Func<Control> factory)
-    {
-        registry[typeof(TViewModel)] = factory;
-        return this;
+        // Merge global registrations (populated via ModuleInitializer from any assembly)
+        foreach (var kv in GlobalRegistry)
+        {
+            registry[kv.Key] = kv.Value;
+        }
     }
 
     public Control Build(object? data)
@@ -44,12 +37,58 @@ public partial class NamingConventionViewLocator : IDataTemplate
         return data is IViewModel || (data?.GetType().Name.Contains("ViewModel", StringComparison.OrdinalIgnoreCase) ?? false);
     }
 
+    // Legacy: implemented by generator in Zafiro.Avalonia project only
+    partial void AutoRegister();
+
+    // Instance-level registration API (fluent)
+    public NamingConventionViewLocator Register<TViewModel, TView>()
+        where TView : Control, new()
+    {
+        registry[typeof(TViewModel)] = () => new TView();
+        return this;
+    }
+
+    public NamingConventionViewLocator Register<TViewModel>(Func<Control> factory)
+    {
+        registry[typeof(TViewModel)] = factory;
+        return this;
+    }
+
+    // Global registration API used by source generator in any assembly
+    public static void RegisterGlobal(Type viewModelType, Func<Control> factory)
+    {
+        GlobalRegistry[viewModelType] = factory;
+    }
+
+    public static void RegisterGlobal<TViewModel, TView>() where TView : Control, new()
+    {
+        RegisterGlobal(typeof(TViewModel), () => new TView());
+    }
+
     private Maybe<Control> TryFromRegistry(object? data)
     {
         return Maybe.From(data)
-            .Bind(d => registry.TryGetValue(d.GetType(), out var factory)
-                ? Maybe.From(factory())
-                : Maybe<Control>.None);
+            .Bind(d =>
+            {
+                var type = d.GetType();
+
+                // 1) Exact type match
+                if (registry.TryGetValue(type, out var factory))
+                {
+                    return Maybe.From(factory());
+                }
+
+                // 2) Match by any implemented interface
+                foreach (var @interface in type.GetInterfaces())
+                {
+                    if (registry.TryGetValue(@interface, out var ifFactory))
+                    {
+                        return Maybe.From(ifFactory());
+                    }
+                }
+
+                return Maybe<Control>.None;
+            });
     }
 
 
@@ -77,16 +116,18 @@ public partial class NamingConventionViewLocator : IDataTemplate
         var view = FormatTypeName(viewTypeName);
         var forData = FormatTypeName(data.GetType().FullName);
 
-        return new[] { 
-            notFound, 
+        return new[]
+        {
+            notFound,
             Break(),
-            Text("Missing view: "), 
-            view, 
+            Text("Missing view: "),
+            view,
             Break(),
-            Text("While looking for: "), 
-            forData, 
+            Text("While looking for: "),
+            forData,
             Break(),
-            Text($"... as part of Name Convention View Location performed by {nameof(NamingConventionViewLocator)} ") }.SelectMany(x => x);
+            Text($"... as part of Name Convention View Location performed by {nameof(NamingConventionViewLocator)} ")
+        }.SelectMany(x => x);
     }
 
     private static IEnumerable<Inline> Break()
