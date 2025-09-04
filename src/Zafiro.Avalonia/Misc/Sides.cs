@@ -1,4 +1,4 @@
-namespace Zafiro.Avalonia.ViewLocators;
+namespace Zafiro.Avalonia.Misc;
 
 [Flags]
 public enum Sides

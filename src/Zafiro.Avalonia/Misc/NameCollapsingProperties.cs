@@ -3,7 +3,7 @@ using System.Text;
 using Avalonia.Media;
 using Avalonia.Media.TextFormatting;
 
-namespace Zafiro.Avalonia.ViewLocators;
+namespace Zafiro.Avalonia.Misc;
 
 public class NameCollapsingProperties : TextCollapsingProperties
 {

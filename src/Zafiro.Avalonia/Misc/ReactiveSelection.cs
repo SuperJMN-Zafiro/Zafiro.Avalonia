@@ -7,7 +7,7 @@ using DynamicData;
 using DynamicData.Aggregation;
 using Zafiro.Reactive;
 
-namespace Zafiro.Avalonia.ViewLocators;
+namespace Zafiro.Avalonia.Misc;
 
 public class ReactiveSelection<T, TKey> : IDisposable where T : notnull where TKey : notnull
 {

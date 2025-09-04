@@ -2,7 +2,7 @@
 using Avalonia.Controls.Selection;
 using DynamicData;
 
-namespace Zafiro.Avalonia.ViewLocators;
+namespace Zafiro.Avalonia.Misc;
 
 public class ObservableSelectionModel<T, TKey> : IDisposable where T : notnull where TKey : notnull
 {

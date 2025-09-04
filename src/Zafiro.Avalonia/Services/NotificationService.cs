@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls.Notifications;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
-using Zafiro.Avalonia.ViewLocators;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Services;
 

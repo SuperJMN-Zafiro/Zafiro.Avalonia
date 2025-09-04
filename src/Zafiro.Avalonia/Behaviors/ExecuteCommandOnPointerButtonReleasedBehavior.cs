@@ -4,7 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactivity;
-using Zafiro.Avalonia.ViewLocators;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Behaviors;
 

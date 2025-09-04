@@ -3,11 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
              x:Class="TestApp.Samples.Shell.ShellSplitViewSampleView">
 
     <UserControl.Resources>
-        <EnumProvider x:Key="DisplayModesProvider" EnumType="{x:Type ShellSplitViewDisplayMode}" />
+        <misc:EnumProvider x:Key="DisplayModesProvider" EnumType="{x:Type ShellSplitViewDisplayMode}" />
     </UserControl.Resources>
 
     <controls:HeaderedContainer Header="A SplitView specialized for shells, with header and collapse button">
@@ -16,8 +17,8 @@
             <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" HorizontalAlignment="Center" Header="Display Mode" DockPanel.Dock="Top" Margin="20">
                 <ComboBox x:Name="DisplayModes"
                           SelectedValue="{Binding #ShellSplitView.DisplayMode}"
-                          SelectedValueBinding="{Binding Value, DataType=EnumItem}"
-                          DisplayMemberBinding="{Binding Description, DataType=EnumItem}"
+                          SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}"
+                          DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
                           ItemsSource="{Binding Source={StaticResource DisplayModesProvider}, Path=Enums}" />
             </HeaderedContentControl>
             <ShellSplitView x:Name="ShellSplitView"

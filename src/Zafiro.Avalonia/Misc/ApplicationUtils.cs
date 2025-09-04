@@ -5,7 +5,7 @@ using Avalonia.Threading;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 
-namespace Zafiro.Avalonia.ViewLocators;
+namespace Zafiro.Avalonia.Misc;
 
 [PublicAPI]
 public static class ApplicationUtils
