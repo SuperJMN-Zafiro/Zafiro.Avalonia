@@ -15,6 +15,9 @@
                     <WizardHeader Width="{TemplateBinding Wizard}" DockPanel.Dock="Top" />
                     <ScrollViewer>
                         <ContentControl Padding="{TemplateBinding Padding}" Content="{Binding $parent[SlimWizardControl].Wizard.CurrentPage.Content}" />
+                        <Interaction.Behaviors>
+                            <NestedScrollViewerBehavior />
+                        </Interaction.Behaviors>
                     </ScrollViewer>
                 </DockPanel>
             </ControlTemplate>
