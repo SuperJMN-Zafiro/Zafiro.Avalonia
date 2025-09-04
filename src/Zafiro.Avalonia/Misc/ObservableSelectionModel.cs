@@ -1,7 +1,6 @@
 ﻿using System.Reactive.Disposables;
 using Avalonia.Controls.Selection;
 using DynamicData;
-using DynamicData.Aggregation;
 
 namespace Zafiro.Avalonia.Misc;
 
@@ -12,8 +11,8 @@ public class ObservableSelectionModel<T, TKey> : IDisposable where T : notnull w
     public ObservableSelectionModel(SelectionModel<T> selection, Func<T, TKey> selector)
     {
         var cache = new SourceCache<T, TKey>(selector)
-            .DisposeWith(disposable); 
-        
+            .DisposeWith(disposable);
+
         var obs = Observable
             .FromEventPattern<SelectionModelSelectionChangedEventArgs<T>>(handler => selection.SelectionChanged += handler, handler => selection.SelectionChanged -= handler);
 
@@ -27,6 +26,11 @@ public class ObservableSelectionModel<T, TKey> : IDisposable where T : notnull w
 
     public IObservable<IChangeSet<T, TKey>> Selection { get; }
 
+    public void Dispose()
+    {
+        disposable.Dispose();
+    }
+
     private static void Sync(SelectionModelSelectionChangedEventArgs<T> pattern, SourceCache<T, TKey> sourceCache)
     {
         sourceCache.Edit(x =>
@@ -34,10 +38,5 @@ public class ObservableSelectionModel<T, TKey> : IDisposable where T : notnull w
             x.Remove(pattern.DeselectedItems!);
             x.AddOrUpdate(pattern.SelectedItems!);
         });
-    }
-
-    public void Dispose()
-    {
-        disposable.Dispose();
     }
 }

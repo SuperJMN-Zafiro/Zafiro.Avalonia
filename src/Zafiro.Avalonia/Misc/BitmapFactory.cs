@@ -6,7 +6,7 @@ namespace Zafiro.Avalonia.Misc;
 public static class BitmapFactory
 {
     public static Bitmap LoadFromResource(Uri resourceUri) => new(AssetLoader.Open(resourceUri));
-    
+
     public static Bitmap Load(byte[] bytes)
     {
         using (var memoryStream = new MemoryStream(bytes))

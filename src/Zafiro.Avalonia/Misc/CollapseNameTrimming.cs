@@ -1,5 +1,5 @@
-﻿using Avalonia.Media.TextFormatting;
-using Avalonia.Media;
+﻿using Avalonia.Media;
+using Avalonia.Media.TextFormatting;
 
 namespace Zafiro.Avalonia.Misc;
 

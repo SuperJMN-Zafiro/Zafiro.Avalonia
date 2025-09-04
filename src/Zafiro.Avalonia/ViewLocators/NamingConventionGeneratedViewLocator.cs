@@ -1,35 +1,50 @@
-﻿using Avalonia.Controls.Documents;
+using Avalonia.Controls.Documents;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
 using CSharpFunctionalExtensions;
 using MoreLinq;
 
-namespace Zafiro.Avalonia.Misc;
+namespace Zafiro.Avalonia.ViewLocators;
 
-public class NamingConventionViewLocator : IDataTemplate
+// Generated naming-convention view locator (VM->View, same namespace), AOT-friendly via global registration
+public class NamingConventionGeneratedViewLocator : IDataTemplate
 {
+    private static readonly Dictionary<Type, Func<Control>> GlobalRegistry = new();
+
     public Control Build(object? data)
     {
-        var viewTypeNameResult = from obj in Maybe.From(data)
-            let viewTypeName = obj.GetType().AssemblyQualifiedName.Replace("ViewModelDesign", "View").Replace("ViewModel", "View")
-            where !string.IsNullOrEmpty(viewTypeName)
-            select viewTypeName;
-
-        var view = from viewTypeName in viewTypeNameResult
-            from viewType in Maybe.From(Type.GetType(viewTypeName))
-            from instance in Maybe.From(Activator.CreateInstance(viewType) as Control)
-            select instance;
-
-        return view
-            .Or(Fallback(data))
-            .GetValueOrThrow();
+        var view = TryFromRegistry(data);
+        return view.Or(Fallback(data)).GetValueOrThrow();
     }
 
     public bool Match(object? data)
     {
-        return data is IViewModel || (data?.GetType().Name.Contains("ViewModel", StringComparison.OrdinalIgnoreCase)  ?? false);
+        if (data is null)
+        {
+            return false;
+        }
+
+        return GlobalRegistry.ContainsKey(data.GetType());
     }
-    
+
+    public static void RegisterGlobal(Type viewModelType, Func<Control> factory)
+    {
+        GlobalRegistry[viewModelType] = factory;
+    }
+
+    public static void RegisterGlobal<TViewModel, TView>() where TView : Control, new()
+    {
+        RegisterGlobal(typeof(TViewModel), () => new TView());
+    }
+
+    private static Maybe<Control> TryFromRegistry(object? data)
+    {
+        return Maybe.From(data)
+            .Bind(d => GlobalRegistry.TryGetValue(d.GetType(), out var factory)
+                ? Maybe.From(factory())
+                : Maybe<Control>.None);
+    }
+
     private static Control Fallback(object? data)
     {
         if (data is null)
@@ -37,7 +52,10 @@ public class NamingConventionViewLocator : IDataTemplate
             return new TextBlock { Text = "Data is null: We can't locate any view for null" };
         }
 
-        var inlines = GetInlines(data.GetType().FullName!.Replace("ViewModel", "View"), data);
+        var vmType = data.GetType();
+        var viewTypeName = vmType.FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+
+        var inlines = GetInlines(viewTypeName, data);
         var inlineCollection = new InlineCollection();
         inlines.ForEach(inline => inlineCollection.Add(inline));
 
@@ -54,16 +72,18 @@ public class NamingConventionViewLocator : IDataTemplate
         var view = FormatTypeName(viewTypeName);
         var forData = FormatTypeName(data.GetType().FullName);
 
-        return new[] { 
-            notFound, 
+        return new[]
+        {
+            notFound,
             Break(),
-            Text("Missing view: "), 
-            view, 
+            Text("Missing view: "),
+            view,
             Break(),
-            Text("While looking for: "), 
-            forData, 
+            Text("While looking for: "),
+            forData,
             Break(),
-            Text($"... as part of Name Convention View Location performed by {nameof(NamingConventionViewLocator)} ") }.SelectMany(x => x);
+            Text($"... as part of Name Convention View Location performed by {nameof(NamingConventionGeneratedViewLocator)} ")
+        }.SelectMany(x => x);
     }
 
     private static IEnumerable<Inline> Break()

@@ -55,7 +55,12 @@ public class ReactiveSelection<T, TKey> : IDisposable where T : notnull where TK
     public Func<T, bool> CanBeSelected { get; }
 
     public ReadOnlyObservableCollection<T> SelectedItems { get; }
-    
+
+    public void Dispose()
+    {
+        disposable.Dispose();
+    }
+
     private static IObservable<IChangeSet<T>> ItemChanges(IEnumerable? src)
     {
         return src is IEnumerable<T> source ? source.ToObservableChangeSetIfPossible() : Enumerable.Empty<T>().AsObservableChangeSet();
@@ -95,10 +100,5 @@ public class ReactiveSelection<T, TKey> : IDisposable where T : notnull where TK
             x.Remove(pattern.DeselectedItems!);
             x.AddOrUpdate(pattern.SelectedItems!);
         });
-    }
-
-    public void Dispose()
-    {
-        disposable.Dispose();
     }
 }
