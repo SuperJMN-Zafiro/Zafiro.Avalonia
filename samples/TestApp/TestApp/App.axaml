@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Dark">
 
@@ -87,7 +88,7 @@
     </Application.Styles>
 
     <Application.DataTemplates>
-        <DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
+        <misc:DataTemplateInclude Source="avares://Zafiro.Avalonia/DataTemplates.axaml" />
         <DataTemplate DataType="views:MessageDialogViewModel">
             <MessageDialogView />
         </DataTemplate>

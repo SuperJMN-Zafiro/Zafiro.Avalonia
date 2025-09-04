@@ -5,11 +5,12 @@
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters;assembly=Zafiro.Avalonia"
              xmlns:testApp1="clr-namespace:TestApp.Samples.Converters"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TestApp.Samples.Converters.ConvertersView">
 
     <UserControl.Resources>
-        <EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp1:MyStatus}" />
+        <misc:EnumProvider x:Key="EnumProvider" EnumType="{x:Type testApp1:MyStatus}" />
         <converters:ControlThemeConverter x:Key="ThemeConverter">
             <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="{x:Static testApp1:MyStatus.Ok}">
                 <Setter Property="Background" Value="GreenYellow" />
@@ -39,8 +40,8 @@
                 x:Name="ComboBox"
                 SelectedIndex="0"
                 ItemsSource="{Binding Enums, Source={StaticResource EnumProvider}}"
-                DisplayMemberBinding="{Binding Description, DataType=EnumItem}"
-                SelectedValueBinding="{Binding Value, DataType=EnumItem}">
+                DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
+                SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}">
             </ComboBox>
             <Button Theme="{Binding #ComboBox.SelectedValue, Converter={StaticResource ThemeConverter}}" />
         </StackPanel>

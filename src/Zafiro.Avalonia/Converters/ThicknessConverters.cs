@@ -1,5 +1,5 @@
 using Avalonia.Data.Converters;
-using Zafiro.Avalonia.ViewLocators;
+using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Converters;
 

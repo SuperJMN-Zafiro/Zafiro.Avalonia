@@ -1,7 +1,7 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using CSharpFunctionalExtensions;
-using Zafiro.Avalonia.ViewLocators;
+using Zafiro.Avalonia.Misc;
 using Zafiro.UI.Commands;
 using Zafiro.UI.Navigation;
 using Zafiro.UI.Wizards.Slim;
