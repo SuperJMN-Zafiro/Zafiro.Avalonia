@@ -3,6 +3,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0-android</TargetFramework>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+        <AndroidMinSdkVersion>21</AndroidMinSdkVersion>
         <Nullable>enable</Nullable>
         <ApplicationId>com.SuperJMN.Zafiro.Avalonia</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
@@ -12,18 +13,50 @@
         <IsPackable>False</IsPackable>
     </PropertyGroup>
 
+    <!-- Release build settings -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <!-- Safer linking for app code to avoid trimming reflection: -->
+        <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+        <!-- Enable AOT for diagnostics -->
+        <RunAOTCompilation>true</RunAOTCompilation>
+        <AndroidEnableLLVM>true</AndroidEnableLLVM>
+        <!-- Reduce ICU size -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+
     <ItemGroup>
         <AndroidResource Include="Icon.png">
-            <Link>Resources\drawable\Icon.png</Link>
+            <Link>Resources/drawable/Icon.png</Link>
         </AndroidResource>
+        <AndroidLinkerDescriptor Include="linker.xml" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Android"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
+        <!-- Use the meta package that provides Xaml.Behaviors.dll with XmlnsDefinitions -->
+        <PackageReference Include="Xaml.Behaviors.Avalonia"/>
+        <!-- Consolidate on Xaml.Behaviors packages to avoid duplicate behavior assemblies -->
+        <PackageReference Include="Xaml.Behaviors.Interactions.DragAndDrop"/>
+        <PackageReference Include="Xaml.Behaviors.Interactions.Draggable"/>
+        <PackageReference Include="Xaml.Behaviors.Interactions.Events"/>
     </ItemGroup>
 
+    <!-- Force-include Behaviors assemblies for Release/AOT -->
     <ItemGroup>
-        <ProjectReference Include="..\TestApp\TestApp.csproj"/>
+        <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.DragAndDrop">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
+        <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.Draggable">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
+        <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.Events">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <ProjectReference Include="../TestApp/TestApp.csproj"/>
     </ItemGroup>
 </Project>
