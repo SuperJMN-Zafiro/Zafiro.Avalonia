@@ -3,6 +3,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0-android</TargetFramework>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+        <AndroidMinSdkVersion>21</AndroidMinSdkVersion>
         <Nullable>enable</Nullable>
         <ApplicationId>com.SuperJMN.Zafiro.Avalonia</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
@@ -12,18 +13,59 @@
         <IsPackable>False</IsPackable>
     </PropertyGroup>
 
+    <!-- Release build settings -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <!-- Safer linking for app code to avoid trimming reflection: -->
+        <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+        <!-- Enable AOT for diagnostics -->
+        <RunAOTCompilation>true</RunAOTCompilation>
+        <AndroidEnableLLVM>true</AndroidEnableLLVM>
+        <!-- Reduce ICU size -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+
     <ItemGroup>
         <AndroidResource Include="Icon.png">
-            <Link>Resources\drawable\Icon.png</Link>
+            <Link>Resources\\drawable\\Icon.png</Link>
         </AndroidResource>
+        <AndroidLinkerDescriptor Include="linker.xml" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Android"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
+        <PackageReference Include="Avalonia.Xaml.Interactions.DragAndDrop"/>
+        <PackageReference Include="Xaml.Behaviors.Interactions.DragAndDrop"/>
+        <PackageReference Include="Xaml.Behaviors.Interactions.Draggable"/>
+        <PackageReference Include="Xaml.Behaviors.Interactions.Events"/>
+    </ItemGroup>
+
+    <!-- Force-include DragAndDrop assembly for Release/AOT -->
+    <ItemGroup>
+        <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.DragAndDrop">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
+        <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.Draggable">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
+        <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.Events">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.draganddrop/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.DragAndDrop.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              CopyToPublishDirectory="Always" />
+        <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.draggable/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.Draggable.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              CopyToPublishDirectory="Always" />
+        <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.events/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.Events.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              CopyToPublishDirectory="Always" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TestApp\TestApp.csproj"/>
+        <ProjectReference Include="..\\TestApp\\TestApp.csproj"/>
     </ItemGroup>
 </Project>

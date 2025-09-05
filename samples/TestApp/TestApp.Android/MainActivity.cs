@@ -18,6 +18,7 @@ public class MainActivity : AvaloniaMainActivity<App>
     {
         return base.CustomizeAppBuilder(builder)
             .WithInterFont()
-            .UseReactiveUI();
+            .UseReactiveUI()
+            .LogToTrace();
     }
 }

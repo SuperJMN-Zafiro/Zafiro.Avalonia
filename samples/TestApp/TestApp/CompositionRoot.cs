@@ -22,13 +22,38 @@ public static class CompositionRoot
         services.AddSingleton<IShell, Zafiro.UI.Shell.Shell>();
         services.AddSingleton(new ShellProperties("Avalonia.Zafiro Tookit", navigatorObj => CreateHeaderFromNavigator(navigatorObj)));
         services.AddSingleton(DialogService.Create());
-        services.AddSingleton(NotificationService.Instance);
+        // Defer NotificationService initialization on Android to avoid early TopLevel access
+        // services.AddSingleton(NotificationService.Instance);
         services.RegisterAllSections(typeof(MainViewModel).Assembly);
         services.AddAllSections(typeof(MainViewModel).Assembly);
         services.AddTransient<MainViewModel>();
         services.AddTransient<TargetViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
+
+        // Diagnostics: log Shell sections to verify linking/reflection behavior on Android
+        try
+        {
+            var shell = serviceProvider.GetRequiredService<IShell>();
+            var sectionsCount = shell.Sections?.Count() ?? 0;
+            Console.WriteLine($"[TestApp] Shell Sections: {sectionsCount}");
+
+            // Force a known initial section to ensure visible content
+            const string initialSection = "Slim Data Grid";
+            try
+            {
+                shell.GoToSection(initialSection);
+                Console.WriteLine($"[TestApp] Forced initial section: {initialSection}");
+            }
+            catch (Exception inner)
+            {
+                Console.WriteLine($"[TestApp] Error forcing initial section: {inner}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[TestApp] Error resolving IShell: {ex}");
+        }
 
         return serviceProvider.GetRequiredService<MainViewModel>();
     }
