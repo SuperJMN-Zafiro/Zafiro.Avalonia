@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.ReactiveUI;
@@ -25,7 +24,6 @@ public partial class DragViewModel : ReactiveObject
             }
         });
 
-        this.WhenAnyValue(x => x.IsEnabled).Subscribe(b => Debug.WriteLine(b));
     }
 
     public ICommand Enable => ReactiveCommand.Create(() => IsEnabled = true);
