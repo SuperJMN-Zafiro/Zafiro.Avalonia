@@ -39,7 +39,6 @@
 
     <!-- Ensure DragAndDrop assemblies are packaged (used indirectly by styles/behaviors) -->
     <ItemGroup>
-        <PackageReference Include="Avalonia.Xaml.Interactions.DragAndDrop"/>
         <PackageReference Include="Xaml.Behaviors.Interactions.DragAndDrop"/>
         <PackageReference Include="Xaml.Behaviors.Interactions.Draggable"/>
         <PackageReference Include="Xaml.Behaviors.Interactions.Events"/>
