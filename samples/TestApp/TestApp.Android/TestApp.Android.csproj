@@ -34,14 +34,17 @@
     <ItemGroup>
         <PackageReference Include="Avalonia.Android"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
-        <PackageReference Include="Avalonia.Xaml.Interactions.DragAndDrop"/>
+        <!-- Consolidate on Xaml.Behaviors packages to avoid duplicate behavior assemblies -->
         <PackageReference Include="Xaml.Behaviors.Interactions.DragAndDrop"/>
         <PackageReference Include="Xaml.Behaviors.Interactions.Draggable"/>
         <PackageReference Include="Xaml.Behaviors.Interactions.Events"/>
     </ItemGroup>
 
-    <!-- Force-include DragAndDrop assembly for Release/AOT -->
+    <!-- Force-include Behaviors assemblies for Release/AOT -->
     <ItemGroup>
+        <TrimmerRootAssembly Include="Xaml.Behaviors">
+            <RootMode>All</RootMode>
+        </TrimmerRootAssembly>
         <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.DragAndDrop">
             <RootMode>All</RootMode>
         </TrimmerRootAssembly>
@@ -54,6 +57,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <!-- Keep explicit includes to guarantee packaging on AOT until upstream improves discovery -->
         <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.draganddrop/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.DragAndDrop.dll"
               CopyToOutputDirectory="PreserveNewest"
               CopyToPublishDirectory="Always" />
