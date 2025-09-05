@@ -44,10 +44,6 @@
 
     <!-- Force-include Behaviors assemblies for Release/AOT -->
     <ItemGroup>
-        <!-- Root the primary Xaml.Behaviors assembly that carries the XmlnsDefinitions -->
-        <TrimmerRootAssembly Include="Xaml.Behaviors">
-            <RootMode>All</RootMode>
-        </TrimmerRootAssembly>
         <TrimmerRootAssembly Include="Xaml.Behaviors.Interactions.DragAndDrop">
             <RootMode>All</RootMode>
         </TrimmerRootAssembly>

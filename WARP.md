@@ -47,8 +47,9 @@ Android AOT + XAML Behaviors
 
 Implementation notes (TestApp.Android)
 
-- The Android head references Xaml.Behaviors.Avalonia and roots Xaml.Behaviors for Release/AOT so XmlnsDefinitions resolve behaviors via the Avalonia URI without runtime assembly loads.
+- The Android head references Xaml.Behaviors.Avalonia and roots the specific Xaml.Behaviors.Interactions.* assemblies for Release/AOT so XmlnsDefinitions resolve behaviors via the Avalonia URI without runtime assembly loads.
 - Avoid assembly-qualified XAML namespaces for behaviors; rely on xmlns="https://github.com/avaloniaui" mappings. This keeps APK contents minimal and eliminates FileNotFoundException during startup.
+- Note: Rooting the umbrella assembly "Xaml.Behaviors" may fail with IL1032 (not present as a concrete assembly in the meta-package). Keep only the Interactions.* roots in this repo.
 
 Publishing (DotnetDeployer)
 
