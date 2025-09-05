@@ -34,6 +34,8 @@
     <ItemGroup>
         <PackageReference Include="Avalonia.Android"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
+        <!-- Use the meta package that provides Xaml.Behaviors.dll with XmlnsDefinitions -->
+        <PackageReference Include="Xaml.Behaviors.Avalonia"/>
         <!-- Consolidate on Xaml.Behaviors packages to avoid duplicate behavior assemblies -->
         <PackageReference Include="Xaml.Behaviors.Interactions.DragAndDrop"/>
         <PackageReference Include="Xaml.Behaviors.Interactions.Draggable"/>
@@ -42,6 +44,7 @@
 
     <!-- Force-include Behaviors assemblies for Release/AOT -->
     <ItemGroup>
+        <!-- Root the primary Xaml.Behaviors assembly that carries the XmlnsDefinitions -->
         <TrimmerRootAssembly Include="Xaml.Behaviors">
             <RootMode>All</RootMode>
         </TrimmerRootAssembly>

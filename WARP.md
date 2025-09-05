@@ -45,6 +45,11 @@ Android AOT + XAML Behaviors
   - AndroidMinSdkVersion is 21
   - InvariantGlobalization=true to reduce ICU size and silence globalization warnings
 
+Implementation notes (TestApp.Android)
+
+- The Android head references Xaml.Behaviors.Avalonia and roots Xaml.Behaviors for Release/AOT so XmlnsDefinitions resolve behaviors via the Avalonia URI without runtime assembly loads.
+- Avoid assembly-qualified XAML namespaces for behaviors; rely on xmlns="https://github.com/avaloniaui" mappings. This keeps APK contents minimal and eliminates FileNotFoundException during startup.
+
 Publishing (DotnetDeployer)
 
 - This repo prefers DotnetDeployer for packaging and releases (no NUKE)
