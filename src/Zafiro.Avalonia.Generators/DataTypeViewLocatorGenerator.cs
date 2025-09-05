@@ -84,20 +84,35 @@ public class DataTypeViewLocatorGenerator : ISourceGenerator
         var groups = pairs.GroupBy(p => p.viewModel);
         foreach (var group in groups)
         {
-            var first = group.First();
-            if (group.Skip(1).Any())
+            // Prefer view whose simple name matches the ViewModel simple name without the "ViewModel" suffix, plus "View".
+            var vmFull = group.Key;
+            var vmSimple = vmFull.Split('.').Last();
+            var baseName = vmSimple.EndsWith("ViewModel", StringComparison.Ordinal)
+                ? vmSimple.Substring(0, vmSimple.Length - "ViewModel".Length)
+                : vmSimple;
+            var desiredViewSimple = baseName + "View";
+
+            var chosen = group.FirstOrDefault(p => p.view.Split('.').Last() == desiredViewSimple);
+            if (chosen.view is null)
+            {
+                // Fallback: keep previous behavior (first)
+                chosen = group.First();
+            }
+
+            var multiple = group.Skip(1).Any();
+            if (multiple)
             {
                 var descriptor = new DiagnosticDescriptor(
                     id: "ZAV0001",
                     title: "Multiple views for view model",
-                    messageFormat: $"Multiple views found for {group.Key}. Using {first.view}",
+                    messageFormat: $"Multiple views found for {group.Key}. Using {chosen.view}",
                     category: "ViewLocation",
                     DiagnosticSeverity.Warning,
                     isEnabledByDefault: true);
                 context.ReportDiagnostic(Diagnostic.Create(descriptor, Location.None));
             }
 
-            yield return first;
+            yield return chosen;
         }
     }
 
