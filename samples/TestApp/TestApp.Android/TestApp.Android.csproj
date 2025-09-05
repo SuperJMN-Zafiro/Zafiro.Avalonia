@@ -26,7 +26,7 @@
 
     <ItemGroup>
         <AndroidResource Include="Icon.png">
-            <Link>Resources\\drawable\\Icon.png</Link>
+            <Link>Resources/drawable/Icon.png</Link>
         </AndroidResource>
         <AndroidLinkerDescriptor Include="linker.xml" />
     </ItemGroup>
@@ -58,13 +58,13 @@
 
     <ItemGroup Condition="'$(Configuration)' == 'Release'">
         <!-- Keep explicit includes to guarantee packaging on AOT until upstream improves discovery -->
-        <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.draganddrop/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.DragAndDrop.dll"
+        <None Include="$(NuGetPackageRoot)xaml.behaviors.interactions.draganddrop/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.DragAndDrop.dll"
               CopyToOutputDirectory="PreserveNewest"
               CopyToPublishDirectory="Always" />
-        <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.draggable/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.Draggable.dll"
+        <None Include="$(NuGetPackageRoot)xaml.behaviors.interactions.draggable/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.Draggable.dll"
               CopyToOutputDirectory="PreserveNewest"
               CopyToPublishDirectory="Always" />
-        <None Include="/home/jmn/.nuget/packages/xaml.behaviors.interactions.events/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.Events.dll"
+        <None Include="$(NuGetPackageRoot)xaml.behaviors.interactions.events/11.3.2/lib/net8.0/Xaml.Behaviors.Interactions.Events.dll"
               CopyToOutputDirectory="PreserveNewest"
               CopyToPublishDirectory="Always" />
     </ItemGroup>

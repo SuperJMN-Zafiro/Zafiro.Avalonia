@@ -16,9 +16,12 @@ public class MainActivity : AvaloniaMainActivity<App>
 {
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
     {
-        return base.CustomizeAppBuilder(builder)
+        var b = base.CustomizeAppBuilder(builder)
             .WithInterFont()
-            .UseReactiveUI()
-            .LogToTrace();
+            .UseReactiveUI();
+#if DEBUG
+        b = b.LogToTrace();
+#endif
+        return b;
     }
 }

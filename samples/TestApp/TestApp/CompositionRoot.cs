@@ -2,11 +2,14 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
+using Avalonia.Controls.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 using TestApp.Samples.Navigation;
 using TestApp.Shell;
 using Zafiro.Avalonia.Dialogs;
+using Zafiro.Avalonia.Misc;
 using Zafiro.Avalonia.Services;
+using Zafiro.UI;
 using Zafiro.UI.Navigation;
 using Zafiro.UI.Shell;
 using Zafiro.UI.Shell.Utils;
@@ -22,8 +25,10 @@ public static class CompositionRoot
         services.AddSingleton<IShell, Zafiro.UI.Shell.Shell>();
         services.AddSingleton(new ShellProperties("Avalonia.Zafiro Tookit", navigatorObj => CreateHeaderFromNavigator(navigatorObj)));
         services.AddSingleton(DialogService.Create());
-        // Defer NotificationService initialization on Android to avoid early TopLevel access
-        // services.AddSingleton(NotificationService.Instance);
+        // Defer NotificationService initialization until TopLevel is available (Loaded)
+        var topLevel = ApplicationUtils.TopLevel().GetValueOrThrow("TopLevel not ready for NotificationService");
+        var notificationManager = new WindowNotificationManager(topLevel) { Position = NotificationPosition.BottomRight };
+        services.AddSingleton<INotificationService>(new NotificationService(notificationManager));
         services.RegisterAllSections(typeof(MainViewModel).Assembly);
         services.AddAllSections(typeof(MainViewModel).Assembly);
         services.AddTransient<MainViewModel>();
