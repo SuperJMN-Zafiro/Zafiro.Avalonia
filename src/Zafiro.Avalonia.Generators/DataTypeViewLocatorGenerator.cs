@@ -43,6 +43,7 @@ public class DataTypeViewLocatorGenerator : ISourceGenerator
 
     private static IEnumerable<(string viewModel, string view)> FindPairs(GeneratorExecutionContext context)
     {
+        var compilation = context.Compilation;
         var axamls = context.AdditionalFiles.Where(f => f.Path.EndsWith(".axaml", StringComparison.OrdinalIgnoreCase));
         var pairs = new List<(string viewModel, string view)>();
 
@@ -54,7 +55,16 @@ public class DataTypeViewLocatorGenerator : ISourceGenerator
                 continue;
             }
 
-            var doc = XDocument.Parse(text.ToString());
+            XDocument doc;
+            try
+            {
+                doc = XDocument.Parse(text.ToString());
+            }
+            catch
+            {
+                continue;
+            }
+
             var root = doc.Root;
             if (root is null)
             {
@@ -72,15 +82,78 @@ public class DataTypeViewLocatorGenerator : ISourceGenerator
             var (prefix, typeName) = Split(dataTypeAttr);
             var clrNs = root.Attributes()
                 .FirstOrDefault(a => a.IsNamespaceDeclaration && a.Name.LocalName == prefix)?.Value;
-            var fullVm = ToFullName(clrNs, typeName);
-            if (fullVm is null)
+            var vmFullNameFromXaml = ToFullName(clrNs, typeName);
+            if (vmFullNameFromXaml is null)
             {
                 continue;
             }
 
-            pairs.Add((fullVm, classAttr));
+            // Resolve the symbol of the x:DataType
+            var vmSymbol = compilation.GetTypeByMetadataName(vmFullNameFromXaml);
+            string chosenVmFullName = vmFullNameFromXaml;
+
+            if (vmSymbol is INamedTypeSymbol named && named.TypeKind == TypeKind.Interface)
+            {
+                // Identify the view identifier (SomeView -> Some)
+                var viewId = GetViewIdentifier(classAttr);
+
+                // Find implementations of the interface
+                var impls = EnumerateAllTypes(compilation.GlobalNamespace)
+                    .OfType<INamedTypeSymbol>()
+                    .Where(t => t.TypeKind == TypeKind.Class && !t.IsAbstract && Implements(t, named))
+                    .OrderBy(t => t.ToDisplayString())
+                    .ToList();
+
+                if (impls.Count > 0)
+                {
+                    // Prefer the implementation whose identifier matches the view identifier (SomeViewModel -> Some)
+                    var matching = impls.FirstOrDefault(t => GetViewModelIdentifier(t.Name).Equals(viewId, StringComparison.Ordinal));
+
+                    var chosen = matching ?? impls.First();
+                    chosenVmFullName = ToQualifiedName(chosen);
+
+                    if (impls.Count > 1)
+                    {
+                        var descriptor = new DiagnosticDescriptor(
+                            id: "ZAV0002",
+                            title: "Multiple implementations for interface",
+                            messageFormat: $"Multiple implementations found for interface {named.ToDisplayString()}. Using {chosenVmFullName} for view {classAttr}",
+                            category: "ViewLocation",
+                            DiagnosticSeverity.Warning,
+                            isEnabledByDefault: true);
+                        context.ReportDiagnostic(Diagnostic.Create(descriptor, Location.None));
+                    }
+
+                    if (matching is null && impls.Count >= 1)
+                    {
+                        var descriptorNoMatch = new DiagnosticDescriptor(
+                            id: "ZAV0003",
+                            title: "No identifier match for interface implementations",
+                            messageFormat: $"No implementation matching identifier '{viewId}' for interface {named.ToDisplayString()} and view {classAttr}. Using {chosenVmFullName}",
+                            category: "ViewLocation",
+                            DiagnosticSeverity.Warning,
+                            isEnabledByDefault: true);
+                        context.ReportDiagnostic(Diagnostic.Create(descriptorNoMatch, Location.None));
+                    }
+                }
+                else
+                {
+                    // No implementations found: keep interface as-is, but warn
+                    var descriptorNone = new DiagnosticDescriptor(
+                        id: "ZAV0004",
+                        title: "No implementations found for interface",
+                        messageFormat: $"No implementations found for interface {named.ToDisplayString()} referenced by view {classAttr}. Keeping interface mapping.",
+                        category: "ViewLocation",
+                        DiagnosticSeverity.Warning,
+                        isEnabledByDefault: true);
+                    context.ReportDiagnostic(Diagnostic.Create(descriptorNone, Location.None));
+                }
+            }
+
+            pairs.Add((chosenVmFullName, classAttr));
         }
 
+        // Group by ViewModel and choose a single View when multiple Views share the same VM
         var groups = pairs.GroupBy(p => p.viewModel);
         foreach (var group in groups)
         {
@@ -93,7 +166,7 @@ public class DataTypeViewLocatorGenerator : ISourceGenerator
             var desiredViewSimple = baseName + "View";
 
             var chosen = group.FirstOrDefault(p => p.view.Split('.').Last() == desiredViewSimple);
-            if (chosen.view is null)
+            if (string.IsNullOrEmpty(chosen.view))
             {
                 // Fallback: keep previous behavior (first)
                 chosen = group.First();
@@ -113,6 +186,66 @@ public class DataTypeViewLocatorGenerator : ISourceGenerator
             }
 
             yield return chosen;
+        }
+    }
+
+    private static bool Implements(INamedTypeSymbol type, INamedTypeSymbol @interface)
+    {
+        return type.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, @interface));
+    }
+
+    private static string GetViewIdentifier(string viewFullName)
+    {
+        var simple = viewFullName.Split('.').Last();
+        return simple.EndsWith("View", StringComparison.Ordinal)
+            ? simple.Substring(0, simple.Length - "View".Length)
+            : simple;
+    }
+
+    private static string GetViewModelIdentifier(string vmSimpleName)
+    {
+        return vmSimpleName.EndsWith("ViewModel", StringComparison.Ordinal)
+            ? vmSimpleName.Substring(0, vmSimpleName.Length - "ViewModel".Length)
+            : vmSimpleName;
+    }
+
+    private static string ToQualifiedName(INamedTypeSymbol type)
+    {
+        var parts = new Stack<string>();
+        for (var t = type; t is not null; t = t.ContainingType)
+        {
+            parts.Push(t.Name);
+        }
+
+        var ns = type.ContainingNamespace?.ToDisplayString();
+        var name = string.Join(".", parts);
+        return string.IsNullOrEmpty(ns) ? name : ns + "." + name;
+    }
+
+    private static IEnumerable<INamedTypeSymbol> EnumerateAllTypes(INamespaceSymbol ns)
+    {
+        foreach (var type in ns.GetTypeMembers())
+        {
+            yield return type;
+
+            foreach (var nested in EnumerateNestedTypes(type))
+                yield return nested;
+        }
+
+        foreach (var sub in ns.GetNamespaceMembers())
+        {
+            foreach (var t in EnumerateAllTypes(sub))
+                yield return t;
+        }
+    }
+
+    private static IEnumerable<INamedTypeSymbol> EnumerateNestedTypes(INamedTypeSymbol type)
+    {
+        foreach (var nested in type.GetTypeMembers())
+        {
+            yield return nested;
+            foreach (var deeper in EnumerateNestedTypes(nested))
+                yield return deeper;
         }
     }
 
