@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
+using Ursa.Controls;
 using SampleFileExplorer.ViewModels;
 using SampleFileExplorer.Views;
 using Serilog;
@@ -44,7 +45,11 @@ public class App : Application
             mv =>
             {
                 var topLevel = TopLevel.GetTopLevel(mv)!;
-                var notificationService = new NotificationService(new WindowNotificationManager(topLevel) { Position = NotificationPosition.BottomRight });
+                var notificationService = new ToastNotificationService(new WindowToastManager(topLevel)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Bottom
+                });
                 var handler = LoggerExtensions.GetHandler(Log.Logger);
                 var seaweedfs = new Zafiro.FileSystem.SeaweedFS.FileSystem(new SeaweedFSClient(new System.Net.Http.HttpClient(handler)
                 {
@@ -69,7 +74,11 @@ public class App : Application
             mv =>
             {
                 var topLevel = TopLevel.GetTopLevel(mv)!;
-                var notificationService = new NotificationService(new WindowNotificationManager(topLevel));
+                var notificationService = new ToastNotificationService(new WindowToastManager(topLevel)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Bottom
+                });
                 var fs = new Zafiro.FileSystem.SeaweedFS.FileSystem(new SeaweedFSClient(new System.Net.Http.HttpClient()
                 {
                     BaseAddress = new Uri("http://192.168.1.29:8888"),
