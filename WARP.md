@@ -76,4 +76,4 @@ Coding guidelines (high level)
 - Prefer ReactiveUI.Validation and CSharpFunctionalExtensions; lean functional where sensible
 - Do not suffix method names with Async even if they return Task
 - Keep code, comments, and commit messages in English
-
+- Don't compile the TestApp.Android unless it's necessary, because it slows down the build
