@@ -29,8 +29,7 @@ public static class CompositionRoot
         var topLevel = ApplicationUtils.TopLevel().GetValueOrThrow("TopLevel not ready for NotificationService");
         var notificationManager = new WindowNotificationManager(topLevel) { Position = NotificationPosition.BottomRight };
         services.AddSingleton<INotificationService>(new NotificationService(notificationManager));
-        services.RegisterAllSections(typeof(MainViewModel).Assembly);
-        services.AddAllSections(typeof(MainViewModel).Assembly);
+        services.AddZafiroSections();
         services.AddTransient<MainViewModel>();
         services.AddTransient<TargetViewModel>();
 
