@@ -2,28 +2,31 @@ namespace Zafiro.Avalonia.Controls;
 
 using System;
 
-// Simple, self-measuring presenter: swaps content when its *own* width crosses a breakpoint.
-public class ResponsivePresenter : ContentControl
+// Strict template-based presenter: swaps content when its own width crosses a breakpoint.
+// Users cannot set Content; only Narrow and Wide are accepted.
+public class ResponsivePresenter : global::Avalonia.Controls.Primitives.TemplatedControl
 {
-    public static readonly StyledProperty<Control?> NarrowProperty =
-        AvaloniaProperty.Register<ResponsivePresenter, Control?>(nameof(Narrow));
+public static readonly StyledProperty<global::Avalonia.Controls.Control?> NarrowProperty =
+        AvaloniaProperty.Register<ResponsivePresenter, global::Avalonia.Controls.Control?>(nameof(Narrow));
 
-    public static readonly StyledProperty<Control?> WideProperty =
-        AvaloniaProperty.Register<ResponsivePresenter, Control?>(nameof(Wide));
+public static readonly StyledProperty<global::Avalonia.Controls.Control?> WideProperty =
+        AvaloniaProperty.Register<ResponsivePresenter, global::Avalonia.Controls.Control?>(nameof(Wide));
 
     public static readonly StyledProperty<double> BreakpointProperty =
         AvaloniaProperty.Register<ResponsivePresenter, double>(nameof(Breakpoint), 900);
 
     private IDisposable? _boundsSub;
-    private bool? _isWide; // null = unknown, prevents redundant Content sets
+    private bool? _isWide; // null = unknown, prevents redundant updates
+private global::Avalonia.Controls.Presenters.ContentPresenter? _presenter;
+    private global::Avalonia.Controls.Control? _current;
 
-    public Control? Narrow
+public global::Avalonia.Controls.Control? Narrow
     {
         get => GetValue(NarrowProperty);
         set => SetValue(NarrowProperty, value);
     }
 
-    public Control? Wide
+public global::Avalonia.Controls.Control? Wide
     {
         get => GetValue(WideProperty);
         set => SetValue(WideProperty, value);
@@ -33,6 +36,13 @@ public class ResponsivePresenter : ContentControl
     {
         get => GetValue(BreakpointProperty);
         set => SetValue(BreakpointProperty, value);
+    }
+
+protected override void OnApplyTemplate(global::Avalonia.Controls.Primitives.TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+_presenter = e.NameScope.Find<global::Avalonia.Controls.Presenters.ContentPresenter>("PART_Presenter");
+        UpdatePresenter();
     }
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -48,9 +58,11 @@ public class ResponsivePresenter : ContentControl
         _boundsSub?.Dispose();
         _boundsSub = null;
         _isWide = null;
+        if (_presenter != null)
+            _presenter.Content = null;
+        _current = null;
     }
 
-    // Avalonia 11 overrides the non-generic OnPropertyChanged
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -72,15 +84,24 @@ public class ResponsivePresenter : ContentControl
 
         var nowWide = width >= Breakpoint;
 
-        // Avoid reassigning Content unless the "mode" actually changes or caller forces it.
         if (!force && _isWide == nowWide)
             return;
 
         _isWide = nowWide;
 
-        // Only one subtree is in the visual tree at a time.
-        var desired = nowWide ? Wide ?? Narrow : Narrow ?? Wide;
-        if (!ReferenceEquals(Content, desired))
-            Content = desired;
+var desired = nowWide ? Wide ?? Narrow : Narrow ?? Wide;
+        if (ReferenceEquals(_current, desired))
+            return;
+
+        _current = desired;
+        UpdatePresenter();
+    }
+
+    private void UpdatePresenter()
+    {
+        if (_presenter is null)
+            return;
+
+        _presenter.Content = _current;
     }
 }

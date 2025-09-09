@@ -1,0 +1,26 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+
+  <Styles.Resources>
+    <ControlTheme x:Key="{x:Type controls:ResponsivePresenter}" TargetType="controls:ResponsivePresenter">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <ContentPresenter x:Name="PART_Presenter"/>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+  </Styles.Resources>
+
+  <Design.PreviewWith>
+    <controls:ResponsivePresenter>
+      <controls:ResponsivePresenter.Narrow>
+        <Border Background="#1133AA" Padding="10"><TextBlock Text="Narrow"/></Border>
+      </controls:ResponsivePresenter.Narrow>
+      <controls:ResponsivePresenter.Wide>
+        <Border Background="#11AA33" Padding="10"><TextBlock Text="Wide"/></Border>
+      </controls:ResponsivePresenter.Wide>
+    </controls:ResponsivePresenter>
+  </Design.PreviewWith>
+</Styles>
+
