@@ -1,0 +1,79 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
+             xmlns:rp="clr-namespace:TestApp.Samples.Layout.ResponsivePresenterSample"
+             xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Layout.ResponsivePresenterSample.ResponsivePresenterView"
+             x:DataType="rp:ResponsivePresenterViewModel">
+
+    <Design.DataContext>
+        <rp:ResponsivePresenterViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="NameTemplate">
+            <TextBlock Foreground="#283337" x:DataType="x:String" Text="{Binding }" VerticalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="SurnameTemplate">
+            <TextBlock TextAlignment="Center" Foreground="#536A72" x:DataType="x:String" Text="{Binding }" VerticalAlignment="Center" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <c:HeaderedContainer Header="ResponsivePresenter demo: SlimDataGrid (wide) vs ItemsControl (narrow)">
+        <c:ResponsivePresenter Breakpoint="600">
+            <c:ResponsivePresenter.Narrow>
+                <Border Padding="10">
+                    <ItemsControl ItemsSource="{Binding People}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="8" Margin="0,0,0,8" CornerRadius="6" BorderBrush="#33000000" Background="#0A000000" BorderThickness="1">
+                                    <StackPanel Spacing="2">
+                                        <TextBlock Text="Nombre:" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Margin="0,4,0,0" Text="Apellidos:" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Surname}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </c:ResponsivePresenter.Narrow>
+            <c:ResponsivePresenter.Wide>
+                <SlimDataGrid ItemsSource="{Binding People}" HeaderPadding="10" Padding="10">
+                    <SlimDataGrid.Columns>
+                        <Column Header="Name" Binding="{Binding Name}" CellTemplate="{StaticResource NameTemplate}" />
+                        <Column Header="Surname" Binding="{Binding Surname}" CellTemplate="{StaticResource SurnameTemplate}">
+                            <Column.HeaderTemplate>
+                                <DataTemplate DataType="x:String">
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}" />
+                                </DataTemplate>
+                            </Column.HeaderTemplate>
+                        </Column>
+                        <Column Header="Link">
+                            <Column.HeaderTemplate>
+                                <DataTemplate DataType="x:String">
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}" />
+                                </DataTemplate>
+                            </Column.HeaderTemplate>
+                            <Column.CellTemplate>
+                                <DataTemplate>
+                                    <Button HorizontalAlignment="Center" Content="Open" CommandParameter="http://www.youtube.com"
+                                            Command="{Binding Source={x:Static misc:Commands.Instance}, Path=LaunchUri}" />
+                                </DataTemplate>
+                            </Column.CellTemplate>
+                        </Column>
+                    </SlimDataGrid.Columns>
+                </SlimDataGrid>
+            </c:ResponsivePresenter.Wide>
+        </c:ResponsivePresenter>
+    </c:HeaderedContainer>
+</UserControl>
+
