@@ -165,7 +165,7 @@
                                 </WrapGrid>
 
                                 <!-- Body -->
-                                <ContentPresenter
+                                <ContentControl
                                     Content="{TemplateBinding Content}"
                                     Theme="{TemplateBinding ContentTheme}"
                                     IsVisible="{Binding $self.Content, Converter={x:Static ObjectConverters.IsNotNull}}"
