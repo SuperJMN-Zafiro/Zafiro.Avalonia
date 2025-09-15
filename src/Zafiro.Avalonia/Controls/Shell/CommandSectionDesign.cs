@@ -1,3 +1,4 @@
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Zafiro.UI.Navigation.Sections;
 
@@ -18,6 +19,9 @@ public class CommandSectionDesign : ICommandSection
 
     public bool IsPrimary { get; init; }
     public string Name { get; set; }
+    public string FriendlyName => Name;
     public object? Icon { get; set; }
+    public IObservable<bool> IsVisible { get; init; } = Observable.Return(true);
+    public IObservable<int> SortOrder { get; init; } = Observable.Return(0);
     public ICommand Command { get; } = ReactiveCommand.Create(() => { });
 }

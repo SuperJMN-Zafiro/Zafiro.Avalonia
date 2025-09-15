@@ -17,8 +17,8 @@
             <Setter Property="SectionSpacing" Value="0" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
-                             ItemsSource="{Binding $parent[Sidebar].Sections}"
+<ListBox VerticalAlignment="Stretch" Background="{TemplateBinding Background}"
+                             ItemsSource="{Binding $parent[Sidebar].FilteredSections}"
                              SelectedItem="{Binding $parent[Sidebar].SelectedSection, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -27,10 +27,10 @@
                         </ListBox.ItemsPanel>
 
                         <ListBox.DataTemplates>
-                            <DataTemplate DataType="se:IContentSection">
+<DataTemplate DataType="se:IContentSection">
                                 <DockPanel HorizontalSpacing="{Binding $parent[Sidebar].SectionSpacing}"
                                            Background="Transparent"
-                                           ToolTip.Tip="{Binding Name}">
+                                           ToolTip.Tip="{Binding FriendlyName}">
                                     <ContentControl DockPanel.Dock="Left" Width="{Binding $parent[Sidebar].IconWidth}"
                                                     Height="{Binding $parent[Sidebar].IconHeight}"
                                                     Padding="{Binding $parent[Sidebar].IconMargin}"
@@ -38,7 +38,7 @@
                                                     ContentTemplate="{Binding $parent[Sidebar].IconTemplate}" />
                                     <TextBlock TextTrimming="CharacterEllipsis"
                                                Margin="{Binding $parent[Sidebar].SectionNameMargin}"
-                                               Text="{Binding Name}" VerticalAlignment="Center" />
+                                               Text="{Binding FriendlyName}" VerticalAlignment="Center" />
                                 </DockPanel>
                             </DataTemplate>
                             <DataTemplate DataType="se:ICommandSection">
@@ -49,7 +49,7 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Stretch">
                                     <Button.Content>
-                                        <DockPanel Background="Transparent" ToolTip.Tip="{Binding Name}"
+                                        <DockPanel Background="Transparent" ToolTip.Tip="{Binding FriendlyName}"
                                                    HorizontalSpacing="{Binding $parent[Sidebar].SectionSpacing}">
                                             <ContentControl DockPanel.Dock="Left" Width="{Binding $parent[Sidebar].IconWidth}"
                                                             Height="{Binding $parent[Sidebar].IconHeight}"
@@ -57,7 +57,7 @@
                                                             Content="{Binding Icon}" />
                                             <TextBlock TextTrimming="CharacterEllipsis"
                                                        Margin="{Binding $parent[Sidebar].SectionNameMargin}"
-                                                       Text="{Binding Name}" VerticalAlignment="Center" />
+                                                       Text="{Binding FriendlyName}" VerticalAlignment="Center" />
                                         </DockPanel>
                                     </Button.Content>
                                 </Button>
