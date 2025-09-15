@@ -12,6 +12,7 @@
                 <ResourceInclude Source="Controls/ListBox.axaml" />
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
                 <ResourceInclude Source="Controls/ItemsCanvas.axaml" />
+                <ResourceInclude Source="Controls/VisibilityAwareItemsControl.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/Simple/DiagramView.axaml" />
                 <ResourceInclude Source="Controls/CaretControl.axaml" />
                 <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />

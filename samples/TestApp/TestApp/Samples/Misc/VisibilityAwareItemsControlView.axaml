@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:misc="clr-namespace:TestApp.Samples.Misc"
+             xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="TestApp.Samples.Misc.VisibilityAwareItemsControlView"
+             x:DataType="misc:VisibilityAwareItemsControlViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="* *">
+        <VisibilityAwareItemsControl x:Name="VisibilityAwareItemsControl">
+            <VisibilityAwareItemsControl.ItemsSource>
+                <collections:ArrayList>
+                    <x:String>Item 1</x:String>
+                    <x:String>Item 2</x:String>
+                    <x:String>Item 3</x:String>
+                    <x:String>Item 4</x:String>
+                    <x:String>Item 5</x:String>
+                    <x:String>Item 6</x:String>
+                    <x:String>Item 7</x:String>
+                    <x:String>Item 8</x:String>
+                    <x:String>Item 9</x:String>
+                    <x:String>Item 10</x:String>
+                </collections:ArrayList>
+            </VisibilityAwareItemsControl.ItemsSource>
+        </VisibilityAwareItemsControl>
+        <ListBox Grid.Column="1" ItemsSource="{Binding #VisibilityAwareItemsControl.VisibleItems}" />
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+    <!-- Ensure derived control picks up ItemsControl default template -->
+    <ControlTheme x:Key="{x:Type controls:VisibilityAwareItemsControl}"
+                  TargetType="controls:VisibilityAwareItemsControl"
+                  BasedOn="{StaticResource {x:Type ItemsControl}}" />
+</ResourceDictionary>
