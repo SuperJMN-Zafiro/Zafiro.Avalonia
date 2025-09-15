@@ -13,22 +13,22 @@
                 <ControlTemplate>
                     <DockPanel>
                         <DockPanel.DataTemplates>
-                            <DataTemplate DataType="se:ICommandSection">
+<DataTemplate DataType="se:ICommandSection">
                                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Button.Content>
-                                        <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding Name}">
+                                        <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding FriendlyName}">
                                             <ContentControl Margin="4" DockPanel.Dock="Top"
                                                             ContentTemplate="{Binding $parent[ActionBar].IconTemplate}"
                                                             Content="{Binding Icon}" />
-                                            <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" />
+                                            <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
                                         </DockPanel>
                                     </Button.Content>
                                 </Button>
                             </DataTemplate>
                             <DataTemplate DataType="se:INamedSection">
-                                <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding Name}">
+                                <DockPanel Background="Transparent" HorizontalAlignment="Center" ToolTip.Tip="{Binding FriendlyName}">
                                     <ContentControl Margin="4" DockPanel.Dock="Top" ContentTemplate="{Binding $parent[ActionBar].IconTemplate}" Content="{Binding Icon}" />
-                                    <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" />
+                                    <TextBlock FontSize="12" ToolTip.Tip="{Binding $self.Text}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
                                 </DockPanel>
                             </DataTemplate>
                         </DockPanel.DataTemplates>
