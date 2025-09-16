@@ -2,30 +2,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="TestApp.Samples.Panels.MorePanelsView">
+
+    <UserControl.Resources>
+        <ControlTheme x:Key="{x:Type Button}" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </ControlTheme>
+    </UserControl.Resources>
+
+
     <UniformGrid Columns="1" RowSpacing="50">
         <DockPanel VerticalSpacing="10" HorizontalSpacing="20">
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Right" DockPanel.Dock="Right" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Right" DockPanel.Dock="Right" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="FILL" />
+            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <Button IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <Button IsVisible="True" Content="FILL" />
         </DockPanel>
         <SmartDockPanel VerticalSpacing="10" HorizontalSpacing="20">
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button Classes="CenterContent Expand" IsVisible="False" Content="Right" DockPanel.Dock="Right" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="Right" DockPanel.Dock="Right" />
-            <Button Classes="CenterContent Expand" IsVisible="True" Content="FILL" />
+            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <Button IsVisible="False" Content="Right" DockPanel.Dock="Right" />
+            <Button IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <Button IsVisible="True" Content="FILL" />
         </SmartDockPanel>
+
+        <StackPanel Spacing="8">
+            <TextBlock Text="UniformStripPanel" FontWeight="Bold" />
+            <UniformStripPanel ItemMinWidth="96" ItemMaxWidth="144" ItemSpacing="8" Height="48">
+                <Button Content="One" />
+                <Button Content="Two" />
+                <Button Content="Three" />
+                <Button Content="Four" />
+                <Button Content="Five" />
+                <Button Content="Six" />
+                <Button Content="Seven" />
+                <Button Content="Eight" />
+                <Button Content="Nine" />
+                <Button Content="Ten" />
+            </UniformStripPanel>
+        </StackPanel>
+
+        <StackPanel Spacing="8">
+            <TextBlock Text="ActionBar2 with UniformStripPanel" FontWeight="Bold" />
+            <SectionStrip Orientation="Horizontal" Height="64" MaxItemWidth="200">
+                <SectionStrip.Sections>
+                    <generic:List x:TypeArguments="sections:ISection">
+                        <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section4" FriendlyName="Section 4" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section5" FriendlyName="Sectioncilla 5" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                    </generic:List>
+                </SectionStrip.Sections>
+            </SectionStrip>
+        </StackPanel>
     </UniformGrid>
 </UserControl>

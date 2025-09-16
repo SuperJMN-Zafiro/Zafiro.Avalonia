@@ -45,8 +45,8 @@
                     </ContainerQuery>
                 </ShellSplitView.Styles>
                 <ShellSplitView.PaneContent>
-                    <ActionBar2 Sections="{Binding Sections}"
-                                SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" />
+                    <SectionStrip Sections="{Binding Sections}"
+                                  SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" />
                     <!-- <Sidebar -->
                     <!--     IconMargin="12" -->
                     <!--     IconWidth="{Binding $parent[ShellView].MenuButtonSize}" -->
