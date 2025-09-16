@@ -12,9 +12,14 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <Grid ColumnDefinitions="* *">
-        <VisibilityAwareItemsControl x:Name="VisibilityAwareItemsControl">
-            <VisibilityAwareItemsControl.ItemsSource>
+    <Grid ColumnDefinitions="* Auto *">
+        <ItemsControl x:Name="VisibilityAwareItemsControl">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemsSource>
                 <collections:ArrayList>
                     <x:String>Item 1</x:String>
                     <x:String>Item 2</x:String>
@@ -27,9 +32,13 @@
                     <x:String>Item 9</x:String>
                     <x:String>Item 10</x:String>
                 </collections:ArrayList>
-            </VisibilityAwareItemsControl.ItemsSource>
-        </VisibilityAwareItemsControl>
-        <ListBox Grid.Column="1" ItemsSource="{Binding #VisibilityAwareItemsControl.VisibleItems}" />
+            </ItemsControl.ItemsSource>
+            <Interaction.Behaviors>
+                <ChildrenVisibilityExposerBehavior x:Name="ChildrenVisibilityExposerBehavior" />
+            </Interaction.Behaviors>
+        </ItemsControl>
+        <GridSplitter Grid.Column="1" Width="10" />
+        <ListBox Grid.Column="2" ItemsSource="{Binding #ChildrenVisibilityExposerBehavior.VisibleItems}" />
     </Grid>
 
 </UserControl>
