@@ -1,39 +1,9 @@
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
-using Avalonia.Xaml.Interactivity;
 using DynamicData;
 using Zafiro.Reactive;
 
 namespace Zafiro.Avalonia.Monitoring;
-
-public class ChildWatcherBehavior : DisposingBehavior<Panel>
-{
-    public static readonly DirectProperty<ChildWatcherBehavior, IEnumerable> VisibleChildrenProperty = AvaloniaProperty.RegisterDirect<ChildWatcherBehavior, IEnumerable>(
-        nameof(VisibleChildren), o => o.VisibleChildren, (o, v) => o.VisibleChildren = v);
-
-    private IEnumerable visibleChildren;
-
-    public IEnumerable VisibleChildren
-    {
-        get => visibleChildren;
-        set => SetAndRaise(VisibleChildrenProperty, ref visibleChildren, value);
-    }
-
-    protected override IDisposable OnAttachedOverride()
-    {
-        var disposable = new CompositeDisposable();
-
-        if (AssociatedObject == null)
-        {
-            throw new InvalidOperationException("ChildWatcherBehavior must be attached to a Panel.");
-        }
-
-        var watcher = new ChildWatcher(AssociatedObject).DisposeWith(disposable);
-        VisibleChildren = watcher.VisibleChildren;
-        return watcher;
-    }
-}
 
 public class ChildWatcher : IDisposable
 {
