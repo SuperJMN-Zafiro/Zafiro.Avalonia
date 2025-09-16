@@ -12,7 +12,7 @@
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
     </UserControl.Styles>
 
-    <Grid ColumnDefinitions="* Auto *">
+    <Grid ColumnDefinitions="* Auto * *">
         <ItemsControl x:Name="VisibilityAwareItemsControl">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -39,6 +39,7 @@
         </ItemsControl>
         <GridSplitter Grid.Column="1" Width="10" />
         <ListBox Grid.Column="2" ItemsSource="{Binding #ChildrenVisibilityExposerBehavior.VisibleItems}" />
+        <ListBox Grid.Column="3" ItemsSource="{Binding #ChildrenVisibilityExposerBehavior.InvisibleItems}" />
     </Grid>
 
 </UserControl>
