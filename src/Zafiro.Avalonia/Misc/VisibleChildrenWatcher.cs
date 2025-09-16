@@ -23,7 +23,11 @@ public class VisibleChildrenWatcher : IDisposable
 
         visibleItemsChangeSet
             .ToCollection()
-            .Select(visible => panel.Children.Except(visible))
+            .Select(visible =>
+            {
+                var invisibles = panel.Children.Except(visible).ToList();
+                return invisibles;
+            })
             .EditDiff(visual => visual)
             .Bind(out var invisibleChildren)
             .Subscribe()

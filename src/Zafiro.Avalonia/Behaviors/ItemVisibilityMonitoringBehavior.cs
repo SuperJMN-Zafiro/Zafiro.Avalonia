@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using Avalonia.Xaml.Interactivity;
 using DynamicData;
@@ -7,25 +7,25 @@ using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Behaviors;
 
-public class ChildrenVisibilityExposerBehavior : DisposingBehavior<ItemsControl>
+public class ItemVisibilityMonitoringBehavior : DisposingBehavior<ItemsControl>
 {
-    public static readonly DirectProperty<ChildrenVisibilityExposerBehavior, IEnumerable?> VisibleItemsProperty = AvaloniaProperty.RegisterDirect<ChildrenVisibilityExposerBehavior, IEnumerable?>(
+    public static readonly DirectProperty<ItemVisibilityMonitoringBehavior, ReadOnlyObservableCollection<object>?> VisibleItemsProperty = AvaloniaProperty.RegisterDirect<ItemVisibilityMonitoringBehavior, ReadOnlyObservableCollection<object>?>(
         nameof(VisibleItems), o => o.VisibleItems, (o, v) => o.VisibleItems = v);
 
-    public static readonly DirectProperty<ChildrenVisibilityExposerBehavior, IEnumerable?> InvisibleItemsProperty = AvaloniaProperty.RegisterDirect<ChildrenVisibilityExposerBehavior, IEnumerable?>(
+    public static readonly DirectProperty<ItemVisibilityMonitoringBehavior, ReadOnlyObservableCollection<object>?> InvisibleItemsProperty = AvaloniaProperty.RegisterDirect<ItemVisibilityMonitoringBehavior, ReadOnlyObservableCollection<object>?>(
         nameof(InvisibleItems), o => o.InvisibleItems, (o, v) => o.InvisibleItems = v);
 
-    private IEnumerable? invisibleItems;
+    private ReadOnlyObservableCollection<object>? invisibleItems;
 
-    private IEnumerable? visibleItems;
+    private ReadOnlyObservableCollection<object>? visibleItems;
 
-    public IEnumerable? VisibleItems
+    public ReadOnlyObservableCollection<object>? VisibleItems
     {
         get => visibleItems;
         set => SetAndRaise(VisibleItemsProperty, ref visibleItems, value);
     }
 
-    public IEnumerable? InvisibleItems
+    public ReadOnlyObservableCollection<object>? InvisibleItems
     {
         get => invisibleItems;
         set => SetAndRaise(InvisibleItemsProperty, ref invisibleItems, value);
@@ -42,13 +42,17 @@ public class ChildrenVisibilityExposerBehavior : DisposingBehavior<ItemsControl>
 
         var serialDisposable = new SerialDisposable().DisposeWith(disposables);
 
-        Observable
+        var watcher = Observable
             .Timer(TimeSpan.Zero, TimeSpan.FromTicks(100), AvaloniaScheduler.Instance)
             .Select(_ => AssociatedObject.ItemsPanelRoot)
             .WhereNotNull()
             .DistinctUntilChanged()
             .Select(panel => new VisibleChildrenWatcher(panel))
             .Do(watcher => serialDisposable.Disposable = watcher)
+            .Publish()
+            .RefCount();
+
+        watcher
             .Select(watcher => watcher.InvisibleChildren.ToObservableChangeSet())
             .Switch()
             .Transform(visual => AssociatedObject.ItemFromContainer((Control)visual)!)
@@ -56,13 +60,7 @@ public class ChildrenVisibilityExposerBehavior : DisposingBehavior<ItemsControl>
             .Subscribe()
             .DisposeWith(disposables);
 
-        Observable
-            .Timer(TimeSpan.Zero, TimeSpan.FromTicks(100), AvaloniaScheduler.Instance)
-            .Select(_ => AssociatedObject.ItemsPanelRoot)
-            .WhereNotNull()
-            .DistinctUntilChanged()
-            .Select(panel => new VisibleChildrenWatcher(panel))
-            .Do(watcher => serialDisposable.Disposable = watcher)
+        watcher
             .Select(watcher => watcher.VisibleChildren.ToObservableChangeSet())
             .Switch()
             .Transform(visual => AssociatedObject.ItemFromContainer((Control)visual)!)

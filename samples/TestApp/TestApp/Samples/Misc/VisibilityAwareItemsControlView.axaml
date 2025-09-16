@@ -16,7 +16,7 @@
         <ItemsControl x:Name="VisibilityAwareItemsControl">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
+                    <StackPanel Spacing="10" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemsSource>
@@ -34,10 +34,10 @@
                 </collections:ArrayList>
             </ItemsControl.ItemsSource>
             <Interaction.Behaviors>
-                <ChildrenVisibilityExposerBehavior x:Name="ChildrenVisibilityExposerBehavior" />
+                <ItemVisibilityMonitoringBehavior x:Name="ChildrenVisibilityExposerBehavior" />
             </Interaction.Behaviors>
         </ItemsControl>
-        <GridSplitter Grid.Column="1" Width="10" />
+        <GridSplitter Grid.Column="1" Width="1" />
         <ListBox Grid.Column="2" ItemsSource="{Binding #ChildrenVisibilityExposerBehavior.VisibleItems}" />
         <ListBox Grid.Column="3" ItemsSource="{Binding #ChildrenVisibilityExposerBehavior.InvisibleItems}" />
     </Grid>
