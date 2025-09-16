@@ -3,13 +3,15 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI">
     <Design.PreviewWith>
-        <Border Height="400">
+        <Border Height="150">
             <ActionBar2>
                 <ActionBar2.Sections>
                     <generic:List x:TypeArguments="sections:ISection">
                         <ContentSectionDesign Name="Section1" FriendlyName="Sectioncilla 1" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section2" FriendlyName="Sectioncilla 2" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section3" FriendlyName="Sectioncilla 3" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section4" FriendlyName="Sectioncilla 4" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section5" FriendlyName="Sectioncilla 5" Icon="{Icon fa-wallet}" />
                     </generic:List>
                 </ActionBar2.Sections>
             </ActionBar2>
@@ -29,14 +31,24 @@
                                 </DockPanel>
                             </DataTemplate>
                         </DockPanel.DataTemplates>
-                        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" Content="...">
+                        <Button x:Name="Button" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Content="...">
                             <Button.Flyout>
                                 <Flyout>
-                                    <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{Binding #VisibilityExposerBehavior.VisibleItems}" />
+                                    <ListBox x:Name="ListBox" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{Binding #VisibilityExposerBehavior.VisibleItems}" />
                                 </Flyout>
                             </Button.Flyout>
+                            <Interaction.Behaviors>
+                                <EventTriggerBehavior SourceObject="ListBox" EventName="SelectionChanged">
+                                    <HideFlyoutAction Flyout="{Binding #Button.Flyout}" />
+                                </EventTriggerBehavior>
+                            </Interaction.Behaviors>
                         </Button>
-                        <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
+                        <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
                             <Interaction.Behaviors>
                                 <ChildrenVisibilityExposerBehavior x:Name="VisibilityExposerBehavior" />
                             </Interaction.Behaviors>

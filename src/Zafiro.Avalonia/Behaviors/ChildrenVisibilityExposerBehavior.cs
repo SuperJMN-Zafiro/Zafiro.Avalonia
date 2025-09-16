@@ -38,7 +38,7 @@ public class ChildrenVisibilityExposerBehavior : DisposingBehavior<ItemsControl>
             .DistinctUntilChanged()
             .Select(panel => new ChildWatcher(panel))
             .Do(watcher => serialDisposable.Disposable = watcher)
-            .Select(watcher => watcher.VisibleChildren.ToObservableChangeSet())
+            .Select(watcher => watcher.InvisibleChildren.ToObservableChangeSet())
             .Switch()
             .Transform(visual => AssociatedObject.ItemFromContainer((Control)visual)!)
             .Bind(out var visibleItemsCollection)
