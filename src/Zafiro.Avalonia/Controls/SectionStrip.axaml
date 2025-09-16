@@ -48,7 +48,7 @@
                                 </ControlTheme>
                             </ListBox.ItemContainerTheme>
                             <Interaction.Behaviors>
-                                <ChildrenVisibilityExposerBehavior x:Name="VisibilityExposerBehavior" />
+                                <ItemVisibilityMonitoringBehavior x:Name="VisibilityExposerBehavior" />
                             </Interaction.Behaviors>
                         </ListBox>
                     </ControlTemplate>
@@ -66,7 +66,7 @@
                                     </DockPanel>
                                 </DataTemplate>
                             </DockPanel.DataTemplates>
-                            <Button VerticalAlignment="Stretch" x:Name="Button" IsVisible="{Binding #VisibilityExposerBehavior.InvisibleItems, Converter={x:Static Enumerable.Any}}"
+                            <Button VerticalAlignment="Stretch" x:Name="Button" IsVisible="{Binding !!#VisibilityExposerBehavior.InvisibleItems.Count}"
                                     DockPanel.Dock="Right" HorizontalAlignment="Right" Content="...">
                                 <Button.Flyout>
                                     <Flyout>
@@ -100,7 +100,7 @@
                                     </ControlTheme>
                                 </ListBox.ItemContainerTheme>
                                 <Interaction.Behaviors>
-                                    <ChildrenVisibilityExposerBehavior x:Name="VisibilityExposerBehavior" />
+                                    <ItemVisibilityMonitoringBehavior x:Name="VisibilityExposerBehavior" />
                                 </Interaction.Behaviors>
                             </ListBox>
                         </DockPanel>
