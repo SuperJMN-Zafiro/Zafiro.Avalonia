@@ -40,5 +40,4 @@
         <PackageReference Include="Zafiro.UI"/>
         <PackageReference Include="Zafiro"/>
     </ItemGroup>
-
 </Project>

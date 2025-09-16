@@ -1,0 +1,49 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+        xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI">
+    <Design.PreviewWith>
+        <Border Height="400">
+            <ActionBar2>
+                <ActionBar2.Sections>
+                    <generic:List x:TypeArguments="sections:ISection">
+                        <ContentSectionDesign Name="Section1" FriendlyName="Sectioncilla 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" FriendlyName="Sectioncilla 2" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section3" FriendlyName="Sectioncilla 3" Icon="{Icon fa-wallet}" />
+                    </generic:List>
+                </ActionBar2.Sections>
+            </ActionBar2>
+        </Border>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type ActionBar2}" TargetType="ActionBar2">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <DockPanel>
+                        <DockPanel.DataTemplates>
+                            <DataTemplate DataType="sections:INamedSection">
+                                <DockPanel HorizontalSpacing="10">
+                                    <ContentControl Content="{Binding Icon}" />
+                                    <TextBlock Text="{Binding FriendlyName}" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </DockPanel.DataTemplates>
+                        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" Content="...">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{Binding #VisibilityExposerBehavior.VisibleItems}" />
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
+                            <Interaction.Behaviors>
+                                <ChildrenVisibilityExposerBehavior x:Name="VisibilityExposerBehavior" />
+                            </Interaction.Behaviors>
+                        </ListBox>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>

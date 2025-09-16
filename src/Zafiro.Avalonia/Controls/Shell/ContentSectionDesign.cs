@@ -1,4 +1,3 @@
-using System.Reactive.Linq;
 using ReactiveUI.SourceGenerators;
 using Zafiro.UI.Navigation.Sections;
 
@@ -21,8 +20,7 @@ public partial class ContentSectionDesign : ReactiveObject, IContentSection
 
     public bool IsPrimary { get; init; } = true;
     public string Name { get; set; }
-    public string FriendlyName => Name;
-
+    public string FriendlyName { get; set; }
     public IObservable<bool> IsVisible { get; init; } = Observable.Return(true);
     public IObservable<int> SortOrder { get; init; } = Observable.Return(0);
 

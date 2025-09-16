@@ -12,7 +12,6 @@
                 <ResourceInclude Source="Controls/ListBox.axaml" />
                 <ResourceInclude Source="Controls/SelectionControl.axaml" />
                 <ResourceInclude Source="Controls/ItemsCanvas.axaml" />
-                <ResourceInclude Source="Controls/VisibilityAwareItemsControl.axaml" />
                 <ResourceInclude Source="Controls/Diagrams/Simple/DiagramView.axaml" />
                 <ResourceInclude Source="Controls/CaretControl.axaml" />
                 <ResourceInclude Source="Controls/TypewriterTextControl.axaml" />
@@ -65,5 +64,6 @@
     <StyleInclude Source="Controls/Empty.axaml" />
     <StyleInclude Source="Controls/Badge.axaml" />
     <StyleInclude Source="Controls/ResponsivePresenter.axaml" />
+    <StyleInclude Source="Controls/ActionBar2.axaml" />
 
 </Styles>
