@@ -64,6 +64,6 @@
     <StyleInclude Source="Controls/Empty.axaml" />
     <StyleInclude Source="Controls/Badge.axaml" />
     <StyleInclude Source="Controls/ResponsivePresenter.axaml" />
-    <StyleInclude Source="Controls/ActionBar2.axaml" />
+    <StyleInclude Source="Controls/SectionStrip.axaml" />
 
 </Styles>

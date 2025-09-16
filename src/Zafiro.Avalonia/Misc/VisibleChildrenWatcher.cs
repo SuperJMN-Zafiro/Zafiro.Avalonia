@@ -3,13 +3,13 @@ using System.Reactive.Disposables;
 using DynamicData;
 using Zafiro.Reactive;
 
-namespace Zafiro.Avalonia.Monitoring;
+namespace Zafiro.Avalonia.Misc;
 
-public class ChildWatcher : IDisposable
+public class VisibleChildrenWatcher : IDisposable
 {
     private readonly CompositeDisposable disposable = new();
 
-    public ChildWatcher(Panel panel)
+    public VisibleChildrenWatcher(Panel panel)
     {
         var childrenChanges = panel.Children.ToObservableChangeSetIfPossible()
             .ToSignal();
@@ -51,7 +51,7 @@ public class ChildWatcher : IDisposable
     {
         foreach (var panelChild in panel.Children)
         {
-            if (panel.Bounds.Contains(panelChild.Bounds))
+            if (panel.Bounds.Intersects(panelChild.Bounds))
             {
                 yield return panelChild;
             }
