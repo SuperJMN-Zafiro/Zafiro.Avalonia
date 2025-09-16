@@ -63,5 +63,6 @@
     <StyleInclude Source="Controls/CardGrid.axaml" />
     <StyleInclude Source="Controls/Empty.axaml" />
     <StyleInclude Source="Controls/Badge.axaml" />
+    <StyleInclude Source="Controls/ResponsivePresenter.axaml" />
 
 </Styles>
