@@ -3,7 +3,7 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI">
     <Design.PreviewWith>
-        <Border Height="150">
+        <Border Height="450">
             <ActionBar2>
                 <ActionBar2.Sections>
                     <generic:List x:TypeArguments="sections:ISection">
@@ -11,7 +11,7 @@
                         <ContentSectionDesign Name="Section2" FriendlyName="Sectioncilla 2" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section3" FriendlyName="Sectioncilla 3" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section4" FriendlyName="Sectioncilla 4" Icon="{Icon fa-wallet}" />
-                        <ContentSectionDesign Name="Section5" FriendlyName="Sectioncilla 5" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section5" FriendlyName="Sectioncilla 5" Icon="{Icon fa-wallet}" IsPrimary="False" />
                     </generic:List>
                 </ActionBar2.Sections>
             </ActionBar2>
@@ -31,7 +31,7 @@
                                 </DockPanel>
                             </DataTemplate>
                         </DockPanel.DataTemplates>
-                        <Button x:Name="Button" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Content="...">
+                        <Button IsVisible="{Binding #ListBox.ItemsSource, Converter={x:Static Enumerable.Any}}" x:Name="Button" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Content="...">
                             <Button.Flyout>
                                 <Flyout>
                                     <ListBox x:Name="ListBox" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{Binding #VisibilityExposerBehavior.VisibleItems}" />
@@ -43,12 +43,23 @@
                                 </EventTriggerBehavior>
                             </Interaction.Behaviors>
                         </Button>
-                        <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
+                        <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel />
+                                    <DockPanel LastChildFill="False" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerTheme>
+                                <ControlTheme x:DataType="sections:IContentSection" TargetType="ListBoxItem"
+                                              BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                    <!-- <Setter Property="Padding" Value="0" /> -->
+                                    <Setter Property="DockPanel.Dock"
+                                            x:DataType="sections:IContentSection"
+                                            Value="{Binding IsPrimary, Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
+                                    <Setter Property="IsHitTestVisible"
+                                            Value="{Binding Converter={x:Static ShellConverters.IsActivatable}}" />
+                                </ControlTheme>
+                            </ListBox.ItemContainerTheme>
                             <Interaction.Behaviors>
                                 <ChildrenVisibilityExposerBehavior x:Name="VisibilityExposerBehavior" />
                             </Interaction.Behaviors>
