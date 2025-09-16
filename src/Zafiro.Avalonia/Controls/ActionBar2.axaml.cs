@@ -1,5 +1,6 @@
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
+using Avalonia.Layout;
 using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Controls;
@@ -11,6 +12,9 @@ public class ActionBar2 : TemplatedControl
 
     public static readonly StyledProperty<ISection> SelectedSectionProperty = AvaloniaProperty.Register<ActionBar2, ISection>(nameof(SelectedSection), defaultBindingMode: BindingMode.TwoWay);
 
+    public static readonly StyledProperty<Orientation> OrientationProperty = AvaloniaProperty.Register<ActionBar2, Orientation>(
+        nameof(Orientation), defaultValue: Orientation.Vertical);
+
     public IEnumerable<ISection>? Sections
     {
         get => GetValue(SectionsProperty);
@@ -21,5 +25,11 @@ public class ActionBar2 : TemplatedControl
     {
         get => GetValue(SelectedSectionProperty);
         set => SetValue(SelectedSectionProperty, value);
+    }
+
+    public Orientation Orientation
+    {
+        get => GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
     }
 }
