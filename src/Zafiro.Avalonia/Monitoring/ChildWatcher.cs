@@ -17,15 +17,28 @@ public class ChildWatcher : IDisposable
         var layoutChanges = Observable.FromEventPattern<EventHandler, EventArgs>(eh => panel.LayoutUpdated += eh, eh => panel.LayoutUpdated -= eh)
             .ToSignal();
 
-        layoutChanges.Merge(childrenChanges)
+        var visibleItemsChangeSet = layoutChanges.Merge(childrenChanges)
             .Select(_ => CalculateVisibleChildren(panel))
-            .EditDiff(v => v, EqualityComparer<Visual>.Default)
+            .EditDiff(v => v, EqualityComparer<Visual>.Default);
+
+        visibleItemsChangeSet
+            .ToCollection()
+            .Select(visible => panel.Children.Except(visible))
+            .EditDiff(visual => visual)
+            .Bind(out var invisibleChildren)
+            .Subscribe()
+            .DisposeWith(disposable);
+
+        visibleItemsChangeSet
             .Bind(out var visibleChildren)
             .Subscribe()
             .DisposeWith(disposable);
 
         VisibleChildren = visibleChildren;
+        InvisibleChildren = invisibleChildren;
     }
+
+    public ReadOnlyObservableCollection<Visual> InvisibleChildren { get; }
 
     public ReadOnlyObservableCollection<Visual> VisibleChildren { get; }
 
@@ -34,7 +47,7 @@ public class ChildWatcher : IDisposable
         disposable.Dispose();
     }
 
-    private IEnumerable<Visual> CalculateVisibleChildren(Panel panel)
+    private static IEnumerable<Visual> CalculateVisibleChildren(Panel panel)
     {
         foreach (var panelChild in panel.Children)
         {
