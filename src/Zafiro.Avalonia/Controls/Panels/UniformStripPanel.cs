@@ -96,14 +96,24 @@ public class UniformStripPanel : Panel
             ComputeLayout(containerWidth, children.Count, min, max, spacing,
                 out var columns, out var itemWidth, out _);
 
+            // Measure all children to respect the layout contract,
+            // but compute the height using only the items visible in the first page (the first 'columns').
+            int visibleInView = Math.Max(0, Math.Min(columns, children.Count));
+
             double maxHeight = 0;
+            int index = 0;
             foreach (var child in children)
             {
                 child.Measure(new Size(itemWidth, heightConstraint));
-                maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
+                if (index < visibleInView)
+                {
+                    maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
+                }
+
+                index++;
             }
 
-            // Snap to available width so that in Arrange we don't show partial items.
+            // Snap to available width so that Arrange won't show partial items.
             return new Size(containerWidth, maxHeight);
         }
     }

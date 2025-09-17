@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:se="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
              x:Class="TestApp.Samples.Shell.SectionStripView">
     <HeaderedContainer Header="SectionStrip">
         <StackPanel Spacing="8">
