@@ -9,6 +9,7 @@ public partial class ContentSectionDesign : ReactiveObject, IContentSection
 
     public ContentSectionDesign()
     {
+        SortOrder = Observable.Timer(DateTimeOffset.Now, TimeSpan.FromSeconds(10)).Select(l => Random.Shared.Next(30));
     }
 
     public ContentSectionDesign(string name, object? icon = null, bool isPrimary = true)
@@ -16,15 +17,14 @@ public partial class ContentSectionDesign : ReactiveObject, IContentSection
         Name = name;
         Icon = icon;
         IsPrimary = isPrimary;
+        SortOrder = Observable.Timer(DateTimeOffset.Now, TimeSpan.FromSeconds(10)).Select(l => Random.Shared.Next(30));
     }
 
     public bool IsPrimary { get; init; } = true;
     public string Name { get; set; }
     public string FriendlyName { get; set; }
     public IObservable<bool> IsVisible { get; init; } = Observable.Return(true);
-    public IObservable<int> SortOrder { get; init; } = Observable.Return(0);
-
+    public IObservable<int> SortOrder { get; init; }
     public IObservable<object> Content { get; set; }
-
     public Type RootType { get; } = typeof(object);
 }
