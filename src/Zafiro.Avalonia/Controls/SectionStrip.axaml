@@ -3,8 +3,8 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI">
     <Design.PreviewWith>
-        <StackPanel Height="450">
-            <SectionStrip Orientation="Horizontal" Width="300" MaxItemWidth="100">
+        <StackPanel Spacing="20">
+            <SectionStrip Orientation="Horizontal" Width="300" MaxItemWidth="100" IconSize="30">
                 <SectionStrip.Sections>
                     <generic:List x:TypeArguments="sections:ISection">
                         <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
@@ -15,21 +15,49 @@
                     </generic:List>
                 </SectionStrip.Sections>
             </SectionStrip>
+            <SectionStrip Orientation="Vertical" Height="300" MaxItemWidth="100" IconSize="30">
+                <SectionStrip.Sections>
+                    <generic:List x:TypeArguments="sections:ISection">
+                        <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
+                        <sections:SectionSeparator />
+                        <ContentSectionDesign Name="Section4" FriendlyName="Section 4" Icon="{Icon fa-wallet}" />
+
+                        <ContentSectionDesign Name="Section5" FriendlyName="Section 5" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                        <CommandSectionDesign Name="Command" FriendlyName="Command" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                    </generic:List>
+                </SectionStrip.Sections>
+            </SectionStrip>
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type SectionStrip}" TargetType="SectionStrip">
+            <Setter Property="IconLabelSpacing" Value="10" />
+            <Setter Property="ItemPadding" Value="10" />
+            <Setter Property="IconOptions.Size" Value="24" />
             <Style Selector="^[Orientation=Vertical]">
                 <Setter Property="Template">
                     <ControlTemplate>
                         <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
                             <ListBox.DataTemplates>
-                                <DataTemplate DataType="sections:INamedSection">
-                                    <DockPanel HorizontalSpacing="10" VerticalSpacing="5">
+                                <DataTemplate DataType="sections:ICommandSection">
+                                    <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
+                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
+                                            <ContentControl DockPanel.Dock="Left" Content="{Binding Icon}" />
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
+                                        </DockPanel>
+                                    </Button>
+                                </DataTemplate>
+                                <DataTemplate DataType="sections:IContentSection">
+                                    <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
                                         <ContentControl DockPanel.Dock="Left" Content="{Binding Icon}" />
-                                        <TextBlock Text="{Binding FriendlyName}" />
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
                                     </DockPanel>
+                                </DataTemplate>
+                                <DataTemplate DataType="sections:ISectionSeparator">
+                                    <Separator Padding="0" Margin="0" />
                                 </DataTemplate>
                             </ListBox.DataTemplates>
                             <ListBox.ItemsPanel>
@@ -38,18 +66,15 @@
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                             <ListBox.ItemContainerTheme>
-                                <ControlTheme x:DataType="sections:IContentSection" TargetType="ListBoxItem"
+                                <ControlTheme TargetType="ListBoxItem"
                                               BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                    <Setter Property="DockPanel.Dock"
-                                            x:DataType="sections:IContentSection"
-                                            Value="{Binding IsPrimary, Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
-                                    <Setter Property="IsHitTestVisible"
+                                    <Setter Property="DockPanel.Dock" Value="{Binding IsPrimary, Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
+                                    <Setter Property="IsEnabled"
                                             Value="{Binding Converter={x:Static ShellConverters.IsActivatable}}" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Focusable" Value="False"></Setter>
                                 </ControlTheme>
                             </ListBox.ItemContainerTheme>
-                            <Interaction.Behaviors>
-                                <ItemVisibilityMonitoringBehavior x:Name="VisibilityExposerBehavior" />
-                            </Interaction.Behaviors>
                         </ListBox>
                     </ControlTemplate>
                 </Setter>
@@ -60,9 +85,11 @@
                         <DockPanel>
                             <DockPanel.DataTemplates>
                                 <DataTemplate DataType="sections:INamedSection">
-                                    <DockPanel HorizontalSpacing="10" VerticalSpacing="5">
+                                    <DockPanel HorizontalSpacing="10" VerticalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
                                         <ContentControl DockPanel.Dock="Top" Content="{Binding Icon}" />
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
+                                        <TextBlock
+                                            TextAlignment="Center" TextWrapping="Wrap"
+                                            HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DockPanel.DataTemplates>

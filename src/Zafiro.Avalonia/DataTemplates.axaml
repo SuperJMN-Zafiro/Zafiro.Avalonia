@@ -1,7 +1,5 @@
 <DataTemplates xmlns="https://github.com/avaloniaui"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-               xmlns:nav="clr-namespace:Zafiro.UI.Navigation;assembly=Zafiro.UI"
-               xmlns:nv="clr-namespace:Zafiro.Avalonia.Controls.Navigation"
                xmlns:zslim="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Slim"
                xmlns:classic="clr-namespace:Zafiro.UI.Wizards.Classic;assembly=Zafiro.UI"
                xmlns:c="clr-namespace:Zafiro.Avalonia.Controls.Wizards.Classic"
@@ -17,7 +15,9 @@
     </DataTemplate>
 
     <DataTemplate DataType="ui:IIcon">
-        <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
+        <Viewbox x:Name="IconViewBox" Height="{Binding $self.(IconOptions.Size)}" Width="{Binding $self.(IconOptions.Size)}">
+            <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
+        </Viewbox>
     </DataTemplate>
 
 </DataTemplates>

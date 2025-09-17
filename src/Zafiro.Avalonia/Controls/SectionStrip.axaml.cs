@@ -24,6 +24,15 @@ public class SectionStrip : TemplatedControl
     public static readonly StyledProperty<double> ItemSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
         nameof(ItemSpacing));
 
+    public static readonly StyledProperty<double> IconSizeProperty = AvaloniaProperty.Register<SectionStrip, double>(
+        nameof(IconSize), defaultValue: 38d);
+
+    public static readonly StyledProperty<double> IconLabelSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
+        nameof(IconLabelSpacing));
+
+    public static readonly StyledProperty<Thickness> ItemPaddingProperty = AvaloniaProperty.Register<SectionStrip, Thickness>(
+        nameof(ItemPadding));
+
     public IEnumerable<ISection>? Sections
     {
         get => GetValue(SectionsProperty);
@@ -58,5 +67,23 @@ public class SectionStrip : TemplatedControl
     {
         get => GetValue(ItemSpacingProperty);
         set => SetValue(ItemSpacingProperty, value);
+    }
+
+    public double IconSize
+    {
+        get => GetValue(IconSizeProperty);
+        set => SetValue(IconSizeProperty, value);
+    }
+
+    public double IconLabelSpacing
+    {
+        get => GetValue(IconLabelSpacingProperty);
+        set => SetValue(IconLabelSpacingProperty, value);
+    }
+
+    public Thickness ItemPadding
+    {
+        get => GetValue(ItemPaddingProperty);
+        set => SetValue(ItemPaddingProperty, value);
     }
 }
