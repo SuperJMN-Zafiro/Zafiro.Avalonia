@@ -1,15 +1,8 @@
-using System.ComponentModel;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Interactivity;
-using DynamicData;
-using DynamicData.Binding;
-using ReactiveUI;
-using Zafiro.Reactive;
 using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Controls.Shell;
@@ -41,87 +34,16 @@ public class ActionBar : TemplatedControl
 
     private IEnumerable<ISection> overflowSections = Array.Empty<ISection>();
 
+    private IDisposable? sectionsSubscription;
+
 
     private IEnumerable<ISection> visibleSections = Array.Empty<ISection>();
 
-    private IDisposable? sectionsSubscription;
-
     public ActionBar()
     {
-        var sectionsChanges = this.WhenAnyValue(x => x.Sections)
-            .Where(sections => sections is not null)
-            .Select(sections => sections!.OfType<INamedSection>().ToObservableChangeSetIfPossible(s => s.Name))
-            .Switch();
-
-        var columnsChanges = this.WhenAnyValue(x => x.Columns).StartWith(Columns);
-
-        sectionsSubscription = BuildPipeline(sectionsChanges, columnsChanges)
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(result =>
-            {
-                VisibleSections = result.visible;
-                OverflowSections = result.overflow;
-            });
-
         sectionsSubscription.DisposeWith(disposable);
     }
 
-    private static IObservable<(IEnumerable<ISection> visible, IEnumerable<ISection> overflow)> BuildPipeline(IObservable<IChangeSet<INamedSection, string>> changes, IObservable<int> columns)
-    {
-        var sorted = changes
-            .FilterOnObservable(s => s.IsVisible)
-            .Transform(s => new SectionEntry(s))
-            .DisposeMany()
-            .AutoRefresh(x => x.Order)
-            .Sort(SortExpressionComparer<SectionEntry>
-                .Ascending(x => x.Order)
-                .ThenByDescending(x => x.Section.IsPrimary)
-                .ThenBy(x => x.Section.FriendlyName))
-            .Transform(x => (ISection)x.Section)
-            .ToCollection();
-
-        return sorted.CombineLatest(columns, (list, visibleCount) =>
-        {
-            var visible = list.Take(visibleCount).ToList();
-            var overflow = list.Skip(visibleCount).ToList();
-            return ((IEnumerable<ISection>)visible, (IEnumerable<ISection>)overflow);
-        });
-    }
-
-    private sealed class SectionEntry : INotifyPropertyChanged, IDisposable
-    {
-        private int order;
-        private readonly IDisposable subscription;
-        public INamedSection Section { get; }
-
-        public SectionEntry(INamedSection section)
-        {
-            Section = section;
-            subscription = section.SortOrder.Subscribe(value => Order = value);
-        }
-
-        public int Order
-        {
-            get => order;
-            private set
-            {
-                if (order == value) return;
-                order = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public void Dispose()
-        {
-            subscription.Dispose();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
 
     public IEnumerable<ISection> Sections
     {

@@ -1,12 +1,10 @@
 using System.Collections.ObjectModel;
-using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Layout;
 using DynamicData;
 using DynamicData.Binding;
-using ReactiveUI.SourceGenerators;
 using Zafiro.Reactive;
 using Zafiro.UI.Navigation.Sections;
 
@@ -121,30 +119,23 @@ public class SectionStrip : TemplatedControl
     }
 }
 
-public partial class SectionWrapper(ISection section) : ReactiveObject, ISection
-{
-    [Reactive] private int order;
-    public ISection Section { get; } = section;
-    public bool IsPrimary { get; init; } = section.IsPrimary;
-    public IObservable<bool> IsVisible { get; init; } = section.IsVisible;
-    public IObservable<int> SortOrder { get; init; } = section.SortOrder;
-}
-
 public sealed class SectionSorter : IDisposable
 {
     private readonly CompositeDisposable disposable = new();
 
     public SectionSorter(IObservable<IChangeSet<INamedSection, string>> sectionChanges)
     {
-        var sortingOrderChanged = sectionChanges.MergeMany(section => section.SortOrder)
-            .Throttle(TimeSpan.FromMilliseconds(250), AvaloniaScheduler.Instance)
-            .Select(_ => Unit.Default);
-
         sectionChanges
-            .Transform(section => new SectionWrapper(section))
-            .FilterOnObservable(section => section.IsVisible)
-            .Sort(comparer: SortExpressionComparer<SectionWrapper>.Descending(wrapper => wrapper.Order), resorter: sortingOrderChanged)
-            .Transform(wrapper => wrapper.Section)
+            .Filter(s => s.IsVisible)
+            .DisposeMany()
+            .AutoRefresh(w => w.SortOrder)
+            .Sort(
+                SortExpressionComparer<INamedSection>
+                    .Descending(w => w.SortOrder)
+                    .ThenByDescending(w => w.IsPrimary)
+                    .ThenBy(w => w.FriendlyName)
+            )
+            .ObserveOn(AvaloniaScheduler.Instance)
             .Bind(out var filtered)
             .Subscribe()
             .DisposeWith(disposable);
@@ -152,7 +143,7 @@ public sealed class SectionSorter : IDisposable
         Sections = filtered;
     }
 
-    public ReadOnlyObservableCollection<ISection> Sections { get; }
+    public ReadOnlyObservableCollection<INamedSection> Sections { get; }
 
     public void Dispose()
     {
