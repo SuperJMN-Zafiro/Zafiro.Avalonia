@@ -7,7 +7,7 @@
             <SectionStrip Orientation="Horizontal" Width="300" MaxItemWidth="100" IconSize="30">
                 <SectionStrip.Sections>
                     <generic:List x:TypeArguments="sections:ISection">
-                        <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section1" IsVisible="{Return False}" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section2" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section4" FriendlyName="Section 4" Icon="{Icon fa-wallet}" />
@@ -19,11 +19,10 @@
                 <SectionStrip.Sections>
                     <generic:List x:TypeArguments="sections:ISection">
                         <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
-                        <ContentSectionDesign Name="Section2" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" IsVisible="{Return False}" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
                         <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
                         <sections:SectionSeparator />
                         <ContentSectionDesign Name="Section4" FriendlyName="Section 4" Icon="{Icon fa-wallet}" />
-
                         <ContentSectionDesign Name="Section5" FriendlyName="Section 5" Icon="{Icon fa-wallet}" IsPrimary="False" />
                         <CommandSectionDesign Name="Command" FriendlyName="Command" Icon="{Icon fa-wallet}" IsPrimary="False" />
                     </generic:List>
@@ -40,7 +39,7 @@
             <Style Selector="^[Orientation=Vertical]">
                 <Setter Property="Template">
                     <ControlTemplate>
-                        <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
+                        <ListBox SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding FilteredSections}">
                             <ListBox.DataTemplates>
                                 <DataTemplate DataType="sections:ICommandSection">
                                     <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
@@ -107,7 +106,7 @@
                                     </EventTriggerBehavior>
                                 </Interaction.Behaviors>
                             </Button>
-                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding Sections}">
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding FilteredSections}">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformStripPanel

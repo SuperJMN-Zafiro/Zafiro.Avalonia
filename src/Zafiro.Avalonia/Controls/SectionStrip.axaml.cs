@@ -1,6 +1,13 @@
+using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Layout;
+using DynamicData;
+using DynamicData.Binding;
+using ReactiveUI.SourceGenerators;
+using Zafiro.Reactive;
 using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Controls;
@@ -32,6 +39,32 @@ public class SectionStrip : TemplatedControl
 
     public static readonly StyledProperty<Thickness> ItemPaddingProperty = AvaloniaProperty.Register<SectionStrip, Thickness>(
         nameof(ItemPadding));
+
+    public static readonly DirectProperty<SectionStrip, IEnumerable<ISection>> FilteredSectionsProperty = AvaloniaProperty.RegisterDirect<SectionStrip, IEnumerable<ISection>>(
+        nameof(FilteredSections), o => o.FilteredSections, (o, v) => o.FilteredSections = v);
+
+    private readonly CompositeDisposable disposable = new();
+
+    private IEnumerable<ISection> filteredSections;
+
+    public SectionStrip()
+    {
+        var sectionChanges = this.WhenAnyValue(strip => strip.Sections)
+            .WhereNotNull()
+            .Select(sections => sections.OfType<INamedSection>().ToObservableChangeSetIfPossible(section => section.Name))
+            .Switch();
+
+        var sectionSorter = new SectionSorter(sectionChanges)
+            .DisposeWith(disposable);
+
+        FilteredSections = sectionSorter.Sections;
+    }
+
+    public IEnumerable<ISection> FilteredSections
+    {
+        get => filteredSections;
+        set => SetAndRaise(FilteredSectionsProperty, ref filteredSections, value);
+    }
 
     public IEnumerable<ISection>? Sections
     {
@@ -85,5 +118,44 @@ public class SectionStrip : TemplatedControl
     {
         get => GetValue(ItemPaddingProperty);
         set => SetValue(ItemPaddingProperty, value);
+    }
+}
+
+public partial class SectionWrapper(ISection section) : ReactiveObject, ISection
+{
+    [Reactive] private int order;
+    public ISection Section { get; } = section;
+    public bool IsPrimary { get; init; } = section.IsPrimary;
+    public IObservable<bool> IsVisible { get; init; } = section.IsVisible;
+    public IObservable<int> SortOrder { get; init; } = section.SortOrder;
+}
+
+public sealed class SectionSorter : IDisposable
+{
+    private readonly CompositeDisposable disposable = new();
+
+    public SectionSorter(IObservable<IChangeSet<INamedSection, string>> sectionChanges)
+    {
+        var sortingOrderChanged = sectionChanges.MergeMany(section => section.SortOrder)
+            .Throttle(TimeSpan.FromMilliseconds(250), AvaloniaScheduler.Instance)
+            .Select(_ => Unit.Default);
+
+        sectionChanges
+            .Transform(section => new SectionWrapper(section))
+            .FilterOnObservable(section => section.IsVisible)
+            .Sort(comparer: SortExpressionComparer<SectionWrapper>.Descending(wrapper => wrapper.Order), resorter: sortingOrderChanged)
+            .Transform(wrapper => wrapper.Section)
+            .Bind(out var filtered)
+            .Subscribe()
+            .DisposeWith(disposable);
+
+        Sections = filtered;
+    }
+
+    public ReadOnlyObservableCollection<ISection> Sections { get; }
+
+    public void Dispose()
+    {
+        disposable.Dispose();
     }
 }
