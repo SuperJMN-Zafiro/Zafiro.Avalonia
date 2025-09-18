@@ -21,7 +21,6 @@
         <PackageVersion Include="coverlet.collector" Version="6.0.0"/>
         <PackageVersion Include="CSharpFunctionalExtensions" Version="3.6.0"/>
         <PackageVersion Include="Deadpikle.AvaloniaProgressRing" Version="0.10.10"/>
-        <PackageVersion Include="DynamicData" Version="9.3.2"/>
         <PackageVersion Include="FluentAvaloniaUI" Version="2.3.0"/>
         <PackageVersion Include="HttpClient.Extensions.LoggingHttpMessageHandler" Version="1.0.3"/>
         <PackageVersion Include="JetBrains.Annotations" Version="2024.3.0"/>
@@ -31,9 +30,11 @@
         <PackageVersion Include="Projektanker.Icons.Avalonia" Version="9.6.2"/>
         <PackageVersion Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.2"/>
         <PackageVersion Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2"/>
-        <PackageVersion Include="ReactiveUI" Version="20.2.45"/>
-        <PackageVersion Include="ReactiveUI.SourceGenerators" Version="2.1.27"/>
-        <PackageVersion Include="ReactiveUI.Validation" Version="4.1.1"/>
+        <PackageVersion Include="ReactiveUI" Version="21.0.1"/>
+        <PackageVersion Include="ReactiveUI.SourceGenerators" Version="2.4.1"/>
+        <PackageVersion Include="ReactiveUI.Validation" Version="5.0.1"/>
+        <PackageVersion Include="Splat" Version="16.1.0"/>
+        <PackageVersion Include="Splat.Logging" Version="16.1.0"/>
         <PackageVersion Include="Serilog" Version="4.3.0"/>
         <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0"/>
         <PackageVersion Include="Svg.Controls.Skia.Avalonia" Version="11.3.0.3"/>
