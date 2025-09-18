@@ -1,18 +1,26 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
 
     <Design.PreviewWith>
-        <controls:ReactiveIconButton Content="Click">
-            <controls:ReactiveIconButton.Icon>
-                ICON
-            </controls:ReactiveIconButton.Icon>
-        </controls:ReactiveIconButton>
+        <StackPanel>
+            <ReactiveIconButton Content="Click">
+                <ReactiveIconButton.Icon>
+                    ICON
+                </ReactiveIconButton.Icon>
+            </ReactiveIconButton>
+            <ReactiveIconButton Width="150" TextBlock.TextWrapping="Wrap" Content="This is a long text">
+                <ReactiveIconButton.Icon>
+                    <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Red" Width="40">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Icon</TextBlock>
+                    </Border>
+                </ReactiveIconButton.Icon>
+            </ReactiveIconButton>
+        </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme x:Key="{x:Type controls:ReactiveIconButton}" TargetType="controls:ReactiveIconButton">
+        <ControlTheme x:Key="{x:Type ReactiveIconButton}" TargetType="ReactiveIconButton">
             <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="ButtonTheme">
@@ -28,23 +36,23 @@
                             IsTabStop="{TemplateBinding IsTabStop}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            Command="{Binding $parent[controls:ReactiveIconButton].Command}">
+                            Command="{Binding $parent[ReactiveIconButton].Command}">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
+                            <DockPanel HorizontalSpacing="8">
                                 <Viewbox StretchDirection="DownOnly" Height="{Binding #MainContent.Bounds.Height}"
-                                         IsVisible="{Binding $parent[controls:ReactiveIconButton].Command.IsExecuting^}">
+                                         IsVisible="{Binding $parent[ReactiveIconButton].Command.IsExecuting^}">
                                     <c:ProgressRing Foreground="{TemplateBinding Foreground}" />
                                 </Viewbox>
                                 <ContentPresenter
                                     Height="{Binding #MainContent.Bounds.Height}"
-                                    IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Icon}"
+                                    IsVisible="{Binding !!$parent[ReactiveIconButton].Icon}"
                                     VerticalAlignment="Center"
                                     Content="{TemplateBinding Icon}" />
                                 <ContentPresenter x:Name="MainContent"
-                                                  IsVisible="{Binding !!$parent[controls:ReactiveIconButton].Content}"
-                                                  Content="{Binding $parent[controls:ReactiveIconButton].Content}"
+                                                  IsVisible="{Binding !!$parent[ReactiveIconButton].Content}"
+                                                  Content="{Binding $parent[ReactiveIconButton].Content}"
                                                   VerticalAlignment="Center" />
-                            </StackPanel>
+                            </DockPanel>
                         </Button.Content>
                     </Button>
                 </ControlTemplate>
