@@ -30,7 +30,7 @@ public class App : Application
     // {
     //     var topLevel = TopLevel.GetTopLevel(view)!;
     //     var avaloniaFilePicker = new AvaloniaFileSystemPicker(topLevel.StorageProvider);
-    //     INotificationService notificationService = new NotificationService(new WindowNotificationManager(topLevel));
+    //     INotificationService notificationService = new NotificationService(new WindowToastManager(topLevel));
     //     return new MainViewModel(DialogService.Create(), avaloniaFilePicker, notificationService);
     // }
 }

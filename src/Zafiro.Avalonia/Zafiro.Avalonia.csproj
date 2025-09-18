@@ -20,6 +20,7 @@
         <PackageReference Include="Svg.Controls.Skia.Avalonia"/>
         <PackageReference Include="System.Linq.Async"/>
         <PackageReference Include="Xaml.Behaviors.Avalonia"/>
+        <PackageReference Include="Irihi.Ursa"/>
         <PackageReference Include="ReactiveUI.SourceGenerators">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
