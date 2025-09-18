@@ -33,7 +33,7 @@
         <ProjectReference Include="../../../src/Zafiro.Avalonia.DataViz/Zafiro.Avalonia.DataViz.csproj"/>
         <ProjectReference Include="../../../src/Zafiro.Avalonia.Dialogs/Zafiro.Avalonia.Dialogs.csproj"/>
         <ProjectReference Include="../../../src/Zafiro.Avalonia/Zafiro.Avalonia.csproj"/>
-        <!-- Add the source generator as an analyzer so it runs in this project -->
+        <!-- Run the source generator locally as an Analyzer during in-repo builds -->
         <ProjectReference Include="../../../src/Zafiro.Avalonia.Generators/Zafiro.Avalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 

@@ -1,0 +1,6 @@
+<Project>
+  <!-- Expose .axaml files to the generator in consuming projects -->
+  <ItemGroup>
+    <AdditionalFiles Include="**/*.axaml" />
+  </ItemGroup>
+</Project>
