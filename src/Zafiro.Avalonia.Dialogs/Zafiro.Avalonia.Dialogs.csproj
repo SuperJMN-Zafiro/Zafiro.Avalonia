@@ -20,9 +20,8 @@
         <!-- Run the source generator locally as an Analyzer during in-repo builds and packing -->
         <ProjectReference Include="..\Zafiro.Avalonia.Generators\Zafiro.Avalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
-    <!-- Make .axaml files visible to the generator and pack README -->
+    <!-- Make .axaml files visible to the generator -->
     <ItemGroup>
         <AdditionalFiles Include="**/*.axaml" />
-        <None Include="README.md" Pack="true" PackagePath="" Condition="Exists('README.md')" />
     </ItemGroup>
 </Project>
