@@ -22,11 +22,15 @@
 		<None Include="..\..\icon.png" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
-	<!-- Package Readme: include repo README.md if present -->
+	<!-- Package Readme: prefer project README.md; fallback to repo README.md if project one is missing -->
 	<PropertyGroup>
-		<PackageReadmeFile Condition="Exists('..\\..\\README.md')">README.md</PackageReadmeFile>
+		<PackageReadmeFile Condition="Exists('README.md')">README.md</PackageReadmeFile>
+		<PackageReadmeFile Condition="'$(PackageReadmeFile)' == '' and Exists('..\\..\\README.md')">README.md</PackageReadmeFile>
 	</PropertyGroup>
-	<ItemGroup Condition="Exists('..\\..\\README.md')">
+	<ItemGroup Condition="Exists('README.md')">
+		<None Include="README.md" Pack="true" PackagePath=""/>
+	</ItemGroup>
+	<ItemGroup Condition="'$(PackageReadmeFile)' == 'README.md' and !Exists('README.md') and Exists('..\\..\\README.md')">
 		<None Include="..\..\README.md" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
@@ -39,7 +43,7 @@
 		<ContinuousIntegrationBuild Condition=" '$(ContinuousIntegrationBuild)' == '' ">true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="8.0.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>

@@ -8,7 +8,6 @@
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
-        <None Include="README.md" Pack="true" PackagePath="" Condition="Exists('README.md')" />
     </ItemGroup>
 
     <Import Project="..\Common.props" />
