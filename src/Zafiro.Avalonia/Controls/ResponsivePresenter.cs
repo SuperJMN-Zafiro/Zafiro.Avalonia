@@ -1,32 +1,34 @@
-namespace Zafiro.Avalonia.Controls;
+using System.Reactive.Disposables;
+using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Primitives;
 
-using System;
+namespace Zafiro.Avalonia.Controls;
 
 // Strict template-based presenter: swaps content when its own width crosses a breakpoint.
 // Users cannot set Content; only Narrow and Wide are accepted.
-public class ResponsivePresenter : global::Avalonia.Controls.Primitives.TemplatedControl
+public class ResponsivePresenter : TemplatedControl
 {
-public static readonly StyledProperty<global::Avalonia.Controls.Control?> NarrowProperty =
-        AvaloniaProperty.Register<ResponsivePresenter, global::Avalonia.Controls.Control?>(nameof(Narrow));
+    public static readonly StyledProperty<Control?> NarrowProperty =
+        AvaloniaProperty.Register<ResponsivePresenter, Control?>(nameof(Narrow));
 
-public static readonly StyledProperty<global::Avalonia.Controls.Control?> WideProperty =
-        AvaloniaProperty.Register<ResponsivePresenter, global::Avalonia.Controls.Control?>(nameof(Wide));
+    public static readonly StyledProperty<Control?> WideProperty =
+        AvaloniaProperty.Register<ResponsivePresenter, Control?>(nameof(Wide));
 
     public static readonly StyledProperty<double> BreakpointProperty =
         AvaloniaProperty.Register<ResponsivePresenter, double>(nameof(Breakpoint), 900);
 
-    private IDisposable? _boundsSub;
-    private bool? _isWide; // null = unknown, prevents redundant updates
-private global::Avalonia.Controls.Presenters.ContentPresenter? _presenter;
-    private global::Avalonia.Controls.Control? _current;
+    private readonly SerialDisposable subscriptions = new();
+    private Control? current;
+    private bool? isWide; // null = unknown, prevents redundant updates
+    private ContentPresenter? presenter;
 
-public global::Avalonia.Controls.Control? Narrow
+    public Control? Narrow
     {
         get => GetValue(NarrowProperty);
         set => SetValue(NarrowProperty, value);
     }
 
-public global::Avalonia.Controls.Control? Wide
+    public Control? Wide
     {
         get => GetValue(WideProperty);
         set => SetValue(WideProperty, value);
@@ -38,29 +40,63 @@ public global::Avalonia.Controls.Control? Wide
         set => SetValue(BreakpointProperty, value);
     }
 
-protected override void OnApplyTemplate(global::Avalonia.Controls.Primitives.TemplateAppliedEventArgs e)
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-_presenter = e.NameScope.Find<global::Avalonia.Controls.Presenters.ContentPresenter>("PART_Presenter");
+        presenter = e.NameScope.Find<ContentPresenter>("PART_Presenter");
         UpdatePresenter();
     }
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
-        _boundsSub = this.GetObservable(BoundsProperty).Subscribe(_ => UpdateContentIfNeeded());
+
+        var cd = new CompositeDisposable();
+
+        var widthChanges = this.GetObservable(BoundsProperty)
+            .Select(b => b.Width)
+            .Where(w => w > 0);
+
+        var breakpoints = this.GetObservable(BreakpointProperty)
+            .StartWith(Breakpoint)
+            .DistinctUntilChanged();
+
+        widthChanges
+            .CombineLatest(breakpoints, (w, bp) => w >= bp)
+            .Sample(TimeSpan.FromMilliseconds(150), AvaloniaScheduler.Instance)
+            .DistinctUntilChanged()
+            .Do(wide =>
+            {
+                isWide = wide;
+                var desired = wide ? Wide ?? Narrow : Narrow ?? Wide;
+                if (!ReferenceEquals(current, desired))
+                {
+                    current = desired;
+                    UpdatePresenter();
+                }
+            })
+            .Subscribe()
+            .DisposeWith(cd);
+
+        subscriptions.Disposable = cd;
+
         UpdateContentIfNeeded();
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
-        _boundsSub?.Dispose();
-        _boundsSub = null;
-        _isWide = null;
-        if (_presenter != null)
-            _presenter.Content = null;
-        _current = null;
+
+        subscriptions.Disposable = Disposable.Empty;
+
+        isWide = null;
+
+        if (presenter != null)
+        {
+            presenter.Content = null;
+        }
+
+        current = null;
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -84,24 +120,24 @@ _presenter = e.NameScope.Find<global::Avalonia.Controls.Presenters.ContentPresen
 
         var nowWide = width >= Breakpoint;
 
-        if (!force && _isWide == nowWide)
+        if (!force && isWide == nowWide)
             return;
 
-        _isWide = nowWide;
+        isWide = nowWide;
 
-var desired = nowWide ? Wide ?? Narrow : Narrow ?? Wide;
-        if (ReferenceEquals(_current, desired))
+        var desired = nowWide ? Wide ?? Narrow : Narrow ?? Wide;
+        if (ReferenceEquals(current, desired))
             return;
 
-        _current = desired;
+        current = desired;
         UpdatePresenter();
     }
 
     private void UpdatePresenter()
     {
-        if (_presenter is null)
+        if (presenter is null)
             return;
 
-        _presenter.Content = _current;
+        presenter.Content = current;
     }
 }
