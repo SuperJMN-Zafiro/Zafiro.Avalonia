@@ -1,7 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
-                    xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Design.PreviewWith>
         <controls:IconButton Content="THIS IS A BUTTON">
@@ -11,30 +10,30 @@
         </controls:IconButton>
     </Design.PreviewWith>
 
-   <Styles.Resources>
-       <ControlTheme TargetType="controls:IconButton" x:Key="{x:Type controls:IconButton}" BasedOn="{StaticResource {x:Type Button}}">
-           <Setter Property="Template">
-               <Setter.Value>
-                   <ControlTemplate TargetType="controls:IconButton">
-                       <Button
-                           Padding="{TemplateBinding Padding}"
-                           Flyout="{TemplateBinding Flyout}"
-                           Margin="{TemplateBinding Margin}"
-                           Command="{TemplateBinding Command}"
-                           CornerRadius="{TemplateBinding CornerRadius}"
-                           CommandParameter="{TemplateBinding CommandParameter}"
-                           Background="{TemplateBinding Background}"
-                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                           VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                           <StackPanel Orientation="Horizontal" Spacing="8">
-                               <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Icon}" Content="{TemplateBinding Icon}" />
-                               <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Content}" Content="{TemplateBinding Content}" VerticalAlignment="Center" />
-                           </StackPanel>
-                       </Button>
-                   </ControlTemplate>
-               </Setter.Value>
-           </Setter>
-       </ControlTheme>
-   </Styles.Resources>
+    <Styles.Resources>
+        <ControlTheme TargetType="controls:IconButton" x:Key="{x:Type controls:IconButton}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:IconButton">
+                        <Button
+                            Padding="{TemplateBinding Padding}"
+                            Flyout="{TemplateBinding Flyout}"
+                            Margin="{TemplateBinding Margin}"
+                            Command="{TemplateBinding Command}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            CommandParameter="{TemplateBinding CommandParameter}"
+                            Background="{TemplateBinding Background}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <DockPanel HorizontalSpacing="8">
+                                <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Icon}" Content="{TemplateBinding Icon}" />
+                                <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Content}" Content="{TemplateBinding Content}" VerticalAlignment="Center" />
+                            </DockPanel>
+                        </Button>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
 
 </Styles>
