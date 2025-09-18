@@ -13,7 +13,6 @@
         <PackageReference Include="Avalonia.Controls.DataGrid"/>
         <PackageReference Include="CSharpFunctionalExtensions"/>
         <PackageReference Include="Deadpikle.AvaloniaProgressRing"/>
-        <PackageReference Include="DynamicData"/>
         <PackageReference Include="FluentAvaloniaUI"/>
         <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="Projektanker.Icons.Avalonia"/>
