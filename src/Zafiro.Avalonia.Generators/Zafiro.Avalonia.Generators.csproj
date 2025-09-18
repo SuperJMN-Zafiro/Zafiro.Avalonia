@@ -18,5 +18,6 @@
   <ItemGroup>
     <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="buildTransitive/Zafiro.Avalonia.Generators.props" Pack="true" PackagePath="buildTransitive/Zafiro.Avalonia.Generators.props" />
+    <None Include="README.md" Pack="true" PackagePath="" Condition="Exists('README.md')" />
   </ItemGroup>
 </Project>
