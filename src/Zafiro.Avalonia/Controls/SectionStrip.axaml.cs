@@ -126,9 +126,10 @@ public sealed class SectionSorter : IDisposable
     public SectionSorter(IObservable<IChangeSet<INamedSection, string>> sectionChanges)
     {
         sectionChanges
+            .AutoRefresh(w => w.IsVisible)
+            .AutoRefresh(w => w.SortOrder)
             .Filter(s => s.IsVisible)
             .DisposeMany()
-            .AutoRefresh(w => w.SortOrder)
             .SortAndBind(out var filtered, SortExpressionComparer<INamedSection>.Ascending(w => w.SortOrder))
             .Subscribe()
             .DisposeWith(disposable);
