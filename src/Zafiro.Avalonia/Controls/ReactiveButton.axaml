@@ -6,8 +6,8 @@
         xmlns:panels="clr-namespace:Zafiro.Avalonia.Controls.Panels">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type ReactiveButton}" TargetType="ReactiveButton">
-            <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="ButtonTheme">
                 <Setter.Value>
                     <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" />
@@ -19,8 +19,10 @@
                             IsDefault="{TemplateBinding IsDefault}"
                             IsCancel="{TemplateBinding IsCancel}"
                             IsTabStop="{TemplateBinding IsTabStop}"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             Command="{Binding $parent[controls:ReactiveButton].Command}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal" Spacing="6">
@@ -110,6 +112,8 @@
             <StackPanel.DataContext>
                 <avalonia:CommandViewModel />
             </StackPanel.DataContext>
+            <Button>Regular button</Button>
+            <controls:ReactiveButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
             <controls:ReactiveButton Content="This is where I heal my hurt" Command="{Binding NeverEndingCommand}" />
             <controls:ReactiveButton HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="This is where I heal my hurt" Command="{Binding NeverEndingCommand}" />
             <controls:ReactiveButton Content="This is where I heal my hurt" Command="{Binding RegularCommand}" />

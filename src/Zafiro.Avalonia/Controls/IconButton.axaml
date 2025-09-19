@@ -3,15 +3,26 @@
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
 
     <Design.PreviewWith>
-        <controls:IconButton Content="THIS IS A BUTTON">
-            <controls:IconButton.Icon>
-                ICON
-            </controls:IconButton.Icon>
-        </controls:IconButton>
+        <StackPanel>
+            <controls:IconButton Content="THIS IS A BUTTON">
+                <controls:IconButton.Icon>
+                    ICON
+                </controls:IconButton.Icon>
+            </controls:IconButton>
+            <ReactiveButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
+            <IconButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
+        </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
         <ControlTheme TargetType="controls:IconButton" x:Key="{x:Type controls:IconButton}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="ButtonTheme">
+                <Setter.Value>
+                    <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" />
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:IconButton">
@@ -22,9 +33,12 @@
                             Command="{TemplateBinding Command}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             CommandParameter="{TemplateBinding CommandParameter}"
+                            Theme="{TemplateBinding ButtonTheme}"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
                             Background="{TemplateBinding Background}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <DockPanel HorizontalSpacing="8">
                                 <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Icon}" Content="{TemplateBinding Icon}" />
                                 <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Content}" Content="{TemplateBinding Content}" VerticalAlignment="Center" />

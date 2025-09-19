@@ -21,8 +21,8 @@
 
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type ReactiveIconButton}" TargetType="ReactiveIconButton">
-            <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="ButtonTheme">
                 <Setter.Value>
                     <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" />
@@ -35,14 +35,14 @@
                             IsCancel="{TemplateBinding IsCancel}"
                             IsTabStop="{TemplateBinding IsTabStop}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
                             Command="{Binding $parent[ReactiveIconButton].Command}">
                         <Button.Content>
-                            <DockPanel HorizontalSpacing="8">
-                                <Viewbox StretchDirection="DownOnly" Height="{Binding #MainContent.Bounds.Height}"
-                                         IsVisible="{Binding $parent[ReactiveIconButton].Command.IsExecuting^}">
-                                    <c:ProgressRing Foreground="{TemplateBinding Foreground}" />
-                                </Viewbox>
+                            <DockPanel HorizontalSpacing="8" HorizontalAlignment="{Binding $parent[ReactiveIconButton].HorizontalContentAlignment}">
+                                <c:ProgressRing Height="{Binding $self.(IconOptions.Size)}"
+                                                IsVisible="{Binding $parent[ReactiveIconButton].Command.IsExecuting^}"
+                                                Foreground="{TemplateBinding Foreground}" />
                                 <ContentPresenter
                                     Height="{Binding #MainContent.Bounds.Height}"
                                     IsVisible="{Binding !!$parent[ReactiveIconButton].Icon}"
