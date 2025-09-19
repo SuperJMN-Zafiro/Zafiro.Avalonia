@@ -129,14 +129,7 @@ public sealed class SectionSorter : IDisposable
             .Filter(s => s.IsVisible)
             .DisposeMany()
             .AutoRefresh(w => w.SortOrder)
-            .Sort(
-                SortExpressionComparer<INamedSection>
-                    .Descending(w => w.SortOrder)
-                    .ThenByDescending(w => w.IsPrimary)
-                    .ThenBy(w => w.FriendlyName)
-            )
-            .ObserveOn(AvaloniaScheduler.Instance)
-            .Bind(out var filtered)
+            .SortAndBind(out var filtered, SortExpressionComparer<INamedSection>.Ascending(w => w.SortOrder))
             .Subscribe()
             .DisposeWith(disposable);
 
