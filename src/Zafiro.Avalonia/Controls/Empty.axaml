@@ -2,19 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:CompileBindings="True">
 
-    <Style Selector=":is(Control).FadeIn">
-        <Style.Animations>
-            <Animation Duration="0:0:0.2" Delay="0:0:0.8" IterationCount="1">
-                <KeyFrame Cue="0%">
-                    <Setter Property="Opacity" Value="0.0" />
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="Opacity" Value="1.0" />
-                </KeyFrame>
-            </Animation>
-        </Style.Animations>
-    </Style>
-
     <Style Selector=":is(ItemsControl).ShowEmptyContent:empty">
         <Setter Property="Empty.Margin" Value="10" />
         <Setter Property="Template">
