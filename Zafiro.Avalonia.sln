@@ -37,6 +37,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other files", "Other files"
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other Files", "Other Files", "{B04CCE9E-1D68-4156-B622-C33451058975}"
+	ProjectSection(SolutionItems) = preProject
+		libs\Zafiro\Directory.Packages.props = libs\Zafiro\Directory.Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,13 +86,13 @@ Global
 		{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-                {758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-                {758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Release|Any CPU.Build.0 = Release|Any CPU
-                {D2993F32-C840-4A28-BBC4-986DF7299073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-                {D2993F32-C840-4A28-BBC4-986DF7299073}.Debug|Any CPU.Build.0 = Debug|Any CPU
-                {D2993F32-C840-4A28-BBC4-986DF7299073}.Release|Any CPU.ActiveCfg = Release|Any CPU
-                {D2993F32-C840-4A28-BBC4-986DF7299073}.Release|Any CPU.Build.0 = Release|Any CPU
-        EndGlobalSection
+																{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+																{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+																{D2993F32-C840-4A28-BBC4-986DF7299073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+																{D2993F32-C840-4A28-BBC4-986DF7299073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+																{D2993F32-C840-4A28-BBC4-986DF7299073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+																{D2993F32-C840-4A28-BBC4-986DF7299073}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
@@ -100,6 +105,7 @@ Global
 		{D3F322B1-ABDF-44F7-AC8E-80B222454D77} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
 		{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
 		{758E0D18-36EF-43C6-8F46-F3CA4C110BA1} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
+		{B04CCE9E-1D68-4156-B622-C33451058975} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E64CD420-15B1-487C-9806-41EBE6DC15A4}
