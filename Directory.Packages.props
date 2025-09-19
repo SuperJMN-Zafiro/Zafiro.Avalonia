@@ -1,8 +1,8 @@
 <Project>
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-        <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
-        <AvaloniaVersion>11.3.4</AvaloniaVersion>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+        <AvaloniaVersion>11.3.6</AvaloniaVersion>
         <ZafiroVersion>33.0.15</ZafiroVersion>
     </PropertyGroup>
     <ItemGroup>
@@ -30,11 +30,13 @@
         <PackageVersion Include="Projektanker.Icons.Avalonia" Version="9.6.2"/>
         <PackageVersion Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.2"/>
         <PackageVersion Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2"/>
-        <PackageVersion Include="ReactiveUI" Version="21.0.1"/>
+        <PackageVersion Include="ReactiveUI" Version="20.1.63"/>
         <PackageVersion Include="ReactiveUI.SourceGenerators" Version="2.4.1"/>
-        <PackageVersion Include="ReactiveUI.Validation" Version="5.0.1"/>
-        <PackageVersion Include="Splat" Version="16.1.0"/>
-        <PackageVersion Include="Splat.Logging" Version="16.1.0"/>
+        <PackageVersion Include="ReactiveUI.Validation" Version="4.1.1"/>
+        <PackageVersion Include="Splat" Version="15.1.1"/>
+        <PackageVersion Include="Splat.Core" Version="15.1.1"/>
+        <PackageVersion Include="Splat.Builder" Version="15.1.1"/>
+        <PackageVersion Include="Splat.Logging" Version="15.1.1"/>
         <PackageVersion Include="Serilog" Version="4.3.0"/>
         <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0"/>
         <PackageVersion Include="Svg.Controls.Skia.Avalonia" Version="11.3.0.3"/>
