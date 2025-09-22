@@ -32,8 +32,8 @@ public class SectionStrip : TemplatedControl
     public static readonly StyledProperty<double> IconSizeProperty = AvaloniaProperty.Register<SectionStrip, double>(
         nameof(IconSize), defaultValue: 38d);
 
-    public static readonly StyledProperty<double> IconLabelSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
-        nameof(IconLabelSpacing));
+    public static readonly StyledProperty<double> HorizontalIconLabelSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
+        nameof(HorizontalIconLabelSpacing));
 
     public static readonly StyledProperty<Thickness> ItemPaddingProperty = AvaloniaProperty.Register<SectionStrip, Thickness>(
         nameof(ItemPadding));
@@ -106,16 +106,25 @@ public class SectionStrip : TemplatedControl
         set => SetValue(IconSizeProperty, value);
     }
 
-    public double IconLabelSpacing
+    public double HorizontalIconLabelSpacing
     {
-        get => GetValue(IconLabelSpacingProperty);
-        set => SetValue(IconLabelSpacingProperty, value);
+        get => GetValue(HorizontalIconLabelSpacingProperty);
+        set => SetValue(HorizontalIconLabelSpacingProperty, value);
     }
 
     public Thickness ItemPadding
     {
         get => GetValue(ItemPaddingProperty);
         set => SetValue(ItemPaddingProperty, value);
+    }
+
+    public static readonly StyledProperty<double> VerticalIconLabelSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
+        nameof(VerticalIconLabelSpacing));
+
+    public double VerticalIconLabelSpacing
+    {
+        get => GetValue(VerticalIconLabelSpacingProperty);
+        set => SetValue(VerticalIconLabelSpacingProperty, value);
     }
 }
 

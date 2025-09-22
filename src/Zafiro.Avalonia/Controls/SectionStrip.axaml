@@ -45,8 +45,9 @@
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type SectionStrip}" TargetType="SectionStrip">
-            <Setter Property="IconLabelSpacing" Value="10" />
-            <Setter Property="ItemPadding" Value="10" />
+            <Setter Property="HorizontalIconLabelSpacing" Value="10" />
+            <Setter Property="VerticalIconLabelSpacing" Value="4" />
+            <Setter Property="ItemPadding" Value="5" />
             <Setter Property="IconOptions.Size" Value="24" />
             <Style Selector="^ /template/ ListBox">
                 <Setter Property="Background" Value="Transparent" />
@@ -62,14 +63,14 @@
                             <ListBox.DataTemplates>
                                 <DataTemplate DataType="sections:ICommandSection">
                                     <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
-                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
+                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}">
                                             <ContentControl DockPanel.Dock="Left" Content="{Binding Icon}" />
                                             <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
                                         </DockPanel>
                                     </Button>
                                 </DataTemplate>
                                 <DataTemplate DataType="sections:IContentSection">
-                                    <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
+                                    <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}">
                                         <ContentControl DockPanel.Dock="Left" Content="{Binding Icon}" />
                                         <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
                                     </DockPanel>
@@ -94,7 +95,7 @@
                             <DockPanel.DataTemplates>
                                 <DataTemplate DataType="sections:ICommandSection">
                                     <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
-                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="10" VerticalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
+                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}" VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
                                             <ContentControl DockPanel.Dock="Top" Content="{Binding Icon}" />
                                             <TextBlock
                                                 TextAlignment="Center" TextWrapping="Wrap"
@@ -103,7 +104,7 @@
                                     </Button>
                                 </DataTemplate>
                                 <DataTemplate DataType="sections:IContentSection">
-                                    <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].IconLabelSpacing}">
+                                    <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
                                         <ContentControl DockPanel.Dock="Top" Content="{Binding Icon}" />
                                         <TextBlock
                                             TextAlignment="Center" TextWrapping="Wrap"
@@ -117,7 +118,6 @@
                                     <Flyout>
                                         <ListBox x:Name="OtherSections" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}"
                                                  ItemContainerTheme="{StaticResource SectionListItem}"
-
                                                  ItemsSource="{Binding #VisibilityExposerBehavior.InvisibleItems}">
                                         </ListBox>
                                     </Flyout>
@@ -128,7 +128,9 @@
                                     </EventTriggerBehavior>
                                 </Interaction.Behaviors>
                             </Button>
-                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding FilteredSections}">
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ItemContainerTheme="{StaticResource SectionListItem}"
+                                     SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding FilteredSections}">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformStripPanel
