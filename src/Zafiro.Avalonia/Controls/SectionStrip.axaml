@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI">
+        xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
+        x:CompileBindings="True">
     <Design.PreviewWith>
         <StackPanel Spacing="20">
             <SectionStrip Orientation="Horizontal" Width="300" MaxItemWidth="100" IconSize="30">
@@ -34,13 +35,13 @@
 
     <Styles.Resources>
 
-        <ControlTheme x:Key="SectionListItem" TargetType="ListBoxItem"
+        <ControlTheme x:Key="SectionListItem" TargetType="ListBoxItem" x:DataType="sections:ISection"
                       BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="DockPanel.Dock" Value="{Binding IsPrimary, Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
+            <Setter Property="DockPanel.Dock" Value="{Binding Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
             <Setter Property="IsEnabled"
                     Value="{Binding Converter={x:Static ShellConverters.IsActivatable}}" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Focusable" Value="False"></Setter>
+            <Setter Property="Focusable" Value="False" />
         </ControlTheme>
 
         <ControlTheme x:Key="{x:Type SectionStrip}" TargetType="SectionStrip">

@@ -5,7 +5,7 @@ namespace Zafiro.Avalonia.Controls.Shell;
 
 public class CommandSectionDesign : ReactiveObject, ICommandSection
 {
-    public bool IsPrimary { get; init; }
+    public bool IsPrimary { get; set; }
     public string Name { get; set; }
     public string FriendlyName { get; set; }
     public object? Icon { get; set; }
