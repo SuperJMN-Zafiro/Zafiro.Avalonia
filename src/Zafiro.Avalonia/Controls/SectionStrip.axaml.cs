@@ -1,10 +1,8 @@
-using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Layout;
 using DynamicData;
-using DynamicData.Binding;
 using Zafiro.Reactive;
 using Zafiro.UI.Navigation.Sections;
 
@@ -41,6 +39,12 @@ public class SectionStrip : TemplatedControl
     public static readonly DirectProperty<SectionStrip, IEnumerable<ISection>> FilteredSectionsProperty = AvaloniaProperty.RegisterDirect<SectionStrip, IEnumerable<ISection>>(
         nameof(FilteredSections), o => o.FilteredSections, (o, v) => o.FilteredSections = v);
 
+    public static readonly StyledProperty<Thickness> IconMarginProperty = AvaloniaProperty.Register<SectionStrip, Thickness>(
+        nameof(IconMargin));
+
+    public static readonly StyledProperty<double> VerticalIconLabelSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
+        nameof(VerticalIconLabelSpacing));
+
     private readonly CompositeDisposable disposable = new();
 
     private IEnumerable<ISection> filteredSections;
@@ -56,6 +60,12 @@ public class SectionStrip : TemplatedControl
             .DisposeWith(disposable);
 
         FilteredSections = sectionSorter.Sections;
+    }
+
+    public Thickness IconMargin
+    {
+        get => GetValue(IconMarginProperty);
+        set => SetValue(IconMarginProperty, value);
     }
 
     public IEnumerable<ISection> FilteredSections
@@ -118,38 +128,9 @@ public class SectionStrip : TemplatedControl
         set => SetValue(ItemPaddingProperty, value);
     }
 
-    public static readonly StyledProperty<double> VerticalIconLabelSpacingProperty = AvaloniaProperty.Register<SectionStrip, double>(
-        nameof(VerticalIconLabelSpacing));
-
     public double VerticalIconLabelSpacing
     {
         get => GetValue(VerticalIconLabelSpacingProperty);
         set => SetValue(VerticalIconLabelSpacingProperty, value);
-    }
-}
-
-public sealed class SectionSorter : IDisposable
-{
-    private readonly CompositeDisposable disposable = new();
-
-    public SectionSorter(IObservable<IChangeSet<INamedSection, string>> sectionChanges)
-    {
-        sectionChanges
-            .AutoRefresh(w => w.IsVisible)
-            .AutoRefresh(w => w.SortOrder)
-            .Filter(s => s.IsVisible)
-            .DisposeMany()
-            .SortAndBind(out var filtered, SortExpressionComparer<INamedSection>.Ascending(w => w.SortOrder))
-            .Subscribe()
-            .DisposeWith(disposable);
-
-        Sections = filtered;
-    }
-
-    public ReadOnlyObservableCollection<INamedSection> Sections { get; }
-
-    public void Dispose()
-    {
-        disposable.Dispose();
     }
 }

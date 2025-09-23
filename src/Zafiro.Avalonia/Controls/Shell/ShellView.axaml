@@ -45,7 +45,11 @@
                 </ShellSplitView.Styles>
                 <ShellSplitView.PaneContent>
                     <SectionStrip Sections="{Binding Sections}"
-                                  IconOptions.Size="28"
+                                  ItemPadding="{Binding $parent[ShellView].SectionItemPadding}"
+                                  HorizontalIconLabelSpacing="{Binding $parent[ShellView].SectionHorizontalIconLabelSpacing}"
+                                  VerticalIconLabelSpacing="{Binding $parent[ShellView].SectionVerticalIconLabelSpacing}"
+                                  IconSize="{Binding $parent[ShellView].MenuButtonSize}"
+                                  IconMargin="{Binding $parent[ShellView].IconMargin}"
                                   SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" />
                 </ShellSplitView.PaneContent>
             </ShellSplitView>
@@ -58,7 +62,12 @@
                                 ContentTemplate="{Binding $parent[ShellView].HeaderContentTemplate}" />
                 <SectionStrip Sections="{Binding Sections}"
                               Orientation="Horizontal"
-                              MaxItemWidth="110"
+                              ItemPadding="{Binding $parent[ShellView].SectionItemPadding}"
+                              HorizontalIconLabelSpacing="{Binding $parent[ShellView].SectionHorizontalIconLabelSpacing}"
+                              VerticalIconLabelSpacing="{Binding $parent[ShellView].SectionVerticalIconLabelSpacing}"
+                              IconSize="{Binding $parent[ShellView].MenuButtonSize}"
+                              IconMargin="{Binding $parent[ShellView].IconMargin}"
+                              MaxItemWidth="{Binding $parent[ShellView].SectionMaxItemWidth}"
                               SelectedSection="{Binding SelectedSection}" DockPanel.Dock="Bottom" />
                 <nav:Frame Navigator="{Binding Navigator}" />
             </DockPanel>
@@ -79,9 +88,10 @@
             <Setter Property="IsPaneOpen" Value="True" />
             <Setter Property="MobileColumns" Value="4" />
             <Setter Property="HeaderContentTemplate" Value="{StaticResource HeaderContentTemplate}" />
-            <Setter Property="PageTransition">
-                <CrossFade Duration="0:00:00.2" />
-            </Setter>
+            <Setter Property="SectionHorizontalIconLabelSpacing" Value="0" />
+            <Setter Property="SectionVerticalIconLabelSpacing" Value="0" />
+            <Setter Property="IconMargin" Value="8" />
+            <Setter Property="SectionMaxItemWidth" Value="110" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel Container.Name="RootPanel" Container.Sizing="WidthAndHeight">

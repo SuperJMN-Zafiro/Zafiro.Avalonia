@@ -64,14 +64,18 @@
                                 <DataTemplate DataType="sections:ICommandSection">
                                     <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
                                         <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}">
-                                            <ContentControl DockPanel.Dock="Left" Content="{Binding Icon}" />
+                                            <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}">
+                                                <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" Content="{Binding Icon}" />
+                                            </Viewbox>
                                             <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
                                         </DockPanel>
                                     </Button>
                                 </DataTemplate>
                                 <DataTemplate DataType="sections:IContentSection">
                                     <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}">
-                                        <ContentControl DockPanel.Dock="Left" Content="{Binding Icon}" />
+                                        <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}">
+                                            <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" DockPanel.Dock="Left" Content="{Binding Icon}" />
+                                        </Viewbox>
                                         <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
                                     </DockPanel>
                                 </DataTemplate>
@@ -95,8 +99,11 @@
                             <DockPanel.DataTemplates>
                                 <DataTemplate DataType="sections:ICommandSection">
                                     <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
-                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}" VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
-                                            <ContentControl DockPanel.Dock="Top" Content="{Binding Icon}" />
+                                        <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}"
+                                                   VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
+                                            <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}" DockPanel.Dock="Top">
+                                                <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" Content="{Binding Icon}" />
+                                            </Viewbox>
                                             <TextBlock
                                                 TextAlignment="Center" TextWrapping="Wrap"
                                                 HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
@@ -105,7 +112,9 @@
                                 </DataTemplate>
                                 <DataTemplate DataType="sections:IContentSection">
                                     <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
-                                        <ContentControl DockPanel.Dock="Top" Content="{Binding Icon}" />
+                                        <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}" DockPanel.Dock="Top">
+                                            <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" Content="{Binding Icon}" />
+                                        </Viewbox>
                                         <TextBlock
                                             TextAlignment="Center" TextWrapping="Wrap"
                                             HorizontalAlignment="Center" Text="{Binding FriendlyName}" />

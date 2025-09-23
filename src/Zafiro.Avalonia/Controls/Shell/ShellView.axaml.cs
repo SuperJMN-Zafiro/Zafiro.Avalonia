@@ -47,6 +47,25 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<ControlTheme> ToggleButtonThemeProperty = AvaloniaProperty.Register<ShellView, ControlTheme>(
         nameof(ToggleButtonTheme));
 
+    public static readonly StyledProperty<Thickness> SectionItemPaddingProperty = AvaloniaProperty.Register<ShellView, Thickness>(
+        nameof(SectionItemPadding));
+
+    // Separate spacings for icon/label in each orientation
+    public static readonly StyledProperty<double> SectionHorizontalIconLabelSpacingProperty = AvaloniaProperty.Register<ShellView, double>(
+        nameof(SectionHorizontalIconLabelSpacing));
+
+    public static readonly StyledProperty<double> SectionVerticalIconLabelSpacingProperty = AvaloniaProperty.Register<ShellView, double>(
+        nameof(SectionVerticalIconLabelSpacing));
+
+    public static readonly StyledProperty<double> SectionIconSizeProperty = AvaloniaProperty.Register<ShellView, double>(
+        nameof(SectionIconSize));
+
+    public static readonly StyledProperty<double> SectionMaxItemWidthProperty = AvaloniaProperty.Register<ShellView, double>(
+        nameof(SectionMaxItemWidth));
+
+    public static readonly StyledProperty<Thickness> IconMarginProperty = AvaloniaProperty.Register<ShellView, Thickness>(
+        nameof(IconMargin));
+
     private readonly CompositeDisposable disposable = new();
 
     private bool useDesktopLayout;
@@ -130,6 +149,42 @@ public class ShellView : TemplatedControl
     {
         get => GetValue(ToggleButtonThemeProperty);
         set => SetValue(ToggleButtonThemeProperty, value);
+    }
+
+    public Thickness SectionItemPadding
+    {
+        get => GetValue(SectionItemPaddingProperty);
+        set => SetValue(SectionItemPaddingProperty, value);
+    }
+
+    public double SectionHorizontalIconLabelSpacing
+    {
+        get => GetValue(SectionHorizontalIconLabelSpacingProperty);
+        set => SetValue(SectionHorizontalIconLabelSpacingProperty, value);
+    }
+
+    public double SectionVerticalIconLabelSpacing
+    {
+        get => GetValue(SectionVerticalIconLabelSpacingProperty);
+        set => SetValue(SectionVerticalIconLabelSpacingProperty, value);
+    }
+
+    public double SectionIconSize
+    {
+        get => GetValue(SectionIconSizeProperty);
+        set => SetValue(SectionIconSizeProperty, value);
+    }
+
+    public double SectionMaxItemWidth
+    {
+        get => GetValue(SectionMaxItemWidthProperty);
+        set => SetValue(SectionMaxItemWidthProperty, value);
+    }
+
+    public Thickness IconMargin
+    {
+        get => GetValue(IconMarginProperty);
+        set => SetValue(IconMarginProperty, value);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)
