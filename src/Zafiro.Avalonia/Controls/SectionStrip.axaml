@@ -48,7 +48,6 @@
             <Setter Property="HorizontalIconLabelSpacing" Value="10" />
             <Setter Property="VerticalIconLabelSpacing" Value="4" />
             <Setter Property="ItemPadding" Value="5" />
-            <Setter Property="IconOptions.Size" Value="24" />
             <Style Selector="^ /template/ ListBox">
                 <Setter Property="Background" Value="Transparent" />
             </Style>

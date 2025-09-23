@@ -71,7 +71,7 @@ public class SectionStrip : TemplatedControl
     public IEnumerable<ISection> FilteredSections
     {
         get => filteredSections;
-        set => SetAndRaise(FilteredSectionsProperty, ref filteredSections, value);
+        private set => SetAndRaise(FilteredSectionsProperty, ref filteredSections, value);
     }
 
     public IEnumerable<ISection>? Sections
