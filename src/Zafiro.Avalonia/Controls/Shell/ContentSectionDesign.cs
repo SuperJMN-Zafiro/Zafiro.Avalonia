@@ -10,9 +10,9 @@ public partial class ContentSectionDesign : ReactiveObject, IContentSection
 
     public ContentSectionDesign()
     {
-        Observable.Timer(DateTimeOffset.Now, TimeSpan.FromSeconds(2), AvaloniaScheduler.Instance)
-            .Select(_ => Random.Shared.Next(30))
-            .BindTo(this, x => x.SortOrder);
+        // Observable.Timer(DateTimeOffset.Now, TimeSpan.FromSeconds(2), AvaloniaScheduler.Instance)
+        //     .Select(_ => Random.Shared.Next(30))
+        //     .BindTo(this, x => x.SortOrder);
     }
 
     public bool IsPrimary { get; set; } = true;
