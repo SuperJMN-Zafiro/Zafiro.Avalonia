@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:se="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Shell.SectionStripView">
+    <HeaderedContainer Header="SectionStrip">
+        <StackPanel Spacing="8">
+            <TextBlock Text="Shows sections with overflow" FontWeight="Bold" />
+            <SectionStrip IconOptions.Size="22" HorizontalIconLabelSpacing="10" VerticalIconLabelSpacing="10" Orientation="Horizontal" MaxItemWidth="100">
+                <SectionStrip.Sections>
+                    <generic:List x:TypeArguments="se:ISection">
+                        <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section4" FriendlyName="Section 4" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section5" FriendlyName="Sectioncilla 5 3 3 3 3 3 3 3 3 3 3 23 " Icon="{Icon fa-wallet}" IsPrimary="False" />
+                    </generic:List>
+                </SectionStrip.Sections>
+            </SectionStrip>
+        </StackPanel>
+    </HeaderedContainer>
+</UserControl>

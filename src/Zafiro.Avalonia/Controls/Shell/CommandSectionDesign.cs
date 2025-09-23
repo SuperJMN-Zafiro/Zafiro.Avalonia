@@ -3,21 +3,13 @@ using Zafiro.UI.Navigation.Sections;
 
 namespace Zafiro.Avalonia.Controls.Shell;
 
-public class CommandSectionDesign : ICommandSection
+public class CommandSectionDesign : ReactiveObject, ICommandSection
 {
-    public CommandSectionDesign()
-    {
-    }
-
-    public CommandSectionDesign(string name, object? icon = null, bool isPrimary = true)
-    {
-        Name = name;
-        Icon = icon;
-        IsPrimary = isPrimary;
-    }
-
-    public bool IsPrimary { get; init; }
+    public bool IsPrimary { get; set; }
     public string Name { get; set; }
+    public string FriendlyName { get; set; }
     public object? Icon { get; set; }
+    public bool IsVisible { get; set; } = true;
+    public int SortOrder { get; set; } = 0;
     public ICommand Command { get; } = ReactiveCommand.Create(() => { });
 }

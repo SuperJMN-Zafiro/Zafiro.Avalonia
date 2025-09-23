@@ -1,0 +1,158 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+        xmlns:sections="clr-namespace:Zafiro.UI.Navigation.Sections;assembly=Zafiro.UI"
+        x:CompileBindings="True">
+    <Design.PreviewWith>
+        <StackPanel Spacing="20" Height="400">
+            <SectionStrip Orientation="Horizontal" Width="300" MaxItemWidth="100" IconSize="10" Background="Blue">
+                <SectionStrip.Sections>
+                    <generic:List x:TypeArguments="sections:ISection">
+                        <ContentSectionDesign Name="Section1" IsVisible="False" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" FriendlyName="Section Wider" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section4" FriendlyName="Section Much Wider" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section5" FriendlyName="Section 5" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                        <CommandSectionDesign Name="Command" FriendlyName="Command" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                    </generic:List>
+                </SectionStrip.Sections>
+            </SectionStrip>
+            <SectionStrip Orientation="Vertical" Height="300" MaxItemWidth="100" IconSize="10">
+                <SectionStrip.Sections>
+                    <generic:List x:TypeArguments="sections:ISection">
+                        <ContentSectionDesign Name="Section1" FriendlyName="Section 1" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section2" IsVisible="False" FriendlyName="Section 2" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section3" FriendlyName="Section 3" Icon="{Icon fa-wallet}" />
+                        <sections:SectionSeparator />
+                        <ContentSectionDesign Name="Section4" FriendlyName="Section 4" Icon="{Icon fa-wallet}" />
+                        <ContentSectionDesign Name="Section5" FriendlyName="Section 5" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                        <CommandSectionDesign Name="Command" FriendlyName="Command" Icon="{Icon fa-wallet}" IsPrimary="False" />
+                    </generic:List>
+                </SectionStrip.Sections>
+            </SectionStrip>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+
+        <ControlTheme x:Key="SectionListItem" TargetType="ListBoxItem" x:DataType="sections:ISection"
+                      BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="DockPanel.Dock" Value="{Binding Converter={x:Static ShellConverters.IsPrimaryToDock}}" />
+            <Setter Property="IsEnabled"
+                    Value="{Binding Converter={x:Static ShellConverters.IsActivatable}}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Focusable" Value="False" />
+        </ControlTheme>
+
+        <DataTemplate x:Key="VerticalItem" DataType="sections:INamedSection">
+            <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}"
+                       VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
+                <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}" DockPanel.Dock="Top">
+                    <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" Content="{Binding Icon}" />
+                </Viewbox>
+                <TextBlock
+                    TextAlignment="Center" TextWrapping="Wrap"
+                    HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HorizontalItem" DataType="sections:INamedSection">
+            <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}">
+                <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}">
+                    <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" Content="{Binding Icon}" />
+                </Viewbox>
+                <TextBlock VerticalAlignment="Center" Text="{Binding FriendlyName}" />
+            </DockPanel>
+        </DataTemplate>
+
+        <ControlTheme x:Key="{x:Type SectionStrip}" TargetType="SectionStrip">
+            <Setter Property="HorizontalIconLabelSpacing" Value="10" />
+            <Setter Property="VerticalIconLabelSpacing" Value="4" />
+            <Setter Property="ItemPadding" Value="5" />
+            <Style Selector="^ /template/ ListBox">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^ /template/ Button">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^[Orientation=Vertical]">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <ListBox ItemContainerTheme="{StaticResource SectionListItem}" Background="{TemplateBinding Background}" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}"
+                                 ItemsSource="{TemplateBinding FilteredSections}">
+                            <ListBox.DataTemplates>
+                                <DataTemplate DataType="sections:ICommandSection">
+                                    <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource HorizontalItem}" />
+                                    </Button>
+                                </DataTemplate>
+                                <DataTemplate DataType="sections:IContentSection">
+                                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource HorizontalItem}" />
+                                </DataTemplate>
+                                <DataTemplate DataType="sections:ISectionSeparator">
+                                    <Separator Padding="0" Margin="0" />
+                                </DataTemplate>
+                            </ListBox.DataTemplates>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <DockPanel LastChildFill="False" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </ControlTemplate>
+                </Setter>
+            </Style>
+            <Style Selector="^[Orientation=Horizontal]">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <DockPanel>
+                            <DockPanel.DataTemplates>
+                                <DataTemplate DataType="sections:ICommandSection">
+                                    <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource VerticalItem}" />
+                                    </Button>
+                                </DataTemplate>
+                                <DataTemplate DataType="sections:IContentSection">
+                                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource VerticalItem}" />
+                                </DataTemplate>
+                            </DockPanel.DataTemplates>
+                            <Button VerticalAlignment="Stretch" x:Name="Button" IsVisible="{Binding !!#VisibilityExposerBehavior.InvisibleItems.Count}"
+                                    DockPanel.Dock="Right" HorizontalAlignment="Right" Content="...">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <ListBox x:Name="OtherSections" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}"
+                                                 ItemContainerTheme="{StaticResource SectionListItem}"
+                                                 ItemsSource="{Binding #VisibilityExposerBehavior.InvisibleItems}">
+                                        </ListBox>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <Interaction.Behaviors>
+                                    <EventTriggerBehavior SourceObject="OtherSections" EventName="SelectionChanged">
+                                        <HideFlyoutAction Flyout="{Binding #Button.Flyout}" />
+                                    </EventTriggerBehavior>
+                                </Interaction.Behaviors>
+                            </Button>
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     Background="{TemplateBinding Background}"
+                                     ItemContainerTheme="{StaticResource SectionListItem}"
+                                     SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}" ItemsSource="{TemplateBinding FilteredSections}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformStripPanel
+                                            ItemSpacing="{Binding $parent[SectionStrip].ItemSpacing}"
+                                            ItemMinWidth="{Binding $parent[SectionStrip].MinItemWidth}"
+                                            ItemMaxWidth="{Binding $parent[SectionStrip].MaxItemWidth}" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <Interaction.Behaviors>
+                                    <ItemVisibilityMonitoringBehavior x:Name="VisibilityExposerBehavior" />
+                                </Interaction.Behaviors>
+                            </ListBox>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter>
+            </Style>
+
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>

@@ -1,11 +1,10 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ui="clr-namespace:Zafiro.UI;assembly=Zafiro.UI"
         xmlns:shell="clr-namespace:Zafiro.UI.Shell;assembly=Zafiro.UI"
         xmlns:nav="clr-namespace:Zafiro.Avalonia.Controls.Navigation">
 
     <Design.PreviewWith>
-        <ShellView Width="700" Height="900">
+        <ShellView Width="400" Height="900">
             <ShellView.Shell>
                 <ShellDesign />
             </ShellView.Shell>
@@ -45,28 +44,13 @@
                     </ContainerQuery>
                 </ShellSplitView.Styles>
                 <ShellSplitView.PaneContent>
-                    <Sidebar
-                        IconMargin="12"
-                        IconWidth="{Binding $parent[ShellView].MenuButtonSize}"
-                        IconTemplate="{Binding $parent[ShellView].IconTemplate}"
-                        IconHeight="{Binding $parent[ShellView].MenuButtonSize}"
-                        SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}"
-                        Sections="{Binding Sections}">
-                        <Sidebar.Transitions>
-                            <Transitions>
-                                <DoubleTransition Property="SectionSpacing" Duration="0:0:0.1" />
-                            </Transitions>
-                        </Sidebar.Transitions>
-                        <Interaction.Behaviors>
-                            <PointerReleasedTrigger EventRoutingStrategy="Tunnel">
-                                <SetAvaloniaPropertyCurrentValueAction IsEnabled="{Binding $parent[ShellSplitView].DisplayMode, Converter={x:Static ShellConverters.IsOverlay}}"
-                                                                       TargetObject="{Binding $parent[ShellView]}"
-                                                                       Value="False"
-                                                                       TargetProperty="{x:Static ShellView.IsPaneOpenProperty}" />
-                            </PointerReleasedTrigger>
-                        </Interaction.Behaviors>
-                    </Sidebar>
-
+                    <SectionStrip Sections="{Binding Sections}"
+                                  ItemPadding="{Binding $parent[ShellView].SectionItemPadding}"
+                                  HorizontalIconLabelSpacing="{Binding $parent[ShellView].SectionHorizontalIconLabelSpacing}"
+                                  VerticalIconLabelSpacing="{Binding $parent[ShellView].SectionVerticalIconLabelSpacing}"
+                                  IconSize="{Binding $parent[ShellView].MenuButtonSize}"
+                                  IconMargin="{Binding $parent[ShellView].IconMargin}"
+                                  SelectedSection="{Binding $parent[ShellView].Shell.SelectedSection}" />
                 </ShellSplitView.PaneContent>
             </ShellSplitView>
         </DataTemplate>
@@ -76,10 +60,15 @@
                 <ContentControl DockPanel.Dock="Top"
                                 Content="{Binding ContentHeader^}"
                                 ContentTemplate="{Binding $parent[ShellView].HeaderContentTemplate}" />
-                <ActionBar Sections="{Binding Sections}"
-                           IconTemplate="{Binding $parent[ShellView].IconTemplate}"
-                           Columns="{Binding $parent[ShellView].MobileColumns}"
-                           SelectedSection="{Binding SelectedSection}" DockPanel.Dock="Bottom" />
+                <SectionStrip Sections="{Binding Sections}"
+                              Orientation="Horizontal"
+                              ItemPadding="{Binding $parent[ShellView].SectionItemPadding}"
+                              HorizontalIconLabelSpacing="{Binding $parent[ShellView].SectionHorizontalIconLabelSpacing}"
+                              VerticalIconLabelSpacing="{Binding $parent[ShellView].SectionVerticalIconLabelSpacing}"
+                              IconSize="{Binding $parent[ShellView].MenuButtonSize}"
+                              IconMargin="{Binding $parent[ShellView].IconMargin}"
+                              MaxItemWidth="{Binding $parent[ShellView].SectionMaxItemWidth}"
+                              SelectedSection="{Binding SelectedSection}" DockPanel.Dock="Bottom" />
                 <nav:Frame Navigator="{Binding Navigator}" />
             </DockPanel>
         </DataTemplate>
@@ -96,19 +85,12 @@
             <Setter Property="MenuButtonSize" Value="48" />
             <Setter Property="OpenPaneLength" Value="250" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
-            <Setter Property="IconTemplate">
-                <DataTemplate DataType="ui:IIcon">
-                    <Viewbox>
-                        <ContentControl ContentTemplate="{StaticResource IconDataTemplate}" Content="{Binding }" />
-                    </Viewbox>
-                </DataTemplate>
-            </Setter>
             <Setter Property="IsPaneOpen" Value="True" />
-            <Setter Property="MobileColumns" Value="4" />
             <Setter Property="HeaderContentTemplate" Value="{StaticResource HeaderContentTemplate}" />
-            <Setter Property="PageTransition">
-                <CrossFade Duration="0:00:00.2" />
-            </Setter>
+            <Setter Property="SectionHorizontalIconLabelSpacing" Value="0" />
+            <Setter Property="SectionVerticalIconLabelSpacing" Value="0" />
+            <Setter Property="IconMargin" Value="8" />
+            <Setter Property="SectionMaxItemWidth" Value="110" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel Container.Name="RootPanel" Container.Sizing="WidthAndHeight">

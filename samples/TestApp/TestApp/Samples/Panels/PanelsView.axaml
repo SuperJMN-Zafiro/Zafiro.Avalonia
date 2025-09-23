@@ -152,6 +152,23 @@
                 </FlexBox>
             </Card>
 
+            <Card Header="UniformStripPanel">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <UniformStripPanel ItemMinWidth="96" ItemMaxWidth="144" ItemSpacing="8" Height="48">
+                        <Button Content="One" />
+                        <Button Content="Two" />
+                        <Button Content="Three" />
+                        <Button Content="Four" />
+                        <Button Content="Five" />
+                        <Button Content="Six" />
+                        <Button Content="Seven" />
+                        <Button Content="Eight" />
+                        <Button Content="Nine" />
+                        <Button Content="Ten" />
+                    </UniformStripPanel>
+                </ScrollViewer>
+            </Card>
+
             <Card Header="BoostrapGridPanel">
                 <BootstrapGridPanel MaxColumns="12" Gutter="16">
 

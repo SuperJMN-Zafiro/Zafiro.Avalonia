@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace TestApp.Samples.Shell;
 
-public partial class ActionBarView : UserControl
+public partial class SectionStripView : UserControl
 {
-    public ActionBarView()
+    public SectionStripView()
     {
         InitializeComponent();
     }

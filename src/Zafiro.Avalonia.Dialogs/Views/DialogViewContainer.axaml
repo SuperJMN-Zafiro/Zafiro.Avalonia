@@ -44,10 +44,10 @@
                         <DockPanel>
                             <Panel DockPanel.Dock="Top">
                                 <TextBlock VerticalAlignment="Center" FontWeight="Bold" TextAlignment="Center" Text="{TemplateBinding Title}" />
-                                <IconButton Theme="{StaticResource TransparentButton}"
+                                <Button Theme="{StaticResource TransparentButton}" IconOptions.Size="24" Content="{Icon mdi-close}"
                                             HorizontalAlignment="Right" Command="{TemplateBinding Close}">
-                                    <ui:Icon Source="mdi-close" />
-                                </IconButton>
+                                    
+                                </Button>
                             </Panel>
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </DockPanel>
