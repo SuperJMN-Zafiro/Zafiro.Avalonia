@@ -35,9 +35,6 @@ public class ShellView : TemplatedControl
     public static readonly StyledProperty<bool> ForceDesktopLayoutProperty = AvaloniaProperty.Register<ShellView, bool>(
         nameof(ForceDesktopLayout));
 
-    public static readonly StyledProperty<int> MobileColumnsProperty = AvaloniaProperty.Register<ShellView, int>(
-        nameof(MobileColumns));
-
     public static readonly StyledProperty<IDataTemplate> IconTemplateProperty = AvaloniaProperty.Register<ShellView, IDataTemplate>(
         nameof(IconTemplate));
 
@@ -132,12 +129,6 @@ public class ShellView : TemplatedControl
     }
 
     private static bool IsDesktop => OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS();
-
-    public int MobileColumns
-    {
-        get => GetValue(MobileColumnsProperty);
-        set => SetValue(MobileColumnsProperty, value);
-    }
 
     public IBrush PaneBackground
     {

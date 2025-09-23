@@ -86,7 +86,6 @@
             <Setter Property="OpenPaneLength" Value="250" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
             <Setter Property="IsPaneOpen" Value="True" />
-            <Setter Property="MobileColumns" Value="4" />
             <Setter Property="HeaderContentTemplate" Value="{StaticResource HeaderContentTemplate}" />
             <Setter Property="SectionHorizontalIconLabelSpacing" Value="0" />
             <Setter Property="SectionVerticalIconLabelSpacing" Value="0" />
