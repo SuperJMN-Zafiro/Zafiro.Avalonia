@@ -6,10 +6,10 @@ using Zafiro.UI.Shell.Utils;
 
 namespace TestApp.Samples.Misc;
 
-[Section("Visibility Aware Items", icon: "mdi-eye-outline", sortIndex: 7)]
-public class VisibilityAwareItemsControlViewModel
+[Section("Visibility Expose", icon: "mdi-eye-outline", sortIndex: 7)]
+public class ChildrenVisibilityExposerBehaviorViewModel
 {
-    public VisibilityAwareItemsControlViewModel()
+    public ChildrenVisibilityExposerBehaviorViewModel()
     {
         var list = new SourceList<DemoItem>();
 

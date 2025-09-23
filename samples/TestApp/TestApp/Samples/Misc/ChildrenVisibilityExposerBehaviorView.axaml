@@ -5,8 +5,8 @@
              xmlns:misc="clr-namespace:TestApp.Samples.Misc"
              xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
-             x:Class="TestApp.Samples.Misc.VisibilityAwareItemsControlView"
-             x:DataType="misc:VisibilityAwareItemsControlViewModel">
+             x:Class="TestApp.Samples.Misc.ChildrenVisibilityExposerBehaviorView"
+             x:DataType="misc:ChildrenVisibilityExposerBehaviorViewModel">
 
     <UserControl.Styles>
         <StyleInclude Source="/Samples/SampleStyles.axaml" />
