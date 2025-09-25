@@ -14,18 +14,25 @@ public class VisibleChildrenWatcher : IDisposable
         var childrenChanges = panel.Children.ToObservableChangeSetIfPossible()
             .ToSignal();
 
+        // Children as unkeyed change-set of Visuals for set operations
+        var childrenVisualChangeSet = panel.Children
+            .ToObservableChangeSetIfPossible()
+            .Transform(c => (Visual)c);
+
+        // Layout updates sampled to ~60fps
         var layoutChanges = Observable.FromEventPattern<EventHandler, EventArgs>(eh => panel.LayoutUpdated += eh, eh => panel.LayoutUpdated -= eh)
             .ToSignal()
-            .Sample(TimeSpan.FromMilliseconds(16), AvaloniaScheduler.Instance);
+            .Sample(TimeSpan.FromMilliseconds(16));
 
         var visibleItemsChangeSet = layoutChanges.Merge(childrenChanges)
             .Select(_ => CalculateVisibleChildren(panel))
             .EditDiff(v => v, EqualityComparer<Visual>.Default);
 
-        visibleItemsChangeSet
-            .ToCollection()
-            .Select(visible => panel.Children.Except(visible))
-            .EditDiff(visual => visual)
+        // Convert visible to unkeyed and compute Invisible = Children - Visible
+        var visibleUnkeyed = visibleItemsChangeSet.RemoveKey();
+        var invisibleChangeSet = childrenVisualChangeSet.Except(visibleUnkeyed);
+
+        invisibleChangeSet
             .Bind(out var invisibleChildren)
             .Subscribe()
             .DisposeWith(disposable);
