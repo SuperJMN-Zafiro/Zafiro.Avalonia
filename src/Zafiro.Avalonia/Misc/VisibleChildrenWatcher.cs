@@ -14,21 +14,25 @@ public class VisibleChildrenWatcher : IDisposable
         var childrenChanges = panel.Children.ToObservableChangeSetIfPossible()
             .ToSignal();
 
+        // Children as unkeyed change-set of Visuals for set operations
+        var childrenVisualChangeSet = panel.Children
+            .ToObservableChangeSetIfPossible()
+            .Transform(c => (Visual)c);
+
+        // Layout updates sampled to ~60fps
         var layoutChanges = Observable.FromEventPattern<EventHandler, EventArgs>(eh => panel.LayoutUpdated += eh, eh => panel.LayoutUpdated -= eh)
-            .ToSignal();
+            .ToSignal()
+            .Sample(TimeSpan.FromMilliseconds(16));
 
         var visibleItemsChangeSet = layoutChanges.Merge(childrenChanges)
             .Select(_ => CalculateVisibleChildren(panel))
             .EditDiff(v => v, EqualityComparer<Visual>.Default);
 
-        visibleItemsChangeSet
-            .ToCollection()
-            .Select(visible =>
-            {
-                var invisibles = panel.Children.Except(visible).ToList();
-                return invisibles;
-            })
-            .EditDiff(visual => visual)
+        // Convert visible to unkeyed and compute Invisible = Children - Visible
+        var visibleUnkeyed = visibleItemsChangeSet.RemoveKey();
+        var invisibleChangeSet = childrenVisualChangeSet.Except(visibleUnkeyed);
+
+        invisibleChangeSet
             .Bind(out var invisibleChildren)
             .Subscribe()
             .DisposeWith(disposable);
@@ -53,9 +57,11 @@ public class VisibleChildrenWatcher : IDisposable
 
     private static IEnumerable<Visual> CalculateVisibleChildren(Panel panel)
     {
+        // Intersect in panel's coordinate space: viewport is (0,0)-(panel.Width,panel.Height)
+        var viewport = new Rect(panel.Bounds.Size);
         foreach (var panelChild in panel.Children)
         {
-            if (panel.Bounds.Intersects(panelChild.Bounds))
+            if (viewport.Intersects(panelChild.Bounds))
             {
                 yield return panelChild;
             }

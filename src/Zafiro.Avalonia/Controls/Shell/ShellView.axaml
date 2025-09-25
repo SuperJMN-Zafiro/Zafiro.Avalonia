@@ -82,7 +82,7 @@
 
         <ControlTheme x:Key="{x:Type ShellView}" TargetType="ShellView">
             <Setter Property="PaneBackground" Value="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" />
-            <Setter Property="MenuButtonSize" Value="48" />
+            <Setter Property="MenuButtonSize" Value="42" />
             <Setter Property="OpenPaneLength" Value="250" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
             <Setter Property="IsPaneOpen" Value="True" />
@@ -91,6 +91,7 @@
             <Setter Property="SectionVerticalIconLabelSpacing" Value="0" />
             <Setter Property="IconMargin" Value="8" />
             <Setter Property="SectionMaxItemWidth" Value="110" />
+            <Setter Property="SectionItemPadding" Value="5" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel Container.Name="RootPanel" Container.Sizing="WidthAndHeight">

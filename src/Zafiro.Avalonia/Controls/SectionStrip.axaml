@@ -45,15 +45,19 @@
         </ControlTheme>
 
         <DataTemplate x:Key="VerticalItem" DataType="sections:INamedSection">
-            <DockPanel Margin="{Binding $parent[SectionStrip].ItemPadding}" HorizontalSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}"
-                       VerticalSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
-                <Viewbox Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}" DockPanel.Dock="Top">
+            <Grid Margin="{Binding $parent[SectionStrip].ItemPadding}" ColumnSpacing="{Binding $parent[SectionStrip].HorizontalIconLabelSpacing}"
+                  RowSpacing="{Binding $parent[SectionStrip].VerticalIconLabelSpacing}">
+                <Grid.RowDefinitions>
+                    <RowDefinition SharedSizeGroup="Icon" Height="Auto" />
+                    <RowDefinition SharedSizeGroup="Label" Height="Auto" />
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Row="0" Height="{Binding $parent[SectionStrip].IconSize}" Width="{Binding $self.Width}" DockPanel.Dock="Top">
                     <ContentControl Margin="{Binding $parent[SectionStrip].IconMargin}" Content="{Binding Icon}" />
                 </Viewbox>
-                <TextBlock
-                    TextAlignment="Center" TextWrapping="Wrap"
-                    HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
-            </DockPanel>
+                <TextBlock Grid.Row="1" DockPanel.Dock="Bottom"
+                           TextAlignment="Center" TextWrapping="Wrap"
+                           HorizontalAlignment="Center" Text="{Binding FriendlyName}" />
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="HorizontalItem" DataType="sections:INamedSection">
@@ -139,6 +143,7 @@
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformStripPanel
+                                            Grid.IsSharedSizeScope="True"
                                             ItemSpacing="{Binding $parent[SectionStrip].ItemSpacing}"
                                             ItemMinWidth="{Binding $parent[SectionStrip].MinItemWidth}"
                                             ItemMaxWidth="{Binding $parent[SectionStrip].MaxItemWidth}" />

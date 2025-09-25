@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro", "libs\Zafiro\src\Z
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.UI", "libs\Zafiro\src\Zafiro.UI\Zafiro.UI.csproj", "{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.FileSystem", "libs\Zafiro\src\Zafiro.FileSystem\Zafiro.FileSystem.csproj", "{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other files", "Other files", "{5C17C740-EF9B-4539-92BB-43CE92250490}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
@@ -84,10 +82,6 @@ Global
 		{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-																{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-																{758E0D18-36EF-43C6-8F46-F3CA4C110BA1}.Release|Any CPU.Build.0 = Release|Any CPU
 																{D2993F32-C840-4A28-BBC4-986DF7299073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 																{D2993F32-C840-4A28-BBC4-986DF7299073}.Debug|Any CPU.Build.0 = Debug|Any CPU
 																{D2993F32-C840-4A28-BBC4-986DF7299073}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -104,7 +98,6 @@ Global
 		{29CBCEF5-CE95-448F-B4B9-CED49813AA75} = {41A6E3E0-9492-4B68-B308-40F2A7ED0623}
 		{D3F322B1-ABDF-44F7-AC8E-80B222454D77} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
 		{E4EA3AF2-1531-470C-B19B-A7F5BDABD97B} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
-		{758E0D18-36EF-43C6-8F46-F3CA4C110BA1} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
 		{B04CCE9E-1D68-4156-B622-C33451058975} = {63B0828E-EB42-44BA-A379-B79CAA87D2A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
