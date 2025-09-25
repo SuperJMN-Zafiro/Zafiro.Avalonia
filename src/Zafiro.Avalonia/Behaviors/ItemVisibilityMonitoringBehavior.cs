@@ -46,7 +46,7 @@ public class ItemVisibilityMonitoringBehavior : DisposingBehavior<ItemsControl>
             .Timer(TimeSpan.Zero, TimeSpan.FromTicks(100), AvaloniaScheduler.Instance)
             .Select(_ => AssociatedObject.ItemsPanelRoot)
             .WhereNotNull()
-            .DistinctUntilChanged()
+            .Take(1)
             .Select(panel => new VisibleChildrenWatcher(panel))
             .Do(watcher => serialDisposable.Disposable = watcher)
             .Publish()

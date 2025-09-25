@@ -33,8 +33,6 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Android"/>
-        <PackageReference Include="Avalonia.ReactiveUI"/>
-        <PackageReference Include="Avalonia.Fonts.Inter"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
         <!-- Use the meta package that provides Xaml.Behaviors.dll with XmlnsDefinitions -->
         <PackageReference Include="Xaml.Behaviors.Avalonia"/>
