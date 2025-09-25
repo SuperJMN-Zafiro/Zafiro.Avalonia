@@ -15,7 +15,8 @@ public class VisibleChildrenWatcher : IDisposable
             .ToSignal();
 
         var layoutChanges = Observable.FromEventPattern<EventHandler, EventArgs>(eh => panel.LayoutUpdated += eh, eh => panel.LayoutUpdated -= eh)
-            .ToSignal();
+            .ToSignal()
+            .Sample(TimeSpan.FromMilliseconds(16), AvaloniaScheduler.Instance);
 
         var visibleItemsChangeSet = layoutChanges.Merge(childrenChanges)
             .Select(_ => CalculateVisibleChildren(panel))
@@ -53,9 +54,11 @@ public class VisibleChildrenWatcher : IDisposable
 
     private static IEnumerable<Visual> CalculateVisibleChildren(Panel panel)
     {
+        // Intersect in panel's coordinate space: viewport is (0,0)-(panel.Width,panel.Height)
+        var viewport = new Rect(panel.Bounds.Size);
         foreach (var panelChild in panel.Children)
         {
-            if (panel.Bounds.Intersects(panelChild.Bounds))
+            if (viewport.Intersects(panelChild.Bounds))
             {
                 yield return panelChild;
             }
