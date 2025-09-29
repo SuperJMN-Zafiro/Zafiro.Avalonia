@@ -48,5 +48,10 @@
     <ItemGroup>
         <AdditionalFiles Include="**/*.axaml"/>
     </ItemGroup>
+    <ItemGroup>
+        <None Update="icon.svg">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512" xml:space="preserve">
+<circle style="fill:#324A5E;" cx="256" cy="256" r="256"/>
+    <path style="fill:#2B3B4E;" d="M256,369.778l114.99,114.99c68.832-34.668,119.884-99.473,135.794-177.095L398.222,199.111
+	c-0.288,0-156.875,118.662-156.875,118.662L256,369.778z"/>
+    <g>
+	<polygon style="fill:#B5F1F4;" points="199.111,142.222 113.778,199.111 255.857,199.111 255.857,142.222 	"/>
+        <polygon style="fill:#B5F1F4;" points="312.889,142.222 255.857,142.222 255.857,199.111 398.222,199.111 	"/>
+</g>
+    <polygon style="fill:#7BD4EF;" points="398.222,199.111 255.857,199.111 255.857,369.605 256,369.778 "/>
+    <g>
+	<polygon style="fill:#84DBFF;" points="113.778,199.111 255.857,369.605 255.857,199.111 	"/>
+        <polygon style="fill:#84DBFF;" points="312.889,199.111 256,142.222 199.111,199.111 	"/>
+</g>
+    <polygon style="fill:#7BD4EF;" points="256,142.222 255.857,142.365 255.857,199.111 312.889,199.111 "/>
+    <polygon style="fill:#31BAFD;" points="199.111,199.111 256,369.778 312.889,199.111 "/>
+    <polygon style="fill:#2B9ED8;" points="312.889,199.111 255.857,199.111 255.857,369.349 256,369.778 "/>
+    <polygon style="fill:#31BAFD;" points="199.111,142.222 199.111,199.111 113.778,199.111 "/>
+    <polygon style="fill:#2B9ED8;" points="312.889,142.222 312.889,199.111 398.222,199.111 "/>
+</svg>
