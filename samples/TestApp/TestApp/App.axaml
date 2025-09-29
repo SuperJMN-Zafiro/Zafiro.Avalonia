@@ -4,7 +4,7 @@
              xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
-             RequestedThemeVariant="Dark">
+             RequestedThemeVariant="Default">
 
     <Application.Styles>
         <FluentTheme>

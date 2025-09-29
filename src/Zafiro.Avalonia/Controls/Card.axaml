@@ -4,18 +4,9 @@
 
     <Styles.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeMediumLowColor}" />
-                    <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeHighColor}" />
-                    <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeLowColor}" />
-                    <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeMediumColor}" />
-                    <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
+            <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource SystemChromeLowColor}" />
+            <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource SystemChromeMediumColor}" />
+            <SolidColorBrush x:Key="CardBorderHover" Color="{DynamicResource SystemChromeBlackLowColor}" />
 
             <ControlTheme x:Key="{x:Type Card}" TargetType="Card">
                 <Setter Property="BorderThickness" Value="1" />
