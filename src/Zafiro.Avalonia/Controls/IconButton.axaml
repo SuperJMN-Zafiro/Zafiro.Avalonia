@@ -3,50 +3,49 @@
 
     <Design.PreviewWith>
         <StackPanel>
-            <IconButton Foreground="Red" FontWeight="Bold" Content="THIS IS A BUTTON">
+            <IconButton Content="HOLA" ButtonTheme="{StaticResource TransparentButton}">
                 <IconButton.Icon>
                     ICON
                 </IconButton.Icon>
             </IconButton>
-            <ReactiveButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
-            <IconButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="IconButton" x:Key="{x:Type IconButton}" BasedOn="{StaticResource {x:Type Button}}">
+        <ControlTheme x:Key="{x:Type IconButton}" TargetType="IconButton">
             <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="ButtonTheme">
-                <Setter.Value>
-                    <ControlTheme TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" />
-                </Setter.Value>
-            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="IconButton">
-                        <Button
-                            Padding="{TemplateBinding Padding}"
+                <ControlTemplate>
+                    <Button Theme="{TemplateBinding ButtonTheme}"
+                            IsDefault="{TemplateBinding IsDefault}"
+                            IsCancel="{TemplateBinding IsCancel}"
+                            IsTabStop="{TemplateBinding IsTabStop}"
                             Background="{TemplateBinding Background}"
                             Foreground="{TemplateBinding Foreground}"
-                            Flyout="{TemplateBinding Flyout}"
-                            Margin="{TemplateBinding Margin}"
-                            Command="{TemplateBinding Command}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            CommandParameter="{TemplateBinding CommandParameter}"
-                            Theme="{TemplateBinding ButtonTheme}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <DockPanel HorizontalSpacing="8">
-                                <ContentPresenter IsVisible="{Binding !!$parent[IconButton].Icon}" Content="{TemplateBinding Icon}" />
-                                <ContentPresenter IsVisible="{Binding !!$parent[IconButton].Content}" Content="{TemplateBinding Content}" VerticalAlignment="Center" />
+                            Command="{Binding $parent[IconButton].Command}">
+                        <Button.Content>
+                            <DockPanel HorizontalSpacing="8" HorizontalAlignment="{Binding $parent[IconButton].HorizontalContentAlignment}">
+                                <ContentPresenter
+                                    Height="{Binding #MainContent.Bounds.Height}"
+                                    IsVisible="{Binding !!$parent[IconButton].Icon}"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding Icon}" />
+                                <ContentPresenter x:Name="MainContent"
+                                                  IsVisible="{Binding !!$parent[IconButton].Content}"
+                                                  Content="{Binding $parent[IconButton].Content}"
+                                                  VerticalAlignment="Center" />
                             </DockPanel>
-                        </Button>
-                    </ControlTemplate>
-                </Setter.Value>
+                        </Button.Content>
+                    </Button>
+                </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ Button:disabled ContentPresenter">
+                <Setter Property="Opacity" Value="0.5" />
+            </Style>
         </ControlTheme>
     </Styles.Resources>
 
