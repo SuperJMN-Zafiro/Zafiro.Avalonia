@@ -8,6 +8,7 @@
         <ControlTheme x:Key="{x:Type ReactiveButton}" TargetType="ReactiveButton">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Button Theme="{TemplateBinding ButtonTheme}"
