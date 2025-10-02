@@ -49,19 +49,6 @@
             <Setter Property="FontSize" Value="25" />
         </ControlTheme>
 
-        <DataTemplate x:Key="ContentHeaderTemplate">
-            <ContentControl
-                TextElement.FontWeight="Bold"
-                TextElement.FontSize="18"
-                TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="HeaderPaneTemplate">
-            <ContentControl
-                TextElement.FontWeight="Bold"
-                TextBlock.TextTrimming="CharacterEllipsis" Content="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        </DataTemplate>
-
         <!-- OBSOLETE -->
         <ControlTheme x:Key="ShellSplitViewOld" TargetType="ShellSplitView">
             <!-- Default values -->
@@ -70,8 +57,6 @@
             <Setter Property="OpenPaneLength" Value="200" />
             <Setter Property="PaneBackground" Value="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
-            <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
-            <Setter Property="PaneHeaderTemplate" Value="{StaticResource HeaderPaneTemplate}" />
             <Setter Property="ToggleButtonContent">
                 <Template>
                     <p:Icon Value="mdi-menu" />
