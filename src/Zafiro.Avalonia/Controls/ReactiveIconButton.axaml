@@ -34,6 +34,8 @@
                             IsDefault="{TemplateBinding IsDefault}"
                             IsCancel="{TemplateBinding IsCancel}"
                             IsTabStop="{TemplateBinding IsTabStop}"
+                            Background="{TemplateBinding Background}"
+                            Foreground="{TemplateBinding Foreground}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"

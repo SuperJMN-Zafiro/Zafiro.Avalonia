@@ -21,6 +21,8 @@
                             IsTabStop="{TemplateBinding IsTabStop}"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
+                            Background="{TemplateBinding Background}"
+                            Foreground="{TemplateBinding Foreground}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             Command="{Binding $parent[controls:ReactiveButton].Command}">

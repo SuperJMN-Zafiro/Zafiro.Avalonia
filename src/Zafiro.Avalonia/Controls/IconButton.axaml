@@ -1,21 +1,20 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Design.PreviewWith>
         <StackPanel>
-            <controls:IconButton Content="THIS IS A BUTTON">
-                <controls:IconButton.Icon>
+            <IconButton Foreground="Red" FontWeight="Bold" Content="THIS IS A BUTTON">
+                <IconButton.Icon>
                     ICON
-                </controls:IconButton.Icon>
-            </controls:IconButton>
+                </IconButton.Icon>
+            </IconButton>
             <ReactiveButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
             <IconButton VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Alignment" Height="100" Width="300" Command="{Binding NeverEndingCommand}" />
         </StackPanel>
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="controls:IconButton" x:Key="{x:Type controls:IconButton}" BasedOn="{StaticResource {x:Type Button}}">
+        <ControlTheme TargetType="IconButton" x:Key="{x:Type IconButton}" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="ButtonTheme">
@@ -25,9 +24,11 @@
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="controls:IconButton">
+                    <ControlTemplate TargetType="IconButton">
                         <Button
                             Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            Foreground="{TemplateBinding Foreground}"
                             Flyout="{TemplateBinding Flyout}"
                             Margin="{TemplateBinding Margin}"
                             Command="{TemplateBinding Command}"
@@ -36,12 +37,11 @@
                             Theme="{TemplateBinding ButtonTheme}"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
-                            Background="{TemplateBinding Background}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <DockPanel HorizontalSpacing="8">
-                                <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Icon}" Content="{TemplateBinding Icon}" />
-                                <ContentPresenter IsVisible="{Binding !!$parent[controls:IconButton].Content}" Content="{TemplateBinding Content}" VerticalAlignment="Center" />
+                                <ContentPresenter IsVisible="{Binding !!$parent[IconButton].Icon}" Content="{TemplateBinding Icon}" />
+                                <ContentPresenter IsVisible="{Binding !!$parent[IconButton].Content}" Content="{TemplateBinding Content}" VerticalAlignment="Center" />
                             </DockPanel>
                         </Button>
                     </ControlTemplate>
