@@ -227,7 +227,6 @@
 
         <ControlTheme x:Key="{x:Type ShellSplitView}" TargetType="ShellSplitView">
             <Setter Property="ExpandButtonSize" Value="42" />
-            <Setter Property="ContentHeaderTemplate" Value="{StaticResource ContentHeaderTemplate}" />
             <Setter Property="OpenPaneLength" Value="200" />
             <Setter Property="PaneBackground" Value="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" />
             <Setter Property="ToggleButtonTheme" Value="{StaticResource HamburguerMenuToggleButton}" />
