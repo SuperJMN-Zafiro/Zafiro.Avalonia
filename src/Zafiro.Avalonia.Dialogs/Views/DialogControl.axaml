@@ -31,7 +31,11 @@
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            MinWidth="{TemplateBinding MinWidth}"
+                            MaxHeight="{TemplateBinding MaxHeight}"
+                            MinHeight="{TemplateBinding MinHeight}">
                         <Border.Padding>
                             <MultiBinding Converter="{x:Static dialogs:ResponsivePaddingConverter.Instance}" ConverterParameter="0.04,6,20">
                                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Bounds.Width" />

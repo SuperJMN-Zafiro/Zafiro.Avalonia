@@ -15,6 +15,8 @@ public class DesktopDialog : IDialog
         {
             var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
 
+            var sizePlan = DialogSizing.For(mainWindow);
+
             var window = new Window
             {
                 Title = title,
@@ -22,20 +24,22 @@ public class DesktopDialog : IDialog
                 CanResize = false,
                 Icon = mainWindow.Icon,
                 SizeToContent = SizeToContent.WidthAndHeight,
-                MaxWidth = 800,
-                MaxHeight = 800,
-                MinWidth = 300,
-                MinHeight = 200
             };
+
+            DialogSizing.Apply(window, sizePlan);
 
             var closeable = new CloseableWrapper(window);
             var options = optionsFactory(closeable);
 
-            window.Content = new DialogControl
+            var dialogControl = new DialogControl
             {
                 Content = viewModel,
                 Options = options
             };
+
+            DialogSizing.Apply(dialogControl, sizePlan);
+
+            window.Content = dialogControl;
 
             var result = await window.ShowDialog<bool?>(mainWindow).ConfigureAwait(false);
             return result is not (null or false);

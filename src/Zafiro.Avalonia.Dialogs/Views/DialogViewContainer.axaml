@@ -40,13 +40,21 @@
             <ControlTemplate>
                 <Panel>
                     <Border Background="Black" Opacity="0.4" />
-                    <Border Classes="Card" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border Classes="Card"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="{TemplateBinding Margin}"
+                            Padding="{TemplateBinding Padding}"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            MinWidth="{TemplateBinding MinWidth}"
+                            MaxHeight="{TemplateBinding MaxHeight}"
+                            MinHeight="{TemplateBinding MinHeight}">
                         <DockPanel>
-                            <Panel DockPanel.Dock="Top">
+                            <Panel DockPanel.Dock="Top" Margin="0 0 0 12">
                                 <TextBlock VerticalAlignment="Center" FontWeight="Bold" TextAlignment="Center" Text="{TemplateBinding Title}" />
                                 <Button Theme="{StaticResource TransparentButton}" IconOptions.Size="24" Content="{Icon mdi-close}"
                                             HorizontalAlignment="Right" Command="{TemplateBinding Close}">
-                                    
+
                                 </Button>
                             </Panel>
                             <ContentPresenter Content="{TemplateBinding Content}" />

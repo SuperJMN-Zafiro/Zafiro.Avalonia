@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System;
+using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -61,28 +62,49 @@ public class AdornerDialog : IDialog, ICloseable
             currentDialog = new TaskCompletionSource<bool>();
             var options = optionsFactory(this);
 
+            var adornerLayer = adornerLayerLazy.Value;
+            if (adornerLayer.Parent is not Visual parent)
+            {
+                throw new InvalidOperationException("The adorner layer must have a parent visual to calculate dialog sizing.");
+            }
+
+            var initialPlan = DialogSizing.For(parent.Bounds.Size);
+
+            var dialogControl = new DialogControl
+            {
+                Content = viewModel,
+                Options = options,
+            };
+
+            DialogSizing.Apply(dialogControl, initialPlan);
+
             var dialog = new DialogViewContainer
             {
                 Title = title,
-                Content = new DialogControl()
-                {
-                    Content = viewModel,
-                    Options = options,
-                },
+                Content = dialogControl,
                 Close = ReactiveCommand.Create(() => Dismiss()),
             };
 
-            var adornerLayer = adornerLayerLazy.Value;
+            DialogSizing.Apply(dialog, initialPlan);
 
-            dialog[!Layoutable.HeightProperty] = adornerLayer.Parent!
+            var planStream = parent
                 .GetObservable(Visual.BoundsProperty)
-                .Select(rect => rect.Height)
-                .ToBinding();
+                .Select(rect => DialogSizing.For(rect.Size))
+                .StartWith(initialPlan)
+                .Publish()
+                .RefCount();
 
-            dialog[!Layoutable.WidthProperty] = adornerLayer.Parent!
-                .GetObservable(Visual.BoundsProperty)
-                .Select(rect => rect.Width)
-                .ToBinding();
+            dialog[!Layoutable.MaxWidthProperty] = planStream.Select(plan => plan.MaxWidth).ToBinding();
+            dialog[!Layoutable.MaxHeightProperty] = planStream.Select(plan => plan.MaxHeight).ToBinding();
+            dialog[!Layoutable.MinWidthProperty] = planStream.Select(plan => plan.MinWidth).ToBinding();
+            dialog[!Layoutable.MinHeightProperty] = planStream.Select(plan => plan.MinHeight).ToBinding();
+            dialog[!ContentControl.PaddingProperty] = planStream.Select(plan => new Thickness(plan.Padding)).ToBinding();
+            dialog[!Layoutable.MarginProperty] = planStream.Select(plan => new Thickness(plan.OuterMargin)).ToBinding();
+
+            dialogControl[!Layoutable.MaxWidthProperty] = planStream.Select(plan => plan.ContentMaxWidth).ToBinding();
+            dialogControl[!Layoutable.MaxHeightProperty] = planStream.Select(plan => plan.ContentMaxHeight).ToBinding();
+            dialogControl[!Layoutable.MinWidthProperty] = planStream.Select(plan => plan.ContentMinWidth).ToBinding();
+            dialogControl[!Layoutable.MinHeightProperty] = planStream.Select(plan => plan.ContentMinHeight).ToBinding();
 
             adornerLayer.Children.Add(dialog);
             dialogs.Push(dialog);
