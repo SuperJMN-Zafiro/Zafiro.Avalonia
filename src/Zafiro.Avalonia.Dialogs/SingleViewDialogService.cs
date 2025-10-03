@@ -61,27 +61,57 @@ public class AdornerDialog : IDialog, ICloseable
             currentDialog = new TaskCompletionSource<bool>();
             var options = optionsFactory(this);
 
+            var dialogControl = new DialogControl
+            {
+                Content = viewModel,
+                Options = options,
+            };
+
             var dialog = new DialogViewContainer
             {
                 Title = title,
-                Content = new DialogControl()
-                {
-                    Content = viewModel,
-                    Options = options,
-                },
+                Content = dialogControl,
                 Close = ReactiveCommand.Create(() => Dismiss()),
             };
 
             var adornerLayer = adornerLayerLazy.Value;
 
-            dialog[!Layoutable.HeightProperty] = adornerLayer.Parent!
-                .GetObservable(Visual.BoundsProperty)
+            var boundsObservable = adornerLayer.Parent!
+                .GetObservable(Visual.BoundsProperty);
+
+            var layoutObservable = boundsObservable
+                .Select(DialogSizePolicy.Calculate);
+
+            dialog[!Layoutable.HeightProperty] = boundsObservable
                 .Select(rect => rect.Height)
                 .ToBinding();
 
-            dialog[!Layoutable.WidthProperty] = adornerLayer.Parent!
-                .GetObservable(Visual.BoundsProperty)
+            dialog[!Layoutable.WidthProperty] = boundsObservable
                 .Select(rect => rect.Width)
+                .ToBinding();
+
+            dialogControl[!Layoutable.WidthProperty] = layoutObservable
+                .Select(layout => layout.PreferredContent.Width)
+                .ToBinding();
+
+            dialogControl[!Layoutable.HeightProperty] = layoutObservable
+                .Select(layout => layout.PreferredContent.Height)
+                .ToBinding();
+
+            dialogControl[!Layoutable.MaxWidthProperty] = layoutObservable
+                .Select(layout => layout.MaximumContent.Width)
+                .ToBinding();
+
+            dialogControl[!Layoutable.MaxHeightProperty] = layoutObservable
+                .Select(layout => layout.MaximumContent.Height)
+                .ToBinding();
+
+            dialogControl[!Layoutable.MinWidthProperty] = layoutObservable
+                .Select(layout => layout.MinimumContent.Width)
+                .ToBinding();
+
+            dialogControl[!Layoutable.MinHeightProperty] = layoutObservable
+                .Select(layout => layout.MinimumContent.Height)
                 .ToBinding();
 
             adornerLayer.Children.Add(dialog);

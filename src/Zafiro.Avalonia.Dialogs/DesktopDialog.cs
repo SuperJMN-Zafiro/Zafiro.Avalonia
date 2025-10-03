@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
 using Zafiro.Avalonia.Misc;
@@ -15,6 +16,8 @@ public class DesktopDialog : IDialog
         {
             var mainWindow = ApplicationUtils.MainWindow().GetValueOrThrow("Cannot get the main window");
 
+            var layout = DialogSizePolicy.Calculate(new Rect(mainWindow.Bounds.Size));
+
             var window = new Window
             {
                 Title = title,
@@ -22,10 +25,12 @@ public class DesktopDialog : IDialog
                 CanResize = false,
                 Icon = mainWindow.Icon,
                 SizeToContent = SizeToContent.WidthAndHeight,
-                MaxWidth = 800,
-                MaxHeight = 800,
-                MinWidth = 300,
-                MinHeight = 200
+                Width = layout.PreferredWindow.Width,
+                Height = layout.PreferredWindow.Height,
+                MaxWidth = layout.MaximumWindow.Width,
+                MaxHeight = layout.MaximumWindow.Height,
+                MinWidth = layout.MinimumWindow.Width,
+                MinHeight = layout.MinimumWindow.Height
             };
 
             var closeable = new CloseableWrapper(window);
@@ -34,7 +39,13 @@ public class DesktopDialog : IDialog
             window.Content = new DialogControl
             {
                 Content = viewModel,
-                Options = options
+                Options = options,
+                Width = layout.PreferredContent.Width,
+                Height = layout.PreferredContent.Height,
+                MaxWidth = layout.MaximumContent.Width,
+                MaxHeight = layout.MaximumContent.Height,
+                MinWidth = layout.MinimumContent.Width,
+                MinHeight = layout.MinimumContent.Height
             };
 
             var result = await window.ShowDialog<bool?>(mainWindow).ConfigureAwait(false);

@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
@@ -31,15 +32,19 @@ namespace Zafiro.Avalonia.Dialogs
                 // Si no hay ventana de diálogo, crea una nueva
                 if (dialogWindow == null)
                 {
+                    var layout = DialogSizePolicy.Calculate(new Rect(mainWindow.Bounds.Size));
+
                     dialogWindow = new Window
                     {
                         WindowStartupLocation = WindowStartupLocation.CenterOwner,
                         Icon = mainWindow.Icon,
                         SizeToContent = SizeToContent.WidthAndHeight,
-                        MaxWidth = 800,
-                        MaxHeight = 700,
-                        MinWidth = 400,
-                        MinHeight = 300
+                        Width = layout.PreferredWindow.Width,
+                        Height = layout.PreferredWindow.Height,
+                        MaxWidth = layout.MaximumWindow.Width,
+                        MaxHeight = layout.MaximumWindow.Height,
+                        MinWidth = layout.MinimumWindow.Width,
+                        MinHeight = layout.MinimumWindow.Height
                     };
 
                     // Maneja el evento de cierre de la ventana para completar todos los diálogos pendientes
@@ -78,10 +83,25 @@ namespace Zafiro.Avalonia.Dialogs
             if (dialogWindow != null)
             {
                 dialogWindow.Title = dialogContext.Title;
+                var layout = DialogSizePolicy.Calculate(new Rect(dialogWindow.Owner?.Bounds.Size ?? dialogWindow.Bounds.Size));
+
+                dialogWindow.Width = layout.PreferredWindow.Width;
+                dialogWindow.Height = layout.PreferredWindow.Height;
+                dialogWindow.MaxWidth = layout.MaximumWindow.Width;
+                dialogWindow.MaxHeight = layout.MaximumWindow.Height;
+                dialogWindow.MinWidth = layout.MinimumWindow.Width;
+                dialogWindow.MinHeight = layout.MinimumWindow.Height;
+
                 dialogWindow.Content = new DialogControl
                 {
                     Content = dialogContext.ViewModel,
-                    Options = dialogContext.Options
+                    Options = dialogContext.Options,
+                    Width = layout.PreferredContent.Width,
+                    Height = layout.PreferredContent.Height,
+                    MaxWidth = layout.MaximumContent.Width,
+                    MaxHeight = layout.MaximumContent.Height,
+                    MinWidth = layout.MinimumContent.Width,
+                    MinHeight = layout.MinimumContent.Height
                 };
             }
         }
