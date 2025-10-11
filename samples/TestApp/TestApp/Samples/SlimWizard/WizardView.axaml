@@ -15,16 +15,20 @@
 
     <c:HeaderedContainer Header="Create wizard flow from your ViewModels that are completely decoupled from the GUI">
         <UniformGrid RowSpacing="20" Columns="1" VerticalAlignment="Center">
-            <IconButton Content="Launch inside Dialog" HorizontalAlignment="Center" Command="{Binding ShowWizardInDialog}">
-                <IconButton.Icon>
+            <c:ReactiveButton Content="Launch inside Dialog"
+                               HorizontalAlignment="Center"
+                               Command="{Binding ShowWizardInDialog}">
+                <c:ReactiveButton.Icon>
                     <ui:Icon Source="fa-window-maximize" />
-                </IconButton.Icon>
-            </IconButton>
-            <IconButton Content="Launch in new page" HorizontalAlignment="Center" Command="{Binding NavigateToWizard}">
-                <IconButton.Icon>
+                </c:ReactiveButton.Icon>
+            </c:ReactiveButton>
+            <c:ReactiveButton Content="Launch in new page"
+                               HorizontalAlignment="Center"
+                               Command="{Binding NavigateToWizard}">
+                <c:ReactiveButton.Icon>
                     <ui:Icon Source="mdi-chevron-right" />
-                </IconButton.Icon>
-            </IconButton>
+                </c:ReactiveButton.Icon>
+            </c:ReactiveButton>
         </UniformGrid>
     </c:HeaderedContainer>
 

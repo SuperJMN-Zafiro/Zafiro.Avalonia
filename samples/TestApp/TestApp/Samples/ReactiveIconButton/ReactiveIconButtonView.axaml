@@ -12,16 +12,16 @@
 
     <HeaderedContainer Header="Buttons with icons that know when they are busy">
         <StackPanel Width="400" VerticalAlignment="Center" Spacing="8">
-            <ReactiveIconButton Command="{Binding NeverEndingCommand}" Content="Working">
-                <ReactiveIconButton.Icon>
+            <ReactiveButton Command="{Binding NeverEndingCommand}" Content="Working">
+                <ReactiveButton.Icon>
                     <ui:Icon Source="fa-sync" />
-                </ReactiveIconButton.Icon>
-            </ReactiveIconButton>
-            <ReactiveIconButton Command="{Binding RegularCommand}" Content="Done">
-                <ReactiveIconButton.Icon>
+                </ReactiveButton.Icon>
+            </ReactiveButton>
+            <ReactiveButton Command="{Binding RegularCommand}" Content="Done">
+                <ReactiveButton.Icon>
                     <ui:Icon Source="fa-check" />
-                </ReactiveIconButton.Icon>
-            </ReactiveIconButton>
+                </ReactiveButton.Icon>
+            </ReactiveButton>
         </StackPanel>
     </HeaderedContainer>
 </UserControl>
