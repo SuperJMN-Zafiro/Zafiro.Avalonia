@@ -4,6 +4,11 @@
         xmlns:avalonia="clr-namespace:Zafiro.Avalonia"
         xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
         xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
+
+    <Style Selector="controls|ReactiveButton:disabled /template/ ContentPresenter">
+        <Setter Property="Opacity" Value="0.5" />
+    </Style>
+
     <Styles.Resources>
         <converters:PreferredHeightConverter x:Key="PreferredHeightConverter" />
         <DataTemplate x:Key="ReactiveButtonDefaultContent">
@@ -11,7 +16,7 @@
                         Spacing="6"
                         HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}">
                 <Viewbox StretchDirection="DownOnly"
-                        VerticalAlignment="Center">
+                         VerticalAlignment="Center">
                     <Viewbox.Width>
                         <MultiBinding Converter="{StaticResource PreferredHeightConverter}" ConverterParameter="16">
                             <Binding ElementName="MainContent" Path="Bounds.Height" />
@@ -50,9 +55,6 @@
             <Setter Property="ContentTemplate" Value="{StaticResource ReactiveButtonDefaultContent}" />
         </ControlTheme>
 
-        <Style Selector="controls|ReactiveButton:disabled /template/ ContentPresenter">
-            <Setter Property="Opacity" Value="0.5" />
-        </Style>
 
         <DataTemplate x:Key="ReactiveButtonProgressBarContent">
             <Grid>
@@ -74,10 +76,10 @@
                       BasedOn="{StaticResource {x:Type controls:ReactiveButton}}">
             <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
             <Setter Property="ContentTemplate" Value="{StaticResource ReactiveButtonProgressBarContent}" />
-            <Style Selector="^ ProgressBar:horizontal">
-                <Setter Property="MinWidth" Value="0" />
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-            </Style>
+            <!-- <Style Selector="^ ProgressBar:horizontal"> -->
+            <!--     <Setter Property="MinWidth" Value="0" /> -->
+            <!--     <Setter Property="HorizontalAlignment" Value="Stretch" /> -->
+            <!-- </Style> -->
         </ControlTheme>
 
         <DataTemplate x:Key="ReactiveButtonFullLoadingContent">
@@ -104,26 +106,26 @@
             </StackPanel.DataContext>
             <Button Content="Regular button" />
             <controls:ReactiveButton VerticalContentAlignment="Center"
-                                    HorizontalContentAlignment="Center"
-                                    Content="Alignment"
-                                    Height="100"
-                                    Width="300"
-                                    Command="{Binding NeverEndingCommand}">
+                                     HorizontalContentAlignment="Center"
+                                     Content="Alignment"
+                                     Height="100"
+                                     Width="300"
+                                     Command="{Binding NeverEndingCommand}">
                 <controls:ReactiveButton.Icon>
                     <Path Data="M6,0 L12,12 L0,12 Z" Fill="DarkGoldenrod" Width="16" Height="16" />
                 </controls:ReactiveButton.Icon>
             </controls:ReactiveButton>
             <controls:ReactiveButton Content="This is where I heal my hurt"
-                                    Command="{Binding NeverEndingCommand}" />
+                                     Command="{Binding NeverEndingCommand}" />
             <controls:ReactiveButton HorizontalContentAlignment="Center"
-                                    HorizontalAlignment="Stretch"
-                                    Content="This is where I heal my hurt"
-                                    Command="{Binding NeverEndingCommand}" />
+                                     HorizontalAlignment="Stretch"
+                                     Content="This is where I heal my hurt"
+                                     Command="{Binding NeverEndingCommand}" />
             <controls:ReactiveButton Content="This is where I heal my hurt"
-                                    Command="{Binding RegularCommand}" />
+                                     Command="{Binding RegularCommand}" />
             <controls:ReactiveButton Theme="{StaticResource ProgressBarReactiveButton}"
-                                    Content="With ProgressBar"
-                                    Command="{Binding NeverEndingCommand}" />
+                                     Content="With ProgressBar"
+                                     Command="{Binding NeverEndingCommand}" />
             <Button Content="Regular button" />
             <Button IsEnabled="False" Content="Regular button (disabled)" />
         </StackPanel>
