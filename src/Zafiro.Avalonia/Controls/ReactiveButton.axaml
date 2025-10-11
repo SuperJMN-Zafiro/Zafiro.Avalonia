@@ -2,19 +2,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls"
         xmlns:avalonia="clr-namespace:Zafiro.Avalonia"
+        xmlns:converters="clr-namespace:Zafiro.Avalonia.Converters"
         xmlns:c="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
     <Styles.Resources>
+        <converters:PreferredHeightConverter x:Key="PreferredHeightConverter" />
         <DataTemplate x:Key="ReactiveButtonDefaultContent">
             <StackPanel Orientation="Horizontal"
                         Spacing="6"
                         HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}">
                 <Viewbox StretchDirection="DownOnly"
-                        Height="{Binding #MainContent.Bounds.Height}">
+                        VerticalAlignment="Center">
+                    <Viewbox.Width>
+                        <MultiBinding Converter="{StaticResource PreferredHeightConverter}" ConverterParameter="16">
+                            <Binding ElementName="MainContent" Path="Bounds.Height" />
+                            <Binding ElementName="IconPresenter" Path="Bounds.Height" />
+                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontSize" />
+                        </MultiBinding>
+                    </Viewbox.Width>
+                    <Viewbox.Height>
+                        <MultiBinding Converter="{StaticResource PreferredHeightConverter}" ConverterParameter="16">
+                            <Binding ElementName="MainContent" Path="Bounds.Height" />
+                            <Binding ElementName="IconPresenter" Path="Bounds.Height" />
+                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontSize" />
+                        </MultiBinding>
+                    </Viewbox.Height>
                     <c:ProgressRing Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"
                                     IsVisible="{Binding IsCommandRunning, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Viewbox>
                 <ContentPresenter x:Name="IconPresenter"
-                                  Height="{Binding #MainContent.Bounds.Height}"
                                   IsVisible="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
                                   VerticalAlignment="Center"
                                   Content="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -33,10 +48,11 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="ContentTemplate" Value="{StaticResource ReactiveButtonDefaultContent}" />
-            <Style Selector="^:disabled ContentPresenter">
-                <Setter Property="Opacity" Value="0.5" />
-            </Style>
         </ControlTheme>
+
+        <Style Selector="controls|ReactiveButton:disabled /template/ ContentPresenter">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
 
         <DataTemplate x:Key="ReactiveButtonProgressBarContent">
             <Grid>
