@@ -85,6 +85,108 @@
             </Style>
         </ControlTheme>
 
+        <!-- Keyed ControlTheme to apply via Button.Theme -->
+        <ControlTheme x:Key="ChromedButton" TargetType="Button"
+                      BasedOn="{StaticResource {x:Type Button}}">
+
+            <!-- Template identical to base (respects TemplateBinding) -->
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Padding="{TemplateBinding Padding}"
+                                      RecognizesAccessKey="True"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.1" />
+                    </Transitions>
+                </Setter>
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource ShadeBorder}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource AutoForeground}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- PointerOver: ajustar Background derivado del propio Background actual -->
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource ShadeHover}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource AutoForeground}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Pressed -->
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource ShadePressed}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource AutoForeground}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Disabled -->
+            <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource ShadeDisabledBg}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource ShadeBorder}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource TemplatedParent}"
+                                 Converter="{StaticResource AutoForeground}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Opcional: micro feedback al pulsar -->
+            <Style Selector="^:pressed">
+                <Setter Property="RenderTransform" Value="scale(0.98)" />
+            </Style>
+        </ControlTheme>
+
     </Styles.Resources>
 
     <Design.PreviewWith>
@@ -99,6 +201,7 @@
             <RepeatButton IsEnabled="True" Content="Transparent" Theme="{StaticResource TransparentButton}" />
             <TextBox Text="{Binding First}" />
             <TextBox Text="{Binding Second}" />
+            <Button FontSize="30" Background="Green" Content="HOLA" Theme="{StaticResource ChromedButton}" />
         </StackPanel>
     </Design.PreviewWith>
 

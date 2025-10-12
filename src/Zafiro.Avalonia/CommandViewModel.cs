@@ -16,7 +16,7 @@ public class CommandViewModel : ReactiveObject
         NeverEndingCommand.Execute().Subscribe();
     }
 
-    public IEnhancedCommand<Unit, int> RegularCommand { get; set; }
+    public IEnhancedCommand<int> RegularCommand { get; set; }
 
-    public IEnhancedUnitCommand NeverEndingCommand { get; set; }
+    public IEnhancedCommand<Unit> NeverEndingCommand { get; set; }
 }
