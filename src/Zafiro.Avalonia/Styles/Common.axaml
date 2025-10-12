@@ -23,7 +23,7 @@
     <BrushShadeConverter x:Key="ShadePressed" DeltaLightness="-0.06" />
     <BrushShadeConverter x:Key="ShadeBorder" DeltaLightness="-0.12" SaturationScale="0.9" Alpha="0.95" />
     <BrushShadeConverter x:Key="ShadeDisabledBg" Alpha="0.55" />
-    <AutoForegroundConverter x:Key="AutoForeground" />
+    <AutoForegroundConverter x:Key="AutoForeground" FallbackBackground="{DynamicResource SystemRegionColor}" />
 
     <ControlTheme x:Key="InlineHeaderedContentControl" TargetType="HeaderedContentControl">
         <Setter Property="Template">
