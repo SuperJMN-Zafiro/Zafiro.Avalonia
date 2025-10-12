@@ -97,6 +97,7 @@
     </Application.DataTemplates>
 
     <Application.Resources>
+        <ControlTheme x:Key="{x:Type Button}" TargetType="Button" BasedOn="{StaticResource ChromedButton}" />
         <ControlTheme x:Key="EmptyCard" TargetType="controls:Card">
             <Setter Property="Template">
                 <Setter.Value>
