@@ -1,69 +1,43 @@
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Windows.Input;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.VisualTree;
-using CSharpFunctionalExtensions;
-using ReactiveUI;
+using Avalonia.Styling;
 using Zafiro.UI.Commands;
 
 namespace Zafiro.Avalonia.Controls;
 
-public class ReactiveButton : Button
+public class ReactiveButton : ContentControl
 {
-    public static readonly StyledProperty<object?> IconProperty = AvaloniaProperty.Register<ReactiveButton, object?>(nameof(Icon));
+    public static readonly StyledProperty<IEnhancedCommand> CommandProperty = AvaloniaProperty.Register<ReactiveButton, IEnhancedCommand>(
+        nameof(Command));
 
-    public static readonly DirectProperty<ReactiveButton, bool> IsCommandRunningProperty =
-        AvaloniaProperty.RegisterDirect<ReactiveButton, bool>(nameof(IsCommandRunning), button => button.isCommandRunning);
+    public static readonly StyledProperty<ControlTheme> ButtonThemeProperty = AvaloniaProperty.Register<ReactiveButton, ControlTheme>(
+        nameof(ButtonTheme));
 
-    readonly SerialDisposable commandExecutionSubscription = new();
-    bool isCommandRunning;
+    public static readonly StyledProperty<bool> IsCancelProperty = AvaloniaProperty.Register<ReactiveButton, bool>(
+        nameof(IsCancel));
 
-    public object? Icon
+    public static readonly StyledProperty<bool> IsDefaultProperty = AvaloniaProperty.Register<ReactiveButton, bool>(
+        nameof(IsDefault));
+
+    public IEnhancedCommand Command
     {
-        get => GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
+        get => GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
     }
 
-    public bool IsCommandRunning
+    public ControlTheme ButtonTheme
     {
-        get => isCommandRunning;
-        private set => SetAndRaise(IsCommandRunningProperty, ref isCommandRunning, value);
+        get => GetValue(ButtonThemeProperty);
+        set => SetValue(ButtonThemeProperty, value);
     }
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    public bool IsCancel
     {
-        base.OnAttachedToVisualTree(e);
-        commandExecutionSubscription.Disposable = ExecutionStates()
-            .Subscribe(value => IsCommandRunning = value);
+        get => GetValue(IsCancelProperty);
+        set => SetValue(IsCancelProperty, value);
     }
 
-    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    public bool IsDefault
     {
-        base.OnDetachedFromVisualTree(e);
-        commandExecutionSubscription.Disposable = Disposable.Empty;
+        get => GetValue(IsDefaultProperty);
+        set => SetValue(IsDefaultProperty, value);
     }
-
-    IObservable<bool> ExecutionStates() => this
-        .GetObservable(CommandProperty)
-        .StartWith(Command)
-        .Select(ObserveExecution)
-        .Switch()
-        .DistinctUntilChanged()
-        .ObserveOn(RxApp.MainThreadScheduler);
-
-    static IObservable<bool> ObserveExecution(ICommand? command) =>
-        Maybe.From(command)
-            .Bind(ToReactiveCommand)
-            .Map(rc => rc.IsExecuting.StartWith(false))
-            .GetValueOrDefault(Observable.Return(false));
-
-    static Maybe<IReactiveCommand> ToReactiveCommand(ICommand command) =>
-        command switch
-        {
-            IEnhancedCommand enhanced => Maybe.From((IReactiveCommand)enhanced),
-            IReactiveCommand reactive => Maybe.From(reactive),
-            _ => Maybe<IReactiveCommand>.None,
-        };
 }
