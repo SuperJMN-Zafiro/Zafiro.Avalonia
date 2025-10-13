@@ -16,6 +16,7 @@
         <PackageReference Include="FluentAvaloniaUI"/>
         <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="Projektanker.Icons.Avalonia"/>
+        <PackageReference Include="ReactiveProperty"/>
         <PackageReference Include="Svg.Controls.Skia.Avalonia"/>
         <PackageReference Include="System.Linq.Async"/>
         <PackageReference Include="Xaml.Behaviors.Avalonia"/>
@@ -25,9 +26,8 @@
         </PackageReference>
     </ItemGroup>
 
-
     <ItemGroup>
-        <AdditionalFiles Include="**/*.axaml" />
+        <AdditionalFiles Include="**/*.axaml"/>
     </ItemGroup>
 
     <ItemGroup Condition="'$(UseLocalZafiroReferences)' == 'true'">
