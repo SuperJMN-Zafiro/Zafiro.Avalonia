@@ -32,7 +32,8 @@ public sealed class ReactiveSelection<T, TKey> : IDisposable where T : notnull w
             .Subscribe()
             .DisposeWith(disposable);
 
-        selectedItemsCache.Connect(suppressEmptyChangeSets: false)
+        var selectedItemsChanges = selectedItemsCache.Connect(suppressEmptyChangeSets: false);
+        selectedItemsChanges
             .Bind(out var selectedItems)
             .Subscribe()
             .DisposeWith(disposable);
@@ -45,7 +46,7 @@ public sealed class ReactiveSelection<T, TKey> : IDisposable where T : notnull w
         SelectAll = ReactiveCommand.Create(DoSelectAll, filteredCounts.Select(x => x.totalCount > x.selectedCount && x.totalCount > 0)).DisposeWith(disposable);
         Clear = ReactiveCommand.Create(DoClear, counts.Select(x => x.selectedCount > 0)).DisposeWith(disposable);
         SelectedItems = selectedItems;
-        SelectedItem = new ReadOnlyReactiveProperty<Maybe<T>>(selectedItems.ToCollection().Select(ts => ts.TryFirst()), Maybe<T>.None).DisposeWith(disposable);
+        SelectedItem = new ReadOnlyReactiveProperty<Maybe<T>>(selectedItemsChanges.ToCollection().Select(ts => ts.TryFirst()), Maybe<T>.None).DisposeWith(disposable);
         SelectionCount = new ReadOnlyReactiveProperty<int>(selectedItemsCache.CountChanged).DisposeWith(disposable);
     }
 
