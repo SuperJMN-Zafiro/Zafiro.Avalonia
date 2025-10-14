@@ -14,14 +14,9 @@ public class Cell : TemplatedControl
     public static readonly StyledProperty<IDataTemplate?> ItemTemplateProperty = AvaloniaProperty.Register<Cell, IDataTemplate?>(
         nameof(ItemTemplate));
 
-    public IDataTemplate? ItemTemplate
-    {
-        get => GetValue(ItemTemplateProperty);
-        set => SetValue(ItemTemplateProperty, value);
-    }
-    
-    private object? value;
     private readonly CompositeDisposable compositeDisposable = new();
+
+    private object? value;
 
     public Cell(object data, Column column, int index)
     {
@@ -36,25 +31,39 @@ public class Cell : TemplatedControl
             DataContext = data;
             Bind(ValueProperty, binding);
         }
+        else
+        {
+            // Default fallback: use the row item as both DataContext and Value
+            // so that CellTemplate bindings like {Binding Prop} work out of the box
+            // and, without a template, ContentControl can display the item's ToString().
+            DataContext = data;
+            Value = data;
+        }
 
         this.WhenAnyValue(x => x.Column.CellTemplate)
             .Subscribe(template => this.ItemTemplate = template)
             .DisposeWith(compositeDisposable);
     }
 
-    protected override void OnUnloaded(RoutedEventArgs e)
+    public IDataTemplate? ItemTemplate
     {
-        compositeDisposable.Dispose();
-        base.OnUnloaded(e);
+        get => GetValue(ItemTemplateProperty);
+        set => SetValue(ItemTemplateProperty, value);
     }
 
     public object Data { get; }
     public Column Column { get; }
     public int Index { get; }
-    
+
     public object? Value
     {
         get => value;
         set => SetAndRaise(ValueProperty, ref this.value, value);
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        compositeDisposable.Dispose();
+        base.OnUnloaded(e);
     }
 }
