@@ -57,9 +57,9 @@ public class WizardViewModel : IDisposable
     private static SlimWizard<(int result, string)> CreateWizard()
     {
         return WizardBuilder
-            .StartWith(() => new Page1ViewModel(), "Page 1").ProceedWith(model => model.ReturnSomeInt.Enhance("Next"))
-            .Then(number => new Page2ViewModel(number), "Page 2").ProceedWithResultWhenValid((vm, number) => Result.Success((result: number, vm.Text!)))
-            .Then(_ => new Page3ViewModel(), "Completed!").ProceedWithResultWhenValid((_, val) => Result.Success(val), "Close")
+            .StartWith(() => new Page1ViewModel(), "Page 1").NextWith(model => model.ReturnSomeInt.Enhance("Next"))
+            .Then(number => new Page2ViewModel(number), "Page 2").NextWhenValid((vm, number) => Result.Success((result: number, vm.Text!)))
+            .Then(_ => new Page3ViewModel(), "Completed!").NextWhenValid((_, val) => Result.Success(val), "Close")
             .WithCompletionFinalStep();
     }
 }
