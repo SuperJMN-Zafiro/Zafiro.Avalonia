@@ -21,9 +21,10 @@ namespace Zafiro.Avalonia.Dialogs
                 var completionSource = new TaskCompletionSource<bool>();
                 var closeable = new DialogCloseable(completionSource, true);
                 var options = optionsFactory(closeable).ToList();
+                var sizePlan = DialogSizing.For(mainWindow);
 
                 // Crea una instancia de contexto para el diálogo actual
-                var dialogContext = new DialogContext(viewModel, title, options, completionSource);
+                var dialogContext = new DialogContext(viewModel, title, options, completionSource, sizePlan);
 
                 // Añade el diálogo a la pila
                 DialogStack.Push(dialogContext);
@@ -36,11 +37,9 @@ namespace Zafiro.Avalonia.Dialogs
                         WindowStartupLocation = WindowStartupLocation.CenterOwner,
                         Icon = mainWindow.Icon,
                         SizeToContent = SizeToContent.WidthAndHeight,
-                        MaxWidth = 800,
-                        MaxHeight = 700,
-                        MinWidth = 400,
-                        MinHeight = 300
                     };
+
+                    DialogSizing.Apply(dialogWindow, sizePlan);
 
                     // Maneja el evento de cierre de la ventana para completar todos los diálogos pendientes
                     dialogWindow.Closed += (sender, args) =>
@@ -78,28 +77,36 @@ namespace Zafiro.Avalonia.Dialogs
             if (dialogWindow != null)
             {
                 dialogWindow.Title = dialogContext.Title;
-                dialogWindow.Content = new DialogControl
+                DialogSizing.Apply(dialogWindow, dialogContext.SizePlan);
+
+                var dialogControl = new DialogControl
                 {
                     Content = dialogContext.ViewModel,
                     Options = dialogContext.Options
                 };
+
+                DialogSizing.Apply(dialogControl, dialogContext.SizePlan);
+
+                dialogWindow.Content = dialogControl;
             }
         }
 
         private class DialogContext
         {
-            public DialogContext(object viewModel, string title, IEnumerable<IOption> options, TaskCompletionSource<bool> completionSource)
+            public DialogContext(object viewModel, string title, IEnumerable<IOption> options, TaskCompletionSource<bool> completionSource, DialogSizePlan sizePlan)
             {
                 ViewModel = viewModel;
                 Title = title;
                 Options = options;
                 CompletionSource = completionSource;
+                SizePlan = sizePlan;
             }
 
             public object ViewModel { get; }
             public string Title { get; }
             public IEnumerable<IOption> Options { get; }
             public TaskCompletionSource<bool> CompletionSource { get; }
+            public DialogSizePlan SizePlan { get; }
         }
 
         private class DialogCloseable : ICloseable
