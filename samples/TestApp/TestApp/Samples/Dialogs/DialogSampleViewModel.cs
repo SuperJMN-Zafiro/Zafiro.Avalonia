@@ -35,7 +35,10 @@ public class DialogSampleViewModel : IViewModel
             .Subscribe();
 
         ShowMessage = ReactiveCommand.CreateFromTask(() => OnShowMessage(dialogService));
+        BigDialog = ReactiveCommand.CreateFromTask(() => dialogService.Show(new BigView(), "Big", Observable.Return(true)));
     }
+
+    public ReactiveCommand<Unit, Unit> BigDialog { get; set; }
 
     public ReactiveCommand<Unit, Unit> ShowMessage { get; set; }
 

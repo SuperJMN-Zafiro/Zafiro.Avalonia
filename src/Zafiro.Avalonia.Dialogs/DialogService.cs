@@ -1,13 +1,25 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
-using CSharpFunctionalExtensions;
+using Zafiro.Avalonia.Dialogs.Implementations;
 
 namespace Zafiro.Avalonia.Dialogs;
 
+/// <summary>
+/// Factory for creating dialog instances appropriate for the current application lifetime.
+/// </summary>
 public static class DialogService
 {
-    public static IDialog Create()
+    /// <summary>
+    /// Creates a dialog implementation suitable for the current application lifetime.
+    /// Uses adaptive sizing for optimal user experience.
+    /// </summary>
+    /// <param name="sizingConfig">Optional sizing configuration.</param>
+    /// <param name="sizingStrategy">Optional custom sizing strategy.</param>
+    /// <returns>An IDialog implementation.</returns>
+    public static IDialog Create(
+        AdaptiveDialogSizer.SizingConfig? sizingConfig = null,
+        IDialogSizingStrategy? sizingStrategy = null)
     {
         if (Application.Current is null)
         {
@@ -16,8 +28,12 @@ public static class DialogService
         
         return Application.Current.ApplicationLifetime switch
         {
-            ISingleViewApplicationLifetime singleViewApplicationLifetime => new AdornerDialog(() => GetAdornerLayer(singleViewApplicationLifetime)),
-            _ => new StackedDialog()
+            ISingleViewApplicationLifetime singleViewApplicationLifetime => 
+                new AdaptiveAdornerDialog(
+                    () => GetAdornerLayer(singleViewApplicationLifetime),
+                    sizingConfig,
+                    sizingStrategy),
+            _ => new AdaptiveDesktopDialog(sizingConfig, sizingStrategy)
         };
     }
 

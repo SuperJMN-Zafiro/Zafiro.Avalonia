@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using Zafiro.UI;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Implementations;
 
 [PublicAPI]
 public class NotificationDialog : INotificationService
