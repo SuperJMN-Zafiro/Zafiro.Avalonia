@@ -63,6 +63,12 @@ Publishing (DotnetDeployer)
   - Real publish
     - dotnetdeployer nuget --api-key "$NUGET_API_KEY"
     - Optionally: dotnetdeployer release
+- Version bumping
+  - DotnetDeployer uses commit message annotations to determine version bumps
+  - Add `+semver:major` to the commit message for a major version bump (breaking changes)
+  - Add `+semver:minor` to the commit message for a minor version bump (new features)
+  - Add `+semver:patch` to the commit message for a patch version bump (bug fixes, default)
+  - Example: `git commit -m "Add adaptive dialog sizing +semver:minor"`
 
 Azure Pipelines (CI/CD)
 

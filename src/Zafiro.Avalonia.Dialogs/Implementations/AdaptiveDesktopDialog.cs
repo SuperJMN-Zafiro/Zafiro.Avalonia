@@ -4,7 +4,7 @@ using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
 using Zafiro.Avalonia.Misc;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Implementations;
 
 /// <summary>
 /// Desktop dialog implementation with adaptive sizing based on content measurement.

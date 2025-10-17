@@ -3,8 +3,13 @@ using Avalonia.Threading;
 using Zafiro.Avalonia.Dialogs.Views;
 using Zafiro.Avalonia.Misc;
 
-namespace Zafiro.Avalonia.Dialogs
+namespace Zafiro.Avalonia.Dialogs.Implementations
 {
+    /// <summary>
+    /// Legacy stacked dialog implementation with fixed size constraints.
+    /// Consider using <see cref="AdaptiveDesktopDialog"/> with custom dialog management instead.
+    /// </summary>
+    [Obsolete("Consider using AdaptiveDesktopDialog with custom dialog management. This class will be removed in a future version.")]
     public class StackedDialog : IDialog
     {
         private static Window? dialogWindow;

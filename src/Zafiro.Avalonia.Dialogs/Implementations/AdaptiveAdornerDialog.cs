@@ -6,7 +6,7 @@ using Avalonia.Threading;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs.Views;
 
-namespace Zafiro.Avalonia.Dialogs;
+namespace Zafiro.Avalonia.Dialogs.Implementations;
 
 /// <summary>
 /// Adorner-based dialog implementation with adaptive sizing based on content measurement.
