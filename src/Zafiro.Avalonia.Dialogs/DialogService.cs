@@ -25,15 +25,15 @@ public static class DialogService
         {
             throw new InvalidOperationException("Application is not initialized.");
         }
-        
+
         return Application.Current.ApplicationLifetime switch
         {
-            ISingleViewApplicationLifetime singleViewApplicationLifetime => 
+            ISingleViewApplicationLifetime singleViewApplicationLifetime =>
                 new AdaptiveAdornerDialog(
                     () => GetAdornerLayer(singleViewApplicationLifetime),
                     sizingConfig,
                     sizingStrategy),
-            _ => new AdaptiveDesktopDialog(sizingConfig, sizingStrategy)
+            _ => new DesktopDialog()
         };
     }
 

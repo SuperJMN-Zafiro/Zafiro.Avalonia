@@ -27,10 +27,6 @@ public class DesktopDialog : IDialog
                 CanResize = false,
                 Icon = mainWindow.Icon,
                 SizeToContent = SizeToContent.WidthAndHeight,
-                MaxWidth = 800,
-                MaxHeight = 800,
-                MinWidth = 300,
-                MinHeight = 200
             };
 
             var closeable = new CloseableWrapper(window);

@@ -157,12 +157,53 @@ public class OptimalDisplayDecorator : Decorator
         minWidth = Math.Min(minWidth, maxWidth);
         minHeight = Math.Min(minHeight, maxHeight);
 
-        // Determine golden ratio orientation based on available space
-        // Using parent constraint to decide orientation is more reliable than premeasuring child
-        var availableRatio = parentConstraint.Width / parentConstraint.Height;
-        var targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
+        // Measure natural (minimal) size of the child to ensure content fits
+        Size natural = new Size(0, 0);
+        if (Child != null)
+        {
+            Child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            natural = Child.DesiredSize;
+        }
 
-        return CalculateOptimalSizeWithRatio(targetRatio, minWidth, maxWidth, minHeight, maxHeight);
+        // Choose golden-ratio orientation based on child shape; fallback to parent
+        double targetRatio;
+        if (natural.Width > 0 && natural.Height > 0)
+        {
+            targetRatio = natural.Width >= natural.Height ? GoldenRatio : 1.0 / GoldenRatio;
+        }
+        else
+        {
+            var availableRatio = parentConstraint.Width / parentConstraint.Height;
+            targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
+        }
+
+        // Compute feasible width interval honoring ratio and constraints
+        // Conditions: height = width / R, and width/height within [min,max] and also cover natural size
+        var lowerW = Math.Max(Math.Max(minWidth, targetRatio * minHeight), Math.Max(natural.Width, targetRatio * natural.Height));
+        var upperW = Math.Min(maxWidth, targetRatio * maxHeight);
+
+        if (lowerW <= upperW)
+        {
+            var width = lowerW; // minimal possible width
+            var height = width / targetRatio;
+            return new Size(width, height);
+        }
+
+        // Infeasible: fall back to the smallest size inside the box while keeping ratio
+        // Try by clamping to max box
+        var widthFallback = Math.Min(maxWidth, Math.Max(minWidth, lowerW));
+        var heightFallback = widthFallback / targetRatio;
+
+        if (heightFallback > maxHeight)
+        {
+            heightFallback = maxHeight;
+            widthFallback = heightFallback * targetRatio;
+        }
+
+        // Final clamp
+        widthFallback = Math.Clamp(widthFallback, minWidth, maxWidth);
+        heightFallback = Math.Clamp(heightFallback, minHeight, maxHeight);
+        return new Size(widthFallback, heightFallback);
     }
 
     private static Size CalculateOptimalSizeWithRatio(double targetRatio,
