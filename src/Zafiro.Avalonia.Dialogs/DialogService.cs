@@ -14,12 +14,8 @@ public static class DialogService
     /// Creates a dialog implementation suitable for the current application lifetime.
     /// Uses adaptive sizing for optimal user experience.
     /// </summary>
-    /// <param name="sizingConfig">Optional sizing configuration.</param>
-    /// <param name="sizingStrategy">Optional custom sizing strategy.</param>
     /// <returns>An IDialog implementation.</returns>
-    public static IDialog Create(
-        AdaptiveDialogSizer.SizingConfig? sizingConfig = null,
-        IDialogSizingStrategy? sizingStrategy = null)
+    public static IDialog Create()
     {
         if (Application.Current is null)
         {
@@ -29,10 +25,7 @@ public static class DialogService
         return Application.Current.ApplicationLifetime switch
         {
             ISingleViewApplicationLifetime singleViewApplicationLifetime =>
-                new AdaptiveAdornerDialog(
-                    () => GetAdornerLayer(singleViewApplicationLifetime),
-                    sizingConfig,
-                    sizingStrategy),
+                new AdornerDialog(() => GetAdornerLayer(singleViewApplicationLifetime)),
             _ => new DesktopDialog()
         };
     }

@@ -9,11 +9,6 @@ using Zafiro.Avalonia.Dialogs.Views;
 
 namespace Zafiro.Avalonia.Dialogs.Implementations;
 
-/// <summary>
-/// Legacy adorner-based dialog without adaptive sizing.
-/// Use <see cref="AdaptiveAdornerDialog"/> for adaptive sizing instead.
-/// </summary>
-[Obsolete("Use AdaptiveAdornerDialog for better content-aware sizing. This class will be removed in a future version.")]
 public class AdornerDialog : IDialog, ICloseable
 {
     private readonly Lazy<AdornerLayer> adornerLayerLazy;
@@ -25,7 +20,6 @@ public class AdornerDialog : IDialog, ICloseable
     {
         adornerLayerLazy = new Lazy<AdornerLayer>(() => getAdornerLayer());
     }
-
 
     public void Close()
     {
