@@ -5,7 +5,7 @@ using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Dialogs.Implementations;
 
-public class StackedDialog : IDialog
+public class StackedDesktopDialog : IDialog
 {
     private static Window? dialogWindow;
     private static readonly Stack<DialogContext> DialogStack = new();
