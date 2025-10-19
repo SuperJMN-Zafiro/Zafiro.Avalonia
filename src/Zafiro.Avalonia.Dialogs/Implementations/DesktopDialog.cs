@@ -5,11 +5,6 @@ using Zafiro.Avalonia.Misc;
 
 namespace Zafiro.Avalonia.Dialogs.Implementations;
 
-/// <summary>
-/// Legacy desktop dialog with fixed size constraints.
-/// Use <see cref="AdaptiveDesktopDialog"/> for adaptive sizing instead.
-/// </summary>
-[Obsolete("Use AdaptiveDesktopDialog for better content-aware sizing. This class will be removed in a future version.")]
 public class DesktopDialog : IDialog
 {
     public async Task<bool> Show(object viewModel, string title, Func<ICloseable, IEnumerable<IOption>> optionsFactory)
@@ -27,10 +22,6 @@ public class DesktopDialog : IDialog
                 CanResize = false,
                 Icon = mainWindow.Icon,
                 SizeToContent = SizeToContent.WidthAndHeight,
-                MaxWidth = 800,
-                MaxHeight = 800,
-                MinWidth = 300,
-                MinHeight = 200
             };
 
             var closeable = new CloseableWrapper(window);
