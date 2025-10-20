@@ -8,6 +8,7 @@ public class OptimalDisplayDecorator : Decorator
 {
     private const double GoldenRatio = 1.618033988749;
 
+
     public static readonly StyledProperty<double> MaxProportionProperty =
         AvaloniaProperty.Register<OptimalDisplayDecorator, double>(
             nameof(MaxProportion), 0.7);
@@ -20,11 +21,8 @@ public class OptimalDisplayDecorator : Decorator
         AvaloniaProperty.Register<OptimalDisplayDecorator, ContentAlignment>(
             nameof(ContentAlignment), ContentAlignment.Center);
 
-    public OptimalDisplayDecorator()
-    {
-        // Ensure child visuals are clipped to the decorator's bounds
-        ClipToBounds = true;
-    }
+    private Size lastOptimalSize;
+
 
     /// <summary>
     /// Maximum proportion of the display size that the content can occupy (0.0 - 1.0).
@@ -84,15 +82,70 @@ public class OptimalDisplayDecorator : Decorator
             return new Size();
         }
 
-        // First, constrain by available size to ensure we never exceed parent bounds
+        // Constrain by available size to ensure we never exceed parent bounds
         var effectiveAvailableWidth = double.IsInfinity(availableSize.Width) ? double.MaxValue : availableSize.Width;
         var effectiveAvailableHeight = double.IsInfinity(availableSize.Height) ? double.MaxValue : availableSize.Height;
+        var parentConstraint = new Size(effectiveAvailableWidth, effectiveAvailableHeight);
 
         var displayBounds = GetActiveDisplayBounds();
-        var optimalSize = CalculateOptimalSize(displayBounds, new Size(effectiveAvailableWidth, effectiveAvailableHeight));
 
-        // Measure child with the calculated size
+        // Compute bounds and ratio once
+        var (minW, maxW, minH, maxH, ratio) = GetSizingParameters(displayBounds, parentConstraint);
+
+        // Ratio-constrained width interval
+        var lowerW = Math.Max(minW, ratio * minH);
+        var upperW = Math.Min(maxW, ratio * maxH);
+
+        Size Probe(double w)
+        {
+            var heightLimit = Math.Min(maxH, w / ratio);
+            Child.Measure(new Size(w, double.PositiveInfinity));
+            var desiredH = Child.DesiredSize.Height;
+            if (!double.IsFinite(desiredH) || desiredH < 0) desiredH = heightLimit + 1;
+            var fits = desiredH <= heightLimit + 0.5;
+            return new Size(w, fits ? heightLimit : double.PositiveInfinity);
+        }
+
+        Size optimalSize;
+        if (lowerW > upperW)
+        {
+            var widthFallback = Math.Clamp(upperW, minW, maxW);
+            var heightFallback = Math.Clamp(widthFallback / ratio, minH, maxH);
+            optimalSize = new Size(widthFallback, heightFallback);
+        }
+        else
+        {
+            // Early check at the lower bound
+            var probe = Probe(lowerW);
+            double w;
+            if (!double.IsInfinity(probe.Height))
+            {
+                w = lowerW;
+            }
+            else
+            {
+                double lo = lowerW, hi = upperW;
+                const int iters = 5; // reduced iterations for performance
+                for (int i = 0; i < iters && hi - lo > 0.5; i++)
+                {
+                    var mid = (lo + hi) / 2.0;
+                    var p = Probe(mid);
+                    if (double.IsInfinity(p.Height))
+                        lo = mid; // too small
+                    else
+                        hi = mid; // fits; try smaller
+                }
+
+                w = hi;
+            }
+
+            var h = Math.Clamp(w / ratio, minH, maxH);
+            optimalSize = new Size(w, h);
+        }
+
+        // Final measure with the computed optimal constraint
         Child.Measure(optimalSize);
+        lastOptimalSize = optimalSize;
 
         return optimalSize;
     }
@@ -105,7 +158,15 @@ public class OptimalDisplayDecorator : Decorator
         }
 
         var displayBounds = GetActiveDisplayBounds();
-        var optimalSize = CalculateOptimalSize(displayBounds, finalSize);
+
+        // Use the last measured optimal size; scale down if parent gives smaller final size
+        var optimalSize = lastOptimalSize;
+        if (finalSize.Width < optimalSize.Width || finalSize.Height < optimalSize.Height)
+        {
+            var scale = Math.Min(finalSize.Width / optimalSize.Width, finalSize.Height / optimalSize.Height);
+            scale = double.IsFinite(scale) ? Math.Min(1.0, scale) : 1.0;
+            optimalSize = new Size(optimalSize.Width * scale, optimalSize.Height * scale);
+        }
 
         // Calculate positioning within final size
         var offsetX = 0.0;
@@ -140,7 +201,8 @@ public class OptimalDisplayDecorator : Decorator
         return finalSize;
     }
 
-    private Size CalculateOptimalSize(Rect displayBounds, Size parentConstraint)
+    // Compute sizing parameters once (bounds + target ratio) from display and parent constraints
+    private (double minW, double maxW, double minH, double maxH, double ratio) GetSizingParameters(Rect displayBounds, Size parentConstraint)
     {
         var displayWidth = displayBounds.Width;
         var displayHeight = displayBounds.Height;
@@ -157,53 +219,49 @@ public class OptimalDisplayDecorator : Decorator
         minWidth = Math.Min(minWidth, maxWidth);
         minHeight = Math.Min(minHeight, maxHeight);
 
-        // Measure natural (minimal) size of the child to ensure content fits
-        Size natural = new Size(0, 0);
-        if (Child != null)
+        // Choose golden-ratio orientation based on available space (we want the minimal viable box)
+        var denom = (parentConstraint.Height > 0 && double.IsFinite(parentConstraint.Height)) ? parentConstraint.Height : displayHeight;
+        var numer = (parentConstraint.Width > 0 && double.IsFinite(parentConstraint.Width)) ? parentConstraint.Width : displayWidth;
+        var availableRatio = numer / denom;
+        var targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
+        return (minWidth, maxWidth, minHeight, maxHeight, targetRatio);
+    }
+
+    // Solve for the minimal ratio-preserving box that contains 'desired' and fits within bounds
+    private static Size SolveMinimalRatioBox(double targetRatio,
+        double minWidth,
+        double maxWidth,
+        double minHeight,
+        double maxHeight,
+        Size desired)
+    {
+        // Compute feasible h interval so that w = h * R
+        var lowerH = Math.Max(Math.Max(minHeight, desired.Height), Math.Max(desired.Width / targetRatio, minWidth / targetRatio));
+        var upperH = Math.Min(maxHeight, maxWidth / targetRatio);
+
+        if (lowerH > upperH)
         {
-            Child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            natural = Child.DesiredSize;
+            // Infeasible exact fit; clamp to closest within bounds
+            var h = Math.Clamp(lowerH, minHeight, upperH);
+            var w = targetRatio * h;
+            w = Math.Clamp(w, minWidth, maxWidth);
+            return new Size(w, h);
         }
 
-        // Choose golden-ratio orientation based on child shape; fallback to parent
-        double targetRatio;
-        if (natural.Width > 0 && natural.Height > 0)
-        {
-            targetRatio = natural.Width >= natural.Height ? GoldenRatio : 1.0 / GoldenRatio;
-        }
-        else
-        {
-            var availableRatio = parentConstraint.Width / parentConstraint.Height;
-            targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
-        }
+        var finalH = lowerH;
+        var finalW = targetRatio * finalH;
 
-        // Compute feasible width interval honoring ratio and constraints
-        // Conditions: height = width / R, and width/height within [min,max] and also cover natural size
-        var lowerW = Math.Max(Math.Max(minWidth, targetRatio * minHeight), Math.Max(natural.Width, targetRatio * natural.Height));
-        var upperW = Math.Min(maxWidth, targetRatio * maxHeight);
+        // Final clamp to ensure we're within all bounds
+        finalW = Math.Clamp(finalW, minWidth, maxWidth);
+        finalH = Math.Clamp(finalH, minHeight, maxHeight);
 
-        if (lowerW <= upperW)
-        {
-            var width = lowerW; // minimal possible width
-            var height = width / targetRatio;
-            return new Size(width, height);
-        }
+        return new Size(finalW, finalH);
+    }
 
-        // Infeasible: fall back to the smallest size inside the box while keeping ratio
-        // Try by clamping to max box
-        var widthFallback = Math.Min(maxWidth, Math.Max(minWidth, lowerW));
-        var heightFallback = widthFallback / targetRatio;
-
-        if (heightFallback > maxHeight)
-        {
-            heightFallback = maxHeight;
-            widthFallback = heightFallback * targetRatio;
-        }
-
-        // Final clamp
-        widthFallback = Math.Clamp(widthFallback, minWidth, maxWidth);
-        heightFallback = Math.Clamp(heightFallback, minHeight, maxHeight);
-        return new Size(widthFallback, heightFallback);
+    private static bool AreClose(Size a, Size b)
+    {
+        const double eps = 0.5; // small tolerance in DIPs
+        return Math.Abs(a.Width - b.Width) <= eps && Math.Abs(a.Height - b.Height) <= eps;
     }
 
     private static Size CalculateOptimalSizeWithRatio(double targetRatio,
@@ -282,7 +340,8 @@ public class OptimalDisplayDecorator : Decorator
             var topLevel = TopLevel.GetTopLevel(this);
             if (topLevel != null)
             {
-                var screen = topLevel.Screens.ScreenFromVisual(this) ?? topLevel.Screens.Primary;
+                var screens = topLevel.Screens;
+                var screen = screens?.ScreenFromVisual(this) ?? screens?.Primary;
                 if (screen != null)
                 {
                     // Convert from physical pixels to DIPs using render scaling

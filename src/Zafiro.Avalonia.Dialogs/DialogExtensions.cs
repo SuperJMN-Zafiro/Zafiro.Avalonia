@@ -17,10 +17,24 @@ public static class DialogExtensions
         return dialogService.Show(viewModel, title, optionsFactory);
     }
 
+    public static Task ShowOk(this IDialog dialogService,
+        object viewModel,
+        string title,
+        IObservable<bool>? canSubmit = null)
+    {
+        return dialogService.Show(viewModel, title, closeable =>
+        [
+            OptionBuilder.Create("OK", ReactiveCommand.Create(closeable.Close, canSubmit).Enhance(), new Settings()
+            {
+                IsDefault = true,
+            })
+        ]);
+    }
+
     public static Task Show(this IDialog dialogService,
         object viewModel,
         string title,
-        IObservable<bool> canSubmit)
+        IObservable<bool>? canSubmit)
     {
         return dialogService.Show(viewModel, title, closeable =>
         [

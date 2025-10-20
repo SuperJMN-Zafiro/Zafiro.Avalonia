@@ -22,8 +22,8 @@ namespace TestApp.Samples.SlimWizard;
 [Section("Wizard", "mdi-wizard-hat", 1)]
 public class WizardViewModel : IDisposable
 {
+    private readonly CompositeDisposable disposable = new();
     private readonly INotificationService notification;
-    private CompositeDisposable disposable = new();
 
     public WizardViewModel(IDialog dialog, INotificationService notification, INavigator navigator)
     {
@@ -56,10 +56,12 @@ public class WizardViewModel : IDisposable
 
     private static SlimWizard<(int result, string)> CreateWizard()
     {
-        return WizardBuilder
+        var withCompletionFinalStep = WizardBuilder
             .StartWith(() => new Page1ViewModel(), "Page 1").NextWith(model => model.ReturnSomeInt.Enhance("Next"))
-            .Then(number => new Page2ViewModel(number), "Page 2").NextWhenValid((vm, number) => Result.Success((result: number, vm.Text!)))
-            .Then(_ => new Page3ViewModel(), "Completed!").NextWhenValid((_, val) => Result.Success(val), "Close")
+            .Then(number => new Page2ViewModel(number), "Page 2").Next((vm, number) => (result: number, vm.Text!)).WhenValid()
+            .Then(_ => new Page3ViewModel(), "Completed!").Next((_, val) => val, "Close").WhenValid()
             .WithCompletionFinalStep();
+
+        return withCompletionFinalStep;
     }
 }
