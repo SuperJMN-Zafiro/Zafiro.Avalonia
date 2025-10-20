@@ -12,8 +12,8 @@
     </UserControl.Styles>
 
     <StackPanel Spacing="10" VerticalAlignment="Center">
-        <Button Content="Show simple message" HorizontalAlignment="Center" Command="{Binding ShowMessage}" />
-        <Button Content="Show big dialog" HorizontalAlignment="Center" Command="{Binding BigDialog}" />
-        <Button Content="Open a user-interacting dialog" HorizontalAlignment="Center" Command="{Binding ShowDialog}" />
+        <EnhancedButton Content="Show simple message" HorizontalAlignment="Center" Command="{Binding ShowMessage}" />
+        <EnhancedButton Content="Show big dialog" HorizontalAlignment="Center" Command="{Binding BigDialog}" />
+        <EnhancedButton Content="Open a user-interacting dialog" HorizontalAlignment="Center" Command="{Binding ShowDialog}" />
     </StackPanel>
 </UserControl>

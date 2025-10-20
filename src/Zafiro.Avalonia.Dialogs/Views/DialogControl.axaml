@@ -41,13 +41,13 @@
                             </Border.Padding>
                             <Border.DataTemplates>
                                 <DataTemplate DataType="dialogs:IOption">
-                                    <Button Content="{Binding Title}"
-                                            Command="{Binding Command}"
-                                            IsVisible="{Binding IsVisible^}"
-                                            IsCancel="{Binding IsCancel}"
-                                            IsDefault="{Binding IsDefault}"
-                                            Padding="16 8"
-                                            CornerRadius="4">
+                                    <EnhancedButton Content="{Binding Title}"
+                                                    Command="{Binding Command}"
+                                                    IsVisible="{Binding IsVisible^}"
+                                                    IsCancel="{Binding IsCancel}"
+                                                    IsDefault="{Binding IsDefault}"
+                                                    Padding="16 8"
+                                                    CornerRadius="4">
                                         <Interaction.Behaviors>
                                             <DataTriggerBehavior Binding="{Binding Role}" Value="Primary">
                                                 <ChangeAvaloniaPropertyAction TargetProperty="{x:Static StyledElement.ThemeProperty}" Value="{StaticResource PrimaryButton}" />
@@ -62,7 +62,7 @@
                                                 <ChangeAvaloniaPropertyAction TargetProperty="{x:Static StyledElement.ThemeProperty}" Value="{StaticResource CancelButton}" />
                                             </DataTriggerBehavior>
                                         </Interaction.Behaviors>
-                                    </Button>
+                                    </EnhancedButton>
                                 </DataTemplate>
                             </Border.DataTemplates>
 

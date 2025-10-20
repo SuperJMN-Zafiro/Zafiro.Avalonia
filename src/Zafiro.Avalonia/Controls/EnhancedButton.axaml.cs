@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using System.Windows.Input;
+using Avalonia.Media;
 using CSharpFunctionalExtensions;
 using Zafiro.UI.Commands;
 
@@ -14,8 +15,17 @@ public class EnhancedButton : Button
     public static readonly StyledProperty<double> SpacingProperty = AvaloniaProperty.Register<EnhancedButton, double>(
         nameof(Spacing));
 
+    public static readonly StyledProperty<Color> TintProperty = AvaloniaProperty.Register<EnhancedButton, Color>(
+        nameof(Tint));
+
     readonly SerialDisposable commandExecutionSubscription = new();
     private bool isCommandRunning;
+
+    public Color Tint
+    {
+        get => GetValue(TintProperty);
+        set => SetValue(TintProperty, value);
+    }
 
     public double Spacing
     {

@@ -13,8 +13,8 @@
     <HeaderedContainer Header="Gets the index of a given item in the list">
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <Button Content="Add" Command="{Binding Add}" />
-                <Button Content="Remove" Command="{Binding Remove}" />
+                <EnhancedButton Content="Add" Command="{Binding Add}" />
+                <EnhancedButton Content="Remove" Command="{Binding Remove}" />
             </StackPanel>
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>

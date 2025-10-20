@@ -13,7 +13,7 @@
     </UserControl.Styles>
 
     <DockPanel>
-        <Button ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
+        <EnhancedButton ZIndex="1" DockPanel.Dock="Top" Content="Load" Command="{Binding GradualGraph.Load}" />
         <g:GraphControl Margin="-1000" Graph="{Binding GradualGraph}">
             <g:GraphControl.ItemTemplate>
                 <DataTemplate DataType="misc:Person">

@@ -17,41 +17,41 @@
 
     <UniformGrid Columns="1" RowSpacing="50">
         <DockPanel VerticalSpacing="10" HorizontalSpacing="20">
-            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button IsVisible="True" Content="Right" DockPanel.Dock="Right" />
-            <Button IsVisible="True" Content="Right" DockPanel.Dock="Right" />
-            <Button IsVisible="True" Content="FILL" />
+            <EnhancedButton IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <EnhancedButton IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <EnhancedButton IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <EnhancedButton IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <EnhancedButton IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <EnhancedButton IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <EnhancedButton IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <EnhancedButton IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <EnhancedButton IsVisible="True" Content="FILL" />
         </DockPanel>
         <SmartDockPanel VerticalSpacing="10" HorizontalSpacing="20">
-            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button IsVisible="True" Content="Top" DockPanel.Dock="Top" />
-            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
-            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button IsVisible="True" Content="Left" DockPanel.Dock="Left" />
-            <Button IsVisible="False" Content="Right" DockPanel.Dock="Right" />
-            <Button IsVisible="True" Content="Right" DockPanel.Dock="Right" />
-            <Button IsVisible="True" Content="FILL" />
+            <EnhancedButton IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <EnhancedButton IsVisible="True" Content="Top" DockPanel.Dock="Top" />
+            <EnhancedButton IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <EnhancedButton IsVisible="True" Content="Bottom" DockPanel.Dock="Bottom" />
+            <EnhancedButton IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <EnhancedButton IsVisible="True" Content="Left" DockPanel.Dock="Left" />
+            <EnhancedButton IsVisible="False" Content="Right" DockPanel.Dock="Right" />
+            <EnhancedButton IsVisible="True" Content="Right" DockPanel.Dock="Right" />
+            <EnhancedButton IsVisible="True" Content="FILL" />
         </SmartDockPanel>
 
         <StackPanel Spacing="8">
             <TextBlock Text="UniformStripPanel" FontWeight="Bold" />
             <UniformStripPanel ItemMinWidth="96" ItemMaxWidth="144" ItemSpacing="8" Height="48">
-                <Button Content="One" />
-                <Button Content="Two" />
-                <Button Content="Three" />
-                <Button Content="Four" />
-                <Button Content="Five" />
-                <Button Content="Six" />
-                <Button Content="Seven" />
-                <Button Content="Eight" />
-                <Button Content="Nine" />
-                <Button Content="Ten" />
+                <EnhancedButton Content="One" />
+                <EnhancedButton Content="Two" />
+                <EnhancedButton Content="Three" />
+                <EnhancedButton Content="Four" />
+                <EnhancedButton Content="Five" />
+                <EnhancedButton Content="Six" />
+                <EnhancedButton Content="Seven" />
+                <EnhancedButton Content="Eight" />
+                <EnhancedButton Content="Nine" />
+                <EnhancedButton Content="Ten" />
             </UniformStripPanel>
         </StackPanel>
     </UniformGrid>

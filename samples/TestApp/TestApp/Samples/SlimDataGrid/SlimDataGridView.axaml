@@ -56,7 +56,7 @@
                                     <HeaderedContentControl Theme="{StaticResource InlineHeaderedContentControl}" Header="Surname">
                                         <TextBox Text="{Binding PersonSurname}" />
                                     </HeaderedContentControl>
-                                    <Button HorizontalAlignment="Right" Content="Add" Command="{Binding Add}" />
+                                    <EnhancedButton HorizontalAlignment="Right" Content="Add" Command="{Binding Add}" />
                                 </StackPanel>
                             </Flyout>
                         </HyperlinkButton.Flyout>
@@ -94,8 +94,8 @@
                         </Column.HeaderTemplate>
                         <Column.CellTemplate>
                             <DataTemplate>
-                                <Button HorizontalAlignment="Center" avalonia:Attached.Icon="fa-solid fa-arrow-up-right-from-square" CommandParameter="http://www.youtube.com"
-                                        Command="{Binding Source={x:Static misc:Commands.Instance}, Path=LaunchUri}" />
+                                <EnhancedButton HorizontalAlignment="Center" avalonia:Attached.Icon="fa-solid fa-arrow-up-right-from-square" CommandParameter="http://www.youtube.com"
+                                                Command="{Binding Source={x:Static misc:Commands.Instance}, Path=LaunchUri}" />
                             </DataTemplate>
                         </Column.CellTemplate>
                     </Column>

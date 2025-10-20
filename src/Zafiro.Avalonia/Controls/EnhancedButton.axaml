@@ -1,18 +1,36 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
+        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+        xmlns:zconv="clr-namespace:Zafiro.Avalonia.Converters">
     <Design.PreviewWith>
         <Border Padding="20">
-            <StackPanel>
-                <EnhancedButton Width="400" Background="Green"
+            <StackPanel Spacing="10">
+                <EnhancedButton Width="400"
+                                HorizontalContentAlignment="Left" Icon="{Icon fa-wallet}" Content="This is the new button">
+                </EnhancedButton>
+                <EnhancedButton Width="400"
+                                HorizontalContentAlignment="Left" Content="No icon">
+                </EnhancedButton>
+                <EnhancedButton Width="400"
+                                HorizontalContentAlignment="Left" Icon="{Icon fa-wallet}">
+                </EnhancedButton>
+                <Button Content="Regular button" BorderThickness="1" BorderBrush="Black" />
+                <EnhancedButton Width="400"
+                                Tint="Blue"
+                                HorizontalContentAlignment="Left" Icon="{Icon fa-wallet}" FontFamily="Times" FontSize="40" Content="This is the new button">
+                </EnhancedButton>
+                <BackgroundOverlappingBorder Padding="0" Width="50" Height="50" CornerRadius="20" Background="#00DAFF" BorderThickness="10" BorderBrush="#77FFFD00" />
+                <EnhancedButton BorderThickness="10"
+                                Tint="Red"
                                 HorizontalContentAlignment="Left" Icon="{Icon fa-wallet}" FontFamily="Times" FontSize="26" Content="This is the new button" />
-                <EnhancedButton Width="400" Background="Blue" Command="{Binding NeverEndingCommand}"
+                <EnhancedButton Width="400" Tint="Green" Command="{Binding NeverEndingCommand}"
                                 HorizontalContentAlignment="Left" Icon="{Icon fa-wallet}" FontFamily="Times" FontSize="40" Content="This is the new button">
                     <EnhancedButton.DataContext>
                         <CommandViewModel />
                     </EnhancedButton.DataContext>
                 </EnhancedButton>
-                <EnhancedButton Width="400" Foreground="Red"
+                <EnhancedButton Width="400"
+                                Tint="Blue"
                                 HorizontalContentAlignment="Left" Icon="{Icon fa-wallet}" FontFamily="Times" FontSize="40" Content="This is the new button">
                     <EnhancedButton.DataContext>
                         <CommandViewModel />
@@ -23,53 +41,105 @@
     </Design.PreviewWith>
 
     <Styles.Resources>
-        <ControlTheme TargetType="EnhancedButton" x:Key="{x:Type EnhancedButton}" BasedOn="{StaticResource ChromedButton}">
+        <zconv:PreferredHeightConverter x:Key="PreferredHeightConverter" />
+        <ControlTheme TargetType="EnhancedButton" x:Key="{x:Type EnhancedButton}">
             <Setter Property="Spacing" Value="8" />
-            <Setter Property="ContentTemplate">
-                <DataTemplate>
-                    <SmartDockPanel HorizontalSpacing="{Binding $parent[EnhancedButton].Spacing}">
-                        <Panel VerticalAlignment="Center" x:Name="IconPanel">
-                            <controls:ProgressRing Foreground="{Binding $parent[EnhancedButton].Foreground}"
-                                                   IsActive="{Binding $parent[EnhancedButton].IsCommandRunning}">
-                            </controls:ProgressRing>
-                            <ContentControl IsVisible="{Binding !$parent[EnhancedButton].IsCommandRunning}"
-                                            Content="{Binding $parent[EnhancedButton].Icon}" />
-                        </Panel>
-                        <ContentControl VerticalAlignment="Center" Content="{Binding }" />
-                    </SmartDockPanel>
-                </DataTemplate>
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Tint" Value="{DynamicResource SystemBaseLowColor}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                        <BackgroundOverlappingBorder x:Name="MainBorder" BorderThickness="{TemplateBinding BorderThickness}"
+                                                     Padding="{TemplateBinding Padding}"
+                                                     CornerRadius="{TemplateBinding CornerRadius}">
+                            <BackgroundOverlappingBorder.Background>
+                                <SolidColorBrush Color="{Binding $parent[EnhancedButton].Tint}" />
+                            </BackgroundOverlappingBorder.Background>
+                            <BackgroundOverlappingBorder.BorderBrush>
+                                <SolidColorBrush Color="{DynamicResource SystemBaseHighColor}" Opacity="0.6" />
+                            </BackgroundOverlappingBorder.BorderBrush>
+                            <SmartDockPanel HorizontalSpacing="{Binding $parent[EnhancedButton].Spacing}">
+                                <Panel VerticalAlignment="Center" x:Name="IconPanel">
+                                    <Panel.IsVisible>
+                                        <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                                            <Binding Path="$parent[EnhancedButton].IsCommandRunning" />
+                                            <Binding Path="!!$parent[EnhancedButton].Icon" />
+                                        </MultiBinding>
+                                    </Panel.IsVisible>
+                                    <Panel.Width>
+                                        <MultiBinding Converter="{StaticResource PreferredHeightConverter}">
+                                            <Binding Path="#PART_ContentPresenter.Bounds.Height" />
+                                            <Binding Path="$parent[EnhancedButton].FontSize" />
+                                        </MultiBinding>
+                                    </Panel.Width>
+                                    <Panel.Height>
+                                        <MultiBinding Converter="{StaticResource PreferredHeightConverter}">
+                                            <Binding Path="#PART_ContentPresenter.Bounds.Height" />
+                                            <Binding Path="$parent[EnhancedButton].FontSize" />
+                                        </MultiBinding>
+                                    </Panel.Height>
+                                    <controls:ProgressRing IsActive="{Binding $parent[EnhancedButton].IsCommandRunning}"
+                                                           Foreground="{TemplateBinding Foreground}">
+                                        <controls:ProgressRing.Width>
+                                            <MultiBinding Converter="{StaticResource PreferredHeightConverter}">
+                                                <Binding Path="#PART_ContentPresenter.Bounds.Height" />
+                                                <Binding Path="$parent[EnhancedButton].FontSize" />
+                                            </MultiBinding>
+                                        </controls:ProgressRing.Width>
+                                        <controls:ProgressRing.Height>
+                                            <MultiBinding Converter="{StaticResource PreferredHeightConverter}">
+                                                <Binding Path="#PART_ContentPresenter.Bounds.Height" />
+                                                <Binding Path="$parent[EnhancedButton].FontSize" />
+                                            </MultiBinding>
+                                        </controls:ProgressRing.Height>
+                                    </controls:ProgressRing>
+                                    <Viewbox IsVisible="{Binding !$parent[EnhancedButton].IsCommandRunning}">
+                                        <Viewbox.Width>
+                                            <MultiBinding Converter="{StaticResource PreferredHeightConverter}">
+                                                <Binding Path="#PART_ContentPresenter.Bounds.Height" />
+                                                <Binding Path="$parent[EnhancedButton].FontSize" />
+                                            </MultiBinding>
+                                        </Viewbox.Width>
+                                        <Viewbox.Height>
+                                            <MultiBinding Converter="{StaticResource PreferredHeightConverter}">
+                                                <Binding Path="#PART_ContentPresenter.Bounds.Height" />
+                                                <Binding Path="$parent[EnhancedButton].FontSize" />
+                                            </MultiBinding>
+                                        </Viewbox.Height>
+                                        <ContentPresenter Content="{Binding $parent[EnhancedButton].Icon}" />
+                                    </Viewbox>
+                                </Panel>
+                                <ContentPresenter x:Name="PART_ContentPresenter"
+                                                  IsVisible="{Binding !!$self.Content}"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </SmartDockPanel>
+                        </BackgroundOverlappingBorder>
+                    </Panel>
+                </ControlTemplate>
             </Setter>
-            <Style Selector="^">
-                <Setter Property="Foreground">
+            <Style Selector="^ /template/ BackgroundOverlappingBorder#MainBorder">
+                <Setter Property="Transitions">
                     <Setter.Value>
-                        <Binding Path="$self.Background"
-                                 Converter="{StaticResource AutoForeground}" />
+                        <Transitions>
+                            <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                        </Transitions>
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style Selector="^:pointerover">
-                <Setter Property="Foreground">
-                    <Setter.Value>
-                        <Binding Path="$self.Background"
-                                 Converter="{StaticResource AutoForeground}" />
-                    </Setter.Value>
-                </Setter>
+            <Style Selector="^:pointerover /template/ BackgroundOverlappingBorder#MainBorder">
+                <Setter Property="Opacity" Value="0.7" />
             </Style>
-            <Style Selector="^:pressed">
-                <Setter Property="Foreground">
-                    <Setter.Value>
-                        <Binding Path="$self.Background"
-                                 Converter="{StaticResource AutoForeground}" />
-                    </Setter.Value>
-                </Setter>
+            <Style Selector="^:pressed /template/ BackgroundOverlappingBorder#MainBorder">
+                <Setter Property="Opacity" Value="0.7" />
+                <Setter Property="RenderTransform" Value="scale(0.99)" />
             </Style>
-            <Style Selector="^:disabled">
-                <Setter Property="Foreground">
-                    <Setter.Value>
-                        <Binding Path="$self.Background"
-                                 Converter="{StaticResource AutoForeground}" />
-                    </Setter.Value>
-                </Setter>
+            <Style Selector="^:disabled /template/ BackgroundOverlappingBorder#MainBorder">
+                <Setter Property="Opacity" Value="0.5" />
             </Style>
         </ControlTheme>
     </Styles.Resources>

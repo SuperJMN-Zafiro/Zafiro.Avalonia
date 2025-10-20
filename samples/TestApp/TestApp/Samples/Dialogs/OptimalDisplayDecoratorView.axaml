@@ -13,7 +13,7 @@
 
     <OptimalDisplayDecorator MinProportion="0.2" MaxProportion="0.5">
         <DockPanel>
-            <Button Margin="20" HorizontalAlignment="Center" Content="Open another dialog" DockPanel.Dock="Bottom" />
+            <EnhancedButton Margin="20" HorizontalAlignment="Center" Content="Open another dialog" DockPanel.Dock="Bottom" />
             <TextBox Theme="{StaticResource EnhancedTextBox}" VerticalAlignment="Center" Width="200" Watermark="Enter something" />
         </DockPanel>
     </OptimalDisplayDecorator>
@@ -43,7 +43,7 @@
     <!--                         <Border Grid.Row="2" Background="#FFFFFF20" CornerRadius="8" Padding="12" Margin="0,12,0,0"> -->
     <!--                             <StackPanel> -->
     <!--                                 <TextBlock Text="Contenido de ejemplo" /> -->
-    <!--                                 <Button Content="Acción" HorizontalAlignment="Right" /> -->
+    <!--                                 <EnhancedButton Content="Acción" HorizontalAlignment="Right" /> -->
     <!--                             </StackPanel> -->
     <!--                         </Border> -->
     <!--                     </Grid> -->

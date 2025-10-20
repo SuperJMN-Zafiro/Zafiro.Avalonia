@@ -10,8 +10,8 @@
              x:DataType="misc:StorageSampleViewModel">
     <controls:HeaderedContainer Header="You can pick files from your device in a cross-platform way">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Pick an image..."
-                    Command="{Binding OpenFile}" />
+            <EnhancedButton Content="Pick an image..."
+                            Command="{Binding OpenFile}" />
             <TextBlock Text="{Binding SelectedPaths^}" />
             <Image Source="{Binding SelectedBytes^, Converter={x:Static converters:ImageConverters.ByteArrayToBitmapImage}}" />
         </StackPanel>

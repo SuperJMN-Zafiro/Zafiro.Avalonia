@@ -245,20 +245,20 @@
             <Card Header="Highlighted content" Height="300" Subheader="Some subheader" Theme="{StaticResource HighlightedContentCard}">
                 SOME CONTENT
                 <Card.HeaderStartContent>
-                    <Button Classes="Expand CenterContent" Content="Left" />
+                    <EnhancedButton Classes="Expand CenterContent" Content="Left" />
                 </Card.HeaderStartContent>
                 <Card.HeaderEndContent>
-                    <Button Classes="Expand CenterContent" Content="Right" />
+                    <EnhancedButton Classes="Expand CenterContent" Content="Right" />
                 </Card.HeaderEndContent>
             </Card>
 
             <Card Header="Width and height" Height="300" Subheader="Some subheader" Theme="{StaticResource WrapGridCard}">
                 SOME CONTENT
                 <Card.HeaderStartContent>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
+                    <EnhancedButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
                 </Card.HeaderStartContent>
                 <Card.HeaderEndContent>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
+                    <EnhancedButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
                 </Card.HeaderEndContent>
             </Card>
 
@@ -266,20 +266,20 @@
             <Card Header="Width and height" Height="300" Subheader="Some subheader" HeaderHorizontalAlignment="Center">
                 SOME CONTENT
                 <Card.HeaderStartContent>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
+                    <EnhancedButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
                 </Card.HeaderStartContent>
                 <Card.HeaderEndContent>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
+                    <EnhancedButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
                 </Card.HeaderEndContent>
             </Card>
 
             <Card Header="Width and height" Theme="{StaticResource LeftFlexHeaderCard}" Height="300" HeaderHorizontalAlignment="Center">
                 SOME CONTENT
                 <Card.HeaderStartContent>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
+                    <EnhancedButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Left" />
                 </Card.HeaderStartContent>
                 <Card.HeaderEndContent>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
+                    <EnhancedButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Right" />
                 </Card.HeaderEndContent>
             </Card>
 
@@ -290,8 +290,8 @@
                 </Card.HeaderStartContent>
                 <Card.HeaderEndContent>
                     <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
-                        <Button Content="Do something" Classes="Expand CenterContent" />
-                        <Button Content="Refresh" Classes="Expand CenterContent" />
+                        <EnhancedButton Content="Do something" Classes="Expand CenterContent" />
+                        <EnhancedButton Content="Refresh" Classes="Expand CenterContent" />
                     </BalancedWrapGrid>
                 </Card.HeaderEndContent>
 
@@ -302,7 +302,7 @@
             <Card Theme="{StaticResource LeftFlexHeaderCard}" Header="This is a nice header" Content="HOLA" />
 
             <Card Header="This is a nice header">
-                <Button>Salud</Button>
+                <EnhancedButton>Salud</EnhancedButton>
             </Card>
         </StackPanel>
 

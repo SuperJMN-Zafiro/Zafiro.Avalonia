@@ -18,17 +18,17 @@
                 <ControlTemplate>
                     <StackPanel>
                         <panels:TrueCenterPanel DockPanel.Dock="Top">
-                            <Button Theme="{StaticResource TransparentButton}"
-                                    panels:TrueCenterPanel.Dock="Left"
-                                    Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static OpacityConverters.BoolToOpacity}}"
-                                    Command="{Binding $parent[SlimWizardControl].Wizard.Back}">
+                            <EnhancedButton Theme="{StaticResource TransparentButton}"
+                                            panels:TrueCenterPanel.Dock="Left"
+                                            Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static OpacityConverters.BoolToOpacity}}"
+                                            Command="{Binding $parent[SlimWizardControl].Wizard.Back}">
                                 <Button.Content>
                                     <DockPanel>
                                         <avalonia:Icon Value="fa-angle-left" />
                                         <TextBlock>Back</TextBlock>
                                     </DockPanel>
                                 </Button.Content>
-                            </Button>
+                            </EnhancedButton>
                             <TextBlock FontWeight="Black" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" panels:TrueCenterPanel.Dock="Center"
                                        Text="{Binding $parent[SlimWizardControl].Wizard.CurrentPage.Title}" DockPanel.Dock="Top" />
                             <TextBlock FontSize="12" VerticalAlignment="Center" panels:TrueCenterPanel.Dock="Right" Margin="5 0">

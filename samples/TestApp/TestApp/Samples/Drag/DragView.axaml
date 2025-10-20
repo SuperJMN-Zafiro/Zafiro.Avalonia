@@ -15,13 +15,13 @@
 
     <controls:HeaderedContainer Header="Behaviors to move objects around in a Canvas">
         <Canvas>
-            <Button Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
+            <EnhancedButton Width="100" Height="100" Background="Blue" Canvas.Top="50" Canvas.Left="{Binding Left}">
                 <Interaction.Behaviors>
                     <behaviors:DragDeltaBehavior Left="{Binding Left}" />
                     <behaviors:ExecuteCommandOnPointerButtonPressedBehavior RoutingStrategy="Tunnel" Command="{Binding Disable}" />
                     <behaviors:ExecuteCommandOnPointerButtonReleasedBehavior RoutingStrategy="Tunnel" Command="{Binding Enable}" />
                 </Interaction.Behaviors>
-            </Button>
+            </EnhancedButton>
         </Canvas>
     </controls:HeaderedContainer>
 </UserControl>

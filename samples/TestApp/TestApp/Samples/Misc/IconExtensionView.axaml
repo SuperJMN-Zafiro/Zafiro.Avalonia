@@ -21,32 +21,32 @@
 
                 <TextBlock Grid.Row="2" Grid.Column="0" FontWeight="Bold" Text="Examples:" VerticalAlignment="Center" />
                 <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-                    <Button Content="{Icon fa-wallet}" />
-                    <Button Content="{Icon fa-home}" />
-                    <Button Content="{Icon fa-user}" />
-                    <Button Content="{Icon fa-cog}" />
+                    <EnhancedButton Content="{Icon fa-wallet}" />
+                    <EnhancedButton Content="{Icon fa-home}" />
+                    <EnhancedButton Content="{Icon fa-user}" />
+                    <EnhancedButton Content="{Icon fa-cog}" />
                 </StackPanel>
 
                 <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="Bold" Text="With text:" VerticalAlignment="Center" />
                 <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-                    <Button>
+                    <EnhancedButton>
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <ContentControl Content="{Icon fa-save}" />
                             <TextBlock Text="Save" VerticalAlignment="Center" />
                         </StackPanel>
-                    </Button>
-                    <Button>
+                    </EnhancedButton>
+                    <EnhancedButton>
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <ContentControl Content="{Icon fa-trash}" />
                             <TextBlock Text="Delete" VerticalAlignment="Center" />
                         </StackPanel>
-                    </Button>
+                    </EnhancedButton>
                 </StackPanel>
 
                 <TextBlock Grid.Row="6" Grid.Column="0" FontWeight="Bold" Text="Named syntax:" VerticalAlignment="Center" />
                 <StackPanel Grid.Row="6" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-                    <Button Content="{Icon Source=fa-heart}" />
-                    <Button Content="{Icon Source=fa-star}" />
+                    <EnhancedButton Content="{Icon Source=fa-heart}" />
+                    <EnhancedButton Content="{Icon Source=fa-star}" />
                 </StackPanel>
             </Grid>
 

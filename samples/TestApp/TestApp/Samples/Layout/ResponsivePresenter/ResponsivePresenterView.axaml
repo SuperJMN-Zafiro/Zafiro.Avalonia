@@ -65,8 +65,8 @@
                             </Column.HeaderTemplate>
                             <Column.CellTemplate>
                                 <DataTemplate>
-                                    <Button HorizontalAlignment="Center" Content="Open" CommandParameter="http://www.youtube.com"
-                                            Command="{Binding Source={x:Static misc:Commands.Instance}, Path=LaunchUri}" />
+                                    <EnhancedButton HorizontalAlignment="Center" Content="Open" CommandParameter="http://www.youtube.com"
+                                                    Command="{Binding Source={x:Static misc:Commands.Instance}, Path=LaunchUri}" />
                                 </DataTemplate>
                             </Column.CellTemplate>
                         </Column>
@@ -76,4 +76,3 @@
         </c:ResponsivePresenter>
     </c:HeaderedContainer>
 </UserControl>
-

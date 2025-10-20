@@ -74,10 +74,10 @@
 
     </UserControl.Resources>
 
-    <Button Padding="0" Theme="{StaticResource TransparentButton}" Command="{Binding Navigate}">
+    <EnhancedButton Padding="0" Theme="{StaticResource TransparentButton}" Command="{Binding Navigate}">
         <DockPanel>
             <Image Margin="4" DockPanel.Dock="Left" Height="20" Source="{StaticResource di_Breezeicons_places_32_folder_xaml}" />
             <TextBlock FontSize="12" Margin="0 1 8 0" Text="{Binding Name}" VerticalAlignment="Center" />
         </DockPanel>
-    </Button>
+    </EnhancedButton>
 </UserControl>

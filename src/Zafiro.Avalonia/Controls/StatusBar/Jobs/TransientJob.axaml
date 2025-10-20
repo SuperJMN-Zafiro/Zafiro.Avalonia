@@ -8,15 +8,15 @@
              xmlns:design="clr-namespace:Zafiro.Avalonia.Controls.StatusBar.Design"
              mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="30"
              x:Class="Zafiro.Avalonia.Controls.StatusBar.Jobs.TransientJob" x:DataType="jobs1:IJobViewModel">
-    
+
     <Design.DataContext>
-        <design:JobViewModelDesign  Status="{designTime:Return Value='My status'}">
+        <design:JobViewModelDesign Status="{designTime:Return Value='My status'}">
             <design:JobViewModelDesign.Icon>
-               <Button Content="Icon" />
+                <EnhancedButton Content="Icon" />
             </design:JobViewModelDesign.Icon>
         </design:JobViewModelDesign>
     </Design.DataContext>
-    
+
     <Border x:Name="RootPane">
         <DockPanel>
             <ToolTip.Tip>

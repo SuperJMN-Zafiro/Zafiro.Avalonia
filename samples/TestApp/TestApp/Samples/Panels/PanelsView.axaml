@@ -16,18 +16,18 @@
         <StackPanel Spacing="8">
             <Card Header="WrapGrid">
                 <WrapGrid Margin="12" ColumnSpacing="8" RowSpacing="8">
-                    <Button Content="Icon" WrapGrid.PreferredWidth="Auto" />
+                    <EnhancedButton Content="Icon" WrapGrid.PreferredWidth="Auto" />
                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="This is a super beautiful title"
                                WrapGrid.PreferredWidth="*"
                                WrapGrid.WrapMinWidth="120"
                                WrapGrid.FillWidth="*" />
-                    <Button Content="Auto / Fill" WrapGrid.PreferredWidth="Auto" WrapGrid.FillWidth="*" />
+                    <EnhancedButton Content="Auto / Fill" WrapGrid.PreferredWidth="Auto" WrapGrid.FillWidth="*" />
                 </WrapGrid>
             </Card>
             <StackPanel Spacing="10">
-                <Button>HOLA</Button>
-                <Button IsVisible="False">AMOR</Button>
-                <Button>AMOR</Button>
+                <EnhancedButton>HOLA</EnhancedButton>
+                <EnhancedButton IsVisible="False">AMOR</EnhancedButton>
+                <EnhancedButton>AMOR</EnhancedButton>
             </StackPanel>
 
             <Card Header="MinMaxUniformGrid">
@@ -67,104 +67,104 @@
 
             <Card Header="BalancedWrapGrid (5 items)">
                 <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
-                    <Button Content="3" />
-                    <Button Content="4" />
-                    <Button Content="5" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
+                    <EnhancedButton Content="3" />
+                    <EnhancedButton Content="4" />
+                    <EnhancedButton Content="5" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="BalancedWrapGrid (7 items)">
                 <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
-                    <Button Content="3" />
-                    <Button Content="4" />
-                    <Button Content="5" />
-                    <Button Content="6" />
-                    <Button Content="7" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
+                    <EnhancedButton Content="3" />
+                    <EnhancedButton Content="4" />
+                    <EnhancedButton Content="5" />
+                    <EnhancedButton Content="6" />
+                    <EnhancedButton Content="7" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="BalancedWrapGrid (11 items)">
                 <BalancedWrapGrid MinItemWidth="120" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
-                    <Button Content="3" />
-                    <Button Content="4" />
-                    <Button Content="5" />
-                    <Button Content="6" />
-                    <Button Content="7" />
-                    <Button Content="8" />
-                    <Button Content="9" />
-                    <Button Content="10" />
-                    <Button Content="11" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
+                    <EnhancedButton Content="3" />
+                    <EnhancedButton Content="4" />
+                    <EnhancedButton Content="5" />
+                    <EnhancedButton Content="6" />
+                    <EnhancedButton Content="7" />
+                    <EnhancedButton Content="8" />
+                    <EnhancedButton Content="9" />
+                    <EnhancedButton Content="10" />
+                    <EnhancedButton Content="11" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Left aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Left" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Right aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Right" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=Infinite, Stretch aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Stretch" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="BalancedWrapGrid (2 items, MaxItemWidth=180, Center aligned)">
                 <BalancedWrapGrid MinItemWidth="120" HorizontalAlignment="Center" MaxItemWidth="180" MinItemHeight="60" HorizontalSpacing="8" VerticalSpacing="8">
-                    <Button Content="1" />
-                    <Button Content="2" />
+                    <EnhancedButton Content="1" />
+                    <EnhancedButton Content="2" />
                 </BalancedWrapGrid>
             </Card>
 
             <Card Header="ResponsiveGridPanel">
                 <ResponsiveUniformGrid MinColumnWidth="200" ColumnSpacing="4" RowSpacing="4">
-                    <Button Content="HOLA" />
-                    <Button Content="HOLA" />
-                    <Button Content="HOLA" />
-                    <Button Content="HOLA" />
-                    <Button Content="HOLA" />
-                    <Button Content="HOLA" />
+                    <EnhancedButton Content="HOLA" />
+                    <EnhancedButton Content="HOLA" />
+                    <EnhancedButton Content="HOLA" />
+                    <EnhancedButton Content="HOLA" />
+                    <EnhancedButton Content="HOLA" />
+                    <EnhancedButton Content="HOLA" />
                 </ResponsiveUniformGrid>
             </Card>
 
             <Card Header="FlexPanel">
                 <FlexBox Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
-                    <Button Content="One" />
-                    <Button Content="Two" />
-                    <Button Content="Three" />
-                    <Button Content="Grow" FlexBox.Grow="1" />
-                    <Button Content="Grow More" FlexBox.Grow="2" />
+                    <EnhancedButton Content="One" />
+                    <EnhancedButton Content="Two" />
+                    <EnhancedButton Content="Three" />
+                    <EnhancedButton Content="Grow" FlexBox.Grow="1" />
+                    <EnhancedButton Content="Grow More" FlexBox.Grow="2" />
                 </FlexBox>
             </Card>
 
             <Card Header="UniformStripPanel">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                     <UniformStripPanel ItemMinWidth="96" ItemMaxWidth="144" ItemSpacing="8" Height="48">
-                        <Button Content="One" />
-                        <Button Content="Two" />
-                        <Button Content="Three" />
-                        <Button Content="Four" />
-                        <Button Content="Five" />
-                        <Button Content="Six" />
-                        <Button Content="Seven" />
-                        <Button Content="Eight" />
-                        <Button Content="Nine" />
-                        <Button Content="Ten" />
+                        <EnhancedButton Content="One" />
+                        <EnhancedButton Content="Two" />
+                        <EnhancedButton Content="Three" />
+                        <EnhancedButton Content="Four" />
+                        <EnhancedButton Content="Five" />
+                        <EnhancedButton Content="Six" />
+                        <EnhancedButton Content="Seven" />
+                        <EnhancedButton Content="Eight" />
+                        <EnhancedButton Content="Nine" />
+                        <EnhancedButton Content="Ten" />
                     </UniformStripPanel>
                 </ScrollViewer>
             </Card>

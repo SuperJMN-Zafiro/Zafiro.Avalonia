@@ -16,17 +16,17 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <DockPanel>
-                        <Button Command="{Binding $parent[Frame].Navigator.Back}"
-                                x:Name="BackButton"
-                                DockPanel.Dock="Top"
-                                Content="{TemplateBinding BackButtonContent}">
+                        <EnhancedButton Command="{Binding $parent[Frame].Navigator.Back}"
+                                        x:Name="BackButton"
+                                        DockPanel.Dock="Top"
+                                        Content="{TemplateBinding BackButtonContent}">
                             <Button.IsVisible>
                                 <MultiBinding Converter="{x:Static BoolConverters.And}">
                                     <Binding Path="$parent[Frame].IsBackButtonVisible" />
                                     <Binding Path="$self.IsEffectivelyEnabled" />
                                 </MultiBinding>
                             </Button.IsVisible>
-                        </Button>
+                        </EnhancedButton>
                         <ContentControl Margin="{TemplateBinding Padding}" Content="{Binding $parent[Frame].Navigator.Content^,  FallbackValue='No content', TargetNullValue='Navigator.Content is a null'}" />
                     </DockPanel>
                 </ControlTemplate>

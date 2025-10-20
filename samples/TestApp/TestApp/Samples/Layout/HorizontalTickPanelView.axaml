@@ -15,10 +15,10 @@
         <Border Padding="40">
             <Border Background="Green">
                 <panels:HorizontalTickPanel ClipToBounds="False">
-                    <Button>A</Button>
-                    <Button>B</Button>
-                    <Button>C</Button>
-                    <Button>d</Button>
+                    <EnhancedButton>A</EnhancedButton>
+                    <EnhancedButton>B</EnhancedButton>
+                    <EnhancedButton>C</EnhancedButton>
+                    <EnhancedButton>d</EnhancedButton>
                 </panels:HorizontalTickPanel>
             </Border>
         </Border>

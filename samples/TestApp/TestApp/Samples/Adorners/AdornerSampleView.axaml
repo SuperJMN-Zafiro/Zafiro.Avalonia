@@ -23,7 +23,7 @@
 
                 <behaviors:AdornerBehavior PlacementMode="BottomRight" AdornerDataContextMode="DataContext">
                     <behaviors:AdornerBehavior.Adorner>
-                        <Button Command="{Binding LengthyCommand}" x:Name="Button" Background="Red">I'm adorning</Button>
+                        <EnhancedButton Command="{Binding LengthyCommand}" x:Name="Button" Background="Red">I'm adorning</EnhancedButton>
                     </behaviors:AdornerBehavior.Adorner>
                 </behaviors:AdornerBehavior>
 

@@ -16,14 +16,14 @@
                             <ContentControl Content="{TemplateBinding Icon}" />
                         </On>
                         <On Options="Android, iOS">
-                            <Button x:Name="ToggleButton">
+                            <EnhancedButton x:Name="ToggleButton">
                                 <ContentControl Content="{TemplateBinding Icon}" />
                                 <Button.Flyout>
                                     <Flyout>
                                         <ContentControl Content="{TemplateBinding Details}" />
                                     </Flyout>
                                 </Button.Flyout>
-                            </Button>
+                            </EnhancedButton>
                         </On>
                     </OnPlatform>
                 </Border>

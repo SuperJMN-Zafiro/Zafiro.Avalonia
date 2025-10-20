@@ -24,15 +24,15 @@
                     <x:String>Header End Content</x:String>
                     <x:String>Content</x:String>
                 </BulletList>
-                <Button Content="This is a button" />
+                <EnhancedButton Content="This is a button" />
             </StackPanel>
         </Card>
         <Card Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Theme="{StaticResource LeftFlexHeaderCard}" Margin="10" HeaderStartContent="{Icon fa-wallet}"
               Header="Left header" Subheader="Title with left header very long for you to see it wrapping">
             <Card.HeaderEndContent>
                 <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
-                    <Button Content="Do something" Classes="Expand CenterContent" />
-                    <Button Content="Refresh" Classes="Expand CenterContent" />
+                    <EnhancedButton Content="Do something" Classes="Expand CenterContent" />
+                    <EnhancedButton Content="Refresh" Classes="Expand CenterContent" />
                 </BalancedWrapGrid>
             </Card.HeaderEndContent>
             <StackPanel Spacing="10">
@@ -43,15 +43,15 @@
                     <x:String>Header End Content</x:String>
                     <x:String>Content</x:String>
                 </BulletList>
-                <Button Content="This is a button" />
+                <EnhancedButton Content="This is a button" />
             </StackPanel>
         </Card>
         <Card Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Theme="{StaticResource WrapGridCard}" Margin="10" HeaderStartContent="{Icon fa-wallet}"
               Header="Left header" Subheader="Title with left header very long for you to see it wrapping">
             <Card.HeaderEndContent>
                 <BalancedWrapGrid VerticalAlignment="Center" HorizontalSpacing="8">
-                    <Button Content="Do something" Classes="Expand CenterContent" />
-                    <Button Content="Refresh" Classes="Expand CenterContent" />
+                    <EnhancedButton Content="Do something" Classes="Expand CenterContent" />
+                    <EnhancedButton Content="Refresh" Classes="Expand CenterContent" />
                 </BalancedWrapGrid>
             </Card.HeaderEndContent>
             <StackPanel Spacing="10">
@@ -62,7 +62,7 @@
                     <x:String>Header End Content</x:String>
                     <x:String>Content</x:String>
                 </BulletList>
-                <Button Content="This is a button" />
+                <EnhancedButton Content="This is a button" />
             </StackPanel>
         </Card>
     </Grid>

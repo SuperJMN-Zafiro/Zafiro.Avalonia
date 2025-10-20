@@ -1,0 +1,282 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestApp.Samples.Controls.BackgroundOverlappingBorderView">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Samples/SampleStyles.axaml" />
+    </UserControl.Styles>
+
+    <HeaderedContainer Header="BackgroundOverlappingBorder Examples">
+        <ScrollViewer>
+            <StackPanel Spacing="20" Margin="20">
+
+                <TextBlock TextWrapping="Wrap">
+                    BackgroundOverlappingBorder is a border control that draws the stroke fully inside the control
+                    and paints no background under the border. This avoids color blending artifacts with semi-transparent borders.
+                </TextBlock>
+
+                <!-- Basic example -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">Basic Border</TextBlock>
+                    <BackgroundOverlappingBorder
+                        Background="LightBlue"
+                        BorderBrush="DarkBlue"
+                        BorderThickness="4"
+                        Width="200"
+                        Height="100">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Basic Example</TextBlock>
+                    </BackgroundOverlappingBorder>
+                </StackPanel>
+
+                <!-- Rounded corners -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">Rounded Corners</TextBlock>
+                    <UniformGrid Columns="3" Rows="1">
+                        <BackgroundOverlappingBorder
+                            Background="LightGreen"
+                            BorderBrush="DarkGreen"
+                            BorderThickness="4"
+                            CornerRadius="10"
+                            Width="150"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Radius: 10</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="LightCoral"
+                            BorderBrush="DarkRed"
+                            BorderThickness="4"
+                            CornerRadius="20"
+                            Width="150"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Radius: 20</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="LightGoldenrodYellow"
+                            BorderBrush="DarkGoldenrod"
+                            BorderThickness="4"
+                            CornerRadius="40"
+                            Width="150"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Radius: 40</TextBlock>
+                        </BackgroundOverlappingBorder>
+                    </UniformGrid>
+                </StackPanel>
+
+                <!-- Different border thicknesses -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">Different Border Thicknesses</TextBlock>
+                    <UniformGrid Columns="4" Rows="1">
+                        <BackgroundOverlappingBorder
+                            Background="Lavender"
+                            BorderBrush="Purple"
+                            BorderThickness="2"
+                            CornerRadius="8"
+                            Width="120"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">2px</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="Lavender"
+                            BorderBrush="Purple"
+                            BorderThickness="6"
+                            CornerRadius="8"
+                            Width="120"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">6px</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="Lavender"
+                            BorderBrush="Purple"
+                            BorderThickness="10"
+                            CornerRadius="8"
+                            Width="120"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">10px</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="Lavender"
+                            BorderBrush="Purple"
+                            BorderThickness="15"
+                            CornerRadius="8"
+                            Width="120"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">15px</TextBlock>
+                        </BackgroundOverlappingBorder>
+                    </UniformGrid>
+                </StackPanel>
+
+                <!-- Semi-transparent borders -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">Semi-Transparent Borders (shows no blending artifacts)</TextBlock>
+                    <UniformGrid Columns="3" Rows="1">
+                        <BackgroundOverlappingBorder
+                            Background="White"
+                            BorderBrush="#80FF0000"
+                            BorderThickness="8"
+                            CornerRadius="12"
+                            Width="150"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Red 50%</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="White"
+                            BorderBrush="#8000FF00"
+                            BorderThickness="8"
+                            CornerRadius="12"
+                            Width="150"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Green 50%</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="White"
+                            BorderBrush="#800000FF"
+                            BorderThickness="8"
+                            CornerRadius="12"
+                            Width="150"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Blue 50%</TextBlock>
+                        </BackgroundOverlappingBorder>
+                    </UniformGrid>
+                </StackPanel>
+
+                <!-- Asymmetric border thickness -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">Asymmetric Border Thickness</TextBlock>
+                    <UniformGrid Columns="2" Rows="1">
+                        <BackgroundOverlappingBorder
+                            Background="LightSkyBlue"
+                            BorderBrush="DarkBlue"
+                            BorderThickness="10,2,10,2"
+                            CornerRadius="8"
+                            Width="180"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Thick Left/Right</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="LightSalmon"
+                            BorderBrush="DarkRed"
+                            BorderThickness="2,10,2,10"
+                            CornerRadius="8"
+                            Width="180"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Thick Top/Bottom</TextBlock>
+                        </BackgroundOverlappingBorder>
+                    </UniformGrid>
+                </StackPanel>
+
+                <!-- With padding -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">With Padding</TextBlock>
+                    <UniformGrid Columns="2" Rows="1">
+                        <BackgroundOverlappingBorder
+                            Background="LightYellow"
+                            BorderBrush="DarkOrange"
+                            BorderThickness="4"
+                            CornerRadius="10"
+                            Padding="0"
+                            Width="180"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">No Padding</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            Background="LightYellow"
+                            BorderBrush="DarkOrange"
+                            BorderThickness="4"
+                            CornerRadius="10"
+                            Padding="20"
+                            Width="180"
+                            Height="80"
+                            Margin="5">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Padding: 20</TextBlock>
+                        </BackgroundOverlappingBorder>
+                    </UniformGrid>
+                </StackPanel>
+
+                <!-- Complex content -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">With Complex Content</TextBlock>
+                    <BackgroundOverlappingBorder
+                        Background="WhiteSmoke"
+                        BorderBrush="SlateGray"
+                        BorderThickness="6"
+                        CornerRadius="16"
+                        Padding="15"
+                        Width="300">
+                        <StackPanel Spacing="8">
+                            <TextBlock FontWeight="Bold" FontSize="16">Card Title</TextBlock>
+                            <TextBlock TextWrapping="Wrap">
+                                This is a card with complex content inside a BackgroundOverlappingBorder.
+                                The border overlaps the background properly, avoiding blending artifacts.
+                            </TextBlock>
+                            <EnhancedButton Content="Action Button" HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </BackgroundOverlappingBorder>
+                </StackPanel>
+
+                <!-- Gradient backgrounds -->
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="Bold">With Gradient Backgrounds</TextBlock>
+                    <UniformGrid Columns="2" Rows="1">
+                        <BackgroundOverlappingBorder
+                            BorderBrush="DarkSlateBlue"
+                            BorderThickness="5"
+                            CornerRadius="12"
+                            Width="200"
+                            Height="100"
+                            Margin="5">
+                            <BackgroundOverlappingBorder.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                    <GradientStop Color="LightBlue" Offset="0" />
+                                    <GradientStop Color="LightPink" Offset="1" />
+                                </LinearGradientBrush>
+                            </BackgroundOverlappingBorder.Background>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Linear Gradient</TextBlock>
+                        </BackgroundOverlappingBorder>
+
+                        <BackgroundOverlappingBorder
+                            BorderBrush="DarkGreen"
+                            BorderThickness="5"
+                            CornerRadius="12"
+                            Width="200"
+                            Height="100"
+                            Margin="5">
+                            <BackgroundOverlappingBorder.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="Yellow" Offset="0" />
+                                    <GradientStop Color="Orange" Offset="1" />
+                                </RadialGradientBrush>
+                            </BackgroundOverlappingBorder.Background>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Radial Gradient</TextBlock>
+                        </BackgroundOverlappingBorder>
+                    </UniformGrid>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </HeaderedContainer>
+</UserControl>
