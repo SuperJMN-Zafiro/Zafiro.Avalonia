@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Zafiro.Avalonia.Controls;
 
 /// <summary>
@@ -7,6 +9,9 @@ namespace Zafiro.Avalonia.Controls;
 public class OptimalDisplayDecorator : Decorator
 {
     private const double GoldenRatio = 1.618033988749;
+
+    public static readonly StyledProperty<bool> IsDebugEnabledProperty =
+        AvaloniaProperty.Register<OptimalDisplayDecorator, bool>(nameof(IsDebugEnabled), false);
 
     public static readonly StyledProperty<double> MaxProportionProperty =
         AvaloniaProperty.Register<OptimalDisplayDecorator, double>(
@@ -24,6 +29,12 @@ public class OptimalDisplayDecorator : Decorator
     {
         // Ensure child visuals are clipped to the decorator's bounds
         ClipToBounds = true;
+    }
+
+    public bool IsDebugEnabled
+    {
+        get => GetValue(IsDebugEnabledProperty);
+        set => SetValue(IsDebugEnabledProperty, value);
     }
 
     /// <summary>
@@ -89,10 +100,12 @@ public class OptimalDisplayDecorator : Decorator
         var effectiveAvailableHeight = double.IsInfinity(availableSize.Height) ? double.MaxValue : availableSize.Height;
 
         var displayBounds = GetActiveDisplayBounds();
+        Log($"MEASURE start | available={availableSize}, effective=({effectiveAvailableWidth},{effectiveAvailableHeight}), display={displayBounds}");
         var optimalSize = CalculateOptimalSize(displayBounds, new Size(effectiveAvailableWidth, effectiveAvailableHeight));
 
         // Measure child with the calculated size
         Child.Measure(optimalSize);
+        Log($"MEASURE result | optimal={optimalSize}, childDesired={Child.DesiredSize}");
 
         return optimalSize;
     }
@@ -105,6 +118,7 @@ public class OptimalDisplayDecorator : Decorator
         }
 
         var displayBounds = GetActiveDisplayBounds();
+        Log($"ARRANGE start | final={finalSize}, display={displayBounds}");
         var optimalSize = CalculateOptimalSize(displayBounds, finalSize);
 
         // Calculate positioning within final size
@@ -136,6 +150,7 @@ public class OptimalDisplayDecorator : Decorator
         }
 
         Child.Arrange(new Rect(offsetX, offsetY, optimalSize.Width, optimalSize.Height));
+        Log($"ARRANGE result | optimal={optimalSize}, offsets=({offsetX},{offsetY})");
 
         return finalSize;
     }
@@ -144,6 +159,7 @@ public class OptimalDisplayDecorator : Decorator
     {
         var displayWidth = displayBounds.Width;
         var displayHeight = displayBounds.Height;
+        Log($"CALC start | parentConstraint={parentConstraint}, display=({displayWidth}x{displayHeight})");
 
         // Calculate min and max sizes based on proportions
         var minWidth = displayWidth * MinProportion;
@@ -156,54 +172,70 @@ public class OptimalDisplayDecorator : Decorator
         maxHeight = Math.Min(maxHeight, parentConstraint.Height);
         minWidth = Math.Min(minWidth, maxWidth);
         minHeight = Math.Min(minHeight, maxHeight);
+        Log($"CALC bounds | minW={minWidth:F2}, maxW={maxWidth:F2}, minH={minHeight:F2}, maxH={maxHeight:F2}");
 
-        // Measure natural (minimal) size of the child to ensure content fits
-        Size natural = new Size(0, 0);
-        if (Child != null)
+        // Choose golden-ratio orientation based on available space (we want the minimal viable box)
+        var denom = (parentConstraint.Height > 0 && double.IsFinite(parentConstraint.Height)) ? parentConstraint.Height : displayHeight;
+        var numer = (parentConstraint.Width > 0 && double.IsFinite(parentConstraint.Width)) ? parentConstraint.Width : displayWidth;
+        var availableRatio = numer / denom;
+        var targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
+        Log($"CALC ratio | targetR={targetRatio:F4}");
+
+        // Compute feasible width interval honoring ratio and constraints (ignore a single pre-measure "natural"; we will probe)
+        var minWidthByRatio = Math.Max(minWidth, targetRatio * minHeight);
+        var maxWidthByRatio = Math.Min(maxWidth, targetRatio * maxHeight);
+        var lowerW = minWidthByRatio;
+        var upperW = maxWidthByRatio;
+        Log($"CALC interval | lowerW={lowerW:F2}, upperW={upperW:F2}");
+
+        if (lowerW > upperW)
         {
-            Child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            natural = Child.DesiredSize;
+            // No feasible box with the ratio; pick the closest inside the bounds
+            var widthFallback = Math.Clamp(maxWidthByRatio, minWidth, maxWidth);
+            var heightFallback = Math.Clamp(widthFallback / targetRatio, minHeight, maxHeight);
+            var fb = new Size(widthFallback, heightFallback);
+            Log($"CALC infeasible-ratio | fallback={fb}");
+            return fb;
         }
 
-        // Choose golden-ratio orientation based on child shape; fallback to parent
-        double targetRatio;
-        if (natural.Width > 0 && natural.Height > 0)
+        // Binary search minimal width such that the child's desired height fits within ratio-limited height (W/R) and maxHeight
+        Size Probe(double w)
         {
-            targetRatio = natural.Width >= natural.Height ? GoldenRatio : 1.0 / GoldenRatio;
-        }
-        else
-        {
-            var availableRatio = parentConstraint.Width / parentConstraint.Height;
-            targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
-        }
-
-        // Compute feasible width interval honoring ratio and constraints
-        // Conditions: height = width / R, and width/height within [min,max] and also cover natural size
-        var lowerW = Math.Max(Math.Max(minWidth, targetRatio * minHeight), Math.Max(natural.Width, targetRatio * natural.Height));
-        var upperW = Math.Min(maxWidth, targetRatio * maxHeight);
-
-        if (lowerW <= upperW)
-        {
-            var width = lowerW; // minimal possible width
-            var height = width / targetRatio;
-            return new Size(width, height);
+            var heightLimit = Math.Min(maxHeight, w / targetRatio);
+            Child?.Measure(new Size(w, double.PositiveInfinity));
+            var desiredH = Child?.DesiredSize.Height ?? 0;
+            // If desired height is NaN/Inf, treat as too big
+            if (!double.IsFinite(desiredH) || desiredH < 0)
+                desiredH = heightLimit + 1; // force grow
+            var fits = desiredH <= heightLimit + 0.5; // small tolerance
+            Log($"CALC probe | w={w:F2}, limitH={heightLimit:F2}, desiredH={desiredH:F2}, fits={fits}");
+            return new Size(w, fits ? heightLimit : double.PositiveInfinity);
         }
 
-        // Infeasible: fall back to the smallest size inside the box while keeping ratio
-        // Try by clamping to max box
-        var widthFallback = Math.Min(maxWidth, Math.Max(minWidth, lowerW));
-        var heightFallback = widthFallback / targetRatio;
-
-        if (heightFallback > maxHeight)
+        double lo = lowerW, hi = upperW;
+        const int iters = 12;
+        for (int i = 0; i < iters && hi - lo > 0.5; i++)
         {
-            heightFallback = maxHeight;
-            widthFallback = heightFallback * targetRatio;
+            var mid = (lo + hi) / 2.0;
+            var probe = Probe(mid);
+            if (double.IsInfinity(probe.Height))
+            {
+                // Doesn't fit; need more width
+                lo = mid;
+            }
+            else
+            {
+                // Fits; try smaller
+                hi = mid;
+            }
         }
 
-        // Final clamp
-        widthFallback = Math.Clamp(widthFallback, minWidth, maxWidth);
-        heightFallback = Math.Clamp(heightFallback, minHeight, maxHeight);
-        return new Size(widthFallback, heightFallback);
+        var finalW = hi; // minimal that fits
+        finalW = Math.Clamp(finalW, lowerW, upperW);
+        var finalH = Math.Clamp(finalW / targetRatio, minHeight, maxHeight);
+        var result = new Size(finalW, finalH);
+        Log($"CALC result | size={result}");
+        return result;
     }
 
     private static Size CalculateOptimalSizeWithRatio(double targetRatio,
@@ -304,6 +336,14 @@ public class OptimalDisplayDecorator : Decorator
         {
             // Error handling: return a reasonable default
             return new Rect(0, 0, 1920, 1080);
+        }
+    }
+
+    private void Log(string message)
+    {
+        if (IsDebugEnabled)
+        {
+            Debug.WriteLine($"[OptimalDisplayDecorator #{GetHashCode():X}] {message}");
         }
     }
 }
