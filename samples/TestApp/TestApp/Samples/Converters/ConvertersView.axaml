@@ -43,7 +43,7 @@
                 DisplayMemberBinding="{Binding Description, DataType=misc:EnumItem}"
                 SelectedValueBinding="{Binding Value, DataType=misc:EnumItem}">
             </ComboBox>
-            <Button Theme="{Binding #ComboBox.SelectedValue, Converter={StaticResource ThemeConverter}}" />
+            <EnhancedButton Theme="{Binding #ComboBox.SelectedValue, Converter={StaticResource ThemeConverter}}" />
         </StackPanel>
     </controls:HeaderedContainer>
 

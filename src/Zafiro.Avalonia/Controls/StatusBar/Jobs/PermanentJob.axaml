@@ -11,7 +11,7 @@
     <Design.DataContext>
         <design:JobViewModelDesign Status="{designTime:Return Value='My status'}">
             <design:JobViewModelDesign.Icon>
-                <Button Content="Hi" />
+                <EnhancedButton Content="Hi" />
             </design:JobViewModelDesign.Icon>
         </design:JobViewModelDesign>
     </Design.DataContext>

@@ -71,21 +71,21 @@
             </Style>
         </DockPanel.Styles>
 
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding GoBack}" DockPanel.Dock="Left">
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding GoBack}" DockPanel.Dock="Left">
             <Button.Content>
                 <Image Margin="0 2" Source="{StaticResource Back}" />
             </Button.Content>
-        </Button>
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding GoUp}" DockPanel.Dock="Left">
+        </EnhancedButton>
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding GoUp}" DockPanel.Dock="Left">
             <Button.Content>
                 <PathIcon Foreground="{DynamicResource Accent}" Height="15" Data="M 12 1.99998 A 1 1 0 0 0 11.9965 2.00068 A 1.0001 1.0001 0 0 0 11.6613 2.06736 A 1 1 0 0 0 11.5801 2.101 A 1.0001 1.0001 0 0 0 11.2939 2.29219 A 1 1 0 0 0 11.2927 2.29324 L 8.29295 5.29295 A 1 1 0 0 0 8.29295 6.70705 A 1 1 0 0 0 9.70705 6.70705 L 11 5.41406 L 11 21 A 1 1 0 0 0 12 22 A 1 1 0 0 0 13 21 L 13 5.41406 L 14.2929 6.70705 A 1 1 0 0 0 15.7071 6.70705 A 1 1 0 0 0 15.7071 5.29295 L 12.7079 2.29383 A 1 1 0 0 0 12 1.99998 z" />
             </Button.Content>
-        </Button>
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding LoadRequestedPath}" DockPanel.Dock="Right">
+        </EnhancedButton>
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding LoadRequestedPath}" DockPanel.Dock="Right">
             <Button.Content>
                 <Image Source="{StaticResource Reload}" />
             </Button.Content>
-        </Button>
+        </EnhancedButton>
         <Panel>
             <ProgressBar Margin="6" VerticalAlignment="Stretch" IsIndeterminate="True"
                          IsVisible="{Binding IsNavigating^}" />

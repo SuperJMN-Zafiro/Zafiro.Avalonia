@@ -116,23 +116,23 @@
     </UserControl.Styles>
 
     <StackPanel Orientation="Horizontal" Height="40">
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding CreateDirectory}">
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding CreateDirectory}">
             <Button.Content>
                 <DockPanel>
                     <Image Source="{StaticResource di_copy_xaml}" />
                     <TextBlock>New directory</TextBlock>
                 </DockPanel>
             </Button.Content>
-        </Button>
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding Context.Copy^}">
+        </EnhancedButton>
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding Context.Copy^}">
             <Button.Content>
                 <DockPanel>
                     <Image Source="{StaticResource di_copy_xaml}" />
                     <TextBlock>Copy</TextBlock>
                 </DockPanel>
             </Button.Content>
-        </Button>
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding Context.Paste^}">
+        </EnhancedButton>
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding Context.Paste^}">
             <Button.Content>
                 <Panel>
                     <DockPanel>
@@ -144,15 +144,15 @@
                                  MinWidth="0" VerticalAlignment="Bottom" />
                 </Panel>
             </Button.Content>
-        </Button>
-        <Button Theme="{StaticResource TransparentButton}" Command="{Binding Context.Delete^}">
+        </EnhancedButton>
+        <EnhancedButton Theme="{StaticResource TransparentButton}" Command="{Binding Context.Delete^}">
             <Button.Content>
                 <DockPanel>
                     <Image Source="{StaticResource di_bin_svgrepo_com_xaml}" />
                     <TextBlock>Delete</TextBlock>
                 </DockPanel>
             </Button.Content>
-        </Button>
+        </EnhancedButton>
         <ToggleButton x:Name="ToggleButton" Theme="{StaticResource TransparentButton}" ToolTip.Tip="Enable Select Mode"
                       IsChecked="{Binding Context.IsSelectionEnabled, Mode=TwoWay}">
             <ToggleButton.Content>
@@ -161,7 +161,7 @@
         </ToggleButton>
         <controls:SelectionControl Selection="{Binding Context.SelectionContext}"
                                    IsVisible="{Binding #ToggleButton.IsChecked}" />
-        <Button IsEnabled="{Binding IsTransferring^}" 
+        <EnhancedButton IsEnabled="{Binding IsTransferring^}" 
                 Opacity="{Binding IsTransferring^, FallbackValue=0, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}" DataContext="{Binding Context.TransferManager}" 
                 Theme="{StaticResource TransparentButton}" 
                 x:Name="TransfersButton">
@@ -180,6 +180,6 @@
                     <DoubleTransition Property="Opacity" Duration="0:0:1"></DoubleTransition>
                 </Transitions>
             </Button.Transitions>
-        </Button>
+        </EnhancedButton>
     </StackPanel>
 </UserControl>

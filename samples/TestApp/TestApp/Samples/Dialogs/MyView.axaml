@@ -7,7 +7,7 @@
              x:Class="TestApp.Samples.Dialogs.MyView"
              x:DataType="dialogs:MyViewModel">
     <DockPanel>
-        <Button Margin="20" HorizontalAlignment="Center" Command="{Binding OpenAnotherDialog}" Content="Open another dialog" DockPanel.Dock="Bottom" />
+        <EnhancedButton Margin="20" HorizontalAlignment="Center" Command="{Binding OpenAnotherDialog}" Content="Open another dialog" DockPanel.Dock="Bottom" />
         <TextBox Theme="{StaticResource EnhancedTextBox}" VerticalAlignment="Center" Width="200" Text="{Binding Text, Mode=TwoWay}" Watermark="Enter something" />
     </DockPanel>
 </UserControl>

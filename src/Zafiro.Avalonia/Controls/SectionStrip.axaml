@@ -86,9 +86,9 @@
                                  ItemsSource="{TemplateBinding FilteredSections}">
                             <ListBox.DataTemplates>
                                 <DataTemplate DataType="sections:ICommandSection">
-                                    <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
+                                    <EnhancedButton HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
                                         <ContentControl Content="{Binding}" ContentTemplate="{StaticResource HorizontalItem}" />
-                                    </Button>
+                                    </EnhancedButton>
                                 </DataTemplate>
                                 <DataTemplate DataType="sections:IContentSection">
                                     <ContentControl Content="{Binding}" ContentTemplate="{StaticResource HorizontalItem}" />
@@ -112,16 +112,16 @@
                         <DockPanel>
                             <DockPanel.DataTemplates>
                                 <DataTemplate DataType="sections:ICommandSection">
-                                    <Button HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
+                                    <EnhancedButton HorizontalAlignment="Stretch" Command="{Binding Command}" Padding="0">
                                         <ContentControl Content="{Binding}" ContentTemplate="{StaticResource VerticalItem}" />
-                                    </Button>
+                                    </EnhancedButton>
                                 </DataTemplate>
                                 <DataTemplate DataType="sections:IContentSection">
                                     <ContentControl Content="{Binding}" ContentTemplate="{StaticResource VerticalItem}" />
                                 </DataTemplate>
                             </DockPanel.DataTemplates>
-                            <Button VerticalAlignment="Stretch" x:Name="Button" IsVisible="{Binding !!#VisibilityExposerBehavior.InvisibleItems.Count}"
-                                    DockPanel.Dock="Right" HorizontalAlignment="Right" Content="...">
+                            <EnhancedButton VerticalAlignment="Stretch" x:Name="Button" IsVisible="{Binding !!#VisibilityExposerBehavior.InvisibleItems.Count}"
+                                            DockPanel.Dock="Right" HorizontalAlignment="Right" Content="...">
                                 <Button.Flyout>
                                     <Flyout>
                                         <ListBox x:Name="OtherSections" SelectedItem="{TemplateBinding SelectedSection, Mode=TwoWay}"
@@ -135,7 +135,7 @@
                                         <HideFlyoutAction Flyout="{Binding #Button.Flyout}" />
                                     </EventTriggerBehavior>
                                 </Interaction.Behaviors>
-                            </Button>
+                            </EnhancedButton>
                             <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      Background="{TemplateBinding Background}"
                                      ItemContainerTheme="{StaticResource SectionListItem}"

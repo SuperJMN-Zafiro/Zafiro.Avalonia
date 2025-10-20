@@ -12,6 +12,6 @@
     </UserControl.Styles>
 
     <c:HeaderedContainer Header="You can navigate to other pages using INavigator ">
-        <Button Content="Go to another page" Command="{Binding Navigate}" />
+        <EnhancedButton Content="Go to another page" Command="{Binding Navigate}" />
     </c:HeaderedContainer>
 </UserControl>

@@ -144,7 +144,7 @@
                     <Column Header="Column 4">
                         <Column.CellTemplate>
                             <DataTemplate>
-                                <Button Height="30" Content="HOLA" />
+                                <EnhancedButton Height="30" Content="HOLA" />
                             </DataTemplate>
                         </Column.CellTemplate>
                     </Column>
@@ -158,7 +158,7 @@
                     <Column Header="Column 4">
                         <Column.CellTemplate>
                             <DataTemplate>
-                                <Button Height="30" Content="HOLA" />
+                                <EnhancedButton Height="30" Content="HOLA" />
                             </DataTemplate>
                         </Column.CellTemplate>
                     </Column>

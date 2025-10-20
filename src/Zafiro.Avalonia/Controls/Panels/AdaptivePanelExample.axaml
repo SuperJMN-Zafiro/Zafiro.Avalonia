@@ -30,14 +30,14 @@
                                   SwitchTolerance="15">
                 <panels:AdaptivePanel.Content>
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Button Content="Save" Padding="15,5" />
-                        <Button Content="Load" Padding="15,5" />
-                        <Button Content="Export" Padding="15,5" />
-                        <Button Content="Settings" Padding="15,5" />
+                        <EnhancedButton Content="Save" Padding="15,5" />
+                        <EnhancedButton Content="Load" Padding="15,5" />
+                        <EnhancedButton Content="Export" Padding="15,5" />
+                        <EnhancedButton Content="Settings" Padding="15,5" />
                     </StackPanel>
                 </panels:AdaptivePanel.Content>
                 <panels:AdaptivePanel.OverflowContent>
-                    <Button Content="⋯" Padding="10" ToolTip.Tip="More actions available" />
+                    <EnhancedButton Content="⋯" Padding="10" ToolTip.Tip="More actions available" />
                 </panels:AdaptivePanel.OverflowContent>
             </panels:AdaptivePanel>
         </Border>

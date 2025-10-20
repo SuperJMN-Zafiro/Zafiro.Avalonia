@@ -65,13 +65,13 @@
 
                 <CardGrid.ItemsSource>
                     <generic:List x:TypeArguments="x:Object">
-                        <Button Content="SOME CONTENT" />
-                        <Button Content="SOME BIGGER CONTENT" />
-                        <Button Content="SOME BIGGER CONTENT" />
-                        <Button Content="A" />
-                        <Button Content="B" />
-                        <Button Content="C" />
-                        <Button Content="D" />
+                        <EnhancedButton Content="SOME CONTENT" />
+                        <EnhancedButton Content="SOME BIGGER CONTENT" />
+                        <EnhancedButton Content="SOME BIGGER CONTENT" />
+                        <EnhancedButton Content="A" />
+                        <EnhancedButton Content="B" />
+                        <EnhancedButton Content="C" />
+                        <EnhancedButton Content="D" />
                     </generic:List>
                 </CardGrid.ItemsSource>
             </CardGrid>

@@ -10,8 +10,8 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Command}">
-                    <Button Content="{TemplateBinding Content}" IsVisible="{Binding !IsExecuting^, FallbackValue='True'}" Command="{Binding Start}" />
-                    <Button Content="{TemplateBinding StopContent}" IsVisible="{Binding IsExecuting^, FallbackValue='False'}" Command="{Binding Stop}" />
+                    <EnhancedButton Content="{TemplateBinding Content}" IsVisible="{Binding !IsExecuting^, FallbackValue='True'}" Command="{Binding Start}" />
+                    <EnhancedButton Content="{TemplateBinding StopContent}" IsVisible="{Binding IsExecuting^, FallbackValue='False'}" Command="{Binding Stop}" />
                 </StackPanel>
             </ControlTemplate>
         </Setter>

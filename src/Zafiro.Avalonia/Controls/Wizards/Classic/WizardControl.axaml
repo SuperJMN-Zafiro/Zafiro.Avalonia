@@ -44,11 +44,11 @@
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}">
                         <panels:TrueCenterPanel>
-                            <Button panels:TrueCenterPanel.Dock="Left" Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
-                                    Command="{Binding $parent[classic:WizardHeader].Back}"
-                                    Theme="{StaticResource TransparentButton}">
+                            <EnhancedButton panels:TrueCenterPanel.Dock="Left" Cursor="Hand" Opacity="{Binding $self.IsEffectivelyEnabled, Converter={x:Static converters:OpacityConverters.BoolToOpacity}}"
+                                            Command="{Binding $parent[classic:WizardHeader].Back}"
+                                            Theme="{StaticResource TransparentButton}">
                                 <PathIcon Width="15" Data="{StaticResource LeftArrow}" />
-                            </Button>
+                            </EnhancedButton>
 
                             <StackPanel panels:TrueCenterPanel.Dock="Center" Spacing="5">
                                 <TextBlock panels:TrueCenterPanel.Dock="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"

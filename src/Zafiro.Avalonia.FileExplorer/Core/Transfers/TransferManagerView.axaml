@@ -13,7 +13,7 @@
                 <DataTemplate DataType="transfers1:TransferItem">
                     <DockPanel>
                         <TextBlock FontSize="12" Text="{Binding Description}" DockPanel.Dock="Top" />
-                        <Button Theme="{StaticResource TransparentButton}" Content="x" Command="{Binding Transfer.Stop}" DockPanel.Dock="Right" VerticalAlignment="Center" />
+                        <EnhancedButton Theme="{StaticResource TransparentButton}" Content="x" Command="{Binding Transfer.Stop}" DockPanel.Dock="Right" VerticalAlignment="Center" />
                         <ProgressBar Width="100" Maximum="{Binding Progress^.Total}"  Value="{Binding Progress^.Current}" />
                     </DockPanel>
                 </DataTemplate>

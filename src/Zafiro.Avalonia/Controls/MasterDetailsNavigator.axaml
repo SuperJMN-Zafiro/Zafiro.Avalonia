@@ -11,10 +11,10 @@
     <ControlTheme x:Key="{x:Type controls:MasterDetailsNavigator}" TargetType="controls:MasterDetailsNavigator">
         <Setter Property="Template">
             <ControlTemplate TargetType="controls:MasterDetailsNavigator">
-                <Button Height="32" Padding="0" Theme="{StaticResource TransparentButton}"
-                        IsVisible="{Binding IsBackButtonDisplayed^, FallbackValue=False}"
-                        DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType=controls:MasterDetailsNavigator}}"
-                        Command="{Binding Back^}">
+                <EnhancedButton Height="32" Padding="0" Theme="{StaticResource TransparentButton}"
+                                IsVisible="{Binding IsBackButtonDisplayed^, FallbackValue=False}"
+                                DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType=controls:MasterDetailsNavigator}}"
+                                Command="{Binding Back^}">
                     <Button.Content>
                         <Image Source="{StaticResource BackArrow}" />
                     </Button.Content>
@@ -25,7 +25,7 @@
                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=controls:MasterDetailsNavigator}, Path=Back^}" />
                         </behaviors:BackTriggerBehavior>
                     </Interaction.Behaviors>
-                </Button>
+                </EnhancedButton>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

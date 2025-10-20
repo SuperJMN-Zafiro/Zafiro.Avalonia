@@ -12,13 +12,13 @@
     <UserControl.DataTemplates>
         <DataTemplate DataType="dc:FileViewModel">
             <DockPanel>
-                <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></Button>
+                <EnhancedButton Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></EnhancedButton>
                 <TextBlock Text="{Binding Name}"></TextBlock>
             </DockPanel>
         </DataTemplate>
         <DataTemplate DataType="dc:DirectoryViewModel">
             <DockPanel>
-                <!-- <Button Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></Button> -->
+                <!-- <EnhancedButton Command="{Binding Delete}" DockPanel.Dock="Right" Content="Delete"></EnhancedButton> -->
                 <TextBlock Text="{Binding Name}" />
             </DockPanel>
         </DataTemplate>
