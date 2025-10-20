@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Zafiro.Avalonia.Controls;
 
 /// <summary>
@@ -10,8 +8,6 @@ public class OptimalDisplayDecorator : Decorator
 {
     private const double GoldenRatio = 1.618033988749;
 
-    public static readonly StyledProperty<bool> IsDebugEnabledProperty =
-        AvaloniaProperty.Register<OptimalDisplayDecorator, bool>(nameof(IsDebugEnabled), false);
 
     public static readonly StyledProperty<double> MaxProportionProperty =
         AvaloniaProperty.Register<OptimalDisplayDecorator, double>(
@@ -27,11 +23,6 @@ public class OptimalDisplayDecorator : Decorator
 
     private Size lastOptimalSize;
 
-    public bool IsDebugEnabled
-    {
-        get => GetValue(IsDebugEnabledProperty);
-        set => SetValue(IsDebugEnabledProperty, value);
-    }
 
     /// <summary>
     /// Maximum proportion of the display size that the content can occupy (0.0 - 1.0).
@@ -97,7 +88,6 @@ public class OptimalDisplayDecorator : Decorator
         var parentConstraint = new Size(effectiveAvailableWidth, effectiveAvailableHeight);
 
         var displayBounds = GetActiveDisplayBounds();
-        Log(() => $"MEASURE start | available={availableSize}, effective=({effectiveAvailableWidth},{effectiveAvailableHeight}), display={displayBounds}");
 
         // Compute bounds and ratio once
         var (minW, maxW, minH, maxH, ratio) = GetSizingParameters(displayBounds, parentConstraint);
@@ -105,7 +95,6 @@ public class OptimalDisplayDecorator : Decorator
         // Ratio-constrained width interval
         var lowerW = Math.Max(minW, ratio * minH);
         var upperW = Math.Min(maxW, ratio * maxH);
-        Log(() => $"CALC interval | lowerW={lowerW:F2}, upperW={upperW:F2}");
 
         Size Probe(double w)
         {
@@ -114,7 +103,6 @@ public class OptimalDisplayDecorator : Decorator
             var desiredH = Child.DesiredSize.Height;
             if (!double.IsFinite(desiredH) || desiredH < 0) desiredH = heightLimit + 1;
             var fits = desiredH <= heightLimit + 0.5;
-            Log(() => $"CALC probe | w={w:F2}, limitH={heightLimit:F2}, desiredH={desiredH:F2}, fits={fits}");
             return new Size(w, fits ? heightLimit : double.PositiveInfinity);
         }
 
@@ -124,7 +112,6 @@ public class OptimalDisplayDecorator : Decorator
             var widthFallback = Math.Clamp(upperW, minW, maxW);
             var heightFallback = Math.Clamp(widthFallback / ratio, minH, maxH);
             optimalSize = new Size(widthFallback, heightFallback);
-            Log(() => $"CALC infeasible-ratio | fallback={optimalSize}");
         }
         else
         {
@@ -160,7 +147,6 @@ public class OptimalDisplayDecorator : Decorator
         Child.Measure(optimalSize);
         lastOptimalSize = optimalSize;
 
-        Log(() => $"MEASURE result | optimal={optimalSize}, childDesired={Child.DesiredSize}");
         return optimalSize;
     }
 
@@ -172,7 +158,6 @@ public class OptimalDisplayDecorator : Decorator
         }
 
         var displayBounds = GetActiveDisplayBounds();
-        Log(() => $"ARRANGE start | final={finalSize}, display={displayBounds}");
 
         // Use the last measured optimal size; scale down if parent gives smaller final size
         var optimalSize = lastOptimalSize;
@@ -212,7 +197,6 @@ public class OptimalDisplayDecorator : Decorator
         }
 
         Child.Arrange(new Rect(offsetX, offsetY, optimalSize.Width, optimalSize.Height));
-        Log(() => $"ARRANGE result | optimal={optimalSize}, offsets=({offsetX},{offsetY})");
 
         return finalSize;
     }
@@ -222,7 +206,6 @@ public class OptimalDisplayDecorator : Decorator
     {
         var displayWidth = displayBounds.Width;
         var displayHeight = displayBounds.Height;
-        Log(() => $"CALC start | parentConstraint={parentConstraint}, display=({displayWidth}x{displayHeight})");
 
         // Calculate min and max sizes based on proportions
         var minWidth = displayWidth * MinProportion;
@@ -235,14 +218,12 @@ public class OptimalDisplayDecorator : Decorator
         maxHeight = Math.Min(maxHeight, parentConstraint.Height);
         minWidth = Math.Min(minWidth, maxWidth);
         minHeight = Math.Min(minHeight, maxHeight);
-        Log(() => $"CALC bounds | minW={minWidth:F2}, maxW={maxWidth:F2}, minH={minHeight:F2}, maxH={maxHeight:F2}");
 
         // Choose golden-ratio orientation based on available space (we want the minimal viable box)
         var denom = (parentConstraint.Height > 0 && double.IsFinite(parentConstraint.Height)) ? parentConstraint.Height : displayHeight;
         var numer = (parentConstraint.Width > 0 && double.IsFinite(parentConstraint.Width)) ? parentConstraint.Width : displayWidth;
         var availableRatio = numer / denom;
         var targetRatio = availableRatio > 1.0 ? GoldenRatio : 1.0 / GoldenRatio;
-        Log(() => $"CALC ratio | targetR={targetRatio:F4}");
         return (minWidth, maxWidth, minHeight, maxHeight, targetRatio);
     }
 
@@ -383,15 +364,5 @@ public class OptimalDisplayDecorator : Decorator
             // Error handling: return a reasonable default
             return new Rect(0, 0, 1920, 1080);
         }
-    }
-
-    private void Log(Func<string> messageFactory)
-    {
-        if (!IsDebugEnabled)
-        {
-            return;
-        }
-
-        Debug.WriteLine($"[OptimalDisplayDecorator #{GetHashCode():X}] {messageFactory()}");
     }
 }
