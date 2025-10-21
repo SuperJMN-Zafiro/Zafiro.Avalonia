@@ -148,7 +148,8 @@ public static class DialogExtensions
         [
             OptionBuilder.Create(okText, ReactiveCommand.Create(closeable.Close, Observable.Return(true)).Enhance(), new Settings()
             {
-                IsDefault = true
+                IsDefault = true,
+                IsCancel = true,
             })
         ]);
     }

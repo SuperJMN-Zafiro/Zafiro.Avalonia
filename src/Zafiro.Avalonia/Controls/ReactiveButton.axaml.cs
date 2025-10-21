@@ -3,6 +3,7 @@ using Zafiro.UI.Commands;
 
 namespace Zafiro.Avalonia.Controls;
 
+[Obsolete("Replaced by EnhancedButton")]
 public class ReactiveButton : ContentControl
 {
     public static readonly StyledProperty<IEnhancedCommand> CommandProperty = AvaloniaProperty.Register<ReactiveButton, IEnhancedCommand>(
