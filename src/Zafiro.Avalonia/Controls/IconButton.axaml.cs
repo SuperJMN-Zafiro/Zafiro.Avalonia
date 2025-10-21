@@ -2,6 +2,7 @@ using Avalonia.Styling;
 
 namespace Zafiro.Avalonia.Controls;
 
+[Obsolete("Replaced by EnhancedButton")]
 public class IconButton : Button
 {
     public static readonly StyledProperty<object> IconProperty = AvaloniaProperty.Register<IconButton, object>(nameof(Icon));

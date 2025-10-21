@@ -1,7 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:Zafiro.Avalonia.Dialogs.Views;assembly=Zafiro.Avalonia.Dialogs"
-             xmlns:controls="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              xmlns:misc="clr-namespace:Zafiro.Avalonia.Misc;assembly=Zafiro.Avalonia"
              x:Class="TestApp.App"
              RequestedThemeVariant="Default">
@@ -74,17 +73,6 @@
         <StyleInclude Source="avares://Zafiro.Avalonia/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.Dialogs/Styles.axaml" />
         <StyleInclude Source="avares://Zafiro.Avalonia.DataViz/Styles.axaml" />
-        <!-- <Style Selector="views|DialogControl"> -->
-        <!--     <Setter Property="Width"> -->
-        <!--         <Setter.Value> -->
-        <!--             <OnFormFactor> -->
-        <!--                 <OnFormFactor.Desktop> -->
-        <!--                     <x:Double>400</x:Double> -->
-        <!--                 </OnFormFactor.Desktop> -->
-        <!--             </OnFormFactor> -->
-        <!--         </Setter.Value> -->
-        <!--     </Setter> -->
-        <!-- </Style> -->
     </Application.Styles>
 
     <Application.DataTemplates>
@@ -95,24 +83,5 @@
         <DataTypeViewLocator />
         <NamingConventionGeneratedViewLocator />
     </Application.DataTemplates>
-
-    <Application.Resources>
-        <ControlTheme x:Key="{x:Type Button}" TargetType="Button" BasedOn="{StaticResource ChromedButton}" />
-        <ControlTheme x:Key="EmptyCard" TargetType="controls:Card">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <DockPanel>
-                            <StackPanel>
-                                <ContentPresenter Content="{TemplateBinding Header}" HorizontalAlignment="Center" />
-                                <ContentPresenter Content="{TemplateBinding Subheader}" HorizontalAlignment="Center" />
-                            </StackPanel>
-                            <ContentPresenter Content="{TemplateBinding Content}" />
-                        </DockPanel>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </ControlTheme>
-    </Application.Resources>
 
 </Application>
