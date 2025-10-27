@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using CSharpFunctionalExtensions;
 using ReactiveUI;
 using Zafiro.Avalonia.Dialogs.Views;
+using Zafiro.CSharpFunctionalExtensions;
 using Zafiro.UI.Commands;
 
 namespace Zafiro.Avalonia.Dialogs;
@@ -23,12 +24,17 @@ public static class DialogExtensions
         IObservable<bool>? canSubmit = null)
     {
         return dialogService.Show(viewModel, title, closeable =>
-        [
-            OptionBuilder.Create("OK", ReactiveCommand.Create(closeable.Close, canSubmit).Enhance(), new Settings()
+        {
+            IEnhancedCommand command = ReactiveCommand.Create(closeable.Close, canSubmit).Enhance();
+            Settings settings = new Settings()
             {
                 IsDefault = true,
-            })
-        ]);
+            };
+            return
+            [
+                new Option("OK", command, settings)
+            ];
+        });
     }
 
     public static Task Show(this IDialog dialogService,
@@ -38,17 +44,27 @@ public static class DialogExtensions
     {
         return dialogService.Show(viewModel, title, closeable =>
         [
-            OptionBuilder.Create("Cancel", ReactiveCommand.Create(closeable.Dismiss, Observable.Return(true)).Enhance(), new Settings
-            {
-                IsDefault = false,
-                IsCancel = true,
-                Role = OptionRole.Cancel,
-            }),
-            OptionBuilder.Create("OK", ReactiveCommand.Create(closeable.Close, canSubmit).Enhance(), new Settings()
-            {
-                IsDefault = true,
-            })
+            Cancel(closeable),
+            Ok(closeable, canSubmit)
         ]);
+    }
+
+    private static Option Cancel(ICloseable closeable)
+    {
+        Settings settings = new Settings
+        {
+            IsDefault = false,
+            IsCancel = true,
+            Role = OptionRole.Cancel,
+        };
+        IEnhancedCommand command = ReactiveCommand.Create(closeable.Dismiss, Observable.Return(true)).Enhance();
+        return new Option("Cancel", command, settings);
+    }
+
+    private static Option Ok(ICloseable closeable, IObservable<bool>? canClose)
+    {
+        IEnhancedCommand command = ReactiveCommand.Create(closeable.Dismiss, canClose).Enhance();
+        return new Option("OK", command, new Settings() { IsDefault = true });
     }
 
     public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
@@ -91,16 +107,8 @@ public static class DialogExtensions
     {
         Func<ICloseable, IOption[]> optionsFactory = closeable =>
         [
-            OptionBuilder.Create("Cancel", ReactiveCommand.Create(closeable.Dismiss).Enhance(), new Settings
-            {
-                IsDefault = false,
-                IsCancel = true,
-                Role = OptionRole.Cancel,
-            }),
-            OptionBuilder.Create("OK", ReactiveCommand.Create(closeable.Close, canSubmit(viewModel)).Enhance(), new Settings()
-            {
-                IsDefault = true,
-            })
+            Cancel(closeable),
+            Ok(closeable, canSubmit(viewModel))
         ];
 
         return await dialogService.ShowAndGetResult(viewModel, title, optionsFactory, getResult);
@@ -114,12 +122,12 @@ public static class DialogExtensions
         {
             List<IOption> options =
             [
-                OptionBuilder.Create(yesText, ReactiveCommand.Create(() =>
+                new Option(yesText, ReactiveCommand.Create(() =>
                 {
                     result = true;
                     closeable.Close();
                 }).Enhance(), new Settings()),
-                OptionBuilder.Create(noText, ReactiveCommand.Create(() =>
+                new Option(noText, ReactiveCommand.Create(() =>
                 {
                     result = false;
                     closeable.Close();
@@ -137,6 +145,37 @@ public static class DialogExtensions
         return Maybe<bool>.None;
     }
 
+    public static async Task<Maybe<TResult>> ShowAndGetResult<TViewModel, TResult>(this IDialog dialogService,
+        [DisallowNull] TViewModel viewModel,
+        string title,
+        Func<TViewModel, IEnhancedCommand<Result<TResult>>> getResultCommand)
+    {
+        var command = getResultCommand(viewModel);
+        var captured = Maybe<TResult>.None;
+        IDisposable? subscription = null;
+
+        var success = await dialogService.Show(viewModel, title, closeable =>
+        {
+            subscription = command
+                .Successes()
+                .Take(1)
+                .Subscribe(value =>
+                {
+                    captured = value;
+                    closeable.Close();
+                });
+
+            return
+            [
+                Cancel(closeable),
+                new Option(command.Text ?? "OK", command, new Settings { IsDefault = true }),
+            ];
+        });
+
+        subscription?.Dispose();
+        return success ? captured : Maybe<TResult>.None;
+    }
+
     public static Task ShowMessage(this IDialog dialogService,
         string title,
         string text,
@@ -145,12 +184,17 @@ public static class DialogExtensions
         var messageDialogViewModel = new MessageDialogViewModel(text);
 
         return dialogService.Show(messageDialogViewModel, title, closeable =>
-        [
-            OptionBuilder.Create(okText, ReactiveCommand.Create(closeable.Close, Observable.Return(true)).Enhance(), new Settings()
+        {
+            IEnhancedCommand command = ReactiveCommand.Create(closeable.Close, Observable.Return(true)).Enhance();
+            Settings settings = new Settings()
             {
                 IsDefault = true,
                 IsCancel = true,
-            })
-        ]);
+            };
+            return
+            [
+                new Option(okText, command, settings)
+            ];
+        });
     }
 }
