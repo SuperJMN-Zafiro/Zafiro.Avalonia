@@ -15,5 +15,6 @@
         <EnhancedButton Content="Show simple message" HorizontalAlignment="Center" Command="{Binding ShowMessage}" />
         <EnhancedButton Content="Show big dialog" HorizontalAlignment="Center" Command="{Binding BigDialog}" />
         <EnhancedButton Content="Open a user-interacting dialog" HorizontalAlignment="Center" Command="{Binding ShowDialog}" />
+        <EnhancedButton Content="Dialog executing result" HorizontalAlignment="Center" Command="{Binding  WithSubmitResult}" />
     </StackPanel>
 </UserControl>

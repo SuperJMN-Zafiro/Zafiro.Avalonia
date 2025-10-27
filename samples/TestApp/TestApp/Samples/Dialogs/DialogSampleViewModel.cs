@@ -35,8 +35,19 @@ public class DialogSampleViewModel : IViewModel
             .Subscribe();
 
         ShowMessage = ReactiveCommand.CreateFromTask(() => OnShowMessage(dialogService));
+        WithSubmitResult = ReactiveCommand.CreateFromTask(() => dialogService.ShowAndGetResult(new SubmitterViewModel(), "My View", model => model.Submit));
+
+        WithSubmitResult.Values()
+            .SelectMany(async i =>
+            {
+                await notificationService.Show($"You submitted with result {i}", "Submitted!");
+                return Unit.Default;
+            })
+            .Subscribe();
         BigDialog = ReactiveCommand.CreateFromTask(() => dialogService.Show(new BigView(), "Big", Observable.Return(true)));
     }
+
+    public ReactiveCommand<Unit, Maybe<int>> WithSubmitResult { get; set; }
 
     public ReactiveCommand<Unit, Unit> BigDialog { get; set; }
 

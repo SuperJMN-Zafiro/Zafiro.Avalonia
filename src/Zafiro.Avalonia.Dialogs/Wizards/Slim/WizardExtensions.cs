@@ -22,15 +22,16 @@ public static class WizardExtensions
             var cancel = ReactiveCommand.Create(closeable.Dismiss, canCancel).Enhance();
             wizard.Finished.Subscribe(_ => closeable.Close()).DisposeWith(disposables);
 
+            Settings settings = new Settings
+            {
+                IsCancel = true,
+                Role = OptionRole.Cancel,
+                IsVisible = canCancel,
+            };
             return
             [
                 nextOption,
-                OptionBuilder.Create("Cancel", cancel, new Settings
-                {
-                    IsCancel = true,
-                    Role = OptionRole.Cancel,
-                    IsVisible = canCancel,
-                }),
+                new Option("Cancel", cancel, settings),
             ];
         };
 

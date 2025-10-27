@@ -20,24 +20,27 @@ public static class WizardExtensions
         var cancel = ReactiveCommand.Create(closeable.Dismiss, canCancel).Enhance();
         var close = ReactiveCommand.Create(closeable.Close, wizard.IsLastPage).Enhance();
 
+        Settings settings = new Settings
+        {
+            IsDefault = true,
+            IsVisible = wizard.IsLastPage.Not(),
+        };
+        Settings settings1 = new Settings
+        {
+            IsCancel = true,
+            IsVisible = canCancel,
+            Role = OptionRole.Cancel,
+        };
+        Settings settings2 = new Settings
+        {
+            IsDefault = true,
+            IsVisible = wizard.IsLastPage
+        };
         return
         [
-            OptionBuilder.Create("Next", wizard.Next, new Settings
-            {
-                IsDefault = true,
-                IsVisible = wizard.IsLastPage.Not(),
-            }),
-            OptionBuilder.Create("Cancel", cancel, new Settings
-            {
-                IsCancel = true,
-                IsVisible = canCancel,
-                Role = OptionRole.Cancel,
-            }),
-            OptionBuilder.Create("Close", close, new Settings
-            {
-                IsDefault = true,
-                IsVisible = wizard.IsLastPage
-            })
+            new Option("Next", wizard.Next, settings),
+            new Option("Cancel", cancel, settings1),
+            new Option("Close", close, settings2)
         ];
     }
 }
