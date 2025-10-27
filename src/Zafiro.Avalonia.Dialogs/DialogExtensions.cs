@@ -63,7 +63,7 @@ public static class DialogExtensions
 
     private static Option Ok(ICloseable closeable, IObservable<bool>? canClose)
     {
-        IEnhancedCommand command = ReactiveCommand.Create(closeable.Dismiss, canClose).Enhance();
+        IEnhancedCommand command = ReactiveCommand.Create(closeable.Close, canClose).Enhance();
         return new Option("OK", command, new Settings() { IsDefault = true });
     }
 
