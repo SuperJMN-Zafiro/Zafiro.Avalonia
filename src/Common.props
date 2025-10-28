@@ -7,10 +7,10 @@
 	<PropertyGroup>
 		<PackageId>$(MSBuildProjectName)</PackageId>
 		<Authors>SuperJMN</Authors>
-		<Description>The Crema for AvaloniaUI</Description>
+        <Description>The Crema for Avalonia</Description>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<PackageReleaseNotes>Crema all around</PackageReleaseNotes>
-		<PackageTags>XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>
+        <PackageTags>XAML Cross-Platform Avalonia</PackageTags>
 		<Product>Zafiro</Product>
 		<Company>José Manuel Nieto (@SuperJMN)</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
